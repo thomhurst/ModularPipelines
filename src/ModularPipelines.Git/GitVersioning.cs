@@ -69,7 +69,7 @@ internal class GitVersioning : IGitVersioning
             var repositoryInfo = await _gitInformation.GetInfoAsync(cancellationToken).ConfigureAwait(false)
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
 
-            await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("dotnet")
+            await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("dotnet")
             {
                 Arguments =
                 [
@@ -84,7 +84,7 @@ internal class GitVersioning : IGitVersioning
             await TryWriteConfigurationFileAsync(repositoryInfo.Root, cancellationToken).ConfigureAwait(false);
 
             var gitVersionOutput = await _command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
+                new CommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
                 {
                     Arguments =
                     [

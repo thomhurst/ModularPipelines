@@ -119,7 +119,7 @@ internal sealed class CommandModule : Module<CommandResult>
             Secret = SmokeState.Secret,
         };
 
-        return context.Shell.Command.ExecuteCommandLineToolAsync(
+        return context.Shell.RunAsync(
             options,
             cancellationToken: cancellationToken)!;
     }

@@ -305,8 +305,7 @@ public static class CurrentApiSnippets
     {
         public override async Task<RequirementDecision> MustAsync(IPipelineContext context)
         {
-            var result = await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("dotnet") { Arguments = ["--version"] })
+            var result = await context.Shell.RunAsync("dotnet", ["--version"])
                 .ConfigureAwait(false);
 
             return result.ExitCode == 0 ? Pass() : Fail(".NET SDK is not installed");

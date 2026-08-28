@@ -181,7 +181,7 @@ internal class GitInformation : IGitInformation
         var localOutput = await GetOutput(
             command,
             logger,
-            new GenericCommandLineToolOptions("git")
+            new CommandLineToolOptions("git")
             {
                 Arguments = ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"],
             },

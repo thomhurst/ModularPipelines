@@ -557,8 +557,8 @@ public class ModuleTesterTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var result = await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("imaginary-tool")
+            var result = await context.Shell.RunAsync(
+                new CommandLineToolOptions("imaginary-tool")
                 {
                     Arguments = ["build", "--configuration", "Release"],
                 },
@@ -662,8 +662,8 @@ public class ModuleTesterTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var result = await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("imaginary-tool")
+            var result = await context.Shell.RunAsync(
+                new CommandLineToolOptions("imaginary-tool")
                 {
                     Arguments = [InterceptedSecret],
                 },
@@ -693,11 +693,11 @@ public class ModuleTesterTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var first = context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("first-tool"),
+            var first = context.Shell.RunAsync(
+                new CommandLineToolOptions("first-tool"),
                 cancellationToken: cancellationToken);
-            var second = context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("second-tool"),
+            var second = context.Shell.RunAsync(
+                new CommandLineToolOptions("second-tool"),
                 cancellationToken: cancellationToken);
 
             var results = await Task.WhenAll(first, second);
@@ -711,8 +711,8 @@ public class ModuleTesterTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var result = await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("imaginary-tool"),
+            var result = await context.Shell.RunAsync(
+                new CommandLineToolOptions("imaginary-tool"),
                 new CommandExecutionOptions
                 {
                     ExecutionTimeout = TimeSpan.FromMilliseconds(100),

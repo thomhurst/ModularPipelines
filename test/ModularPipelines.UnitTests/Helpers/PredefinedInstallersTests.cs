@@ -51,7 +51,7 @@ public class PredefinedInstallersTests
 
         var actualResult = await installer.ChocolateyAsync(cancellationTokenSource.Token);
 
-        var options = (GenericCommandLineToolOptions) capturedOptions!;
+        var options = (CommandLineToolOptions) capturedOptions!;
         var arguments = options.Arguments!.ToArray();
         using (Assert.Multiple())
         {

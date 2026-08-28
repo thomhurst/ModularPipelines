@@ -18,7 +18,7 @@ public class CommandLineBuilderTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var options = new GenericCommandLineToolOptions("echo")
+        var options = new CommandLineToolOptions("echo")
         {
             Arguments = ["hello", "world"]
         };
@@ -415,7 +415,7 @@ public class CommandLineBuilderTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var options = new GenericCommandLineToolOptions("dotnet")
+        var options = new CommandLineToolOptions("dotnet")
         {
             Arguments = ["test"],
             RunSettings = ["--filter", "Category=Unit"]
@@ -1142,7 +1142,7 @@ public class CommandLineBuilderTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var result = builder.Build(new GenericCommandLineToolOptions("dotnet")
+        var result = builder.Build(new CommandLineToolOptions("dotnet")
         {
             Arguments = ["test"],
             RunSettings = [],
@@ -1255,7 +1255,7 @@ public class CommandLineBuilderTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var options = new GenericCommandLineToolOptions("echo")
+        var options = new CommandLineToolOptions("echo")
         {
             Arguments = ["original"]
         };
@@ -1271,7 +1271,7 @@ public class CommandLineBuilderTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var options = new GenericCommandLineToolOptions("git")
+        var options = new CommandLineToolOptions("git")
         {
             Arguments = ["status", "-s"]
         };
@@ -1286,7 +1286,7 @@ public class CommandLineBuilderTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var options = new GenericCommandLineToolOptions("git")
+        var options = new CommandLineToolOptions("git")
         {
             Arguments = ["git", "status"]
         };

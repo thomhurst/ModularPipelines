@@ -40,8 +40,8 @@ public class RunReportTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var result = await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("report-command"),
+            var result = await context.Shell.RunAsync(
+                new CommandLineToolOptions("report-command"),
                 cancellationToken: cancellationToken);
             return result.StandardOutput;
         }

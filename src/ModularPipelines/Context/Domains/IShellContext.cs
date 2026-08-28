@@ -1,4 +1,6 @@
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Context.Domains;
 
@@ -8,9 +10,42 @@ namespace ModularPipelines.Context.Domains;
 public interface IShellContext
 {
     /// <summary>
-    /// Execute general CLI commands.
+    /// Executes a command-line tool using the supplied options.
     /// </summary>
-    ICommandContext Command { get; }
+    /// <param name="options">The command-line tool options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> RunAsync(
+        CommandLineToolOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Executes an arbitrary command-line tool.
+    /// </summary>
+    /// <param name="tool">The name or path of the command-line tool.</param>
+    /// <param name="arguments">The command arguments.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> RunAsync(
+        string tool,
+        IReadOnlyList<string> arguments,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Executes an arbitrary command-line tool with a cancellation token.
+    /// </summary>
+    /// <param name="tool">The name or path of the command-line tool.</param>
+    /// <param name="arguments">The command arguments.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> RunAsync(
+        string tool,
+        IReadOnlyList<string> arguments,
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Execute Bash scripts and commands.
