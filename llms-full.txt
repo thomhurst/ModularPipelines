@@ -3419,43 +3419,23 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
    let builder = Pipeline.CreateBuilder(args)
 
-   // PipelineBuilder became disposable in v4; retain compatibility with the v3 package above.
-
-   let builderLifetime =
-
-       match box builder with
-
-       | :? System.IDisposable as disposable -> disposable
-
-       | _ -> null
+   builder.Services.RegisterDotNetContext()
 
 
 
-   try
+   builder
 
-       builder.Services.RegisterDotNetContext()
+       .AddModule<UpdateDotnetWorkloads>()
 
-
-
-       builder
-
-           .AddModule<UpdateDotnetWorkloads>()
-
-           .AddModule<CheckDotnetSdkModule>()
+       .AddModule<CheckDotnetSdkModule>()
 
 
 
-       builder.ExecutePipelineAsync()
+   builder.ExecutePipelineAsync()
 
-       |> Async.AwaitTask
+   |> Async.AwaitTask
 
-       |> Async.RunSynchronously
-
-   finally
-
-       if not (isNull builderLifetime) then
-
-           builderLifetime.Dispose()
+   |> Async.RunSynchronously
    ```
 
 4. **Run your F# script:** You can run your F# script using the F# Interactive environment. If you are using Visual Studio, you can simply open the `example.fsx` file and execute it. Alternatively, you can run it from the command line using:
@@ -4431,7 +4411,7 @@ The planner validates the dependency graph, evaluates module selection, category
 To forward every argument to host configuration, disable pipeline command-line options:
 
 ```
-var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
 
 {
 
@@ -4978,7 +4958,7 @@ using ModularPipelines.Enums;
 
 
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.AddModule<Module2>();
 
@@ -5221,7 +5201,7 @@ type TestModule() =
 
 
 
-use builder = Pipeline.CreateBuilder()
+let builder = Pipeline.CreateBuilder()
 
 
 
@@ -5454,11 +5434,13 @@ Referencing the `ModularPipelines` package includes the source generator as an a
 If the integration DLL is copied beside the application without a compile-time reference, opt in to filename-based assembly discovery before building the pipeline:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
 
 {
 
-    LoadModularPipelineAssemblies = true,
+    Args = args,
+
+    LoadModularPipelinesAssemblies = true,
 
 });
 ```

@@ -67,7 +67,7 @@ type TestModule() =
 
 
 
-use builder = Pipeline.CreateBuilder()
+let builder = Pipeline.CreateBuilder()
 
 
 

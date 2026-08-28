@@ -129,7 +129,7 @@ The planner validates the dependency graph, evaluates module selection, category
 To forward every argument to host configuration, disable pipeline command-line options:
 
 ```
-var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
 
 {
 

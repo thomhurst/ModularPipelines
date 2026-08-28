@@ -71,43 +71,23 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
    let builder = Pipeline.CreateBuilder(args)
 
-   // PipelineBuilder became disposable in v4; retain compatibility with the v3 package above.
-
-   let builderLifetime =
-
-       match box builder with
-
-       | :? System.IDisposable as disposable -> disposable
-
-       | _ -> null
+   builder.Services.RegisterDotNetContext()
 
 
 
-   try
+   builder
 
-       builder.Services.RegisterDotNetContext()
+       .AddModule<UpdateDotnetWorkloads>()
 
-
-
-       builder
-
-           .AddModule<UpdateDotnetWorkloads>()
-
-           .AddModule<CheckDotnetSdkModule>()
+       .AddModule<CheckDotnetSdkModule>()
 
 
 
-       builder.ExecutePipelineAsync()
+   builder.ExecutePipelineAsync()
 
-       |> Async.AwaitTask
+   |> Async.AwaitTask
 
-       |> Async.RunSynchronously
-
-   finally
-
-       if not (isNull builderLifetime) then
-
-           builderLifetime.Dispose()
+   |> Async.RunSynchronously
    ```
 
 4. **Run your F# script:** You can run your F# script using the F# Interactive environment. If you are using Visual Studio, you can simply open the `example.fsx` file and execute it. Alternatively, you can run it from the command line using:

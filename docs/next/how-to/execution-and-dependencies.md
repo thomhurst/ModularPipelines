@@ -79,7 +79,7 @@ using ModularPipelines.Enums;
 
 
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.AddModule<Module2>();
 
