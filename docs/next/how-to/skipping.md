@@ -17,11 +17,11 @@ public class MyModule : Module<CommandResult>
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
 
-        .WithSkipWhen(_ => Environment.GetEnvironmentVariable("SKIP_MODULE") == "true"
+        .WithSkipWhen(
 
-            ? SkipDecision.Skip("SKIP_MODULE is true")
+            _ => Environment.GetEnvironmentVariable("SKIP_MODULE") == "true",
 
-            : SkipDecision.DoNotSkip)
+            "SKIP_MODULE is true")
 
         .Build();
 
@@ -49,13 +49,11 @@ public class MyModule : Module<CommandResult>
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
 
-        .WithSkipWhen(async (ctx, _) =>
+        .WithSkipWhen(
 
-            (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
+            async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
 
-                ? SkipDecision.Skip("This should only run on the main branch")
-
-                : SkipDecision.DoNotSkip)
+            "This should only run on the main branch")
 
         .Build();
 
@@ -74,7 +72,7 @@ public class MyModule : Module<CommandResult>
 
 ### With Skip Reason[​](#with-skip-reason "Direct link to With Skip Reason")
 
-For better reporting, you can return a `SkipDecision` with a reason:
+For better reporting, pass the reason alongside the boolean condition:
 
 ```
 public class MyModule : Module<CommandResult>
@@ -89,17 +87,9 @@ public class MyModule : Module<CommandResult>
 
             var repositoryInfo = await ctx.Git().Information.GetInfoAsync();
 
-            if (repositoryInfo?.BranchName == "main")
+            return repositoryInfo?.BranchName != "main";
 
-            {
-
-                return SkipDecision.DoNotSkip;
-
-            }
-
-            return SkipDecision.Skip("This should only run on the main branch");
-
-        })
+        }, "This should only run on the main branch")
 
         .Build();
 
@@ -137,13 +127,9 @@ public class MyModule : Module<CommandResult>
 
                 cancellationToken);
 
-            return response.IsSuccessStatusCode
+            return !response.IsSuccessStatusCode;
 
-                ? SkipDecision.DoNotSkip
-
-                : SkipDecision.Skip("The remote service is unavailable");
-
-        })
+        }, "The remote service is unavailable")
 
         .Build();
 
@@ -163,19 +149,13 @@ public class CleanupModule : Module<CommandResult>
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
 
-        .WithSkipWhen(_ => Environment.GetEnvironmentVariable("CI") == "true"
+        .WithSkipWhen(_ => Environment.GetEnvironmentVariable("CI") == "true", "Running in CI")
 
-            ? SkipDecision.Skip("Running in CI")
+        .WithSkipWhen(
 
-            : SkipDecision.DoNotSkip)
+            async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
 
-        .WithSkipWhen(async (ctx, _) =>
-
-            (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
-
-                ? SkipDecision.Skip("Not on the main branch")
-
-                : SkipDecision.DoNotSkip)
+            "Not on the main branch")
 
         .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
 

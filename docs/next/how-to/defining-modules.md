@@ -93,11 +93,7 @@ public class MyModule : Module<FileInfo>
 
         .WithRetry(3)
 
-        .WithSkipWhen(_ => !File.Exists("important.json")
-
-            ? SkipDecision.Skip("important.json does not exist")
-
-            : SkipDecision.DoNotSkip)
+        .WithSkipWhen(_ => !File.Exists("important.json"), "important.json does not exist")
 
         .WithPriority(ModulePriority.High)
 
