@@ -1,4 +1,3 @@
-using ModularPipelines;
 namespace ModularPipelines.Analyzers.Test;
 
 /// <summary>

@@ -637,6 +637,84 @@ internal sealed class ModuleResultJsonConverterFactory : JsonConverterFactory
     }
 }
 
+internal class ModuleResultReadState
+{
+    public string? Discriminator { get; set; }
+
+    public string? Name { get; set; }
+
+    public string? TypeName { get; set; }
+
+    public TimeSpan Duration { get; set; }
+
+    public DateTimeOffset StartTime { get; set; } = DateTimeOffset.MinValue;
+
+    public DateTimeOffset EndTime { get; set; } = DateTimeOffset.MinValue;
+
+    public ModuleStatus Status { get; set; } = ModuleStatus.NotStarted;
+
+    public Exception? Exception { get; set; }
+
+    public SkipDecision? SkipDecision { get; set; }
+
+    [RequiresDynamicCode("Calls System.Text.Json.JsonSerializer.Deserialize<TValue>(ref Utf8JsonReader, JsonSerializerOptions)")]
+    [RequiresUnreferencedCode("Calls System.Text.Json.JsonSerializer.Deserialize<TValue>(ref Utf8JsonReader, JsonSerializerOptions)")]
+    public bool TryReadCommonProperty(
+        ref Utf8JsonReader reader,
+        string? propertyName,
+        JsonSerializerOptions options,
+        ExceptionJsonConverter exceptionConverter)
+    {
+        switch (propertyName)
+        {
+            case "$type":
+                Discriminator = reader.GetString();
+                break;
+            case "Name":
+            case "ModuleName":
+                Name = reader.GetString();
+                break;
+            case "TypeName":
+            case "ModuleTypeName":
+                TypeName = reader.GetString();
+                break;
+            case "Duration":
+            case "ModuleDuration":
+                Duration = JsonSerializer.Deserialize<TimeSpan>(ref reader, options);
+                break;
+            case "StartTime":
+            case "ModuleStart":
+                StartTime = reader.GetDateTimeOffset();
+                break;
+            case "EndTime":
+            case "ModuleEnd":
+                EndTime = reader.GetDateTimeOffset();
+                break;
+            case "Status":
+            case "ModuleStatus":
+                Status = JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
+                break;
+            case "Exception":
+                Exception = exceptionConverter.Read(ref reader, typeof(Exception), options);
+                break;
+            case "Decision":
+                SkipDecision = JsonSerializer.Deserialize<SkipDecision>(ref reader, options);
+                break;
+            default:
+                return false;
+        }
+
+        return true;
+    }
+}
+
+internal sealed class ModuleResultValueReadState : ModuleResultReadState
+{
+    public string? ValueTypeName { get; set; }
+
+    public JsonElement? ValueElement { get; set; }
+}
+
 /// <summary>
 /// JSON converter for non-generic ModuleResult types (Failure, Skipped).
 /// </summary>
@@ -656,21 +734,12 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
             return null;
         }
 
-        string? discriminator = null;
-        string? name = null;
-        string? typeName = null;
-        var duration = TimeSpan.Zero;
-        var startTime = DateTimeOffset.MinValue;
-        var endTime = DateTimeOffset.MinValue;
-        var moduleStatus = ModuleStatus.NotStarted;
-        Exception? exception = null;
-        SkipDecision? skipDecision = null;
-
         if (reader.TokenType != JsonTokenType.StartObject)
         {
             throw new JsonException("Expected StartObject token");
         }
 
+        var state = new ModuleResultReadState();
         while (reader.Read())
         {
             if (reader.TokenType == JsonTokenType.EndObject)
@@ -682,77 +751,52 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
             {
                 var propertyName = reader.GetString();
                 reader.Read();
-
-                switch (propertyName)
-                {
-                    case "$type":
-                        discriminator = reader.GetString();
-                        break;
-                    case "Name":
-                    case "ModuleName":
-                        name = reader.GetString();
-                        break;
-                    case "TypeName":
-                    case "ModuleTypeName":
-                        typeName = reader.GetString();
-                        break;
-                    case "Duration":
-                    case "ModuleDuration":
-                        duration = JsonSerializer.Deserialize<TimeSpan>(ref reader, options);
-                        break;
-                    case "StartTime":
-                    case "ModuleStart":
-                        startTime = reader.GetDateTimeOffset();
-                        break;
-                    case "EndTime":
-                    case "ModuleEnd":
-                        endTime = reader.GetDateTimeOffset();
-                        break;
-                    case "Status":
-                    case "ModuleStatus":
-                        moduleStatus = JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
-                        break;
-                    case "Exception":
-                        exception = ExceptionConverter.Read(ref reader, typeof(Exception), options);
-                        break;
-                    case "Decision":
-                        skipDecision = JsonSerializer.Deserialize<SkipDecision>(ref reader, options);
-                        break;
-                }
+                ReadProperty(ref reader, propertyName, options, state);
             }
         }
 
-        if (name is null)
+        if (state.Name is null)
         {
             throw new JsonException("Name is required but was not found in the JSON.");
         }
 
-        return discriminator switch
+        return state.Discriminator switch
         {
-            "Failure" => exception is not null
-                ? new ModuleResult.Failure(exception)
+            "Failure" => state.Exception is not null
+                ? new ModuleResult.Failure(state.Exception)
                 {
-                    Name = name,
-                    TypeName = typeName,
-                    Duration = duration,
-                    StartTime = startTime,
-                    EndTime = endTime,
-                    Status = moduleStatus,
+                    Name = state.Name,
+                    TypeName = state.TypeName,
+                    Duration = state.Duration,
+                    StartTime = state.StartTime,
+                    EndTime = state.EndTime,
+                    Status = state.Status,
                 }
                 : throw new JsonException("Failure result requires an Exception property in the JSON."),
-            "Skipped" => skipDecision is not null
-                ? new ModuleResult.Skipped(skipDecision)
+            "Skipped" => state.SkipDecision is not null
+                ? new ModuleResult.Skipped(state.SkipDecision)
                 {
-                    Name = name,
-                    TypeName = typeName,
-                    Duration = duration,
-                    StartTime = startTime,
-                    EndTime = endTime,
-                    Status = moduleStatus,
+                    Name = state.Name,
+                    TypeName = state.TypeName,
+                    Duration = state.Duration,
+                    StartTime = state.StartTime,
+                    EndTime = state.EndTime,
+                    Status = state.Status,
                 }
                 : throw new JsonException("Skipped result requires a Decision property in the JSON."),
-            _ => throw new JsonException($"Unknown or unsupported discriminator for non-generic ModuleResult: {discriminator}"),
+            _ => throw new JsonException($"Unknown or unsupported discriminator for non-generic ModuleResult: {state.Discriminator}"),
         };
+    }
+
+    [RequiresDynamicCode("Calls System.Text.Json.JsonSerializer.Deserialize<TValue>(ref Utf8JsonReader, JsonSerializerOptions)")]
+    [RequiresUnreferencedCode("Calls System.Text.Json.JsonSerializer.Deserialize<TValue>(ref Utf8JsonReader, JsonSerializerOptions)")]
+    private static void ReadProperty(
+        ref Utf8JsonReader reader,
+        string? propertyName,
+        JsonSerializerOptions options,
+        ModuleResultReadState state)
+    {
+        state.TryReadCommonProperty(ref reader, propertyName, options, ExceptionConverter);
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
@@ -825,23 +869,12 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             return null;
         }
 
-        string? discriminator = null;
-        string? valueTypeName = null;
-        string? name = null;
-        string? typeName = null;
-        var duration = TimeSpan.Zero;
-        var startTime = DateTimeOffset.MinValue;
-        var endTime = DateTimeOffset.MinValue;
-        var moduleStatus = ModuleStatus.NotStarted;
-        JsonElement? valueElement = null;
-        Exception? exception = null;
-        SkipDecision? skipDecision = null;
-
         if (reader.TokenType != JsonTokenType.StartObject)
         {
             throw new JsonException("Expected StartObject token");
         }
 
+        var state = new ModuleResultValueReadState();
         while (reader.Read())
         {
             if (reader.TokenType == JsonTokenType.EndObject)
@@ -853,95 +886,77 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             {
                 var propertyName = reader.GetString();
                 reader.Read();
-
-                switch (propertyName)
-                {
-                    case "$type":
-                        discriminator = reader.GetString();
-                        break;
-                    case "$valueType":
-                        valueTypeName = reader.GetString();
-                        break;
-                    case "Name":
-                    case "ModuleName":
-                        name = reader.GetString();
-                        break;
-                    case "TypeName":
-                    case "ModuleTypeName":
-                        typeName = reader.GetString();
-                        break;
-                    case "Duration":
-                    case "ModuleDuration":
-                        duration = JsonSerializer.Deserialize<TimeSpan>(ref reader, options);
-                        break;
-                    case "StartTime":
-                    case "ModuleStart":
-                        startTime = reader.GetDateTimeOffset();
-                        break;
-                    case "EndTime":
-                    case "ModuleEnd":
-                        endTime = reader.GetDateTimeOffset();
-                        break;
-                    case "Status":
-                    case "ModuleStatus":
-                        moduleStatus = JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
-                        break;
-                    case "Value":
-                        valueElement = JsonElement.ParseValue(ref reader);
-                        break;
-                    case "Exception":
-                        exception = ExceptionConverter.Read(ref reader, typeof(Exception), options);
-                        break;
-                    case "Decision":
-                        skipDecision = JsonSerializer.Deserialize<SkipDecision>(ref reader, options);
-                        break;
-                }
+                ReadProperty(ref reader, propertyName, options, state);
             }
         }
 
-        if (name is null)
+        if (state.Name is null)
         {
             throw new JsonException("Name is required but was not found in the JSON.");
         }
 
-        return discriminator switch
+        return state.Discriminator switch
         {
-            "Success" when valueElement is null => throw new JsonException(
+            "Success" when state.ValueElement is null => throw new JsonException(
                 "Success result requires a Value property in the JSON."),
             "Success" => new ModuleResult<T>.Success(
-                DeserializeSuccessValue(valueElement, valueTypeName, options)!)
+                DeserializeSuccessValue(state.ValueElement, state.ValueTypeName, options)!)
             {
-                Name = name,
-                TypeName = typeName,
-                Duration = duration,
-                StartTime = startTime,
-                EndTime = endTime,
-                Status = moduleStatus,
+                Name = state.Name,
+                TypeName = state.TypeName,
+                Duration = state.Duration,
+                StartTime = state.StartTime,
+                EndTime = state.EndTime,
+                Status = state.Status,
             },
-            "Failure" => exception is not null
-                ? new ModuleResult<T>.Failure(exception)
+            "Failure" => state.Exception is not null
+                ? new ModuleResult<T>.Failure(state.Exception)
                 {
-                    Name = name,
-                    TypeName = typeName,
-                    Duration = duration,
-                    StartTime = startTime,
-                    EndTime = endTime,
-                    Status = moduleStatus,
+                    Name = state.Name,
+                    TypeName = state.TypeName,
+                    Duration = state.Duration,
+                    StartTime = state.StartTime,
+                    EndTime = state.EndTime,
+                    Status = state.Status,
                 }
                 : throw new JsonException("Failure result requires an Exception property in the JSON."),
-            "Skipped" => skipDecision is not null
-                ? new ModuleResult<T>.Skipped(skipDecision)
+            "Skipped" => state.SkipDecision is not null
+                ? new ModuleResult<T>.Skipped(state.SkipDecision)
                 {
-                    Name = name,
-                    TypeName = typeName,
-                    Duration = duration,
-                    StartTime = startTime,
-                    EndTime = endTime,
-                    Status = moduleStatus,
+                    Name = state.Name,
+                    TypeName = state.TypeName,
+                    Duration = state.Duration,
+                    StartTime = state.StartTime,
+                    EndTime = state.EndTime,
+                    Status = state.Status,
                 }
                 : throw new JsonException("Skipped result requires a Decision property in the JSON."),
-            _ => throw new JsonException($"Unknown discriminator: {discriminator}"),
+            _ => throw new JsonException($"Unknown discriminator: {state.Discriminator}"),
         };
+    }
+
+    [RequiresDynamicCode("Calls System.Text.Json.JsonSerializer.Deserialize<TValue>(ref Utf8JsonReader, JsonSerializerOptions)")]
+    [RequiresUnreferencedCode("Calls System.Text.Json.JsonSerializer.Deserialize<TValue>(ref Utf8JsonReader, JsonSerializerOptions)")]
+    private static void ReadProperty(
+        ref Utf8JsonReader reader,
+        string? propertyName,
+        JsonSerializerOptions options,
+        ModuleResultValueReadState state)
+    {
+        if (state.TryReadCommonProperty(ref reader, propertyName, options, ExceptionConverter))
+        {
+            return;
+        }
+
+        switch (propertyName)
+        {
+            case "$valueType":
+                state.ValueTypeName = reader.GetString();
+                break;
+            case "Value":
+                state.ValueElement = JsonElement.ParseValue(ref reader);
+                break;
+        }
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
