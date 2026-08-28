@@ -50,12 +50,15 @@
     <EnableNETAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">false</EnableNETAnalyzers>
     <RunAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzers>
     <RunAnalyzersDuringBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzersDuringBuild>
+    <!-- Keep source-generated API in the baseline without promoting its advisory diagnostics. -->
+    <WarningsNotAsErrors Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">$(WarningsNotAsErrors);RS0026;MPG0005;MPG0008;MPG0011;MPG0012;MPG0013;MPG0014;MPG0015;MPG0016</WarningsNotAsErrors>
     <!-- Mediator emits nullable-oblivious public symbols; this gate tracks declarations only. -->
     <NoWarn Condition="'$(GITHUB_ACTIONS)' == 'true'">$(NoWarn);RS0041</NoWarn>
     <WarningsAsErrors>$(WarningsAsErrors);RS0016;RS0017</WarningsAsErrors>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.Development.Analyzers' and '$(MSBuildProjectName)' != 'ModularPipelines.Templates'">
+  <!-- Development analyzers run locally and in the dedicated CI lane, not lean package builds. -->
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.Development.Analyzers' and '$(MSBuildProjectName)' != 'ModularPipelines.Templates' and ('$(GITHUB_ACTIONS)' != 'true' or '$(EnableCiAnalyzers)' == 'true')">
       <ProjectReference Include="$(MSBuildThisFileDirectory)src\ModularPipelines.Development.Analyzers\ModularPipelines.Development.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
 
