@@ -136,7 +136,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         // Add columns with alignment
         table.AddColumn(new TableColumn("[bold]Module[/]").LeftAligned());
-        table.AddColumn(new TableColumn("[bold]ModuleStatus[/]").Centered());
+        table.AddColumn(new TableColumn("[bold]Status[/]").Centered());
         table.AddColumn(new TableColumn("[bold]Duration[/]").RightAligned());
         var reportLookup = pipelineSummary.RunReport is null
             ? new Dictionary<string, ModuleRunReport>(StringComparer.Ordinal)

@@ -70,6 +70,8 @@ public class SpectreResultsPrinterTests
 
         await Assert.That(table.Expand).IsFalse();
         await Assert.That(table.Rows.Count).IsEqualTo(2);
+        await Assert.That(output).Contains("Status");
+        await Assert.That(output).DoesNotContain("ModuleStatus");
         await Assert.That(output).Contains("⏭ skipped");
     }
 

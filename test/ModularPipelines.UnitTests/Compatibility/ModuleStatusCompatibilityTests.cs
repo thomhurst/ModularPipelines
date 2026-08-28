@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
@@ -74,5 +75,46 @@ public class ModuleStatusCompatibilityTests
         await Assert.That(json).Contains("RestoredFromHistory");
         await Assert.That(json).DoesNotContain("Successful");
         await Assert.That(json).DoesNotContain("UsedHistory");
+    }
+
+    [Test]
+    public async Task NonGenericModuleResultReadsLegacyModuleStatusProperty()
+    {
+        ModuleResult result = new ModuleResult.Failure(new InvalidOperationException("Failed"))
+        {
+            ModuleName = "LegacyModule",
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.MinValue,
+            ModuleEnd = DateTimeOffset.MinValue,
+            Status = ModuleStatus.Failed,
+        };
+        var legacyJson = RenameStatusProperty(JsonSerializer.Serialize(result));
+
+        var deserialized = JsonSerializer.Deserialize<ModuleResult>(legacyJson);
+
+        await Assert.That(deserialized!.Status).IsEqualTo(ModuleStatus.Failed);
+    }
+
+    [Test]
+    public async Task GenericModuleResultReadsLegacyModuleStatusProperty()
+    {
+        ModuleResult<int> result = new ModuleResult<int>.Success(42)
+        {
+            ModuleName = "LegacyModule",
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.MinValue,
+            ModuleEnd = DateTimeOffset.MinValue,
+            Status = ModuleStatus.Succeeded,
+        };
+        var legacyJson = RenameStatusProperty(JsonSerializer.Serialize(result));
+
+        var deserialized = JsonSerializer.Deserialize<ModuleResult<int>>(legacyJson);
+
+        await Assert.That(deserialized!.Status).IsEqualTo(ModuleStatus.Succeeded);
+    }
+
+    private static string RenameStatusProperty(string json)
+    {
+        return json.Replace("\"Status\":", "\"ModuleStatus\":", StringComparison.Ordinal);
     }
 }

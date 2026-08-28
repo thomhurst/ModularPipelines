@@ -705,6 +705,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                         moduleEnd = reader.GetDateTimeOffset();
                         break;
                     case "Status":
+                    case "ModuleStatus":
                         moduleStatus = JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
                         break;
                     case "Exception":
@@ -873,6 +874,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                         moduleEnd = reader.GetDateTimeOffset();
                         break;
                     case "Status":
+                    case "ModuleStatus":
                         moduleStatus = JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
                         break;
                     case "Value":
