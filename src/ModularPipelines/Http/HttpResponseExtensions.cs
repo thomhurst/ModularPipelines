@@ -15,7 +15,7 @@ internal static class HttpResponseExtensions
     /// <param name="response">The HTTP response to check.</param>
     /// <param name="cancellationToken">Cancellation token for reading response content.</param>
     /// <returns>The original response if successful.</returns>
-    /// <exception cref="HttpResponseException">Thrown when the response status code indicates failure.</exception>
+    /// <exception cref="PipelineHttpResponseException">Thrown when the response status code indicates failure.</exception>
     public static async Task<HttpResponseMessage> EnsureSuccessStatusCodeWithContentAsync(
         this HttpResponseMessage response,
         CancellationToken cancellationToken = default)
@@ -44,7 +44,7 @@ internal static class HttpResponseExtensions
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        throw new HttpResponseException(
+        throw new PipelineHttpResponseException(
             response.StatusCode,
             response.ReasonPhrase,
             responseContent,

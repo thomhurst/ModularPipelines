@@ -307,7 +307,7 @@ public class DownloaderTests : TestBase
         var content = new TrackingStringContent("failure");
         var downloader = CreateDownloader(content, statusCode: HttpStatusCode.BadRequest);
 
-        await Assert.ThrowsAsync<HttpResponseException>(() =>
+        await Assert.ThrowsAsync<PipelineHttpResponseException>(() =>
             downloader.DownloadResponseAsync(
                 new DownloadOptions(new Uri("https://example.test/download"))));
 

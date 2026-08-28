@@ -523,7 +523,7 @@ public class TelemetryIntegrationTests
         {
             new OperationCanceledException(),
             new TaskCanceledException(),
-            new PipelineCancelledException(engineCancellationToken),
+            new PipelineCanceledException(engineCancellationToken),
         };
 
         foreach (var exception in exceptions)

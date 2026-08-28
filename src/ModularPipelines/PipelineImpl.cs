@@ -64,7 +64,7 @@ internal sealed class PipelineImpl : IPipeline
                 ValidateModuleDependencies(services, services.GetServices<IModule>());
             }
             catch (Exception exception) when (exception is ModuleNotRegisteredException
-                or ModuleReferencingSelfException
+                or ModuleSelfDependencyException
                 or DependencyCollisionException)
             {
                 await services.InitializeAsync().ConfigureAwait(false);

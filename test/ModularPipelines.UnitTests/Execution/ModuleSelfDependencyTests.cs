@@ -6,7 +6,7 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Execution;
 
-public class ModuleReferencingSelfTests : TestBase
+public class ModuleSelfDependencyTests : TestBase
 {
     private class ModuleReferencingSelf : Module<CommandResult>
     {
@@ -22,6 +22,6 @@ public class ModuleReferencingSelfTests : TestBase
     public async Task Throws_Exception()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<ModuleReferencingSelf>());
-        await Assert.That(exception!.InnerException).IsTypeOf<ModuleReferencingSelfException>();
+        await Assert.That(exception!.InnerException).IsTypeOf<ModuleSelfDependencyException>();
     }
 }

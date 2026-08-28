@@ -3,7 +3,7 @@ namespace ModularPipelines.Exceptions;
 /// <summary>
 /// Thrown when command options do not have source-generated runtime metadata.
 /// </summary>
-public sealed class MissingCommandMetadataException : InvalidOperationException
+public sealed class MissingCommandMetadataException : PipelineException
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="MissingCommandMetadataException"/> class.

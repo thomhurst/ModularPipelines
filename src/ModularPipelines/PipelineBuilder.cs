@@ -249,7 +249,7 @@ public sealed class PipelineBuilder
                 ex);
         }
         catch (Exception ex) when (ex is ModuleNotRegisteredException
-            or ModuleReferencingSelfException
+            or ModuleSelfDependencyException
             or DependencyCollisionException)
         {
             return (pipeline, CreateDependencyValidationResult(ex), ex);

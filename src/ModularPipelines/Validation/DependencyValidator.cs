@@ -61,7 +61,7 @@ internal class DependencyValidator : IDependencyValidator
         {
             validation();
         }
-        catch (ModuleReferencingSelfException ex)
+        catch (ModuleSelfDependencyException ex)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Dependency,

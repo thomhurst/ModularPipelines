@@ -18,16 +18,23 @@ namespace ModularPipelines.Exceptions;
 /// <item><see cref="DependencyCollisionException"/> - Module dependency conflicts</item>
 /// <item><see cref="DependencyFailedException"/> - A dependency module failed</item>
 /// <item><see cref="FailedRequirementsException"/> - Pipeline requirements not met</item>
-/// <item><see cref="HttpResponseException"/> - HTTP request failures</item>
 /// <item><see cref="InvalidModuleTypeException"/> - Type does not implement IModule</item>
+/// <item><see cref="MissingCommandMetadataException"/> - Command metadata was not generated</item>
+/// <item><see cref="MissingSecretMetadataException"/> - Secret metadata was not generated</item>
 /// <item><see cref="ModuleNotRegisteredException"/> - Module dependency not registered</item>
-/// <item><see cref="ModuleReferencingSelfException"/> - Module depends on itself</item>
+/// <item><see cref="ModuleSelfDependencyException"/> - Module depends on itself</item>
 /// <item><see cref="ModuleTimeoutException"/> - Module execution timed out</item>
-/// <item><see cref="PipelineCancelledException"/> - Pipeline was cancelled</item>
+/// <item><see cref="PipelineFailedException"/> - Pipeline execution failed</item>
 /// <item><see cref="PipelineValidationException"/> - Pipeline validation failed</item>
+/// <item><see cref="PluginInitializationException"/> - Plugin initialization failed</item>
 /// <item><see cref="PluginVersionMismatchException"/> - Plugin version incompatibility</item>
 /// <item><see cref="ToolNotFoundException"/> - A command executable could not be found</item>
 /// </list>
+/// <para>
+/// <see cref="PipelineCanceledException"/> derives from <see cref="OperationCanceledException"/>,
+/// and <see cref="PipelineHttpResponseException"/> derives from <see cref="HttpRequestException"/>,
+/// so standard cancellation and HTTP handlers catch them. They are intentionally outside this hierarchy.
+/// </para>
 /// <para><b>Handling example:</b></para>
 /// <code>
 /// try

@@ -19,7 +19,7 @@ namespace ModularPipelines.Exceptions;
 /// </list>
 /// <para><b>Properties available:</b></para>
 /// <list type="bullet">
-/// <item><see cref="StatusCode"/> - The HTTP status code (e.g., 404, 500)</item>
+/// <item><see cref="HttpRequestException.StatusCode"/> - The HTTP status code (e.g., 404, 500)</item>
 /// <item><see cref="ReasonPhrase"/> - The reason phrase from the response</item>
 /// <item><see cref="ResponseContent"/> - The body content of the failed response (may be truncated)</item>
 /// <item><see cref="RequestUri"/> - The URI that was requested</item>
@@ -30,7 +30,7 @@ namespace ModularPipelines.Exceptions;
 /// {
 ///     var response = await httpClient.GetAsync(url);
 /// }
-/// catch (HttpResponseException ex)
+/// catch (PipelineHttpResponseException ex)
 /// {
 ///     Console.WriteLine($"HTTP {(int)ex.StatusCode} {ex.StatusCode}");
 ///     Console.WriteLine($"URI: {ex.RequestUri}");
@@ -42,15 +42,15 @@ namespace ModularPipelines.Exceptions;
 ///     }
 /// }
 /// </code>
+/// <para><b>Inheritance:</b></para>
+/// <para>
+/// This type derives from <see cref="HttpRequestException"/> so standard HTTP exception handlers
+/// and status-code filters catch it. Consequently, it does not derive from <see cref="PipelineException"/>.
+/// </para>
 /// </remarks>
-/// <seealso cref="PipelineException"/>
-public class HttpResponseException : PipelineException
+/// <seealso cref="HttpRequestException"/>
+public class PipelineHttpResponseException : HttpRequestException
 {
-    /// <summary>
-    /// Gets the HTTP status code of the failed response.
-    /// </summary>
-    public HttpStatusCode StatusCode { get; }
-
     /// <summary>
     /// Gets the reason phrase from the failed response.
     /// </summary>
@@ -67,33 +67,31 @@ public class HttpResponseException : PipelineException
     public Uri? RequestUri { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="HttpResponseException"/> class.
+    /// Initializes a new instance of the <see cref="PipelineHttpResponseException"/> class.
     /// </summary>
     /// <param name="statusCode">The HTTP status code.</param>
     /// <param name="reasonPhrase">The reason phrase from the response.</param>
     /// <param name="responseContent">The content of the response.</param>
     /// <param name="requestUri">The request URI.</param>
-    public HttpResponseException(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri)
-        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri))
+    public PipelineHttpResponseException(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri)
+        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri), null, statusCode)
     {
-        StatusCode = statusCode;
         ReasonPhrase = reasonPhrase;
         ResponseContent = responseContent;
         RequestUri = requestUri;
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="HttpResponseException"/> class with an inner exception.
+    /// Initializes a new instance of the <see cref="PipelineHttpResponseException"/> class with an inner exception.
     /// </summary>
     /// <param name="statusCode">The HTTP status code.</param>
     /// <param name="reasonPhrase">The reason phrase from the response.</param>
     /// <param name="responseContent">The content of the response.</param>
     /// <param name="requestUri">The request URI.</param>
     /// <param name="innerException">The inner exception.</param>
-    public HttpResponseException(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri, Exception? innerException)
-        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri), innerException)
+    public PipelineHttpResponseException(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri, Exception? innerException)
+        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri), innerException, statusCode)
     {
-        StatusCode = statusCode;
         ReasonPhrase = reasonPhrase;
         ResponseContent = responseContent;
         RequestUri = requestUri;

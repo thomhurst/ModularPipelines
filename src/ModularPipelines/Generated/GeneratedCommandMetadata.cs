@@ -88,7 +88,7 @@ public static class GeneratedCommandMetadata
     public static void Register(
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model,
-        bool isComplete = true)
+        bool isComplete)
     {
         RegisterCore(optionsType, model, isComplete, schemaVersion: 0);
     }

@@ -108,7 +108,7 @@ public interface IModuleContext : IPipelineContext
     /// Thrown if the specified module was not registered with the pipeline.
     /// Ensure the module is registered via <c>AddModule&lt;TModule&gt;()</c> in your pipeline configuration.
     /// </exception>
-    /// <exception cref="Exceptions.ModuleReferencingSelfException">
+    /// <exception cref="Exceptions.ModuleSelfDependencyException">
     /// Thrown if a module attempts to retrieve itself. A module cannot depend on its own result.
     /// </exception>
     /// <seealso cref="Module{T}"/>
@@ -188,6 +188,7 @@ public interface IModuleContext : IPipelineContext
     /// <param name="body">The async operation to execute.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The result of the sub-operation.</returns>
+#pragma warning disable RS0026 // Generic and non-generic delegates intentionally share the optional cancellation-token shape.
     Task<T> RunSubModuleAsync<T>(
         string name,
         Func<CancellationToken, Task<T>> body,
@@ -204,4 +205,5 @@ public interface IModuleContext : IPipelineContext
         string name,
         Func<CancellationToken, Task> body,
         CancellationToken cancellationToken = default);
+#pragma warning restore RS0026
 }

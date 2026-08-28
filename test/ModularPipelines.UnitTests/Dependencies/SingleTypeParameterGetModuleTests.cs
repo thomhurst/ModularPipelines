@@ -114,7 +114,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            // This should throw ModuleReferencingSelfException
+            // This should throw ModuleSelfDependencyException
             _ = context.GetModule<SelfReferencingModule>();
             await Task.Yield();
             return true;
@@ -179,14 +179,14 @@ public class SingleTypeParameterGetModuleTests : TestBase
     }
 
     [Test]
-    public async Task GetModule_SingleTypeParameter_ThrowsModuleReferencingSelfException()
+    public async Task GetModule_SingleTypeParameter_ThrowsModuleSelfDependencyException()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
             async () => await TestPipelineBuilder.Create()
                 .AddModule<SelfReferencingModule>()
                 .RunAsync());
 
-        await Assert.That(exception!.InnerException).IsTypeOf<ModuleReferencingSelfException>();
+        await Assert.That(exception!.InnerException).IsTypeOf<ModuleSelfDependencyException>();
     }
 
     [Test]

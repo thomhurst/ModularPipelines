@@ -20,6 +20,7 @@ namespace ModularPipelines.Exceptions;
 /// <para><b>Properties available:</b></para>
 /// <list type="bullet">
 /// <item><see cref="FailingModuleName"/> - The name of the module that originally failed</item>
+/// <item><see cref="FailingModuleType"/> - The type of the module that originally failed</item>
 /// <item><see cref="Exception.InnerException"/> - The original exception from the failed dependency</item>
 /// </list>
 /// <para><b>Handling example:</b></para>
@@ -39,7 +40,11 @@ namespace ModularPipelines.Exceptions;
 /// <seealso cref="ModuleNotRegisteredException"/>
 public class DependencyFailedException : PipelineException
 {
-    internal Type FailingModuleType { get; }
+    /// <summary>
+    /// Gets the type of the module that failed, causing this dependency failure.
+    /// </summary>
+    [JsonInclude]
+    public Type FailingModuleType { get; }
 
     /// <summary>
     /// Gets the name of the module that failed, causing this dependency failure.
