@@ -74,6 +74,11 @@ public record PipelineOptions
     public PipelineCommandOptions Commands { get; init; } = new();
 
     /// <summary>
+    /// Gets secret masking settings.
+    /// </summary>
+    public SecretMaskingOptions Secrets { get; init; } = new();
+
+    /// <summary>
     /// Gets a value indicating whether running the pipeline should print a plan without executing modules.
     /// </summary>
     public bool DryRun { get; init; }

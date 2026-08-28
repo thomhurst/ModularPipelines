@@ -131,7 +131,7 @@ public class LifecycleEventIntegrationTests : TestBase
         {
             await TestPipelineBuilder.Create()
                 .AddModule<FailingModule>()
-                .ConfigurePipelineOptions((_, options) => options with
+                .ConfigureOptions(options => options with
                 {
                     FailureMode = FailureMode.ContinueOnFailure,
                 })

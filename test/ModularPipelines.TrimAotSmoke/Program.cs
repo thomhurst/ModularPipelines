@@ -28,7 +28,7 @@ builder
     .AddModule<CommandModule>()
     .AddModule<VerificationModule>()
     .AddModule<IgnoredValueModule>();
-builder.IgnoreCategories("ignored");
+builder.ConfigureOptions(options => options with { IgnoreCategories = ["ignored"] });
 
 await using var pipeline = await builder.BuildAsync();
 await pipeline.RunAsync();
@@ -43,7 +43,7 @@ var failureBuilder = Pipeline.CreateBuilder(args);
 failureBuilder
     .AddModule<FailingModule>()
     .AddModule<PendingAfterFailureModule>();
-failureBuilder.ConfigurePipelineOptions(options => options with
+failureBuilder.ConfigureOptions(options => options with
 {
     ThrowOnPipelineFailure = true,
 });

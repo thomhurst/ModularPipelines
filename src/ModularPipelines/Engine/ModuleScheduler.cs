@@ -21,7 +21,7 @@ internal class ModuleScheduler : IModuleScheduler
 {
     private readonly ILogger _logger;
     private readonly TimeProvider _timeProvider;
-    private readonly SchedulerOptions _options;
+    private readonly ConcurrencyOptions _options;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IMetricsCollector _metricsCollector;
@@ -48,7 +48,7 @@ internal class ModuleScheduler : IModuleScheduler
     public ModuleScheduler(
         ILogger logger,
         TimeProvider timeProvider,
-        IOptions<SchedulerOptions> options,
+        IOptions<PipelineOptions> options,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
         IMetricsCollector metricsCollector,
@@ -57,7 +57,7 @@ internal class ModuleScheduler : IModuleScheduler
     {
         _logger = logger;
         _timeProvider = timeProvider;
-        _options = options.Value;
+        _options = options.Value.Concurrency;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
         _metricsCollector = metricsCollector;

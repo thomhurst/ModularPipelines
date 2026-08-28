@@ -437,7 +437,7 @@ public class ModuleExecutorLoggingTests
         var scheduler = new ModuleScheduler(
             NullLogger.Instance,
             TimeProvider.System,
-            Microsoft.Extensions.Options.Options.Create(new SchedulerOptions()),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             dependencyRegistry,
             metadataRegistry,
             Mock.Of<IMetricsCollector>(),

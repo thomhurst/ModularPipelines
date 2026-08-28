@@ -206,12 +206,15 @@ public static class PipelineBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentException.ThrowIfNullOrWhiteSpace(sectionPath);
 
-        builder.Services.Configure<SecretMaskingOptions>(options =>
+        builder.ConfigureOptions(options => options with
         {
-            options.MaskedConfigurationSections = options.MaskedConfigurationSections
-                .Append(sectionPath)
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToArray();
+            Secrets = options.Secrets with
+            {
+                MaskedConfigurationSections = options.Secrets.MaskedConfigurationSections
+                    .Append(sectionPath)
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToArray(),
+            },
         });
 
         return builder;
@@ -299,24 +302,6 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Configures pipeline options.
-    /// </summary>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configureOptions">
-    /// Function that returns the configured immutable options while preserving prior settings,
-    /// typically with <see langword="with"/>.
-    /// </param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder ConfigurePipelineOptions(
-        this PipelineBuilder builder,
-        Func<PipelineOptions, PipelineOptions> configureOptions)
-    {
-        ArgumentNullException.ThrowIfNull(configureOptions);
-        builder.SetOptions(configureOptions(builder.Options));
-        return builder;
-    }
-
-    /// <summary>
     /// Writes a schema-versioned JSON report when the pipeline finishes.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
@@ -326,7 +311,7 @@ public static class PipelineBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
-        return builder.ConfigurePipelineOptions(options => options with
+        return builder.ConfigureOptions(options => options with
         {
             RunReport = options.RunReport with { ReportPath = path },
         });
@@ -379,24 +364,6 @@ public static class PipelineBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
         builder.Services.TryAddEnumerable(
             ServiceDescriptor.Singleton<IPipelineValidator, TValidator>());
-        return builder;
-    }
-
-    /// <summary>
-    /// Configures pipeline options with builder context.
-    /// </summary>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configureOptions">
-    /// Function that receives the builder and returns the configured immutable options while preserving prior settings,
-    /// typically with <see langword="with"/>.
-    /// </param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder ConfigurePipelineOptions(
-        this PipelineBuilder builder,
-        Func<PipelineBuilder, PipelineOptions, PipelineOptions> configureOptions)
-    {
-        ArgumentNullException.ThrowIfNull(configureOptions);
-        builder.SetOptions(configureOptions(builder, builder.Options));
         return builder;
     }
 

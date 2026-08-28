@@ -8,7 +8,7 @@ namespace ModularPipelines.Secrets;
 /// <remarks>
 /// <para>
 /// These options control how secrets are detected and masked in log output.
-/// Configure through <see cref="PipelineBuilder.Services"/> and <c>Configure&lt;SecretMaskingOptions&gt;</c>.
+/// Configure through <see cref="PipelineBuilder.ConfigureOptions"/> and <see cref="PipelineOptions.Secrets"/>.
 /// </para>
 /// <para>
 /// <strong>Default Behavior:</strong>
@@ -22,11 +22,14 @@ namespace ModularPipelines.Secrets;
 /// <example>
 /// <code>
 /// var builder = Pipeline.CreateBuilder();
-/// builder.Services.Configure&lt;SecretMaskingOptions&gt;(options =>
+/// builder.ConfigureOptions(options => options with
 /// {
-///     options.CaseInsensitive = true;  // Match "Password", "PASSWORD", "password"
-///     options.MinimumSecretLength = 4; // Only mask secrets 4+ chars
-///     options.MaskValue = "[REDACTED]"; // Custom mask text
+///     Secrets = options.Secrets with
+///     {
+///         CaseInsensitive = true,
+///         MinimumSecretLength = 4,
+///         MaskValue = "[REDACTED]",
+///     },
 /// });
 ///
 /// await builder.RunAsync();
@@ -35,6 +38,8 @@ namespace ModularPipelines.Secrets;
 [ExcludeFromCodeCoverage]
 public record SecretMaskingOptions
 {
+    private IReadOnlyList<string> _maskedConfigurationSections = [];
+
     /// <summary>
     /// Gets or sets a value indicating whether secret matching is case-insensitive.
     /// </summary>
@@ -45,7 +50,7 @@ public record SecretMaskingOptions
     /// <value>
     /// <c>true</c> for case-insensitive matching; <c>false</c> (default) for case-sensitive matching.
     /// </value>
-    public bool CaseInsensitive { get; set; }
+    public bool CaseInsensitive { get; init; }
 
     /// <summary>
     /// Gets or sets the minimum length a secret must have to be masked.
@@ -64,7 +69,7 @@ public record SecretMaskingOptions
     /// <value>
     /// Minimum secret length. Default is 1. Set to 0 to disable minimum length check (same effect as 1).
     /// </value>
-    public int MinimumSecretLength { get; set; } = 1;
+    public int MinimumSecretLength { get; init; } = 1;
 
     /// <summary>
     /// Gets or sets the string used to replace secret values in output.
@@ -76,7 +81,7 @@ public record SecretMaskingOptions
     /// <value>
     /// The mask string. Default is "**********".
     /// </value>
-    public string MaskValue { get; set; } = "**********";
+    public string MaskValue { get; init; } = "**********";
 
     /// <summary>
     /// Gets or sets the configuration section paths whose leaf values are registered as secrets.
@@ -86,7 +91,11 @@ public record SecretMaskingOptions
     /// <c>Tenants:Production:Credentials</c>. Values are collected once during pipeline startup.
     /// Missing sections and empty values are ignored.
     /// </remarks>
-    public IReadOnlyList<string> MaskedConfigurationSections { get; set; } = [];
+    public IReadOnlyList<string> MaskedConfigurationSections
+    {
+        get => _maskedConfigurationSections;
+        init => _maskedConfigurationSections = Array.AsReadOnly(value.ToArray());
+    }
 
     /// <summary>
     /// Gets default secret masking options with case-sensitive matching and minimum length of 3.

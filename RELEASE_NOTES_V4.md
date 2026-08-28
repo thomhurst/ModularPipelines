@@ -153,6 +153,20 @@ C# consumers do not need to declare the root using explicitly. Projects with a
 colliding root type can opt out with `<Using Remove="ModularPipelines" />` and add
 explicit or aliased usings instead.
 
+## Pipeline builder configuration
+
+Pipeline settings now use one configuration path:
+`builder.ConfigureOptions(options => options with { ... })`.
+`ConfigurePipelineOptions`, `RunOnlyCategories`, `IgnoreCategories`, and `SetLogLevel`
+have been removed. Configure logging through `builder.Logging`; category filters remain
+available on `PipelineOptions`.
+
+Scheduler settings now live under `PipelineOptions.Concurrency`, and secret masking
+settings live under `PipelineOptions.Secrets`. `SchedulerOptions` and the documented
+`builder.Services.Configure<SecretMaskingOptions>` path have been removed. The no-op
+`Configure<ConcurrencyOptions>` and `Configure<HttpResilienceOptions>` registrations
+have also been deleted.
+
 ## Module condition predicates
 
 `WithSkipWhen` now has boolean predicate overloads that accept a skip reason. Use

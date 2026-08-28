@@ -56,37 +56,9 @@ internal class OptionsValidator : IOptionsValidator
                 $"AlwaysRunProgressTimeout cannot be negative. Current value: {options.AlwaysRunProgressTimeout}"));
         }
 
-        var consoleOptions = options.Console;
-        if (consoleOptions.ModuleOutputFlushInterval < TimeSpan.Zero)
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                $"Console.ModuleOutputFlushInterval cannot be negative. Current value: {consoleOptions.ModuleOutputFlushInterval}"));
-        }
-        else if (consoleOptions.ModuleOutputFlushInterval > PipelineConsoleOptions.MaximumModuleOutputFlushInterval)
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                $"Console.ModuleOutputFlushInterval cannot exceed {PipelineConsoleOptions.MaximumModuleOutputFlushInterval}. " +
-                $"Current value: {consoleOptions.ModuleOutputFlushInterval}"));
-        }
-
-        if (consoleOptions.ModuleOutputFlushThreshold < 0)
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                $"Console.ModuleOutputFlushThreshold cannot be negative. Current value: {consoleOptions.ModuleOutputFlushThreshold}"));
-        }
-
+        ValidateConsoleOptions(options.Console, result);
         ValidateRunReportOptions(options.RunReport, result);
-
-        // Validate concurrency options
-        if (options.Concurrency.MaxParallelism < 1)
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                $"Concurrency.MaxParallelism must be at least 1. Current value: {options.Concurrency.MaxParallelism}"));
-        }
+        ValidateConcurrencyOptions(options.Concurrency, result);
 
         // Validate HTTP timeout if set
         if (options.Http.Timeout is { } httpTimeout && httpTimeout <= TimeSpan.Zero)
@@ -96,21 +68,90 @@ internal class OptionsValidator : IOptionsValidator
                 $"Http.Timeout must be positive. Current value: {httpTimeout}"));
         }
 
-        // Validate conflicting category filters
-        if (options.RunOnlyCategories != null && options.IgnoreCategories != null)
-        {
-            var conflicts = options.RunOnlyCategories
-                .Intersect(options.IgnoreCategories, StringComparer.OrdinalIgnoreCase)
-                .ToList();
-            if (conflicts.Count > 0)
-            {
-                result.AddError(new ValidationError(
-                    ValidationErrorCategory.Options,
-                    $"Categories cannot be in both RunOnlyCategories and IgnoreCategories: {string.Join(", ", conflicts)}"));
-            }
-        }
+        ValidateHttpResilienceOptions(options.Http.Resilience, result);
+
+        ValidateCategoryFilters(options, result);
 
         return result;
+    }
+
+    private static void ValidateConsoleOptions(
+        PipelineConsoleOptions options,
+        ValidationResult result)
+    {
+        if (options.ModuleOutputFlushInterval < TimeSpan.Zero)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Console.ModuleOutputFlushInterval cannot be negative. Current value: {options.ModuleOutputFlushInterval}"));
+        }
+        else if (options.ModuleOutputFlushInterval > PipelineConsoleOptions.MaximumModuleOutputFlushInterval)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Console.ModuleOutputFlushInterval cannot exceed {PipelineConsoleOptions.MaximumModuleOutputFlushInterval}. " +
+                $"Current value: {options.ModuleOutputFlushInterval}"));
+        }
+
+        if (options.ModuleOutputFlushThreshold < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Console.ModuleOutputFlushThreshold cannot be negative. Current value: {options.ModuleOutputFlushThreshold}"));
+        }
+    }
+
+    private static void ValidateConcurrencyOptions(
+        ConcurrencyOptions options,
+        ValidationResult result)
+    {
+        if (options.MaxParallelism < 1)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Concurrency.MaxParallelism must be at least 1. Current value: {options.MaxParallelism}"));
+        }
+
+        if (options.MaxCpuIntensiveModules is <= 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Concurrency.MaxCpuIntensiveModules must be positive or null. Current value: {options.MaxCpuIntensiveModules}"));
+        }
+
+        if (options.MaxIoIntensiveModules is <= 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Concurrency.MaxIoIntensiveModules must be positive or null. Current value: {options.MaxIoIntensiveModules}"));
+        }
+
+        if (options.NotificationTimeout < TimeSpan.Zero)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Concurrency.NotificationTimeout cannot be negative. Current value: {options.NotificationTimeout}"));
+        }
+    }
+
+    private static void ValidateCategoryFilters(
+        PipelineOptions options,
+        ValidationResult result)
+    {
+        if (options.RunOnlyCategories is null || options.IgnoreCategories is null)
+        {
+            return;
+        }
+
+        var conflicts = options.RunOnlyCategories
+            .Intersect(options.IgnoreCategories, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+        if (conflicts.Count > 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Categories cannot be in both RunOnlyCategories and IgnoreCategories: {string.Join(", ", conflicts)}"));
+        }
     }
 
     private static void ValidateRunReportOptions(
@@ -154,6 +195,43 @@ internal class OptionsValidator : IOptionsValidator
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
                 "RunReport.HistoryDirectory cannot be empty when run history is enabled."));
+        }
+    }
+
+    private static void ValidateHttpResilienceOptions(
+        HttpResilienceOptions? options,
+        ValidationResult result)
+    {
+        if (options is null)
+        {
+            return;
+        }
+
+        if (options.MaxRetryAttempts < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Http.Resilience.MaxRetryAttempts cannot be negative. Current value: {options.MaxRetryAttempts}"));
+        }
+
+        if (options.InitialDelay < TimeSpan.Zero || options.MaxDelay < TimeSpan.Zero)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "Http resilience delays cannot be negative."));
+        }
+        else if (options.InitialDelay > options.MaxDelay)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "Http.Resilience.InitialDelay cannot exceed MaxDelay."));
+        }
+
+        if (options.JitterFactor is < 0 or > 1)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Http.Resilience.JitterFactor must be between 0 and 1. Current value: {options.JitterFactor}"));
         }
     }
 

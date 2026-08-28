@@ -2145,7 +2145,7 @@ public class RunReportTests
     {
         var directory = CreateTemporaryDirectory();
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = CreateReportingOptions(Path.Combine(directory, "report.json")).RunReport,
@@ -2851,7 +2851,7 @@ public class RunReportTests
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.ConfigurePipelineOptions(options => options with
+            builder.ConfigureOptions(options => options with
             {
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
@@ -2892,7 +2892,7 @@ public class RunReportTests
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.ConfigurePipelineOptions(options => options with
+            builder.ConfigureOptions(options => options with
             {
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
@@ -2933,7 +2933,7 @@ public class RunReportTests
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.ConfigurePipelineOptions(options => options with
+            builder.ConfigureOptions(options => options with
             {
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with
@@ -2953,7 +2953,7 @@ public class RunReportTests
                 await File.ReadAllTextAsync(reportPath))!;
 
             var successfulBuilder = Pipeline.CreateBuilder();
-            successfulBuilder.ConfigurePipelineOptions(options => options with
+            successfulBuilder.ConfigureOptions(options => options with
             {
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with
@@ -3068,7 +3068,7 @@ public class RunReportTests
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.ConfigurePipelineOptions(options => options with
+            builder.ConfigureOptions(options => options with
             {
                 FailureMode = FailureMode.FailFast,
                 ThrowOnPipelineFailure = false,
@@ -3107,7 +3107,7 @@ public class RunReportTests
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.ConfigurePipelineOptions(options => options with
+            builder.ConfigureOptions(options => options with
             {
                 FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = false,
@@ -3148,7 +3148,7 @@ public class RunReportTests
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.ConfigurePipelineOptions(options => options with
+            builder.ConfigureOptions(options => options with
             {
                 FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = false,
@@ -3666,7 +3666,7 @@ public class RunReportTests
     public async Task RunReportIncludesMaskedModuleOutputWhenEnabled()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = options.RunReport with
@@ -3884,7 +3884,7 @@ public class RunReportTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.WriteRunReport(reportPath);
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             FailureMode = FailureMode.ContinueOnFailure,
             ThrowOnPipelineFailure = false,
@@ -3905,7 +3905,7 @@ public class RunReportTests
     private static async Task<PipelineSummary> RunPipelineWithoutReportAsync(string historyPath)
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = options.RunReport with

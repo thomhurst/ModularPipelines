@@ -85,7 +85,7 @@ public class ResultsRepositoryTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module2>()
             .AddModule<OtherCategoryModule>()
-            .RunOnlyCategories("Other")
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["Other"] })
             .BuildAsync();
 
         await host.RunAsync();

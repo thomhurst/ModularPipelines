@@ -173,7 +173,7 @@ public class ModuleTestBuilder<TModule>
             EnableCommandLineOptions = false,
         });
 
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Console = options.Console with
             {

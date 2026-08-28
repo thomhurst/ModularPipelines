@@ -32,7 +32,7 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
     public async Task Pipeline_Completes_When_Progress_Disabled()
     {
         var host = await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions(options => options with
+            .ConfigureOptions(options => options with
             {
                 Console = options.Console with { ShowProgress = false },
             })
@@ -50,7 +50,7 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
     public async Task Pipeline_With_Multiple_Modules_Completes_Successfully()
     {
         var host = await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions(options => options with
+            .ConfigureOptions(options => options with
             {
                 Console = options.Console with { ShowProgress = false },
             })

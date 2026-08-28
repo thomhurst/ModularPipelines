@@ -129,7 +129,7 @@ public class ModuleHistoryTests
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
-            .IgnoreCategories("1")
+            .ConfigureOptions(options => options with { IgnoreCategories = ["1"] })
             .BuildAsync();
 
         await host.RunAsync();
@@ -145,7 +145,7 @@ public class ModuleHistoryTests
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<RunnableCategoryModule>()
-            .RunOnlyCategories("2")
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["2"] })
             .BuildAsync();
 
         await host.RunAsync();
@@ -188,7 +188,7 @@ public class ModuleHistoryTests
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
-            .IgnoreCategories("1")
+            .ConfigureOptions(options => options with { IgnoreCategories = ["1"] })
             .AddResultsRepository<NotFoundModuleRepository>()
             .BuildAsync();
 
@@ -205,7 +205,7 @@ public class ModuleHistoryTests
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<RunnableCategoryModule>()
-            .RunOnlyCategories("2")
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["2"] })
             .AddResultsRepository<NotFoundModuleRepository>()
             .BuildAsync();
 
@@ -251,7 +251,7 @@ public class ModuleHistoryTests
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
-            .IgnoreCategories("1")
+            .ConfigureOptions(options => options with { IgnoreCategories = ["1"] })
             .AddResultsRepository<GoodModuleRepository>()
             .BuildAsync();
 
@@ -268,7 +268,7 @@ public class ModuleHistoryTests
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<UsesCategoryDependency>()
-            .IgnoreCategories("1")
+            .ConfigureOptions(options => options with { IgnoreCategories = ["1"] })
             .AddResultsRepository<GoodModuleRepository>()
             .BuildAsync();
 
@@ -288,7 +288,7 @@ public class ModuleHistoryTests
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<UsesCategoryDependency>()
-            .IgnoreCategories("1")
+            .ConfigureOptions(options => options with { IgnoreCategories = ["1"] })
             .AddResultsRepository<CascadeDependentHistoryRepository>()
             .BuildAsync();
 
@@ -307,7 +307,7 @@ public class ModuleHistoryTests
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<RunnableCategoryModule>()
-            .RunOnlyCategories("2")
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["2"] })
             .AddResultsRepository<GoodModuleRepository>()
             .BuildAsync();
 

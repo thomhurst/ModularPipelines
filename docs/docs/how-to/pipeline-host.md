@@ -96,7 +96,7 @@ Configure pipeline behavior via the `Options` property:
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     // Failure mode
     FailureMode = FailureMode.FailFast,
@@ -127,7 +127,7 @@ The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     FailureMode = FailureMode.ContinueOnFailure,
     ThrowOnPipelineFailure = false,
@@ -209,7 +209,7 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 // Options
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     FailureMode = FailureMode.FailFast,
     IgnoreCategories = ["Experimental"],
@@ -271,7 +271,7 @@ var builder = Pipeline.CreateBuilder(args);
 await builder
     .AddModule<Module1>()
     .AddModule<Module2>()
-    .ConfigurePipelineOptions(options => options with
+    .ConfigureOptions(options => options with
     {
         FailureMode = FailureMode.FailFast,
     })

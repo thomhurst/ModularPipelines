@@ -15,7 +15,7 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     FailureMode = FailureMode.FailFast,
 });

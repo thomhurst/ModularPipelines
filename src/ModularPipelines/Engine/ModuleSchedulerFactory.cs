@@ -13,7 +13,7 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
 {
     private readonly ILogger<ModuleScheduler> _logger;
     private readonly TimeProvider _timeProvider;
-    private readonly IOptions<SchedulerOptions> _schedulerOptions;
+    private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IMetricsCollector _metricsCollector;
@@ -23,7 +23,7 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
     public ModuleSchedulerFactory(
         ILogger<ModuleScheduler> logger,
         TimeProvider timeProvider,
-        IOptions<SchedulerOptions> schedulerOptions,
+        IOptions<PipelineOptions> pipelineOptions,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
         IMetricsCollector metricsCollector,
@@ -32,7 +32,7 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
     {
         _logger = logger;
         _timeProvider = timeProvider;
-        _schedulerOptions = schedulerOptions;
+        _pipelineOptions = pipelineOptions;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
         _metricsCollector = metricsCollector;
@@ -49,7 +49,7 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
         return new ModuleScheduler(
             _logger,
             _timeProvider,
-            _schedulerOptions,
+            _pipelineOptions,
             _dependencyRegistry,
             _metadataRegistry,
             _metricsCollector,

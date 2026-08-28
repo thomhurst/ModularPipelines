@@ -51,8 +51,13 @@ public class ConfigurationSectionSecretMaskingTests
     {
         var output = new StringBuilder();
         var builder = CreateBuilder(output);
-        builder.Services.Configure<SecretMaskingOptions>(options =>
-            options.MaskedConfigurationSections = ["Secrets", "ConnectionStrings", "Missing"]);
+        builder.ConfigureOptions(options => options with
+        {
+            Secrets = options.Secrets with
+            {
+                MaskedConfigurationSections = ["Secrets", "ConnectionStrings", "Missing"],
+            },
+        });
 
         await builder.RunAsync();
 

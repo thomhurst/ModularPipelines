@@ -6,7 +6,6 @@ using MEL.Spectre.Theme;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Implementations;
@@ -30,7 +29,6 @@ using ModularPipelines.Http;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
-using ModularPipelines.Options.Validators;
 using ModularPipelines.PipelineCli;
 using ModularPipelines.Reporting;
 using ModularPipelines.Secrets;
@@ -101,12 +99,6 @@ internal static class DependencyInjectionSetup
         services
             .AddSingleton<PipelineCommandHandler>()
             .AddSingleton<PipelinePlanPrinter>()
-            .Configure<PipelineOptions>(_ => { })
-            .Configure<SchedulerOptions>(_ => { })
-            .Configure<ConcurrencyOptions>(_ => { })
-            .Configure<HttpResilienceOptions>(_ => { })
-            .AddSingleton<IValidateOptions<ConcurrencyOptions>, ConcurrencyOptionsValidator>()
-            .AddSingleton<IValidateOptions<HttpResilienceOptions>, HttpResilienceOptionsValidator>()
             .AddLogging(builder =>
             {
                 builder.ClearProviders();
@@ -309,7 +301,6 @@ internal static class DependencyInjectionSetup
         var commandWriter = new BuildSystemCommandWriter(System.Console.Out);
 
         services
-            .Configure<SecretMaskingOptions>(_ => { })
             .AddSingleton<SecretProvider>()
             .AddSingleton<ISecretProvider>(sp => sp.GetRequiredService<SecretProvider>())
             .AddSingleton<ISecretRegistry>(sp => sp.GetRequiredService<SecretProvider>())

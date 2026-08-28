@@ -18,7 +18,7 @@ public static class Pipeline
     /// var builder = Pipeline.CreateBuilder(args);
     ///
     /// builder.AddModule&lt;BuildModule&gt;();
-    /// builder.ConfigurePipelineOptions(options => options with
+    /// builder.ConfigureOptions(options => options with
     /// {
     ///     FailureMode = FailureMode.FailFast,
     /// });

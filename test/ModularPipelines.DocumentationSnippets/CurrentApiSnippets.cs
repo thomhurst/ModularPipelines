@@ -30,11 +30,14 @@ public static class CurrentApiSnippets
             .AddModule<ArtifactPathResolver>()
             .AddRequirement<HasDotNetSdkRequirement>();
 
-        builder.Services.Configure<SecretMaskingOptions>(options =>
+        builder.ConfigureOptions(options => options with
         {
-            options.CaseInsensitive = true;
-            options.MinimumSecretLength = 4;
-            options.MaskValue = "[REDACTED]";
+            Secrets = options.Secrets with
+            {
+                CaseInsensitive = true,
+                MinimumSecretLength = 4,
+                MaskValue = "[REDACTED]",
+            },
         });
 
         return builder.RunAsync();
@@ -43,7 +46,7 @@ public static class CurrentApiSnippets
     public static async Task<int> RunPipelineAndMapExitCode(string[] args)
     {
         var builder = Pipeline.CreateBuilder(args);
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             FailureMode = FailureMode.ContinueOnFailure,
             ThrowOnPipelineFailure = false,
@@ -59,7 +62,7 @@ public static class CurrentApiSnippets
     public static async Task VerifySuccessfulPipeline(string[] args)
     {
         var builder = Pipeline.CreateBuilder(args);
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             ThrowOnPipelineFailure = false,
         });

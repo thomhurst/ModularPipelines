@@ -39,6 +39,9 @@ public class ConcurrencyOptionsTests : TestBase
 
         // Default MaxIoIntensiveModules should be null (unlimited)
         await Assert.That(options.MaxIoIntensiveModules).IsNull();
+        await Assert.That(options.NotificationTimeout).IsEqualTo(TimeSpan.FromMilliseconds(100));
+        await Assert.That(options.EnableDetailedLogging).IsFalse();
+        await Assert.That(options.EnableTimingMetrics).IsTrue();
     }
 
     [Test]
@@ -47,7 +50,7 @@ public class ConcurrencyOptionsTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModule>()
             .AddModule<SimpleModule2>()
-            .ConfigurePipelineOptions((_, options) => options with
+            .ConfigureOptions(options => options with
             {
                 Concurrency = options.Concurrency with { MaxParallelism = 2 },
             })
@@ -61,7 +64,7 @@ public class ConcurrencyOptionsTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModule>()
-            .ConfigurePipelineOptions((_, options) => options with
+            .ConfigureOptions(options => options with
             {
                 Concurrency = options.Concurrency with { MaxCpuIntensiveModules = 1 },
             })
@@ -75,7 +78,7 @@ public class ConcurrencyOptionsTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModule>()
-            .ConfigurePipelineOptions((_, options) => options with
+            .ConfigureOptions(options => options with
             {
                 Concurrency = options.Concurrency with { MaxIoIntensiveModules = 10 },
             })

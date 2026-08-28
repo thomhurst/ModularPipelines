@@ -15,6 +15,12 @@ public class SecretMaskingPatternTests
 {
     private const string Secret = "p@ss word\"value";
 
+    private sealed class MutableOptions<T>(T value) : Microsoft.Extensions.Options.IOptions<T>
+        where T : class
+    {
+        public T Value { get; set; } = value;
+    }
+
     internal sealed class SecretOptions
     {
         [SecretValue]
@@ -438,7 +444,7 @@ public class SecretMaskingPatternTests
     {
         var provider = CreateProvider(out _);
         provider.AddSecret("ABC");
-        var maskingOptions = Microsoft.Extensions.Options.Options.Create(
+        var maskingOptions = new MutableOptions<SecretMaskingOptions>(
             new SecretMaskingOptions());
         var obfuscator = new SecretObfuscator(provider, maskingOptions);
         var realConsole = new StringWriter();
@@ -451,7 +457,7 @@ public class SecretMaskingPatternTests
             provider);
 
         writer.WriteLine("abc");
-        maskingOptions.Value.CaseInsensitive = true;
+        maskingOptions.Value = new SecretMaskingOptions { CaseInsensitive = true };
         writer.WriteLine("abc");
 
         await Assert.That(realConsole.ToString()).IsEqualTo(

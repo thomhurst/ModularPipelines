@@ -111,7 +111,7 @@ public class ModuleSchedulerDynamicCycleTests
         using var scheduler = CreateScheduler(
             constraintEvaluator.Object,
             statusReporter.Object,
-            new SchedulerOptions
+            new ConcurrencyOptions
             {
                 NotificationTimeout = TimeSpan.FromMilliseconds(20),
             });
@@ -210,12 +210,15 @@ public class ModuleSchedulerDynamicCycleTests
     private static ModuleScheduler CreateScheduler(
         IModuleConstraintEvaluator? constraintEvaluator = null,
         ISchedulerStatusReporter? statusReporter = null,
-        SchedulerOptions? schedulerOptions = null)
+        ConcurrencyOptions? schedulerOptions = null)
     {
         return new ModuleScheduler(
             NullLogger.Instance,
             TimeProvider.System,
-            Microsoft.Extensions.Options.Options.Create(schedulerOptions ?? new SchedulerOptions()),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+            {
+                Concurrency = schedulerOptions ?? new ConcurrencyOptions(),
+            }),
             new ModuleDependencyRegistry(),
             new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             Mock.Of<IMetricsCollector>(),

@@ -29,6 +29,7 @@ public class PipelineOptionsTests
     [Arguments(typeof(ConcurrencyOptions))]
     [Arguments(typeof(HttpLoggingOptions))]
     [Arguments(typeof(HttpResilienceOptions))]
+    [Arguments(typeof(SecretMaskingOptions))]
     public async Task PublicProperties_AreInitOnly(Type optionsType)
     {
         var mutableProperties = optionsType
@@ -92,20 +93,22 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task CategoryBuilderMethodsReplaceEarlierFilters()
+    public async Task ConfigureOptionsReplacesEarlierFilters()
     {
         var builder = Pipeline.CreateBuilder();
 
-        builder.RunOnlyCategories("first");
-        builder.RunOnlyCategories("second");
-        builder.IgnoreCategories("ignored-first");
-        builder.IgnoreCategories("ignored-second");
+        builder.ConfigureOptions(options => options with { RunOnlyCategories = ["first"] });
+        builder.ConfigureOptions(options => options with { RunOnlyCategories = ["second"] });
+        builder.ConfigureOptions(options => options with { IgnoreCategories = ["ignored-first"] });
+        builder.ConfigureOptions(options => options with { IgnoreCategories = ["ignored-second"] });
 
         using (Assert.Multiple())
         {
             await Assert.That(builder.Options.RunOnlyCategories).IsEquivalentTo(["second"]);
             await Assert.That(builder.Options.IgnoreCategories).IsEquivalentTo(["ignored-second"]);
-            await Assert.That(typeof(PipelineBuilder).GetMethod("RunCategories")).IsNull();
+            await Assert.That(typeof(PipelineBuilder).GetMethod("RunOnlyCategories")).IsNull();
+            await Assert.That(typeof(PipelineBuilder).GetMethod("IgnoreCategories")).IsNull();
+            await Assert.That(typeof(PipelineBuilder).GetMethod("SetLogLevel")).IsNull();
         }
     }
 
@@ -210,7 +213,7 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task PipelineBuilder_RegistersEquivalentIsolatedOptionsSnapshots()
+    public async Task PipelineBuilder_RegistersFinalOptionsSnapshot()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
@@ -230,57 +233,29 @@ public class PipelineOptionsTests
         using (Assert.Multiple())
         {
             await Assert.That(options).IsEqualTo(expected);
-            await Assert.That(snapshot).IsEqualTo(expected);
-            await Assert.That(monitor).IsEqualTo(expected);
-            await Assert.That(options).IsNotSameReferenceAs(expected);
-            await Assert.That(snapshot).IsNotSameReferenceAs(expected);
-            await Assert.That(monitor).IsNotSameReferenceAs(expected);
+            await Assert.That(options).IsSameReferenceAs(expected);
+            await Assert.That(snapshot).IsSameReferenceAs(expected);
+            await Assert.That(monitor).IsSameReferenceAs(expected);
         }
     }
 
     [Test]
-    public async Task PipelineOptionsFactory_IsolatesNamedConfigurations()
+    public async Task ConfigureOptionsRejectsNullResult()
     {
-        var source = new PipelineOptions();
-        var namedSetup = new ConfigureNamedOptions<PipelineOptions>(
-            "custom",
-            options => typeof(PipelineOptions)
-                .GetProperty(nameof(PipelineOptions.Console))!
-                .SetValue(options, options.Console with { PrintLogo = false }));
-        var factory = new PipelineOptionsFactory(
-            source,
-            [namedSetup],
-            [],
-            []);
+        using var builder = Pipeline.CreateBuilder();
 
-        var custom = factory.Create("custom");
-        var defaults = factory.Create(Microsoft.Extensions.Options.Options.DefaultName);
+        var exception = Assert.Throws<InvalidOperationException>(
+            () => builder.ConfigureOptions(_ => null!));
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(custom.Console.PrintLogo).IsFalse();
-            await Assert.That(defaults.Console.PrintLogo).IsTrue();
-            await Assert.That(source.Console.PrintLogo).IsTrue();
-            await Assert.That(custom).IsNotSameReferenceAs(defaults);
-            await Assert.That(custom).IsNotSameReferenceAs(source);
-            await Assert.That(defaults).IsNotSameReferenceAs(source);
-        }
+        await Assert.That(exception.Message)
+            .IsEqualTo("The pipeline options configuration returned null.");
     }
 
     [Test]
-    public async Task PipelineBuilder_PreservesRegisteredPipelineOptionsValidators()
+    public async Task PipelineBuilderExposesLoggingBuilder()
     {
-        var builder = TestPipelineBuilder.Create()
-            .AddModule<OptionsTestModule>();
-        builder.Services
-            .AddOptions<PipelineOptions>()
-            .Validate(_ => false, "Custom validation failure.")
-            .ValidateOnStart();
+        using var builder = Pipeline.CreateBuilder();
 
-        var exception = await Assert.ThrowsAsync<OptionsValidationException>(
-            () => builder.BuildAsync());
-
-        await Assert.That(exception!.Failures)
-            .Contains("Custom validation failure.");
+        await Assert.That(builder.Logging.Services).IsSameReferenceAs(builder.Services);
     }
 }

@@ -46,8 +46,11 @@ masking as `[SecretValue]` and `ISecretRegistry`.
 You can also configure multiple sections through options:
 
 ```csharp
-builder.Services.Configure<SecretMaskingOptions>(options =>
+builder.ConfigureOptions(options => options with
 {
-    options.MaskedConfigurationSections = ["Secrets", "ConnectionStrings"];
+    Secrets = options.Secrets with
+    {
+        MaskedConfigurationSections = ["Secrets", "ConnectionStrings"],
+    },
 });
 ```

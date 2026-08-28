@@ -126,7 +126,7 @@ public class DynamicDependencyIntegrationTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<DynamicallySkippedDependency>()
             .AddModule<DynamicallySkippedDependent>()
-            .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);

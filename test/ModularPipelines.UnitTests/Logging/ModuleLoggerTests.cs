@@ -89,15 +89,15 @@ public class ModuleLoggerTests
         var file = FilePath.GetNewTemporaryFilePath();
 
         var pipelineBuilder = TestPipelineBuilder.Create();
-        var host = await pipelineBuilder
-            .ConfigureServices(collection =>
-            {
-                collection.Configure<MySecrets>(pipelineBuilder.Configuration);
-                collection.AddLogging(builder => { builder.AddFile(file); });
-                collection.AddSingleton(typeof(IModule), moduleType);
-            })
-            .SetLogLevel(LogLevel.Information)
-            .BuildAsync();
+        pipelineBuilder.ConfigureServices(collection =>
+        {
+            collection.Configure<MySecrets>(pipelineBuilder.Configuration);
+            collection.AddLogging(builder => { builder.AddFile(file); });
+            collection.AddSingleton(typeof(IModule), moduleType);
+        });
+        pipelineBuilder.Logging.SetMinimumLevel(LogLevel.Information);
+
+        var host = await pipelineBuilder.BuildAsync();
 
         await host.RunAsync();
 

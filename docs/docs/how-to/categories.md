@@ -35,7 +35,7 @@ builder
     .AddModule<Module3>()
     .AddModule<Module4>();
 
-builder.RunOnlyCategories("UnitTest", "IntegrationTest");
+builder.ConfigureOptions(options => options with { RunOnlyCategories = ["UnitTest", "IntegrationTest"] });
 
 await builder.RunAsync();
 ```
@@ -52,7 +52,7 @@ builder
     .AddModule<Module3>()
     .AddModule<Module4>();
 
-builder.IgnoreCategories("Publish", "Deploy");
+builder.ConfigureOptions(options => options with { IgnoreCategories = ["Publish", "Deploy"] });
 
 await builder.RunAsync();
 ```

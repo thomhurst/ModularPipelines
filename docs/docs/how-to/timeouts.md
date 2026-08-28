@@ -8,13 +8,13 @@ Modules have a 30-minute timeout by default. Configure the pipeline default when
 
 ```csharp
 var builder = Pipeline.CreateBuilder();
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     DefaultModuleTimeout = TimeSpan.FromHours(2),
 });
 
 // Disable the default. Per-module timeouts still apply.
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     DefaultModuleTimeout = TimeSpan.Zero,
 });
@@ -27,7 +27,7 @@ constraint-deferred `AlwaysRun` module from waiting indefinitely for a hung acti
 when ordinary module timeouts are disabled. Configure it independently when needed:
 
 ```csharp
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     AlwaysRunProgressTimeout = TimeSpan.FromMinutes(1),
 });

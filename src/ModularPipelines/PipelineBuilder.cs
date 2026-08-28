@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
@@ -56,6 +57,7 @@ public sealed class PipelineBuilder
             };
         var args = _commandLineOptions.HostArguments.ToArray();
         _services = new ServiceCollection();
+        Logging = new PipelineLoggingBuilder(_services);
         _configuration = new ConfigurationManager();
         _options = new PipelineOptions
         {
@@ -98,6 +100,11 @@ public sealed class PipelineBuilder
     public IServiceCollection Services => _services;
 
     /// <summary>
+    /// Gets the logging builder for configuring pipeline logging.
+    /// </summary>
+    public ILoggingBuilder Logging { get; }
+
+    /// <summary>
     /// Gets the configuration manager for adding and reading configuration.
     /// </summary>
     public ConfigurationManager Configuration => _configuration;
@@ -105,16 +112,19 @@ public sealed class PipelineBuilder
     /// <summary>
     /// Gets the current immutable pipeline options snapshot.
     /// </summary>
-    /// <remarks>
-    /// Use <see cref="PipelineBuilderExtensions.ConfigurePipelineOptions(PipelineBuilder, Func{PipelineOptions, PipelineOptions})"/>
-    /// to replace this snapshot.
-    /// </remarks>
     public PipelineOptions Options => _options;
 
-    internal void SetOptions(PipelineOptions options)
+    /// <summary>
+    /// Replaces the current pipeline options snapshot.
+    /// </summary>
+    /// <param name="configureOptions">A function that returns the configured options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public PipelineBuilder ConfigureOptions(Func<PipelineOptions, PipelineOptions> configureOptions)
     {
-        ArgumentNullException.ThrowIfNull(options);
-        _options = options;
+        ArgumentNullException.ThrowIfNull(configureOptions);
+        _options = configureOptions(_options)
+            ?? throw new InvalidOperationException("The pipeline options configuration returned null.");
+        return this;
     }
 
     /// <summary>
@@ -126,51 +136,6 @@ public sealed class PipelineBuilder
     /// Gets the default working directory for commands and relative file paths.
     /// </summary>
     public string WorkingDirectory => _environment.WorkingDirectory;
-
-    /// <summary>
-    /// Sets the minimum log level for the pipeline.
-    /// </summary>
-    /// <param name="logLevel">The minimum log level.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public PipelineBuilder SetLogLevel(LogLevel logLevel)
-    {
-        _services.Configure<LoggerFilterOptions>(options => options.MinLevel = logLevel);
-        return this;
-    }
-
-    /// <summary>
-    /// Replaces the categories whose modules should be run exclusively.
-    /// </summary>
-    /// <param name="categories">The complete set of categories to run.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    /// <remarks>Calling this method again replaces the previous category filter.</remarks>
-    public PipelineBuilder RunOnlyCategories(params string[] categories)
-    {
-        ArgumentNullException.ThrowIfNull(categories);
-        _options = _options with
-        {
-            RunOnlyCategories = NullIfEmpty(categories),
-        };
-
-        return this;
-    }
-
-    /// <summary>
-    /// Replaces the categories whose modules should be ignored.
-    /// </summary>
-    /// <param name="categories">The complete set of categories to ignore.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    /// <remarks>Calling this method again replaces the previous category filter.</remarks>
-    public PipelineBuilder IgnoreCategories(params string[] categories)
-    {
-        ArgumentNullException.ThrowIfNull(categories);
-        _options = _options with
-        {
-            IgnoreCategories = NullIfEmpty(categories),
-        };
-
-        return this;
-    }
 
     /// <summary>
     /// Builds the pipeline and validates configuration.
@@ -353,6 +318,8 @@ public sealed class PipelineBuilder
         // Configure services: core first, then user services, then plugins (so plugins can inspect user config)
         _hostBuilder.ConfigureServices((_, services) =>
         {
+            var pipelineOptions = new FixedOptions<PipelineOptions>(_options);
+
             services.AddSingleton(new PipelineWorkingDirectory(_environment.WorkingDirectory));
             DependencyInjectionSetup.Initialize(services);
             services.Configure<ModuleCacheOptions>(options =>
@@ -373,7 +340,10 @@ public sealed class PipelineBuilder
             services
                 .AddSingleton(_commandLineOptions)
                 .AddSingleton(_options)
-                .AddTransient<IOptionsFactory<PipelineOptions>, PipelineOptionsFactory>();
+                .AddSingleton<IOptions<PipelineOptions>>(pipelineOptions)
+                .AddSingleton<IOptionsSnapshot<PipelineOptions>>(pipelineOptions)
+                .AddSingleton<IOptionsMonitor<PipelineOptions>>(pipelineOptions)
+                .AddSingleton(Microsoft.Extensions.Options.Options.Create(_options.Secrets));
 
             // Auto-register any missing required dependencies
             ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);
@@ -647,6 +617,34 @@ public sealed class PipelineBuilder
             {
                 _lock.Release();
             }
+        }
+    }
+
+    private sealed class PipelineLoggingBuilder(IServiceCollection services) : ILoggingBuilder
+    {
+        public IServiceCollection Services { get; } = services;
+    }
+
+    private sealed class FixedOptions<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(T value)
+        : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>
+        where T : class
+    {
+        public T Value { get; } = value;
+
+        public T CurrentValue => Value;
+
+        public T Get(string? name) => Value;
+
+        public IDisposable? OnChange(Action<T, string?> listener) => NoopDisposable.Instance;
+    }
+
+    private sealed class NoopDisposable : IDisposable
+    {
+        public static NoopDisposable Instance { get; } = new();
+
+        public void Dispose()
+        {
         }
     }
 }

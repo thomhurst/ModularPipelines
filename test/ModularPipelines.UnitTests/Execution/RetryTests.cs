@@ -170,7 +170,7 @@ public class RetryTests : TestBase
     public async Task When_Successful_Do_Not_Retry()
     {
         var host = await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options with
+            .ConfigureOptions(options => options with
             {
                 DefaultRetryCount = DefaultRetryCount,
             })
@@ -194,7 +194,7 @@ public class RetryTests : TestBase
     public async Task When_Error_Then_Retry()
     {
         var host = await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options with
+            .ConfigureOptions(options => options with
             {
                 DefaultRetryCount = DefaultRetryCount,
             })
@@ -271,7 +271,7 @@ public class RetryTests : TestBase
     public async Task When_Error_And_Zero_Retry_Count_Then_Do_Not_Retry()
     {
         var host = await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options with
+            .ConfigureOptions(options => options with
             {
                 DefaultRetryCount = 0,
             })
