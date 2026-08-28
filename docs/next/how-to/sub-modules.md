@@ -1,18 +1,18 @@
-# Sub-Modules
+# Sub-operations
 
 ## What are they?[​](#what-are-they "Direct link to What are they?")
 
-Sub-modules are ways to track and organise blocks of execution where it doesn't make sense to refactor into its own module. This might be when you're iterating through data in a loop.
+Sub-operations track and organise blocks of execution where it doesn't make sense to refactor into a module. This is useful when iterating through data in a loop.
 
 For instance, you have 10 .NET projects to package into NuGet packages.
 
-By looping through them and declaring each one within their own submodule, then we can easily track failures, and the console progress dialog will show time taken for each submodules.
+By declaring each package operation as a sub-operation, you can track failures and see each duration in the console progress display.
 
-A submodule takes two arguments: A name, and the code it should execute.
+A sub-operation takes a name and a token-aware body to execute.
 
-If a submodule fails, it'll throw an exception with the name provided, making it easier to track what specifically failed.
+If a sub-operation fails, its original exception propagates while its name remains visible in progress output.
 
-In the example below, we use the .csproj filename as the submodule name. So if one of our projects failed to pack, we'd know which one by the exception message.
+In the example below, the `.csproj` filename identifies each sub-operation.
 
 ## Example[​](#example "Direct link to Example")
 
@@ -57,7 +57,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         {
 
-            yield return await context.SubModuleAsync(project.Name, () => context.Tools.DotNet.PackAsync(new DotNetPackOptions
+            yield return await context.RunSubModuleAsync(project.Name, token => context.Tools.DotNet.PackAsync(new DotNetPackOptions
 
             {
 
@@ -75,7 +75,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
                 },
 
-            }, cancellationToken), cancellationToken);
+            }, token), cancellationToken);
 
         }
 
