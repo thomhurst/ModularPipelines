@@ -50,7 +50,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
         await Assert.ThrowsAsync<ModuleFailedException>(() =>
             TestPipelineBuilder.Create()
                 .AddModule<Module2WithOptionalDep>()
-                .ExecutePipelineAsync()
+                .RunAsync()
         );
     }
 
@@ -60,7 +60,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
         // With Required dependency (default), missing modules are auto-registered
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module2WithRequiredDep>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
         // Module1 was auto-registered
@@ -75,7 +75,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
             await TestPipelineBuilder.Create()
                 .AddModule<Module1>()
                 .AddModule<Module2WithOptionalDep>()
-                .ExecutePipelineAsync();
+                .RunAsync();
         }).ThrowsNothing();
     }
 }

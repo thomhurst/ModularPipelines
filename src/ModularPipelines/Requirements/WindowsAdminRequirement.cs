@@ -23,7 +23,7 @@ namespace ModularPipelines.Requirements;
 /// builder.Services.AddRequirement&lt;WindowsAdminRequirement&gt;();
 /// builder.AddModule&lt;InstallServiceModule&gt;();
 ///
-/// await builder.ExecutePipelineAsync();
+/// await builder.RunAsync();
 /// </code>
 /// </remarks>
 /// <seealso cref="WindowsRequirement"/>

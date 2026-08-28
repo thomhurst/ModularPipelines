@@ -22,7 +22,7 @@ builder
     .AddModule<BuildModule>()
     .AddModule<TestModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 The source generator must run in the application project. Statically declared

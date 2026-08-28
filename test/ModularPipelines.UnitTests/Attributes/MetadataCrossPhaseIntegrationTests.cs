@@ -87,7 +87,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<MetadataModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
 

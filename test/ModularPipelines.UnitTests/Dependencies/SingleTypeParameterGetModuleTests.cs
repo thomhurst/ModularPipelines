@@ -141,7 +141,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<StringModule>()
             .AddModule<ConsumerModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -152,7 +152,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ComplexResultModule>()
             .AddModule<ComplexConsumerModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -163,7 +163,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<StringModule>()
             .AddModule<OptionalConsumerModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -173,7 +173,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     {
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<OptionalConsumerModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -184,7 +184,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
             async () => await TestPipelineBuilder.Create()
                 .AddModule<SelfReferencingModule>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         await Assert.That(exception!.InnerException).IsTypeOf<ModuleReferencingSelfException>();
     }
@@ -195,7 +195,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
             async () => await TestPipelineBuilder.Create()
                 .AddModule<UnregisteredConsumerModule>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         await Assert.That(exception!.InnerException).IsTypeOf<ModuleNotRegisteredException>();
     }

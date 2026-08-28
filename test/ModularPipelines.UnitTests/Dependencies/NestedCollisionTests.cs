@@ -19,7 +19,7 @@ public class NestedCollisionTests
                 .AddModule<DependencyConflictModule3>()
                 .AddModule<DependencyConflictModule4>()
                 .AddModule<DependencyConflictModule5>()
-                .ExecutePipelineAsync();
+                .RunAsync();
         });
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)

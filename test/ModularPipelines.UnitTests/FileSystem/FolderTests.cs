@@ -93,7 +93,7 @@ public class FolderTests : TestBase
                         new StringLogger<FindFileModule>(stringBuilder))
                     .AddModule<FindFileModule>();
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var actualLogResult = stringBuilder.ToString().Trim();
         await Assert.That(actualLogResult).Contains("x => x.Name == \"Foo.txt\"");
@@ -112,7 +112,7 @@ public class FolderTests : TestBase
                         new StringLogger<ReadFileModule>(stringBuilder))
                     .AddModule<ReadFileModule>();
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var actualLogResult = stringBuilder.ToString();
 

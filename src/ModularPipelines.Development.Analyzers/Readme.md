@@ -103,7 +103,7 @@ builder
     .AddModule<FindNugetPackagesModule>()
     .AddModule<UploadNugetPackagesModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ### Custom Modules

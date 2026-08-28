@@ -117,7 +117,7 @@ public class UnifiedModuleConfigurationIntegrationTests
             .AddModule<DependencyModule>()
             .AddModule<ConfiguredModule>()
             .AddModule<MetadataConsumerModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
         await Assert.That(ExecutionOrder).IsEquivalentTo(new[] { "dependency", "configured", "consumer" });
@@ -130,7 +130,7 @@ public class UnifiedModuleConfigurationIntegrationTests
             .AddModule<FailingTaggedModule>()
             .AddModule<FailingTagConsumerModule>();
 
-        await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.ExecutePipelineAsync());
+        await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.RunAsync());
         await Assert.That(ExecutionOrder).DoesNotContain("selector-consumer");
     }
 
@@ -140,7 +140,7 @@ public class UnifiedModuleConfigurationIntegrationTests
         var pipeline = TestPipelineBuilder.Create()
             .AddModule<SelfDependentModule>();
 
-        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => pipeline.ExecutePipelineAsync());
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => pipeline.RunAsync());
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)
             .Contains(nameof(SelfDependentModule));
@@ -153,7 +153,7 @@ public class UnifiedModuleConfigurationIntegrationTests
             .AddModule<CircularDependencyModuleA>()
             .AddModule<CircularDependencyModuleB>();
 
-        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => pipeline.ExecutePipelineAsync());
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => pipeline.RunAsync());
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)
             .Contains("Dependency collision detected");

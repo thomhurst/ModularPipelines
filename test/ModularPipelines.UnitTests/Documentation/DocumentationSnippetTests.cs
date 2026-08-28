@@ -62,7 +62,7 @@ public class DocumentationSnippetTests
 
         await Assert.That(readme).Contains("dotnet add package ModularPipelines.DotNet");
         await Assert.That(readme).Contains("var builder = Pipeline.CreateBuilder(args);");
-        await Assert.That(readme).Contains("await builder.ExecutePipelineAsync();");
+        await Assert.That(readme).Contains("await builder.RunAsync();");
     }
 
     [Test]

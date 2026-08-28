@@ -11,7 +11,7 @@ public class AsyncDisposableModuleTests
     {
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<AsyncDisposableModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
         await Assert.That(pipelineSummary.Modules.OfType<AsyncDisposableModule>().Single().IsDisposed).IsTrue();
     }
 

@@ -35,7 +35,7 @@ public class ConsoleWriterTests
     [Test]
     public async Task LogToConsole_UsesAmbientModuleConsoleWriter()
     {
-        var output = await ExecutePipelineAsync<LogToConsoleModule>();
+        var output = await RunAsync<LogToConsoleModule>();
 
         await Assert.That(output).Contains("module output");
     }
@@ -43,12 +43,12 @@ public class ConsoleWriterTests
     [Test]
     public async Task Write_UsesAmbientModuleConsoleWriter()
     {
-        var output = await ExecutePipelineAsync<WriteModule>();
+        var output = await RunAsync<WriteModule>();
 
         await Assert.That(output).Contains("module output");
     }
 
-    private static async Task<string> ExecutePipelineAsync<TModule>()
+    private static async Task<string> RunAsync<TModule>()
         where TModule : class, IModule
     {
         using var builder = TestPipelineBuilder.Create();
@@ -62,7 +62,7 @@ public class ConsoleWriterTests
         });
         builder.AddModule<TModule>();
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
 
         return summary.RunReport!.Modules.Single().Output!.StdoutTail ?? string.Empty;
     }

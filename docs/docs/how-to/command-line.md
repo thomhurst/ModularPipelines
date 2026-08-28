@@ -16,7 +16,7 @@ builder
     .AddModule<TestModule>()
     .AddModule<DeployModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Options

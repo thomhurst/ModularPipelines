@@ -46,7 +46,7 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
             .AddModule<Module2>()
             .AddModule<Module3>()
             .AddModule<Module4>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(Tracker.Violations).IsEmpty();
     }

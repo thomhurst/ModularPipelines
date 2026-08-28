@@ -121,7 +121,7 @@ public class ModuleReadyEventTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModuleWithReadyEvent>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
         await Assert.That(EventLog).Contains("Ready:SimpleModuleWithReadyEvent");
@@ -132,7 +132,7 @@ public class ModuleReadyEventTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithTimingCheck>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
         await Assert.That(EventLog.Any(e => e.Contains("Ready:ModuleWithTimingCheck:ElapsedTime:True"))).IsTrue();
@@ -143,7 +143,7 @@ public class ModuleReadyEventTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithReadyAndStart>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
 
@@ -161,7 +161,7 @@ public class ModuleReadyEventTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<DependencyModule>()
             .AddModule<DependentModuleWithReadyEvent>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
         await Assert.That(EventLog).Contains("Ready:DependentModuleWithReadyEvent");
@@ -172,7 +172,7 @@ public class ModuleReadyEventTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithThrowingReadyEvent>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
     }

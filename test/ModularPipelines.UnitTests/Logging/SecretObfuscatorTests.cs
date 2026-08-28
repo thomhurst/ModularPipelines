@@ -36,7 +36,7 @@ public class SecretObfuscatorTests
     {
         _buildSystemMock.Setup(x => x.GetCurrentBuildSystem()).Returns(BuildSystem.GitHubActions);
 
-        await ExecutePipelineAsync();
+        await RunAsync();
 
         var logOutput = _buildSystemCommands.ToString();
         await Assert.That(logOutput).Contains("::add-mask::This is a secret value!");
@@ -48,7 +48,7 @@ public class SecretObfuscatorTests
     {
         _buildSystemMock.Setup(x => x.GetCurrentBuildSystem()).Returns(BuildSystem.GitHubActions);
 
-        await ExecutePipelineAsync();
+        await RunAsync();
 
         _consoleWriterMock.Verify(
             writer => writer.LogToConsole(It.Is<string>(
@@ -63,7 +63,7 @@ public class SecretObfuscatorTests
     {
         _buildSystemMock.Setup(x => x.GetCurrentBuildSystem()).Returns(BuildSystem.Unknown);
 
-        await ExecutePipelineAsync();
+        await RunAsync();
 
         var logOutput = _buildSystemCommands.ToString();
         await Assert.That(logOutput).DoesNotContain("::add-mask::This is a secret value!");
@@ -81,7 +81,7 @@ public class SecretObfuscatorTests
         return await builder.BuildAsync();
     }
 
-    private async Task ExecutePipelineAsync()
+    private async Task RunAsync()
     {
         var pipeline = await GetPipeline();
         await pipeline.RunAsync();

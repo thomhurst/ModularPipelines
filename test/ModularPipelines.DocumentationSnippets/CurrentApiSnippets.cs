@@ -36,7 +36,7 @@ public static class CurrentApiSnippets
             options.MaskValue = "[REDACTED]";
         });
 
-        return builder.ExecutePipelineAsync();
+        return builder.RunAsync();
     }
 
     public static async Task<int> RunPipelineAndMapExitCode(string[] args)
@@ -64,7 +64,7 @@ public static class CurrentApiSnippets
         });
         builder.AddModule<BuildModule>();
 
-        var result = await builder.ExecutePipelineAsync();
+        var result = await builder.RunAsync();
         if (result.Status != Status.Successful)
         {
             throw new InvalidOperationException("Expected a successful pipeline.");
@@ -78,7 +78,7 @@ public static class CurrentApiSnippets
             .AddModule<UpdateDotnetWorkloads>()
             .AddModule<CheckDotnetSdkModule>();
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
     }
 
     public static async Task ConfigureTestPackPublishPipeline(string[] args)
@@ -90,7 +90,7 @@ public static class CurrentApiSnippets
             .AddModule<PackProjectsModule>()
             .AddModule<UploadPackagesToNugetModule>();
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
     }
 
     public sealed record BuildInfo(string Version, string OutputPath);

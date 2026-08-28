@@ -681,7 +681,7 @@ public class PipelineCommandLineTests
     {
         using var builder = CreateExecutionBuilder(["--module", nameof(TargetModule)]);
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -700,7 +700,7 @@ public class PipelineCommandLineTests
             TargetModules = [nameof(TargetModule)],
         });
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -715,7 +715,7 @@ public class PipelineCommandLineTests
     {
         using var builder = CreateExecutionBuilder(["--skip-module", nameof(UnrelatedModule)]);
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -732,7 +732,7 @@ public class PipelineCommandLineTests
         builder.AddModule<SelectedCategoryModule>();
         builder.AddModule<UnrelatedModule>();
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -861,7 +861,7 @@ public class PipelineCommandLineTests
         using var builder = CreateExecutionBuilder(
             ["--module", typeof(TargetModule).AssemblyQualifiedName!]);
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -905,7 +905,7 @@ public class PipelineCommandLineTests
         using var builder = CreateExecutionBuilder(["--module", "MissingModule"]);
 
         var exception = await Assert.ThrowsAsync<PipelineValidationException>(
-            () => builder.ExecutePipelineAsync());
+            () => builder.RunAsync());
 
         await Assert.That(exception!.ValidationResult.Errors.Any(
             error => error.Message.Contains("MissingModule", StringComparison.Ordinal))).IsTrue();
@@ -920,7 +920,7 @@ public class PipelineCommandLineTests
     {
         using var builder = CreateExecutionBuilder([command]);
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -940,7 +940,7 @@ public class PipelineCommandLineTests
             var path = Path.Combine(directory.FullName, "pipeline.json");
             using var builder = CreateExecutionBuilder(["--graph", "json", path]);
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var graph = await File.ReadAllTextAsync(path);
 
             using (Assert.Multiple())
@@ -970,7 +970,7 @@ public class PipelineCommandLineTests
             builder.AddModule<DependencyModule>();
             builder.AddModule<RuntimeOnlyDependencyModule>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var graph = await File.ReadAllTextAsync(path);
 
             using (Assert.Multiple())
@@ -994,7 +994,7 @@ public class PipelineCommandLineTests
         using var builder = CreateExecutionBuilder([option]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
 
         await Assert.That(consoleWriter.Messages.Single())
             .Contains("ModularPipelines command-line options:")
@@ -1012,7 +1012,7 @@ public class PipelineCommandLineTests
         using var builder = Pipeline.CreateBuilder(["--help"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -1030,7 +1030,7 @@ public class PipelineCommandLineTests
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
         builder.AddModule<ThrowingConstructorModule>();
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -1048,7 +1048,7 @@ public class PipelineCommandLineTests
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
         builder.AddModule<ThrowingConfigurationModule>();
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -1652,7 +1652,7 @@ public class PipelineCommandLineTests
         using var builder = CreateExecutionBuilder(["--dry-run"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
         var output = Render(consoleWriter.Renderable!);
 
         using (Assert.Multiple())
@@ -1714,7 +1714,7 @@ public class PipelineCommandLineTests
         using var builder = CreateExecutionBuilder();
         builder.ConfigurePipelineOptions(options => options with { DryRun = true });
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
 
         using (Assert.Multiple())
         {
@@ -1732,7 +1732,7 @@ public class PipelineCommandLineTests
         builder.AddModule<InvalidDynamicDependencyModule>();
 
         await Assert.ThrowsAsync<ModuleNotRegisteredException>(
-            () => builder.ExecutePipelineAsync());
+            () => builder.RunAsync());
     }
 
     [Test]
@@ -1743,7 +1743,7 @@ public class PipelineCommandLineTests
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
         builder.AddModule<ConfiguredCategoryModule>();
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
 
         var output = Render(consoleWriter.Renderable!);
 
@@ -1759,7 +1759,7 @@ public class PipelineCommandLineTests
     {
         using var builder = CreateExecutionBuilder(["--validate"]);
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
 
         await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
     }

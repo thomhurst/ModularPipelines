@@ -223,11 +223,11 @@ public class PipelineBuilderRegistrationTests
     }
 
     [Test]
-    public async Task ExecutePipelineAsync_ValidatesBeforeRunning()
+    public async Task RunAsync_ValidatesBeforeRunning()
     {
         var builder = Pipeline.CreateBuilder();
 
-        await Assert.That(async () => await builder.ExecutePipelineAsync())
+        await Assert.That(async () => await builder.RunAsync())
             .Throws<PipelineValidationException>();
     }
 

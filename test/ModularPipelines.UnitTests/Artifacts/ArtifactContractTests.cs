@@ -76,7 +76,7 @@ public class ArtifactContractTests
         builder.AddModule<AmbientArtifactLoggingProducerModule>();
         builder.AddModule<AmbientArtifactLoggingConsumerModule>();
 
-        await Assert.That(async () => await builder.ExecutePipelineAsync())
+        await Assert.That(async () => await builder.RunAsync())
             .Throws<ModuleFailedException>();
 
         await Assert.That(loggerProvider.Entries).Contains(entry =>
@@ -1565,7 +1565,7 @@ public class ArtifactContractTests
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<LocalConsumerModule>();
 
-            await builder.ExecutePipelineAsync();
+            await builder.RunAsync();
 
             await Assert.That(LocalConsumerModule.ConsumedContent).IsEqualTo("local artifact content");
         }
@@ -1617,7 +1617,7 @@ public class ArtifactContractTests
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<ProducerStateConsumerModule>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<LocalProducerModule>()
                 .Single();
@@ -1655,7 +1655,7 @@ public class ArtifactContractTests
             builder.AddModule<ProducerStateIntermediateModule>();
             builder.AddModule<TransitiveProducerStateConsumerModule>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var consumerResult = await summary.Modules
                 .OfType<TransitiveProducerStateConsumerModule>()
                 .Single();
@@ -1692,7 +1692,7 @@ public class ArtifactContractTests
             builder.AddModule<StateDependentIntermediateModule>();
             builder.AddModule<TransitiveDependencyStateConsumerModule>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var consumerResult = await summary.Modules
                 .OfType<TransitiveDependencyStateConsumerModule>()
                 .Single();
@@ -1724,7 +1724,7 @@ public class ArtifactContractTests
             builder.AddModule<AfterHookArtifactProducerModule>();
             builder.AddModule<AfterHookArtifactConsumerModule>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var consumerResult = await summary.Modules
                 .OfType<AfterHookArtifactConsumerModule>()
                 .Single();
@@ -1749,7 +1749,7 @@ public class ArtifactContractTests
             builder.AddModule<AfterHookArtifactProducerModule>();
             builder.AddModule<AfterHookArtifactConsumerModule>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var consumerResult = await summary.Modules
                 .OfType<AfterHookArtifactConsumerModule>()
                 .Single();
@@ -1807,7 +1807,7 @@ public class ArtifactContractTests
             builder.AddModule<MultipleDirectoryProducerModule>();
             builder.AddModule<MultipleDirectoryConsumerModule>();
 
-            await builder.ExecutePipelineAsync();
+            await builder.RunAsync();
 
             using (Assert.Multiple())
             {
@@ -1905,7 +1905,7 @@ public class ArtifactContractTests
             builder.AddModule<MissingRuntimeConsumerModule>();
 
             var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-                () => builder.ExecutePipelineAsync());
+                () => builder.RunAsync());
 
             using (Assert.Multiple())
             {
@@ -1977,7 +1977,7 @@ public class ArtifactContractTests
             builder.AddModule<IgnoredMissingRuntimeConsumerModule>();
 
             var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-                () => builder.ExecutePipelineAsync());
+                () => builder.RunAsync());
 
             using (Assert.Multiple())
             {
@@ -2049,7 +2049,7 @@ public class ArtifactContractTests
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<SkippedArtifactConsumerModule>();
 
-            await builder.ExecutePipelineAsync();
+            await builder.RunAsync();
 
             await Assert.That(SkippedArtifactConsumerModule.Executed).IsFalse();
         }
@@ -2072,7 +2072,7 @@ public class ArtifactContractTests
             builder.AddModule<SkippedArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2109,7 +2109,7 @@ public class ArtifactContractTests
             builder.AddModule<SkippedArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2136,7 +2136,7 @@ public class ArtifactContractTests
             builder.AddModule<ConfiguredSkippedHistoricalArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2179,7 +2179,7 @@ public class ArtifactContractTests
             builder.AddModule<ConfiguredSkippedHistoricalArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2215,7 +2215,7 @@ public class ArtifactContractTests
             builder.AddModule<DependencySkippedArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<DependencyOrderedSkippedArtifactProducerModule>()
                 .Single();
@@ -2250,7 +2250,7 @@ public class ArtifactContractTests
             builder.AddModule<IndependentDependencySkippedArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2291,7 +2291,7 @@ public class ArtifactContractTests
             builder.AddModule<UnrelatedFirstHistoryDependentModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2340,7 +2340,7 @@ public class ArtifactContractTests
             builder.AddModule<PrerequisiteStateArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2420,7 +2420,7 @@ public class ArtifactContractTests
             builder.AddModule<HistoryBackedDependencyArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2463,7 +2463,7 @@ public class ArtifactContractTests
             builder.AddModule<DependencyStateArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2513,7 +2513,7 @@ public class ArtifactContractTests
             builder.AddModule<UnrelatedHistoryDependentModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var firstProducerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2561,7 +2561,7 @@ public class ArtifactContractTests
             builder.AddModule<UnrelatedHistoryDependentModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var firstProducerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2609,7 +2609,7 @@ public class ArtifactContractTests
             builder.AddModule<UnrelatedHistoryDependentModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var firstProducerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2663,7 +2663,7 @@ public class ArtifactContractTests
             builder.AddModule<DependencySkippedArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<DependencyOrderedSkippedArtifactProducerModule>()
                 .Single();
@@ -2707,7 +2707,7 @@ public class ArtifactContractTests
             builder.AddModule<TransitiveDependencySkippedArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<DependencyOrderedSkippedArtifactProducerModule>()
                 .Single();
@@ -2742,7 +2742,7 @@ public class ArtifactContractTests
             builder.AddModule<AttributeSkippedHistoricalArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2784,7 +2784,7 @@ public class ArtifactContractTests
             builder.AddModule<SkippedArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2820,7 +2820,7 @@ public class ArtifactContractTests
             builder.AddModule<SkippedArtifactConsumerModule>();
             builder.AddResultsRepository<ProducerAndConsumerArtifactHistoryRepository>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var producerResult = await summary.Modules
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
@@ -2855,7 +2855,7 @@ public class ArtifactContractTests
             builder.AddModule<IgnoredFailureArtifactConsumerModule>();
 
             var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-                () => builder.ExecutePipelineAsync());
+                () => builder.RunAsync());
 
             using (Assert.Multiple())
             {
@@ -2882,7 +2882,7 @@ public class ArtifactContractTests
             builder.AddModule<MissingRuntimeProducerModule>();
             builder.AddModule<ConfiguredSkippedArtifactConsumerModule>();
 
-            await builder.ExecutePipelineAsync();
+            await builder.RunAsync();
 
             await Assert.That(ConfiguredSkippedArtifactConsumerModule.Executed).IsFalse();
         }
@@ -2907,7 +2907,7 @@ public class ArtifactContractTests
             builder.AddModule<PendingSkipDependencyModule>();
             builder.AddModule<PendingSkippedArtifactConsumerModule>();
 
-            var execution = builder.ExecutePipelineAsync();
+            var execution = builder.RunAsync();
             await PendingSkipArtifactProducerModule.Executed.Task;
             await Task.Delay(100);
             PendingSkipDependencyModule.Release.TrySetResult();
@@ -2949,7 +2949,7 @@ public class ArtifactContractTests
             builder.AddModule<WorkingDirectoryProducerModule>();
             builder.AddModule<WorkingDirectoryConsumerModule>();
 
-            await builder.ExecutePipelineAsync();
+            await builder.RunAsync();
 
             await Assert.That(WorkingDirectoryConsumerModule.ConsumedContent)
                 .IsEqualTo("working directory content");

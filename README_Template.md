@@ -139,7 +139,7 @@ using ModularPipelines;
 using ModularPipelines.Extensions;
 
 using var builder = Pipeline.CreateBuilder(args);
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Console Progress

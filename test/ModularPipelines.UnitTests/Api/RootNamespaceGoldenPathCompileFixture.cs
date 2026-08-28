@@ -6,11 +6,11 @@ namespace RootNamespaceConsumer;
 
 internal static class RootNamespaceGoldenPathCompileFixture
 {
-    public static async Task ConfigureAndExecuteAsync(PipelineBuilder builder)
+    public static async Task ConfigureAndRunAsync(PipelineBuilder builder)
     {
         builder.AddModule<GoldenPathModule>();
         builder.ConfigurePipelineOptions(options => options);
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
     }
 
     private sealed class GoldenPathModule : Module<string>

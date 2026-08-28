@@ -29,7 +29,7 @@ public class DistributedPipelineWriterTests : TestBase
                 DotNetRunFramework = "net10.0",
                 ExtraWorkers = 1,
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
 
@@ -89,7 +89,7 @@ public class DistributedPipelineWriterTests : TestBase
                 OutputPath = outputPath,
                 ExtraWorkers = 0,
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
         var runners = yaml.Split('\n')
@@ -114,7 +114,7 @@ public class DistributedPipelineWriterTests : TestBase
                 OutputPath = outputPath,
                 PipelineProjectPath = new File(@"src\My Pipeline's\Pipeline.csproj"),
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
 

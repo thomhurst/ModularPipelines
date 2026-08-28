@@ -68,7 +68,7 @@ public class PipelineWorkingDirectoryTests
             builder.AddModuleCache<FileSystemModuleCache>();
             builder.AddModule<ObserveWorkingDirectoryModule>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var result = await summary.Modules.OfType<ObserveWorkingDirectoryModule>().Single();
             var observation = result.ValueOrDefault!;
 
@@ -114,7 +114,7 @@ public class PipelineWorkingDirectoryTests
                 options.WorkingDirectory = cacheWorkingDirectory.FullName);
             builder.AddModule<ObserveWorkingDirectoryModule>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var result = await summary.Modules.OfType<ObserveWorkingDirectoryModule>().Single();
 
             await Assert.That(result.ValueOrDefault!.CacheWorkingDirectory)

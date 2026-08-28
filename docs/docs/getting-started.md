@@ -62,7 +62,7 @@ using ModularPipelines.Modules;
 var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<BuildModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 public sealed class BuildModule : Module<CommandResult>
 {

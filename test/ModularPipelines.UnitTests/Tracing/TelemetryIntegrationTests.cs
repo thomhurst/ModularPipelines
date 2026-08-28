@@ -206,7 +206,7 @@ public class TelemetryIntegrationTests
 
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
-        await builder.AddModule<CommandModule>().ExecutePipelineAsync();
+        await builder.AddModule<CommandModule>().RunAsync();
 
         var pipelineActivity = stoppedActivities.Single(activity => activity.OperationName == "Pipeline.Run");
         var moduleActivity = stoppedActivities.Single(activity => activity.OperationName == $"Module.{nameof(CommandModule)}");
@@ -236,7 +236,7 @@ public class TelemetryIntegrationTests
 
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
-        await builder.AddModule<HiddenArgumentsCommandModule>().ExecutePipelineAsync();
+        await builder.AddModule<HiddenArgumentsCommandModule>().RunAsync();
 
         var commandActivity = stoppedActivities.Single(activity =>
             activity.OperationName == "Command.hidden-arguments-tool");
@@ -259,7 +259,7 @@ public class TelemetryIntegrationTests
                 },
             });
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
-        await builder.AddModule<DefaultLoggingCommandModule>().ExecutePipelineAsync();
+        await builder.AddModule<DefaultLoggingCommandModule>().RunAsync();
 
         var commandActivity = stoppedActivities.Single(activity =>
             activity.OperationName == "Command.silent-tool");
@@ -276,7 +276,7 @@ public class TelemetryIntegrationTests
 
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
-        await builder.AddModule<ManipulatedInputCommandModule>().ExecutePipelineAsync();
+        await builder.AddModule<ManipulatedInputCommandModule>().RunAsync();
 
         var commandActivity = stoppedActivities.Single(activity =>
             activity.OperationName == "Command.manipulated-input-tool");
@@ -298,7 +298,7 @@ public class TelemetryIntegrationTests
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
         await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await builder.AddModule<ThrowingInputManipulatorCommandModule>().ExecutePipelineAsync());
+            await builder.AddModule<ThrowingInputManipulatorCommandModule>().RunAsync());
 
         var commandActivity = stoppedActivities.Single(activity =>
             activity.OperationName == "Command.throwing-input-manipulator-tool");
@@ -322,7 +322,7 @@ public class TelemetryIntegrationTests
         await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await TestPipelineBuilder.Create()
                 .AddModule<InvalidOptionsCommandModule>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         var commandActivity = stoppedActivities.Single(activity =>
             activity.OperationName == $"Command.{nameof(InvalidCommandOptions)}");
@@ -349,7 +349,7 @@ public class TelemetryIntegrationTests
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, ThrowingCommandInterceptor>();
         await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await builder.AddModule<ThrowingInputManipulatorCommandModule>().ExecutePipelineAsync());
+            await builder.AddModule<ThrowingInputManipulatorCommandModule>().RunAsync());
 
         var commandActivity = stoppedActivities.Single(activity =>
             activity.OperationName == "Command.throwing-input-manipulator-tool");
@@ -369,7 +369,7 @@ public class TelemetryIntegrationTests
 
         await TestPipelineBuilder.Create()
             .AddModule<RetriedModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         using (Assert.Multiple())
         {
@@ -466,7 +466,7 @@ public class TelemetryIntegrationTests
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, ThrowingCommandInterceptor>();
         await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await builder.AddModule<CommandModule>().ExecutePipelineAsync());
+            await builder.AddModule<CommandModule>().RunAsync());
 
         var failureActivities = stoppedActivities.Where(activity =>
                 activity.OperationName is "Pipeline.Run"
@@ -586,7 +586,7 @@ public class TelemetryIntegrationTests
         await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await TestPipelineBuilder.Create()
                 .AddModule<TimedOutModule>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         var moduleActivity = stoppedActivities.Single(activity =>
             activity.OperationName == $"Module.{nameof(TimedOutModule)}");

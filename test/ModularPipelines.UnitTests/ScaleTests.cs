@@ -210,7 +210,7 @@ public class ScaleTests : TestBase
             .AddModule<ScaleModule<M100>>();
 
         // Act
-        var pipelineSummary = await builder.ExecutePipelineAsync();
+        var pipelineSummary = await builder.RunAsync();
 
         // Assert
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
@@ -325,7 +325,7 @@ public class ScaleTests : TestBase
             .AddModule<ChainModule49>().AddModule<ChainModule50>();
 
         // Act
-        var pipelineSummary = await builder.ExecutePipelineAsync();
+        var pipelineSummary = await builder.RunAsync();
 
         // Assert
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
@@ -465,7 +465,7 @@ public class ScaleTests : TestBase
             .AddModule<FanOutDep49>().AddModule<FanOutDep50>();
 
         // Act
-        var pipelineSummary = await builder.ExecutePipelineAsync();
+        var pipelineSummary = await builder.RunAsync();
 
         // Assert
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
@@ -601,7 +601,7 @@ public class ScaleTests : TestBase
             .AddModule<FanInFinalModule>();
 
         // Act
-        var pipelineSummary = await builder.ExecutePipelineAsync();
+        var pipelineSummary = await builder.RunAsync();
 
         // Assert
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);

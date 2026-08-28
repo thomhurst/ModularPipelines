@@ -174,7 +174,7 @@ public class ComposableModuleTests
 
         var result = await TestPipelineBuilder.Create()
             .AddModule<MultiBehaviorModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(MultiBehaviorModule.BeforeHookCalled).IsTrue();
         await Assert.That(MultiBehaviorModule.AfterHookCalled).IsTrue();

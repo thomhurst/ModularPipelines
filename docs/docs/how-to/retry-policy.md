@@ -118,7 +118,7 @@ builder.ConfigurePipelineOptions(options => options with
     DefaultRetryCount = 3,
 });
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure()`.

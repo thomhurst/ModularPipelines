@@ -322,7 +322,7 @@ public class SubModuleTests : TestBase
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithReturnTypeModule>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         using (Assert.Multiple())
         {
@@ -337,14 +337,14 @@ public class SubModuleTests : TestBase
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithoutReturnTypeModule>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         await Assert.That(exception!.InnerException).IsTypeOf<SubModuleFailedException>();
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithoutReturnTypeModule>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         using (Assert.Multiple())
         {
@@ -362,7 +362,7 @@ public class SubModuleTests : TestBase
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithReturnTypeModuleSynchronous>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         using (Assert.Multiple())
         {
@@ -377,7 +377,7 @@ public class SubModuleTests : TestBase
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithoutReturnTypeModuleSynchronous>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         using (Assert.Multiple())
         {

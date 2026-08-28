@@ -37,7 +37,7 @@ builder
 
 builder.RunOnlyCategories("UnitTest", "IntegrationTest");
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 
@@ -54,5 +54,5 @@ builder
 
 builder.IgnoreCategories("Publish", "Deploy");
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```

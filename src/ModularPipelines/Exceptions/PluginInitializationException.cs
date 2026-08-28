@@ -13,7 +13,7 @@ namespace ModularPipelines.Exceptions;
 /// <code>
 /// try
 /// {
-///     await pipelineBuilder.ExecutePipelineAsync();
+///     await pipelineBuilder.RunAsync();
 /// }
 /// catch (PluginInitializationException ex)
 /// {

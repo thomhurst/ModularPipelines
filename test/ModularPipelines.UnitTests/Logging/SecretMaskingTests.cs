@@ -94,7 +94,7 @@ public class SecretMaskingTests
                     .Configure<SecretSettings>(s => s.ApiKey = secret)
                     .Configure<SecretMaskingOptions>(o => o.CaseInsensitive = false);
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -118,7 +118,7 @@ public class SecretMaskingTests
                     .Configure<SecretSettings>(s => s.ApiKey = secret)
                     .Configure<SecretMaskingOptions>(o => o.CaseInsensitive = true);
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -146,7 +146,7 @@ public class SecretMaskingTests
                     .Configure<SecretSettings>(s => s.ApiKey = shortSecret)
                     .Configure<SecretMaskingOptions>(o => o.MinimumSecretLength = 3);
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -169,7 +169,7 @@ public class SecretMaskingTests
                     .Configure<SecretSettings>(s => s.ApiKey = exactLengthSecret)
                     .Configure<SecretMaskingOptions>(o => o.MinimumSecretLength = 3);
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -192,7 +192,7 @@ public class SecretMaskingTests
                     .Configure<SecretSettings>(s => s.ApiKey = tinySecret);
                 // Using default MinimumSecretLength of 1
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -220,7 +220,7 @@ public class SecretMaskingTests
                     .Configure<SecretSettings>(s => s.ApiKey = secret)
                     .Configure<SecretMaskingOptions>(o => o.MaskValue = customMask);
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -244,7 +244,7 @@ public class SecretMaskingTests
                     .AddSingleton<ILogger<DynamicSecretModule>>(new StringLogger<DynamicSecretModule>(stringBuilder))
                     .AddModule<DynamicSecretModule>();
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -276,7 +276,7 @@ public class SecretMaskingTests
                         s.Password = password;
                     });
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -299,7 +299,7 @@ public class SecretMaskingTests
                     .AddModule<SecretLoggingModule>()
                     .Configure<SecretSettings>(s => s.Passwords = [firstPassword, secondPassword]);
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -329,7 +329,7 @@ public class SecretMaskingTests
                         s.Password = longSecret;
                     });
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -355,7 +355,7 @@ public class SecretMaskingTests
                         s.Password = "   ";
                     });
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Should complete without errors - empty/whitespace secrets are silently ignored
         var output = stringBuilder.ToString();
@@ -376,7 +376,7 @@ public class SecretMaskingTests
                     .AddModule<SecretLoggingModule>()
                     .Configure<SecretSettings>(s => s.ApiKey = specialSecret);
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -398,7 +398,7 @@ public class SecretMaskingTests
                     .AddModule<SecretLoggingModule>()
                     .Configure<SecretSettings>(s => s.ApiKey = unicodeSecret);
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var output = stringBuilder.ToString();
 

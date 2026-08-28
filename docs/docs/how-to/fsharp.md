@@ -49,7 +49,7 @@ use builder = Pipeline.CreateBuilder()
 
 builder
     .AddModule<TestModule>()
-    .ExecutePipelineAsync()
+    .RunAsync()
     .GetAwaiter()
     .GetResult()
 |> ignore
