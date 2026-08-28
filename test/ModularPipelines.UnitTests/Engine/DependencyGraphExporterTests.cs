@@ -528,7 +528,6 @@ public class DependencyGraphExporterTests
             {
                 throw new InvalidOperationException("Mutable configuration state was shared.");
             }
-
         }
 
         protected internal override Task<string?> ExecuteAsync(
