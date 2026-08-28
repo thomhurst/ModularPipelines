@@ -55,11 +55,6 @@ public sealed class ModuleConfigurationBuilder
     private ExecutionType? _executionType;
     private string? _category;
 
-    /// <summary>
-    /// Gets advanced configuration APIs that expose third-party policy abstractions.
-    /// </summary>
-    public AdvancedModuleConfigurationBuilder Advanced => new(this);
-
     #region WithSkipWhen Overloads
 
     /// <summary>
@@ -381,6 +376,32 @@ public sealed class ModuleConfigurationBuilder
 
     #endregion
 
+    #region WithShield
+
+    /// <summary>
+    /// Sets a custom Kevlar shield for module execution.
+    /// </summary>
+    /// <param name="shield">The Kevlar shield to execute around the module.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithShield(Shield shield)
+    {
+        ArgumentNullException.ThrowIfNull(shield);
+        return SetResilienceShield(_ => shield);
+    }
+
+    /// <summary>
+    /// Sets a factory that creates a custom Kevlar shield from the module context.
+    /// </summary>
+    /// <param name="factory">The shield factory.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithShield(Func<IModuleContext, Shield> factory)
+    {
+        ArgumentNullException.ThrowIfNull(factory);
+        return SetResilienceShield(factory);
+    }
+
+    #endregion
+
     #region WithIgnoreFailures Overloads
 
     /// <summary>
@@ -459,7 +480,7 @@ public sealed class ModuleConfigurationBuilder
         };
     }
 
-    internal ModuleConfigurationBuilder SetResilienceShield(Func<IModuleContext, Shield> factory)
+    private ModuleConfigurationBuilder SetResilienceShield(Func<IModuleContext, Shield> factory)
     {
         _resilienceShieldFactory = factory;
         _retryConfiguration = null;

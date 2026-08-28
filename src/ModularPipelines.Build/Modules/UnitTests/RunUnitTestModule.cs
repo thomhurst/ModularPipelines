@@ -39,7 +39,6 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithSkipWhen(GetSkipDecision)
-        .Advanced
         .WithShield(Shield.Retry(0))
         .Build();
 
