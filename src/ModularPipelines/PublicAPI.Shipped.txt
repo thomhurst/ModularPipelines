@@ -333,9 +333,6 @@ ModularPipelines.Conditions.OnUnix.OnUnix() -> void
 ModularPipelines.Conditions.OnWindows
 ModularPipelines.Conditions.OnWindows.EvaluateAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.Conditions.OnWindows.OnWindows() -> void
-ModularPipelines.Configuration.AdvancedModuleConfigurationBuilder
-ModularPipelines.Configuration.AdvancedModuleConfigurationBuilder.WithShield(Kevlar.Shield! shield) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
-ModularPipelines.Configuration.AdvancedModuleConfigurationBuilder.WithShield(System.Func<ModularPipelines.Context.IModuleContext!, Kevlar.Shield!>! factory) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfiguration
 ModularPipelines.Configuration.ModuleConfiguration.AlwaysRun.get -> bool
 ModularPipelines.Configuration.ModuleConfiguration.AlwaysRun.init -> void
@@ -366,7 +363,6 @@ ModularPipelines.Configuration.ModuleConfiguration.Tags.init -> void
 ModularPipelines.Configuration.ModuleConfiguration.Timeout.get -> System.TimeSpan?
 ModularPipelines.Configuration.ModuleConfiguration.Timeout.init -> void
 ModularPipelines.Configuration.ModuleConfigurationBuilder
-ModularPipelines.Configuration.ModuleConfigurationBuilder.Advanced.get -> ModularPipelines.Configuration.AdvancedModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.Build() -> ModularPipelines.Configuration.ModuleConfiguration!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.DependsOn(System.Type! moduleType) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.DependsOn<TModule>() -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
@@ -388,6 +384,8 @@ ModularPipelines.Configuration.ModuleConfigurationBuilder.WithNotInParallel() ->
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithNotInParallel(params string![]! constraintKeys) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithPriority(ModularPipelines.Enums.ModulePriority priority) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithRetry(int count, System.TimeSpan? baseDelay = null, System.Func<System.Exception!, bool>? shouldRetry = null) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
+ModularPipelines.Configuration.ModuleConfigurationBuilder.WithShield(Kevlar.Shield! shield) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
+ModularPipelines.Configuration.ModuleConfigurationBuilder.WithShield(System.Func<ModularPipelines.Context.IModuleContext!, Kevlar.Shield!>! factory) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.Context.IModuleContext!, ModularPipelines.Models.SkipDecision!>! condition) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.Context.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.Models.SkipDecision!>>! condition) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithSkipWhenAll(params System.Func<ModularPipelines.Context.IModuleContext!, ModularPipelines.Models.SkipDecision!>![]! conditions) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
@@ -3001,7 +2999,7 @@ static ModularPipelines.PipelineBuilderExtensions.Configure<TOptions>(this Modul
 static ModularPipelines.PipelineBuilderExtensions.ConfigurePipelineOptions(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Options.PipelineOptions!, ModularPipelines.Options.PipelineOptions!>! configureOptions) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.ConfigurePipelineOptions(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.PipelineBuilder!, ModularPipelines.Options.PipelineOptions!, ModularPipelines.Options.PipelineOptions!>! configureOptions) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.ConfigureServices(this ModularPipelines.PipelineBuilder! builder, System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection!>! configureServices) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.PipelineBuilderExtensions.ExecutePipelineAsync(this ModularPipelines.PipelineBuilder! builder, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.PipelineSummary!>!
+static ModularPipelines.PipelineBuilderExtensions.RunAsync(this ModularPipelines.PipelineBuilder! builder, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.PipelineSummary!>!
 static ModularPipelines.PipelineBuilderExtensions.ExportDependencyGraphAsync(this ModularPipelines.PipelineBuilder! builder, ModularPipelines.Enums.DependencyGraphFormat format, string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 static ModularPipelines.PipelineBuilderExtensions.MaskConfigurationSection(this ModularPipelines.PipelineBuilder! builder, string! sectionPath) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.WriteRunReport(this ModularPipelines.PipelineBuilder! builder, string! path) -> ModularPipelines.PipelineBuilder!
