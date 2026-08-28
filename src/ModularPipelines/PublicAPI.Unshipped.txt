@@ -1,6 +1,9 @@
 #nullable enable
+abstract ModularPipelines.Generated.PropertyCommandLinePart.<Clone>$() -> ModularPipelines.Generated.PropertyCommandLinePart!
+abstract ModularPipelines.Generated.PropertyCommandLinePart.Phase.get -> ModularPipelines.Attributes.CommandLinePhase
 abstract ModularPipelines.Modules.NonGenericSyncModuleAdapter.ExecuteWithoutResult(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
 abstract ModularPipelines.Modules.SyncModule.Execute(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
+const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion = 3 -> int
 const ModularPipelines.Tracing.PipelineTelemetry.CommandDurationTag = "modular_pipelines.command.duration_ms" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandExitCodeTag = "process.exit.code" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandInputTag = "process.command_line" -> string!
@@ -55,6 +58,98 @@ ModularPipelines.Enums.ModuleStatus.Skipped = 5 -> ModularPipelines.Enums.Module
 ModularPipelines.Enums.ModuleStatus.Succeeded = 2 -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Enums.ModuleStatus.TimedOut = 6 -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Enums.ModuleStatus.Unknown = 11 -> ModularPipelines.Enums.ModuleStatus
+ModularPipelines.Exceptions.DependencyFailedException.FailingModuleType.get -> System.Type!
+ModularPipelines.Exceptions.ModuleSelfDependencyException
+ModularPipelines.Exceptions.ModuleSelfDependencyException.ModuleSelfDependencyException(string? message) -> void
+ModularPipelines.Exceptions.ModuleTimeoutException.ModuleTimeoutException(System.Type! moduleType, System.TimeSpan configuredTimeout) -> void
+ModularPipelines.Exceptions.ModuleTimeoutException.ModuleTimeoutException(System.Type! moduleType, System.TimeSpan configuredTimeout, System.TimeSpan elapsedTime, bool wasCancellationTokenRespected) -> void
+ModularPipelines.Exceptions.PipelineCanceledException
+ModularPipelines.Exceptions.PipelineCanceledException.PipelineCanceledException() -> void
+ModularPipelines.Exceptions.PipelineCanceledException.PipelineCanceledException(string? message) -> void
+ModularPipelines.Exceptions.PipelineCanceledException.PipelineCanceledException(string? message, System.Exception? innerException, System.Threading.CancellationToken cancellationToken) -> void
+ModularPipelines.Exceptions.PipelineCanceledException.PipelineCanceledException(string? message, System.Threading.CancellationToken cancellationToken) -> void
+ModularPipelines.Exceptions.PipelineHttpResponseException
+ModularPipelines.Exceptions.PipelineHttpResponseException.PipelineHttpResponseException(System.Net.HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, System.Uri? requestUri) -> void
+ModularPipelines.Exceptions.PipelineHttpResponseException.PipelineHttpResponseException(System.Net.HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, System.Uri? requestUri, System.Exception? innerException) -> void
+ModularPipelines.Exceptions.PipelineHttpResponseException.ReasonPhrase.get -> string?
+ModularPipelines.Exceptions.PipelineHttpResponseException.RequestUri.get -> System.Uri?
+ModularPipelines.Exceptions.PipelineHttpResponseException.ResponseContent.get -> string?
+ModularPipelines.Generated.ArgumentPart
+ModularPipelines.Generated.ArgumentPart.ArgumentPart(string! PropertyName, System.Func<object!, object?>! Getter, ModularPipelines.Attributes.CliArgumentAttribute! Attribute) -> void
+ModularPipelines.Generated.ArgumentPart.Attribute.get -> ModularPipelines.Attributes.CliArgumentAttribute!
+ModularPipelines.Generated.ArgumentPart.Attribute.init -> void
+ModularPipelines.Generated.ArgumentPart.Deconstruct(out string! PropertyName, out System.Func<object!, object?>! Getter, out ModularPipelines.Attributes.CliArgumentAttribute! Attribute) -> void
+ModularPipelines.Generated.ArgumentPart.Equals(ModularPipelines.Generated.ArgumentPart? other) -> bool
+ModularPipelines.Generated.ArgumentPart.HasExplicitPosition.get -> bool
+ModularPipelines.Generated.ArgumentPart.HasExplicitPosition.init -> void
+ModularPipelines.Generated.FlagPart
+ModularPipelines.Generated.FlagPart.Attribute.get -> ModularPipelines.Attributes.CliFlagAttribute!
+ModularPipelines.Generated.FlagPart.Attribute.init -> void
+ModularPipelines.Generated.FlagPart.Deconstruct(out string! PropertyName, out System.Func<object!, object?>! Getter, out ModularPipelines.Attributes.CliFlagAttribute! Attribute) -> void
+ModularPipelines.Generated.FlagPart.Equals(ModularPipelines.Generated.FlagPart? other) -> bool
+ModularPipelines.Generated.FlagPart.FlagPart(string! PropertyName, System.Func<object!, object?>! Getter, ModularPipelines.Attributes.CliFlagAttribute! Attribute) -> void
+ModularPipelines.Generated.GeneratedCommandMetadata
+ModularPipelines.Generated.GeneratedModuleEventMetadata
+ModularPipelines.Generated.GeneratedModuleMetadata
+ModularPipelines.Generated.GeneratedModuleRegistration
+ModularPipelines.Generated.GeneratedModuleRegistration.<Clone>$() -> ModularPipelines.Generated.GeneratedModuleRegistration!
+ModularPipelines.Generated.GeneratedModuleRegistration.Deconstruct(out System.Type! ModuleType, out System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection!>! Register, out System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.ModuleDependencyMetadata!>! Dependencies, out bool DependenciesComplete) -> void
+ModularPipelines.Generated.GeneratedModuleRegistration.Dependencies.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.ModuleDependencyMetadata!>!
+ModularPipelines.Generated.GeneratedModuleRegistration.Dependencies.init -> void
+ModularPipelines.Generated.GeneratedModuleRegistration.DependenciesComplete.get -> bool
+ModularPipelines.Generated.GeneratedModuleRegistration.DependenciesComplete.init -> void
+ModularPipelines.Generated.GeneratedModuleRegistration.Equals(ModularPipelines.Generated.GeneratedModuleRegistration? other) -> bool
+ModularPipelines.Generated.GeneratedModuleRegistration.GeneratedModuleRegistration(System.Type! ModuleType, System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection!>! Register, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.ModuleDependencyMetadata!>! Dependencies, bool DependenciesComplete = true) -> void
+ModularPipelines.Generated.GeneratedModuleRegistration.ModuleType.get -> System.Type!
+ModularPipelines.Generated.GeneratedModuleRegistration.ModuleType.init -> void
+ModularPipelines.Generated.GeneratedModuleRegistration.Register.get -> System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection!>!
+ModularPipelines.Generated.GeneratedModuleRegistration.Register.init -> void
+ModularPipelines.Generated.GeneratedSecretMetadata
+ModularPipelines.Generated.ModuleDependencyMetadata
+ModularPipelines.Generated.ModuleDependencyMetadata.<Clone>$() -> ModularPipelines.Generated.ModuleDependencyMetadata!
+ModularPipelines.Generated.ModuleDependencyMetadata.Deconstruct(out System.Type! DependencyType, out bool Optional) -> void
+ModularPipelines.Generated.ModuleDependencyMetadata.DependencyType.get -> System.Type!
+ModularPipelines.Generated.ModuleDependencyMetadata.DependencyType.init -> void
+ModularPipelines.Generated.ModuleDependencyMetadata.Equals(ModularPipelines.Generated.ModuleDependencyMetadata? other) -> bool
+ModularPipelines.Generated.ModuleDependencyMetadata.ModuleDependencyMetadata(System.Type! DependencyType, bool Optional) -> void
+ModularPipelines.Generated.ModuleDependencyMetadata.Optional.get -> bool
+ModularPipelines.Generated.ModuleDependencyMetadata.Optional.init -> void
+ModularPipelines.Generated.OptionPart
+ModularPipelines.Generated.OptionPart.AllowsLegacyOptionalValues.get -> bool
+ModularPipelines.Generated.OptionPart.AllowsLegacyOptionalValues.init -> void
+ModularPipelines.Generated.OptionPart.Attribute.get -> ModularPipelines.Attributes.CliOptionAttribute!
+ModularPipelines.Generated.OptionPart.Attribute.init -> void
+ModularPipelines.Generated.OptionPart.Deconstruct(out string! PropertyName, out System.Func<object!, object?>! Getter, out ModularPipelines.Attributes.CliOptionAttribute! Attribute) -> void
+ModularPipelines.Generated.OptionPart.Equals(ModularPipelines.Generated.OptionPart? other) -> bool
+ModularPipelines.Generated.OptionPart.ManualOperandCount.get -> int
+ModularPipelines.Generated.OptionPart.ManualOperandCount.init -> void
+ModularPipelines.Generated.OptionPart.OptionPart(string! PropertyName, System.Func<object!, object?>! Getter, ModularPipelines.Attributes.CliOptionAttribute! Attribute) -> void
+ModularPipelines.Generated.PropertyCommandLinePart
+ModularPipelines.Generated.PropertyCommandLinePart.Deconstruct(out string! PropertyName, out System.Func<object!, object?>! Getter) -> void
+ModularPipelines.Generated.PropertyCommandLinePart.Getter.get -> System.Func<object!, object?>!
+ModularPipelines.Generated.PropertyCommandLinePart.Getter.init -> void
+ModularPipelines.Generated.PropertyCommandLinePart.IsGlobalOption.get -> bool
+ModularPipelines.Generated.PropertyCommandLinePart.IsGlobalOption.init -> void
+ModularPipelines.Generated.PropertyCommandLinePart.IsSupportedPropertyType.get -> bool?
+ModularPipelines.Generated.PropertyCommandLinePart.IsSupportedPropertyType.init -> void
+ModularPipelines.Generated.PropertyCommandLinePart.PropertyCommandLinePart(ModularPipelines.Generated.PropertyCommandLinePart! original) -> void
+ModularPipelines.Generated.PropertyCommandLinePart.PropertyCommandLinePart(string! PropertyName, System.Func<object!, object?>! Getter) -> void
+ModularPipelines.Generated.PropertyCommandLinePart.PropertyName.get -> string!
+ModularPipelines.Generated.PropertyCommandLinePart.PropertyName.init -> void
+ModularPipelines.Generated.RuntimeMetadataRegistry
+ModularPipelines.Generated.SecretPropertyAccessor
+ModularPipelines.Generated.SecretPropertyAccessor.<Clone>$() -> ModularPipelines.Generated.SecretPropertyAccessor!
+ModularPipelines.Generated.SecretPropertyAccessor.Deconstruct(out string! propertyName, out System.Func<object!, object?>! getter) -> void
+ModularPipelines.Generated.SecretPropertyAccessor.Deconstruct(out string! PropertyName, out System.Func<object!, object?>! Getter, out System.Collections.Generic.IReadOnlyList<string!>? SecretValueKeys) -> void
+ModularPipelines.Generated.SecretPropertyAccessor.Equals(ModularPipelines.Generated.SecretPropertyAccessor? other) -> bool
+ModularPipelines.Generated.SecretPropertyAccessor.Getter.get -> System.Func<object!, object?>!
+ModularPipelines.Generated.SecretPropertyAccessor.Getter.init -> void
+ModularPipelines.Generated.SecretPropertyAccessor.PropertyName.get -> string!
+ModularPipelines.Generated.SecretPropertyAccessor.PropertyName.init -> void
+ModularPipelines.Generated.SecretPropertyAccessor.SecretPropertyAccessor(string! propertyName, System.Func<object!, object?>! getter) -> void
+ModularPipelines.Generated.SecretPropertyAccessor.SecretPropertyAccessor(string! PropertyName, System.Func<object!, object?>! Getter, System.Collections.Generic.IReadOnlyList<string!>? SecretValueKeys = null) -> void
+ModularPipelines.Generated.SecretPropertyAccessor.SecretValueKeys.get -> System.Collections.Generic.IReadOnlyList<string!>?
+ModularPipelines.Generated.SecretPropertyAccessor.SecretValueKeys.init -> void
 ModularPipelines.Models.IModuleResult.Status.get -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Models.ModuleDurationSample.Deconstruct(out string! RunId, out System.DateTimeOffset End, out ModularPipelines.Enums.ModuleStatus Status, out System.TimeSpan Duration) -> void
 ModularPipelines.Models.ModuleDurationSample.ModuleDurationSample(string! RunId, System.DateTimeOffset End, ModularPipelines.Enums.ModuleStatus Status, System.TimeSpan Duration) -> void
@@ -95,17 +190,92 @@ ModularPipelines.PipelineBuilderSettings.PipelineBuilderSettings() -> void
 ModularPipelines.PipelineBuilderSettings.WorkingDirectory.get -> string?
 ModularPipelines.PipelineBuilderSettings.WorkingDirectory.init -> void
 ModularPipelines.Tracing.PipelineTelemetry
+override ModularPipelines.Generated.ArgumentPart.<Clone>$() -> ModularPipelines.Generated.ArgumentPart!
+override ModularPipelines.Generated.ArgumentPart.Equals(object? obj) -> bool
+override ModularPipelines.Generated.ArgumentPart.GetHashCode() -> int
+override ModularPipelines.Generated.ArgumentPart.Phase.get -> ModularPipelines.Attributes.CommandLinePhase
+override ModularPipelines.Generated.ArgumentPart.ToString() -> string!
+override ModularPipelines.Generated.FlagPart.<Clone>$() -> ModularPipelines.Generated.FlagPart!
+override ModularPipelines.Generated.FlagPart.Equals(object? obj) -> bool
+override ModularPipelines.Generated.FlagPart.GetHashCode() -> int
+override ModularPipelines.Generated.FlagPart.Phase.get -> ModularPipelines.Attributes.CommandLinePhase
+override ModularPipelines.Generated.FlagPart.ToString() -> string!
+override ModularPipelines.Generated.GeneratedModuleRegistration.Equals(object? obj) -> bool
+override ModularPipelines.Generated.GeneratedModuleRegistration.GetHashCode() -> int
+override ModularPipelines.Generated.GeneratedModuleRegistration.ToString() -> string!
+override ModularPipelines.Generated.ModuleDependencyMetadata.Equals(object? obj) -> bool
+override ModularPipelines.Generated.ModuleDependencyMetadata.GetHashCode() -> int
+override ModularPipelines.Generated.ModuleDependencyMetadata.ToString() -> string!
+override ModularPipelines.Generated.OptionPart.<Clone>$() -> ModularPipelines.Generated.OptionPart!
+override ModularPipelines.Generated.OptionPart.Equals(object? obj) -> bool
+override ModularPipelines.Generated.OptionPart.GetHashCode() -> int
+override ModularPipelines.Generated.OptionPart.Phase.get -> ModularPipelines.Attributes.CommandLinePhase
+override ModularPipelines.Generated.OptionPart.ToString() -> string!
+override ModularPipelines.Generated.PropertyCommandLinePart.Equals(object? obj) -> bool
+override ModularPipelines.Generated.PropertyCommandLinePart.GetHashCode() -> int
+override ModularPipelines.Generated.PropertyCommandLinePart.ToString() -> string!
+override ModularPipelines.Generated.SecretPropertyAccessor.Equals(object? obj) -> bool
+override ModularPipelines.Generated.SecretPropertyAccessor.GetHashCode() -> int
+override ModularPipelines.Generated.SecretPropertyAccessor.ToString() -> string!
 override ModularPipelines.PipelineBuilderSettings.Equals(object? obj) -> bool
 override ModularPipelines.PipelineBuilderSettings.GetHashCode() -> int
 override ModularPipelines.PipelineBuilderSettings.ToString() -> string!
+override sealed ModularPipelines.Generated.ArgumentPart.Equals(ModularPipelines.Generated.PropertyCommandLinePart? other) -> bool
+override sealed ModularPipelines.Generated.FlagPart.Equals(ModularPipelines.Generated.PropertyCommandLinePart? other) -> bool
+override sealed ModularPipelines.Generated.OptionPart.Equals(ModularPipelines.Generated.PropertyCommandLinePart? other) -> bool
 override sealed ModularPipelines.Modules.NonGenericSyncModuleAdapter.Execute(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> ModularPipelines.Models.None
 override sealed ModularPipelines.Modules.SyncModule.ExecuteWithoutResult(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
 static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, params string![]! arguments) -> TOptions!
 static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, string! singleArgument) -> TOptions!
 static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, System.Collections.Generic.IEnumerable<string!>? arguments) -> TOptions!
+static ModularPipelines.Generated.ArgumentPart.operator !=(ModularPipelines.Generated.ArgumentPart? left, ModularPipelines.Generated.ArgumentPart? right) -> bool
+static ModularPipelines.Generated.ArgumentPart.operator ==(ModularPipelines.Generated.ArgumentPart? left, ModularPipelines.Generated.ArgumentPart? right) -> bool
+static ModularPipelines.Generated.FlagPart.operator !=(ModularPipelines.Generated.FlagPart? left, ModularPipelines.Generated.FlagPart? right) -> bool
+static ModularPipelines.Generated.FlagPart.operator ==(ModularPipelines.Generated.FlagPart? left, ModularPipelines.Generated.FlagPart? right) -> bool
+static ModularPipelines.Generated.GeneratedCommandMetadata.Register(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model) -> void
+static ModularPipelines.Generated.GeneratedCommandMetadata.Register(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model, bool isComplete) -> void
+static ModularPipelines.Generated.GeneratedCommandMetadata.Register(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model, int schemaVersion) -> void
+static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterAssembly(System.Reflection.Assembly! assembly) -> void
+static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterAssembly(System.Reflection.Assembly! assembly, bool requiresGeneratedMetadata) -> void
+static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterCoveredTypeNames(System.Reflection.Assembly! assembly, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
+static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterExternal(System.Reflection.Assembly! consumerAssembly, System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model) -> void
+static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterExternal(System.Reflection.Assembly! consumerAssembly, System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model, int schemaVersion) -> void
+static ModularPipelines.Generated.GeneratedModuleEventMetadata.Register(System.Type! moduleType, System.Func<System.Collections.Generic.IReadOnlyList<System.Attribute!>!>! attributeFactory, bool isComplete = true) -> void
+static ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<TModule, TResult>(System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.ModuleDependencyMetadata!>! dependencies, bool dependenciesComplete = true) -> ModularPipelines.Generated.GeneratedModuleRegistration!
+static ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<TModule>(System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.ModuleDependencyMetadata!>! dependencies, bool dependenciesComplete = true) -> ModularPipelines.Generated.GeneratedModuleRegistration!
+static ModularPipelines.Generated.GeneratedModuleMetadata.Register(System.Reflection.Assembly! assembly, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.GeneratedModuleRegistration!>! registrations, bool isComplete = true) -> void
+static ModularPipelines.Generated.GeneratedModuleRegistration.operator !=(ModularPipelines.Generated.GeneratedModuleRegistration? left, ModularPipelines.Generated.GeneratedModuleRegistration? right) -> bool
+static ModularPipelines.Generated.GeneratedModuleRegistration.operator ==(ModularPipelines.Generated.GeneratedModuleRegistration? left, ModularPipelines.Generated.GeneratedModuleRegistration? right) -> bool
+static ModularPipelines.Generated.GeneratedSecretMetadata.Register(System.Type! declaringType) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.Register(System.Type! declaringType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.Register(System.Type! declaringType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors, bool isComplete = true) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterAssembly(System.Reflection.Assembly! assembly) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterAssembly(System.Reflection.Assembly! assembly, bool requiresGeneratedMetadata) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(System.Reflection.Assembly! consumerAssembly, System.Collections.Generic.IReadOnlyList<string!>! assemblyIdentities) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterCoveredExternalTypeNames(System.Reflection.Assembly! consumerAssembly, string! assemblyIdentity, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterCoveredTypeName(System.Reflection.Assembly! assembly, string! metadataName) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterCoveredTypeNames(System.Reflection.Assembly! assembly, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(System.Reflection.Assembly! consumerAssembly, System.Type! declaringType) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(System.Reflection.Assembly! consumerAssembly, System.Type! declaringType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternalReflectionFallbackTypeNames(System.Reflection.Assembly! consumerAssembly, string! assemblyIdentity, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterIncompleteTypeNames(System.Reflection.Assembly! assembly, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
+static ModularPipelines.Generated.ModuleDependencyMetadata.operator !=(ModularPipelines.Generated.ModuleDependencyMetadata? left, ModularPipelines.Generated.ModuleDependencyMetadata? right) -> bool
+static ModularPipelines.Generated.ModuleDependencyMetadata.operator ==(ModularPipelines.Generated.ModuleDependencyMetadata? left, ModularPipelines.Generated.ModuleDependencyMetadata? right) -> bool
+static ModularPipelines.Generated.OptionPart.operator !=(ModularPipelines.Generated.OptionPart? left, ModularPipelines.Generated.OptionPart? right) -> bool
+static ModularPipelines.Generated.OptionPart.operator ==(ModularPipelines.Generated.OptionPart? left, ModularPipelines.Generated.OptionPart? right) -> bool
+static ModularPipelines.Generated.PropertyCommandLinePart.operator !=(ModularPipelines.Generated.PropertyCommandLinePart? left, ModularPipelines.Generated.PropertyCommandLinePart? right) -> bool
+static ModularPipelines.Generated.PropertyCommandLinePart.operator ==(ModularPipelines.Generated.PropertyCommandLinePart? left, ModularPipelines.Generated.PropertyCommandLinePart? right) -> bool
+static ModularPipelines.Generated.RuntimeMetadataRegistry.RegisterCommandOptions(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model) -> void
+static ModularPipelines.Generated.RuntimeMetadataRegistry.RegisterCommandOptions(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model, int schemaVersion) -> void
+static ModularPipelines.Generated.RuntimeMetadataRegistry.RegisterSecrets(System.Type! objectType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors) -> void
+static ModularPipelines.Generated.SecretPropertyAccessor.operator !=(ModularPipelines.Generated.SecretPropertyAccessor? left, ModularPipelines.Generated.SecretPropertyAccessor? right) -> bool
+static ModularPipelines.Generated.SecretPropertyAccessor.operator ==(ModularPipelines.Generated.SecretPropertyAccessor? left, ModularPipelines.Generated.SecretPropertyAccessor? right) -> bool
 static ModularPipelines.Pipeline.CreateBuilder(ModularPipelines.PipelineBuilderSettings! settings, string! sourceFilePath = "") -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Pipeline.CreateBuilder(string![]? args = null, string! sourceFilePath = "") -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.AddValidator<TValidator>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderSettings.operator !=(ModularPipelines.PipelineBuilderSettings? left, ModularPipelines.PipelineBuilderSettings? right) -> bool
 static ModularPipelines.PipelineBuilderSettings.operator ==(ModularPipelines.PipelineBuilderSettings? left, ModularPipelines.PipelineBuilderSettings? right) -> bool
+virtual ModularPipelines.Generated.PropertyCommandLinePart.EqualityContract.get -> System.Type!
+virtual ModularPipelines.Generated.PropertyCommandLinePart.Equals(ModularPipelines.Generated.PropertyCommandLinePart? other) -> bool
+virtual ModularPipelines.Generated.PropertyCommandLinePart.PrintMembers(System.Text.StringBuilder! builder) -> bool
 virtual ModularPipelines.Modules.Module<T>.Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder! module) -> void
