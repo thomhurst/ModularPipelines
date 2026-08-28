@@ -355,6 +355,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var anyEvaluation = await EvaluateAnyPlanningConditions(
                 attributes.Any,
                 pipelineContext,
+                isDistributedMaster,
                 attributes.HasDeferredAny,
                 attributes.HasDeferredGroupedAny,
                 cancellationToken)
@@ -445,13 +446,21 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static async Task<PlanningConditionEvaluation> EvaluateAnyPlanningConditions(
         IReadOnlyCollection<IConditionAttribute> attributes,
         IPipelineContext pipelineContext,
+        bool isDistributedMaster,
         bool hasDeferredConditions,
         bool hasDeferredGroupedConditions,
         CancellationToken cancellationToken)
     {
+        var isResolved = !hasDeferredConditions;
         foreach (var attribute in attributes.Where(static attribute =>
                      attribute is not IGroupedConditionAttribute))
         {
+            if (ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
+            {
+                isResolved = false;
+                continue;
+            }
+
             var evaluation = await EvaluateSingleAnyPlanningCondition(
                     attribute,
                     pipelineContext,
@@ -463,7 +472,6 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             }
         }
 
-        var isResolved = !hasDeferredConditions;
         var evaluatedGroups = new HashSet<Type>();
         foreach (var groupedAttribute in attributes.OfType<IGroupedConditionAttribute>())
         {
@@ -476,6 +484,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                     attributes,
                     groupedAttribute.ConditionGroupType,
                     pipelineContext,
+                    isDistributedMaster,
                     hasDeferredGroupedConditions,
                     cancellationToken)
                 .ConfigureAwait(false);
@@ -514,6 +523,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IEnumerable<IConditionAttribute> attributes,
         Type groupType,
         IPipelineContext pipelineContext,
+        bool isDistributedMaster,
         bool hasDeferredGroupedConditions,
         CancellationToken cancellationToken)
     {
@@ -522,6 +532,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             .Where(candidate => candidate.ConditionGroupType == groupType)
             .ToArray();
         var planningAlternatives = alternatives
+            .Where(attribute => !ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
             .Where(IsPlanningConditionAttribute)
             .ToArray();
         if (await AnyConditionMatches(
@@ -533,7 +544,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return new PlanningConditionEvaluation(null, IsResolved: true);
         }
 
-        if (hasDeferredGroupedConditions || planningAlternatives.Length != alternatives.Length)
+        if (hasDeferredGroupedConditions
+            || planningAlternatives.Length != alternatives.Length)
         {
             return new PlanningConditionEvaluation(null, IsResolved: false);
         }
@@ -569,6 +581,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         skipDecision ??= await EvaluateAnyConditions(
             attributes.Any,
             pipelineContext,
+            isDistributedMaster,
             cancellationToken).ConfigureAwait(false);
 
         return skipDecision is null ? (true, null) : (false, skipDecision);
@@ -632,6 +645,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static async Task<SkipDecision?> EvaluateAnyConditions(
         IReadOnlyList<IConditionAttribute> attributes,
         IPipelineContext pipelineContext,
+        bool isDistributedMaster,
         CancellationToken cancellationToken)
     {
         var evaluatedGroups = new HashSet<Type>();
@@ -642,6 +656,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
             if (attribute is not IGroupedConditionAttribute groupedAttribute)
             {
+                if (ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
+                {
+                    continue;
+                }
+
                 if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
                 {
                     return SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied");
@@ -660,6 +679,12 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 .Where(candidate => candidate.ConditionGroupType == groupedAttribute.ConditionGroupType)
                 .ToArray();
 
+            if (alternatives.Any(attribute =>
+                    ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster)))
+            {
+                continue;
+            }
+
             if (!await AnyConditionMatches(alternatives, pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return SkipDecision.Skip(
@@ -669,6 +694,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
         return null;
     }
+
+    private static bool ShouldDeferOperatingSystemCondition(
+        IConditionAttribute attribute,
+        bool isDistributedMaster) =>
+        isDistributedMaster && OperatingSystemConditions.GetTargets(attribute).Count > 0;
 
     private static async Task<bool> AnyConditionMatches(
         IEnumerable<IGroupedConditionAttribute> alternatives,

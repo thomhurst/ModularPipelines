@@ -9,6 +9,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.UnitTests.Attributes;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
@@ -176,6 +177,44 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    [WindowsOnlyTest]
+    public async Task Distributed_Master_Does_Not_Filter_Alternative_Os_Condition()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnore(new UnixAlternativeModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
+    [WindowsOnlyTest]
+    public async Task Distributed_Master_Graph_Defers_Alternative_Os_Condition()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreForGraphPlanning(
+            new UnixAlternativeModule(),
+            Mock.Of<IModuleMetadataRegistry>());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsFalse();
+            await Assert.That(result.IsResolved).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Grouped_Alternatives_Run_When_One_Condition_Matches()
     {
         var handler = CreateHandler(new DistributedOptions());
@@ -313,6 +352,15 @@ public class ModuleConditionHandlerTests
         {
             return Task.FromResult(string.Empty);
         }
+    }
+
+    [RunIfAny<OnLinux, OnMacOS>]
+    private sealed class UnixAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(string.Empty);
     }
 
     [AlternativeCondition(false)]
