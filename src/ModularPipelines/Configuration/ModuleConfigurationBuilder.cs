@@ -24,9 +24,7 @@ namespace ModularPipelines.Configuration;
 /// <example>
 /// <code>
 /// var config = ModuleConfiguration.Create()
-///     .WithSkipWhen(_ => someCondition
-///         ? SkipDecision.Skip("Configured skip condition returned true")
-///         : SkipDecision.DoNotSkip)
+///     .WithSkipWhen(_ => someCondition, "Configured skip condition returned true")
 ///     .WithTimeout(TimeSpan.FromMinutes(5))
 ///     .WithRetry(3)
 ///     .WithIgnoreFailures()
@@ -47,7 +45,7 @@ public sealed class ModuleConfigurationBuilder
     private TimeSpan? _timeout;
     private ModuleRetryConfiguration? _retryConfiguration;
     private Func<IModuleContext, Shield>? _resilienceShieldFactory;
-    private Func<IModuleContext, Exception, Task<bool>>? _ignoreFailuresCondition;
+    private Func<IModuleContext, Exception, ValueTask<bool>>? _ignoreFailuresCondition;
     private bool _alwaysRun;
     private bool _hasAsyncSkipCondition;
     private string[]? _parallelConstraintKeys;
@@ -77,6 +75,19 @@ public sealed class ModuleConfigurationBuilder
     }
 
     /// <summary>
+    /// Adds a synchronous boolean skip condition with a reason.
+    /// </summary>
+    /// <param name="condition">A side-effect-free function that receives the module context and returns <see langword="true"/> to skip. It may be evaluated while building a dry-run plan.</param>
+    /// <param name="reason">The reason reported when <paramref name="condition"/> returns <see langword="true"/>.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, bool> condition, string reason)
+    {
+        ArgumentNullException.ThrowIfNull(condition);
+        ArgumentException.ThrowIfNullOrWhiteSpace(reason);
+        return WithSkipWhen(context => SkipDecision.When(condition(context), reason));
+    }
+
+    /// <summary>
     /// Adds an asynchronous skip condition.
     /// </summary>
     /// <param name="condition">A side-effect-free function that receives the module context and cancellation token and returns a <see cref="SkipDecision"/>. It may be evaluated while building a dry-run plan.</param>
@@ -93,6 +104,22 @@ public sealed class ModuleConfigurationBuilder
         _planningSkipConditions.Add(AdaptPlanningSkipCondition(condition));
         _hasAsyncSkipCondition = true;
         return this;
+    }
+
+    /// <summary>
+    /// Adds an asynchronous boolean skip condition with a reason.
+    /// </summary>
+    /// <param name="condition">A side-effect-free function that receives the module context and cancellation token and returns <see langword="true"/> to skip. It may be evaluated while building a dry-run plan.</param>
+    /// <param name="reason">The reason reported when <paramref name="condition"/> returns <see langword="true"/>.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithSkipWhen(
+        Func<IModuleContext, CancellationToken, ValueTask<bool>> condition,
+        string reason)
+    {
+        ArgumentNullException.ThrowIfNull(condition);
+        ArgumentException.ThrowIfNullOrWhiteSpace(reason);
+        return WithSkipWhen(async (context, cancellationToken) =>
+            SkipDecision.When(await condition(context, cancellationToken).ConfigureAwait(false), reason));
     }
 
     /// <summary>
@@ -410,7 +437,7 @@ public sealed class ModuleConfigurationBuilder
     /// <returns>This builder instance for method chaining.</returns>
     public ModuleConfigurationBuilder WithIgnoreFailures()
     {
-        _ignoreFailuresCondition = (_, _) => Task.FromResult(true);
+        _ignoreFailuresCondition = (_, _) => ValueTask.FromResult(true);
         return this;
     }
 
@@ -421,7 +448,7 @@ public sealed class ModuleConfigurationBuilder
     /// <returns>This builder instance for method chaining.</returns>
     public ModuleConfigurationBuilder WithIgnoreFailuresWhen(Func<IModuleContext, Exception, bool> condition)
     {
-        _ignoreFailuresCondition = (ctx, ex) => Task.FromResult(condition(ctx, ex));
+        _ignoreFailuresCondition = (ctx, ex) => ValueTask.FromResult(condition(ctx, ex));
         return this;
     }
 
@@ -430,7 +457,7 @@ public sealed class ModuleConfigurationBuilder
     /// </summary>
     /// <param name="condition">An async function that takes the module context and exception, returning true if the failure should be ignored.</param>
     /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithIgnoreFailuresWhen(Func<IModuleContext, Exception, Task<bool>> condition)
+    public ModuleConfigurationBuilder WithIgnoreFailuresWhen(Func<IModuleContext, Exception, ValueTask<bool>> condition)
     {
         _ignoreFailuresCondition = condition;
         return this;

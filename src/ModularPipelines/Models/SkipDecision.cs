@@ -52,8 +52,17 @@ public sealed record SkipDecision
     /// <param name="shouldSkip"><see langword="true"/> to skip the module; otherwise, <see langword="false"/>.</param>
     /// <param name="reason">The reason for skipping, used only when <paramref name="shouldSkip"/> is <see langword="true"/>.</param>
     /// <returns>A decision matching <paramref name="shouldSkip"/>.</returns>
-    public static SkipDecision Of(bool shouldSkip, string? reason) => new(shouldSkip)
+    public static SkipDecision When(bool shouldSkip, string? reason) => new(shouldSkip)
     {
         Reason = shouldSkip ? reason : null,
     };
+
+    /// <summary>
+    /// Creates a skip decision from a boolean condition.
+    /// </summary>
+    /// <param name="shouldSkip"><see langword="true"/> to skip the module; otherwise, <see langword="false"/>.</param>
+    /// <param name="reason">The reason for skipping, used only when <paramref name="shouldSkip"/> is <see langword="true"/>.</param>
+    /// <returns>A decision matching <paramref name="shouldSkip"/>.</returns>
+    [Obsolete("Use When(bool, string?) instead.")]
+    public static SkipDecision Of(bool shouldSkip, string? reason) => When(shouldSkip, reason);
 }

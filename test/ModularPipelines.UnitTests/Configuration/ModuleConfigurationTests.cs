@@ -51,7 +51,7 @@ public class ModuleConfigurationTests
     {
         var config = ModuleConfiguration.Default;
 
-        await Assert.That(config.IgnoreFailuresCondition).IsNull();
+        await Assert.That((object?) config.IgnoreFailuresCondition).IsNull();
     }
 
     [Test]
@@ -76,19 +76,62 @@ public class ModuleConfigurationTests
     #region WithSkipWhen Tests
 
     [Test]
-    public async Task WithSkipWhen_ExposesOnlyComposableOverloads()
+    public async Task WithSkipWhen_ExposesDecisionAndBooleanOverloads()
     {
-        var parameterTypes = typeof(ModuleConfigurationBuilder)
+        var signatures = typeof(ModuleConfigurationBuilder)
             .GetMethods()
             .Where(method => method.Name == nameof(ModuleConfigurationBuilder.WithSkipWhen))
-            .Select(method => method.GetParameters().Single().ParameterType)
+            .Select(method => string.Join('|', method.GetParameters().Select(parameter => parameter.ParameterType)))
             .ToArray();
 
-        await Assert.That(parameterTypes).IsEquivalentTo(
+        await Assert.That(signatures).IsEquivalentTo(
         [
-            typeof(Func<IModuleContext, SkipDecision>),
-            typeof(Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>),
+            $"{typeof(Func<IModuleContext, SkipDecision>)}",
+            $"{typeof(Func<IModuleContext, bool>)}|{typeof(string)}",
+            $"{typeof(Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>)}",
+            $"{typeof(Func<IModuleContext, CancellationToken, ValueTask<bool>>)}|{typeof(string)}",
         ]);
+    }
+
+    [Test]
+    [Arguments(true, "Skip reason")]
+    [Arguments(false, null)]
+    public async Task WithSkipWhen_BooleanCondition_MapsDecision(bool shouldSkip, string? expectedReason)
+    {
+        var config = ModuleConfiguration.Create()
+            .WithSkipWhen(_ => shouldSkip, "Skip reason")
+            .Build();
+
+        var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(decision.ShouldSkip).IsEqualTo(shouldSkip);
+            await Assert.That(decision.Reason).IsEqualTo(expectedReason);
+        }
+    }
+
+    [Test]
+    public async Task WithSkipWhen_AsynchronousBooleanCondition_ForwardsCancellationToken()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        CancellationToken? receivedToken = null;
+        var config = ModuleConfiguration.Create()
+            .WithSkipWhen((_, cancellationToken) =>
+            {
+                receivedToken = cancellationToken;
+                return ValueTask.FromResult(true);
+            }, "Async reason")
+            .Build();
+
+        var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), cancellationTokenSource.Token);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(receivedToken).IsEqualTo(cancellationTokenSource.Token);
+            await Assert.That(decision.ShouldSkip).IsTrue();
+            await Assert.That(decision.Reason).IsEqualTo("Async reason");
+        }
     }
 
     [Test]
@@ -473,13 +516,25 @@ public class ModuleConfigurationTests
     #region WithIgnoreFailures Tests
 
     [Test]
+    public async Task WithIgnoreFailuresWhen_UsesValueTaskForAsyncPredicates()
+    {
+        var asynchronousOverload = typeof(ModuleConfigurationBuilder)
+            .GetMethods()
+            .Single(method => method.Name == nameof(ModuleConfigurationBuilder.WithIgnoreFailuresWhen)
+                              && method.GetParameters().Single().ParameterType != typeof(Func<IModuleContext, Exception, bool>));
+
+        await Assert.That(asynchronousOverload.GetParameters().Single().ParameterType)
+            .IsEqualTo(typeof(Func<IModuleContext, Exception, ValueTask<bool>>));
+    }
+
+    [Test]
     public async Task WithIgnoreFailures_Always_SetsIgnoreFailuresCondition()
     {
         var config = ModuleConfiguration.Create()
             .WithIgnoreFailures()
             .Build();
 
-        await Assert.That(config.IgnoreFailuresCondition).IsNotNull();
+        await Assert.That((object?) config.IgnoreFailuresCondition).IsNotNull();
 
         var context = Mock.Of<IModuleContext>();
         var result = await config.IgnoreFailuresCondition!(context, new Exception("test"));
@@ -494,7 +549,7 @@ public class ModuleConfigurationTests
             .WithIgnoreFailuresWhen((ctx, ex) => ex.Message == "ignore")
             .Build();
 
-        await Assert.That(config.IgnoreFailuresCondition).IsNotNull();
+        await Assert.That((object?) config.IgnoreFailuresCondition).IsNotNull();
 
         var context = Mock.Of<IModuleContext>();
 
@@ -589,7 +644,7 @@ public class ModuleConfigurationTests
             await Assert.That((object?) config.SkipCondition).IsNotNull();
             await Assert.That(config.Timeout).IsEqualTo(TimeSpan.FromMinutes(1));
             await Assert.That(config.RetryConfiguration).IsNotNull();
-            await Assert.That(config.IgnoreFailuresCondition).IsNotNull();
+            await Assert.That((object?) config.IgnoreFailuresCondition).IsNotNull();
             await Assert.That(config.AlwaysRun).IsTrue();
             await Assert.That(config.ParallelConstraintKeys).IsEquivalentTo(new[] { "shared" });
             await Assert.That(config.Priority).IsEqualTo(ModulePriority.High);
