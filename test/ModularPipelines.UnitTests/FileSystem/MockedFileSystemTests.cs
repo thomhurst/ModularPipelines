@@ -27,7 +27,7 @@ public class MockedFileSystemTests
                 services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
             })
             .AddModule<ConfigReaderModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Modules).Count().IsEqualTo(1);
@@ -53,7 +53,7 @@ public class MockedFileSystemTests
                 services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
             })
             .AddModule<FileWriterModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -79,7 +79,7 @@ public class MockedFileSystemTests
                 services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
             })
             .AddModule<FolderCreatorModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);

@@ -87,7 +87,7 @@ public class PipelineWriterTests : TestBase
         await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddPipelineFileWriter<GitHubYamlWriter>()
-            .ExecutePipelineAsync();
+            .RunAsync();
         // Normalize line endings for cross-platform consistency
         await Assert.That((await RandomFilePath.ReadAsync()).Trim().ReplaceLineEndings("\n")).
             IsEqualTo($$$"""

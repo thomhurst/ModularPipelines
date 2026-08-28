@@ -59,7 +59,7 @@ public class NotInParallelTests : TestBase
         await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(Tracker.Violations).IsEmpty();
     }
@@ -72,7 +72,7 @@ public class NotInParallelTests : TestBase
         await TestPipelineBuilder.Create()
             .AddModule<NotParallelModuleWithParallelDependency>()
             .AddModule<ParallelDependency>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(Tracker.Violations).IsEmpty();
     }
@@ -86,7 +86,7 @@ public class NotInParallelTests : TestBase
             .AddModule<NotParallelModuleWithParallelDependency>()
             .AddModule<ParallelDependency>()
             .AddModule<NotParallelModuleWithNonParallelDependency>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(Tracker.Violations).IsEmpty();
     }

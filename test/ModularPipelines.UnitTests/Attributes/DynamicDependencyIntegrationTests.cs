@@ -101,7 +101,7 @@ public class DynamicDependencyIntegrationTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleA>()
             .AddModule<ModuleB>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
         await Assert.That(ExecutionOrder).IsEquivalentTo(new[] { "A", "B" });
@@ -117,7 +117,7 @@ public class DynamicDependencyIntegrationTests : TestBase
         await Assert.ThrowsAsync<ModuleNotRegisteredException>(() =>
             TestPipelineBuilder.Create()
                 .AddModule<ModuleWithMissingDynamicDependency>()
-                .ExecutePipelineAsync());
+                .RunAsync());
     }
 
     [Test]
@@ -127,7 +127,7 @@ public class DynamicDependencyIntegrationTests : TestBase
             .AddModule<DynamicallySkippedDependency>()
             .AddModule<DynamicallySkippedDependent>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
 

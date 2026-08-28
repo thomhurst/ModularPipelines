@@ -48,7 +48,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .AddModule<DatabaseModuleB>()
             .AddModule<NonDatabaseModule>()
             .AddModule<AfterDatabaseModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -70,7 +70,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<NonDatabaseModule>()
             .AddModule<ModuleDependingOnNonExistentTag>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert - should succeed as no modules have the tag
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -83,7 +83,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithMultipleTags>()
             .AddModule<AfterSlowModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -108,7 +108,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .AddModule<InfrastructureModuleB>()
             .AddModule<BuildModule>()
             .AddModule<AfterInfrastructureModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -130,7 +130,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<BuildModule>()
             .AddModule<ModuleDependingOnNonExistentCategory>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert - should succeed as no modules have the category
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -149,7 +149,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .AddModule<CriticalModuleB>()
             .AddModule<NonCriticalModule>()
             .AddModule<AfterCriticalModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -171,7 +171,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<DerivedCriticalModule>()
             .AddModule<AfterCriticalModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -190,7 +190,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<NonCriticalModule>()
             .AddModule<AfterCriticalModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert - should succeed as no modules have the attribute
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -207,7 +207,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithConfiguredTags>()
             .AddModule<AfterDatabaseModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -226,7 +226,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithConfiguredCategory>()
             .AddModule<AfterInfrastructureModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -251,7 +251,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .AddModule<InfrastructureModuleA>()
             .AddModule<CriticalModuleA>()
             .AddModule<ModuleWithMultipleFlexibleDependencies>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -278,7 +278,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .AddModule<DatabaseModuleA>()
             .AddModule<AfterDatabaseModuleWithPhase1Tag>()
             .AddModule<AfterPhase1Module>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);

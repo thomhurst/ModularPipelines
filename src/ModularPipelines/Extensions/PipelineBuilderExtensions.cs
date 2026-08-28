@@ -214,12 +214,12 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Builds the pipeline and executes it.
+    /// Builds and runs the pipeline.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A summary of the pipeline execution results.</returns>
-    public static async Task<Models.PipelineSummary> ExecutePipelineAsync(this PipelineBuilder builder, CancellationToken cancellationToken = default)
+    /// <returns>A summary of the pipeline run results.</returns>
+    public static async Task<Models.PipelineSummary> RunAsync(this PipelineBuilder builder, CancellationToken cancellationToken = default)
     {
         await using var pipeline = await builder.BuildAsync().ConfigureAwait(false);
         return await pipeline.RunAsync(cancellationToken).ConfigureAwait(false);

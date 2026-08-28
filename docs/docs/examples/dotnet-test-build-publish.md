@@ -33,7 +33,7 @@ builder
     .AddModule<PackProjectsModule>()
     .AddModule<UploadPackagesToNugetModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 public class NugetVersionGeneratorModule : Module<string>
 {

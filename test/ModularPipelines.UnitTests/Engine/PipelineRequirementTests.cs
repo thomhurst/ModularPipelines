@@ -36,7 +36,7 @@ public class PipelineRequirementTests
             await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<FailingRequirement>()
-                .ExecutePipelineAsync();
+                .RunAsync();
         };
 
         await Assert.That(executePipelineDelegate)
@@ -52,7 +52,7 @@ public class PipelineRequirementTests
             await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<FailingRequirementWithReason>()
-                .ExecutePipelineAsync();
+                .RunAsync();
         };
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()

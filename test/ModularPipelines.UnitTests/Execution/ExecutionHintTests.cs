@@ -123,7 +123,7 @@ public class ExecutionHintTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<CpuIntensiveModule1>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
     }
@@ -133,7 +133,7 @@ public class ExecutionHintTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<NoHintModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
     }
@@ -146,7 +146,7 @@ public class ExecutionHintTests : TestBase
             .AddModule<IoIntensiveModule>()
             .AddModule<DefaultExecutionTypeModule>()
             .AddModule<NoHintModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
     }
@@ -163,7 +163,7 @@ public class ExecutionHintTests : TestBase
             {
                 Concurrency = options.Concurrency with { MaxCpuIntensiveModules = 2 },
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
         // The max concurrency should not exceed 2

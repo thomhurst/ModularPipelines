@@ -27,5 +27,5 @@ builder.ConfigurePipelineOptions(options => options with
     ExecutionMode = ExecutionMode.WaitForAllModules,
 });
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```

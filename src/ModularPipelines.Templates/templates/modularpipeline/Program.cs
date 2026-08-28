@@ -20,4 +20,4 @@ builder
     .AddModule<TestModule>()
     .AddModule<PublishModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();

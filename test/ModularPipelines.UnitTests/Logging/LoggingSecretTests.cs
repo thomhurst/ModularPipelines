@@ -50,7 +50,7 @@ public class LoggingSecretTests
                     .AddModule<SecretValueLoggingModule1>()
                     .Configure<MySecretSettings>(settings => settings.Secret1 = secretValue);
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var actualLogResult = stringBuilder.ToString().Trim();
         await Assert.That(actualLogResult).Contains($"My Secret Value is: **********");

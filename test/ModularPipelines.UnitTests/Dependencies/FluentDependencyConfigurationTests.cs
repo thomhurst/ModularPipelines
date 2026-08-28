@@ -178,7 +178,7 @@ public class FluentDependencyConfigurationTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<ModuleWithProgrammaticDependency>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -188,7 +188,7 @@ public class FluentDependencyConfigurationTests : TestBase
     {
         await Assert.That(async () => await TestPipelineBuilder.Create()
                 .AddModule<ModuleWithMissingRequiredDependency>()
-                .ExecutePipelineAsync())
+                .RunAsync())
             .ThrowsException();
     }
 
@@ -198,7 +198,7 @@ public class FluentDependencyConfigurationTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<ModuleWithTypeDependency>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -213,7 +213,7 @@ public class FluentDependencyConfigurationTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<OptionalDependencyModule>()
             .AddModule<ModuleWithOptionalDependency>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -223,7 +223,7 @@ public class FluentDependencyConfigurationTests : TestBase
     {
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithOptionalDependency>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -238,7 +238,7 @@ public class FluentDependencyConfigurationTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ConditionalModule>()
             .AddModule<ModuleWithActiveConditionalDependency>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -248,7 +248,7 @@ public class FluentDependencyConfigurationTests : TestBase
     {
         await Assert.That(async () => await TestPipelineBuilder.Create()
                 .AddModule<ModuleWithActiveConditionalDependency>()
-                .ExecutePipelineAsync())
+                .RunAsync())
             .ThrowsException();
     }
 
@@ -257,7 +257,7 @@ public class FluentDependencyConfigurationTests : TestBase
     {
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithInactiveConditionalDependency>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -273,7 +273,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<BaseModule>()
             .AddModule<OptionalDependencyModule>()
             .AddModule<ModuleWithBothAttributeAndProgrammaticDependencies>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -284,7 +284,7 @@ public class FluentDependencyConfigurationTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<ModuleWithBothAttributeAndProgrammaticDependencies>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -296,7 +296,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<BaseModule>()
             .AddModule<OptionalDependencyModule>()
             .AddModule<ModuleWithChainedDependencies>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
@@ -307,7 +307,7 @@ public class FluentDependencyConfigurationTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<ModuleWithChainedDependencies>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }

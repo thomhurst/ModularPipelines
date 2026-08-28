@@ -127,7 +127,7 @@ public class PipelineProgressTests
                     .AddModule<Module5>()
                     .AddModule<Module6>()
                     .AddModule<Module7>()
-                    .ExecutePipelineAsync()).
+                    .RunAsync()).
             Throws<ModuleFailedException>();
     }
 }

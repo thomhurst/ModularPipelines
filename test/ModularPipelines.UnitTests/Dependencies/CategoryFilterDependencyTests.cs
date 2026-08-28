@@ -125,7 +125,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithOptionalDep>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
 
@@ -144,7 +144,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithOptionalDepForCategoryFilter>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
 
@@ -162,7 +162,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule<TestModuleWithRequiredDep>()
             .AddModule<TransitiveRequiredDepModule>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
 
@@ -192,7 +192,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule(secondCompileModule)
             .AddModule<TestModuleWithRequiredDep>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
-            .ExecutePipelineAsync());
+            .RunAsync());
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)
             .IsEqualTo("Module 'CompileModule' is registered multiple times. Each module type should only be registered once.");
@@ -208,7 +208,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule(compileModule)
             .AddModule<CompileResultConsumerModule>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["compile"] })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
         await Assert.That(pipelineSummary.Modules.Count(module => ReferenceEquals(module, compileModule)))
@@ -231,7 +231,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule<CompileModule>(_ => compileModule)
             .AddModule<CompileResultConsumerModule>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["compile"] })
-            .ExecutePipelineAsync());
+            .RunAsync());
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)
             .IsEqualTo("Module 'CompileModule' is registered multiple times. Each module type should only be registered once.");
@@ -243,7 +243,7 @@ public class CategoryFilterDependencyTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<FluentlySkippedModule>()
             .AddModule<FluentSkipDependentModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         var dependentResult = await pipelineSummary.Modules
             .OfType<FluentSkipDependentModule>()
@@ -260,7 +260,7 @@ public class CategoryFilterDependencyTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<FirstValueEqualModule>()
             .AddModule<SecondValueEqualModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That((await pipelineSummary.Modules.OfType<FirstValueEqualModule>().Single()).ValueOrDefault)
             .IsEqualTo("first");
@@ -275,7 +275,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithOptionalDep>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["compile", "test"] })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
 

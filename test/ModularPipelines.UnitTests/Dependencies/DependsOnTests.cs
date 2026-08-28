@@ -78,7 +78,7 @@ public class DependsOnTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
-            .ExecutePipelineAsync();
+            .RunAsync();
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 
@@ -88,7 +88,7 @@ public class DependsOnTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module3>()
-            .ExecutePipelineAsync();
+            .RunAsync();
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 
@@ -98,7 +98,7 @@ public class DependsOnTests : TestBase
         // New behavior: Required dependencies are auto-registered if not present
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module2>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
         // Module1 should have been auto-registered
@@ -111,7 +111,7 @@ public class DependsOnTests : TestBase
         // Optional dependencies are NOT auto-registered
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module3>()
-            .ExecutePipelineAsync();
+            .RunAsync();
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
         // Only Module3 should be registered (Module1 not auto-registered for optional dep)
         await Assert.That(pipelineSummary.Modules.Count()).IsEqualTo(1);
@@ -122,7 +122,7 @@ public class DependsOnTests : TestBase
     {
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module3WithGetIfRegistered>()
-            .ExecutePipelineAsync();
+            .RunAsync();
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 
@@ -132,7 +132,7 @@ public class DependsOnTests : TestBase
         // GetModule throws when module is not registered, even for optional deps
         await Assert.That(async () => await TestPipelineBuilder.Create()
                 .AddModule<Module3WithGet>()
-                .ExecutePipelineAsync()).
+                .RunAsync()).
             ThrowsException();
     }
 
@@ -142,7 +142,7 @@ public class DependsOnTests : TestBase
         var exception = await Assert.ThrowsAsync<PipelineValidationException>(
             async () => await TestPipelineBuilder.Create()
                 .AddModule<DependsOnSelfModule>()
-                .ExecutePipelineAsync());
+                .RunAsync());
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)
             .IsEqualTo("Module 'DependsOnSelfModule' cannot reference itself. A module cannot depend on its own result.");
@@ -154,7 +154,7 @@ public class DependsOnTests : TestBase
     {
         await Assert.That(async () => await TestPipelineBuilder.Create()
                 .AddModule<DependsOnNonModule>()
-                .ExecutePipelineAsync()).
+                .RunAsync()).
             Throws<InvalidModuleTypeException>()
             .And.HasMessageEqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module (does not implement IModule)");
     }
@@ -171,7 +171,7 @@ public class DependsOnTests : TestBase
         // Optional deps don't require the module to be present
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithOptionalDep>()
-            .ExecutePipelineAsync();
+            .RunAsync();
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 
@@ -187,7 +187,7 @@ public class DependsOnTests : TestBase
         // Required dependencies get auto-registered
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithRequiredDep>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
         // Module1 was auto-registered
@@ -211,7 +211,7 @@ public class DependsOnTests : TestBase
     {
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleCheckingUnregisteredDep>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }

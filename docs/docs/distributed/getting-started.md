@@ -60,7 +60,7 @@ builder.AddModule<BuildModule>();
 builder.AddModule<TestModule>();
 builder.AddModule<PublishModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 That's it. When `InstanceIndex` is `0`, the process runs as the master. All other instances run as workers.
@@ -146,7 +146,7 @@ builder.AddModule<RestoreModule>();
 builder.AddModule<BuildModule>();
 builder.AddModule<TestModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 public class RestoreModule : Module<string>
 {

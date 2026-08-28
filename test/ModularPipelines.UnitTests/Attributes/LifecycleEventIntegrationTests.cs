@@ -117,7 +117,7 @@ public class LifecycleEventIntegrationTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<SuccessfulModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
         await Assert.That(EventLog).Contains("Start:SuccessfulModule");
@@ -135,7 +135,7 @@ public class LifecycleEventIntegrationTests : TestBase
                 {
                     ExecutionMode = ExecutionMode.WaitForAllModules,
                 })
-                .ExecutePipelineAsync();
+                .RunAsync();
         }
         catch
         {
@@ -151,7 +151,7 @@ public class LifecycleEventIntegrationTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<SkippingModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
         await Assert.That(EventLog).Contains("Start:SkippingModule");
@@ -163,7 +163,7 @@ public class LifecycleEventIntegrationTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<AttributeSkippingModule>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
         await Assert.That(EventLog).Contains("Start:AttributeSkippingModule");

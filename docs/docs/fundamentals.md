@@ -12,7 +12,7 @@ Your pipeline is created using `Pipeline.CreateBuilder()`. This follows the ASP.
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Modules

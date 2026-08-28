@@ -29,7 +29,7 @@ namespace ModularPipelines.Options;
 ///     options.MaskValue = "[REDACTED]"; // Custom mask text
 /// });
 ///
-/// await builder.ExecutePipelineAsync();
+/// await builder.RunAsync();
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]

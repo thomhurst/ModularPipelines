@@ -72,7 +72,7 @@ builder.Configuration
 // Registers a section from the configuration file with GitHubOptions
 builder.Services.Configure<GitHubOptions>(builder.Configuration.GetSection("ModularPipelines:Secrets:GitHub"));
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 where `appsettings.json` is constructed as follows:

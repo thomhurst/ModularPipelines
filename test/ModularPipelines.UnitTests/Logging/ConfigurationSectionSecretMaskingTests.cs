@@ -34,7 +34,7 @@ public class ConfigurationSectionSecretMaskingTests
         using var builder = CreateBuilder(output);
         builder.MaskConfigurationSection("Secrets");
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
 
         var log = output.ToString();
         await Assert.That(log).DoesNotContain("api-secret-123");
@@ -53,7 +53,7 @@ public class ConfigurationSectionSecretMaskingTests
         builder.Services.Configure<SecretMaskingOptions>(options =>
             options.MaskedConfigurationSections = ["Secrets", "ConnectionStrings", "Missing"]);
 
-        await builder.ExecutePipelineAsync();
+        await builder.RunAsync();
 
         var log = output.ToString();
         await Assert.That(log).DoesNotContain("api-secret-123");

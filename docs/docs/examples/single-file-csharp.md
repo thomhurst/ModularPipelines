@@ -36,7 +36,7 @@ Install the .NET 10 SDK, then follow these steps:
         .AddModule<UpdateDotnetWorkloads>()
         .AddModule<CheckDotnetSdkModule>();
 
-    await builder.ExecutePipelineAsync();
+    await builder.RunAsync();
 
     public class UpdateDotnetWorkloads : Module<CommandResult>
     {

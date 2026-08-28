@@ -602,7 +602,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         await Assert.ThrowsAsync<OperationCanceledException>(() => TestPipelineBuilder.Create()
             .AddModule<DiscoveryCancellationModule>()
-            .ExecutePipelineAsync(cancellationTokenSource.Token));
+            .RunAsync(cancellationTokenSource.Token));
 
         await Assert.That(SubsequentConditionWasEvaluated).IsFalse();
     }

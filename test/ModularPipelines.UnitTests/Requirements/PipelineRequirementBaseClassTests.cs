@@ -36,7 +36,7 @@ public class PipelineRequirementBaseClassTests
             await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<FailingSyncRequirement>()
-                .ExecutePipelineAsync();
+                .RunAsync();
         };
 
         await Assert.That(executePipelineDelegate)
@@ -67,7 +67,7 @@ public class PipelineRequirementBaseClassTests
             await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<FailingAsyncRequirement>()
-                .ExecutePipelineAsync();
+                .RunAsync();
         };
 
         await Assert.That(executePipelineDelegate)
@@ -98,7 +98,7 @@ public class PipelineRequirementBaseClassTests
             await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<WhenFalseRequirement>()
-                .ExecutePipelineAsync();
+                .RunAsync();
         };
 
         await Assert.That(executePipelineDelegate)

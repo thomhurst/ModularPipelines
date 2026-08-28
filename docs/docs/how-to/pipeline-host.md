@@ -25,7 +25,7 @@ builder
     .AddModule<TestModule>()
     .AddModule<DeployModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 Passing `args` also enables the [built-in pipeline command line](command-line.md)
@@ -188,7 +188,7 @@ if (validation.HasErrors)
     Environment.Exit(1);
 }
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Complete Example
@@ -240,7 +240,7 @@ builder
     .AddModule<ReportModule>();
 
 // Run
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Hooks and Requirements
@@ -275,5 +275,5 @@ await builder
     {
         ExecutionMode = ExecutionMode.StopOnFirstException,
     })
-    .ExecutePipelineAsync();
+    .RunAsync();
 ```

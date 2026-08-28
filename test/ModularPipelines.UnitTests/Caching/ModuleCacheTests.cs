@@ -1211,7 +1211,7 @@ public class ModuleCacheTests
             builder.Services.AddSingleton<ILogger<ModuleCacheResultRepository>>(logger);
             builder.AddModule<StableAssemblyVersionKeyModule>();
 
-            await builder.ExecutePipelineAsync();
+            await builder.RunAsync();
 
             var miss = logger.Messages.Single(message => message.Contains("Module cache miss"));
             using (Assert.Multiple())

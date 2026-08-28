@@ -25,7 +25,7 @@ builder
 
 builder.AddResultsRepository<MyModuleRepository>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 Result history resolves type-erased module results at runtime and is not supported for

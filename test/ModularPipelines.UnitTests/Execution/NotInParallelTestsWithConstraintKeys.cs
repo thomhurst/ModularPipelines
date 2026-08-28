@@ -45,7 +45,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
             .AddModule<ModuleWithAConstraintKey2>()
             .AddModule<ModuleWithBConstraintKey1>()
             .AddModule<ModuleWithBConstraintKey2>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(Tracker.Violations).IsEmpty();
     }

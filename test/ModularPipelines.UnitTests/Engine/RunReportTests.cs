@@ -2153,7 +2153,7 @@ public class RunReportTests
 
         try
         {
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
 
             await Assert.That(summary.RunReport!.Correlation!.GitSha).IsEqualTo("secret-sha");
         }
@@ -2858,7 +2858,7 @@ public class RunReportTests
             builder.AddPipelineGlobalHooks<ThrowingEndHook>();
 
             await Assert.ThrowsAsync<InvalidOperationException>(
-                () => builder.ExecutePipelineAsync());
+                () => builder.RunAsync());
 
             var report = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));
@@ -2898,7 +2898,7 @@ public class RunReportTests
             builder.AddModule<SuccessfulModule>();
             builder.AddPipelineGlobalHooks<DelayedEndHook>();
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var report = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));
             var expectedParallelism = Math.Round(
@@ -2947,7 +2947,7 @@ public class RunReportTests
                 builder.AddRequirement(Require.That(_ => false, "requirement failed"));
 
                 await Assert.ThrowsAsync<FailedRequirementsException>(
-                    () => builder.ExecutePipelineAsync());
+                    () => builder.RunAsync());
 
                 failedReport = RunReportJsonSerializer.Deserialize(
                     await File.ReadAllTextAsync(reportPath))!;
@@ -2965,7 +2965,7 @@ public class RunReportTests
                 },
             });
             successfulBuilder.AddModule<SuccessfulModule>();
-            await successfulBuilder.ExecutePipelineAsync();
+            await successfulBuilder.RunAsync();
 
             var successfulReport = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath))!;
@@ -3079,7 +3079,7 @@ public class RunReportTests
             builder.AddModule<FailingModule>();
 
             await Assert.ThrowsAsync<ModuleFailedException>(
-                () => builder.ExecutePipelineAsync());
+                () => builder.RunAsync());
 
             var report = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));
@@ -3118,7 +3118,7 @@ public class RunReportTests
             builder.AddModule<FailingModule>();
             builder.AddPipelineGlobalHooks<MixedFailureEndHook>();
 
-            await Assert.ThrowsAsync<AggregateException>(() => builder.ExecutePipelineAsync());
+            await Assert.ThrowsAsync<AggregateException>(() => builder.RunAsync());
 
             var report = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));
@@ -3160,7 +3160,7 @@ public class RunReportTests
             builder.AddPipelineGlobalHooks<WrappedFailureEndHook>();
 
             await Assert.ThrowsAsync<InvalidOperationException>(
-                () => builder.ExecutePipelineAsync());
+                () => builder.RunAsync());
 
             var report = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));
@@ -3681,7 +3681,7 @@ public class RunReportTests
         });
         builder.AddModule<OutputExcerptModule>();
 
-        var summary = await builder.ExecutePipelineAsync();
+        var summary = await builder.RunAsync();
         var output = summary.RunReport!.Modules.Single().Output;
 
         using (Assert.Multiple())
@@ -3901,7 +3901,7 @@ public class RunReportTests
         builder.AddModule<CommandModule>();
         builder.AddModule<FailingModule>();
         builder.AddModule<SkippedModule>();
-        return await builder.ExecutePipelineAsync();
+        return await builder.RunAsync();
     }
 
     private static async Task<PipelineSummary> RunPipelineWithoutReportAsync(string historyPath)
@@ -3918,7 +3918,7 @@ public class RunReportTests
             },
         });
         builder.AddModule<SuccessfulModule>();
-        return await builder.ExecutePipelineAsync();
+        return await builder.RunAsync();
     }
 
     private static string CreateTemporaryDirectory()

@@ -16,7 +16,7 @@ public class DirectCollisionTests
             await TestPipelineBuilder.Create()
                 .AddModule<DependencyConflictModule1>()
                 .AddModule<DependencyConflictModule2>()
-                .ExecutePipelineAsync();
+                .RunAsync();
         });
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)

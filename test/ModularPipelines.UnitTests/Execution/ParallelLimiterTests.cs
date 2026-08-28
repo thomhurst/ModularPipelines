@@ -161,7 +161,7 @@ public class ParallelLimiterTests
             .AddModule<Module4>()
             .AddModule<Module5>()
             .AddModule<Module6>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(_violations).IsEmpty();
     }

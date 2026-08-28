@@ -166,7 +166,7 @@ builder.AddModule<WindowsBuildModule>();
 builder.AddModule<MacBuildModule>();
 builder.AddModule<AggregateResultsModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 public class RestoreModule : Module<string>
 {

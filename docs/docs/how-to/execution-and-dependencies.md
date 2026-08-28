@@ -88,7 +88,7 @@ When you declare a required dependency, you don't need to explicitly register it
 var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<Module2>(); // Module1 is auto-registered because Module2 depends on it
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 This simplifies pipeline configuration and ensures all required dependencies are always present. Auto-registration also handles transitive dependencies - if Module1 depends on Module0, both will be auto-registered.

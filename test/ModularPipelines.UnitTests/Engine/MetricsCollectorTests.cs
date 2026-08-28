@@ -47,7 +47,7 @@ public class MetricsCollectorTests : TestBase
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
             .AddModule<QuickModule3>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
         await Assert.That(result.Metrics).IsNotNull();
@@ -59,7 +59,7 @@ public class MetricsCollectorTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Metrics).IsNotNull();
         await Assert.That(result.Metrics!.ParallelismFactor).IsGreaterThanOrEqualTo(0);
@@ -72,7 +72,7 @@ public class MetricsCollectorTests : TestBase
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
             .AddModule<QuickModule3>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Metrics).IsNotNull();
         await Assert.That(result.Metrics!.PeakConcurrency).IsGreaterThanOrEqualTo(1);
@@ -84,7 +84,7 @@ public class MetricsCollectorTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Metrics).IsNotNull();
         await Assert.That(result.Metrics!.AverageConcurrency).IsGreaterThanOrEqualTo(0);
@@ -95,7 +95,7 @@ public class MetricsCollectorTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Metrics).IsNotNull();
         await Assert.That(result.Metrics!.Efficiency).IsGreaterThanOrEqualTo(0);
@@ -109,7 +109,7 @@ public class MetricsCollectorTests : TestBase
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
             .AddModule<QuickModule3>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Metrics).IsNotNull();
         await Assert.That(result.Metrics!.TotalModules).IsEqualTo(3);
@@ -204,7 +204,7 @@ public class MetricsCollectorTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Metrics).IsNotNull();
         await Assert.That(result.Metrics!.WallClockDuration).IsGreaterThan(TimeSpan.Zero);
@@ -217,7 +217,7 @@ public class MetricsCollectorTests : TestBase
         var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
         await Assert.That(result.ModuleTimelines).IsNotNull();
@@ -229,7 +229,7 @@ public class MetricsCollectorTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.ModuleTimelines).IsNotNull();
         await Assert.That(result.ModuleTimelines!.Count).IsEqualTo(1);
@@ -241,7 +241,7 @@ public class MetricsCollectorTests : TestBase
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.ModuleTimelines).IsNotNull();
         var timeline = result.ModuleTimelines![0];

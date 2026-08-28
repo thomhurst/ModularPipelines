@@ -26,7 +26,7 @@ public class FailedModuleNotificationTests
                 await TestPipelineBuilder.Create()
                     .ConfigureServices(services => services.AddSingleton(mediator.Object))
                     .AddModule<FailingModule>()
-                    .ExecutePipelineAsync())
+                    .RunAsync())
             .Throws<ModuleFailedException>();
 
         mediator.Verify(x => x.Publish(
@@ -54,7 +54,7 @@ public class FailedModuleNotificationTests
                         services.AddSingleton<IModuleEventReceiver, ThrowingFailureReceiver>();
                     })
                     .AddModule<FailingModule>()
-                    .ExecutePipelineAsync())
+                    .RunAsync())
             .Throws<InvalidOperationException>();
 
         mediator.Verify(x => x.Publish(

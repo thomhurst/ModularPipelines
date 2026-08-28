@@ -38,7 +38,7 @@ public class RequireFactoryTests
             await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.That(_ => false, reason))
-                .ExecutePipelineAsync();
+                .RunAsync();
         };
 
         await Assert.That(executePipelineDelegate)
@@ -78,7 +78,7 @@ public class RequireFactoryTests
                     await Task.Yield();
                     return false;
                 }, reason))
-                .ExecutePipelineAsync();
+                .RunAsync();
         };
 
         await Assert.That(executePipelineDelegate)
@@ -120,7 +120,7 @@ public class RequireFactoryTests
             await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.EnvironmentVariable(varName))
-                .ExecutePipelineAsync();
+                .RunAsync();
         };
 
         await Assert.That(executePipelineDelegate)
@@ -139,7 +139,7 @@ public class RequireFactoryTests
             await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.EnvironmentVariable(varName, customReason))
-                .ExecutePipelineAsync();
+                .RunAsync();
         };
 
         await Assert.That(executePipelineDelegate)
@@ -167,7 +167,7 @@ public class RequireFactoryTests
             builder.AddRequirement(Require.FileExists("./appsettings.json"));
             builder.AddRequirement(Require.DirectoryExists("./artifacts"));
 
-            var summary = await builder.ExecutePipelineAsync();
+            var summary = await builder.RunAsync();
             var result = await summary.Modules.OfType<DummyModule>().Single();
 
             using (Assert.Multiple())

@@ -51,7 +51,7 @@ public class ConcurrencyOptionsTests : TestBase
             {
                 Concurrency = options.Concurrency with { MaxParallelism = 2 },
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
     }
@@ -65,7 +65,7 @@ public class ConcurrencyOptionsTests : TestBase
             {
                 Concurrency = options.Concurrency with { MaxCpuIntensiveModules = 1 },
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
     }
@@ -79,7 +79,7 @@ public class ConcurrencyOptionsTests : TestBase
             {
                 Concurrency = options.Concurrency with { MaxIoIntensiveModules = 10 },
             })
-            .ExecutePipelineAsync();
+            .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
     }

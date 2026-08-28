@@ -78,7 +78,7 @@ public class GitHubMarkdownSummaryGeneratorTests
             builder.AddModule<DependencyModule>();
             builder.AddModule<TargetModule>();
 
-            await builder.ExecutePipelineAsync();
+            await builder.RunAsync();
 
             var summary = await File.ReadAllTextAsync(path);
             using (Assert.Multiple())
@@ -110,7 +110,7 @@ public class GitHubMarkdownSummaryGeneratorTests
             using var builder = Pipeline.CreateBuilder();
             builder.AddModule<SingleUseSkipConditionModule>();
 
-            await builder.ExecutePipelineAsync();
+            await builder.RunAsync();
 
             var summary = await File.ReadAllTextAsync(path);
             using (Assert.Multiple())
@@ -139,7 +139,7 @@ public class GitHubMarkdownSummaryGeneratorTests
             builder.Services.AddSingleton<IDependencyGraphExporter, OversizedDependencyGraphRenderer>();
             builder.AddModule<DependencyModule>();
 
-            await builder.ExecutePipelineAsync();
+            await builder.RunAsync();
 
             var summary = await File.ReadAllTextAsync(path);
             using (Assert.Multiple())

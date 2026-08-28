@@ -58,11 +58,11 @@ type PipelineRunner =
         Pipeline
             .CreateBuilder()
             .AddModule<DependentModule>()
-            .ExecutePipelineAsync()
+            .RunAsync()
 
     static member RunConfiguredAsync() =
         Pipeline
             .CreateBuilder()
             .AddModule<DependencyModule>()
             .AddModule<ConfiguredDependentModule>()
-            .ExecutePipelineAsync()
+            .RunAsync()

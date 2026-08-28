@@ -90,7 +90,7 @@ public class ModuleTimeoutTests : TestBase
                 DefaultModuleTimeout = TimeSpan.FromMilliseconds(10),
             })
             .AddModule<PipelineDefaultTimeoutModule>()
-            .ExecutePipelineAsync()
+            .RunAsync()
             .WaitAsync(TestHostSettings.DefaultTestTimeout));
 
         var timeoutException = exception!.InnerException as ModuleTimeoutException;
@@ -107,7 +107,7 @@ public class ModuleTimeoutTests : TestBase
                 DefaultModuleTimeout = TimeSpan.Zero,
             })
             .AddModule<ZeroDefaultTimeoutModule>()
-            .ExecutePipelineAsync()).ThrowsNothing();
+            .RunAsync()).ThrowsNothing();
     }
 
     [Test]

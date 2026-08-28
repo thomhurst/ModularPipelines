@@ -158,7 +158,7 @@ yarn start
 - Use `Pipeline.CreateBuilder(args)` to bootstrap
 - Register modules with `builder.AddModule<T>()`
 - Configure services through `builder.Services`
-- Run with `await builder.ExecutePipelineAsync()`
+- Run with `await builder.RunAsync()`
 
 ## Validation Scenarios
 

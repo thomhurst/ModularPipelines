@@ -917,7 +917,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<WaitForAllCompletingModule>();
 
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await builder.ExecutePipelineAsync());
+            async () => await builder.RunAsync());
 
         await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
         await Assert.That(exception.InnerException!).HasMessageEqualTo("Expected test failure");
