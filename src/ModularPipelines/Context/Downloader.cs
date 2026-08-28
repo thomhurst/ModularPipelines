@@ -71,7 +71,7 @@ internal class Downloader : IDownloaderContext
                 }
             }
 
-            _moduleLoggerAccessor.Logger.LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
+            _moduleLoggerAccessor.Logger.LogInformation("Downloaded {Uri} to {SaveLocation}", options.DownloadUri, filePathToSave);
 
             return new FilePath(filePathToSave, _fileSystemProvider);
         }
