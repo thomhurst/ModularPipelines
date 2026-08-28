@@ -1,5 +1,26 @@
 # ModularPipelines V4 Release Notes
 
+## Module condition predicates
+
+`WithSkipWhen` now has boolean predicate overloads that accept a skip reason. Use
+`SkipDecision.When(bool, string?)` when constructing a decision directly.
+`SkipDecision.Of(bool, string?)` remains as an obsolete compatibility alias.
+
+Asynchronous module predicates now consistently use `ValueTask`. The
+`ModuleConfiguration.IgnoreFailuresCondition` property and the asynchronous
+`ModuleConfigurationBuilder.WithIgnoreFailuresWhen` overload therefore accept
+`Func<IModuleContext, Exception, ValueTask<bool>>` instead of the previous
+`Task<bool>` delegate. Explicitly typed callers must migrate for v4:
+
+```csharp
+Func<IModuleContext, Exception, ValueTask<bool>> ignoreFailure =
+    (context, exception) => ValueTask.FromResult(exception is ApiValidationException);
+
+ModuleConfiguration.Create()
+    .WithIgnoreFailuresWhen(ignoreFailure)
+    .Build();
+```
+
 ## CLI argument ordering
 
 `CommandLinePhase` is now the only ordering model for flags, options, and arguments.
