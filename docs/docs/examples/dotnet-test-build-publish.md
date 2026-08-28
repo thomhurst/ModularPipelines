@@ -123,7 +123,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var apiKey = context.Environment.Variables.GetEnvironmentVariable("NUGET_API_KEY");
+        var apiKey = context.Environment.Variables.Get("NUGET_API_KEY");
         ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
 
         var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)

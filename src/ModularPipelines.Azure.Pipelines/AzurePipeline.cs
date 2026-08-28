@@ -23,7 +23,7 @@ internal class AzurePipeline : IAzurePipeline
     }
 
     public bool IsRunningOnAzurePipelines
-        => !string.IsNullOrWhiteSpace(_environment.EnvironmentVariables.GetEnvironmentVariable("TF_BUILD"));
+        => !string.IsNullOrWhiteSpace(_environment.EnvironmentVariables.Get("TF_BUILD"));
 
     public AzurePipelineVariables Variables { get; }
 

@@ -150,5 +150,5 @@ internal static class EnvironmentVariableCondition
         GetValue(context, variableName) is not null;
 
     private static string? GetValue(IPipelineContext context, string variableName) =>
-        context.Environment.Variables.GetEnvironmentVariable(variableName);
+        context.Environment.Variables.Get(variableName);
 }

@@ -8,7 +8,7 @@ internal static class FastFailValidation
 
     public static bool IsComplete(IModuleContext context) =>
         string.Equals(
-            context.Environment.Variables.GetEnvironmentVariable(EnvironmentVariableName),
+            context.Environment.Variables.Get(EnvironmentVariableName),
             bool.TrueString,
             StringComparison.OrdinalIgnoreCase);
 }

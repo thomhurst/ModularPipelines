@@ -99,7 +99,7 @@ public static class Require
         string? failureReason = null,
         int order = 0)
         => new DelegateRequirement(
-            ctx => !string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable(variableName)),
+            ctx => !string.IsNullOrEmpty(ctx.Environment.Variables.Get(variableName)),
             failureReason ?? $"Environment variable '{variableName}' must be set",
             order);
 
@@ -186,13 +186,13 @@ public static class Require
         int order = 0)
         => new DelegateRequirement(
             ctx =>
-                !string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("CI")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("TF_BUILD")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("GITHUB_ACTIONS")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("GITLAB_CI")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("CIRCLECI")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("JENKINS_URL")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("TEAMCITY_VERSION")),
+                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("CI")) ||
+                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("TF_BUILD")) ||
+                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("GITHUB_ACTIONS")) ||
+                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("GITLAB_CI")) ||
+                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("CIRCLECI")) ||
+                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("JENKINS_URL")) ||
+                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("TEAMCITY_VERSION")),
             failureReason ?? "This pipeline must run in a CI environment",
             order);
 
@@ -213,13 +213,13 @@ public static class Require
         int order = 0)
         => new DelegateRequirement(
             ctx =>
-                string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("CI")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("TF_BUILD")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("GITHUB_ACTIONS")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("GITLAB_CI")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("CIRCLECI")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("JENKINS_URL")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.GetEnvironmentVariable("TEAMCITY_VERSION")),
+                string.IsNullOrEmpty(ctx.Environment.Variables.Get("CI")) &&
+                string.IsNullOrEmpty(ctx.Environment.Variables.Get("TF_BUILD")) &&
+                string.IsNullOrEmpty(ctx.Environment.Variables.Get("GITHUB_ACTIONS")) &&
+                string.IsNullOrEmpty(ctx.Environment.Variables.Get("GITLAB_CI")) &&
+                string.IsNullOrEmpty(ctx.Environment.Variables.Get("CIRCLECI")) &&
+                string.IsNullOrEmpty(ctx.Environment.Variables.Get("JENKINS_URL")) &&
+                string.IsNullOrEmpty(ctx.Environment.Variables.Get("TEAMCITY_VERSION")),
             failureReason ?? "This pipeline must run locally (not in CI)",
             order);
 }

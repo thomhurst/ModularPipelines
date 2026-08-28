@@ -19,7 +19,7 @@ public interface IEnvironmentVariablesContext
     /// The value of the environment variable specified by <paramref name="name"/>,
     /// or <c>null</c> if the environment variable is not found.
     /// </returns>
-    string? GetEnvironmentVariable(string name, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
+    string? Get(string name, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
     /// <summary>
     /// Gets all environment variables as a dictionary.
@@ -32,18 +32,18 @@ public interface IEnvironmentVariablesContext
     /// A dictionary containing all environment variable names and their values
     /// for the specified target scope.
     /// </returns>
-    IReadOnlyDictionary<string, string> GetEnvironmentVariables(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
+    IReadOnlyDictionary<string, string?> GetAll(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
     /// <summary>
     /// Sets the value of an environment variable.
     /// </summary>
-    /// <param name="variableName">The name of the environment variable to set.</param>
-    /// <param name="value">The value to assign to the environment variable.</param>
+    /// <param name="name">The name of the environment variable to set.</param>
+    /// <param name="value">The value to assign, or <c>null</c> to delete the variable.</param>
     /// <param name="target">
     /// The target scope in which to set the environment variable.
     /// Defaults to <see cref="EnvironmentVariableTarget.Process"/>.
     /// </param>
-    void SetEnvironmentVariable(string variableName, string value, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
+    void Set(string name, string? value, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
     /// <summary>
     /// Gets the PATH environment variable as a list of individual paths.

@@ -44,7 +44,7 @@ public class BuildSystemDetectorTests : TestBase
     public async Task When_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_True(string environmentVariableName)
     {
         _environmentVariables
-            .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
+            .Setup(x => x.Get(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
             .Returns("dummy value");
         await Assert.That(_buildSystemDetector.IsKnownBuildAgent).IsTrue();
     }
@@ -78,7 +78,7 @@ public class BuildSystemDetectorTests : TestBase
     public async Task Expected_Build_Agent(string environmentVariableName, BuildSystem expectedBuildSystem)
     {
         _environmentVariables
-            .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
+            .Setup(x => x.Get(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
             .Returns("dummy value");
         await Assert.That(_buildSystemDetector.GetCurrentBuildSystem()).IsEqualTo(expectedBuildSystem);
     }
@@ -103,7 +103,7 @@ public class BuildSystemDetectorTests : TestBase
                  })
         {
             _environmentVariables.Verify(
-                variables => variables.GetEnvironmentVariable(
+                variables => variables.Get(
                     environmentVariable,
                     It.IsAny<EnvironmentVariableTarget>()),
                 Times.Once);
@@ -114,12 +114,12 @@ public class BuildSystemDetectorTests : TestBase
     public async Task Detection_Uses_Explicit_Precedence()
     {
         _environmentVariables
-            .Setup(variables => variables.GetEnvironmentVariable(
+            .Setup(variables => variables.Get(
                 "TF_BUILD",
                 It.IsAny<EnvironmentVariableTarget>()))
             .Returns("true");
         _environmentVariables
-            .Setup(variables => variables.GetEnvironmentVariable(
+            .Setup(variables => variables.Get(
                 "GITHUB_ACTIONS",
                 It.IsAny<EnvironmentVariableTarget>()))
             .Returns("true");
@@ -131,7 +131,7 @@ public class BuildSystemDetectorTests : TestBase
     public async Task Detection_Reports_Matched_Environment_Variable()
     {
         _environmentVariables
-            .Setup(variables => variables.GetEnvironmentVariable(
+            .Setup(variables => variables.Get(
                 "TF_BUILD",
                 It.IsAny<EnvironmentVariableTarget>()))
             .Returns("true");

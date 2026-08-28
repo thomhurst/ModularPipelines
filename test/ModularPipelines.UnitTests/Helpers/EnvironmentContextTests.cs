@@ -17,7 +17,7 @@ public class EnvironmentContextTests : TestBase
 
             var context = await GetService<IEnvironmentContext>();
 
-            var result = context.EnvironmentVariables.GetEnvironmentVariable(guid);
+            var result = context.EnvironmentVariables.Get(guid);
             await Assert.That(result).IsEqualTo(TestConstants.TestString);
         });
     }
@@ -33,9 +33,9 @@ public class EnvironmentContextTests : TestBase
 
             var context = await GetService<IEnvironmentContext>();
 
-            var result = context.EnvironmentVariables.GetEnvironmentVariables();
+            var result = context.EnvironmentVariables.GetAll();
             await Assert.That(result).IsNotNull();
-            await Assert.That((object) result).IsAssignableTo<IReadOnlyDictionary<string, string>>();
+            await Assert.That((object) result).IsAssignableTo<IReadOnlyDictionary<string, string?>>();
             await Assert.That(result[guid]).IsEqualTo(TestConstants.TestString);
         });
     }
@@ -49,10 +49,26 @@ public class EnvironmentContextTests : TestBase
         {
             var context = await GetService<IEnvironmentContext>();
 
-            context.EnvironmentVariables.SetEnvironmentVariable(guid, TestConstants.TestString);
+            context.EnvironmentVariables.Set(guid, TestConstants.TestString);
 
             var result = Environment.GetEnvironmentVariable(guid);
             await Assert.That(result).IsEqualTo(TestConstants.TestString);
+        });
+    }
+
+    [Test]
+    public async Task Can_Remove_Environment_Variables()
+    {
+        var guid = Guid.NewGuid().ToString("N");
+
+        await RunWithEnvironmentRestored(guid, async () =>
+        {
+            Environment.SetEnvironmentVariable(guid, TestConstants.TestString);
+
+            var context = await GetService<IEnvironmentContext>();
+            context.EnvironmentVariables.Set(guid, null);
+
+            await Assert.That(Environment.GetEnvironmentVariable(guid)).IsNull();
         });
     }
 

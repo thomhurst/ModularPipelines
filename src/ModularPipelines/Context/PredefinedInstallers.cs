@@ -104,7 +104,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
             ],
         }, cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        var allUsersProfile = _environmentVariables.GetEnvironmentVariable("ALLUSERSPROFILE")
+        var allUsersProfile = _environmentVariables.Get("ALLUSERSPROFILE")
                               ?? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
         _environmentVariables.AddToPath(Path.Combine(allUsersProfile, "chocolatey", "bin"));
 
@@ -161,8 +161,8 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
 
             var symLinkFolder = newFolder.CreateFolder("nvm_symlink").GetFolder(Guid.NewGuid().ToString("N"));
 
-            _environmentVariables.SetEnvironmentVariable("NVM_HOME", newFolder);
-            _environmentVariables.SetEnvironmentVariable("NVM_SYMLINK", symLinkFolder);
+            _environmentVariables.Set("NVM_HOME", newFolder);
+            _environmentVariables.Set("NVM_SYMLINK", symLinkFolder);
             _environmentVariables.AddToPath(newFolder);
             _environmentVariables.AddToPath(symLinkFolder);
 

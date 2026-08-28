@@ -33,7 +33,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         PipelineSummary pipelineSummary)
     {
         var stepSummaryVariable = pipelineContext.Environment.Variables
-            .GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
+            .Get("GITHUB_STEP_SUMMARY");
         if (string.IsNullOrEmpty(stepSummaryVariable))
         {
             return;

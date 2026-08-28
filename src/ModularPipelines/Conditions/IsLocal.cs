@@ -24,7 +24,7 @@ public sealed class IsLocal : IPlanningRunCondition
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context)
     {
-        var ciEnvVar = context.Environment.Variables.GetEnvironmentVariable("CI");
+        var ciEnvVar = context.Environment.Variables.Get("CI");
         var isLocal = string.IsNullOrEmpty(ciEnvVar) ||
                       string.Equals(ciEnvVar, "false", StringComparison.OrdinalIgnoreCase);
         return Task.FromResult(isLocal);
