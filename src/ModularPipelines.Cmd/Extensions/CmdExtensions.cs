@@ -30,5 +30,7 @@ public static class CmdExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The Command Prompt context.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Cmd.")]
     public static ICmdContext Cmd(this IPipelineContext context) => context.Services.GetRequiredService<ICmdContext>();
 }

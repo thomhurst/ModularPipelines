@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Git;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -18,7 +17,7 @@ public class GitTests : TestBase
     {
         protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Git().Commands.Repository.GitAsync(new GitBaseOptions
+            return await context.Tools.Git.Commands.Repository.GitAsync(new GitBaseOptions
             {
                 Version = true,
             }, cancellationToken: cancellationToken);

@@ -13,7 +13,7 @@ title: pnpm CLI reference
 dotnet add package ModularPipelines.Node
 ```
 
-Resolve the service with `context.Tools.Pnpm`. For projects older than C# 14, import `ModularPipelines.Node.Extensions` and use the `context.Pnpm()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Pnpm`.
 
 ## Module example
 

@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Grype
 ```
 
-Resolve the service with `context.Tools.Grype`. For projects older than C# 14, import `ModularPipelines.Grype.Extensions` and use the `context.Grype()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Grype`.
 
 ## Module example
 

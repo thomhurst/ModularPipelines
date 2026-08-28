@@ -3,7 +3,6 @@ using System.Reflection.Emit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Cmd;
-using ModularPipelines.Cmd.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Environment;
@@ -47,6 +46,24 @@ public class ContextExtensionsTests
             await Assert.That(exception!.Message).Contains("Register it with the pipeline service collection");
             await Assert.That(exception.Message).DoesNotContain("ModularPipelinesIntegration");
             await Assert.That(exception.Message).DoesNotContain("Native AOT");
+        }
+    }
+
+    [Test]
+    public async Task CmdTool_WhenIntegrationNotRegistered_ShouldSuggestAttributedRegistration()
+    {
+        using var serviceProvider = new ServiceCollection().BuildServiceProvider();
+        var toolsContext = new ToolsContext(CreateServicesContext(serviceProvider));
+
+        var exception = await Assert.That(() => toolsContext.Cmd)
+            .ThrowsExactly<InvalidOperationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("ModularPipelines.Cmd");
+            await Assert.That(exception.Message).Contains("[ModularPipelinesIntegration]");
+            await Assert.That(exception.Message).Contains("Native AOT");
+            await Assert.That(exception.Message).DoesNotContain("Register*Context()");
         }
     }
 

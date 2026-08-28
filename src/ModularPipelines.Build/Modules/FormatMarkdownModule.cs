@@ -3,11 +3,8 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
-using ModularPipelines.Git.Extensions;
-using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Node.Extensions;
 using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Build.Modules;
@@ -24,7 +21,7 @@ public class FormatMarkdownModule : Module<None>
                 return SkipDecision.Skip("Validated by the fast-fail CI job");
             }
 
-            if (ctx.GitHub().EnvironmentVariables.EventName != "pull_request")
+            if (ctx.Tools.GitHub.EnvironmentVariables.EventName != "pull_request")
             {
                 return SkipDecision.Skip("Not a pull request");
             }
@@ -35,7 +32,7 @@ public class FormatMarkdownModule : Module<None>
 
     protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.Node().Npm.InstallAsync(new NpmInstallOptions
+        await context.Tools.Node.Npm.InstallAsync(new NpmInstallOptions
         {
             Arguments =
             [
@@ -47,7 +44,7 @@ public class FormatMarkdownModule : Module<None>
             SaveDev = true,
         }, cancellationToken);
 
-        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var filesToFormat = new List<string>
         {
@@ -57,7 +54,7 @@ public class FormatMarkdownModule : Module<None>
 
         foreach (var fileToFormat in filesToFormat)
         {
-            await context.Node().Npx.ExecuteAsync(new NpxOptions
+            await context.Tools.Node.Npx.ExecuteAsync(new NpxOptions
             {
                 Arguments =
                 [

@@ -118,5 +118,7 @@ public static class AzExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IAz"/> service for executing az commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Az.")]
     public static IAz Az(this IPipelineContext context) => context.Services.GetRequiredService<IAz>();
 }

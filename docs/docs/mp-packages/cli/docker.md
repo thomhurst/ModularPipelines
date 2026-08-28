@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Docker
 ```
 
-Resolve the service with `context.Tools.Docker`. For projects older than C# 14, import `ModularPipelines.Docker.Extensions` and use the `context.Docker()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Docker`.
 
 ## Module example
 

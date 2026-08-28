@@ -16,5 +16,9 @@ public static class MicrosoftTeamsExtensions
         return services;
     }
 
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+
+    [global::System.Obsolete("Use context.Tools.MicrosoftTeams.")]
+
     public static IMicrosoftTeams MicrosoftTeams(this IPipelineContext context) => context.Services.GetRequiredService<IMicrosoftTeams>();
 }

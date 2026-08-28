@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Podman
 ```
 
-Resolve the service with `context.Tools.Podman`. For projects older than C# 14, import `ModularPipelines.Podman.Extensions` and use the `context.Podman()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Podman`.
 
 ## Module example
 

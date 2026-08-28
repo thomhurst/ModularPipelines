@@ -13,7 +13,7 @@ title: kubectl CLI reference
 dotnet add package ModularPipelines.Kubernetes
 ```
 
-Resolve the service with `context.Tools.Kubernetes`. For projects older than C# 14, import `ModularPipelines.Kubernetes.Extensions` and use the `context.Kubernetes()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Kubernetes`.
 
 ## Module example
 

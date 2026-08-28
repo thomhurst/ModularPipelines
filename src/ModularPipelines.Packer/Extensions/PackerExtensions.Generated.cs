@@ -37,5 +37,7 @@ public static class PackerExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPacker"/> service for executing packer commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Packer.")]
     public static IPacker Packer(this IPipelineContext context) => context.Services.GetRequiredService<IPacker>();
 }

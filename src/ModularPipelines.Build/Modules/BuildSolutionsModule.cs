@@ -1,9 +1,7 @@
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -15,7 +13,7 @@ public class BuildSolutionsModule : Module<CommandResult[]>
 {
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var gitRoot = repositoryInfo.Root.Path;
         var solutions = File.ReadLines(Path.Combine(gitRoot, "BuildSolutions.txt"))
@@ -30,7 +28,7 @@ public class BuildSolutionsModule : Module<CommandResult[]>
         // into one compilation unit; that test was removed, not MSBuild parallelism changed.
         var results = await solutions
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async solution => await context.DotNet().BuildAsync(new DotNetBuildOptions
+            .SelectAsync(async solution => await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
             {
                 ProjectSolution = Path.Combine(gitRoot, solution),
                 Configuration = "Release",

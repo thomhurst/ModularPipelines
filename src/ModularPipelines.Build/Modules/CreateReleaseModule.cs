@@ -4,9 +4,7 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Attributes;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
-using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Modules;
 using Octokit;
 
@@ -38,13 +36,13 @@ public class CreateReleaseModule : Module<Release>
     {
         var versionInfoResult = await context.GetModule<NugetVersionGeneratorModule>();
 
-        var repositoryIdString = context.GitHub().EnvironmentVariables.RepositoryId;
+        var repositoryIdString = context.Tools.GitHub.EnvironmentVariables.RepositoryId;
         if (!long.TryParse(repositoryIdString, out var repositoryId))
         {
             throw new InvalidOperationException($"Failed to parse RepositoryId '{repositoryIdString}' as a valid long integer.");
         }
 
-        return await context.GitHub().Client.Repository.Release.Create(repositoryId,
+        return await context.Tools.GitHub.Client.Repository.Release.Create(repositoryId,
             new NewRelease($"v{versionInfoResult.Value}")
             {
                 Name = versionInfoResult.Value,

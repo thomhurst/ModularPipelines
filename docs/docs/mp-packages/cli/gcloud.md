@@ -13,7 +13,7 @@ title: gcloud CLI reference
 dotnet add package ModularPipelines.Google
 ```
 
-Resolve the service with `context.Tools.Gcloud`. For projects older than C# 14, import `ModularPipelines.Google.Extensions` and use the `context.Gcloud()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Gcloud`.
 
 ## Module example
 

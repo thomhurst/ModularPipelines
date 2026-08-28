@@ -41,5 +41,7 @@ public static class TrivyExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ITrivy"/> service for executing trivy commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Trivy.")]
     public static ITrivy Trivy(this IPipelineContext context) => context.Services.GetRequiredService<ITrivy>();
 }

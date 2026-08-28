@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 
 namespace ModularPipelines.Git.Attributes;
 
@@ -54,5 +53,5 @@ public sealed class RunIfChangedAttribute : Attribute, IGroupedConditionAttribut
         EvaluateAsync(context, default);
 
     public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
-        context.Git().Changes.HasChangesAsync(PathPatterns, Base, cancellationToken);
+        context.Tools.Git.Changes.HasChangesAsync(PathPatterns, Base, cancellationToken);
 }

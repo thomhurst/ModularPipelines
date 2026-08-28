@@ -34,11 +34,8 @@ await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
 }, cancellationToken: cancellationToken);
 ```
 
-`context.Tools.DotNet` is the canonical C# 14 API and does not require an integration
-extension namespace import. The older `context.DotNet()` extension method remains available
-as a compatibility fallback for projects using an earlier C# language version. When a project
-declares an integration accessor in its own compilation, source-generator warning `MPG0008`
-identifies that fallback on earlier language versions.
+`context.Tools.DotNet` is the canonical API and does not require an integration extension
+namespace import. Legacy `context.DotNet()` access is obsolete and hidden from IntelliSense.
 
 ## Strong Typing
 

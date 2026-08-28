@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
@@ -20,7 +19,7 @@ public class NugetVersionGeneratorModule : Module<string>
 
     protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var gitVersionInformation = await context.Git().Versioning.GetVersioningInformationAsync(cancellationToken);
+        var gitVersionInformation = await context.Tools.Git.Versioning.GetVersioningInformationAsync(cancellationToken);
 
         var version = _publishSettings.Value.IsAlpha
             ? $"{gitVersionInformation.FullSemVer}-alpha{gitVersionInformation.CommitsSinceVersionSourcePadded!}"

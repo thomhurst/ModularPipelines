@@ -13,7 +13,7 @@ title: az CLI reference
 dotnet add package ModularPipelines.Azure
 ```
 
-Resolve the service with `context.Tools.Az`. For projects older than C# 14, import `ModularPipelines.Azure.Extensions` and use the `context.Az()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Az`.
 
 ## Module example
 

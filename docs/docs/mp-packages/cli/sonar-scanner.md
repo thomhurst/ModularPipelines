@@ -23,7 +23,7 @@ The generator workflow downloads the Linux x64 SonarScanner CLI distribution.
 dotnet add package ModularPipelines.SonarScanner
 ```
 
-Resolve the service with `context.Tools.SonarScanner`. For projects older than C# 14, import `ModularPipelines.SonarScanner.Extensions` and use the `context.SonarScanner()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.SonarScanner`.
 
 ## Module example
 

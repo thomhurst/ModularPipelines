@@ -8,10 +8,8 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Enums;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -45,7 +43,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var testProject = repositoryInfo.Root
             .GetFiles(file => file.Name.Equals(TestProjectFileName, StringComparison.OrdinalIgnoreCase))
@@ -59,7 +57,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
         try
         {
-            return await context.DotNet().RunAsync(new DotNetRunOptions
+            return await context.Tools.DotNet.RunAsync(new DotNetRunOptions
             {
                 Project = testProject.Path,
                 NoBuild = true,
@@ -138,7 +136,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             return;
         }
 
-        var testResults = await context.Trx().ParseTrxFile(trxFile);
+        var testResults = await context.Tools.Trx.ParseTrxFile(trxFile);
         var consoleWriter = context.Services.GetRequiredService<IConsoleWriter>();
         PrintFailedTests(consoleWriter, testResults.UnitTestResults, trxFile.Path);
         PrintSkippedTests(consoleWriter, testResults.UnitTestResults);

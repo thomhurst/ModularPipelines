@@ -45,5 +45,7 @@ public static class KubernetesExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IKubernetes"/> service for executing kubectl commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Kubernetes.")]
     public static IKubernetes Kubernetes(this IPipelineContext context) => context.Services.GetRequiredService<IKubernetes>();
 }

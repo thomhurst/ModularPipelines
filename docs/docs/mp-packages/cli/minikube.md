@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Minikube
 ```
 
-Resolve the service with `context.Tools.Minikube`. For projects older than C# 14, import `ModularPipelines.Minikube.Extensions` and use the `context.Minikube()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Minikube`.
 
 ## Module example
 

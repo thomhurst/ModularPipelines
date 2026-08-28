@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Trivy
 ```
 
-Resolve the service with `context.Tools.Trivy`. For projects older than C# 14, import `ModularPipelines.Trivy.Extensions` and use the `context.Trivy()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Trivy`.
 
 ## Module example
 

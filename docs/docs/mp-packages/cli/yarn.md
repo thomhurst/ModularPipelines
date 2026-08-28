@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Yarn
 ```
 
-Resolve the service with `context.Tools.Yarn`. For projects older than C# 14, import `ModularPipelines.Yarn.Extensions` and use the `context.Yarn()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Yarn`.
 
 ## Module example
 

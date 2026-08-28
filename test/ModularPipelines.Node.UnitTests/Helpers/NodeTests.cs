@@ -1,7 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Node.Extensions;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
 
@@ -13,7 +12,7 @@ public class NodeTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Node().VersionAsync(cancellationToken: cancellationToken);
+            return await context.Tools.Node.VersionAsync(cancellationToken: cancellationToken);
         }
     }
 

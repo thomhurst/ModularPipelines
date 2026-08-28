@@ -17,5 +17,9 @@ public static class TeamCityExtensions
         return services;
     }
 
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+
+    [global::System.Obsolete("Use context.Tools.TeamCity.")]
+
     public static ITeamCity TeamCity(this IPipelineContext context) => context.Services.GetRequiredService<ITeamCity>();
 }

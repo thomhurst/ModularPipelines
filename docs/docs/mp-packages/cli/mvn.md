@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Java
 ```
 
-Resolve the service with `context.Tools.Maven`. For projects older than C# 14, import `ModularPipelines.Java.Extensions` and use the `context.Maven()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Maven`.
 
 ## Module example
 

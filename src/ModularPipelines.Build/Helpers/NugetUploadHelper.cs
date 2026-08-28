@@ -1,6 +1,5 @@
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.FileSystem;
@@ -17,7 +16,7 @@ public static class NugetUploadHelper
         CancellationToken cancellationToken)
     {
         return await packagePaths
-            .SelectAsync(async nugetFile => await context.DotNet().NuGet.PushAsync(new DotNetNuGetPushOptions
+            .SelectAsync(async nugetFile => await context.Tools.DotNet.NuGet.PushAsync(new DotNetNuGetPushOptions
                 {
                     Path = nugetFile,
                     Source = source,

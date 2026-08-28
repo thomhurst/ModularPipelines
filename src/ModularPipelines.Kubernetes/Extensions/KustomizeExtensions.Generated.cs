@@ -40,5 +40,7 @@ public static class KustomizeExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IKustomize"/> service for executing kustomize commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Kustomize.")]
     public static IKustomize Kustomize(this IPipelineContext context) => context.Services.GetRequiredService<IKustomize>();
 }

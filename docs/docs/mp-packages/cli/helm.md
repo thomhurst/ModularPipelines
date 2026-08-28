@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Helm
 ```
 
-Resolve the service with `context.Tools.Helm`. For projects older than C# 14, import `ModularPipelines.Helm.Extensions` and use the `context.Helm()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Helm`.
 
 ## Module example
 

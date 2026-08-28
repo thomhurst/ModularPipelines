@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Flux
 ```
 
-Resolve the service with `context.Tools.Flux`. For projects older than C# 14, import `ModularPipelines.Flux.Extensions` and use the `context.Flux()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Flux`.
 
 ## Module example
 

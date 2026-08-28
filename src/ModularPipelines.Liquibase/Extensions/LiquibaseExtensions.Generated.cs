@@ -37,5 +37,7 @@ public static class LiquibaseExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ILiquibase"/> service for executing liquibase commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Liquibase.")]
     public static ILiquibase Liquibase(this IPipelineContext context) => context.Services.GetRequiredService<ILiquibase>();
 }

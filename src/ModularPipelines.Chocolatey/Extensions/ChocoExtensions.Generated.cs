@@ -37,5 +37,7 @@ public static class ChocoExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IChoco"/> service for executing choco commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Choco.")]
     public static IChoco Choco(this IPipelineContext context) => context.Services.GetRequiredService<IChoco>();
 }

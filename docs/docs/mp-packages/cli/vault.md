@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Vault
 ```
 
-Resolve the service with `context.Tools.Vault`. For projects older than C# 14, import `ModularPipelines.Vault.Extensions` and use the `context.Vault()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Vault`.
 
 ## Module example
 

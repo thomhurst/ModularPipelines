@@ -113,7 +113,7 @@ public class FindNugetPackagesModule : Module<List<FilePath>>
 {
     protected override async Task<List<FilePath>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync()
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         return repositoryInfo.Root
             .GetFiles(path => path.Extension is ".nupkg")
@@ -138,7 +138,7 @@ public class UploadNugetPackagesModule : Module<None>
         var nugetFiles = await context.GetModule<FindNugetPackagesModule>();
 
         await nugetFiles.ValueOrDefault!
-            .SelectAsync(async nugetFile => await context.DotNet().NuGet.PushAsync(new DotNetNuGetPushOptions
+            .SelectAsync(async nugetFile => await context.Tools.DotNet.NuGet.PushAsync(new DotNetNuGetPushOptions
             {
                 Path = nugetFile,
                 Source = "https://api.nuget.org/v3/index.json",

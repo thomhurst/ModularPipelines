@@ -17,5 +17,9 @@ public static class SlackExtensions
         return services;
     }
 
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+
+    [global::System.Obsolete("Use context.Tools.Slack.")]
+
     public static ISlack Slack(this IPipelineContext context) => context.Services.GetRequiredService<ISlack>();
 }

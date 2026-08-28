@@ -3,7 +3,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -32,7 +31,7 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
     {
         var localNugetPathResult = await context.GetModule<CreateLocalNugetFolderModule>();
 
-        return await context.DotNet().NuGet.Add.SourceAsync(new DotNetNuGetAddSourceOptions
+        return await context.Tools.DotNet.NuGet.Add.SourceAsync(new DotNetNuGetAddSourceOptions
         {
             Name = _localNuGetSettings.Value.SourceName,
             Packagesourcepath = localNugetPathResult.Value.AssertExists(),

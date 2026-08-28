@@ -37,5 +37,7 @@ public static class GoExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGo"/> service for executing go commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Go.")]
     public static IGo Go(this IPipelineContext context) => context.Services.GetRequiredService<IGo>();
 }

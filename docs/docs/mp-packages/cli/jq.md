@@ -19,7 +19,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Jq
 ```
 
-Resolve the service with `context.Tools.Jq`. For projects older than C# 14, import `ModularPipelines.Jq.Extensions` and use the `context.Jq()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Jq`.
 
 ## Module example
 

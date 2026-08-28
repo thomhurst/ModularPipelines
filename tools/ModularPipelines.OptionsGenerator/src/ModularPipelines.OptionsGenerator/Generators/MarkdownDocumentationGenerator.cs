@@ -65,10 +65,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine($"dotnet add package {tool.TargetNamespace}");
         sb.AppendLine("```");
         sb.AppendLine();
-        sb.AppendLine(
-            $"Resolve the service with `context.Tools.{tool.NamespacePrefix}`. "
-            + $"For projects older than C# 14, import `{tool.TargetNamespace}.Extensions` "
-            + $"and use the `context.{tool.NamespacePrefix}()` extension method as a compatibility fallback.");
+        sb.AppendLine($"Resolve the service with `context.Tools.{tool.NamespacePrefix}`.");
         sb.AppendLine();
         AppendExample(sb, tool, commands);
         AppendGlobalOptions(sb, tool);

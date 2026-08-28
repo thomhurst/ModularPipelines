@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
@@ -9,6 +10,20 @@ namespace ModularPipelines.Git.UnitTests;
 
 public class GitIntegrationMetadataTests
 {
+    [Test]
+    public async Task LegacyContextAccessorIsHiddenAndObsolete()
+    {
+        var accessor = typeof(GitExtensions).GetMethod("Git")!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(accessor.GetCustomAttribute<EditorBrowsableAttribute>()!.State)
+                .IsEqualTo(EditorBrowsableState.Never);
+            await Assert.That(accessor.GetCustomAttribute<ObsoleteAttribute>()!.Message)
+                .IsEqualTo("Use context.Tools.Git.");
+        }
+    }
+
     [Test]
     public async Task GeneratedMetadataRegistersGitServices()
     {

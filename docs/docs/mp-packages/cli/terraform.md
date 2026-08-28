@@ -19,7 +19,7 @@ See the [terraform installation guide](https://developer.hashicorp.com/terraform
 dotnet add package ModularPipelines.Terraform
 ```
 
-Resolve the service with `context.Tools.Terraform`. For projects older than C# 14, import `ModularPipelines.Terraform.Extensions` and use the `context.Terraform()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Terraform`.
 
 ## Module example
 

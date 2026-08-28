@@ -1,7 +1,6 @@
 using Azure.Identity;
 using Azure.ResourceManager;
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
@@ -20,7 +19,7 @@ public class AzureCommandTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Azure().Az.Account.ListAsync(new AzAccountListOptions
+            return await context.Tools.Azure.Az.Account.ListAsync(new AzAccountListOptions
             {
                 All = true,
             }, new CommandExecutionOptions { InternalDryRun = true }, cancellationToken);
@@ -31,7 +30,7 @@ public class AzureCommandTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Azure().Az.Account.ManagementGroup.ListAsync(new AzAccountManagementGroupListOptions(),
+            return await context.Tools.Azure.Az.Account.ManagementGroup.ListAsync(new AzAccountManagementGroupListOptions(),
                 new CommandExecutionOptions { InternalDryRun = true }, cancellationToken);
         }
     }

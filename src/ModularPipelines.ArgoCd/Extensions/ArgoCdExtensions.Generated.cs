@@ -47,5 +47,7 @@ public static class ArgoCdExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IArgoCd"/> service for executing argocd commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.ArgoCd.")]
     public static IArgoCd ArgoCd(this IPipelineContext context) => context.Services.GetRequiredService<IArgoCd>();
 }

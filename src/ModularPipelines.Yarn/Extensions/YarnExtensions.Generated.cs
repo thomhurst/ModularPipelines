@@ -37,5 +37,7 @@ public static class YarnExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IYarn"/> service for executing yarn commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Yarn.")]
     public static IYarn Yarn(this IPipelineContext context) => context.Services.GetRequiredService<IYarn>();
 }

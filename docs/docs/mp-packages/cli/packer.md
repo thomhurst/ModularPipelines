@@ -13,7 +13,7 @@ title: packer CLI reference
 dotnet add package ModularPipelines.Packer
 ```
 
-Resolve the service with `context.Tools.Packer`. For projects older than C# 14, import `ModularPipelines.Packer.Extensions` and use the `context.Packer()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Packer`.
 
 ## Module example
 

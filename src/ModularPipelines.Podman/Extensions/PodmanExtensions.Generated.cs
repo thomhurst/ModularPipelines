@@ -53,5 +53,7 @@ public static class PodmanExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPodman"/> service for executing podman commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Podman.")]
     public static IPodman Podman(this IPipelineContext context) => context.Services.GetRequiredService<IPodman>();
 }

@@ -1,7 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 
 namespace ModularPipelines.Build.Attributes;
 
@@ -14,7 +13,7 @@ public class SkipOnMainBranch : Attribute, IConditionAttribute
 
     public async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync().ConfigureAwait(false);
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false);
         return repositoryInfo?.BranchName == "main";
     }
 }
