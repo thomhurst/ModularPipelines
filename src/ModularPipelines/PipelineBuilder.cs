@@ -44,7 +44,6 @@ public sealed class PipelineBuilder
 
     internal PipelineBuilder(PipelineBuilderSettings settings)
     {
-        ArgumentNullException.ThrowIfNull(settings);
         _settings = settings;
 
         _commandLineOptions = settings.EnableCommandLineOptions
@@ -387,7 +386,7 @@ public sealed class PipelineBuilder
         }
 
         var coreVersion = typeof(PipelineBuilder).Assembly.GetName().Version;
-        LoadReferencedModularPipelineAssemblies(coreVersion);
+        LoadReferencedModularPipelinesAssemblies(coreVersion);
 
         if (!_settings.LoadModularPipelinesAssemblies)
         {
@@ -408,7 +407,7 @@ public sealed class PipelineBuilder
         }
     }
 
-    private static void LoadReferencedModularPipelineAssemblies(Version? coreVersion)
+    private static void LoadReferencedModularPipelinesAssemblies(Version? coreVersion)
     {
         ReferencedAssemblyTraversal.LoadModularPipelinesAssemblies(
             AppDomain.CurrentDomain.GetAssemblies(),

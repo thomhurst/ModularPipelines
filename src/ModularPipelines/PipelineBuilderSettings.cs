@@ -35,8 +35,8 @@ public sealed record PipelineBuilderSettings
     /// Gets the default working directory for commands and relative file paths.
     /// </summary>
     /// <remarks>
-    /// When omitted, the calling source file's project directory is used when available,
-    /// then the configured content root, and finally the process working directory.
+    /// When omitted, the configured content root is used when available, then the calling
+    /// source file's project directory, and finally the process working directory.
     /// </remarks>
     public string? WorkingDirectory { get; init; }
 

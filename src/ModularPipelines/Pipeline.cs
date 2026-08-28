@@ -44,9 +44,9 @@ public static class Pipeline
     /// <param name="sourceFilePath">The calling source file path, supplied by the compiler.</param>
     /// <returns>A new pipeline builder instance.</returns>
     /// <remarks>
-    /// When <see cref="PipelineBuilderSettings.WorkingDirectory"/> is unset, the calling source file's
-    /// project directory is used when available, then the configured content root, and finally the
-    /// process working directory.
+    /// When <see cref="PipelineBuilderSettings.WorkingDirectory"/> is unset, the configured content
+    /// root is used when available, then the calling source file's project directory, and finally
+    /// the process working directory.
     /// </remarks>
     /// <example>
     /// <code>
@@ -70,7 +70,14 @@ public static class Pipeline
         return new PipelineBuilder(settings with
         {
             WorkingDirectory = settings.WorkingDirectory
+                               ?? settings.ContentRootPath
                                ?? PipelineDirectory.TryFindPipelineProject(sourceFilePath),
         });
+    }
+
+    internal static PipelineBuilder CreateBuilderWithoutProjectInference(PipelineBuilderSettings settings)
+    {
+        ArgumentNullException.ThrowIfNull(settings);
+        return new PipelineBuilder(settings);
     }
 }

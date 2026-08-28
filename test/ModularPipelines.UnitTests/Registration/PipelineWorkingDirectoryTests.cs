@@ -156,6 +156,54 @@ public class PipelineWorkingDirectoryTests
     }
 
     [Test]
+    public async Task ExplicitContentRootOverridesInferredPipelineProject()
+    {
+        var projectDirectory = Directory.CreateTempSubdirectory("pipeline-project-");
+        var contentRoot = Directory.CreateTempSubdirectory("pipeline-content-root-");
+        await File.WriteAllTextAsync(Path.Combine(projectDirectory.FullName, "appsettings.json"), "{}");
+        await File.WriteAllTextAsync(Path.Combine(projectDirectory.FullName, "Pipeline.csproj"), "<Project />");
+
+        try
+        {
+            var builder = Pipeline.CreateBuilder(
+                new PipelineBuilderSettings { ContentRootPath = contentRoot.FullName },
+                Path.Combine(projectDirectory.FullName, "Program.cs"));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(builder.WorkingDirectory).IsEqualTo(contentRoot.FullName);
+                await Assert.That(builder.Environment.ContentRootPath).IsEqualTo(contentRoot.FullName);
+            }
+        }
+        finally
+        {
+            projectDirectory.Delete(recursive: true);
+            contentRoot.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task NonInferringBuilderIgnoresPipelineDirectoryEnvironmentVariable()
+    {
+        var variableName = "MODULAR_PIPELINES_DIRECTORY";
+        var previousValue = Environment.GetEnvironmentVariable(variableName);
+        Environment.SetEnvironmentVariable(
+            variableName,
+            Path.Combine(Path.GetTempPath(), $"missing-pipeline-{Guid.NewGuid():N}"));
+
+        try
+        {
+            var builder = Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings());
+
+            await Assert.That(builder.WorkingDirectory).IsEqualTo(Environment.CurrentDirectory);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(variableName, previousValue);
+        }
+    }
+
+    [Test]
     public async Task CreateBuilderUsesCallerFilePath()
     {
         var method = typeof(Pipeline).GetMethod(

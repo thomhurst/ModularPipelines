@@ -17,7 +17,7 @@ public static class TestPipelineBuilder
 
     public static PipelineBuilder Create(TestHostSettings testHostSettings, TimeProvider? timeProvider)
     {
-        var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings());
 
         builder.SetLogLevel(testHostSettings.LogLevel);
 

@@ -166,7 +166,7 @@ public class ModuleTestBuilder<TModule>
             recorder.SetHandler(_commandHandler);
         }
 
-        var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
+        var builder = Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings
         {
             EnableCommandLineOptions = false,
         });
