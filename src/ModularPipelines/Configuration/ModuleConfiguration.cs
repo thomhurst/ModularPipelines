@@ -15,13 +15,13 @@ namespace ModularPipelines.Configuration;
 /// of module execution including skip conditions, timeouts, retry policies, failure handling,
 /// and scheduling metadata.
 /// </para>
-/// <para>
-/// Use <see cref="Create"/> to obtain a <see cref="ModuleConfigurationBuilder"/> for fluent configuration,
-/// or use <see cref="Default"/> for a configuration with all default values.
-/// </para>
 /// </remarks>
 public sealed class ModuleConfiguration
 {
+    internal ModuleConfiguration()
+    {
+    }
+
     /// <summary>
     /// Gets the default module configuration with all properties set to their default values.
     /// </summary>
@@ -29,21 +29,7 @@ public sealed class ModuleConfiguration
     /// A <see cref="ModuleConfiguration"/> instance where all nullable properties are null
     /// and <see cref="AlwaysRun"/> is false.
     /// </value>
-    public static ModuleConfiguration Default { get; } = new();
-
-    /// <summary>
-    /// Creates a new <see cref="ModuleConfigurationBuilder"/> for fluent configuration.
-    /// </summary>
-    /// <returns>A new <see cref="ModuleConfigurationBuilder"/> instance.</returns>
-    /// <example>
-    /// <code>
-    /// var config = ModuleConfiguration.Create()
-    ///     .WithTimeout(TimeSpan.FromMinutes(5))
-    ///     .WithRetry(3)
-    ///     .Build();
-    /// </code>
-    /// </example>
-    public static ModuleConfigurationBuilder Create() => new();
+    internal static ModuleConfiguration Default { get; } = new();
 
     /// <summary>
     /// Gets the condition that determines whether the module should be skipped.

@@ -77,12 +77,11 @@ public class RetryTests : TestBase
     {
         internal int ExecutionCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithRetry(
                 DefaultRetryCount,
                 TimeSpan.Zero,
-                exception => exception is RetryableTestException)
-            .Build();
+                exception => exception is RetryableTestException);
 
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -98,12 +97,11 @@ public class RetryTests : TestBase
     {
         internal int ExecutionCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithRetry(
                 DefaultRetryCount,
                 TimeSpan.Zero,
-                exception => exception is RetryableTestException)
-            .Build();
+                exception => exception is RetryableTestException);
 
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -116,11 +114,10 @@ public class RetryTests : TestBase
     {
         internal int ExecutionCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithShield(Shield
                 .When<Exception>()
-                .Retry(DefaultRetryCount, Backoff.None))
-            .Build();
+                .Retry(DefaultRetryCount, Backoff.None));
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -140,12 +137,11 @@ public class RetryTests : TestBase
     {
         internal int ExecutionCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
             .WithShield(Shield
                 .When<Exception>()
-                .Retry(DefaultRetryCount, Backoff.Constant(TimeSpan.FromMilliseconds(RetryDelayMs))))
-            .Build();
+                .Retry(DefaultRetryCount, Backoff.Constant(TimeSpan.FromMilliseconds(RetryDelayMs))));
 
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -158,10 +154,9 @@ public class RetryTests : TestBase
     {
         internal int ExecutionCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
-            .WithRetry(DefaultRetryCount, TimeSpan.Zero)
-            .Build();
+            .WithRetry(DefaultRetryCount, TimeSpan.Zero);
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -303,10 +298,9 @@ public class RetryTests : TestBase
 
         internal int ExecutionCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithTimeout(TimeSpan.FromMilliseconds(50))
-            .WithRetry(DefaultRetryCount, TimeSpan.FromMinutes(1))
-            .Build();
+            .WithRetry(DefaultRetryCount, TimeSpan.FromMinutes(1));
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -325,7 +319,7 @@ public class RetryTests : TestBase
         internal int ExecutionCount;
         internal int ObservedTimeoutCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithTimeout(TimeSpan.FromMilliseconds(50))
             .WithShield(Shield
                 .When<ModuleTimeoutException>(_ =>
@@ -333,8 +327,7 @@ public class RetryTests : TestBase
                     ObservedTimeoutCount++;
                     return true;
                 })
-                .Retry(DefaultRetryCount, Backoff.None))
-            .Build();
+                .Retry(DefaultRetryCount, Backoff.None));
 
         protected internal override async Task<bool> ExecuteAsync(
             IModuleContext context,
@@ -356,10 +349,9 @@ public class RetryTests : TestBase
 
         internal int ExecutionCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithTimeout(TimeSpan.FromSeconds(2))
-            .WithRetry(1, TimeSpan.FromMilliseconds(250))
-            .Build();
+            .WithRetry(1, TimeSpan.FromMilliseconds(250));
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

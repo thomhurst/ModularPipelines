@@ -43,9 +43,8 @@ public class FluentDependencyConfigurationTests : TestBase
     /// </summary>
     private class ModuleWithProgrammaticDependency : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<BaseModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<BaseModule>();
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -59,9 +58,8 @@ public class FluentDependencyConfigurationTests : TestBase
     /// </summary>
     private class ModuleWithOptionalDependency : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOnOptional<OptionalDependencyModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOnOptional<OptionalDependencyModule>();
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -75,9 +73,8 @@ public class FluentDependencyConfigurationTests : TestBase
     /// </summary>
     private class ModuleWithActiveConditionalDependency : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOnIf<ConditionalModule>(true)
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOnIf<ConditionalModule>(true);
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -91,9 +88,8 @@ public class FluentDependencyConfigurationTests : TestBase
     /// </summary>
     private class ModuleWithInactiveConditionalDependency : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOnIf<ConditionalModule>(false)
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOnIf<ConditionalModule>(false);
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -108,9 +104,8 @@ public class FluentDependencyConfigurationTests : TestBase
     [ModularPipelines.Attributes.DependsOn<BaseModule>]
     private class ModuleWithBothAttributeAndProgrammaticDependencies : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOnOptional<OptionalDependencyModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOnOptional<OptionalDependencyModule>();
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -124,10 +119,9 @@ public class FluentDependencyConfigurationTests : TestBase
     /// </summary>
     private class ModuleWithChainedDependencies : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .DependsOn<BaseModule>()
-            .DependsOnOptional<OptionalDependencyModule>()
-            .Build();
+            .DependsOnOptional<OptionalDependencyModule>();
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -141,9 +135,8 @@ public class FluentDependencyConfigurationTests : TestBase
     /// </summary>
     private class ModuleWithMissingRequiredDependency : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<BaseModule>() // BaseModule not registered
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) =>
+            module.DependsOn<BaseModule>(); // BaseModule not registered
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -157,9 +150,8 @@ public class FluentDependencyConfigurationTests : TestBase
     /// </summary>
     private class ModuleWithTypeDependency : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn(typeof(BaseModule))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn(typeof(BaseModule));
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

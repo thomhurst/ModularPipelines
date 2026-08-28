@@ -77,9 +77,8 @@ public class DirectModuleHooksTests : TestBase
         public List<string> HooksCalled { get; } = [];
         public SkipDecision? ReceivedSkipDecision { get; private set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("Test skip reason"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("Test skip reason"));
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -139,9 +138,8 @@ public class DirectModuleHooksTests : TestBase
         public ModuleResult<string>? ReceivedAfterResult { get; private set; }
         public bool AfterHookCancellationRequested { get; private set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithIgnoreFailures()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithIgnoreFailures();
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -175,8 +173,9 @@ public class DirectModuleHooksTests : TestBase
 
     private class NonIgnoredFailingHookTrackingModule : FailingHookTrackingModule
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module)
+        {
+        }
     }
 
     /// <summary>
@@ -186,9 +185,8 @@ public class DirectModuleHooksTests : TestBase
     {
         public List<string> HooksCalled { get; } = [];
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithIgnoreFailures()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithIgnoreFailures();
 
         protected override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

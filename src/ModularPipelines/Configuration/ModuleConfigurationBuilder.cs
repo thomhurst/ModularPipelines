@@ -16,20 +16,16 @@ namespace ModularPipelines.Configuration;
 /// This builder provides a fluent API for configuring module behavior including
 /// skip conditions, timeouts, retry policies, failure handling, and scheduling metadata.
 /// </para>
-/// <para>
-/// All methods return the builder instance to support method chaining.
-/// Call <see cref="Build"/> to create the final <see cref="ModuleConfiguration"/> instance.
-/// </para>
+/// <para>All methods return the builder instance to support method chaining.</para>
 /// </remarks>
 /// <example>
 /// <code>
-/// var config = ModuleConfiguration.Create()
+/// protected override void Configure(ModuleConfigurationBuilder module) => module
 ///     .WithSkipWhen(_ => someCondition, "Configured skip condition returned true")
 ///     .WithTimeout(TimeSpan.FromMinutes(5))
 ///     .WithRetry(3)
 ///     .WithIgnoreFailures()
-///     .WithAlwaysRun()
-///     .Build();
+///     .WithAlwaysRun();
 /// </code>
 /// </example>
 public sealed class ModuleConfigurationBuilder
@@ -483,7 +479,7 @@ public sealed class ModuleConfigurationBuilder
     /// Builds the <see cref="ModuleConfiguration"/> instance with the configured settings.
     /// </summary>
     /// <returns>A new <see cref="ModuleConfiguration"/> instance.</returns>
-    public ModuleConfiguration Build()
+    internal ModuleConfiguration Build()
     {
         return new ModuleConfiguration
         {

@@ -68,9 +68,8 @@ public class RunReportTests
 
     private sealed class SkippedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("report skip reason"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("report skip reason"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,

@@ -21,7 +21,7 @@ public class ModuleMetadataRegistryTests
     {
         public Type ResultType => typeof(string);
 
-        public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Create()
+        public ModuleConfiguration Configuration { get; } = new ModuleConfigurationBuilder()
             .WithTags("direct-tag")
             .WithCategory("direct-category")
             .Build();

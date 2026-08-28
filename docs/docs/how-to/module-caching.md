@@ -52,12 +52,10 @@ Use `--no-cache` to bypass all module cache reads and writes for one command-lin
 File contents do not represent every input. Add configuration or tool versions explicitly:
 
 ```csharp
-protected override ModuleConfiguration Configure() =>
-    ModuleConfiguration.Create()
-        .WithCacheKeyPart($"configuration={configurationName}")
-        .WithCacheKeyPart($"sdk={sdkVersion}")
-        .WithCacheEnvironmentVariable("TARGET_RUNTIME")
-        .Build();
+protected override void Configure(ModuleConfigurationBuilder module) => module
+    .WithCacheKeyPart($"configuration={configurationName}")
+    .WithCacheKeyPart($"sdk={sdkVersion}")
+    .WithCacheEnvironmentVariable("TARGET_RUNTIME");
 ```
 
 Changing any key part or declared environment value invalidates the entry.
@@ -73,11 +71,9 @@ cached module declared by that assembly.
 Use an explicit version key only when your build changes the MVID independently of module behavior:
 
 ```csharp
-protected override ModuleConfiguration Configure() =>
-    ModuleConfiguration.Create()
-        .WithCacheKeyPart("configuration=v1")
-        .WithCacheAssemblyVersionKey("build-module-v3")
-        .Build();
+protected override void Configure(ModuleConfigurationBuilder module) => module
+    .WithCacheKeyPart("configuration=v1")
+    .WithCacheAssemblyVersionKey("build-module-v3");
 ```
 
 You must update this key whenever the module implementation changes. Reusing it after a behavior

@@ -58,12 +58,12 @@ You only need to return that sentinel yourself when using `SyncModule<None>`.
 
 ## Configuring Module Behavior
 
-Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure()` method:
+Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure(ModuleConfigurationBuilder)` method:
 
 ```csharp
 public class MyModule : Module<FileInfo>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithTimeout(TimeSpan.FromMinutes(5))
         .WithRetry(3)
         .WithSkipWhen(_ => !File.Exists("important.json"), "important.json does not exist")
@@ -73,8 +73,7 @@ public class MyModule : Module<FileInfo>
         .WithCategory("build")
         .DependsOn<RestoreModule>()
         .WithIgnoreFailures()
-        .WithAlwaysRun()
-        .Build();
+        .WithAlwaysRun();
 
     protected override async Task<FileInfo> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
@@ -179,10 +178,9 @@ Or define them programmatically:
 ```csharp
 public class BuildModule : Module<BuildOutput>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithCategory("Build")
-        .WithTags("critical", "fast")
-        .Build();
+        .WithTags("critical", "fast");
 
     protected override async Task<BuildOutput> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)

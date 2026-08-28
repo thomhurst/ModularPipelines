@@ -65,7 +65,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task Create_ReturnsBuilder()
     {
-        var builder = ModuleConfiguration.Create();
+        var builder = new ModuleConfigurationBuilder();
 
         await Assert.That(builder).IsNotNull();
         await Assert.That(builder).IsTypeOf<ModuleConfigurationBuilder>();
@@ -98,7 +98,7 @@ public class ModuleConfigurationTests
     [Arguments(false, null)]
     public async Task WithSkipWhen_BooleanCondition_MapsDecision(bool shouldSkip, string? expectedReason)
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen(_ => shouldSkip, "Skip reason")
             .Build();
 
@@ -116,7 +116,7 @@ public class ModuleConfigurationTests
     {
         using var cancellationTokenSource = new CancellationTokenSource();
         CancellationToken? receivedToken = null;
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen((_, cancellationToken) =>
             {
                 receivedToken = cancellationToken;
@@ -154,7 +154,7 @@ public class ModuleConfigurationTests
     public async Task WithSkipWhen_RepeatedCalls_OrComposeAndShortCircuit()
     {
         var evaluatedConditions = new List<string>();
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen(_ =>
             {
                 evaluatedConditions.Add("first");
@@ -180,7 +180,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task WithSkipWhen_RepeatedCalls_SkipWhenLaterConditionMatches()
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen(_ => SkipDecision.DoNotSkip)
             .WithSkipWhen(_ => SkipDecision.Skip("Second reason"))
             .Build();
@@ -200,7 +200,7 @@ public class ModuleConfigurationTests
         var context = Mock.Of<IModuleContext>();
         var expectedDecision = SkipDecision.Skip("Test reason");
 
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen(receivedContext =>
                 ReferenceEquals(receivedContext, context) ? expectedDecision : SkipDecision.DoNotSkip)
             .Build();
@@ -219,7 +219,7 @@ public class ModuleConfigurationTests
     {
         var expectedDecision = SkipDecision.Skip("Async reason");
 
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen(async (_, _) =>
             {
                 await Task.Delay(1).ConfigureAwait(false);
@@ -242,7 +242,7 @@ public class ModuleConfigurationTests
     {
         using var cancellationTokenSource = new CancellationTokenSource();
         CancellationToken? receivedToken = null;
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen((_, cancellationToken) =>
             {
                 receivedToken = cancellationToken;
@@ -258,7 +258,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task WithSkipWhenAll_AllConditionsSkip_CombinesReasons()
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhenAll(
                 _ => SkipDecision.Skip("First reason"),
                 _ => SkipDecision.Skip("Second reason"))
@@ -277,7 +277,7 @@ public class ModuleConfigurationTests
     public async Task WithSkipWhenAll_StopsWhenConditionDoesNotSkip()
     {
         var evaluatedConditions = new List<string>();
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhenAll(
                 _ =>
                 {
@@ -307,7 +307,7 @@ public class ModuleConfigurationTests
         [
             (_, _) => ValueTask.FromResult(SkipDecision.Skip("Original reason")),
         ];
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhenAll(conditions)
             .Build();
 
@@ -327,7 +327,7 @@ public class ModuleConfigurationTests
     [Test]
     public void WithSkipWhenAll_RejectsEmptyGroups()
     {
-        var builder = ModuleConfiguration.Create();
+        var builder = new ModuleConfigurationBuilder();
 
         Assert.Throws<ArgumentException>(() =>
             builder.WithSkipWhenAll(Array.Empty<Func<IModuleContext, SkipDecision>>()));
@@ -336,7 +336,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task Build_SnapshotsSkipConditions()
     {
-        var builder = ModuleConfiguration.Create()
+        var builder = new ModuleConfigurationBuilder()
             .WithSkipWhen(_ => SkipDecision.DoNotSkip);
         var firstConfig = builder.Build();
 
@@ -363,7 +363,7 @@ public class ModuleConfigurationTests
     {
         var timeout = TimeSpan.FromMinutes(5);
 
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithTimeout(timeout)
             .Build();
 
@@ -377,7 +377,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task WithRetry_UsesDefaultBaseDelay()
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithRetry(3)
             .Build();
 
@@ -397,7 +397,7 @@ public class ModuleConfigurationTests
         var baseDelay = TimeSpan.FromSeconds(2);
         Func<Exception, bool> shouldRetry = exception => exception is TimeoutException;
 
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithRetry(5, baseDelay, shouldRetry)
             .Build();
 
@@ -414,9 +414,9 @@ public class ModuleConfigurationTests
     public async Task WithRetry_RejectsNegativeValues()
     {
         var countException = Assert.Throws<ArgumentOutOfRangeException>(
-            () => ModuleConfiguration.Create().WithRetry(-1));
+            () => new ModuleConfigurationBuilder().WithRetry(-1));
         var delayException = Assert.Throws<ArgumentOutOfRangeException>(
-            () => ModuleConfiguration.Create().WithRetry(1, TimeSpan.FromMilliseconds(-1)));
+            () => new ModuleConfigurationBuilder().WithRetry(1, TimeSpan.FromMilliseconds(-1)));
 
         using (Assert.Multiple())
         {
@@ -430,7 +430,7 @@ public class ModuleConfigurationTests
     {
         var shield = Shield.Retry(0);
 
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithShield(shield)
             .Build();
 
@@ -447,7 +447,7 @@ public class ModuleConfigurationTests
     {
         var shield = Shield.Retry(0);
 
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithShield(_ => shield)
             .Build();
 
@@ -530,7 +530,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task WithIgnoreFailures_Always_SetsIgnoreFailuresCondition()
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithIgnoreFailures()
             .Build();
 
@@ -545,7 +545,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task WithIgnoreFailuresWhen_SyncCondition_SetsIgnoreFailuresCondition()
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithIgnoreFailuresWhen((ctx, ex) => ex.Message == "ignore")
             .Build();
 
@@ -563,7 +563,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task WithIgnoreFailuresWhen_AsyncCondition_SetsIgnoreFailuresCondition()
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithIgnoreFailuresWhen(async (ctx, ex) =>
             {
                 await Task.Delay(1).ConfigureAwait(false);
@@ -587,7 +587,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task WithAlwaysRun_SetsAlwaysRun()
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithAlwaysRun()
             .Build();
 
@@ -601,7 +601,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task Builder_Configures_Scheduling_Metadata_And_Dependencies()
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithNotInParallel("database")
             .WithPriority(ModulePriority.Critical)
             .WithExecutionHint(ExecutionType.IoIntensive)
@@ -625,7 +625,7 @@ public class ModuleConfigurationTests
     [Test]
     public async Task Builder_FluentChaining_AllMethodsChain()
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen(_ => SkipDecision.DoNotSkip)
             .WithTimeout(TimeSpan.FromMinutes(1))
             .WithRetry(3)

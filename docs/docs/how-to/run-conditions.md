@@ -83,4 +83,4 @@ environment-variable check. The `ModularPipelines.Git` package also provides
 `RunIfBranch`, `RunIfBranchStartsWith`, and `SkipIfBranch`; these stateful attributes use the same
 base classes.
 
-One-off conditions can use `Configure().WithSkipWhen(...)`.
+One-off conditions can use `Configure(ModuleConfigurationBuilder).WithSkipWhen(...)`.

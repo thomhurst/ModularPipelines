@@ -92,9 +92,8 @@ public class PipelineCommandLineTests
 
     private sealed class ConfiguredCategoryModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithCategory("configured-category")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithCategory("configured-category");
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -104,9 +103,8 @@ public class PipelineCommandLineTests
 
     private sealed class CacheCandidateModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithCacheKeyPart("plan-v1")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithCacheKeyPart("plan-v1");
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -135,7 +133,7 @@ public class PipelineCommandLineTests
 
     private sealed class ThrowingConfigurationModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() =>
+        protected override void Configure(ModuleConfigurationBuilder module) =>
             throw new InvalidOperationException("Help must not read module configuration.");
 
         protected internal override Task<string> ExecuteAsync(
@@ -166,13 +164,12 @@ public class PipelineCommandLineTests
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     private sealed class ResultDependentSkipModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(async (context, _) =>
             {
                 await context.GetModule<DependencyModule>();
                 return SkipDecision.Skip("dependency result matched");
-            })
-            .Build();
+            });
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -183,28 +180,26 @@ public class PipelineCommandLineTests
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     private sealed class UnknownThenSkippedModule : DryRunModule
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(async (context, _) =>
             {
                 await context.GetModule<DependencyModule>();
                 return SkipDecision.DoNotSkip;
             })
-            .WithSkipWhen(_ => SkipDecision.Skip("later condition"))
-            .Build();
+            .WithSkipWhen(_ => SkipDecision.Skip("later condition"));
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     private sealed class UnknownAndDoNotSkipModule : DryRunModule
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhenAll(
                 async (context, _) =>
                 {
                     await context.GetModule<DependencyModule>();
                     return SkipDecision.Skip("result matched");
                 },
-                (_, _) => ValueTask.FromResult(SkipDecision.DoNotSkip))
-            .Build();
+                (_, _) => ValueTask.FromResult(SkipDecision.DoNotSkip));
     }
 
     [ModularPipelines.Attributes.DependsOn<ResultDependentSkipModule>]
@@ -279,10 +274,9 @@ public class PipelineCommandLineTests
 
     private sealed class FluentlySkippedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithCategory("selected")
-            .WithSkipWhen(_ => SkipDecision.Skip("fluent skip"))
-            .Build();
+            .WithSkipWhen(_ => SkipDecision.Skip("fluent skip"));
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -292,10 +286,9 @@ public class PipelineCommandLineTests
 
     private sealed class SkippedDependencyModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithCategory("selected")
-            .WithSkipWhen(_ => SkipDecision.Skip("dependency unavailable"))
-            .Build();
+            .WithSkipWhen(_ => SkipDecision.Skip("dependency unavailable"));
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -306,9 +299,8 @@ public class PipelineCommandLineTests
     [ModuleCategory("excluded")]
     private sealed class ExcludedSkippedDependencyModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("dependency unavailable"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("dependency unavailable"));
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -319,9 +311,8 @@ public class PipelineCommandLineTests
     [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
     private sealed class DependentOnSkippedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithCategory("selected")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithCategory("selected");
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -332,13 +323,12 @@ public class PipelineCommandLineTests
     [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
     private sealed class ResultDependentOnSkippedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(async (context, _) =>
             {
                 await context.GetModule<SkippedDependencyModule>();
                 return SkipDecision.DoNotSkip;
-            })
-            .Build();
+            });
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -420,9 +410,8 @@ public class PipelineCommandLineTests
 
     private sealed class FirstLockedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithNotInParallel("shared-plan-lock")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithNotInParallel("shared-plan-lock");
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -432,9 +421,8 @@ public class PipelineCommandLineTests
 
     private sealed class SecondLockedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithNotInParallel("shared-plan-lock")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithNotInParallel("shared-plan-lock");
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -473,9 +461,8 @@ public class PipelineCommandLineTests
 
     private sealed class SecondHighPriorityModule : DryRunModule
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithPriority(ModulePriority.High)
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithPriority(ModulePriority.High);
     }
 
     [ExecutionHint(ExecutionType.CpuIntensive)]
@@ -608,16 +595,15 @@ public class PipelineCommandLineTests
 
     private sealed class RegistrationOnlyOptionalSkipModule : DryRunModule
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(context => context.GetModuleIfRegistered<MissingOptionalModule>() is null
                 ? SkipDecision.Skip("optional module absent")
-                : SkipDecision.DoNotSkip)
-            .Build();
+                : SkipDecision.DoNotSkip);
     }
 
     private sealed class OptionalResultDependentSkipModule : DryRunModule
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(async (context, _) =>
             {
                 var dependency = context.GetModuleIfRegistered<DependencyModule>();
@@ -628,8 +614,7 @@ public class PipelineCommandLineTests
 
                 await dependency;
                 return SkipDecision.DoNotSkip;
-            })
-            .Build();
+            });
     }
 
     [ModularPipelines.Attributes.DependsOn<SkippedCycleBModule>]

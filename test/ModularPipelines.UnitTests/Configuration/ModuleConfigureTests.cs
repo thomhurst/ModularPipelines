@@ -15,12 +15,10 @@ public class ModuleConfigureTests
     {
         public int ConfigureCount { get; private set; }
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             ConfigureCount++;
-            return ModuleConfiguration.Create()
-                .WithTags("cached-tag")
-                .Build();
+            module.WithTags("cached-tag");
         }
 
         protected internal override Task<string> ExecuteAsync(
@@ -37,10 +35,9 @@ public class ModuleConfigureTests
 
     private class ConfiguredModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithTimeout(TimeSpan.FromSeconds(60))
-            .WithAlwaysRun()
-            .Build();
+            .WithAlwaysRun();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("test");
@@ -54,13 +51,12 @@ public class ModuleConfigureTests
     [ModularPipelines.Attributes.DependsOn<TestModule>]
     private class UnifiedConfigurationModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithNotInParallel("fluent-lock")
             .WithPriority(ModulePriority.Critical)
             .WithExecutionHint(ExecutionType.IoIntensive)
             .WithTags("fluent-tag")
-            .WithCategory("fluent-category")
-            .Build();
+            .WithCategory("fluent-category");
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("test");
@@ -69,21 +65,25 @@ public class ModuleConfigureTests
     [ModularPipelines.Attributes.DependsOn<TestModule>]
     private class RequiredAndOptionalDependencyModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOnOptional<TestModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) =>
+            module.DependsOnOptional<TestModule>();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("test");
     }
 
     [Test]
-    public async Task Module_DefaultConfiguration_ReturnsDefault()
+    public async Task Module_DefaultConfiguration_HasDefaultValues()
     {
         var module = new TestModule();
         var config = ((IModule) module).Configuration;
 
-        await Assert.That(config).IsSameReferenceAs(ModuleConfiguration.Default);
+        using (Assert.Multiple())
+        {
+            await Assert.That(config.Timeout).IsNull();
+            await Assert.That(config.AlwaysRun).IsFalse();
+            await Assert.That(config.Dependencies).IsEmpty();
+        }
     }
 
     [Test]
@@ -154,5 +154,22 @@ public class ModuleConfigureTests
 
         await Assert.That(dependency.Kind).IsEqualTo(DependencyType.Required);
         await Assert.That(dependency.IsOptional).IsFalse();
+    }
+
+    [Test]
+    public async Task ConfigurationConstructionApisAreNotPublic()
+    {
+        const System.Reflection.BindingFlags publicStatic =
+            System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static;
+        const System.Reflection.BindingFlags publicInstance =
+            System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(typeof(ModuleConfiguration).GetConstructors()).IsEmpty();
+            await Assert.That(typeof(ModuleConfiguration).GetProperty("Default", publicStatic)).IsNull();
+            await Assert.That(typeof(ModuleConfiguration).GetMethod("Create", publicStatic)).IsNull();
+            await Assert.That(typeof(ModuleConfigurationBuilder).GetMethod("Build", publicInstance)).IsNull();
+        }
     }
 }

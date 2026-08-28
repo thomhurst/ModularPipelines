@@ -64,8 +64,6 @@ For runtime-selected dependencies, override `Configure` and use the fluent
 configuration builder:
 
 ```fsharp
-override _.Configure() =
-    ModuleConfiguration.Create()
-        .DependsOn<BuildModule>()
-        .Build()
+override _.Configure(moduleConfiguration: ModuleConfigurationBuilder) =
+    moduleConfiguration.DependsOn<BuildModule>() |> ignore
 ```

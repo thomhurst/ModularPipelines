@@ -189,9 +189,8 @@ public class NewRunConditionAttributeTests : TestBase
     {
         protected override bool Result => true;
 
-        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() => ModularPipelines.Configuration.ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("Fluent condition"))
-            .Build();
+        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("Fluent condition"));
     }
 
     private class CancelDuringEvaluation : IRunCondition

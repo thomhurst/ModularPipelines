@@ -157,9 +157,8 @@ internal sealed class VerificationModule(
 
 internal sealed class IgnoredValueModule : Module<int>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithCategory("ignored")
-        .Build();
+    protected override void Configure(ModuleConfigurationBuilder module) => module
+        .WithCategory("ignored");
 
     protected override Task<int> ExecuteAsync(
         IModuleContext context,

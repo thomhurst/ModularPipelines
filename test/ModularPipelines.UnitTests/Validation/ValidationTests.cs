@@ -107,9 +107,8 @@ public class ValidationTests
 
     private class ModuleWithFluentMissingDependency : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<FluentMissingDependencyModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<FluentMissingDependencyModule>();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("success");
@@ -123,9 +122,8 @@ public class ValidationTests
     [RunIfAll<NeverRun>]
     private class ExecutionSkippedModuleWithFluentMissingDependency : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<FluentMissingDependencyModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<FluentMissingDependencyModule>();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("success");
@@ -133,9 +131,8 @@ public class ValidationTests
 
     private class FluentSelfReferencingModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<FluentSelfReferencingModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<FluentSelfReferencingModule>();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("self");
@@ -143,9 +140,8 @@ public class ValidationTests
 
     private class FluentCycleModuleA : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<FluentCycleModuleB>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<FluentCycleModuleB>();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("a");
@@ -153,9 +149,8 @@ public class ValidationTests
 
     private class FluentCycleModuleB : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<FluentCycleModuleA>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<FluentCycleModuleA>();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("b");

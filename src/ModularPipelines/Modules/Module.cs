@@ -42,11 +42,10 @@ namespace ModularPipelines.Modules;
 /// <code>
 /// public class ApiModule : Module&lt;ApiResult&gt;
 /// {
-///     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+///     protected override void Configure(ModuleConfigurationBuilder module) => module
 ///         .DependsOn&lt;DatabaseModule&gt;()
 ///         .DependsOnOptional&lt;CachingModule&gt;()
-///         .DependsOnIf&lt;MonitoringModule&gt;(Environment.IsProduction)
-///         .Build();
+///         .DependsOnIf&lt;MonitoringModule&gt;(Environment.IsProduction);
 ///
 ///     protected override Task&lt;ApiResult&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ///         =&gt; Task.FromResult(new ApiResult());
@@ -94,27 +93,27 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
     /// <summary>
     /// Override to configure module behaviors (skip, timeout, retry, etc.).
     /// </summary>
-    /// <returns>The module configuration.</returns>
+    /// <param name="module">The builder used to configure this module.</param>
     /// <remarks>
     /// <para>
     /// This method is called once during module activation and cached for subsequent accesses.
     /// Directly constructed modules initialize on first access.
     /// </para>
     /// <para>
-    /// Use <see cref="ModuleConfiguration.Create"/> to build a custom configuration,
-    /// or return <see cref="ModuleConfiguration.Default"/> for default behavior.
+    /// The pipeline builds and caches the final configuration after this method returns.
     /// </para>
     /// </remarks>
     /// <example>
     /// <code>
-    /// protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    /// protected override void Configure(ModuleConfigurationBuilder module) => module
     ///     .WithTimeout(TimeSpan.FromMinutes(5))
     ///     .WithRetry(3)
-    ///     .WithAlwaysRun()
-    ///     .Build();
+    ///     .WithAlwaysRun();
     /// </code>
     /// </example>
-    protected virtual ModuleConfiguration Configure() => ModuleConfiguration.Default;
+    protected virtual void Configure(ModuleConfigurationBuilder module)
+    {
+    }
 
     /// <inheritdoc />
     ModuleConfiguration IModule.Configuration => _configuration.Value;
@@ -341,10 +340,12 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
             : CompletionSource.Task.GetAwaiter();
     }
 
-    private ModuleConfiguration CreateConfiguration() =>
-        ModuleConfigurationAttributeAdapter.Apply(
-            GetType(),
-            Configure());
+    private ModuleConfiguration CreateConfiguration()
+    {
+        var builder = new ModuleConfigurationBuilder();
+        Configure(builder);
+        return ModuleConfigurationAttributeAdapter.Apply(GetType(), builder.Build());
+    }
 
     private Lazy<ModuleConfiguration> CreateConfigurationLazy() =>
         new(CreateConfiguration, LazyThreadSafetyMode.ExecutionAndPublication);

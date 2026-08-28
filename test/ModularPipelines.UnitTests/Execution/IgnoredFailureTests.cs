@@ -15,9 +15,8 @@ public class IgnoredFailureTests : TestBase
 {
     private class IgnoredFailureModule : Module<CommandResult>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithIgnoreFailures()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithIgnoreFailures();
 
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

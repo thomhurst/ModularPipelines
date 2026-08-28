@@ -83,9 +83,8 @@ public class LifecycleEventIntegrationTests : TestBase
     [LogSkipped]
     public class SkippingModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("Test skip reason"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("Test skip reason"));
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

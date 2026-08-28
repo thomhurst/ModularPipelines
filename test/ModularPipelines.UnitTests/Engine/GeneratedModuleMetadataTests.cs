@@ -229,9 +229,8 @@ public class GeneratedModuleMetadataTests
 
     private sealed class GeneratedAlwaysRunModule : Module<bool>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithAlwaysRun()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithAlwaysRun();
 
         protected internal override Task<bool> ExecuteAsync(
             IModuleContext context,

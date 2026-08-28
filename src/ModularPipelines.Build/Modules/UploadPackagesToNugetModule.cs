@@ -28,9 +28,8 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         _publishSettings = publishSettings;
     }
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(_ => !_publishSettings.Value.ShouldPublish, "The 'ShouldPublish' flag is false")
-        .Build();
+    protected override void Configure(ModuleConfigurationBuilder module) => module
+        .WithSkipWhen(_ => !_publishSettings.Value.ShouldPublish, "The 'ShouldPublish' flag is false");
 
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

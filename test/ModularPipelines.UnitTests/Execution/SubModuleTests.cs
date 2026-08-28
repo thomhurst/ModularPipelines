@@ -168,9 +168,8 @@ public class SubModuleTests : TestBase
         public int _twoCount;
         public int _threeCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithShield(Shield.When<Exception>().Retry(3, Backoff.None))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithShield(Shield.When<Exception>().Retry(3, Backoff.None));
 
         protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -205,9 +204,8 @@ public class SubModuleTests : TestBase
         public int _twoCount;
         public int _threeCount;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithShield(Shield.When<Exception>().Retry(3, Backoff.None))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithShield(Shield.When<Exception>().Retry(3, Backoff.None));
 
         protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

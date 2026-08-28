@@ -23,11 +23,10 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
         _localNuGetSettings = localNuGetSettings;
     }
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithIgnoreFailuresWhen((_, ex) =>
             ex is CommandException commandException &&
-            commandException.Result.StandardOutput.Contains("The name specified has already been added to the list of available package sources"))
-        .Build();
+            commandException.Result.StandardOutput.Contains("The name specified has already been added to the list of available package sources"));
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

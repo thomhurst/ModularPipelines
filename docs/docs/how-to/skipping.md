@@ -7,7 +7,7 @@ sidebar_position: 7
 
 ## Using ModuleConfiguration
 
-The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
+The recommended way to configure module skipping is through the `Configure(ModuleConfigurationBuilder)` method with the fluent builder API:
 
 Attribute conditions (`[SkipIf<T>]`, `[RunIfAll<T>]`, and `[RunIfAny<T>]`) remain supported.
 Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so
@@ -23,11 +23,10 @@ the plan reports the module's skip decision as unknown and continues without exe
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(
             _ => Environment.GetEnvironmentVariable("SKIP_MODULE") == "true",
-            "SKIP_MODULE is true")
-        .Build();
+            "SKIP_MODULE is true");
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -43,11 +42,10 @@ When you need access to the pipeline context for your skip condition:
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(
             async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
-            "This should only run on the main branch")
-        .Build();
+            "This should only run on the main branch");
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -63,13 +61,12 @@ For better reporting, pass the reason alongside the boolean condition:
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(async (ctx, _) =>
         {
             var repositoryInfo = await ctx.Git().Information.GetInfoAsync();
             return repositoryInfo?.BranchName != "main";
-        }, "This should only run on the main branch")
-        .Build();
+        }, "This should only run on the main branch");
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -85,15 +82,14 @@ For conditions that require async operations:
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(async (_, cancellationToken) =>
         {
             var response = await HttpClient.GetAsync(
                 "https://api.example.com/should-run",
                 cancellationToken);
             return !response.IsSuccessStatusCode;
-        }, "The remote service is unavailable")
-        .Build();
+        }, "The remote service is unavailable");
 }
 ```
 
@@ -108,14 +104,13 @@ For example, this module skips cleanup for either CI builds or non-main branches
 ```csharp
 public class CleanupModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(_ => Environment.GetEnvironmentVariable("CI") == "true", "Running in CI")
         .WithSkipWhen(
             async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
             "Not on the main branch")
         .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
-        .WithTimeout(TimeSpan.FromMinutes(5))
-        .Build();
+        .WithTimeout(TimeSpan.FromMinutes(5));
 }
 ```
 
@@ -123,15 +118,14 @@ When every condition must match before the module is skipped, group them explici
 `WithSkipWhenAll`:
 
 ```csharp
-protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+protected override void Configure(ModuleConfigurationBuilder module) => module
     .WithSkipWhenAll(
         _ => Environment.GetEnvironmentVariable("CI") == "true"
             ? SkipDecision.Skip("Running in CI")
             : SkipDecision.DoNotSkip,
         _ => Environment.GetEnvironmentVariable("DEPLOY_ENV") != "production"
             ? SkipDecision.Skip("Not deploying to production")
-            : SkipDecision.DoNotSkip)
-    .Build();
+            : SkipDecision.DoNotSkip);
 ```
 
 Conditions inside a `WithSkipWhenAll` group use AND-to-skip semantics and combine their reasons.

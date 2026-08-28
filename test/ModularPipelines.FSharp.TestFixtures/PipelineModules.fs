@@ -34,11 +34,8 @@ type DependentModule() =
 type ConfiguredDependentModule() =
     inherit Module<string>()
 
-    override _.Configure() =
-        ModuleConfiguration
-            .Create()
-            .DependsOn<DependencyModule>()
-            .Build()
+    override _.Configure(moduleConfiguration: ModuleConfigurationBuilder) =
+        moduleConfiguration.DependsOn<DependencyModule>() |> ignore
 
     override _.ExecuteAsync(
         context: IModuleContext,

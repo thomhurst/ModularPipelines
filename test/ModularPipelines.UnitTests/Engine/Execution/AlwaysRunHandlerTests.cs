@@ -482,11 +482,9 @@ public class AlwaysRunHandlerTests
 
     private abstract class AlwaysRunTestModule : Module<bool>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            return ModuleConfiguration.Create()
-                .WithAlwaysRun()
-                .Build();
+            module.WithAlwaysRun();
         }
 
         protected internal override Task<bool> ExecuteAsync(

@@ -5,7 +5,7 @@ sidebar_position: 6
 
 # Retries and Resilience Shields
 
-When creating modules, you can configure retries per module using the `Configure()` method.
+When creating modules, you can configure retries per module using the `Configure(ModuleConfigurationBuilder)` method.
 The standard API supports exponential backoff, jitter, and exception filtering without exposing
 the underlying resilience library.
 
@@ -18,9 +18,8 @@ The easiest way to add retries is with `WithRetry()`:
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithRetry(3)  // Retry up to 3 times with exponential backoff and jitter
-        .Build();
+    protected override void Configure(ModuleConfigurationBuilder module) => module
+        .WithRetry(3); // Retry up to 3 times with exponential backoff and jitter
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -34,12 +33,11 @@ its exponential-backoff ceiling. You can set a different base delay and limit re
 exceptions:
 
 ```csharp
-protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+protected override void Configure(ModuleConfigurationBuilder module) => module
     .WithRetry(
         count: 5,
         baseDelay: TimeSpan.FromSeconds(1),
-        shouldRetry: exception => exception is HttpRequestException)
-    .Build();
+        shouldRetry: exception => exception is HttpRequestException);
 ```
 
 ### Custom Resilience Shield
@@ -49,11 +47,10 @@ For resilience features outside the standard retry API, configure a Kevlar `Shie
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithShield(
             Shield.When<HttpRequestException>()
-                .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))))
-        .Build();
+                .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))));
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -69,14 +66,13 @@ If you need access to the pipeline context when building your shield:
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithShield(ctx =>
         {
             var retryCount = ctx.Environment.IsCI ? 5 : 2;
             return Shield.When<Exception>()
                 .Retry(retryCount, Backoff.Custom(i => TimeSpan.FromSeconds(i)));
-        })
-        .Build();
+        });
 }
 ```
 
@@ -87,11 +83,10 @@ Retry configuration can be combined with other module behaviors:
 ```csharp
 public class ResilientModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithRetry(3)
         .WithTimeout(TimeSpan.FromMinutes(10))
-        .WithIgnoreFailures()  // Don't fail the pipeline even after all retries
-        .Build();
+        .WithIgnoreFailures(); // Don't fail the pipeline even after all retries
 }
 ```
 
@@ -121,4 +116,4 @@ builder.ConfigurePipelineOptions(options => options with
 await builder.RunAsync();
 ```
 
-This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure()`.
+This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure(ModuleConfigurationBuilder)`.

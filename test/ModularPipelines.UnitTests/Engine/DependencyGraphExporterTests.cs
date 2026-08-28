@@ -251,12 +251,11 @@ public class DependencyGraphExporterTests
         protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
             new OptionalLookupPlanningSkipModule();
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(context =>
                 context.GetModuleIfRegistered<OptionalPlanningDependencyModule>() is null
                     ? SkipDecision.DoNotSkip
-                    : SkipDecision.Skip("Runtime dependency was exposed during planning"))
-            .Build();
+                    : SkipDecision.Skip("Runtime dependency was exposed during planning"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -352,14 +351,13 @@ public class DependencyGraphExporterTests
     [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
     private sealed class AsyncHistoricalArtifactConsumerModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(async (_, _) =>
             {
                 Interlocked.Increment(ref _asyncSkipConditionEvaluations);
                 await Task.Yield();
                 return SkipDecision.DoNotSkip;
-            })
-            .Build();
+            });
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -372,9 +370,8 @@ public class DependencyGraphExporterTests
     [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
     private sealed class SynchronouslySkippedArtifactConsumerModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("consumer is synchronously skipped"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("consumer is synchronously skipped"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -397,9 +394,8 @@ public class DependencyGraphExporterTests
     [AddRegistrationDependency(typeof(UnregisteredModule))]
     private sealed class InvalidSkippedDynamicDependencyModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("configured skip"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("configured skip"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -507,9 +503,8 @@ public class DependencyGraphExporterTests
 
     private sealed class PlanningCategoryModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithCategory("planning")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithCategory("planning");
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -526,15 +521,13 @@ public class DependencyGraphExporterTests
         protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
             new MutableConfigurationStateModule();
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             _configurationCalls.Add("configured");
             if (_configurationCalls.Count > 1)
             {
                 throw new InvalidOperationException("Mutable configuration state was shared.");
             }
-
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -552,12 +545,11 @@ public class DependencyGraphExporterTests
 
     private sealed class GlobalConfigurationMutationModule : Module<int>
     {
-        protected override ModuleConfiguration Configure() => CreateConfiguration();
+        protected override void Configure(ModuleConfigurationBuilder module) => CreateConfiguration();
 
-        private static ModuleConfiguration CreateConfiguration()
+        private static void CreateConfiguration()
         {
             Interlocked.Increment(ref _globalConfigurationMutations);
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<int> ExecuteAsync(
@@ -568,10 +560,9 @@ public class DependencyGraphExporterTests
 
     private sealed class ConstructorConfigurationMutationModule : Module<int>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             _ = new ConfigurationMutationProbe();
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<int> ExecuteAsync(
@@ -582,10 +573,9 @@ public class DependencyGraphExporterTests
 
     private sealed class ExternalConstructorConfigurationMutationModule : Module<int>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             _ = new ExternalConfigurationMutationProbe();
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<int> ExecuteAsync(
@@ -596,19 +586,19 @@ public class DependencyGraphExporterTests
 
     private abstract class VirtualConfigurationMutationBaseModule : Module<int>
     {
-        protected override ModuleConfiguration Configure() => CreateConfiguration();
+        protected override void Configure(ModuleConfigurationBuilder module) => CreateConfiguration();
 
-        protected virtual ModuleConfiguration CreateConfiguration() =>
-            ModuleConfiguration.Default;
+        protected virtual void CreateConfiguration()
+        {
+        }
     }
 
     private sealed class VirtualConfigurationMutationModule
         : VirtualConfigurationMutationBaseModule
     {
-        protected override ModuleConfiguration CreateConfiguration()
+        protected override void CreateConfiguration()
         {
             Interlocked.Increment(ref _globalConfigurationMutations);
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<int> ExecuteAsync(
@@ -619,16 +609,16 @@ public class DependencyGraphExporterTests
 
     private class VirtualConfigurationHelper
     {
-        public virtual ModuleConfiguration CreateConfiguration() =>
-            ModuleConfiguration.Default;
+        public virtual void CreateConfiguration()
+        {
+        }
     }
 
     private sealed class StatefulVirtualConfigurationHelper : VirtualConfigurationHelper
     {
-        public override ModuleConfiguration CreateConfiguration()
+        public override void CreateConfiguration()
         {
             Interlocked.Increment(ref _globalConfigurationMutations);
-            return ModuleConfiguration.Default;
         }
     }
 
@@ -637,7 +627,7 @@ public class DependencyGraphExporterTests
         private readonly VirtualConfigurationHelper _helper =
             new StatefulVirtualConfigurationHelper();
 
-        protected override ModuleConfiguration Configure() =>
+        protected override void Configure(ModuleConfigurationBuilder module) =>
             _helper.CreateConfiguration();
 
         protected internal override Task<int> ExecuteAsync(
@@ -656,13 +646,12 @@ public class DependencyGraphExporterTests
     {
         public const string EnvironmentVariableName = "MODULAR_PIPELINES_GRAPH_PLANNING_TEST";
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             var currentValue = Environment.GetEnvironmentVariable(EnvironmentVariableName);
             Environment.SetEnvironmentVariable(
                 EnvironmentVariableName,
                 currentValue is null ? "configured" : currentValue + "-configured");
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -675,10 +664,9 @@ public class DependencyGraphExporterTests
     {
         private readonly PlanningMutationPlugin _plugin = new();
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             PluginRegistry.Register(_plugin);
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<int> ExecuteAsync(
@@ -707,9 +695,8 @@ public class DependencyGraphExporterTests
 
     private sealed class StaticRuntimeBoundPlanningConditionModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(EvaluatePlanningSkip)
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(EvaluatePlanningSkip);
 
         private static SkipDecision EvaluatePlanningSkip(IModuleContext context) =>
             Interlocked.Increment(ref _staticPlanningSkipEvaluations) == 1
@@ -724,9 +711,8 @@ public class DependencyGraphExporterTests
 
     private sealed class ConstructorBoundPlanningConditionModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(EvaluatePlanningSkip)
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(EvaluatePlanningSkip);
 
         private static SkipDecision EvaluatePlanningSkip(IModuleContext context)
         {
@@ -749,10 +735,9 @@ public class DependencyGraphExporterTests
     private sealed class InjectedConfigurationMutationModule(ConfigurationMutationCounter counter)
         : Module<int>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             counter.Count++;
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<int> ExecuteAsync(
@@ -773,10 +758,9 @@ public class DependencyGraphExporterTests
             counter.Activations++;
         }
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             _holder.Counter.Count++;
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<int> ExecuteAsync(
@@ -790,11 +774,10 @@ public class DependencyGraphExporterTests
     {
         private int _planningEvaluations;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => ++_planningEvaluations == 1
                 ? SkipDecision.DoNotSkip
-                : SkipDecision.Skip("runtime state changed"))
-            .Build();
+                : SkipDecision.Skip("runtime state changed"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -808,16 +791,13 @@ public class DependencyGraphExporterTests
 
         public int ConfigurationCallCount => _configurationCallCount;
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             _configurationCallCount++;
-            var builder = ModuleConfiguration.Create();
             if (_configurationCallCount == 1)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -830,15 +810,12 @@ public class DependencyGraphExporterTests
     {
         public bool IncludeDependency { get; init; }
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (IncludeDependency)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -851,15 +828,12 @@ public class DependencyGraphExporterTests
     {
         public bool IncludeDependency { get; init; }
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (IncludeDependency)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
@@ -873,10 +847,9 @@ public class DependencyGraphExporterTests
 
     private sealed class SharedMutableFactoryStateModule(List<string> state) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             state.Add("configured");
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -889,10 +862,9 @@ public class DependencyGraphExporterTests
 
     private sealed class StructWrappedFactoryStateModule(StructWrappedState state) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             state.Values.Add("configured");
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -954,15 +926,12 @@ public class DependencyGraphExporterTests
         {
         }
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (ReferenceEquals(state, DependencySentinel))
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -973,15 +942,12 @@ public class DependencyGraphExporterTests
 
     private sealed class ExternalConfigurationFactoryModule : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (_externalConfigurationIncludesDependency)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1051,15 +1017,12 @@ public class DependencyGraphExporterTests
     private sealed class ServiceBackedFactoryModule(PlanningSingletonDependency dependency)
         : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (dependency.IncludeDependency)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1081,15 +1044,12 @@ public class DependencyGraphExporterTests
     private sealed class InheritedSettingsFactoryModule(DerivedFactorySettings settings)
         : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (settings.IncludeDependency)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1106,15 +1066,12 @@ public class DependencyGraphExporterTests
     private sealed class AliasTopologyFactoryModule(AliasState first, AliasState second)
         : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (ReferenceEquals(first, second) && first.IncludeDependency)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1125,17 +1082,14 @@ public class DependencyGraphExporterTests
 
     private sealed class ArrayShapeFactoryModule(Array state) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (state.Rank == 2
                 && state.GetLength(0) == 1
                 && state.GetLowerBound(0) == 0)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1146,15 +1100,12 @@ public class DependencyGraphExporterTests
 
     private sealed class ComparerBackedFactoryModule(HashSet<string> values) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (values.Comparer.Equals("dependency", "DEPENDENCY"))
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1170,15 +1121,12 @@ public class DependencyGraphExporterTests
 
     private sealed class PrecreatedConfiguredModule(PrecreatedModuleSettings settings) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (settings.IncludeDependency)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
@@ -1216,15 +1164,12 @@ public class DependencyGraphExporterTests
 
     private sealed class CapturingComparerFactoryModule(IComparer<string> comparer) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (comparer.Compare("dependency", "other") < 0)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1245,15 +1190,12 @@ public class DependencyGraphExporterTests
     {
         public bool IncludeDependency { get; init; }
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (IncludeDependency)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1298,15 +1240,12 @@ public class DependencyGraphExporterTests
     {
         private readonly SelectiveEqualityState _state = new(includeDependency);
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (_state.IncludeDependency)
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1442,11 +1381,10 @@ public class DependencyGraphExporterTests
 
     private sealed class StartupConfiguredModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => _startupConfigurationEnabled
                 ? SkipDecision.DoNotSkip
-                : SkipDecision.Skip("startup configuration is not ready"))
-            .Build();
+                : SkipDecision.Skip("startup configuration is not ready"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -1459,14 +1397,12 @@ public class DependencyGraphExporterTests
 
     private sealed class FactorySkipModule(bool shouldSkip) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             var capturedDecision = shouldSkip
                 ? SkipDecision.Skip("factory requested a skip")
                 : SkipDecision.DoNotSkip;
-            return ModuleConfiguration.Create()
-                .WithSkipWhen(_ => capturedDecision)
-                .Build();
+            module.WithSkipWhen(_ => capturedDecision);
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1477,14 +1413,12 @@ public class DependencyGraphExporterTests
 
     private sealed class MutableClosureFactorySkipModule(string factoryValue) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             var evaluations = 0;
-            return ModuleConfiguration.Create()
-                .WithSkipWhen(_ => ++evaluations == 1
+            module.WithSkipWhen(_ => ++evaluations == 1
                     ? SkipDecision.Skip("first evaluation")
-                    : SkipDecision.DoNotSkip)
-                .Build();
+                    : SkipDecision.DoNotSkip);
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1537,13 +1471,11 @@ public class DependencyGraphExporterTests
 
     private sealed class MutableReferenceClosureFactorySkipModule(string factoryValue) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             var decisions = new Queue<SkipDecision>(
                 [SkipDecision.Skip("first evaluation"), SkipDecision.DoNotSkip]);
-            return ModuleConfiguration.Create()
-                .WithSkipWhen(_ => decisions.Dequeue())
-                .Build();
+            module.WithSkipWhen(_ => decisions.Dequeue());
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1566,12 +1498,10 @@ public class DependencyGraphExporterTests
 
     private sealed class MutableStructClosureFactorySkipModule(string factoryValue) : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             var counter = new MutablePlanningCounter();
-            return ModuleConfiguration.Create()
-                .WithSkipWhen(_ => counter.NextDecision())
-                .Build();
+            module.WithSkipWhen(_ => counter.NextDecision());
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1587,15 +1517,14 @@ public class DependencyGraphExporterTests
     {
         public int PlanningEvaluations { get; private set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ =>
             {
                 PlanningEvaluations++;
                 return shouldSkip
                     ? SkipDecision.Skip("factory requested a skip")
                     : SkipDecision.DoNotSkip;
-            })
-            .Build();
+            });
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -1607,12 +1536,10 @@ public class DependencyGraphExporterTests
     {
         public int PlanningEvaluations { get; private set; }
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             var target = new RuntimeBoundSkipTarget(this, shouldSkip);
-            return ModuleConfiguration.Create()
-                .WithSkipWhen(target.ShouldSkip)
-                .Build();
+            module.WithSkipWhen(target.ShouldSkip);
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1638,12 +1565,10 @@ public class DependencyGraphExporterTests
     {
         public int PlanningEvaluations { get; private set; }
 
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             var target = new RuntimeBoundCollectionSkipTarget([this], shouldSkip);
-            return ModuleConfiguration.Create()
-                .WithSkipWhen(target.ShouldSkip)
-                .Build();
+            module.WithSkipWhen(target.ShouldSkip);
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1669,7 +1594,7 @@ public class DependencyGraphExporterTests
     {
         public int PlanningEvaluations { get; private set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(async (_, _) =>
             {
                 PlanningEvaluations++;
@@ -1677,8 +1602,7 @@ public class DependencyGraphExporterTests
                 return shouldSkip
                     ? SkipDecision.Skip("factory requested a skip")
                     : SkipDecision.DoNotSkip;
-            })
-            .Build();
+            });
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -1697,9 +1621,13 @@ public class DependencyGraphExporterTests
 
         public void Dispose() => Interlocked.Increment(ref Disposals);
 
-        protected override ModuleConfiguration Configure() => HasFactoryState
-            ? ModuleConfiguration.Default
-            : throw new InvalidOperationException("Factory state is unavailable.");
+        protected override void Configure(ModuleConfigurationBuilder module)
+        {
+            if (!HasFactoryState)
+            {
+                throw new InvalidOperationException("Factory state is unavailable.");
+            }
+        }
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -1726,16 +1654,10 @@ public class DependencyGraphExporterTests
 
     private sealed class ByRefMutableClosureFactorySkipModule(string factoryValue) : Module<string>
     {
-        private readonly ModuleConfiguration _configuration = CreateConfiguration();
-
-        protected override ModuleConfiguration Configure() => _configuration;
-
-        private static ModuleConfiguration CreateConfiguration()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             var evaluations = 0;
-            return ModuleConfiguration.Create()
-                .WithSkipWhen(_ => NextDecision(ref evaluations))
-                .Build();
+            module.WithSkipWhen(_ => NextDecision(ref evaluations));
         }
 
         private static SkipDecision NextDecision(ref int evaluations) =>
@@ -1911,14 +1833,12 @@ public class DependencyGraphExporterTests
 
     private sealed class SingleUseConfigurationFactoryModule : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
             if (Interlocked.Increment(ref _singleUseConfigurationCalls) != 1)
             {
                 throw new InvalidOperationException("Configuration was replayed.");
             }
-
-            return ModuleConfiguration.Default;
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1983,9 +1903,8 @@ public class DependencyGraphExporterTests
 
     private sealed class ConfiguredSkippedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("configured skip"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("configured skip"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -2005,13 +1924,12 @@ public class DependencyGraphExporterTests
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     private sealed class ResultDependentConfiguredSkipModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(async (context, _) =>
             {
                 await context.GetModule<DependencyModule>();
                 return SkipDecision.DoNotSkip;
-            })
-            .Build();
+            });
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -2021,14 +1939,13 @@ public class DependencyGraphExporterTests
 
     private sealed class AsyncConfiguredSkipModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(async (_, cancellationToken) =>
             {
                 Interlocked.Increment(ref _asyncSkipConditionEvaluations);
                 await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
                 return SkipDecision.DoNotSkip;
-            })
-            .Build();
+            });
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -2038,15 +1955,14 @@ public class DependencyGraphExporterTests
 
     private sealed class SynchronouslySkippedBeforeAsyncModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("synchronous short circuit"))
             .WithSkipWhen(async (_, _) =>
             {
                 Interlocked.Increment(ref _asyncSkipConditionEvaluations);
                 await Task.Yield();
                 return SkipDecision.DoNotSkip;
-            })
-            .Build();
+            });
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -2056,15 +1972,14 @@ public class DependencyGraphExporterTests
 
     private sealed class SynchronouslySkippedAfterAsyncModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(async (_, _) =>
             {
                 Interlocked.Increment(ref _asyncSkipConditionEvaluations);
                 await Task.Yield();
                 return SkipDecision.DoNotSkip;
             })
-            .WithSkipWhen(_ => SkipDecision.Skip("synchronous short circuit"))
-            .Build();
+            .WithSkipWhen(_ => SkipDecision.Skip("synchronous short circuit"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -2467,15 +2382,12 @@ public class DependencyGraphExporterTests
 
     private sealed class ExternalHelperConfigurationModule : Module<string>
     {
-        protected override ModuleConfiguration Configure()
+        protected override void Configure(ModuleConfigurationBuilder module)
         {
-            var builder = ModuleConfiguration.Create();
             if (ExternalConfigurationState.ShouldIncludeDependency())
             {
-                builder.DependsOn<DependencyModule>();
+                module.DependsOn<DependencyModule>();
             }
-
-            return builder.Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
