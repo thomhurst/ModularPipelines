@@ -60,6 +60,8 @@ ModularPipelines.DotNet.Options.DotNetBuildOptions.NoDependencies.get -> bool?
 ModularPipelines.DotNet.Options.DotNetBuildOptions.NoDependencies.set -> void
 ModularPipelines.DotNet.Options.DotNetBuildOptions.NoIncremental.get -> bool?
 ModularPipelines.DotNet.Options.DotNetBuildOptions.NoIncremental.set -> void
+ModularPipelines.DotNet.Options.DotNetBuildOptions.NoLogo.get -> bool?
+ModularPipelines.DotNet.Options.DotNetBuildOptions.NoLogo.set -> void
 ModularPipelines.DotNet.Options.DotNetBuildOptions.Nologo.get -> bool?
 ModularPipelines.DotNet.Options.DotNetBuildOptions.Nologo.set -> void
 ModularPipelines.DotNet.Options.DotNetBuildOptions.NoRestore.get -> bool?
@@ -103,6 +105,8 @@ ModularPipelines.DotNet.Options.DotNetCleanOptions.Framework.get -> string?
 ModularPipelines.DotNet.Options.DotNetCleanOptions.Framework.set -> void
 ModularPipelines.DotNet.Options.DotNetCleanOptions.Interactive.get -> bool?
 ModularPipelines.DotNet.Options.DotNetCleanOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetCleanOptions.NoLogo.get -> bool?
+ModularPipelines.DotNet.Options.DotNetCleanOptions.NoLogo.set -> void
 ModularPipelines.DotNet.Options.DotNetCleanOptions.Nologo.get -> bool?
 ModularPipelines.DotNet.Options.DotNetCleanOptions.Nologo.set -> void
 ModularPipelines.DotNet.Options.DotNetCleanOptions.Output.get -> string?
@@ -534,6 +538,8 @@ ModularPipelines.DotNet.Options.DotNetPackOptions.Interactive.get -> bool?
 ModularPipelines.DotNet.Options.DotNetPackOptions.Interactive.set -> void
 ModularPipelines.DotNet.Options.DotNetPackOptions.NoBuild.get -> bool?
 ModularPipelines.DotNet.Options.DotNetPackOptions.NoBuild.set -> void
+ModularPipelines.DotNet.Options.DotNetPackOptions.NoLogo.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackOptions.NoLogo.set -> void
 ModularPipelines.DotNet.Options.DotNetPackOptions.Nologo.get -> bool?
 ModularPipelines.DotNet.Options.DotNetPackOptions.Nologo.set -> void
 ModularPipelines.DotNet.Options.DotNetPackOptions.NoRestore.get -> bool?
@@ -569,8 +575,10 @@ ModularPipelines.DotNet.Options.DotNetPublishOptions.Manifest.get -> string?
 ModularPipelines.DotNet.Options.DotNetPublishOptions.Manifest.set -> void
 ModularPipelines.DotNet.Options.DotNetPublishOptions.NoBuild.get -> bool?
 ModularPipelines.DotNet.Options.DotNetPublishOptions.NoBuild.set -> void
-ModularPipelines.DotNet.Options.DotNetPublishOptions.Nologo.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPublishOptions.NoLogo.get -> bool?
 ModularPipelines.DotNet.Options.DotNetPublishOptions.NoLogo.set -> void
+ModularPipelines.DotNet.Options.DotNetPublishOptions.Nologo.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPublishOptions.Nologo.set -> void
 ModularPipelines.DotNet.Options.DotNetPublishOptions.NoRestore.get -> bool?
 ModularPipelines.DotNet.Options.DotNetPublishOptions.NoRestore.set -> void
 ModularPipelines.DotNet.Options.DotNetPublishOptions.NoSelfContained.get -> bool?
