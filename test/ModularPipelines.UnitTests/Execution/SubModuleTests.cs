@@ -169,7 +169,6 @@ public class SubModuleTests : TestBase
         public int _threeCount;
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .Advanced
             .WithShield(Shield.When<Exception>().Retry(3, Backoff.None))
             .Build();
 
@@ -207,7 +206,6 @@ public class SubModuleTests : TestBase
         public int _threeCount;
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .Advanced
             .WithShield(Shield.When<Exception>().Retry(3, Backoff.None))
             .Build();
 

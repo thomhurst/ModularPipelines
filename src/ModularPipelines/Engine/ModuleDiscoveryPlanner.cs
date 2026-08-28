@@ -1109,7 +1109,6 @@ internal sealed class ModuleDiscoveryPlanner(
     private static bool IsKnownPlanningSafeConfigurationMethod(MethodBase method) =>
         method.DeclaringType == typeof(ModuleConfiguration)
         || method.DeclaringType == typeof(ModuleConfigurationBuilder)
-        || method.DeclaringType == typeof(AdvancedModuleConfigurationBuilder)
         || method.DeclaringType == typeof(SkipDecision);
 
     private static bool IsKnownPlanningSafeConfigurationField(FieldInfo field) =>

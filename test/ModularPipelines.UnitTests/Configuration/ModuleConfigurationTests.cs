@@ -383,12 +383,11 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task Advanced_WithShield_Direct_SetsResilienceShieldFactory()
+    public async Task WithShield_Direct_SetsResilienceShieldFactory()
     {
         var shield = Shield.Retry(0);
 
         var config = ModuleConfiguration.Create()
-            .Advanced
             .WithShield(shield)
             .Build();
 
@@ -401,12 +400,11 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task Advanced_WithShield_Factory_SetsResilienceShieldFactory()
+    public async Task WithShield_Factory_SetsResilienceShieldFactory()
     {
         var shield = Shield.Retry(0);
 
         var config = ModuleConfiguration.Create()
-            .Advanced
             .WithShield(_ => shield)
             .Build();
 
@@ -419,18 +417,20 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task StandardConfigurationSurface_DoesNotExposeKevlarTypes()
+    public async Task WithShield_IsExposedWithoutAdvancedSubBuilder()
     {
-        var publicSurfaceTypes = typeof(ModuleConfigurationBuilder)
-            .GetMethods()
-            .SelectMany(method => method.GetParameters()
-                .Select(parameter => parameter.ParameterType)
-                .Append(method.ReturnType))
-            .Concat(typeof(ModuleConfiguration)
-                .GetProperties()
-                .Select(property => property.PropertyType));
+        var builderType = typeof(ModuleConfigurationBuilder);
+        var shieldOverloads = builderType.GetMethods()
+            .Where(method => method.Name == nameof(ModuleConfigurationBuilder.WithShield))
+            .ToArray();
 
-        await Assert.That(publicSurfaceTypes.Any(ContainsKevlarType)).IsFalse();
+        using (Assert.Multiple())
+        {
+            await Assert.That(shieldOverloads.Length).IsEqualTo(2);
+            await Assert.That(builderType.GetProperty("Advanced")).IsNull();
+            await Assert.That(builderType.Assembly.GetType(
+                "ModularPipelines.Configuration.AdvancedModuleConfigurationBuilder")).IsNull();
+        }
     }
 
     [Test]
@@ -601,8 +601,4 @@ public class ModuleConfigurationTests
     }
 
     #endregion
-
-    private static bool ContainsKevlarType(Type type) =>
-        type.Namespace?.StartsWith("Kevlar", StringComparison.Ordinal) == true
-        || type.GetGenericArguments().Any(ContainsKevlarType);
 }

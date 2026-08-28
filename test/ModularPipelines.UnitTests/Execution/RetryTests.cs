@@ -117,7 +117,6 @@ public class RetryTests : TestBase
         internal int ExecutionCount;
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .Advanced
             .WithShield(Shield
                 .When<Exception>()
                 .Retry(DefaultRetryCount, Backoff.None))
@@ -143,7 +142,6 @@ public class RetryTests : TestBase
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
-            .Advanced
             .WithShield(Shield
                 .When<Exception>()
                 .Retry(DefaultRetryCount, Backoff.Constant(TimeSpan.FromMilliseconds(RetryDelayMs))))
@@ -329,7 +327,6 @@ public class RetryTests : TestBase
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(50))
-            .Advanced
             .WithShield(Shield
                 .When<ModuleTimeoutException>(_ =>
                 {

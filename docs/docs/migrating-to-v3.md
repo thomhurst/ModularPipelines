@@ -240,7 +240,7 @@ public class MyModule : Module<string>
 | V2 Override | V3 Configure() Method |
 |-------------|----------------------|
 | `TimeSpan Timeout` property | `.WithTimeout(TimeSpan)` |
-| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.Advanced.WithShield(Shield)` |
+| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.WithShield(Shield)` |
 | `Task<SkipDecision> ShouldSkip()` method | `.WithSkipWhen(...)` |
 | `Task<bool> ShouldIgnoreFailures()` method | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
 | `ModuleRunType.AlwaysRun` | `.WithAlwaysRun()` |
@@ -867,7 +867,7 @@ The following have been removed in V3:
 | `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()` |
 | `ModuleRunType` property | `Configure().WithAlwaysRun()` |
 | `Timeout` property | `Configure().WithTimeout()` |
-| `RetryPolicy` property | `Configure().WithRetry(count, ...)` or `.Advanced.WithShield(shield)` |
+| `RetryPolicy` property | `Configure().WithRetry(count, ...)` or `.WithShield(shield)` |
 | `GetModule<T>()` on module | `context.GetModule<TModule>()` |
 
 ## New Features in V3

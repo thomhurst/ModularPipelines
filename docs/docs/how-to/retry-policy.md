@@ -42,15 +42,14 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
     .Build();
 ```
 
-### Advanced Resilience Shield
+### Custom Resilience Shield
 
-For resilience features outside the standard API, use a Kevlar `Shield` through the explicit `.Advanced` surface:
+For resilience features outside the standard retry API, configure a Kevlar `Shield` directly:
 
 ```csharp
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .Advanced
         .WithShield(
             Shield.When<HttpRequestException>()
                 .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))))
@@ -71,7 +70,6 @@ If you need access to the pipeline context when building your shield:
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .Advanced
         .WithShield(ctx =>
         {
             var retryCount = ctx.Environment.IsCI ? 5 : 2;
