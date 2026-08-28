@@ -453,14 +453,6 @@ ModularPipelines.Context.Domains.IDataContext.Hex.get -> ModularPipelines.Contex
 ModularPipelines.Context.Domains.IDataContext.Json.get -> ModularPipelines.Context.Domains.Data.IJsonContext!
 ModularPipelines.Context.Domains.IDataContext.Xml.get -> ModularPipelines.Context.Domains.Data.IXmlContext!
 ModularPipelines.Context.Domains.IDataContext.Yaml.get -> ModularPipelines.Context.Domains.Data.IYamlContext!
-ModularPipelines.Context.Domains.IEnvironmentDomainContext
-ModularPipelines.Context.Domains.IEnvironmentDomainContext.Architecture.get -> System.Runtime.InteropServices.Architecture
-ModularPipelines.Context.Domains.IEnvironmentDomainContext.BuildSystem.get -> ModularPipelines.Context.Domains.Environment.IBuildSystemContext!
-ModularPipelines.Context.Domains.IEnvironmentDomainContext.MachineName.get -> string!
-ModularPipelines.Context.Domains.IEnvironmentDomainContext.OperatingSystem.get -> System.Runtime.InteropServices.OSPlatform
-ModularPipelines.Context.Domains.IEnvironmentDomainContext.UserName.get -> string!
-ModularPipelines.Context.Domains.IEnvironmentDomainContext.Variables.get -> ModularPipelines.Context.Domains.Environment.IEnvironmentVariablesContext!
-ModularPipelines.Context.Domains.IEnvironmentDomainContext.WorkingDirectory.get -> string!
 ModularPipelines.Context.Domains.IFilesContext
 ModularPipelines.Context.Domains.IFilesContext.Checksum.get -> ModularPipelines.Context.Domains.Files.IChecksumContext!
 ModularPipelines.Context.Domains.IFilesContext.ExistsAsync(string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
@@ -560,45 +552,9 @@ ModularPipelines.Context.IDependencyContext.GetAttributes<TAttribute>(System.Typ
 ModularPipelines.Context.IDependencyContext.GetCategory(System.Type! moduleType) -> string?
 ModularPipelines.Context.IDependencyContext.GetTags(System.Type! moduleType) -> System.Collections.Generic.IReadOnlySet<string!>!
 ModularPipelines.Context.IDependencyContext.HasAttribute<TAttribute>(System.Type! moduleType) -> bool
-ModularPipelines.Context.IEnvironmentContext
-ModularPipelines.Context.IEnvironmentContext.AppDomainDirectory.get -> ModularPipelines.FileSystem.Folder!
-ModularPipelines.Context.IEnvironmentContext.ContentDirectory.get -> ModularPipelines.FileSystem.Folder!
-ModularPipelines.Context.IEnvironmentContext.EnvironmentName.get -> string!
-ModularPipelines.Context.IEnvironmentContext.EnvironmentVariables.get -> ModularPipelines.Context.Domains.Environment.IEnvironmentVariablesContext!
-ModularPipelines.Context.IEnvironmentContext.GetFolder(System.Environment.SpecialFolder specialFolder) -> ModularPipelines.FileSystem.Folder?
-ModularPipelines.Context.IEnvironmentContext.Is64BitOperatingSystem.get -> bool
-ModularPipelines.Context.IEnvironmentContext.OperatingSystem.get -> ModularPipelines.OperatingSystemIdentifier
-ModularPipelines.Context.IEnvironmentContext.OperatingSystemVersion.get -> System.Version!
-ModularPipelines.Context.IEnvironmentContext.WorkingDirectory.get -> ModularPipelines.FileSystem.Folder!
 ModularPipelines.Context.IFileInstaller
 ModularPipelines.Context.IFileInstaller.InstallFromFileAsync(ModularPipelines.Options.InstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.IFileInstaller.InstallFromWebAsync(ModularPipelines.Options.WebInstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.IFileSystemContext
-ModularPipelines.Context.IFileSystemContext.CopyFile(ModularPipelines.FileSystem.File! file, string! destinationFilePath) -> ModularPipelines.FileSystem.File!
-ModularPipelines.Context.IFileSystemContext.CopyFolder(ModularPipelines.FileSystem.Folder! folder, string! destinationFolder) -> ModularPipelines.FileSystem.Folder!
-ModularPipelines.Context.IFileSystemContext.CreateTemporaryFolder() -> ModularPipelines.FileSystem.Folder!
-ModularPipelines.Context.IFileSystemContext.DeleteFile(ModularPipelines.FileSystem.File! file) -> void
-ModularPipelines.Context.IFileSystemContext.DeleteFolder(ModularPipelines.FileSystem.Folder! folder) -> void
-ModularPipelines.Context.IFileSystemContext.FileExists(ModularPipelines.FileSystem.File! file) -> bool
-ModularPipelines.Context.IFileSystemContext.FolderExists(ModularPipelines.FileSystem.Folder! folder) -> bool
-ModularPipelines.Context.IFileSystemContext.GetFile(string! filePath) -> ModularPipelines.FileSystem.File!
-ModularPipelines.Context.IFileSystemContext.GetFileAttributes(ModularPipelines.FileSystem.File! file) -> System.IO.FileAttributes
-ModularPipelines.Context.IFileSystemContext.GetFiles(ModularPipelines.FileSystem.Folder! rootFolder, System.Func<ModularPipelines.FileSystem.File!, bool>! predicate) -> System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.File!>!
-ModularPipelines.Context.IFileSystemContext.GetFolder(string! path) -> ModularPipelines.FileSystem.Folder!
-ModularPipelines.Context.IFileSystemContext.GetFolder(System.Environment.SpecialFolder specialFolder) -> ModularPipelines.FileSystem.Folder!
-ModularPipelines.Context.IFileSystemContext.GetFolderAttributes(ModularPipelines.FileSystem.Folder! folder) -> System.IO.FileAttributes
-ModularPipelines.Context.IFileSystemContext.GetFolders(ModularPipelines.FileSystem.Folder! rootFolder, System.Func<ModularPipelines.FileSystem.Folder!, bool>! predicate) -> System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.Folder!>!
-ModularPipelines.Context.IFileSystemContext.GetNewTemporaryFilePath() -> string!
-ModularPipelines.Context.IFileSystemContext.MoveFile(ModularPipelines.FileSystem.File! file, string! destinationFilePath) -> void
-ModularPipelines.Context.IFileSystemContext.MoveFolder(ModularPipelines.FileSystem.Folder! folder, string! destinationFolderPath) -> void
-ModularPipelines.Context.IFileSystemContext.SetFileAttributes(ModularPipelines.FileSystem.File! file, System.IO.FileAttributes attributes) -> void
-ModularPipelines.Context.IFileSystemContext.SetFolderAttributes(ModularPipelines.FileSystem.Folder! folder, System.IO.FileAttributes attributes) -> void
-ModularPipelines.Context.IInstaller
-ModularPipelines.Context.IInstaller.FileInstaller.get -> ModularPipelines.Context.IFileInstaller!
-ModularPipelines.Context.IInstaller.LinuxInstaller.get -> ModularPipelines.Context.Domains.Installers.ILinuxInstallerContext!
-ModularPipelines.Context.IInstaller.MacInstaller.get -> ModularPipelines.Context.Domains.Installers.IMacInstallerContext!
-ModularPipelines.Context.IInstaller.PredefinedInstallers.get -> ModularPipelines.Context.Domains.Installers.IPredefinedInstallersContext!
-ModularPipelines.Context.IInstaller.WindowsInstaller.get -> ModularPipelines.Context.Domains.Installers.IWindowsInstallerContext!
 ModularPipelines.Context.IModuleContext
 ModularPipelines.Context.IModuleContext.GetModule<TModule>() -> TModule!
 ModularPipelines.Context.IModuleContext.GetModuleIfRegistered<TModule>() -> TModule?
@@ -618,7 +574,6 @@ ModularPipelines.Context.IModuleHookContext.SkipDependentModules(string! reason)
 ModularPipelines.Context.IModuleHookContext.StartTime.get -> System.DateTimeOffset
 ModularPipelines.Context.IPipelineContext
 ModularPipelines.Context.IPipelineContext.Data.get -> ModularPipelines.Context.Domains.IDataContext!
-ModularPipelines.Context.IPipelineContext.Environment.get -> ModularPipelines.Context.Domains.IEnvironmentDomainContext!
 ModularPipelines.Context.IPipelineContext.Files.get -> ModularPipelines.Context.Domains.IFilesContext!
 ModularPipelines.Context.IPipelineContext.Installers.get -> ModularPipelines.Context.Domains.IInstallersContext!
 ModularPipelines.Context.IPipelineContext.Logger.get -> ModularPipelines.Logging.IModuleLogger!
@@ -647,7 +602,6 @@ ModularPipelines.Context.Linux.IAptGet.UpdateAsync(ModularPipelines.Options.Linu
 ModularPipelines.Context.Linux.IAptGet.UpgradeAsync(ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.PredefinedInstallers
 ModularPipelines.Context.PredefinedInstallers.NvmAsync(string? version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.File?>!
-ModularPipelines.Context.PredefinedInstallers.PredefinedInstallers(ModularPipelines.Context.Domains.Shell.ICommandContext! command, ModularPipelines.Context.IEnvironmentContext! environmentContext, ModularPipelines.Context.Domains.Network.IDownloaderContext! downloader, ModularPipelines.Context.Domains.Installers.IMacInstallerContext! macInstaller, ModularPipelines.Context.Domains.Installers.IWindowsInstallerContext! windowsInstaller, ModularPipelines.Context.Domains.Installers.ILinuxInstallerContext! linuxInstaller, ModularPipelines.Context.Domains.Shell.IBashContext! bash, ModularPipelines.Context.Domains.Files.IZipContext! zip, ModularPipelines.Context.Domains.Environment.IEnvironmentVariablesContext! environmentVariables) -> void
 ModularPipelines.Distributed.ArtifactDescriptor
 ModularPipelines.Distributed.ArtifactDescriptor.ArtifactDescriptor(ModularPipelines.Distributed.ArtifactDescriptor! original) -> void
 ModularPipelines.Distributed.ArtifactDescriptor.ArtifactDescriptor(string! Name, string! ModuleTypeName, string? ContentType = null, System.Collections.Generic.IReadOnlyDictionary<string!, string!>? Metadata = null) -> void
@@ -1237,20 +1191,6 @@ ModularPipelines.Http.IHttpLogger.PrintResponse(System.Net.Http.HttpResponseMess
 ModularPipelines.Http.IHttpLogger.PrintResponse(System.Net.Http.HttpResponseMessage! response, ModularPipelines.Logging.IModuleLogger! logger, ModularPipelines.Options.HttpLoggingOptions! options, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Http.IHttpLogger.PrintResponse(System.Net.Http.HttpResponseMessage! response, ModularPipelines.Logging.IModuleLogger! logger, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Http.IHttpLogger.PrintStatusCode(System.Net.HttpStatusCode? httpStatusCode, ModularPipelines.Logging.IModuleLogger! logger) -> void
-ModularPipelines.IBuildSystemDetector
-ModularPipelines.IBuildSystemDetector.Current.get -> ModularPipelines.Enums.BuildSystem
-ModularPipelines.IBuildSystemDetector.GetCurrentBuildSystem() -> ModularPipelines.Enums.BuildSystem
-ModularPipelines.IBuildSystemDetector.Is(ModularPipelines.Enums.BuildSystem buildSystem) -> bool
-ModularPipelines.IBuildSystemDetector.IsKnownBuildAgent.get -> bool
-ModularPipelines.IBuildSystemDetector.IsRunningOnAppVeyor.get -> bool
-ModularPipelines.IBuildSystemDetector.IsRunningOnAzurePipelines.get -> bool
-ModularPipelines.IBuildSystemDetector.IsRunningOnBitbucket.get -> bool
-ModularPipelines.IBuildSystemDetector.IsRunningOnGitHubActions.get -> bool
-ModularPipelines.IBuildSystemDetector.IsRunningOnGitLab.get -> bool
-ModularPipelines.IBuildSystemDetector.IsRunningOnJenkins.get -> bool
-ModularPipelines.IBuildSystemDetector.IsRunningOnTeamCity.get -> bool
-ModularPipelines.IBuildSystemDetector.IsRunningOnTravisCI.get -> bool
-ModularPipelines.IBuildSystemDetector.MatchedEnvironmentVariable.get -> string?
 ModularPipelines.IConsoleWriter
 ModularPipelines.IConsoleWriter.LogToConsole(string! value) -> void
 ModularPipelines.IConsoleWriter.Write(Spectre.Console.Rendering.IRenderable! renderable) -> void
@@ -3329,3 +3269,17 @@ static Microsoft.Extensions.DependencyInjection.MediatorDependencyInjectionExten
 ~Mediator.MediatorOptionsAttribute.NotificationPublisherType.set -> void
 ~static Mediator.AssemblyReference.implicit operator Mediator.AssemblyReference(System.Reflection.Assembly assembly) -> Mediator.AssemblyReference
 ~static Mediator.AssemblyReference.implicit operator Mediator.AssemblyReference(System.Type type) -> Mediator.AssemblyReference
+ModularPipelines.Context.Domains.IEnvironmentContext
+ModularPipelines.Context.Domains.IEnvironmentContext.AppDomainDirectory.get -> ModularPipelines.FileSystem.Folder!
+ModularPipelines.Context.Domains.IEnvironmentContext.Architecture.get -> System.Runtime.InteropServices.Architecture
+ModularPipelines.Context.Domains.IEnvironmentContext.BuildSystem.get -> ModularPipelines.Context.Domains.Environment.IBuildSystemContext!
+ModularPipelines.Context.Domains.IEnvironmentContext.ContentDirectory.get -> ModularPipelines.FileSystem.Folder!
+ModularPipelines.Context.Domains.IEnvironmentContext.EnvironmentName.get -> string!
+ModularPipelines.Context.Domains.IEnvironmentContext.MachineName.get -> string!
+ModularPipelines.Context.Domains.IEnvironmentContext.OperatingSystem.get -> System.Runtime.InteropServices.OSPlatform
+ModularPipelines.Context.Domains.IEnvironmentContext.UserName.get -> string!
+ModularPipelines.Context.Domains.IEnvironmentContext.Variables.get -> ModularPipelines.Context.Domains.Environment.IEnvironmentVariablesContext!
+ModularPipelines.Context.Domains.IEnvironmentContext.WorkingDirectory.get -> ModularPipelines.FileSystem.Folder!
+ModularPipelines.Context.IPipelineContext.Environment.get -> ModularPipelines.Context.Domains.IEnvironmentContext!
+ModularPipelines.Context.PredefinedInstallers.PredefinedInstallers(ModularPipelines.Context.Domains.Shell.ICommandContext! command, ModularPipelines.Context.Domains.IEnvironmentContext! environmentContext, ModularPipelines.Context.Domains.Network.IDownloaderContext! downloader, ModularPipelines.Context.Domains.Installers.IMacInstallerContext! macInstaller, ModularPipelines.Context.Domains.Installers.IWindowsInstallerContext! windowsInstaller, ModularPipelines.Context.Domains.Installers.ILinuxInstallerContext! linuxInstaller, ModularPipelines.Context.Domains.Shell.IBashContext! bash, ModularPipelines.Context.Domains.Files.IZipContext! zip, ModularPipelines.Context.Domains.Environment.IEnvironmentVariablesContext! environmentVariables) -> void
+static ModularPipelines.FileSystem.Folder.CreateTemporaryFolder(ModularPipelines.FileSystem.IFileSystemProvider! provider) -> ModularPipelines.FileSystem.Folder!
