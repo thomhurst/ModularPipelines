@@ -65,8 +65,8 @@ internal static class GeneratorDiagnostics
         "MPG0008",
         "Discoverable tool properties require C# 14",
         "Tool accessor '{0}' cannot generate a context.Tools property because language version "
-        + "'{1}' does not support extension members; use C# 14 or preview, or call the "
-        + "compatibility accessor context.{2}()",
+        + "'{1}' does not support extension members; use C# 14 or preview, or call "
+        + "context.Tools.Get<{2}>()",
         DiagnosticSeverity.Warning);
 
     public static DiagnosticDescriptor ConflictingToolProperty { get; } = Create(
