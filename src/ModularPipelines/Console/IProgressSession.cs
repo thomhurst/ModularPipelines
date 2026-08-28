@@ -47,19 +47,19 @@ internal interface IProgressSession : IAsyncDisposable
     void OnModuleSkipped(ModuleState state);
 
     /// <summary>
-    /// Called when a sub-module is created.
-    /// Adds a nested progress bar for the sub-module.
+    /// Called when a sub-operation is created.
+    /// Adds a nested progress bar for the sub-operation.
     /// </summary>
     /// <param name="parentModule">The parent module.</param>
-    /// <param name="subModule">The sub-module.</param>
+    /// <param name="subModule">The sub-operation.</param>
     /// <param name="estimatedDuration">Estimated duration for progress animation.</param>
     void OnSubModuleCreated(Modules.IModule parentModule, Modules.SubModuleBase subModule, TimeSpan estimatedDuration);
 
     /// <summary>
-    /// Called when a sub-module completes.
-    /// Updates the sub-module progress bar to show completion status.
+    /// Called when a sub-operation completes.
+    /// Updates the sub-operation progress bar to show completion status.
     /// </summary>
-    /// <param name="subModule">The sub-module.</param>
-    /// <param name="isSuccessful">Whether the sub-module completed successfully.</param>
+    /// <param name="subModule">The sub-operation.</param>
+    /// <param name="isSuccessful">Whether the sub-operation completed successfully.</param>
     void OnSubModuleCompleted(Modules.SubModuleBase subModule, bool isSuccessful);
 }

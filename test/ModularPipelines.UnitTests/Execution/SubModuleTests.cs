@@ -99,7 +99,7 @@ public class SubModuleTests : TestBase
                 .SelectAsync(async (string name) =>
                 {
                     await Task.Yield();
-                    throw new SubModuleFailedException($"The Sub-Module {name} has failed.");
+                    throw new InvalidOperationException($"The sub-operation {name} has failed.");
 #pragma warning disable CS0162
                     return name;
 #pragma warning restore CS0162
@@ -116,7 +116,7 @@ public class SubModuleTests : TestBase
                 .ForEachAsync(async name =>
                 {
                     await Task.Yield();
-                    throw new SubModuleFailedException($"The Sub-Module {name} has failed.");
+                    throw new InvalidOperationException($"The sub-operation {name} has failed.");
                 }, cancellationToken)
                 .ProcessInParallel();
 
@@ -134,7 +134,7 @@ public class SubModuleTests : TestBase
                 {
                     if (1.ToString() == "1")
                     {
-                        throw new SubModuleFailedException($"The Sub-Module {name} has failed.");
+                        throw new InvalidOperationException($"The sub-operation {name} has failed.");
                     }
 
                     return Task.FromResult(name);
@@ -152,7 +152,7 @@ public class SubModuleTests : TestBase
                 {
                     if (name == "1")
                     {
-                        throw new SubModuleFailedException($"The Sub-Module {name} has failed.");
+                        throw new InvalidOperationException($"The sub-operation {name} has failed.");
                     }
                     return Task.CompletedTask;
                 }, cancellationToken)
@@ -324,8 +324,8 @@ public class SubModuleTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException!.InnerException).IsTypeOf<SubModuleFailedException>();
-            await Assert.That(moduleFailedException.InnerException).HasMessageEqualTo("The Sub-Module 1 has failed.");
+            await Assert.That(moduleFailedException!.InnerException).IsTypeOf<InvalidOperationException>();
+            await Assert.That(moduleFailedException.InnerException).HasMessageEqualTo("The sub-operation 1 has failed.");
         }
     }
 
@@ -337,7 +337,7 @@ public class SubModuleTests : TestBase
                 .AddModule<FailingSubModulesWithoutReturnTypeModule>()
                 .RunAsync());
 
-        await Assert.That(exception!.InnerException).IsTypeOf<SubModuleFailedException>();
+        await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await TestPipelineBuilder.Create()
@@ -346,11 +346,11 @@ public class SubModuleTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException?.InnerException).IsTypeOf<SubModuleFailedException>();
+            await Assert.That(moduleFailedException?.InnerException).IsTypeOf<InvalidOperationException>();
             await Assert.That(moduleFailedException!.InnerException!)
-                .HasMessageEqualTo("The Sub-Module 1 has failed.")
-                .Or.HasMessageEqualTo("The Sub-Module 2 has failed.")
-                .Or.HasMessageEqualTo("The Sub-Module 3 has failed.");
+                .HasMessageEqualTo("The sub-operation 1 has failed.")
+                .Or.HasMessageEqualTo("The sub-operation 2 has failed.")
+                .Or.HasMessageEqualTo("The sub-operation 3 has failed.");
         }
     }
 
@@ -364,8 +364,8 @@ public class SubModuleTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException?.InnerException).IsTypeOf<SubModuleFailedException>();
-            await Assert.That(moduleFailedException!.InnerException!).HasMessageEqualTo("The Sub-Module 1 has failed.");
+            await Assert.That(moduleFailedException?.InnerException).IsTypeOf<InvalidOperationException>();
+            await Assert.That(moduleFailedException!.InnerException!).HasMessageEqualTo("The sub-operation 1 has failed.");
         }
     }
 
@@ -379,8 +379,8 @@ public class SubModuleTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException!.InnerException).IsTypeOf<SubModuleFailedException>();
-            await Assert.That(moduleFailedException.InnerException!).HasMessageEqualTo("The Sub-Module 1 has failed.");
+            await Assert.That(moduleFailedException!.InnerException).IsTypeOf<InvalidOperationException>();
+            await Assert.That(moduleFailedException.InnerException!).HasMessageEqualTo("The sub-operation 1 has failed.");
         }
     }
 

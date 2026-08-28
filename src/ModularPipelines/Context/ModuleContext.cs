@@ -110,19 +110,25 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         return _executionContext.MatrixTarget;
     }
 
-    public Task<T> SubModuleAsync<T>(string name, Func<Task<T>> action, CancellationToken cancellationToken = default) =>
-        ExecuteSubModuleAsync(name, action, cancellationToken);
+    public Task<T> RunSubModuleAsync<T>(
+        string name,
+        Func<CancellationToken, Task<T>> body,
+        CancellationToken cancellationToken = default) =>
+        ExecuteSubModuleAsync(name, body, cancellationToken);
 
-    public Task SubModuleAsync(string name, Func<Task> action, CancellationToken cancellationToken = default) =>
-        ExecuteSubModuleAsync(name, async () =>
+    public Task RunSubModuleAsync(
+        string name,
+        Func<CancellationToken, Task> body,
+        CancellationToken cancellationToken = default) =>
+        ExecuteSubModuleAsync(name, async token =>
         {
-            await action().ConfigureAwait(false);
+            await body(token).ConfigureAwait(false);
             return 0;
         }, cancellationToken);
 
     private async Task<T> ExecuteSubModuleAsync<T>(
         string name,
-        Func<Task<T>> action,
+        Func<CancellationToken, Task<T>> body,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -140,7 +146,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
 
         try
         {
-            return await tracker.ExecuteAsync(action).ConfigureAwait(false);
+            return await tracker.ExecuteAsync(() => body(cancellationToken)).ConfigureAwait(false);
         }
         finally
         {

@@ -15,50 +15,50 @@ public class PropulsionDiagnosticsModule : Module<PropulsionStatus>
         context.Logger.LogDebug("Initializing engine diagnostic interface...");
         context.Logger.LogDebug("Loading engine telemetry baseline parameters...");
 
-        // Use SubModules to check each engine individually
-        var engine1 = await context.SubModuleAsync("Engine 1 Diagnostics", async () =>
+        // Use sub-operations to check each engine individually
+        var engine1 = await context.RunSubModuleAsync("Engine 1 Diagnostics", async token =>
         {
             context.Logger.LogInformation("Engine 1: Starting diagnostic sequence...");
             context.Logger.LogDebug("Engine 1: Checking fuel injector pressure...");
-            await Task.Delay(TimeSpan.FromMilliseconds(150), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(150), token);
             context.Logger.LogDebug("Engine 1: Fuel injector pressure: 2847 PSI - NOMINAL");
             context.Logger.LogDebug("Engine 1: Checking oxidizer flow rate...");
-            await Task.Delay(TimeSpan.FromMilliseconds(150), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(150), token);
             context.Logger.LogDebug("Engine 1: Oxidizer flow rate: 1250 kg/s - NOMINAL");
             context.Logger.LogDebug("Engine 1: Verifying turbopump RPM...");
-            await Task.Delay(TimeSpan.FromMilliseconds(150), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(150), token);
             context.Logger.LogDebug("Engine 1: Turbopump RPM: 35,420 - NOMINAL");
             context.Logger.LogInformation("Engine 1: Diagnostic sequence complete - PASS");
             return new EngineStatus(1, true, 25.0, 101.3);
         }, cancellationToken);
 
-        var engine2 = await context.SubModuleAsync("Engine 2 Diagnostics", async () =>
+        var engine2 = await context.RunSubModuleAsync("Engine 2 Diagnostics", async token =>
         {
             context.Logger.LogInformation("Engine 2: Starting diagnostic sequence...");
             context.Logger.LogDebug("Engine 2: Checking fuel injector pressure...");
-            await Task.Delay(TimeSpan.FromMilliseconds(150), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(150), token);
             context.Logger.LogDebug("Engine 2: Fuel injector pressure: 2851 PSI - NOMINAL");
             context.Logger.LogDebug("Engine 2: Checking oxidizer flow rate...");
-            await Task.Delay(TimeSpan.FromMilliseconds(150), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(150), token);
             context.Logger.LogDebug("Engine 2: Oxidizer flow rate: 1248 kg/s - NOMINAL");
             context.Logger.LogDebug("Engine 2: Verifying turbopump RPM...");
-            await Task.Delay(TimeSpan.FromMilliseconds(150), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(150), token);
             context.Logger.LogDebug("Engine 2: Turbopump RPM: 35,380 - NOMINAL");
             context.Logger.LogInformation("Engine 2: Diagnostic sequence complete - PASS");
             return new EngineStatus(2, true, 24.8, 101.1);
         }, cancellationToken);
 
-        var engine3 = await context.SubModuleAsync("Engine 3 Diagnostics", async () =>
+        var engine3 = await context.RunSubModuleAsync("Engine 3 Diagnostics", async token =>
         {
             context.Logger.LogInformation("Engine 3: Starting diagnostic sequence...");
             context.Logger.LogDebug("Engine 3: Checking fuel injector pressure...");
-            await Task.Delay(TimeSpan.FromMilliseconds(150), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(150), token);
             context.Logger.LogDebug("Engine 3: Fuel injector pressure: 2845 PSI - NOMINAL");
             context.Logger.LogDebug("Engine 3: Checking oxidizer flow rate...");
-            await Task.Delay(TimeSpan.FromMilliseconds(150), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(150), token);
             context.Logger.LogDebug("Engine 3: Oxidizer flow rate: 1252 kg/s - NOMINAL");
             context.Logger.LogDebug("Engine 3: Verifying turbopump RPM...");
-            await Task.Delay(TimeSpan.FromMilliseconds(150), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(150), token);
             context.Logger.LogDebug("Engine 3: Turbopump RPM: 35,445 - NOMINAL");
             context.Logger.LogInformation("Engine 3: Diagnostic sequence complete - PASS");
             return new EngineStatus(3, true, 25.2, 101.5);

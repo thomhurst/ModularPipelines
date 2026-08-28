@@ -25,8 +25,8 @@ public class TelemetryStreamModule : Module<TelemetryData>
         context.Logger.LogDebug("Telemetry rate: 1 Mbps");
         context.Logger.LogDebug("Frame sync acquired");
 
-        // Simulate telemetry updates with SubModules
-        await context.SubModuleAsync("Telemetry T+30s", async () =>
+        // Simulate telemetry updates with sub-operations
+        await context.RunSubModuleAsync("Telemetry T+30s", async token =>
         {
             context.Logger.LogInformation("T+30s: First stage powered flight");
             context.Logger.LogDebug("Altitude: 15 km");
@@ -37,11 +37,11 @@ public class TelemetryStreamModule : Module<TelemetryData>
             context.Logger.LogDebug("Engine 3: 101% thrust");
             context.Logger.LogDebug("Fuel remaining: 78%");
             context.Logger.LogDebug("Trajectory deviation: 0.02°");
-            await Task.Delay(TimeSpan.FromMilliseconds(400), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(400), token);
             return true;
         }, cancellationToken);
 
-        await context.SubModuleAsync("Telemetry T+60s", async () =>
+        await context.RunSubModuleAsync("Telemetry T+60s", async token =>
         {
             context.Logger.LogInformation("T+60s: Approaching Max-Q");
             context.Logger.LogDebug("Altitude: 50 km");
@@ -51,11 +51,11 @@ public class TelemetryStreamModule : Module<TelemetryData>
             context.Logger.LogDebug("Vehicle structural loads: NOMINAL");
             context.Logger.LogDebug("Fuel remaining: 52%");
             context.Logger.LogDebug("Downrange distance: 45 km");
-            await Task.Delay(TimeSpan.FromMilliseconds(400), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(400), token);
             return true;
         }, cancellationToken);
 
-        await context.SubModuleAsync("Telemetry T+90s", async () =>
+        await context.RunSubModuleAsync("Telemetry T+90s", async token =>
         {
             context.Logger.LogInformation("T+90s: MECO - Main Engine Cutoff");
             context.Logger.LogDebug("Altitude: 120 km");
@@ -64,11 +64,11 @@ public class TelemetryStreamModule : Module<TelemetryData>
             context.Logger.LogDebug("First stage performance: NOMINAL");
             context.Logger.LogDebug("First stage fuel depleted: 99.8%");
             context.Logger.LogDebug("Stage separation pyros: ARMED");
-            await Task.Delay(TimeSpan.FromMilliseconds(400), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(400), token);
             return true;
         }, cancellationToken);
 
-        await context.SubModuleAsync("Telemetry T+120s", async () =>
+        await context.RunSubModuleAsync("Telemetry T+120s", async token =>
         {
             context.Logger.LogInformation("T+120s: Stage separation and S2 ignition");
             context.Logger.LogDebug("Stage separation confirmed");
@@ -79,7 +79,7 @@ public class TelemetryStreamModule : Module<TelemetryData>
             context.Logger.LogDebug("S2 engine performance: 100%");
             context.Logger.LogDebug("Payload fairing separation: NOMINAL");
             context.Logger.LogDebug("Fairing halves tracking confirmed");
-            await Task.Delay(TimeSpan.FromMilliseconds(400), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(400), token);
             return true;
         }, cancellationToken);
 

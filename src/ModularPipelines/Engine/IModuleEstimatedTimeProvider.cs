@@ -23,17 +23,17 @@ public interface IModuleEstimatedTimeProvider
     Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration);
 
     /// <summary>
-    /// Gets the estimated execution times for sub-modules of a module type.
+    /// Gets the estimated execution times for sub-operations of a module type.
     /// </summary>
-    /// <param name="moduleType">The type of module to get sub-module estimates for.</param>
-    /// <returns>A task that represents the asynchronous operation. The value contains the sub-module estimations.</returns>
+    /// <param name="moduleType">The type of module to get sub-operation estimates for.</param>
+    /// <returns>A task that represents the asynchronous operation. The value contains the sub-operation estimations.</returns>
     Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType);
 
     /// <summary>
-    /// Saves the actual execution time for a sub-module to improve future estimates.
+    /// Saves the actual execution time for a sub-operation to improve future estimates.
     /// </summary>
-    /// <param name="moduleType">The type of module containing the sub-module.</param>
-    /// <param name="subModuleEstimation">The sub-module estimation data.</param>
+    /// <param name="moduleType">The type of module containing the sub-operation.</param>
+    /// <param name="subModuleEstimation">The sub-operation estimation data.</param>
     /// <returns>A task that represents the asynchronous save operation.</returns>
     Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation);
 }
