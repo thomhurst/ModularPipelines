@@ -68,7 +68,7 @@ public class MyModule : Module<FileInfo>
         .WithRetry(3)
         .WithSkipWhen(_ => !File.Exists("important.json"), "important.json does not exist")
         .WithPriority(ModulePriority.High)
-        .WithExecutionHint(ExecutionType.IoIntensive)
+        .WithExecutionHint(ExecutionHint.IoBound)
         .WithTags("build", "critical")
         .WithCategory("build")
         .DependsOn<RestoreModule>()
@@ -96,7 +96,7 @@ public class MyModule : Module<FileInfo>
 | `.WithAlwaysRun()` | Run even if the pipeline has failed |
 | `.WithNotInParallel(...)` | Prevent parallel execution globally or for matching constraint keys |
 | `.WithPriority(ModulePriority)` | Set scheduler priority |
-| `.WithExecutionHint(ExecutionType)` | Select CPU, I/O, or default concurrency limits |
+| `.WithExecutionHint(ExecutionHint)` | Select CPU-bound, I/O-bound, or default concurrency limits |
 | `.WithTags(...)` | Add tags used by metadata-based dependencies |
 | `.WithCategory(string)` | Set the module category |
 | `.DependsOn<TModule>()` | Add a required dependency |

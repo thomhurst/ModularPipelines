@@ -31,7 +31,7 @@ public class UnifiedModuleConfigurationIntegrationTests
             .WithCategory("configured-category")
             .WithNotInParallel("configured-lock")
             .WithPriority(ModulePriority.High)
-            .WithExecutionHint(ExecutionType.IoIntensive);
+            .WithExecutionHint(ExecutionHint.IoBound);
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

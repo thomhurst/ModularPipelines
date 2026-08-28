@@ -32,10 +32,10 @@ public record ModuleTimeline
     public ModulePriority Priority { get; init; }
 
     /// <summary>
-    /// Gets the execution type hint of the module.
+    /// Gets the resource-usage hint of the module.
     /// </summary>
     [JsonInclude]
-    public ExecutionType ExecutionType { get; init; }
+    public ExecutionHint ExecutionHint { get; init; }
 
     /// <summary>
     /// Gets when all dependencies were satisfied and the module became ready to execute.

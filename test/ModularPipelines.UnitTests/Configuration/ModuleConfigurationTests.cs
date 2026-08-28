@@ -604,7 +604,7 @@ public class ModuleConfigurationTests
         var config = new ModuleConfigurationBuilder()
             .WithNotInParallel("database")
             .WithPriority(ModulePriority.Critical)
-            .WithExecutionHint(ExecutionType.IoIntensive)
+            .WithExecutionHint(ExecutionHint.IoBound)
             .WithTags("deploy", "production")
             .WithCategory("release")
             .DependsOn<DependencyModule>()
@@ -614,7 +614,7 @@ public class ModuleConfigurationTests
         {
             await Assert.That(config.ParallelConstraintKeys).IsEquivalentTo(new[] { "database" });
             await Assert.That(config.Priority).IsEqualTo(ModulePriority.Critical);
-            await Assert.That(config.ExecutionType).IsEqualTo(ExecutionType.IoIntensive);
+            await Assert.That(config.ExecutionHint).IsEqualTo(ExecutionHint.IoBound);
             await Assert.That(config.Tags).IsEquivalentTo(new[] { "deploy", "production" });
             await Assert.That(config.Category).IsEqualTo("release");
             await Assert.That(config.Dependencies.Select(dependency => dependency.ModuleType))
@@ -633,7 +633,7 @@ public class ModuleConfigurationTests
             .WithAlwaysRun()
             .WithNotInParallel("shared")
             .WithPriority(ModulePriority.High)
-            .WithExecutionHint(ExecutionType.CpuIntensive)
+            .WithExecutionHint(ExecutionHint.CpuBound)
             .WithTags("build")
             .WithCategory("ci")
             .DependsOnOptional<DependencyModule>()
@@ -648,7 +648,7 @@ public class ModuleConfigurationTests
             await Assert.That(config.AlwaysRun).IsTrue();
             await Assert.That(config.ParallelConstraintKeys).IsEquivalentTo(new[] { "shared" });
             await Assert.That(config.Priority).IsEqualTo(ModulePriority.High);
-            await Assert.That(config.ExecutionType).IsEqualTo(ExecutionType.CpuIntensive);
+            await Assert.That(config.ExecutionHint).IsEqualTo(ExecutionHint.CpuBound);
             await Assert.That(config.Tags).Contains("build");
             await Assert.That(config.Category).IsEqualTo("ci");
             await Assert.That(config.Dependencies).HasSingleItem();

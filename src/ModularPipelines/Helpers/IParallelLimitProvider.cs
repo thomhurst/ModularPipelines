@@ -15,8 +15,8 @@ internal interface IParallelLimitProvider
     int GetMaxDegreeOfParallelism();
 
     /// <summary>
-    /// Gets a semaphore lock for execution type throttling (CPU or IO intensive).
-    /// Returns null if no limit is configured for the execution type.
+    /// Gets a semaphore lock for execution hint throttling (CPU-bound or I/O-bound).
+    /// Returns null if no limit is configured for the execution hint.
     /// </summary>
-    AsyncSemaphore? GetExecutionTypeLock(ExecutionType executionType);
+    AsyncSemaphore? GetExecutionHintLock(ExecutionHint executionHint);
 }

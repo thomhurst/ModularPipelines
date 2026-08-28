@@ -178,8 +178,8 @@ internal class ModuleRunner : IModuleRunner
                 using var semaphoreHandle = await _parallelLimitHandler
                     .AcquireParallelLimitAsync(moduleType, limiterCancellationToken)
                     .ConfigureAwait(false);
-                using var executionTypeHandle = await _parallelLimitHandler
-                    .AcquireExecutionTypeLimitAsync(moduleState, limiterCancellationToken)
+                using var executionHintHandle = await _parallelLimitHandler
+                    .AcquireExecutionHintLimitAsync(moduleState, limiterCancellationToken)
                     .ConfigureAwait(false);
 
                 // Check constraints again after acquiring execution slots. Keeping the module queued
@@ -217,7 +217,7 @@ internal class ModuleRunner : IModuleRunner
                     handledException,
                     cancellationToken);
 
-                if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+                if (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
                 {
                     if (ReferenceEquals(handledException, ex))
                     {

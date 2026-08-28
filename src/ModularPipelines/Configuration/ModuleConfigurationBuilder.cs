@@ -46,7 +46,7 @@ public sealed class ModuleConfigurationBuilder
     private bool _hasAsyncSkipCondition;
     private string[]? _parallelConstraintKeys;
     private ModulePriority? _priority;
-    private ExecutionType? _executionType;
+    private ExecutionHint? _executionHint;
     private string? _category;
 
     #region WithSkipWhen Overloads
@@ -254,9 +254,9 @@ public sealed class ModuleConfigurationBuilder
     /// Sets the module resource-usage hint.
     /// </summary>
     /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithExecutionHint(ExecutionType executionType)
+    public ModuleConfigurationBuilder WithExecutionHint(ExecutionHint executionHint)
     {
-        _executionType = executionType;
+        _executionHint = executionHint;
         return this;
     }
 
@@ -493,7 +493,7 @@ public sealed class ModuleConfigurationBuilder
             AlwaysRun = _alwaysRun,
             ParallelConstraintKeys = _parallelConstraintKeys,
             Priority = _priority,
-            ExecutionType = _executionType,
+            ExecutionHint = _executionHint,
             Tags = new HashSet<string>(_tags, StringComparer.OrdinalIgnoreCase),
             Category = _category,
             CacheKeyParts = [.. _cacheKeyParts],

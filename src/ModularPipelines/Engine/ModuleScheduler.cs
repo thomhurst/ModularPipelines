@@ -122,7 +122,7 @@ internal class ModuleScheduler : IModuleScheduler
             _metricsCollector.RecordModuleInitialized(
                 state.ModuleType,
                 state.Priority,
-                state.ExecutionType);
+                state.ExecutionHint);
         }
 
         foreach (var state in _moduleStates.Values)
@@ -303,15 +303,15 @@ internal class ModuleScheduler : IModuleScheduler
                 state.Priority);
         }
 
-        var executionType = configuration.ExecutionType
-                            ?? moduleType.GetCustomAttribute<ExecutionHintAttribute>(inherit: true)?.ExecutionType;
-        if (executionType is { } moduleExecutionType)
+        var executionHint = configuration.ExecutionHint
+                            ?? moduleType.GetCustomAttribute<ExecutionHintAttribute>(inherit: true)?.ExecutionHint;
+        if (executionHint is { } moduleExecutionHint)
         {
-            state.ExecutionType = moduleExecutionType;
+            state.ExecutionHint = moduleExecutionHint;
             _logger.LogDebug(
-                "Module {ModuleName} has execution type: {ExecutionType}",
+                "Module {ModuleName} has execution hint: {ExecutionHint}",
                 moduleType.Name,
-                state.ExecutionType);
+                state.ExecutionHint);
         }
     }
 
@@ -524,7 +524,7 @@ internal class ModuleScheduler : IModuleScheduler
         // This prevents LockRecursionException if metrics collector or constraint
         // evaluator callbacks try to access scheduler state
         List<ModuleState> modulesToQueue;
-        List<(Type ModuleType, DateTimeOffset ReadyTime, ModulePriority Priority, ExecutionType ExecutionType, DateTimeOffset QueuedTime)> metricsData;
+        List<(Type ModuleType, DateTimeOffset ReadyTime, ModulePriority Priority, ExecutionHint ExecutionHint, DateTimeOffset QueuedTime)> metricsData;
 
         _stateLock.EnterWriteLock();
         try
@@ -545,7 +545,7 @@ internal class ModuleScheduler : IModuleScheduler
             }
 
             modulesToQueue = new List<ModuleState>();
-            metricsData = new List<(Type, DateTimeOffset, ModulePriority, ExecutionType, DateTimeOffset)>();
+            metricsData = new List<(Type, DateTimeOffset, ModulePriority, ExecutionHint, DateTimeOffset)>();
 
             foreach (var moduleState in potentiallyReadyModules)
             {
@@ -559,7 +559,7 @@ internal class ModuleScheduler : IModuleScheduler
                 moduleState.ReadyTime ??= now;
 
                 // Collect metrics data for recording outside lock
-                metricsData.Add((moduleState.ModuleType, moduleState.ReadyTime.Value, moduleState.Priority, moduleState.ExecutionType, now));
+                metricsData.Add((moduleState.ModuleType, moduleState.ReadyTime.Value, moduleState.Priority, moduleState.ExecutionHint, now));
 
                 _stateCounters.Transition(moduleState.State, ModuleExecutionState.Queued);
                 moduleState.State = ModuleExecutionState.Queued;
@@ -578,9 +578,9 @@ internal class ModuleScheduler : IModuleScheduler
         }
 
         // Record metrics outside lock to prevent lock recursion
-        foreach (var (moduleType, readyTime, priority, executionType, queuedTime) in metricsData)
+        foreach (var (moduleType, readyTime, priority, executionHint, queuedTime) in metricsData)
         {
-            _metricsCollector.RecordModuleReady(moduleType, readyTime, priority, executionType);
+            _metricsCollector.RecordModuleReady(moduleType, readyTime, priority, executionHint);
             _metricsCollector.RecordModuleQueued(moduleType, queuedTime);
         }
 

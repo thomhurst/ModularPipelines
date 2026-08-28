@@ -465,22 +465,22 @@ public class PipelineCommandLineTests
             .WithPriority(ModulePriority.High);
     }
 
-    [ExecutionHint(ExecutionType.CpuIntensive)]
+    [ExecutionHint(ExecutionHint.CpuBound)]
     private sealed class FirstCpuModule : DryRunModule
     {
     }
 
-    [ExecutionHint(ExecutionType.CpuIntensive)]
+    [ExecutionHint(ExecutionHint.CpuBound)]
     private sealed class SecondCpuModule : DryRunModule
     {
     }
 
-    [ExecutionHint(ExecutionType.IoIntensive)]
+    [ExecutionHint(ExecutionHint.IoBound)]
     private sealed class FirstIoModule : DryRunModule
     {
     }
 
-    [ExecutionHint(ExecutionType.IoIntensive)]
+    [ExecutionHint(ExecutionHint.IoBound)]
     private sealed class SecondIoModule : DryRunModule
     {
     }
@@ -522,13 +522,13 @@ public class PipelineCommandLineTests
     }
 
     [Priority(ModulePriority.Critical)]
-    [ExecutionHint(ExecutionType.CpuIntensive)]
+    [ExecutionHint(ExecutionHint.CpuBound)]
     private sealed class CpuHolderModule : DryRunModule
     {
     }
 
     [Priority(ModulePriority.High)]
-    [ExecutionHint(ExecutionType.CpuIntensive)]
+    [ExecutionHint(ExecutionHint.CpuBound)]
     [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
     private sealed class CpuAndLimiterWaiterModule : DryRunModule
     {
@@ -1122,7 +1122,7 @@ public class PipelineCommandLineTests
     }
 
     [Test]
-    public async Task PlanAsyncAppliesExecutionTypeLimitsInEstimate()
+    public async Task PlanAsyncAppliesExecutionHintLimitsInEstimate()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
@@ -1181,7 +1181,7 @@ public class PipelineCommandLineTests
     }
 
     [Test]
-    public async Task PlanAsyncModelsLimiterAcquisitionBeforeExecutionTypeWait()
+    public async Task PlanAsyncModelsLimiterAcquisitionBeforeExecutionHintWait()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with

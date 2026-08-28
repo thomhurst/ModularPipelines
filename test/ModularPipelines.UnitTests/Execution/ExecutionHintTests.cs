@@ -14,8 +14,8 @@ public class ExecutionHintTests : TestBase
     private static readonly ConcurrentBag<string> CpuViolations = new();
     private static int _maxCpuConcurrency = 0;
 
-    [ExecutionHint(ExecutionType.CpuIntensive)]
-    public class CpuIntensiveModule1 : Module<string>
+    [ExecutionHint(ExecutionHint.CpuBound)]
+    public class CpuBoundModule1 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -33,7 +33,7 @@ public class ExecutionHintTests : TestBase
             // Record violation if more than allowed
             if (CpuModulesExecuting.Count > 2)
             {
-                CpuViolations.Add($"{moduleName}: {CpuModulesExecuting.Count} concurrent CPU-intensive modules");
+                CpuViolations.Add($"{moduleName}: {CpuModulesExecuting.Count} concurrent CPU-bound modules");
             }
 
             CpuModulesExecuting.TryTake(out _);
@@ -41,8 +41,8 @@ public class ExecutionHintTests : TestBase
         }
     }
 
-    [ExecutionHint(ExecutionType.CpuIntensive)]
-    public class CpuIntensiveModule2 : Module<string>
+    [ExecutionHint(ExecutionHint.CpuBound)]
+    public class CpuBoundModule2 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -62,8 +62,8 @@ public class ExecutionHintTests : TestBase
         }
     }
 
-    [ExecutionHint(ExecutionType.CpuIntensive)]
-    public class CpuIntensiveModule3 : Module<string>
+    [ExecutionHint(ExecutionHint.CpuBound)]
+    public class CpuBoundModule3 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -83,18 +83,18 @@ public class ExecutionHintTests : TestBase
         }
     }
 
-    [ExecutionHint(ExecutionType.IoIntensive)]
-    public class IoIntensiveModule : Module<string>
+    [ExecutionHint(ExecutionHint.IoBound)]
+    public class IoBoundModule : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
-            return "IoIntensive";
+            return "IoBound";
         }
     }
 
-    [ExecutionHint(ExecutionType.Default)]
-    public class DefaultExecutionTypeModule : Module<string>
+    [ExecutionHint(ExecutionHint.Default)]
+    public class DefaultExecutionHintModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -122,14 +122,14 @@ public class ExecutionHintTests : TestBase
     public async Task ExecutionHintAttribute_CanBeAppliedToModule()
     {
         var result = await TestPipelineBuilder.Create()
-            .AddModule<CpuIntensiveModule1>()
+            .AddModule<CpuBoundModule1>()
             .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
-    public async Task ModulesWithoutExecutionHint_UseDefaultType()
+    public async Task ModulesWithoutExecutionHint_UseDefaultHint()
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<NoHintModule>()
@@ -139,12 +139,12 @@ public class ExecutionHintTests : TestBase
     }
 
     [Test]
-    public async Task AllExecutionTypes_ExecuteSuccessfully()
+    public async Task AllExecutionHints_ExecuteSuccessfully()
     {
         var result = await TestPipelineBuilder.Create()
-            .AddModule<CpuIntensiveModule1>()
-            .AddModule<IoIntensiveModule>()
-            .AddModule<DefaultExecutionTypeModule>()
+            .AddModule<CpuBoundModule1>()
+            .AddModule<IoBoundModule>()
+            .AddModule<DefaultExecutionHintModule>()
             .AddModule<NoHintModule>()
             .RunAsync();
 
@@ -152,13 +152,13 @@ public class ExecutionHintTests : TestBase
     }
 
     [Test]
-    public async Task CpuIntensiveModules_AreThrottled()
+    public async Task CpuBoundModules_AreThrottled()
     {
-        // Set max CPU-intensive modules to 2
+        // Set max CPU-bound modules to 2
         var result = await TestPipelineBuilder.Create()
-            .AddModule<CpuIntensiveModule1>()
-            .AddModule<CpuIntensiveModule2>()
-            .AddModule<CpuIntensiveModule3>()
+            .AddModule<CpuBoundModule1>()
+            .AddModule<CpuBoundModule2>()
+            .AddModule<CpuBoundModule3>()
             .ConfigurePipelineOptions((_, options) => options with
             {
                 Concurrency = options.Concurrency with { MaxCpuIntensiveModules = 2 },

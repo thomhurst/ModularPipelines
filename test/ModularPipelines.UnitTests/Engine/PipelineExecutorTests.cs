@@ -11,7 +11,7 @@ namespace ModularPipelines.UnitTests.Engine;
 public class PipelineExecutorTests
 {
     [Test]
-    public async Task WaitForAllModules_Does_Not_Throw_Secondary_Exceptions_When_Throwing_Is_Disabled()
+    public async Task ContinueOnFailure_Does_Not_Throw_Secondary_Exceptions_When_Throwing_Is_Disabled()
     {
         var secondaryExceptions = new Mock<ISecondaryExceptionContainer>();
         var exceptionRethrowService = new Mock<IExceptionRethrowService>();
@@ -20,7 +20,7 @@ public class PipelineExecutorTests
             exceptionRethrowService.Object,
             new PipelineOptions
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = false,
             });
 
@@ -32,7 +32,7 @@ public class PipelineExecutorTests
     }
 
     [Test]
-    public async Task WaitForAllModules_Throws_Stored_Exceptions_When_Throwing_Is_Enabled()
+    public async Task ContinueOnFailure_Throws_Stored_Exceptions_When_Throwing_Is_Enabled()
     {
         var secondaryExceptions = new Mock<ISecondaryExceptionContainer>();
         var exceptionRethrowService = new Mock<IExceptionRethrowService>();
@@ -41,7 +41,7 @@ public class PipelineExecutorTests
             exceptionRethrowService.Object,
             new PipelineOptions
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = true,
             });
 

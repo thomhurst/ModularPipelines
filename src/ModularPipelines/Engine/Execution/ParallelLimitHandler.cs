@@ -48,20 +48,20 @@ internal class ParallelLimitHandler : IParallelLimitHandler
     }
 
     /// <inheritdoc />
-    public async Task<IDisposable> AcquireExecutionTypeLimitAsync(
+    public async Task<IDisposable> AcquireExecutionHintLimitAsync(
         ModuleState moduleState,
         CancellationToken cancellationToken)
     {
-        var executionTypeLock = _parallelLimitProvider.GetExecutionTypeLock(moduleState.ExecutionType);
+        var executionHintLock = _parallelLimitProvider.GetExecutionHintLock(moduleState.ExecutionHint);
 
-        if (executionTypeLock != null)
+        if (executionHintLock != null)
         {
             _logger.LogDebug(
-                "Module {ModuleName} waiting for {ExecutionType} execution slot",
+                "Module {ModuleName} waiting for {ExecutionHint} execution slot",
                 moduleState.ModuleType.Name,
-                moduleState.ExecutionType);
+                moduleState.ExecutionHint);
 
-            return await executionTypeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            return await executionHintLock.WaitAsync(cancellationToken).ConfigureAwait(false);
         }
 
         return NoOpDisposable.Instance;

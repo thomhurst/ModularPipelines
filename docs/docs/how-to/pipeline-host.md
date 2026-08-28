@@ -98,8 +98,8 @@ var builder = Pipeline.CreateBuilder(args);
 
 builder.ConfigurePipelineOptions(options => options with
 {
-    // Execution mode
-    ExecutionMode = ExecutionMode.StopOnFirstException,
+    // Failure mode
+    FailureMode = FailureMode.FailFast,
 
     // Category filtering
     RunOnlyCategories = ["Build", "Test"],
@@ -129,7 +129,7 @@ The pipeline follows a two-step build-then-run pattern:
 var builder = Pipeline.CreateBuilder(args);
 builder.ConfigurePipelineOptions(options => options with
 {
-    ExecutionMode = ExecutionMode.WaitForAllModules,
+    FailureMode = FailureMode.ContinueOnFailure,
     ThrowOnPipelineFailure = false,
 });
 builder.AddModule<MyModule>();
@@ -147,7 +147,7 @@ if (summary.Status == ModularPipelines.Enums.ModuleStatus.Failed)
 }
 ```
 
-Use `WaitForAllModules` with `ThrowOnPipelineFailure = false` when you need to inspect
+Use `ContinueOnFailure` with `ThrowOnPipelineFailure = false` when you need to inspect
 the returned summary after a module fails. Fail-fast mode rethrows the module exception.
 
 `BuildAsync()` always validates the pipeline configuration before returning:
@@ -211,7 +211,7 @@ builder.Configuration
 // Options
 builder.ConfigurePipelineOptions(options => options with
 {
-    ExecutionMode = ExecutionMode.StopOnFirstException,
+    FailureMode = FailureMode.FailFast,
     IgnoreCategories = ["Experimental"],
 });
 
@@ -273,7 +273,7 @@ await builder
     .AddModule<Module2>()
     .ConfigurePipelineOptions(options => options with
     {
-        ExecutionMode = ExecutionMode.StopOnFirstException,
+        FailureMode = FailureMode.FailFast,
     })
     .RunAsync();
 ```

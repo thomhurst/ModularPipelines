@@ -20,19 +20,19 @@ internal class MetricsCollector : IMetricsCollector
 
     public DateTimeOffset? GetPipelineStartTime() => _pipelineStartTime;
 
-    public void RecordModuleInitialized(Type moduleType, ModulePriority priority, ExecutionType executionType)
+    public void RecordModuleInitialized(Type moduleType, ModulePriority priority, ExecutionHint executionHint)
     {
         var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
         data.Priority = priority;
-        data.ExecutionType = executionType;
+        data.ExecutionHint = executionHint;
     }
 
-    public void RecordModuleReady(Type moduleType, DateTimeOffset time, ModulePriority priority, ExecutionType executionType)
+    public void RecordModuleReady(Type moduleType, DateTimeOffset time, ModulePriority priority, ExecutionHint executionHint)
     {
         var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
         data.ReadyTime = time;
         data.Priority = priority;
-        data.ExecutionType = executionType;
+        data.ExecutionHint = executionHint;
     }
 
     public void RecordModuleQueued(Type moduleType, DateTimeOffset time)
@@ -163,7 +163,7 @@ internal class MetricsCollector : IMetricsCollector
                 ModuleTypeName = ModuleTypeIdentifier.Get(data.ModuleType),
                 RuntimeModuleTypeName = ModuleTypeIdentifier.GetRuntime(data.ModuleType),
                 Priority = data.Priority,
-                ExecutionType = data.ExecutionType,
+                ExecutionHint = data.ExecutionHint,
                 ReadyTime = data.ReadyTime,
                 QueuedTime = data.QueuedTime,
                 StartTime = data.StartTime,
@@ -210,7 +210,7 @@ internal class MetricsCollector : IMetricsCollector
     {
         public required Type ModuleType { get; init; }
         public ModulePriority Priority { get; set; }
-        public ExecutionType ExecutionType { get; set; }
+        public ExecutionHint ExecutionHint { get; set; }
         public DateTimeOffset? ReadyTime { get; set; }
         public DateTimeOffset? QueuedTime { get; set; }
         public DateTimeOffset? StartTime { get; set; }

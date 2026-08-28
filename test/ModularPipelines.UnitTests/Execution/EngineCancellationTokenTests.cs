@@ -436,7 +436,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task StopOnFirstException_Reports_DependencyFailed_For_Dependent_Module()
+    public async Task FailFast_Reports_DependencyFailed_For_Dependent_Module()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<BadModule>()
@@ -465,7 +465,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task StopOnFirstException_Reports_DependencyFailed_When_ReadyHookThrows()
+    public async Task FailFast_Reports_DependencyFailed_When_ReadyHookThrows()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<ReadyHookFailingModule>()
@@ -491,7 +491,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task StopOnFirstException_Preserves_Raw_ReadyHook_Failure_When_Dependent_Reports_First()
+    public async Task FailFast_Preserves_Raw_ReadyHook_Failure_When_Dependent_Reports_First()
     {
         var builder = TestPipelineBuilder.Create()
             .ConfigureServices(services =>
@@ -582,7 +582,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task StopOnFirstException_Wraps_Independent_ReadyHook_Cancellation_For_Dependents()
+    public async Task FailFast_Wraps_Independent_ReadyHook_Cancellation_For_Dependents()
     {
         var builder = TestPipelineBuilder.Create()
             .ConfigureServices(services =>
@@ -621,7 +621,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task StopOnFirstException_DoesNotPropagateDependencyFailureAcrossAlwaysRunModule()
+    public async Task FailFast_DoesNotPropagateDependencyFailureAcrossAlwaysRunModule()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<BadModule>()
@@ -650,12 +650,12 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task WaitForAllModules_Reports_DependencyFailed_For_Dependent_Module()
+    public async Task ContinueOnFailure_Reports_DependencyFailed_For_Dependent_Module()
     {
         var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
             })
             .AddModule<BadModule>()
             .AddModule<Module1>();
@@ -834,7 +834,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task StopOnFirstException_PendingModuleAwaiterReturnsTerminatedResult()
+    public async Task FailFast_PendingModuleAwaiterReturnsTerminatedResult()
     {
         var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
@@ -872,14 +872,14 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task WaitForAllModules_Allows_InFlight_And_Pending_Modules_To_Complete()
+    public async Task ContinueOnFailure_Allows_InFlight_And_Pending_Modules_To_Complete()
     {
         PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions((_, options) => options with
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
             })
             .AddModule<WaitForAllFailingModule>()
             .AddModule<WaitForAllCompletingModule>()
@@ -900,14 +900,14 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task WaitForAllModules_Preserves_Original_Failure()
+    public async Task ContinueOnFailure_Preserves_Original_Failure()
     {
         PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions((_, options) => options with
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = true,
             })
             .AddModule<WaitForAllFailingModule>()

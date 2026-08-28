@@ -497,7 +497,7 @@ internal sealed class PipelinePlanner
 
     private static SchedulingProfile CreateSchedulingProfile(PipelinePlanModule plannedModule) => new(
         GetConstraintKeys(plannedModule.Module),
-        GetExecutionType(plannedModule.Module),
+        GetExecutionHint(plannedModule.Module),
         plannedModule.ShouldSkip ? null : GetParallelLimiter(plannedModule.Module));
 
     private static IReadOnlyCollection<string>? GetConstraintKeys(IModule module)
@@ -526,14 +526,14 @@ internal sealed class PipelinePlanner
         return dependencyModels;
     }
 
-    private static ExecutionType GetExecutionType(IModule module) =>
-        module.Configuration.ExecutionType
+    private static ExecutionHint GetExecutionHint(IModule module) =>
+        module.Configuration.ExecutionHint
         ?? module.GetType()
             .GetCustomAttributes(typeof(ExecutionHintAttribute), inherit: true)
             .Cast<ExecutionHintAttribute>()
             .FirstOrDefault()
-            ?.ExecutionType
-        ?? ExecutionType.Default;
+            ?.ExecutionHint
+        ?? ExecutionHint.Default;
 
     private static ModulePriority GetPriority(IModule module) =>
         module.Configuration.Priority
@@ -686,15 +686,15 @@ internal sealed class PipelinePlanner
                 var activeModules = scheduledModules
                     .Where(module => module.ExecutionStart <= checkpoint && module.Finish > checkpoint)
                     .ToArray();
-                var executionTypeLimit = GetExecutionTypeLimit(profile.ExecutionType, concurrency);
-                if (executionTypeLimit is { } limit)
+                var executionHintLimit = GetExecutionHintLimit(profile.ExecutionHint, concurrency);
+                if (executionHintLimit is { } limit)
                 {
                     blockedUntil = Max(
                         blockedUntil,
                         GetCapacityBlocker(
                             activeModules,
                             limit,
-                            module => module.Profile.ExecutionType == profile.ExecutionType));
+                            module => module.Profile.ExecutionHint == profile.ExecutionHint));
                 }
 
                 if (blockedUntil > checkpoint)
@@ -769,13 +769,13 @@ internal sealed class PipelinePlanner
             : TimeSpan.Zero;
     }
 
-    private static int? GetExecutionTypeLimit(
-        ExecutionType executionType,
+    private static int? GetExecutionHintLimit(
+        ExecutionHint executionHint,
         ConcurrencyOptions concurrency) =>
-        executionType switch
+        executionHint switch
         {
-            ExecutionType.CpuIntensive => concurrency.MaxCpuIntensiveModules,
-            ExecutionType.IoIntensive => concurrency.MaxIoIntensiveModules,
+            ExecutionHint.CpuBound => concurrency.MaxCpuIntensiveModules,
+            ExecutionHint.IoBound => concurrency.MaxIoIntensiveModules,
             _ => null,
         };
 
@@ -801,7 +801,7 @@ internal sealed class PipelinePlanner
 
     private sealed record SchedulingProfile(
         IReadOnlyCollection<string>? ConstraintKeys,
-        ExecutionType ExecutionType,
+        ExecutionHint ExecutionHint,
         ParallelLimiterProfile? ParallelLimiter);
 
     private sealed record ParallelLimiterProfile(Type Type, int Limit);

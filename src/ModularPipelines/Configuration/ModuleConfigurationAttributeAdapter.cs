@@ -46,7 +46,7 @@ internal static class ModuleConfigurationAttributeAdapter
             ParallelConstraintKeys = configured.ParallelConstraintKeys
                 ?? notInParallel?.ConstraintKeys.ToArray(),
             Priority = configured.Priority ?? priority?.Priority,
-            ExecutionType = configured.ExecutionType ?? executionHint?.ExecutionType,
+            ExecutionHint = configured.ExecutionHint ?? executionHint?.ExecutionHint,
             Tags = tags,
             Category = category,
             CacheInputPatterns = cacheInputPatterns,
@@ -104,7 +104,7 @@ internal static class ModuleConfigurationAttributeAdapter
                && notInParallel is null
                && configured.Priority is null
                && priority is null
-               && configured.ExecutionType is null
+               && configured.ExecutionHint is null
                && executionHint is null
                && tags.Count == 0
                && category is null

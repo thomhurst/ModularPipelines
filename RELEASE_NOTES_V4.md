@@ -1,5 +1,22 @@
 # ModularPipelines V4 Release Notes
 
+## Failure modes and execution hints
+
+Pipeline failure behavior now uses `FailureMode` instead of `ExecutionMode`:
+
+- `ExecutionMode.StopOnFirstException` is now `FailureMode.FailFast`.
+- `ExecutionMode.WaitForAllModules` is now `FailureMode.ContinueOnFailure`.
+- `PipelineOptions.ExecutionMode` is now `PipelineOptions.FailureMode`.
+
+Module resource classification now uses `ExecutionHint` instead of `ExecutionType`:
+
+- `ExecutionType.CpuIntensive` is now `ExecutionHint.CpuBound`.
+- `ExecutionType.IoIntensive` is now `ExecutionHint.IoBound`.
+- `ModuleConfiguration.ExecutionType` is now `ModuleConfiguration.ExecutionHint`.
+- `WithExecutionHint(ExecutionType)` now accepts `ExecutionHint`.
+
+The `[ExecutionHint(...)]` attribute syntax is unchanged.
+
 ## Module condition predicates
 
 `WithSkipWhen` now has boolean predicate overloads that accept a skip reason. Use

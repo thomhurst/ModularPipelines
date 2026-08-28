@@ -108,12 +108,12 @@ public class AlwaysRunTests : TestBase
     }
 
     [Test]
-    public async Task WaitForAllModules_Returns_Summary_When_AlwaysRun_Dependency_Fails()
+    public async Task ContinueOnFailure_Returns_Summary_When_AlwaysRun_Dependency_Fails()
     {
         var host = await TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = false,
             })
             .AddModule<MyModule1>()
@@ -134,12 +134,12 @@ public class AlwaysRunTests : TestBase
     }
 
     [Test]
-    public async Task StopOnFirstException_Preserves_Primary_Failure_With_AlwaysRun_Dependency()
+    public async Task FailFast_Preserves_Primary_Failure_With_AlwaysRun_Dependency()
     {
         var host = await TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
-                ExecutionMode = ExecutionMode.StopOnFirstException,
+                FailureMode = FailureMode.FailFast,
                 ThrowOnPipelineFailure = true,
             })
             .AddModule<MyModule1>()

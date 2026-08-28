@@ -45,7 +45,7 @@ public class ModuleConfigureTests
 
     [ModularPipelines.Attributes.NotInParallel("attribute-lock")]
     [Priority(ModulePriority.High)]
-    [ExecutionHint(ExecutionType.CpuIntensive)]
+    [ExecutionHint(ExecutionHint.CpuBound)]
     [ModuleTag("attribute-tag")]
     [ModuleCategory("attribute-category")]
     [ModularPipelines.Attributes.DependsOn<TestModule>]
@@ -54,7 +54,7 @@ public class ModuleConfigureTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithNotInParallel("fluent-lock")
             .WithPriority(ModulePriority.Critical)
-            .WithExecutionHint(ExecutionType.IoIntensive)
+            .WithExecutionHint(ExecutionHint.IoBound)
             .WithTags("fluent-tag")
             .WithCategory("fluent-category");
 
@@ -139,7 +139,7 @@ public class ModuleConfigureTests
         {
             await Assert.That(config.ParallelConstraintKeys).IsEquivalentTo(new[] { "fluent-lock" });
             await Assert.That(config.Priority).IsEqualTo(ModulePriority.Critical);
-            await Assert.That(config.ExecutionType).IsEqualTo(ExecutionType.IoIntensive);
+            await Assert.That(config.ExecutionHint).IsEqualTo(ExecutionHint.IoBound);
             await Assert.That(config.Tags).IsEquivalentTo(new[] { "attribute-tag", "fluent-tag" });
             await Assert.That(config.Category).IsEqualTo("fluent-category");
             await Assert.That(config.Dependencies.Select(dependency => dependency.ModuleType))

@@ -83,9 +83,9 @@ public record PipelineOptions
     public bool DisableModuleCache { get; init; }
 
     /// <summary>
-    /// Gets the execution mode that determines how the pipeline handles failures.
+    /// Gets how the pipeline responds to module failures.
     /// </summary>
-    public ExecutionMode ExecutionMode { get; init; } = ExecutionMode.StopOnFirstException;
+    public FailureMode FailureMode { get; init; } = FailureMode.FailFast;
 
     /// <summary>
     /// Gets the default per-attempt timeout for modules that do not configure their own timeout.

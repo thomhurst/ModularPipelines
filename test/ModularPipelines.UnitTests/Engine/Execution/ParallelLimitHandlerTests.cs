@@ -38,7 +38,7 @@ public class ParallelLimitHandlerTests
     }
 
     [Test]
-    public async Task AcquireExecutionTypeLimitAsync_CancelsWhileWaiting()
+    public async Task AcquireExecutionHintLimitAsync_CancelsWhileWaiting()
     {
         var handler = CreateHandler(new PipelineOptions
         {
@@ -49,18 +49,18 @@ public class ParallelLimitHandlerTests
         });
         var firstState = new ModuleState(new TestModule(), typeof(TestModule))
         {
-            ExecutionType = ExecutionType.CpuIntensive,
+            ExecutionHint = ExecutionHint.CpuBound,
         };
         var secondState = new ModuleState(new TestModule(), typeof(TestModule))
         {
-            ExecutionType = ExecutionType.CpuIntensive,
+            ExecutionHint = ExecutionHint.CpuBound,
         };
-        using var heldSlot = await handler.AcquireExecutionTypeLimitAsync(
+        using var heldSlot = await handler.AcquireExecutionHintLimitAsync(
             firstState,
             CancellationToken.None);
         using var cancellationTokenSource = new CancellationTokenSource();
 
-        var waitingTask = handler.AcquireExecutionTypeLimitAsync(
+        var waitingTask = handler.AcquireExecutionHintLimitAsync(
             secondState,
             cancellationTokenSource.Token);
         cancellationTokenSource.Cancel();
@@ -80,7 +80,7 @@ public class ParallelLimitHandlerTests
             .Callback(() => limitWaitObserved.TrySetResult())
             .Returns(releaseLimitWait.Task);
         parallelLimitHandler
-            .Setup(x => x.AcquireExecutionTypeLimitAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.AcquireExecutionHintLimitAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Mock.Of<IDisposable>());
         var receiver = new Mock<IModuleEventReceiver>();
         receiver
@@ -133,7 +133,7 @@ public class ParallelLimitHandlerTests
             .Callback<Type, CancellationToken>((_, token) => observedTokens.Add(token))
             .ReturnsAsync(Mock.Of<IDisposable>());
         parallelLimitHandler
-            .Setup(x => x.AcquireExecutionTypeLimitAsync(
+            .Setup(x => x.AcquireExecutionHintLimitAsync(
                 It.IsAny<ModuleState>(),
                 It.IsAny<CancellationToken>()))
             .Callback<ModuleState, CancellationToken>((_, token) => observedTokens.Add(token))
