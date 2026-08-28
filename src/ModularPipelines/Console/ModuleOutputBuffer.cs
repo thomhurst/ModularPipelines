@@ -336,7 +336,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 console,
                 cancellationToken);
 
-            if (outputs.Count > 0 || shouldRenderOutputGroup)
+            if (shouldRenderOutputGroup
+                || outputs.Any(static output => output.LogEvent is not null))
             {
                 using var renderGate = await loggerControl
                     .TryAcquireRenderGateAsync(_renderGateTimeout, cancellationToken)
@@ -363,7 +364,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             if (flushKind is OutputFlushKind.Incremental)
             {
-                RecordRenderedOutput(OutputFlushKind.Incremental, renderedCount);
+                RecordRenderedOutput(OutputFlushKind.Incremental, shouldRenderOutputGroup);
             }
 
             RestoreUnrenderedOutputs(outputs, renderedCount);
@@ -374,7 +375,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             RestoreStructuredDeliveryRetries(failedStructuredDeliveries);
         }
 
-        RecordRenderedOutput(flushKind, renderedCount);
+        RecordRenderedOutput(flushKind, shouldRenderOutputGroup);
     }
 
     internal IAnsiConsole GetDirectConsole(TextWriter writer)
@@ -688,7 +689,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private void RecordRenderedOutput(OutputFlushKind flushKind, int renderedCount)
+    private void RecordRenderedOutput(OutputFlushKind flushKind, bool renderedConsoleOutput)
     {
         lock (_lock)
         {
@@ -701,7 +702,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             else
             {
                 _isIncrementalFlushInProgress = false;
-                if (renderedCount > 0)
+                if (renderedConsoleOutput)
                 {
                     _hasRenderedIncrementalOutput = true;
                 }
