@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -9,7 +10,7 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunIfAll<ModularPipelines.OnLinux>]
+[RunIf<ModularPipelines.OnLinux>]
 [DependsOn<GenerateReadMeModule>]
 public class FormatMarkdownModule : Module<None>
 {

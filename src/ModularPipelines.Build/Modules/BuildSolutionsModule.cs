@@ -1,5 +1,6 @@
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
@@ -7,7 +8,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunIfAll<ModularPipelines.OnLinux>]
+[RunIf<ModularPipelines.OnLinux>]
 [ProducesArtifact("build-output", "../../_build-staging")]
 public class BuildSolutionsModule : Module<CommandResult[]>
 {

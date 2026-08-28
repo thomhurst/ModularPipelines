@@ -42,6 +42,16 @@ public abstract class SkipIfAttribute : RunConditionAttribute
 }
 
 /// <summary>
+/// Base class for stateful attributes that require one condition for a module to run.
+/// </summary>
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public abstract class RunIfAttribute : RunConditionAttribute
+{
+    /// <inheritdoc />
+    public sealed override ConditionLogic Logic => ConditionLogic.All;
+}
+
+/// <summary>
 /// Base class for stateful attributes that require their condition for a module to run.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]

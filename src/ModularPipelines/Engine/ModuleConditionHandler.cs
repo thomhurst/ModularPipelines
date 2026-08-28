@@ -282,7 +282,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return ConditionLogic.Skip;
         }
 
-        if (typeof(RunIfAllAttribute).IsAssignableFrom(attributeType))
+        if (typeof(RunIfAttribute).IsAssignableFrom(attributeType)
+            || typeof(RunIfAllAttribute).IsAssignableFrom(attributeType))
         {
             return ConditionLogic.All;
         }
@@ -310,11 +311,10 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static bool IsBuiltInGenericConditionAttribute(Type type) =>
-        type == typeof(RunIfAllAttribute<>)
+        type == typeof(RunIfAttribute<>)
         || type == typeof(RunIfAllAttribute<,>)
         || type == typeof(RunIfAllAttribute<,,>)
         || type == typeof(RunIfAllAttribute<,,,>)
-        || type == typeof(RunIfAnyAttribute<>)
         || type == typeof(RunIfAnyAttribute<,>)
         || type == typeof(RunIfAnyAttribute<,,>)
         || type == typeof(RunIfAnyAttribute<,,,>)
@@ -434,7 +434,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return new PlanningConditionEvaluation(
-                    PlanningSkip($"RunIfAll<{attribute.ConditionNames}> not satisfied"),
+                    PlanningSkip($"{GetRequiredConditionName(attribute)}<{attribute.ConditionNames}> not satisfied"),
                     IsResolved: true);
             }
         }
@@ -618,12 +618,16 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
             if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
-                return SkipDecision.Skip($"RunIfAll<{attribute.ConditionNames}> not satisfied");
+                return SkipDecision.Skip(
+                    $"{GetRequiredConditionName(attribute)}<{attribute.ConditionNames}> not satisfied");
             }
         }
 
         return null;
     }
+
+    private static string GetRequiredConditionName(IConditionAttribute attribute) =>
+        attribute is RunIfAttribute ? "RunIf" : "RunIfAll";
 
     private static async Task<SkipDecision?> EvaluateAnyConditions(
         IReadOnlyList<IConditionAttribute> attributes,

@@ -80,7 +80,8 @@ internal static class OperatingSystemConditions
         HashSet<string>? supportedOperatingSystems = null;
         var attributes = CustomAttributeMetadata.GetApplicable(
             moduleType,
-            static type => typeof(RunIfAllAttribute).IsAssignableFrom(type));
+            static type => typeof(RunIfAttribute).IsAssignableFrom(type)
+                           || typeof(RunIfAllAttribute).IsAssignableFrom(type));
 
         foreach (var attribute in attributes)
         {
@@ -144,16 +145,6 @@ internal static class OperatingSystemConditions
             return null;
         }
 
-        if (attribute is IOperatingSystemConditionAttribute operatingSystemAttribute)
-        {
-            var operatingSystems = operatingSystemAttribute.OperatingSystems
-                .Select(GetOperatingSystem)
-                .ToArray();
-            return operatingSystems.Any(operatingSystem => operatingSystem is null)
-                ? null
-                : new HashSet<string>(operatingSystems!, StringComparer.OrdinalIgnoreCase);
-        }
-
         var conditionTypes = attribute.GetType().GetGenericArguments();
         if (conditionTypes.Length == 0)
         {
@@ -185,11 +176,6 @@ internal static class OperatingSystemConditions
 
     private static HashSet<string>? GetSupportedOperatingSystems(CustomAttributeData attribute)
     {
-        if (attribute.AttributeType == typeof(RunIfOperatingSystemAttribute))
-        {
-            return GetOperatingSystemsFromConstructor(attribute);
-        }
-
         var conditionTypes = attribute.AttributeType.GetGenericArguments();
         if (conditionTypes.Length == 0)
         {
@@ -220,28 +206,10 @@ internal static class OperatingSystemConditions
         return supportedOperatingSystems;
     }
 
-    private static HashSet<string>? GetOperatingSystemsFromConstructor(CustomAttributeData attribute)
-    {
-        if (attribute.ConstructorArguments is not [{ Value: IReadOnlyCollection<CustomAttributeTypedArgument> values }])
-        {
-            return null;
-        }
-
-        var operatingSystems = values
-            .Select(static value => value.Value is null
-                ? OperatingSystemIdentifier.Unknown
-                : (OperatingSystemIdentifier) Enum.ToObject(typeof(OperatingSystemIdentifier), value.Value))
-            .Select(GetOperatingSystem)
-            .ToArray();
-        return operatingSystems.Length == 0 || operatingSystems.Any(static value => value is null)
-            ? null
-            : new HashSet<string>(operatingSystems!, StringComparer.OrdinalIgnoreCase);
-    }
-
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2067",
-        Justification = "Condition types come from RunIfAll<T> generic arguments, whose new() constraint preserves a public parameterless constructor.")]
+        Justification = "Condition types come from RunIf<T> or RunIfAll<T...> generic arguments, whose new() constraints preserve a public parameterless constructor.")]
     private static HashSet<string>? GetSupportedOperatingSystems(Type conditionType)
     {
         var operatingSystem = GetOperatingSystem(conditionType);
@@ -297,18 +265,6 @@ internal static class OperatingSystemConditions
         }
 
         return conditionType == typeof(OnMacOS) ? MacOS : null;
-    }
-
-    private static string? GetOperatingSystem(OperatingSystemIdentifier operatingSystem)
-    {
-        return operatingSystem switch
-        {
-            OperatingSystemIdentifier.Windows => Windows,
-            OperatingSystemIdentifier.Linux => Linux,
-            OperatingSystemIdentifier.MacOS => MacOS,
-            OperatingSystemIdentifier.FreeBSD => FreeBSD,
-            _ => null,
-        };
     }
 
     private static string CreateCapability(IEnumerable<string> operatingSystems)

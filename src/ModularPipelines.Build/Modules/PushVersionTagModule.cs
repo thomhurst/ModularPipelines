@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
@@ -15,7 +16,7 @@ namespace ModularPipelines.Build.Modules;
 [ModuleCategory("VersionTag")]
 [SkipIfNoStandardGitHubToken]
 [RunOnlyOnBranch("main")]
-[RunIfAll<ModularPipelines.OnLinux>]
+[RunIf<ModularPipelines.OnLinux>]
 [DependsOn<NugetVersionGeneratorModule>]
 public class PushVersionTagModule : Module<CommandResult>
 {

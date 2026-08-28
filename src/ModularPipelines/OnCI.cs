@@ -12,7 +12,7 @@ namespace ModularPipelines;
 /// </remarks>
 /// <example>
 /// <code>
-/// [RunIfAll&lt;IsCI&gt;]
+/// [RunIf&lt;OnCI&gt;]
 /// public class PublishModule : Module&lt;None&gt;
 /// {
 ///     // Only runs in CI, skipped locally
@@ -20,7 +20,7 @@ namespace ModularPipelines;
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class IsCI : IPlanningRunCondition
+public sealed class OnCI : IPlanningRunCondition
 {
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context)

@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Runtime.InteropServices;
 using ModularPipelines.Attributes;
 using ModularPipelines;
 using ModularPipelines.Context;
@@ -16,7 +15,7 @@ public class ParameterizedRunConditionAttributeTests
         protected override bool Result => true;
     }
 
-    private sealed class RunIfValueAttribute(string expectedValue) : RunIfAllAttribute
+    private sealed class RunIfValueAttribute(string expectedValue) : RunIfAttribute
     {
         public string ExpectedValue { get; } = expectedValue;
 
@@ -82,34 +81,6 @@ public class ParameterizedRunConditionAttributeTests
             await Assert.That(await new RunIfEnvironmentVariableUnsetAttribute("MISSING").EvaluateAsync(context)).IsTrue();
             await Assert.That(await new SkipIfEnvironmentVariableUnsetAttribute("CI").EvaluateAsync(context)).IsFalse();
         }
-    }
-
-    [Test]
-    public async Task OperatingSystemAttributes_AcceptParameterizedAlternatives()
-    {
-        var environment = Mock.Of<IEnvironmentContext>(x => x.OperatingSystem == OSPlatform.Linux);
-        var context = Mock.Of<IPipelineContext>(x => x.Environment == environment);
-        var runCondition = new RunIfOperatingSystemAttribute(
-            OperatingSystemIdentifier.Windows,
-            OperatingSystemIdentifier.Linux);
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(await runCondition.EvaluateAsync(context)).IsTrue();
-            await Assert.That(await new SkipIfOperatingSystemAttribute(OperatingSystemIdentifier.MacOS)
-                .EvaluateAsync(context)).IsFalse();
-            await Assert.That(OperatingSystemConditions.GetTargets(runCondition))
-                .IsEquivalentTo(["operating-system:windows|linux"]);
-        }
-    }
-
-    [Test]
-    public async Task OperatingSystemAttributes_RequireDefinedSelections()
-    {
-        await Assert.That(() => new RunIfOperatingSystemAttribute())
-            .Throws<ArgumentException>();
-        await Assert.That(() => new RunIfOperatingSystemAttribute((OperatingSystemIdentifier) 999))
-            .Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]

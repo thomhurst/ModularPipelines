@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -12,7 +13,7 @@ namespace ModularPipelines.Build.Modules;
 
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
-[RunIfAll<ModularPipelines.OnLinux>]
+[RunIf<ModularPipelines.OnLinux>]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
 public class CreateReleaseModule : Module<Release>

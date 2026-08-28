@@ -119,7 +119,7 @@ public class ValidationTests
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
     }
 
-    [RunIfAll<NeverRun>]
+    [RunIf<NeverRun>]
     private class ExecutionSkippedModuleWithFluentMissingDependency : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module

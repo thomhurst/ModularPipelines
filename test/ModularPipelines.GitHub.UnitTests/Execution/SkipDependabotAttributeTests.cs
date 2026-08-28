@@ -37,14 +37,14 @@ public class SkipDependabotAttributeTests : TestBase
     }
 
     [SkipIfDependabot]
-    [RunIfAny<CanRunCondition>]
+    [RunIf<CanRunCondition>]
     private class Module2 : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
     [SkipIfDependabot]
-    [RunIfAny<CannotRunCondition>]
+    [RunIf<CannotRunCondition>]
     private class Module3 : SimpleTestModule<bool>
     {
         protected override bool Result => true;

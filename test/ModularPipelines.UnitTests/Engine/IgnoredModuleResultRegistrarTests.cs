@@ -74,7 +74,7 @@ public class IgnoredModuleResultRegistrarTests
         }
     }
 
-    [RunIfAll<OnWindows>]
+    [RunIf<OnWindows>]
     private sealed class ForeignOperatingSystemModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(

@@ -249,7 +249,7 @@ public class ModuleConditionHandlerTests
             : new WindowsOnlyModule();
     }
 
-    [RunIfAll<OnLinux>]
+    [RunIf<OnLinux>]
     private sealed class LinuxOnlyModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -260,7 +260,7 @@ public class ModuleConditionHandlerTests
         }
     }
 
-    [RunIfAll<OnWindows>]
+    [RunIf<OnWindows>]
     private sealed class WindowsOnlyModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -271,8 +271,8 @@ public class ModuleConditionHandlerTests
         }
     }
 
-    [RunIfAll<OnWindows>]
-    [RunIfAll<OnLinux>]
+    [RunIf<OnWindows>]
+    [RunIf<OnLinux>]
     private sealed class ContradictoryOsModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -304,7 +304,7 @@ public class ModuleConditionHandlerTests
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
-    [RunIfAll<OnUnix>]
+    [RunIf<OnUnix>]
     private sealed class UnixModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -381,7 +381,7 @@ public class ModuleConditionHandlerTests
         }
     }
 
-    [RunIfAll<CountingCondition>]
+    [RunIf<CountingCondition>]
     private sealed class CountingConditionModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(

@@ -60,7 +60,7 @@ public class DistributedModuleExecutorTests
             => Task.FromResult<SimpleResult>(new SimpleResult { Message = "done" });
     }
 
-    [RunIfAll<OnLinux>]
+    [RunIf<OnLinux>]
     private class LinuxOnlyModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -68,7 +68,7 @@ public class DistributedModuleExecutorTests
             => Task.FromResult<string>("linux done");
     }
 
-    [RunIfAll<OnUnix>]
+    [RunIf<OnUnix>]
     private class UnixModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -873,7 +873,7 @@ public class DistributedModuleExecutorTests
         // Act
         var assignment = publisher.CreateAssignment(module);
 
-        // Assert — "linux" capability auto-detected from [RunIfAll<OnLinux>]
+        // Assert — "linux" capability auto-detected from [RunIf<OnLinux>]
         await Assert.That(assignment.RequiredCapabilities).Contains("linux");
     }
 

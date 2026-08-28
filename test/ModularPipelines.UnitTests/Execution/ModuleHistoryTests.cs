@@ -51,7 +51,7 @@ public class ModuleHistoryTests
         }
     }
 
-    [RunIfAll<SkipRunCondition>]
+    [RunIf<SkipRunCondition>]
     private class SkipFromRunCondition : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

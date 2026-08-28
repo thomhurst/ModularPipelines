@@ -8,7 +8,7 @@ public class OperatingSystemConditionsTests
     [Test]
     public async Task Direct_Operating_System_Uses_Existing_Capability()
     {
-        var targets = OperatingSystemConditions.GetTargets(new RunIfAllAttribute<OnLinux>());
+        var targets = OperatingSystemConditions.GetTargets(new RunIfAttribute<OnLinux>());
 
         await Assert.That(targets).IsEquivalentTo([OperatingSystemConditions.Linux]);
     }
@@ -17,7 +17,7 @@ public class OperatingSystemConditionsTests
     public async Task Alternative_Operating_System_Group_Matches_Either_Worker()
     {
         var target = OperatingSystemConditions
-            .GetTargets(new RunIfAllAttribute<OnUnix>())
+            .GetTargets(new RunIfAttribute<OnUnix>())
             .Single();
 
         using (Assert.Multiple())

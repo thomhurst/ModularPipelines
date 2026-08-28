@@ -250,7 +250,7 @@ public class PipelineCommandLineTests
             Task.FromResult("runtime-only-dependency");
     }
 
-    [RunIfAll<TrackingCondition>]
+    [RunIf<TrackingCondition>]
     private sealed class ConditionalModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -264,7 +264,7 @@ public class PipelineCommandLineTests
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
     }
 
-    [RunIfAll<NeverRunCondition>]
+    [RunIf<NeverRunCondition>]
     [ModuleCategory("selected")]
     private sealed class AttributeSkippedModule : Module<string>
     {
@@ -1600,7 +1600,7 @@ public class PipelineCommandLineTests
             await Assert.That(modules[typeof(FluentlySkippedModule)].SkipDecision!.Reason)
                 .IsEqualTo("fluent skip");
             await Assert.That(modules[typeof(AttributeSkippedModule)].SkipDecision!.Reason)
-                .Contains("RunIfAll");
+                .Contains("RunIf<");
             await Assert.That(modules[typeof(SkippedDependencyModule)].SkipDecision!.Reason)
                 .IsEqualTo("dependency unavailable");
             await Assert.That(modules[typeof(DependentOnSkippedModule)].SkipDecision!.Reason)

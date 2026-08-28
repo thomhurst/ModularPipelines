@@ -146,13 +146,13 @@ public class DistributedPipelineWriterTests : TestBase
         protected override bool Result => true;
     }
 
-    [RunIfAll<OnWindows>]
+    [RunIf<OnWindows>]
     private sealed class WindowsConditionModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    [RunIfAll<OnMacOS>]
+    [RunIf<OnMacOS>]
     private sealed class MacConditionModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;

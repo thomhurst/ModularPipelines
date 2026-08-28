@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
@@ -22,12 +23,12 @@ public abstract class BuildSolutionOnPlatformModule : Module<CommandResult>
     }
 }
 
-[RunIfAll<ModularPipelines.OnWindows>]
+[RunIf<ModularPipelines.OnWindows>]
 public sealed class BuildSolutionOnWindowsModule : BuildSolutionOnPlatformModule
 {
 }
 
-[RunIfAll<ModularPipelines.OnMacOS>]
+[RunIf<ModularPipelines.OnMacOS>]
 public sealed class BuildSolutionOnMacOSModule : BuildSolutionOnPlatformModule
 {
 }

@@ -5,45 +5,6 @@ namespace ModularPipelines;
 /// <summary>
 /// Specifies that all conditions must be satisfied for the module to run (AND logic).
 /// </summary>
-/// <remarks>
-/// <para>
-/// When multiple conditions are specified, ALL must return true for the module to run.
-/// If any condition returns false, the module is skipped.
-/// </para>
-/// <para>
-/// Multiple <c>[RunIfAll]</c> attributes on a module are combined with AND logic between them.
-/// </para>
-/// </remarks>
-/// <typeparam name="T">The condition type that must be satisfied.</typeparam>
-/// <example>
-/// <code>
-/// [RunIfAll&lt;HasGitHubToken&gt;]
-/// [RunIfAll&lt;IsCI&gt;]
-/// public class PublishModule : Module&lt;None&gt;
-/// {
-///     // Only runs if BOTH HasGitHubToken AND IsCI return true
-/// }
-/// </code>
-/// </example>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class RunIfAllAttribute<T> : RunIfAllAttribute
-    where T : IRunCondition, new()
-{
-    /// <inheritdoc />
-    public override Task<bool> EvaluateAsync(IPipelineContext context) =>
-        EvaluateAsync(context, CancellationToken.None);
-
-    /// <inheritdoc />
-    public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
-        RunConditionEvaluator.EvaluateAllAsync([static () => new T()], context, cancellationToken);
-
-    /// <inheritdoc />
-    public override string ConditionNames => typeof(T).Name;
-}
-
-/// <summary>
-/// Specifies that all conditions must be satisfied for the module to run (AND logic).
-/// </summary>
 /// <typeparam name="T1">The first condition type.</typeparam>
 /// <typeparam name="T2">The second condition type.</typeparam>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
