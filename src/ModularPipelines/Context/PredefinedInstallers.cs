@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Installers;
@@ -116,15 +118,15 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     {
         var operatingSystem = _environmentContext.OperatingSystem;
 
-        if (operatingSystem == OperatingSystemIdentifier.Windows)
+        if (operatingSystem == OSPlatform.Windows)
         {
-            var arch = _environmentContext.Is64BitOperatingSystem ? "x64" : "x86";
+            var arch = Environment.Is64BitOperatingSystem ? "x64" : "x86";
             var url = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/PowerShell-{Versions.PowerShell7}-win-{arch}.msi";
 
             return await _windowsInstaller.InstallMsiAsync(new MsiInstallerOptions(url), cancellationToken).ConfigureAwait(false);
         }
 
-        if (operatingSystem == OperatingSystemIdentifier.MacOS)
+        if (operatingSystem == OSPlatform.OSX)
         {
             return await _macInstaller.InstallFromBrewAsync(new MacBrewOptions("powershell"), cancellationToken).ConfigureAwait(false);
         }
@@ -140,7 +142,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     /// <inheritdoc/>
     public async Task<File?> NvmAsync(string? version = null, CancellationToken cancellationToken = default)
     {
-        if (_environmentContext.OperatingSystem == OperatingSystemIdentifier.Windows)
+        if (_environmentContext.OperatingSystem == OSPlatform.Windows)
         {
             var nvmWindowsUrl = $"https://github.com/coreybutler/nvm-windows/releases/download/{Versions.NvmWindows}/nvm-noinstall.zip";
             var zipFile = await _downloader.DownloadFileAsync(
@@ -189,7 +191,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
 
         await NvmAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        if (_environmentContext.OperatingSystem == OperatingSystemIdentifier.Windows)
+        if (_environmentContext.OperatingSystem == OSPlatform.Windows)
         {
             // Windows: CliWrap handles argument escaping automatically via WithArguments()
             return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")

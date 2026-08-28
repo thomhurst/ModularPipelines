@@ -8,7 +8,7 @@ namespace ModularPipelines.Context;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This is the foundation interface for all context types in ModularPipelines v2.0.
+/// This is the foundation interface for all pipeline and module contexts.
 /// Capabilities are organized into domain categories for easy discovery:
 /// </para>
 /// <list type="bullet">
@@ -49,7 +49,7 @@ public interface IPipelineContext
     /// <summary>
     /// Gets the environment and system information.
     /// </summary>
-    IEnvironmentDomainContext Environment { get; }
+    IEnvironmentContext Environment { get; }
 
     /// <summary>
     /// Gets the software installation capabilities.

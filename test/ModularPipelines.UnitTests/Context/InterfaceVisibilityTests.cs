@@ -35,6 +35,7 @@ public class InterfaceVisibilityTests
             "ModularPipelines.Modules.SubModuleBase",
             "ModularPipelines.Context.ICommandLineBuilder",
             "ModularPipelines.Engine.LogoPrinter",
+            "ModularPipelines.IBuildSystemDetector",
         ];
 
         foreach (var typeName in internalTypeNames)
@@ -68,7 +69,7 @@ public class InterfaceVisibilityTests
             ("ModularPipelines.Context.Domains", "IShellContext"),
             ("ModularPipelines.Context.Domains", "IFilesContext"),
             ("ModularPipelines.Context.Domains", "IDataContext"),
-            ("ModularPipelines.Context.Domains", "IEnvironmentDomainContext"),
+            ("ModularPipelines.Context.Domains", "IEnvironmentContext"),
             ("ModularPipelines.Context.Domains", "IInstallersContext"),
             ("ModularPipelines.Context.Domains", "INetworkContext"),
             ("ModularPipelines.Context.Domains", "ISecurityContext"),
@@ -130,6 +131,9 @@ public class InterfaceVisibilityTests
             "ICertificates",
             "IHasher",
             "IPipelineHookContext",
+            "IEnvironmentContext",
+            "IFileSystemContext",
+            "IInstaller",
         };
 
         foreach (var interfaceName in removedInterfaces)

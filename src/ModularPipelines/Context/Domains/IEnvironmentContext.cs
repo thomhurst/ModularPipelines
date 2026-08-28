@@ -1,12 +1,13 @@
 using System.Runtime.InteropServices;
 using ModularPipelines.Context.Domains.Environment;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Context.Domains;
 
 /// <summary>
 /// Provides environment and system information.
 /// </summary>
-public interface IEnvironmentDomainContext
+public interface IEnvironmentContext
 {
     /// <summary>
     /// Gets the current operating system.
@@ -36,7 +37,20 @@ public interface IEnvironmentDomainContext
     /// or override an individual command with
     /// <see cref="Options.CommandExecutionOptions.WorkingDirectory"/>.
     /// </remarks>
-    string WorkingDirectory { get; }
+    Folder WorkingDirectory { get; }
+
+    /// <summary>
+    /// Gets the host environment name, such as Development or Production.
+    /// </summary>
+    string EnvironmentName { get; }
+
+    /// <inheritdoc cref="System.AppDomain.BaseDirectory" />
+    Folder AppDomainDirectory { get; }
+
+    /// <summary>
+    /// Gets the host content root directory.
+    /// </summary>
+    Folder ContentDirectory { get; }
 
     /// <summary>
     /// Gets environment variable operations.

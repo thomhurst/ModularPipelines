@@ -21,8 +21,8 @@ namespace ModularPipelines.Context;
 /// <list type="table">
 /// <listheader><term>Component</term><description>Thread Safety</description></listheader>
 /// <item><term>Logger</term><description>Thread-safe for all logging operations</description></item>
-/// <item><term>FileSystem reads</term><description>Thread-safe for concurrent read operations</description></item>
-/// <item><term>FileSystem writes</term><description>Safe, but coordinate access when multiple threads write to the same file</description></item>
+/// <item><term>File reads</term><description>Thread-safe for concurrent read operations</description></item>
+/// <item><term>File writes</term><description>Safe, but coordinate access when multiple threads write to the same file</description></item>
 /// <item><term>Environment</term><description>Thread-safe (provides read-only access to environment information)</description></item>
 /// <item><term>Command execution</term><description>Thread-safe; multiple commands can execute concurrently</description></item>
 /// <item><term>Service resolution</term><description>Thread-safe via the underlying DI container</description></item>
@@ -44,7 +44,7 @@ namespace ModularPipelines.Context;
 ///     var tasks = files.Select(async file =&gt;
 ///     {
 ///         context.Logger.LogInformation("Processing {File}", file);  // Thread-safe
-///         var content = await context.FileSystem.ReadTextAsync(file); // Thread-safe
+///         var content = await context.Files.ReadAsync(file, cancellationToken); // Thread-safe
 ///         return ProcessFile(content);
 ///     });
 ///

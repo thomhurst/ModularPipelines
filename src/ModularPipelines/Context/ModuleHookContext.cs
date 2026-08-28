@@ -98,7 +98,7 @@ internal class ModuleHookContext : IModuleHookContext
     public IDataContext Data => _pipelineContext.Data;
 
     /// <inheritdoc />
-    public IEnvironmentDomainContext Environment => _pipelineContext.Environment;
+    public IEnvironmentContext Environment => _pipelineContext.Environment;
 
     /// <inheritdoc />
     public IInstallersContext Installers => _pipelineContext.Installers;

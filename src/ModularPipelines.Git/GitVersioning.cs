@@ -42,12 +42,12 @@ internal class GitVersioning : IGitVersioning
     private static readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
     private static GitVersionInformation? _prefetchedGitVersionInformation;
 
-    public GitVersioning(IFileSystemContext fileSystemContext, IGitInformation gitInformation, ICommandContext command, IModuleLoggerProvider moduleLoggerProvider)
+    public GitVersioning(IGitInformation gitInformation, ICommandContext command, IModuleLoggerProvider moduleLoggerProvider)
     {
         _gitInformation = gitInformation;
         _command = command;
         _moduleLoggerProvider = moduleLoggerProvider;
-        _temporaryFolder = fileSystemContext.CreateTemporaryFolder();
+        _temporaryFolder = Folder.CreateTemporaryFolder();
     }
 
     public async Task<GitVersionInformation> GetVersioningInformationAsync(

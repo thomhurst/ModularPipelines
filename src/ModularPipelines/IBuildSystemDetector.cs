@@ -5,7 +5,7 @@ namespace ModularPipelines;
 /// <summary>
 /// A helper to determine the type of build agent the pipeline is currently running on.
 /// </summary>
-public interface IBuildSystemDetector
+internal interface IBuildSystemDetector
 {
     /// <summary>
     /// Gets the current build agent type, if known.

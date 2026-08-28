@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Installers;
@@ -71,7 +73,7 @@ public class PredefinedInstallersTests
         var result = CreateResult();
         BashCommandOptions? capturedOptions = null;
         var environment = new Mock<IEnvironmentContext>();
-        environment.SetupGet(context => context.OperatingSystem).Returns(OperatingSystemIdentifier.Linux);
+        environment.SetupGet(context => context.OperatingSystem).Returns(OSPlatform.Linux);
         var downloadedScript = new File(Path.Combine(Path.GetTempPath(), "nvm-install.sh"));
         var downloader = new Mock<IDownloaderContext>();
         downloader.Setup(context => context.DownloadFileAsync(

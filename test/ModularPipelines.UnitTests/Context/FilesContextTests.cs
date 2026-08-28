@@ -11,6 +11,26 @@ public class FilesContextTests
     [Test]
     [Arguments("")]
     [Arguments(" ")]
+    public async Task GetFile_Throws_For_Blank_Path(string path)
+    {
+        var context = CreateContext();
+
+        await Assert.That(() => context.GetFile(path)).Throws<ArgumentException>();
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments(" ")]
+    public async Task GetFolder_Throws_For_Blank_Path(string path)
+    {
+        var context = CreateContext();
+
+        await Assert.That(() => context.GetFolder(path)).Throws<ArgumentException>();
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments(" ")]
     public async Task ReadAsync_Throws_For_Blank_Path(string path)
     {
         var context = CreateContext();
@@ -40,7 +60,6 @@ public class FilesContextTests
 
     private static FilesContext CreateContext() =>
         new(
-            Mock.Of<IFileSystemContext>(),
             Mock.Of<IFileSystemProvider>(),
             new PipelineWorkingDirectory(TestContext.OutputDirectory!),
             Mock.Of<IZipContext>(),

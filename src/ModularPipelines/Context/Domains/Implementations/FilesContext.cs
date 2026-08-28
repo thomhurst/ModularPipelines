@@ -9,24 +9,31 @@ namespace ModularPipelines.Context.Domains.Implementations;
 /// Provides file system operations with rich File and Folder return types.
 /// </summary>
 internal class FilesContext(
-    IFileSystemContext fileSystemContext,
     IFileSystemProvider fileSystemProvider,
     PipelineWorkingDirectory workingDirectory,
     IZipContext zip,
     IChecksumContext checksum) : IFilesContext
 {
-    private readonly IFileSystemContext _fileSystemContext = fileSystemContext;
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
     /// <inheritdoc />
-    public File GetFile(string path) => _fileSystemContext.GetFile(path);
+    public File GetFile(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return new File(_workingDirectory.ResolvePath(path), _fileSystemProvider);
+    }
 
     /// <inheritdoc />
-    public Folder GetFolder(string path) => _fileSystemContext.GetFolder(path);
+    public Folder GetFolder(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return new Folder(_workingDirectory.ResolvePath(path), _fileSystemProvider);
+    }
 
     /// <inheritdoc />
-    public Folder GetFolder(System.Environment.SpecialFolder specialFolder) => _fileSystemContext.GetFolder(specialFolder);
+    public Folder GetFolder(System.Environment.SpecialFolder specialFolder) =>
+        new(System.Environment.GetFolderPath(specialFolder), _fileSystemProvider);
 
     /// <inheritdoc />
     public IEnumerable<File> Glob(string pattern) =>
@@ -43,7 +50,7 @@ internal class FilesContext(
             .EnumerateDirectories(currentDirectory, "*", SearchOption.AllDirectories)
             .Where(path => matcher.Match(
                 _fileSystemProvider.GetRelativePath(currentDirectory, path)).HasMatches)
-            .Select(_fileSystemContext.GetFolder)
+            .Select(GetFolder)
             .Distinct();
     }
 

@@ -89,7 +89,7 @@ public class ParameterizedRunConditionAttributeTests
     [Test]
     public async Task OperatingSystemAttributes_AcceptParameterizedAlternatives()
     {
-        var environment = Mock.Of<IEnvironmentDomainContext>(x => x.OperatingSystem == OSPlatform.Linux);
+        var environment = Mock.Of<IEnvironmentContext>(x => x.OperatingSystem == OSPlatform.Linux);
         var context = Mock.Of<IPipelineContext>(x => x.Environment == environment);
         var runCondition = new RunIfOperatingSystemAttribute(
             OperatingSystemIdentifier.Windows,
@@ -130,7 +130,7 @@ public class ParameterizedRunConditionAttributeTests
 
     private static IPipelineContext CreateContext(IEnvironmentVariablesContext variables)
     {
-        var environment = Mock.Of<IEnvironmentDomainContext>(x => x.Variables == variables);
+        var environment = Mock.Of<IEnvironmentContext>(x => x.Variables == variables);
         return Mock.Of<IPipelineContext>(x => x.Environment == environment);
     }
 }

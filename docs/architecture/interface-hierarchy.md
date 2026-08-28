@@ -28,7 +28,7 @@ run conditions now receive `IPipelineContext` directly.
 | `Shell` | `IShellContext` | Commands, Bash, and PowerShell |
 | `Files` | `IFilesContext` | File operations, ZIP archives, and checksums |
 | `Data` | `IDataContext` | JSON, XML, YAML, Base64, and hexadecimal data |
-| `Environment` | `IEnvironmentDomainContext` | Environment and build-system information |
+| `Environment` | `IEnvironmentContext` | Environment and build-system information |
 | `Installers` | `IInstallersContext` | Platform and predefined installers |
 | `Network` | `INetworkContext` | HTTP and downloads |
 | `Security` | `ISecurityContext` | Certificates and hashing |
