@@ -7,4 +7,4 @@ namespace ModularPipelines.Options;
 /// </summary>
 /// <param name="FilePath">The path to the batch file.</param>
 [ExcludeFromCodeCoverage]
-public record CmdFileOptions(string FilePath) : CommandLineToolOptions(FilePath);
+public record CmdFileOptions(string FilePath) : CommandLineToolOptions;
