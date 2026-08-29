@@ -67,7 +67,7 @@
 - [Hooks](/docs/next/how-to/hooks.md): Module lifecycle behavior has three extension points:
 - [Ignoring Failures](/docs/next/how-to/ignoring-failures.md): Sometimes a module might throw an exception, but we simply don't care as it's not that important, or a specific error might be expected.
 - [Inheriting](/docs/next/how-to/inheriting.md): Each 'Module' is expected to be registered only once. If you build a custom module that you'd like to instantiate multiple times but with different options, then you should create a new Module type that inherits from an abstract base module.
-- [Logging](/docs/next/how-to/logging.md): IModuleLogger
+- [Logging](/docs/next/how-to/logging.md): ILogger
 - [Cache Module Results](/docs/next/how-to/module-caching.md): Fingerprint-based module caching skips work when its declared inputs have not changed. A cache entry contains the typed module result and files declared with ProducesArtifact, so a hit can restore outputs before dependent modules start.
 - [Trimming and Native AOT](/docs/next/how-to/native-aot.md): The core ModularPipelines package supports trimmed and Native AOT C# applications
 - [OpenTelemetry](/docs/next/how-to/opentelemetry.md): Modular Pipelines emits traces and metrics through the standard .NET
@@ -5874,21 +5874,21 @@ Each 'Module' is expected to be registered only once. If you build a custom modu
 
 # Logging
 
-## IModuleLogger[​](#imodulelogger "Direct link to IModuleLogger")
+## ILogger[​](#ilogger "Direct link to ILogger")
 
-When logging in your pipeline, you should always use an IModuleLogger. Do not inject in your own ILogger, and do not write to the console directly using the `Console` class, or any other class that would write directly to the console.
+When logging in a module, use the `ILogger` exposed by `context.Logger`. Do not inject a category logger such as `ILogger<T>` into a module, and do not write directly through `Console` or another console API.
 
-This is because the `IModuleLogger` will perform many actions that will improve the output of your logs.
+The context logger applies Modular Pipelines' secret masking and groups output with the current module while still using the standard Microsoft.Extensions.Logging API.
 
 These are detailed below.
 
 ## Secret Obfuscation[​](#secret-obfuscation "Direct link to Secret Obfuscation")
 
-If secrets have been defined (See [Secrets](/ModularPipelines/docs/next/how-to/secrets.md) for details on this), then if any of them are attempted to be written to logs via IModuleLogger, either directly, or through things like HTTP or Command logs, they will be obfuscated in the output. So for instance, if you made a HTTP call with a bearer token of 'MySuperSecretToken', when the HTTP request is logged, that bearer will show as '\*\*\*\*\*\*\*\*\*\*'.
+If secrets have been defined (See [Secrets](/ModularPipelines/docs/next/how-to/secrets.md) for details on this), then if any of them are attempted to be written through the context logger, either directly or through HTTP and command logs, they will be obfuscated in the output. For example, a bearer token of 'MySuperSecretToken' will appear as '\*\*\*\*\*\*\*\*\*\*'.
 
 ## Grouped Logs[​](#grouped-logs "Direct link to Grouped Logs")
 
-When writing logs through IModuleLogger, logs will be grouped by what module they're in. Since all modules attempt to run in parallel, if there was no log organisation, then logs would be everywhere and all jumbled up, and hard to navigate. This keeps logs together, clean, and easy to read. This is why it's very important not to write to the console directly, as that'll prevent this from working.
+When writing through `context.Logger`, logs are grouped by the current module. Since all modules attempt to run in parallel, if there was no log organisation, then logs would be everywhere and all jumbled up, and hard to navigate. This keeps logs together, clean, and easy to read. This is why it's very important not to write to the console directly, as that'll prevent this from working.
 
 ## Interfering with Console Progress[​](#interfering-with-console-progress "Direct link to Interfering with Console Progress")
 
@@ -5898,7 +5898,7 @@ If you have an interactive terminal, then a progress dialog will be displayed, a
 
 If you forget the above, Modular Pipelines has analyzers built as part of its framework. It'll detect direct uses of `Console`, or trying to inject in custom `ILogger`s and will result in errors, asking you to fix the issues.
 
-## How to access IModuleLogger[​](#how-to-access-imodulelogger "Direct link to How to access IModuleLogger")
+## How to access ILogger[​](#how-to-access-ilogger "Direct link to How to access ILogger")
 
 ### Module[​](#module "Direct link to Module")
 
@@ -5906,7 +5906,7 @@ If you're in a module, it's part of your `context` object. Call `context.Logger`
 
 ### Elsewhere[​](#elsewhere "Direct link to Elsewhere")
 
-If you're in another class, you can inject in `IModuleLoggerProvider` and call `GetLogger`.
+If you're in another class, inject `IModuleLoggerAccessor` and use its `Logger` property.
 
 ## Command Logging[​](#command-logging "Direct link to Command Logging")
 
@@ -7600,7 +7600,7 @@ Your options classes should be registered as IOptions.
 
 If you have any sensitive/secret data stored in these classes, you can attribute your property with `[SecretValue]`.
 
-This attribute, combined with the `IModuleLogger`, means that if that value is ever attempted to be written to logs, it'll be censored out, so that secret values aren't visible to those unauthorised.
+This attribute, combined with the logger exposed by `context.Logger`, means that if that value is ever attempted to be written to logs, it'll be censored out, so that secret values aren't visible to those unauthorised.
 
 `[SecretValue]` supports scalar strings, character sequences such as `char[]`, `IEnumerable<char>`, `Memory<char>`, and `ReadOnlyMemory<char>`, and collections of secret values. Character sequences are treated as one secret, while secret collections are masked item by item.
 

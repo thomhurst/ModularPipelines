@@ -67,7 +67,7 @@
 - [Hooks](/docs/next/how-to/hooks.md): Module lifecycle behavior has three extension points:
 - [Ignoring Failures](/docs/next/how-to/ignoring-failures.md): Sometimes a module might throw an exception, but we simply don't care as it's not that important, or a specific error might be expected.
 - [Inheriting](/docs/next/how-to/inheriting.md): Each 'Module' is expected to be registered only once. If you build a custom module that you'd like to instantiate multiple times but with different options, then you should create a new Module type that inherits from an abstract base module.
-- [Logging](/docs/next/how-to/logging.md): IModuleLogger
+- [Logging](/docs/next/how-to/logging.md): ILogger
 - [Cache Module Results](/docs/next/how-to/module-caching.md): Fingerprint-based module caching skips work when its declared inputs have not changed. A cache entry contains the typed module result and files declared with ProducesArtifact, so a hit can restore outputs before dependent modules start.
 - [Trimming and Native AOT](/docs/next/how-to/native-aot.md): The core ModularPipelines package supports trimmed and Native AOT C# applications
 - [OpenTelemetry](/docs/next/how-to/opentelemetry.md): Modular Pipelines emits traces and metrics through the standard .NET
