@@ -21,8 +21,7 @@ internal interface ISynchronousConsoleLogger;
 internal sealed class NonSpectreLoggerFactory(
     ILoggerFactory loggerFactory,
     ISpectreConsoleLoggerControl loggerControl,
-    IOptionsMonitor<LoggerFilterOptions> filterOptions,
-    IOptionsMonitor<ConsoleLoggerOptions> consoleOptions) : INonSpectreLoggerFactory
+    IOptionsMonitor<LoggerFilterOptions> filterOptions) : INonSpectreLoggerFactory
 {
     private readonly object _providerLoggersLock = new();
     private readonly Dictionary<string, ProviderLoggerSnapshot> _providerLoggers = [];
@@ -72,7 +71,6 @@ internal sealed class NonSpectreLoggerFactory(
             return new SynchronousConsoleLogger(
                 categoryName,
                 consoleProvider,
-                consoleOptions,
                 filterOptions);
         }
 
@@ -118,7 +116,6 @@ internal sealed class NonSpectreLoggerFactory(
     private sealed class SynchronousConsoleLogger(
         string categoryName,
         ConsoleLoggerProvider provider,
-        IOptionsMonitor<ConsoleLoggerOptions> options,
         IOptionsMonitor<LoggerFilterOptions> filterOptions) : ILogger, ISynchronousConsoleLogger
     {
         [ThreadStatic]
@@ -147,7 +144,7 @@ internal sealed class NonSpectreLoggerFactory(
                 return;
             }
 
-            var currentOptions = options.CurrentValue;
+            var currentOptions = GetOptions(provider).CurrentValue;
             var consoleFormatter = GetFormatter(provider, currentOptions);
             var writer = _writer ??= new StringWriter();
             var logEntry = new LogEntry<TState>(
@@ -199,6 +196,10 @@ internal sealed class NonSpectreLoggerFactory(
 
         [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_formatters")]
         private static extern ref ConcurrentDictionary<string, ConsoleFormatter> GetFormatters(
+            ConsoleLoggerProvider provider);
+
+        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_options")]
+        private static extern ref readonly IOptionsMonitor<ConsoleLoggerOptions> GetOptions(
             ConsoleLoggerProvider provider);
 
         [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_scopeProvider")]

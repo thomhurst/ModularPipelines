@@ -191,15 +191,13 @@ public class NonSpectreLoggerFactoryTests
         await using var serviceProvider = services.BuildServiceProvider();
         var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
         var filterOptions = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
-        var consoleOptions = serviceProvider.GetRequiredService<IOptionsMonitor<ConsoleLoggerOptions>>();
         var control = new NoopSpectreConsoleLoggerControl(
             loggerFactory,
             filterOptions);
         var factory = new NonSpectreLoggerFactory(
             loggerFactory,
             control,
-            filterOptions,
-            consoleOptions);
+            filterOptions);
         var originalOut = System.Console.Out;
         var originalError = System.Console.Error;
         var outputWriter = new StringWriter();
@@ -234,6 +232,63 @@ public class NonSpectreLoggerFactoryTests
     }
 
     [Test]
+    public async Task CreateLoggers_UsesOptionsFromProviderAddedAfterConstruction()
+    {
+        var targetServices = new ServiceCollection();
+        targetServices.AddLogging(builder => builder.ClearProviders());
+        await using var targetServiceProvider = targetServices.BuildServiceProvider();
+        var loggerFactory = targetServiceProvider.GetRequiredService<ILoggerFactory>();
+        var filterOptions = targetServiceProvider
+            .GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
+        var control = new NoopSpectreConsoleLoggerControl(loggerFactory, filterOptions);
+        var factory = new NonSpectreLoggerFactory(loggerFactory, control, filterOptions);
+
+        var providerServices = new ServiceCollection();
+        providerServices.AddLogging(builder => builder
+            .ClearProviders()
+            .AddJsonConsole());
+        providerServices.Configure<ConsoleLoggerOptions>(options =>
+            options.LogToStandardErrorThreshold = LogLevel.Warning);
+        await using var providerServiceProvider = providerServices.BuildServiceProvider();
+        var consoleProvider = providerServiceProvider.GetServices<ILoggerProvider>()
+            .OfType<ConsoleLoggerProvider>()
+            .Single();
+        loggerFactory.AddProvider(consoleProvider);
+
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var outputWriter = new StringWriter();
+        var errorWriter = new StringWriter();
+
+        try
+        {
+#pragma warning disable TUnit0055 // Globally non-parallel test restores both writers in finally.
+            System.Console.SetOut(outputWriter);
+            System.Console.SetError(errorWriter);
+#pragma warning restore TUnit0055
+
+            factory.CreateLoggers("Category").Single().LogWarning("external provider");
+
+            using var document = JsonDocument.Parse(errorWriter.ToString());
+            using (Assert.Multiple())
+            {
+                await Assert.That(outputWriter.ToString()).IsEmpty();
+                await Assert.That(document.RootElement.GetProperty("LogLevel").GetString())
+                    .IsEqualTo("Warning");
+                await Assert.That(document.RootElement.GetProperty("Message").GetString())
+                    .IsEqualTo("external provider");
+            }
+        }
+        finally
+        {
+#pragma warning disable TUnit0055 // Restore the process-wide writers before leaving the test.
+            System.Console.SetOut(originalOut);
+            System.Console.SetError(originalError);
+#pragma warning restore TUnit0055
+        }
+    }
+
+    [Test]
     public async Task CreateLoggers_Includes_Provider_Added_After_Construction()
     {
         var services = new ServiceCollection();
@@ -249,8 +304,7 @@ public class NonSpectreLoggerFactoryTests
         var factory = new NonSpectreLoggerFactory(
             loggerFactory,
             control,
-            filterOptions,
-            serviceProvider.GetRequiredService<IOptionsMonitor<ConsoleLoggerOptions>>());
+            filterOptions);
         var runtimeProvider = new RecordingLoggerProvider();
 
         loggerFactory.AddProvider(runtimeProvider);
@@ -287,8 +341,7 @@ public class NonSpectreLoggerFactoryTests
         LoggerFilterOptions? options = null) => new(
         loggerFactory,
         control,
-        CreateOptionsMonitor(options ?? new LoggerFilterOptions()),
-        CreateOptionsMonitor(new ConsoleLoggerOptions()));
+        CreateOptionsMonitor(options ?? new LoggerFilterOptions()));
 
     [ProviderAlias("Recording")]
     private sealed class RecordingLoggerProvider : ILoggerProvider
