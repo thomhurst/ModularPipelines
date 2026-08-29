@@ -983,6 +983,30 @@ public class DistributedModuleExecutorTests
             .Contains(OperatingSystemConditions.Linux);
     }
 
+    [Test]
+    public async Task CreateAssignment_Omits_Os_Routing_When_Local_Alternative_Matched()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MixedGroupedOperatingSystemModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var conditionRouting = new DistributedConditionRouting();
+        var module = new MixedGroupedOperatingSystemModule();
+        conditionRouting.MarkLocallySatisfied(module, typeof(GroupedOperatingSystemAttribute<>));
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry,
+            conditionRouting: conditionRouting);
+
+        var assignment = publisher.CreateAssignment(module);
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .DoesNotContain(OperatingSystemConditions.Linux);
+    }
+
     // =================================================================
     // Completion Signal Tests
     // =================================================================

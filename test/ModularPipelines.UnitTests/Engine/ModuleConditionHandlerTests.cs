@@ -269,19 +269,24 @@ public class ModuleConditionHandlerTests
     public async Task Distributed_Master_Evaluates_Non_Platform_Grouped_Alternatives()
     {
         _mixedAlternativeEvaluationCount = 0;
+        var conditionRouting = new DistributedConditionRouting();
         var handler = CreateHandler(new DistributedOptions
         {
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-        });
+        }, distributedConditionRouting: conditionRouting);
+        var module = new MixedMatchingAlternativeModule();
 
-        var result = await handler.ShouldIgnore(new MixedAlternativeModule());
+        var result = await handler.ShouldIgnore(module);
 
         using (Assert.Multiple())
         {
             await Assert.That(result.ShouldIgnore).IsFalse();
             await Assert.That(_mixedAlternativeEvaluationCount).IsEqualTo(1);
+            await Assert.That(conditionRouting.IsLocallySatisfied(
+                module,
+                typeof(MixedAlternativeModule))).IsTrue();
         }
     }
 
@@ -313,7 +318,8 @@ public class ModuleConditionHandlerTests
 
     private static ModuleConditionHandler CreateHandler(
         DistributedOptions distributedOptions,
-        IPipelineContext? pipelineContext = null)
+        IPipelineContext? pipelineContext = null,
+        DistributedConditionRouting? distributedConditionRouting = null)
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
         contextProvider
@@ -329,7 +335,8 @@ public class ModuleConditionHandlerTests
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
             new RoleDetector(Microsoft.Extensions.Options.Options.Create(distributedOptions)),
             contextProvider.Object,
-            metadataRegistry);
+            metadataRegistry,
+            distributedConditionRouting);
     }
 
     private static IModule CreateForeignOsModule()
@@ -459,6 +466,15 @@ public class ModuleConditionHandlerTests
     [MixedOperatingSystem<OnLinux>]
     [MixedAlternativeCondition(false)]
     private sealed class MixedAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [MixedOperatingSystem<OnLinux>]
+    [MixedAlternativeCondition(true)]
+    private sealed class MixedMatchingAlternativeModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,

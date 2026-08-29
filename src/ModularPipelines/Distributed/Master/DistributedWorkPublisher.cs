@@ -15,7 +15,8 @@ internal class DistributedWorkPublisher(
     ModuleResultSerializer serializer,
     IModuleResultRegistry resultRegistry,
     IModuleDependencyRegistry? dependencyRegistry = null,
-    IModuleMetadataRegistry? metadataRegistry = null)
+    IModuleMetadataRegistry? metadataRegistry = null,
+    DistributedConditionRouting? conditionRouting = null)
 {
     private readonly IDistributedCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
@@ -23,6 +24,7 @@ internal class DistributedWorkPublisher(
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
     private readonly IModuleDependencyRegistry? _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry? _metadataRegistry = metadataRegistry;
+    private readonly DistributedConditionRouting? _conditionRouting = conditionRouting;
 
     public ModuleAssignment CreateAssignment(IModule module)
     {
@@ -49,6 +51,11 @@ internal class DistributedWorkPublisher(
                      .OfType<IGroupedConditionAttribute>()
                      .GroupBy(static attribute => attribute.ConditionGroupType))
         {
+            if (_conditionRouting?.IsLocallySatisfied(module, alternatives.Key) == true)
+            {
+                continue;
+            }
+
             foreach (var osCapability in OperatingSystemConditions.GetTargets(alternatives))
             {
                 requiredCapabilities.Add(osCapability);

@@ -21,6 +21,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private readonly RoleDetector _roleDetector;
     private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly DistributedConditionRouting? _distributedConditionRouting;
     private readonly ConditionalWeakTable<IModule, ConditionEvaluation> _conditionEvaluations = new();
     private readonly ConcurrentDictionary<Type, Lazy<ConditionAttributes>> _conditionAttributes = new();
 
@@ -29,13 +30,15 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IOptions<DistributedOptions> distributedOptions,
         RoleDetector roleDetector,
         IPipelineContextProvider pipelineContextProvider,
-        IModuleMetadataRegistry metadataRegistry)
+        IModuleMetadataRegistry metadataRegistry,
+        DistributedConditionRouting? distributedConditionRouting = null)
     {
         _pipelineOptions = pipelineOptions;
         _distributedOptions = distributedOptions;
         _roleDetector = roleDetector;
         _pipelineContextProvider = pipelineContextProvider;
         _metadataRegistry = metadataRegistry;
+        _distributedConditionRouting = distributedConditionRouting;
     }
 
     public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default)
@@ -139,7 +142,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
         var moduleType = module.GetType();
         var conditionResult = await IsRunnableCondition(
-                moduleType,
+                module,
                 cancellationToken,
                 useFreshAttributes)
             .ConfigureAwait(false);
@@ -197,10 +200,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private async Task<(bool IsRunnable, SkipDecision? SkipDecision)> IsRunnableCondition(
-        Type moduleType,
+        IModule module,
         CancellationToken cancellationToken,
         bool useFreshAttributes)
     {
+        var moduleType = module.GetType();
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var attributes = useFreshAttributes
             ? CreateConditionAttributes(moduleType)
@@ -209,7 +213,10 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             attributes,
             pipelineContext,
             IsDistributedMaster(),
-            cancellationToken).ConfigureAwait(false);
+            cancellationToken,
+            conditionGroupType => _distributedConditionRouting?.MarkLocallySatisfied(
+                module,
+                conditionGroupType)).ConfigureAwait(false);
     }
 
     private bool IsDistributedMaster()
@@ -567,7 +574,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         ConditionAttributes attributes,
         IPipelineContext pipelineContext,
         bool isDistributedMaster,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Action<Type>? locallySatisfiedConditionGroup = null)
     {
         var skipDecision = await EvaluateSkipConditions(
             attributes.Skip,
@@ -582,7 +590,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             attributes.Any,
             pipelineContext,
             isDistributedMaster,
-            cancellationToken).ConfigureAwait(false);
+            cancellationToken,
+            locallySatisfiedConditionGroup).ConfigureAwait(false);
 
         return skipDecision is null ? (true, null) : (false, skipDecision);
     }
@@ -646,7 +655,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IReadOnlyList<IConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         bool isDistributedMaster,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Action<Type>? locallySatisfiedConditionGroup)
     {
         var evaluatedGroups = new HashSet<Type>();
 
@@ -689,6 +699,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                     cancellationToken)
                 .ConfigureAwait(false))
             {
+                if (isDistributedMaster && localAlternatives.Length != alternatives.Length)
+                {
+                    locallySatisfiedConditionGroup?.Invoke(groupedAttribute.ConditionGroupType);
+                }
+
                 continue;
             }
 

@@ -269,6 +269,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineFileWriter, PipelineFileWriter>()
             .AddSingleton<EngineCancellationToken>()
             .AddSingleton<IOptionsProvider, OptionsProvider>()
+            .AddSingleton<DistributedConditionRouting>()
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IEnvironmentVariablesContext, EnvironmentVariables>()
