@@ -40,6 +40,7 @@ public interface IArtifactContext
     /// <param name="destinationPath">The local destination path.</param>
     /// <param name="cancellationToken">A token that cancels the operation.</param>
     /// <returns>The local path where the artifact was downloaded.</returns>
+#pragma warning disable RS0026 // String and generic producer overloads intentionally share the optional cancellation-token shape.
     Task<string> DownloadAsync(
         string producerModuleTypeName,
         string artifactName,
@@ -59,4 +60,5 @@ public interface IArtifactContext
         string destinationPath,
         CancellationToken cancellationToken = default)
         where TProducerModule : IModule;
+#pragma warning restore RS0026
 }
