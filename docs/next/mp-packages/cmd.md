@@ -21,11 +21,11 @@ Use the discoverable `context.Tools` surface from a module:
 ```
 
 
-public class UseCmdModule : SyncModule<None>
+public class UseCmdModule : Module<CommandResult>
 
 {
 
-    protected override None Execute(
+    protected override Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -33,19 +33,31 @@ public class UseCmdModule : SyncModule<None>
 
     {
 
-        var cmd = context.Tools.Cmd;
-
-
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("Cmd integration is ready");
-
-        return None.Value;
+        return context.Tools.Cmd.RunAsync("echo ModularPipelines", cancellationToken: cancellationToken);
 
     }
 
 }
 ```
 
-The package exposes generated options records for its supported CLI commands.
+The integration implements `ICmdContext`. Inline scripts use `RunAsync`; batch files use `RunFileAsync`. Both accept `CommandExecutionOptions`:
+
+```
+await context.Tools.Cmd.RunAsync(
+
+    new CmdScriptOptions("echo ModularPipelines"),
+
+    new CommandExecutionOptions { ThrowOnNonZeroExitCode = true },
+
+    cancellationToken);
+
+
+
+await context.Tools.Cmd.RunFileAsync(
+
+    new CmdFileOptions("scripts/build.cmd"),
+
+    cancellationToken: cancellationToken);
+```
+
+The option records use the same `ModularPipelines.Options` namespace as the Bash and PowerShell shell options.
