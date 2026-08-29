@@ -1,5 +1,6 @@
 using System.Text;
 using ModularPipelines.Engine;
+using Spectre.Console;
 using Spectre.Console.Rendering;
 
 namespace ModularPipelines.Logging;
@@ -80,7 +81,7 @@ internal sealed class SecretObfuscatedRenderable(
             else if (!hasWrittenVisibleText)
             {
                 hasWrittenVisibleText = true;
-                yield return new Segment(obfuscated, segment.Style, segment.Link);
+                yield return new Segment(obfuscated, Style.Plain);
             }
         }
     }

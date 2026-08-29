@@ -268,7 +268,18 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     public override void WriteMarkupLine(string value)
     {
-        WriteRenderable(new Markup(value));
+        Markup markup;
+        try
+        {
+            markup = new Markup(value);
+        }
+        catch (InvalidOperationException)
+        {
+            WriteLine(value);
+            return;
+        }
+
+        WriteRenderable(markup);
     }
 
     public override void Write(IRenderable renderable)

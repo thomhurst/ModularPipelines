@@ -41,6 +41,17 @@ public class ConsoleWriterTests
         }
     }
 
+    private sealed class WriteInvalidMarkupModule(IConsoleWriter consoleWriter) : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            consoleWriter.WriteMarkupLine("[green]unclosed");
+            return Task.FromResult(true);
+        }
+    }
+
     private sealed class WriteModule(IConsoleWriter consoleWriter) : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
@@ -125,6 +136,14 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task WriteMarkupLine_InvalidMarkupFallsBackToPlainModuleOutput()
+    {
+        var output = await RunAsync<WriteInvalidMarkupModule>();
+
+        await Assert.That(output).Contains("[[green]]unclosed");
+    }
+
+    [Test]
     public async Task Write_UsesAmbientModuleConsoleWriter()
     {
         var output = await RunAsync<WriteModule>();
@@ -189,6 +208,27 @@ public class ConsoleWriterTests
 
         await Assert.That(output).Contains("\u001b[");
         await Assert.That(output).Contains("styled");
+    }
+
+    [Test]
+    public async Task Write_CustomObfuscatorUsesPlainFallbackStyle()
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns("masked");
+
+        var output = CaptureFallbackOutput(
+            writer => writer.Write(new Markup("[red]abc[/][blue]123[/]")),
+            secretObfuscator.Object,
+            AnsiSupport.Yes);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("masked");
+            await Assert.That(output).DoesNotContain("\u001b[31m");
+            await Assert.That(output).DoesNotContain("\u001b[34m");
+        }
     }
 
     [Test]
