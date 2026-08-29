@@ -448,19 +448,16 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
-    /// Activates distributed execution mode if configured with TotalInstances > 1.
-    /// Replaces the default <see cref="IModuleExecutor"/> with a role-specific implementation.
+    /// Activates configured distributed services. When TotalInstances is greater than 1,
+    /// replaces the default <see cref="IModuleExecutor"/> with a role-specific implementation.
     /// </summary>
     private static void ActivateDistributedModeIfConfigured(IServiceCollection services)
     {
         var options = ResolveDistributedOptions(services);
-        if (options is null || !options.Enabled || options.TotalInstances <= 1)
+        if (options is null || !options.Enabled)
         {
             return;
         }
-
-        var roleDetector = new RoleDetector(Microsoft.Extensions.Options.Options.Create(options));
-        var role = roleDetector.DetectRole();
 
         // Replace coordinator if factory registered — deferred so workers don't block
         // during DI build waiting for the master to advertise its URL
@@ -486,6 +483,14 @@ public sealed class PipelineBuilder
                 return new DeferredArtifactStore(factory);
             });
         }
+
+        if (options.TotalInstances <= 1)
+        {
+            return;
+        }
+
+        var roleDetector = new RoleDetector(Microsoft.Extensions.Options.Options.Create(options));
+        var role = roleDetector.DetectRole();
 
         if (role == DistributedRole.Master)
         {

@@ -2,6 +2,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Api;
 
@@ -80,6 +82,31 @@ public class ArtifactContextApiTests
         }
     }
 
+    [Test]
+    public async Task Artifact_Store_Factory_Is_Active_For_Single_Instance_Mode()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ArtifactTestModule>()
+            .AddDistributedMode(options => options.TotalInstances = 1)
+            .AddDistributedArtifactStoreFactory<TestArtifactStoreFactory>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var factory = pipeline.Services.GetRequiredService<IDistributedArtifactStoreFactory>();
+        var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
+
+        _ = await store.ListArtifactsAsync("module", CancellationToken.None);
+
+        await Assert.That(((TestArtifactStoreFactory) factory).CreateCount).IsEqualTo(1);
+    }
+
+    private sealed class ArtifactTestModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+            => Task.FromResult(string.Empty);
+    }
+
     public sealed class TestArtifactStore : IDistributedArtifactStore
     {
         public Task<ArtifactReference> UploadAsync(
@@ -96,7 +123,7 @@ public class ArtifactContextApiTests
         public Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(
             string moduleTypeName,
             CancellationToken cancellationToken)
-            => throw new NotSupportedException();
+            => Task.FromResult<IReadOnlyList<ArtifactReference>>([]);
 
         public Task DeleteAsync(
             ArtifactReference reference,
@@ -106,7 +133,12 @@ public class ArtifactContextApiTests
 
     public sealed class TestArtifactStoreFactory : IDistributedArtifactStoreFactory
     {
+        public int CreateCount { get; private set; }
+
         public Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
-            => throw new NotSupportedException();
+        {
+            CreateCount++;
+            return Task.FromResult<IDistributedArtifactStore>(new TestArtifactStore());
+        }
     }
 }
