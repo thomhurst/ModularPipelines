@@ -9,61 +9,108 @@ internal static partial class ObfuscatedMarkup
 {
     internal static Markup Create(string value, ISecretObfuscator secretObfuscator)
     {
-        var obfuscatedSource = secretObfuscator.Obfuscate(value, null);
-        try
+        var safeSource = CreateSafeSourceCore(value, secretObfuscator);
+        if (safeSource.WasChanged)
         {
-            return new Markup(obfuscatedSource);
+            return new Markup(safeSource.Value);
         }
-        catch (InvalidOperationException) when (!string.Equals(
-            obfuscatedSource,
-            value,
-            StringComparison.Ordinal))
-        {
-            var tagObfuscatedSource = MarkupTagRegex().Replace(
-                value,
-                match => secretObfuscator.Obfuscate(match.Value, null));
-            if (!string.Equals(tagObfuscatedSource, obfuscatedSource, StringComparison.Ordinal))
-            {
-                throw;
-            }
 
-            return new Markup(ObfuscateText(value, secretObfuscator));
+        var obfuscatedSource = secretObfuscator.Obfuscate(value, null);
+        var tagObfuscatedSource = MarkupTagRegex().Replace(
+            value,
+            match => secretObfuscator.Obfuscate(match.Value, null));
+        if (string.Equals(tagObfuscatedSource, obfuscatedSource, StringComparison.Ordinal))
+        {
+            return new Markup(value);
         }
+
+        return new Markup(obfuscatedSource);
     }
 
     internal static string CreateSafeSource(
         string value,
+        ISecretObfuscator secretObfuscator) =>
+        CreateSafeSourceCore(value, secretObfuscator).Value;
+
+    private static SafeSource CreateSafeSourceCore(
+        string value,
         ISecretObfuscator secretObfuscator)
     {
-        var output = new StringBuilder(value.Length);
-        var sourceOffset = 0;
-        foreach (Match match in MarkupTagRegex().Matches(value))
+        var matches = MarkupTagRegex().Matches(value).Cast<Match>().ToArray();
+        var visibleText = GetVisibleText(value, matches);
+        string obfuscatedText;
+        Func<int, int, string> getObfuscatedSlice;
+        if (secretObfuscator is SecretObfuscator concreteObfuscator)
         {
-            output.Append(Markup.Escape(
-                secretObfuscator.Obfuscate(value[sourceOffset..match.Index], null)));
-            output.Append(match.Value);
-            sourceOffset = match.Index + match.Length;
+            var mappedOutput = concreteObfuscator.ObfuscateWithSourceMap(
+                visibleText,
+                concreteObfuscator.CanSafelyPreserveRegisteredMasks());
+            var outputBytes = Encoding.UTF8.GetBytes(mappedOutput.Value);
+            obfuscatedText = mappedOutput.Value;
+            getObfuscatedSlice = (start, end) => Encoding.UTF8.GetString(
+                outputBytes,
+                mappedOutput.SourceToOutputByteOffsets[start],
+                mappedOutput.SourceToOutputByteOffsets[end]
+                - mappedOutput.SourceToOutputByteOffsets[start]);
+        }
+        else
+        {
+            obfuscatedText = secretObfuscator.Obfuscate(visibleText, null);
+            getObfuscatedSlice = (start, end) => obfuscatedText[
+                ScaleOffset(start, visibleText.Length, obfuscatedText)..
+                ScaleOffset(end, visibleText.Length, obfuscatedText)];
         }
 
-        output.Append(Markup.Escape(
-            secretObfuscator.Obfuscate(value[sourceOffset..], null)));
-        return output.ToString();
+        var wasChanged = !string.Equals(visibleText, obfuscatedText, StringComparison.Ordinal);
+
+        var output = new StringBuilder(value.Length);
+        var sourceOffset = 0;
+        var visibleOffset = 0;
+        foreach (var match in matches)
+        {
+            var textLength = match.Index - sourceOffset;
+            output.Append(Markup.Escape(getObfuscatedSlice(
+                visibleOffset,
+                visibleOffset + textLength)));
+            output.Append(match.Value);
+            sourceOffset = match.Index + match.Length;
+            visibleOffset += textLength;
+        }
+
+        output.Append(Markup.Escape(getObfuscatedSlice(visibleOffset, visibleText.Length)));
+        return new SafeSource(output.ToString(), wasChanged);
     }
 
-    private static string ObfuscateText(string value, ISecretObfuscator secretObfuscator)
+    private static string GetVisibleText(string value, IReadOnlyList<Match> matches)
     {
         var output = new StringBuilder(value.Length);
         var sourceOffset = 0;
-        foreach (Match match in MarkupTagRegex().Matches(value))
+        foreach (var match in matches)
         {
-            output.Append(secretObfuscator.Obfuscate(value[sourceOffset..match.Index], null));
-            output.Append(match.Value);
+            output.Append(value[sourceOffset..match.Index]);
             sourceOffset = match.Index + match.Length;
         }
 
-        output.Append(secretObfuscator.Obfuscate(value[sourceOffset..], null));
+        output.Append(value[sourceOffset..]);
         return output.ToString();
     }
+
+    private static int ScaleOffset(int sourceOffset, int sourceLength, string output)
+    {
+        if (sourceOffset >= sourceLength)
+        {
+            return output.Length;
+        }
+
+        var outputOffset = (int)((long) sourceOffset * output.Length / sourceLength);
+        return outputOffset > 0
+               && outputOffset < output.Length
+               && char.IsLowSurrogate(output[outputOffset])
+            ? outputOffset + 1
+            : outputOffset;
+    }
+
+    private readonly record struct SafeSource(string Value, bool WasChanged);
 
     [GeneratedRegex(@"\[[^\]\r\n]+\]", RegexOptions.CultureInvariant)]
     private static partial Regex MarkupTagRegex();

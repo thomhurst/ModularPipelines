@@ -232,7 +232,7 @@ internal sealed class SecretObfuscatedRenderable(
             : ObfuscatedMarkup.CreateSafeSource(rule.Title, secretObfuscator),
     };
 
-    private static Table PrepareTable(Table table, ISecretObfuscator secretObfuscator)
+    private static IRenderable PrepareTable(Table table, ISecretObfuscator secretObfuscator)
     {
         var title = ObfuscateTitle(table.Title, secretObfuscator);
         var caption = ObfuscateTitle(table.Caption, secretObfuscator);
@@ -247,7 +247,7 @@ internal sealed class SecretObfuscatedRenderable(
             ShowRowSeparators = table.ShowRowSeparators,
             Title = title,
             UseSafeBorder = table.UseSafeBorder,
-            Width = table.Width ?? GetTitleWidth(title, caption),
+            Width = table.Width,
         };
 
         foreach (var column in table.Columns)
@@ -271,7 +271,10 @@ internal sealed class SecretObfuscatedRenderable(
                 cell => new SecretObfuscatedRenderable(cell, secretObfuscator)));
         }
 
-        return preparedTable;
+        var titleWidth = GetTitleWidth(title, caption);
+        return table.Width is null && titleWidth is not null
+            ? new AutoSizedTable(preparedTable, titleWidth.Value)
+            : preparedTable;
     }
 
     private static int? GetTitleWidth(TableTitle? title, TableTitle? caption)
@@ -391,5 +394,35 @@ internal sealed class SecretObfuscatedRenderable(
             MeasureSegments(segments, maxWidth);
 
         public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) => segments;
+    }
+
+    private sealed class AutoSizedTable(Table table, int minimumWidth) : IRenderable
+    {
+        private readonly object _renderLock = new();
+
+        public Measurement Measure(RenderOptions options, int maxWidth)
+        {
+            lock (_renderLock)
+            {
+                SetWidth(options, maxWidth);
+                return ((IRenderable) table).Measure(options, maxWidth);
+            }
+        }
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
+        {
+            lock (_renderLock)
+            {
+                SetWidth(options, maxWidth);
+                return ((IRenderable) table).Render(options, maxWidth).ToArray();
+            }
+        }
+
+        private void SetWidth(RenderOptions options, int maxWidth)
+        {
+            table.Width = null;
+            var contentWidth = ((IRenderable) table).Measure(options, maxWidth).Max;
+            table.Width = Math.Min(maxWidth, Math.Max(contentWidth, minimumWidth));
+        }
     }
 }

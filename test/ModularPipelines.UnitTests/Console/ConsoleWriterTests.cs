@@ -254,6 +254,22 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task WriteMarkupLine_EscapesBracketedMaskWithoutDroppingMarkup()
+    {
+        var output = CaptureFallbackOutput(
+            writer => writer.WriteMarkupLine("[red]secret[/]"),
+            CreateSecretObfuscator("secret", "[REDACTED]"),
+            AnsiSupport.Yes);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("\u001b[");
+            await Assert.That(output).Contains("[REDACTED]");
+            await Assert.That(output).DoesNotContain("secret");
+        }
+    }
+
+    [Test]
     public async Task Write_ObfuscatesWithoutAmbientModule()
     {
         var output = CaptureFallbackOutput(writer => writer.Write(new Markup("[green]a secret value[/]")));
@@ -504,6 +520,47 @@ public class ConsoleWriterTests
             await Assert.That(Segment.SplitLines(segments).Max(static line => line.CellCount()))
                 .IsEqualTo(24);
         }
+    }
+
+    [Test]
+    public async Task Write_PreparesRuleTitleWithSecretSplitAcrossTags()
+    {
+        var obfuscator = CreateSecretObfuscator("abc123", "[REDACTED]");
+        var renderable = new SecretObfuscatedRenderable(
+            new Rule("[red]abc[/][blue]123[/]"),
+            obfuscator);
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                24)
+            .ToArray();
+        var renderedText = string.Concat(segments.Select(static segment => segment.Text));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(renderedText).Contains("[REDACTED]");
+            await Assert.That(renderedText).DoesNotContain("abc");
+            await Assert.That(renderedText).DoesNotContain("123");
+            await Assert.That(Segment.SplitLines(segments).Max(static line => line.CellCount()))
+                .IsEqualTo(24);
+        }
+    }
+
+    [Test]
+    public async Task Write_AutoSizedTableAccountsForColumnContentWithTitle()
+    {
+        var table = new Table()
+            .AddColumn("Value")
+            .AddRow("substantially wider column content");
+        table.Title = new TableTitle("Short");
+        var renderable = new SecretObfuscatedRenderable(
+            table,
+            CreateSecretObfuscator("unrelated"));
+
+        var measurement = renderable.Measure(
+            RenderOptions.Create(AnsiConsole.Console),
+            80);
+
+        await Assert.That(measurement.Max).IsGreaterThan(20);
     }
 
     [Test]
