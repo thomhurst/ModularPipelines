@@ -6,7 +6,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.UnitTests.Attributes;
 using Moq;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -16,7 +16,7 @@ public class InstallersContextTests
     public async Task WebInstallerDownloadsThenRunsFileWithArguments()
     {
         var uri = new Uri("https://example.test/installer");
-        var downloadedFile = new File("downloaded-installer");
+        var downloadedFile = new FilePath("downloaded-installer");
         var downloader = new Mock<IDownloaderContext>();
         downloader.Setup(context => context.DownloadFileAsync(
                 It.Is<DownloadFileOptions>(options => options.DownloadUri == uri),

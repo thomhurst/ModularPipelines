@@ -32,7 +32,7 @@ public sealed class TempFolder : IAsyncDisposable, IDisposable
     /// </summary>
     public TempFolder()
     {
-        Folder = Folder.CreateTemporaryFolder();
+        Folder = FolderPath.CreateTemporaryFolder();
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public sealed class TempFolder : IAsyncDisposable, IDisposable
     /// </summary>
     /// <param name="folder">The folder to wrap as a temporary folder.</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="folder"/> is null.</exception>
-    public TempFolder(Folder folder)
+    public TempFolder(FolderPath folder)
     {
         ArgumentNullException.ThrowIfNull(folder);
         Folder = folder;
@@ -49,7 +49,7 @@ public sealed class TempFolder : IAsyncDisposable, IDisposable
     /// <summary>
     /// Gets the underlying temporary folder.
     /// </summary>
-    public Folder Folder { get; }
+    public FolderPath Folder { get; }
 
     /// <summary>
     /// Asynchronously disposes the temporary folder, recursively deleting it and all its contents if it exists.

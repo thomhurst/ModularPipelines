@@ -133,11 +133,11 @@ var manifest = await run.FileSystem.ReadAllTextAsync("/output/manifest.json");
 directory creation, reads, writes, streams, copies, moves, deletion, enumeration,
 and path helpers. You can also construct and register it directly in other tests.
 Physical metadata such as attributes, timestamps, and file length is not part of
-`IFileSystemProvider`; accessing it through an in-memory-backed `File` or `Folder`
+`IFileSystemProvider`; accessing it through an in-memory-backed `FilePath` or `FolderPath`
 throws `NotSupportedException` rather than reading the real filesystem.
 
-Code under test must obtain `File` and `Folder` instances from `context.Files`.
-Direct construction such as `new File("path")` intentionally uses the physical
+Code under test must obtain `FilePath` and `FolderPath` instances from `context.Files`.
+Direct construction such as `new FilePath("path")` intentionally uses the physical
 `SystemFileSystemProvider`.
 
 ## Register constructor services

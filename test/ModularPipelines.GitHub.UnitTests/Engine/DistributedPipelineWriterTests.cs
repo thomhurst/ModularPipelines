@@ -3,7 +3,7 @@ using ModularPipelines.Conditions;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.TestHelpers;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.GitHub.UnitTests.Engine;
 
@@ -12,8 +12,8 @@ public class DistributedPipelineWriterTests : TestBase
     [Test]
     public async Task GeneratesMatrixFromModuleCapabilities()
     {
-        var outputPath = new File(Path.Combine(
-            File.GetNewTemporaryFilePath().Path,
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
             "nested",
             "distributed.yml"));
 
@@ -25,7 +25,7 @@ public class DistributedPipelineWriterTests : TestBase
             .WriteDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
-                PipelineProjectPath = new File("src/MyPipeline"),
+                PipelineProjectPath = new FilePath("src/MyPipeline"),
                 DotNetRunFramework = "net10.0",
                 ExtraWorkers = 1,
             })
@@ -77,8 +77,8 @@ public class DistributedPipelineWriterTests : TestBase
     [Test]
     public async Task GeneratesRunnersForOperatingSystemConditions()
     {
-        var outputPath = new File(Path.Combine(
-            File.GetNewTemporaryFilePath().Path,
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
             "distributed.yml"));
 
         await TestPipelineBuilder.Create()
@@ -103,8 +103,8 @@ public class DistributedPipelineWriterTests : TestBase
     [Test]
     public async Task QuotesPortablePipelineProjectPath()
     {
-        var outputPath = new File(Path.Combine(
-            File.GetNewTemporaryFilePath().Path,
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
             "distributed.yml"));
 
         await TestPipelineBuilder.Create()
@@ -112,7 +112,7 @@ public class DistributedPipelineWriterTests : TestBase
             .WriteDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
-                PipelineProjectPath = new File(@"src\My Pipeline's\Pipeline.csproj"),
+                PipelineProjectPath = new FilePath(@"src\My Pipeline's\Pipeline.csproj"),
             })
             .RunAsync();
 

@@ -36,7 +36,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         return await PackProjects(context, projects, packageVersion.Value, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
     }
 
-    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<File> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
+    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<FilePath> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         foreach (var project in projects)
         {

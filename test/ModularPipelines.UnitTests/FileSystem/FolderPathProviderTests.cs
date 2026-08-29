@@ -3,14 +3,14 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.FileSystem;
 
-public class FolderProviderTests
+public class FolderPathProviderTests
 {
     [Test]
     public async Task Create_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
         mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
-        var folder = new Folder("/test/folder", mockProvider.Object);
+        var folder = new FolderPath("/test/folder", mockProvider.Object);
 
         folder.Create();
 
@@ -21,7 +21,7 @@ public class FolderProviderTests
     public async Task Delete_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var folder = new Folder("/test/folder", mockProvider.Object);
+        var folder = new FolderPath("/test/folder", mockProvider.Object);
 
         folder.Delete();
 
@@ -33,7 +33,7 @@ public class FolderProviderTests
     {
         var mockProvider = new Mock<IFileSystemProvider>();
         mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
-        var folder = new Folder("/test/folder", mockProvider.Object);
+        var folder = new FolderPath("/test/folder", mockProvider.Object);
 
         var file = folder.GetFile("test.txt");
 
@@ -47,7 +47,7 @@ public class FolderProviderTests
     {
         var mockProvider = new Mock<IFileSystemProvider>();
         mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
-        var folder = new Folder("/test/folder", mockProvider.Object);
+        var folder = new FolderPath("/test/folder", mockProvider.Object);
 
         var subfolder = folder.GetFolder("subfolder");
 
@@ -60,7 +60,7 @@ public class FolderProviderTests
     public async Task MoveTo_ReturnsNewFolderWithProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var folder = new Folder("/source/folder", mockProvider.Object);
+        var folder = new FolderPath("/source/folder", mockProvider.Object);
 
         var moved = folder.MoveTo("/dest/folder");
 
@@ -75,7 +75,7 @@ public class FolderProviderTests
     public void DefaultConstructor_UsesSystemProvider()
     {
         var tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-        var folder = new Folder(tempPath);
+        var folder = new FolderPath(tempPath);
 
         // Should work without throwing
         folder.Create();
@@ -86,7 +86,7 @@ public class FolderProviderTests
     public async Task CreateAsync_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var folder = new Folder("/test/folder", mockProvider.Object);
+        var folder = new FolderPath("/test/folder", mockProvider.Object);
 
         await folder.CreateAsync();
 
@@ -97,7 +97,7 @@ public class FolderProviderTests
     public async Task DeleteAsync_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var folder = new Folder("/test/folder", mockProvider.Object);
+        var folder = new FolderPath("/test/folder", mockProvider.Object);
 
         await folder.DeleteAsync();
 
@@ -108,7 +108,7 @@ public class FolderProviderTests
     public async Task MoveToAsync_ReturnsNewFolderWithProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var folder = new Folder("/source/folder", mockProvider.Object);
+        var folder = new FolderPath("/source/folder", mockProvider.Object);
 
         var moved = await folder.MoveToAsync("/dest/folder");
 
@@ -124,7 +124,7 @@ public class FolderProviderTests
     {
         var mockProvider = new Mock<IFileSystemProvider>();
         mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
-        var folder = new Folder("/test/folder", mockProvider.Object);
+        var folder = new FolderPath("/test/folder", mockProvider.Object);
 
         var subfolder = folder.CreateFolder("newsubfolder");
 
@@ -139,7 +139,7 @@ public class FolderProviderTests
         mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
         // Return a stream that can be disposed
         mockProvider.Setup(p => p.Create(It.IsAny<string>())).Returns(new MemoryStream());
-        var folder = new Folder("/test/folder", mockProvider.Object);
+        var folder = new FolderPath("/test/folder", mockProvider.Object);
 
         var file = folder.CreateFile("newfile.txt");
 
@@ -168,7 +168,7 @@ public class FolderProviderTests
             // Create source directory for DirectoryInfo to reference
             Directory.CreateDirectory(sourceDir);
 
-            var folder = new Folder(sourceDir, mockProvider.Object);
+            var folder = new FolderPath(sourceDir, mockProvider.Object);
 
             var copied = folder.CopyTo(destDir);
 
@@ -213,7 +213,7 @@ public class FolderProviderTests
             // Create source directory for DirectoryInfo to reference
             Directory.CreateDirectory(sourceDir);
 
-            var folder = new Folder(sourceDir, mockProvider.Object);
+            var folder = new FolderPath(sourceDir, mockProvider.Object);
 
             var copied = await folder.CopyToAsync(destDir);
 

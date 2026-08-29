@@ -4,7 +4,7 @@ namespace ModularPipelines.UnitTests.Extensions;
 
 public static class FolderExtensions
 {
-    public static Folder? FindAncestorContainingProject(this Folder original)
+    public static FolderPath? FindAncestorContainingProject(this FolderPath original)
     {
         var folder = original;
 

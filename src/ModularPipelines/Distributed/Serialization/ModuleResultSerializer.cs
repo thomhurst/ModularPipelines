@@ -25,7 +25,7 @@ internal class ModuleResultSerializer
             Converters = { new ModuleResultJsonConverterFactory() },
         };
 
-        // Add portable path converters so File/Folder objects serialize as git-root-relative paths.
+        // Add portable path converters so FilePath/FolderPath objects serialize as git-root-relative paths.
         // This enables cross-platform distributed mode (e.g., Windows worker → Linux master).
         var gitRoot = GitRootFinder.Find();
 

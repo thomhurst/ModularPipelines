@@ -11,14 +11,14 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.DotNet.UnitTests;
 
 [TUnit.Core.NotInParallel]
 public class DotNetTestResultsTests : TestBase
 {
-    private static readonly File TrxFixture = new(
+    private static readonly FilePath TrxFixture = new(
         Path.Combine(AppContext.BaseDirectory, "Data", "test-results.trx"));
 
     private class DotNetTestWithFailureModule : Module<CommandResult>

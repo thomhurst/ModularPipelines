@@ -1,6 +1,6 @@
 using System.Text.Json;
 using ModularPipelines.Distributed.Serialization;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Distributed.UnitTests.Serialization;
 
@@ -16,7 +16,7 @@ public class PortablePathConverterTests
         };
 
         var absolutePath = Path.Combine(gitRoot, "src", "MyProject", "File.cs");
-        var file = new File(absolutePath);
+        var file = new FilePath(absolutePath);
 
         var json = JsonSerializer.Serialize(file, options);
 
@@ -34,7 +34,7 @@ public class PortablePathConverterTests
         };
 
         var json = "\"src/MyProject/File.cs\"";
-        var file = JsonSerializer.Deserialize<File>(json, options);
+        var file = JsonSerializer.Deserialize<FilePath>(json, options);
 
         var expected = Path.GetFullPath(Path.Combine(gitRoot, "src", "MyProject", "File.cs"));
         await Assert.That(file).IsNotNull();
@@ -63,14 +63,14 @@ public class PortablePathConverterTests
 
         // Create a file path under the "windows" root
         var windowsFilePath = Path.Combine(windowsRoot, "src", "Project.csproj");
-        var file = new File(windowsFilePath);
+        var file = new FilePath(windowsFilePath);
 
         // Serialize (produces relative path)
         var json = JsonSerializer.Serialize(file, serializeOptions);
         await Assert.That(json).IsEqualTo("\"src/Project.csproj\"");
 
         // Deserialize on "linux" side (resolves against linux root)
-        var deserialized = JsonSerializer.Deserialize<File>(json, deserializeOptions);
+        var deserialized = JsonSerializer.Deserialize<FilePath>(json, deserializeOptions);
         var expected = Path.GetFullPath(Path.Combine(linuxRoot, "src", "Project.csproj"));
         await Assert.That(deserialized).IsNotNull();
         await Assert.That(deserialized!.Path).IsEqualTo(expected);
@@ -87,7 +87,7 @@ public class PortablePathConverterTests
 
         // Path outside the git root
         var outsidePath = Path.Combine(Path.GetTempPath().TrimEnd(Path.DirectorySeparatorChar), "other", "file.txt");
-        var file = new File(outsidePath);
+        var file = new FilePath(outsidePath);
 
         var json = JsonSerializer.Serialize(file, options);
 
@@ -105,10 +105,10 @@ public class PortablePathConverterTests
             Converters = { new PortableFilePathJsonConverter(gitRoot) },
         };
 
-        var json = JsonSerializer.Serialize<File?>(null, options);
+        var json = JsonSerializer.Serialize<FilePath?>(null, options);
         await Assert.That(json).IsEqualTo("null");
 
-        var deserialized = JsonSerializer.Deserialize<File?>(json, options);
+        var deserialized = JsonSerializer.Deserialize<FilePath?>(json, options);
         await Assert.That(deserialized).IsNull();
     }
 }

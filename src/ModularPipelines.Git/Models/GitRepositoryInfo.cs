@@ -2,7 +2,7 @@ using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Git.Models;
 
-public sealed record GitRepositoryInfo(Folder Root)
+public sealed record GitRepositoryInfo(FolderPath Root)
 {
     public string? BranchName { get; init; }
 

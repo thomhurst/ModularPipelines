@@ -1064,7 +1064,6 @@ ModularPipelines.DotNet.Services.IDotNetWorkload.ListAsync(ModularPipelines.DotN
 ModularPipelines.DotNet.Services.IDotNetWorkload.RepairAsync(ModularPipelines.DotNet.Options.DotNetWorkloadRepairOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.DotNet.Services.IDotNetWorkload.UpdateAsync(ModularPipelines.DotNet.Options.DotNetWorkloadUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.DotNet.Services.ITrx
-ModularPipelines.DotNet.Services.ITrx.ParseTrxFile(ModularPipelines.FileSystem.File! file) -> System.Threading.Tasks.Task<ModularPipelines.DotNet.DotNetTestResult!>!
 override abstract ModularPipelines.DotNet.Options.DotNetOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetOptions!
 override ModularPipelines.DotNet.DotNetTestResult.Equals(object? obj) -> bool
 override ModularPipelines.DotNet.DotNetTestResult.GetHashCode() -> int

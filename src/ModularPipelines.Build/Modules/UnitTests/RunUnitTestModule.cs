@@ -16,7 +16,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Spectre.Console;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules.UnitTests;
 
@@ -109,14 +109,14 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
     }
 
-    private File GetTrxFile(File testProject)
+    private FilePath GetTrxFile(FilePath testProject)
     {
         return testProject.Folder!
             .GetFolder($"bin/Release/{pipelineSettings.Value.TestFramework}/TestResults")
             .GetFile(TrxFileName);
     }
 
-    private static async Task PrintTestResults(IModuleContext context, File trxFile)
+    private static async Task PrintTestResults(IModuleContext context, FilePath trxFile)
     {
         try
         {
@@ -131,7 +131,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
     }
 
-    private static async Task PrintTestResultsCore(IModuleContext context, File trxFile)
+    private static async Task PrintTestResultsCore(IModuleContext context, FilePath trxFile)
     {
         if (!trxFile.Exists)
         {

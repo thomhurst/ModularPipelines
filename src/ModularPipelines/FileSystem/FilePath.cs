@@ -11,7 +11,7 @@ namespace ModularPipelines.FileSystem;
 /// Represents a file in the file system with extended functionality for pipeline operations.
 /// </summary>
 [JsonConverter(typeof(FilePathJsonConverter))]
-public class File : IEquatable<File>
+public class FilePath : IEquatable<FilePath>
 {
     [JsonIgnore]
     private readonly FileInfo _fileInfo;
@@ -27,19 +27,19 @@ public class File : IEquatable<File>
         }
     }
 
-    public File(string path) : this(new FileInfo(path), path, SystemFileSystemProvider.Instance)
+    public FilePath(string path) : this(new FileInfo(path), path, SystemFileSystemProvider.Instance)
     {
     }
 
-    internal File(FileInfo fileInfo) : this(fileInfo, fileInfo.FullName, SystemFileSystemProvider.Instance)
+    internal FilePath(FileInfo fileInfo) : this(fileInfo, fileInfo.FullName, SystemFileSystemProvider.Instance)
     {
     }
 
-    internal File(string path, IFileSystemProvider provider) : this(new FileInfo(path), path, provider)
+    internal FilePath(string path, IFileSystemProvider provider) : this(new FileInfo(path), path, provider)
     {
     }
 
-    private File(FileInfo fileInfo, string originalPath, IFileSystemProvider provider)
+    private FilePath(FileInfo fileInfo, string originalPath, IFileSystemProvider provider)
     {
         _fileInfo = fileInfo;
         OriginalPath = originalPath;
@@ -107,6 +107,7 @@ public class File : IEquatable<File>
         return _provider.Open(Path, fileMode, fileAccess);
     }
 
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves the established content-specific overloads.
     public Task WriteAsync(string contents, CancellationToken cancellationToken = default)
     {
         LogFileOperation("Writing to File: {Path}", this);
@@ -154,7 +155,9 @@ public class File : IEquatable<File>
             await contents.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
         }
     }
+#pragma warning restore RS0026
 
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves the established content-specific overloads.
     public Task AppendAsync(string contents, CancellationToken cancellationToken = default)
     {
         LogFileOperation("Appending to File: {Path}", this);
@@ -168,6 +171,7 @@ public class File : IEquatable<File>
 
         return _provider.AppendAllLinesAsync(Path, contents, cancellationToken);
     }
+#pragma warning restore RS0026
 
     /// <inheritdoc cref="FileSystemInfo.Exists"/>>
     public bool Exists => _provider.FileExists(Path);
@@ -181,15 +185,15 @@ public class File : IEquatable<File>
     public string NameWithoutExtension => System.IO.Path.GetFileNameWithoutExtension(this);
 
     /// <inheritdoc cref="FileInfo.Directory"/>>
-    public Folder? Folder => System.IO.Path.GetDirectoryName(Path) is { } directory
-        ? new Folder(directory, _provider)
+    public FolderPath? Folder => System.IO.Path.GetDirectoryName(Path) is { } directory
+        ? new FolderPath(directory, _provider)
         : null;
 
     /// <inheritdoc cref="FileSystemInfo.FullName"/>>
     public string Path => _fileInfo.FullName;
 
     /// <summary>
-    /// Gets the original path string that was used to construct this File instance.
+    /// Gets the original path string that was used to construct this FilePath instance.
     /// </summary>
     /// <remarks>
     /// Unlike <see cref="Path"/> which always returns the absolute path,
@@ -197,7 +201,7 @@ public class File : IEquatable<File>
     /// </remarks>
     public string OriginalPath { get; }
 
-    public File Create()
+    public FilePath Create()
     {
         LogFileOperation("Creating File: {Path}", this);
 
@@ -210,7 +214,7 @@ public class File : IEquatable<File>
     /// Asynchronously creates a new file at the current path.
     /// </summary>
     /// <returns>This file instance for method chaining.</returns>
-    public async Task<File> CreateAsync()
+    public async Task<FilePath> CreateAsync()
     {
         LogFileOperation("Creating File: {Path}", this);
 
@@ -265,16 +269,16 @@ public class File : IEquatable<File>
     }
 
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
-    public File MoveTo(string path)
+    public FilePath MoveTo(string path)
     {
         LogFileOperationWithDestination("Moving File: {Source} > {Destination}", this, path);
 
         _provider.MoveFile(Path, path);
-        return new File(path, _provider);
+        return new FilePath(path, _provider);
     }
 
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
-    public File MoveTo(Folder folder)
+    public FilePath MoveTo(FolderPath folder)
     {
         LogFileOperationWithDestination("Moving File: {Source} > {Destination}", this, folder);
 
@@ -290,15 +294,16 @@ public class File : IEquatable<File>
     /// </remarks>
     /// <param name="path">The destination path.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A new File instance at the destination path.</returns>
-    public Task<File> MoveToAsync(string path, CancellationToken cancellationToken = default)
+    /// <returns>A new FilePath instance at the destination path.</returns>
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves path- and folder-specific overloads.
+    public Task<FilePath> MoveToAsync(string path, CancellationToken cancellationToken = default)
     {
         LogFileOperationWithDestination("Moving File: {Source} > {Destination}", this, path);
 
         return Task.Run(() =>
         {
             _provider.MoveFile(Path, path);
-            return new File(path, _provider);
+            return new FilePath(path, _provider);
         }, cancellationToken);
     }
 
@@ -310,25 +315,26 @@ public class File : IEquatable<File>
     /// </remarks>
     /// <param name="folder">The destination folder.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A new File instance at the destination path.</returns>
-    public async Task<File> MoveToAsync(Folder folder, CancellationToken cancellationToken = default)
+    /// <returns>A new FilePath instance at the destination path.</returns>
+    public async Task<FilePath> MoveToAsync(FolderPath folder, CancellationToken cancellationToken = default)
     {
         LogFileOperationWithDestination("Moving File: {Source} > {Destination}", this, folder);
 
         await folder.CreateAsync().ConfigureAwait(false);
         return await MoveToAsync(_provider.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
     }
+#pragma warning restore RS0026
 
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
-    public File CopyTo(string path)
+    public FilePath CopyTo(string path)
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, path);
 
         _provider.CopyFile(Path, path, true);
-        return new File(path, _provider);
+        return new FilePath(path, _provider);
     }
 
-    public File CopyTo(Folder folder)
+    public FilePath CopyTo(FolderPath folder)
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, folder);
 
@@ -341,8 +347,9 @@ public class File : IEquatable<File>
     /// </summary>
     /// <param name="path">The destination path.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A new File instance representing the copied file.</returns>
-    public async Task<File> CopyToAsync(string path, CancellationToken cancellationToken = default)
+    /// <returns>A new FilePath instance representing the copied file.</returns>
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves path- and folder-specific overloads.
+    public async Task<FilePath> CopyToAsync(string path, CancellationToken cancellationToken = default)
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, path);
 
@@ -356,7 +363,7 @@ public class File : IEquatable<File>
             }
         }
 
-        return new File(path, _provider);
+        return new FilePath(path, _provider);
     }
 
     /// <summary>
@@ -364,16 +371,17 @@ public class File : IEquatable<File>
     /// </summary>
     /// <param name="folder">The destination folder.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A new File instance representing the copied file.</returns>
-    public async Task<File> CopyToAsync(Folder folder, CancellationToken cancellationToken = default)
+    /// <returns>A new FilePath instance representing the copied file.</returns>
+    public async Task<FilePath> CopyToAsync(FolderPath folder, CancellationToken cancellationToken = default)
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, folder);
 
         await folder.CreateAsync().ConfigureAwait(false);
         return await CopyToAsync(_provider.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
     }
+#pragma warning restore RS0026
 
-    public static File GetNewTemporaryFilePath()
+    public static FilePath GetNewTemporaryFilePath()
     {
         var provider = SystemFileSystemProvider.Instance;
         var path = provider.Combine(provider.GetTempPath(), provider.GetRandomFileName());
@@ -383,7 +391,7 @@ public class File : IEquatable<File>
         return path!;
     }
 
-    public static implicit operator File?(string? path)
+    public static implicit operator FilePath?(string? path)
     {
         if (string.IsNullOrEmpty(path))
         {
@@ -394,18 +402,18 @@ public class File : IEquatable<File>
     }
 
     [return: NotNullIfNotNull("fileInfo")]
-    public static implicit operator File?(FileInfo? fileInfo)
+    public static implicit operator FilePath?(FileInfo? fileInfo)
     {
         if (fileInfo == null)
         {
             return null;
         }
 
-        return new File(fileInfo);
+        return new FilePath(fileInfo);
     }
 
     [return: NotNullIfNotNull(parameterName: "file")]
-    public static implicit operator string?(File? file)
+    public static implicit operator string?(FilePath? file)
     {
         return file?.Path;
     }
@@ -417,7 +425,7 @@ public class File : IEquatable<File>
     }
 
     /// <inheritdoc/>
-    public bool Equals(File? other)
+    public bool Equals(FilePath? other)
     {
         if (other is null)
         {
@@ -445,7 +453,7 @@ public class File : IEquatable<File>
             return true;
         }
 
-        return obj is File other && Equals(other);
+        return obj is FilePath other && Equals(other);
     }
 
     /// <inheritdoc/>
@@ -459,12 +467,12 @@ public class File : IEquatable<File>
         return Path.GetHashCode();
     }
 
-    public static bool operator ==(File? left, File? right)
+    public static bool operator ==(FilePath? left, FilePath? right)
     {
         return Equals(left, right);
     }
 
-    public static bool operator !=(File? left, File? right)
+    public static bool operator !=(FilePath? left, FilePath? right)
     {
         return !Equals(left, right);
     }

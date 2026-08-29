@@ -178,7 +178,7 @@ public class ZipTests : TestBase
             System.IO.File.SetLastWriteTime(sourceFile, expectedTimestamp);
             var zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root));
 
-            zip.CreateFromDirectory(new Folder(sourceDirectory), zipPath, CompressionLevel.Optimal);
+            zip.CreateFromDirectory(new FolderPath(sourceDirectory), zipPath, CompressionLevel.Optimal);
             zip.ExtractToDirectory(zipPath, destinationDirectory, overwriteFiles: true);
 
             await Assert.That(System.IO.File.GetLastWriteTime(extractedFile))
@@ -209,7 +209,7 @@ public class ZipTests : TestBase
 
             await Assert.That(() =>
                     zip.CreateFromDirectory(
-                        new Folder(sourceDirectory),
+                        new FolderPath(sourceDirectory),
                         zipPath,
                         CompressionLevel.Optimal))
                 .Throws<IOException>();

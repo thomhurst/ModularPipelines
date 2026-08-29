@@ -37,7 +37,7 @@ public class BranchConditionLoggingTests
         var gitInformation = new Mock<IGitInformation>();
         gitInformation.Setup(x => x.GetInfoAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new GitRepositoryInfo(
-                new ModularPipelines.FileSystem.Folder(TestContext.WorkingDirectory)));
+                new ModularPipelines.FileSystem.FolderPath(TestContext.WorkingDirectory)));
         var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
         var services = new Mock<IServicesContext>();
         services.Setup(x => x.Get<IGit>()).Returns(git);
@@ -61,7 +61,7 @@ public class BranchConditionLoggingTests
         var gitInformation = new Mock<IGitInformation>();
         gitInformation.Setup(x => x.GetInfoAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new GitRepositoryInfo(
-                new ModularPipelines.FileSystem.Folder(TestContext.WorkingDirectory)));
+                new ModularPipelines.FileSystem.FolderPath(TestContext.WorkingDirectory)));
         var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
         var services = new Mock<IServicesContext>();
         services.Setup(x => x.Get<IGit>()).Returns(git);

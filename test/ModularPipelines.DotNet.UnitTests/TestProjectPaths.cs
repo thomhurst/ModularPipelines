@@ -1,4 +1,4 @@
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.DotNet.UnitTests;
 
@@ -6,10 +6,10 @@ internal static class TestProjectPaths
 {
     private static readonly string RepositoryRoot = FindRepositoryRoot();
 
-    public static File CoreSolution { get; } = new(
+    public static FilePath CoreSolution { get; } = new(
         Path.Combine(RepositoryRoot, "ModularPipelines.slnx"));
 
-    public static File TestsForTestsProject { get; } = new(Path.Combine(
+    public static FilePath TestsForTestsProject { get; } = new(Path.Combine(
         RepositoryRoot,
         "test",
         "ModularPipelines.TestsForTests",

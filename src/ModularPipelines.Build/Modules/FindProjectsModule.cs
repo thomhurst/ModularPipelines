@@ -3,18 +3,18 @@ using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 
-public class FindProjectsModule : Module<IReadOnlyList<File>>
+public class FindProjectsModule : Module<IReadOnlyList<FilePath>>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithAlwaysRun();
 
-    protected override Task<IReadOnlyList<File>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IReadOnlyList<FilePath>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        return Task.FromResult<IReadOnlyList<File>>(
+        return Task.FromResult<IReadOnlyList<FilePath>>(
         [
             Sourcy.DotNet.Projects.ModularPipelines,
             Sourcy.DotNet.Projects.ModularPipelines_AmazonWebServices,

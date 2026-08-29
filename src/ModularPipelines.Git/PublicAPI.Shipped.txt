@@ -212,11 +212,9 @@ ModularPipelines.Git.Models.GitRepositoryInfo.BranchName.get -> string?
 ModularPipelines.Git.Models.GitRepositoryInfo.BranchName.init -> void
 ModularPipelines.Git.Models.GitRepositoryInfo.CommitsOnBranch.get -> int?
 ModularPipelines.Git.Models.GitRepositoryInfo.CommitsOnBranch.init -> void
-ModularPipelines.Git.Models.GitRepositoryInfo.Deconstruct(out ModularPipelines.FileSystem.Folder! Root) -> void
 ModularPipelines.Git.Models.GitRepositoryInfo.DefaultBranchName.get -> string?
 ModularPipelines.Git.Models.GitRepositoryInfo.DefaultBranchName.init -> void
 ModularPipelines.Git.Models.GitRepositoryInfo.Equals(ModularPipelines.Git.Models.GitRepositoryInfo? other) -> bool
-ModularPipelines.Git.Models.GitRepositoryInfo.GitRepositoryInfo(ModularPipelines.FileSystem.Folder! Root) -> void
 ModularPipelines.Git.Models.GitRepositoryInfo.LastCommitDateTime.get -> System.DateTimeOffset?
 ModularPipelines.Git.Models.GitRepositoryInfo.LastCommitDateTime.init -> void
 ModularPipelines.Git.Models.GitRepositoryInfo.LastCommitSha.get -> string?
@@ -225,7 +223,6 @@ ModularPipelines.Git.Models.GitRepositoryInfo.LastCommitShortSha.get -> string?
 ModularPipelines.Git.Models.GitRepositoryInfo.LastCommitShortSha.init -> void
 ModularPipelines.Git.Models.GitRepositoryInfo.PreviousCommit.get -> ModularPipelines.Git.Models.GitCommit?
 ModularPipelines.Git.Models.GitRepositoryInfo.PreviousCommit.init -> void
-ModularPipelines.Git.Models.GitRepositoryInfo.Root.get -> ModularPipelines.FileSystem.Folder!
 ModularPipelines.Git.Models.GitRepositoryInfo.Root.init -> void
 ModularPipelines.Git.Models.GitRepositoryInfo.Tag.get -> string?
 ModularPipelines.Git.Models.GitRepositoryInfo.Tag.init -> void

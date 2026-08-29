@@ -6,7 +6,6 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Git;
 
@@ -33,7 +32,7 @@ internal class GitVersioning : IGitVersioning
     private readonly ICommandContext _command;
     private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
 
-    private readonly Folder _temporaryFolder;
+    private readonly FolderPath _temporaryFolder;
 
     /// <summary>
     /// Async mutex to ensure single-threaded access to GitVersion tool installation and execution.
@@ -51,7 +50,7 @@ internal class GitVersioning : IGitVersioning
         _gitInformation = gitInformation;
         _command = command;
         _moduleLoggerAccessor = moduleLoggerAccessor;
-        _temporaryFolder = Folder.CreateTemporaryFolder(fileSystemProvider);
+        _temporaryFolder = FolderPath.CreateTemporaryFolder(fileSystemProvider);
     }
 
     public async Task<GitVersionInformation> GetVersioningInformationAsync(
@@ -106,11 +105,11 @@ internal class GitVersioning : IGitVersioning
         }
     }
 
-    private async Task TryWriteConfigurationFileAsync(Folder root, CancellationToken cancellationToken)
+    private async Task TryWriteConfigurationFileAsync(FolderPath root, CancellationToken cancellationToken)
     {
         try
         {
-            var file = new File(Path.Combine(root.Path, "GitVersion.yml"));
+            var file = new FilePath(Path.Combine(root.Path, "GitVersion.yml"));
 
             if (!file.Exists)
             {

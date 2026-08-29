@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -14,7 +14,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
     {
         var projects = await context.GetModule<FindProjectsModule>();
 
-        var dependencies = new List<File>();
+        var dependencies = new List<FilePath>();
 
         foreach (var file in projects.Value)
         {
@@ -63,5 +63,5 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
         }
     }
 
-    public record ProjectDependencies(IReadOnlyList<File> Dependencies, IReadOnlyList<File> Others);
+    public record ProjectDependencies(IReadOnlyList<FilePath> Dependencies, IReadOnlyList<FilePath> Others);
 }

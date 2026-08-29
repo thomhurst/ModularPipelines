@@ -4,12 +4,12 @@ using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.UnitTests.Extensions;
 
-public class FolderExtensionsTests
+public class FolderPathExtensionsTests
 {
     [Test]
     public async Task EnumerablePaths()
     {
-        var folders = new List<Folder>
+        var folders = new List<FolderPath>
         {
             new(Path.Combine(TestContext.WorkingDirectory, "Folder1")),
             new(Path.Combine(TestContext.WorkingDirectory, "Folder2")),
@@ -28,13 +28,13 @@ public class FolderExtensionsTests
     [Test]
     public async Task ListPaths()
     {
-        var folders = new List<Folder>
+        var folders = new List<FolderPath>
         {
-            new Folder(Path.Combine(TestContext.WorkingDirectory, "Folder1")),
-            new Folder(Path.Combine(TestContext.WorkingDirectory, "Folder2")),
+            new FolderPath(Path.Combine(TestContext.WorkingDirectory, "Folder1")),
+            new FolderPath(Path.Combine(TestContext.WorkingDirectory, "Folder2")),
         };
 
-        var paths = ((IList<Folder>) folders).AsPaths();
+        var paths = ((IList<FolderPath>) folders).AsPaths();
         folders.Add(new(Path.Combine(TestContext.WorkingDirectory, "Folder3")));
 
         await Assert.That((object) paths).IsAssignableTo<IEnumerable>();

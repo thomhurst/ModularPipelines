@@ -12,7 +12,7 @@ using ModularPipelines.TestHelpers;
 using Moq;
 using NReco.Logging.File;
 using Spectre.Console;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 using ModularPipelines.Enums;
 
@@ -62,7 +62,7 @@ public class ModuleLoggerTests
         // This test verifies that LogToConsole output goes to console buffers,
         // NOT to file loggers. The console output itself is verified implicitly
         // through the full integration tests.
-        var file = File.GetNewTemporaryFilePath();
+        var file = FilePath.GetNewTemporaryFilePath();
 
         var host = await TestPipelineBuilder.Create()
             .ConfigureServices(collection =>
@@ -85,7 +85,7 @@ public class ModuleLoggerTests
     [Arguments(typeof(Module3))]
     public async Task Can_Obfuscate_Secret(Type moduleType)
     {
-        var file = File.GetNewTemporaryFilePath();
+        var file = FilePath.GetNewTemporaryFilePath();
 
         var pipelineBuilder = TestPipelineBuilder.Create();
         var host = await pipelineBuilder

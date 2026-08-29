@@ -1,8 +1,8 @@
-﻿using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.DotNet.Services;
 
 public interface ITrx
 {
-    Task<DotNetTestResult> ParseTrxFile(File file);
+    Task<DotNetTestResult> ParseTrxFile(FilePath file);
 }

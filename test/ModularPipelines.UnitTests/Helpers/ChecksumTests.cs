@@ -1,6 +1,6 @@
 using ModularPipelines.Context.Domains.Security;
 using ModularPipelines.TestHelpers;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -14,7 +14,7 @@ public class HashFileTests : TestBase
     [Arguments("Sha512", "cd0eb1ef8b0f664a6a2bfa736275c66a17933492968128c6e8f07c8fdff5634dd16e9b18d3cffe7b17e02953529294cbe594df1b8a61647cbc59e60e35cdcf5d")]
     public async Task FileHashProducesExpectedOutput(string algorithm, string expected)
     {
-        var file = new File(Path.Combine(TestContext.OutputDirectory!, "Data", "Foo.txt"));
+        var file = new FilePath(Path.Combine(TestContext.OutputDirectory!, "Data", "Foo.txt"));
 
         var hash = await GetService<IHashContext>();
 

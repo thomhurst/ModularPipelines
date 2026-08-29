@@ -15,7 +15,7 @@ public class GitRunReportEnricherTests
     {
         var information = new Mock<IGitInformation>();
         information.Setup(x => x.GetInfoAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new GitRepositoryInfo(new Folder("repository"))
+            .ReturnsAsync(new GitRepositoryInfo(new FolderPath("repository"))
             {
                 LastCommitSha = "abc123",
                 BranchName = "feature/reporting",

@@ -7,7 +7,7 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -39,7 +39,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         return dependencies.Concat(others).ToArray();
     }
 
-    private static async Task<CommandResult> Pack(IModuleContext context, CancellationToken cancellationToken, File projectFile, string packageVersion)
+    private static async Task<CommandResult> Pack(IModuleContext context, CancellationToken cancellationToken, FilePath projectFile, string packageVersion)
     {
         var effectiveVersion = GetEffectiveVersion(projectFile, packageVersion);
 
@@ -58,7 +58,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         }, cancellationToken: cancellationToken);
     }
 
-    private static string GetEffectiveVersion(File projectFile, string baseVersion)
+    private static string GetEffectiveVersion(FilePath projectFile, string baseVersion)
     {
         var projectRoot = ProjectRootElement.Open(projectFile.Path);
         var versionSuffix = projectRoot?.Properties

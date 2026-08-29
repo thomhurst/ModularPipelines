@@ -6,19 +6,19 @@ using ModularPipelines.FileSystem;
 namespace ModularPipelines.Serialization;
 
 [ExcludeFromCodeCoverage]
-internal class FolderPathJsonConverter : JsonConverter<Folder>
+internal class FolderPathJsonConverter : JsonConverter<FolderPath>
 {
-    public override Folder? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override FolderPath? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
         {
             return null;
         }
 
-        return new Folder(reader.GetString()!);
+        return new FolderPath(reader.GetString()!);
     }
 
-    public override void Write(Utf8JsonWriter writer, Folder value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, FolderPath value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(value.Path);
     }
