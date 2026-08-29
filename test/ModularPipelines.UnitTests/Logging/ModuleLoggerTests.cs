@@ -458,6 +458,42 @@ public class ModuleLoggerTests
     }
 
     [Test]
+    public async Task Write_SnapshotsRenderableAtConfiguredConsoleWidth()
+    {
+        string? renderedOutput = null;
+        var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
+        moduleOutputBuffer
+            .Setup(x => x.WriteRenderable(
+                It.IsAny<IRenderable>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()))
+            .Callback<IRenderable, string, bool>((_, rendered, _) => renderedOutput = rendered);
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) => value ?? string.Empty);
+        using var consoleWriter = new StringWriter();
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(consoleWriter),
+            Ansi = AnsiSupport.No,
+        });
+        console.Profile.Width = 24;
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            Mock.Of<ILogger<ModuleLoggerTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            CreateConsoleCoordinator(moduleOutputBuffer.Object).Object,
+            Mock.Of<IOutputCoordinator>(),
+            console);
+
+        logger.Write(new Rule("Title"));
+
+        await Assert.That(renderedOutput).IsNotNull();
+        await Assert.That(renderedOutput!.TrimEnd('\r', '\n').Length).IsEqualTo(24);
+    }
+
+    [Test]
     public async Task Write_SnapshotsMutableRenderableBeforeBuffering()
     {
         var snapshots = new List<IRenderable>();

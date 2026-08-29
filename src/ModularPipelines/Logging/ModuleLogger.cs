@@ -86,6 +86,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     private readonly IFormattedLogValuesObfuscator _formattedLogValuesObfuscator;
     private readonly IModuleOutputBuffer _buffer;
     private readonly IOutputCoordinator _outputCoordinator;
+    private readonly IAnsiConsole _ansiConsole;
     private readonly object _renderLock = new();
     private readonly StringWriter _renderWriter;
     private readonly IAnsiConsole _renderConsole;
@@ -98,13 +99,15 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         ISecretObfuscator secretObfuscator,
         IFormattedLogValuesObfuscator formattedLogValuesObfuscator,
         IConsoleCoordinator consoleCoordinator,
-        IOutputCoordinator outputCoordinator)
+        IOutputCoordinator outputCoordinator,
+        IAnsiConsole? ansiConsole = null)
     {
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _formattedLogValuesObfuscator = formattedLogValuesObfuscator;
         _buffer = consoleCoordinator.GetModuleBuffer(typeof(T));
         _outputCoordinator = outputCoordinator;
+        _ansiConsole = ansiConsole ?? DelegatingAnsiConsole.Instance;
         _renderWriter = new StringWriter();
         _renderConsole = AnsiConsole.Create(new AnsiConsoleSettings
         {
@@ -298,12 +301,14 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     private void WriteRenderable(IRenderable renderable, bool appendNewLine)
     {
         var obfuscatedRenderable = new SecretObfuscatedRenderable(renderable, _secretObfuscator);
+        var renderWidth = _ansiConsole.Profile.Width;
         var snapshot = obfuscatedRenderable.Snapshot(
-            RenderOptions.Create(_renderConsole),
-            _renderConsole.Profile.Width);
+            RenderOptions.Create(_ansiConsole),
+            renderWidth);
         string rendered;
         lock (_renderLock)
         {
+            _renderConsole.Profile.Width = renderWidth;
             _renderWriter.GetStringBuilder().Clear();
             _renderConsole.Write(snapshot);
             rendered = _renderWriter.ToString();
