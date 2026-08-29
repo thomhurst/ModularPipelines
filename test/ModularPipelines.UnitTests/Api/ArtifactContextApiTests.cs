@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Events;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
