@@ -41,15 +41,15 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         // Usings
-        sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
-        sb.AppendLine("using ModularPipelines.Attributes;");
-        sb.AppendLine("using ModularPipelines.Options;");
-
         if (globalOptions.Any(static option => option.IsSecret))
         {
             sb.AppendLine("using ModularPipelines.Secrets;");
         }
+
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+        sb.AppendLine("using ModularPipelines.Attributes;");
+        sb.AppendLine("using ModularPipelines.Options;");
 
         if (globalOptions.Any(o => o.RequiresModelsNamespace))
         {

@@ -63,7 +63,8 @@ public class GlobalOptionsBaseGeneratorTests
 
         var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
 
-        await Assert.That(generated).Contains("using ModularPipelines.Secrets;");
+        await Assert.That(generated).Contains(
+            $"using ModularPipelines.Secrets;{Environment.NewLine}using System.CodeDom.Compiler;");
         await Assert.That(generated).Contains("[SecretValue]");
         await Assert.That(generated)
             .Contains("[CliOption(\"--license-key\", Format = OptionFormat.EqualsSeparated)]");

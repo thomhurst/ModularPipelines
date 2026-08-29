@@ -149,7 +149,9 @@ Other public contracts now use feature namespaces:
 - `ModularPipelines.Logging.IConsoleWriter` replaces the root type.
 
 The package also ships a `buildTransitive` global using for `ModularPipelines`, so
-C# consumers do not need to declare the root using explicitly.
+C# consumers do not need to declare the root using explicitly. Projects with a
+colliding root type can opt out with `<Using Remove="ModularPipelines" />` and add
+explicit or aliased usings instead.
 
 ## Module condition predicates
 

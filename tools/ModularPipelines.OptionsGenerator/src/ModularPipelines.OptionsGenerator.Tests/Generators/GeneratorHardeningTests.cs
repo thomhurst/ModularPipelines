@@ -5554,7 +5554,8 @@ public class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(generated).Contains("using ModularPipelines.Secrets;");
+        await Assert.That(generated).Contains(
+            $"using ModularPipelines.Secrets;{Environment.NewLine}using System.CodeDom.Compiler;");
         await Assert.That(generated).Contains("[property: SecretValue, CliArgument(0");
         await Assert.That(generated).Contains($"[SecretValue]{Environment.NewLine}    [CliArgument(1");
     }

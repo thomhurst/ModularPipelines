@@ -133,12 +133,13 @@ public class OptionsClassGenerator : ICodeGenerator
         IReadOnlyList<CliCompatibilityConstructor> compatibilityConstructors,
         IReadOnlyList<CliOptionDefinition> enumOptions)
     {
-        sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
         if (requiredParameters.Any(static parameter => parameter.IsSecret))
         {
             sb.AppendLine("using ModularPipelines.Secrets;");
         }
+
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
 
         if (requiredParameters.Any(static parameter =>
                 parameter.Option?.RequiresModelsNamespace == true)
@@ -407,15 +408,15 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static void GenerateUsings(StringBuilder sb, CliCommandDefinition command, CliToolDefinition tool)
     {
-        sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
-        sb.AppendLine("using ModularPipelines.Attributes;");
-
         if (command.Options.Any(static option => option.IsSecret)
             || command.PositionalArguments.Any(static argument => argument.IsSecret))
         {
             sb.AppendLine("using ModularPipelines.Secrets;");
         }
+
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+        sb.AppendLine("using ModularPipelines.Attributes;");
 
         // Include the existing Options namespace where the base class lives
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
