@@ -392,6 +392,41 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Routing_Continues_After_False_Planning_Safe_Skip()
+    {
+        var conditionRouting = new DistributedConditionRouting();
+        var module = new FalsePlanningSkipThenMixedAlternativeModule();
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        }, distributedConditionRouting: conditionRouting);
+
+        await handler.PrepareDistributedRoutingAsync(module);
+
+        await Assert.That(conditionRouting.IsLocallySatisfied(
+            module,
+            typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>))).IsTrue();
+    }
+
+    [Test]
+    public async Task Distributed_Master_Routing_Does_Not_Evaluate_Worker_Only_Mixed_Alternative()
+    {
+        _workerOnlyEvaluationCount = 0;
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        }, distributedConditionRouting: new DistributedConditionRouting());
+
+        await handler.PrepareDistributedRoutingAsync(new MixedWorkerOnlyAlternativeModule());
+
+        await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(0);
+    }
+
+    [Test]
     public async Task Distributed_Master_Planning_Resolves_Matching_Local_Mixed_Alternative()
     {
         var handler = CreateHandler(new DistributedOptions
@@ -691,6 +726,32 @@ public class ModuleConditionHandlerTests
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [SkipIf<PlanningFalseCondition>]
+    [RunIfAny<OnLinux, PlanningTrueCondition>]
+    private sealed class FalsePlanningSkipThenMixedAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, WorkerOnlyRunCondition>]
+    private sealed class MixedWorkerOnlyAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class WorkerOnlyRunCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context)
+        {
+            Interlocked.Increment(ref _workerOnlyEvaluationCount);
+            throw new InvalidOperationException("Worker-only condition ran on the master");
+        }
     }
 
     [RunIfAny<OnLinux, PlanningTrueCondition>]

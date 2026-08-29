@@ -44,8 +44,8 @@ internal static class OperatingSystemConditions
     }
 
     /// <summary>
-    /// Returns non-platform alternatives that the master can evaluate before routing a mixed
-    /// <see cref="RunIfAnyAttribute"/> condition to an operating-system worker.
+    /// Returns planning-safe non-platform alternatives that the master can evaluate before
+    /// routing a mixed <see cref="RunIfAnyAttribute"/> condition to an operating-system worker.
     /// </summary>
     public static IReadOnlyList<Type> GetLocalAlternatives(IConditionAttribute attribute)
     {
@@ -61,7 +61,8 @@ internal static class OperatingSystemConditions
         }
 
         return conditionTypes
-            .Where(type => GetSupportedOperatingSystems(type) is null)
+            .Where(type => GetSupportedOperatingSystems(type) is null
+                           && typeof(IPlanningRunCondition).IsAssignableFrom(type))
             .ToArray();
     }
 

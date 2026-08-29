@@ -104,7 +104,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
         var attributes = GetConditionAttributes(module.GetType());
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
-        if (attributes.Skip.Length > 0
+        if (!await CanPrepareSkipConditionRoutingAsync(
+                    attributes.Skip,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false)
             || !await CanPrepareRequiredConditionRoutingAsync(
                     attributes.All,
                     pipelineContext,
@@ -123,6 +127,28 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 cancellationToken)
             .ConfigureAwait(false);
         _distributedConditionRouting.MarkPrepared(module);
+    }
+
+    private static async Task<bool> CanPrepareSkipConditionRoutingAsync(
+        IEnumerable<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        foreach (var attribute in attributes)
+        {
+            if (!IsPlanningConditionAttribute(attribute))
+            {
+                return false;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            if (await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static async Task<bool> CanPrepareRequiredConditionRoutingAsync(

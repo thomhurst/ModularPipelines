@@ -142,6 +142,7 @@ internal class DistributedWorkPublisher(
             return;
         }
 
+        var hasStrictRoutes = effectiveOperatingSystems is not null;
         foreach (var route in routes.Where(static route => route.IsConditional))
         {
             if (effectiveOperatingSystems is null)
@@ -157,6 +158,10 @@ internal class DistributedWorkPublisher(
             if (intersection.Count > 0)
             {
                 effectiveOperatingSystems = intersection;
+            }
+            else if (!hasStrictRoutes)
+            {
+                return;
             }
         }
 
