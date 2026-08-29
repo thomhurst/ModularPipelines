@@ -805,6 +805,10 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         "Trimming",
         "IL2067",
         Justification = "Condition types come from RunIfAny<T...> generic arguments with a new() constraint preserving public constructors.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2072",
+        Justification = "Condition types come from RunIfAny<T...> generic arguments with a new() constraint preserving public constructors.")]
     private static async Task<bool> AnyConditionMatches(
         IEnumerable<Type> conditionTypes,
         IPipelineContext pipelineContext,
