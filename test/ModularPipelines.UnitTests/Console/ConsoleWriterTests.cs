@@ -199,6 +199,28 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task WriteMarkupLine_InvalidObfuscatedMarkupNeverFallsBackToRawSecret()
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(0);
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, ["[red]secret[/]"]));
+        var obfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                MaskValue = "[REDACTED]",
+            }));
+
+        var output = CaptureFallbackOutput(
+            writer => writer.WriteMarkupLine("value: [red]secret[/]"),
+            obfuscator);
+
+        await Assert.That(output).Contains("[REDACTED]");
+        await Assert.That(output).DoesNotContain("secret");
+    }
+
+    [Test]
     public async Task Write_ObfuscatesWithoutAmbientModule()
     {
         var output = CaptureFallbackOutput(writer => writer.Write(new Markup("[green]a secret value[/]")));

@@ -279,7 +279,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         Markup markup;
         try
         {
-            markup = CreateObfuscatedMarkup(value);
+            markup = ObfuscatedMarkup.Create(value, _secretObfuscator);
         }
         catch (InvalidOperationException)
         {
@@ -310,21 +310,5 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         }
 
         _buffer.WriteRenderable(snapshot, rendered);
-    }
-
-    private Markup CreateObfuscatedMarkup(string value)
-    {
-        var obfuscatedSource = _secretObfuscator.Obfuscate(value, null);
-        try
-        {
-            return new Markup(obfuscatedSource);
-        }
-        catch (InvalidOperationException) when (!string.Equals(
-            obfuscatedSource,
-            value,
-            StringComparison.Ordinal))
-        {
-            return new Markup(value);
-        }
     }
 }

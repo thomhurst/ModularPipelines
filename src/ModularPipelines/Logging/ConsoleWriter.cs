@@ -37,7 +37,7 @@ internal class ConsoleWriter : IConsoleWriter
         try
         {
             AnsiConsole.Write(new SecretObfuscatedRenderable(
-                CreateObfuscatedMarkup(value),
+                ObfuscatedMarkup.Create(value, _secretObfuscator),
                 _secretObfuscator));
             AnsiConsole.WriteLine();
         }
@@ -66,21 +66,5 @@ internal class ConsoleWriter : IConsoleWriter
     {
         consoleWriter = ModuleLogger.Values.Value as IConsoleWriter;
         return consoleWriter is not null;
-    }
-
-    private Markup CreateObfuscatedMarkup(string value)
-    {
-        var obfuscatedSource = _secretObfuscator.Obfuscate(value, null);
-        try
-        {
-            return new Markup(obfuscatedSource);
-        }
-        catch (InvalidOperationException) when (!string.Equals(
-            obfuscatedSource,
-            value,
-            StringComparison.Ordinal))
-        {
-            return new Markup(value);
-        }
     }
 }
