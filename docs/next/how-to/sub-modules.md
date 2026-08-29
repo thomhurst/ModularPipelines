@@ -49,7 +49,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
 
 
-    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<File> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
+    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<FilePath> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
 
     {
 
