@@ -16,7 +16,9 @@ internal interface INonSpectreLoggerFactory
     IReadOnlyList<ILogger> CreateLoggers(string categoryName);
 }
 
-internal interface ISynchronousConsoleLogger;
+internal interface IDirectStructuredLogSink;
+
+internal interface ISynchronousConsoleLogger : IDirectStructuredLogSink;
 
 internal sealed class NonSpectreLoggerFactory(
     ILoggerFactory loggerFactory,

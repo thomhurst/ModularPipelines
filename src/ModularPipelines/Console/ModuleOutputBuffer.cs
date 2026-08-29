@@ -690,10 +690,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                             new StructuredDeliveryRetry(logEvent, failedLoggers));
                     }
 
-                    var wroteWithSynchronousConsoleLogger = fallbackLoggers.Any(logger =>
-                        logger is ISynchronousConsoleLogger && !failedLoggers.Contains(logger));
+                    var wroteToDirectStructuredLogSink = fallbackLoggers.Any(logger =>
+                        logger is IDirectStructuredLogSink && !failedLoggers.Contains(logger));
                     if (_isSpectreEnabled(logEvent.Level)
-                        && !wroteWithSynchronousConsoleLogger)
+                        && !wroteToDirectStructuredLogSink)
                     {
                         WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
                         if (logEvent.FormatException() is { } formattedException)

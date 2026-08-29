@@ -410,13 +410,10 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         CancellationToken cancellationToken)
     {
         var moduleLogger = GetModuleLogger(buffer.ModuleType);
-        var fallbackLoggers = _nonSpectreLoggerFactory.CreateLoggers(
-            OutputLoggerCategories.ForModule(buffer.ModuleType));
-        if (!moduleLogger.IsFactoryLogger
-            && !fallbackLoggers.Any(logger => ReferenceEquals(logger, moduleLogger.Logger)))
-        {
-            fallbackLoggers = [moduleLogger.Logger, .. fallbackLoggers];
-        }
+        var directLoggers = moduleLogger.IsFactoryLogger
+            ? _nonSpectreLoggerFactory.CreateLoggers(
+                OutputLoggerCategories.ForModule(buffer.ModuleType))
+            : [new ExclusiveModuleLogger(moduleLogger.Logger)];
 
         using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
         await buffer
@@ -426,7 +423,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                 moduleLogger.Logger,
                 _loggerControl,
                 flushKind,
-                fallbackLoggers,
+                directLoggers,
                 cancellationToken)
             .ConfigureAwait(false);
     }
@@ -462,6 +459,22 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         var loggerType = logger.GetType();
         return loggerType.IsGenericType
                && loggerType.GetGenericTypeDefinition() == typeof(Logger<>);
+    }
+
+    private sealed class ExclusiveModuleLogger(ILogger inner) : ILogger, IDirectStructuredLogSink
+    {
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => inner.BeginScope(state);
+
+        public bool IsEnabled(LogLevel logLevel) => inner.IsEnabled(logLevel);
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) =>
+            inner.Log(logLevel, eventId, state, exception, formatter);
     }
 
     private sealed class PendingFlush

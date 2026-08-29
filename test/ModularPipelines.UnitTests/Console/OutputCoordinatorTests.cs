@@ -257,6 +257,58 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task CustomModuleLogger_ReplacesProviderFanOut()
+    {
+        IReadOnlyList<ILogger>? directLoggers = null;
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(OutputCoordinatorTests));
+        buffer
+            .Setup(x => x.FlushToAsync(
+                It.IsAny<TextWriter>(),
+                It.IsAny<IBuildSystemFormatter>(),
+                It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(),
+                OutputFlushKind.Complete,
+                It.IsAny<IReadOnlyList<ILogger>?>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<TextWriter,
+                IBuildSystemFormatter,
+                ILogger,
+                ISpectreConsoleLoggerControl,
+                OutputFlushKind,
+                IReadOnlyList<ILogger>?,
+                CancellationToken>((_, _, _, _, _, loggers, _) => directLoggers = loggers)
+            .Returns(Task.CompletedTask);
+
+        var output = new StringWriter();
+        var loggerFactory = new ConsoleWritingLoggerFactory(output);
+        var serviceProvider = new Mock<IServiceProvider>();
+        serviceProvider
+            .Setup(x => x.GetService(typeof(ILogger<OutputCoordinatorTests>)))
+            .Returns(new ForwardingLogger(loggerFactory));
+        var nonSpectreLoggerFactory = new Mock<INonSpectreLoggerFactory>();
+        var coordinator = CreateCoordinator(
+            loggerFactory,
+            nonSpectreLoggerFactory: nonSpectreLoggerFactory.Object,
+            serviceProvider: serviceProvider.Object);
+
+        await coordinator.EnqueueAndFlushAsync(buffer.Object, OutputFlushKind.Complete);
+        directLoggers!.Single().LogInformation("single delivery");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(directLoggers).HasSingleItem();
+            await Assert.That(directLoggers[0]).IsAssignableTo<IDirectStructuredLogSink>();
+            await Assert.That(output.ToString()).Contains("single delivery");
+            await Assert.That(CountOccurrences(output.ToString(), "single delivery")).IsEqualTo(1);
+        }
+
+        nonSpectreLoggerFactory.Verify(
+            x => x.CreateLoggers(It.IsAny<string>()),
+            Times.Never);
+    }
+
+    [Test]
     public async Task Completion_RetriesStructuredProviderDeliveryOnce()
     {
         var buffer = new Mock<IModuleOutputBuffer>();
@@ -503,7 +555,8 @@ public class OutputCoordinatorTests
     private static OutputCoordinator CreateCoordinator(
         ILoggerFactory loggerFactory,
         IBuildSystemFormatterProvider? formatterProvider = null,
-        INonSpectreLoggerFactory? nonSpectreLoggerFactory = null)
+        INonSpectreLoggerFactory? nonSpectreLoggerFactory = null,
+        IServiceProvider? serviceProvider = null)
     {
         if (formatterProvider is null)
         {
@@ -512,7 +565,7 @@ public class OutputCoordinatorTests
             formatterProvider = formatterProviderMock.Object;
         }
 
-        var serviceProvider = new Mock<IServiceProvider>();
+        serviceProvider ??= Mock.Of<IServiceProvider>();
         var loggerControl = new Mock<ISpectreConsoleLoggerControl>();
         loggerControl.SetupGet(x => x.SynchronizationLock).Returns(new object());
         loggerControl
@@ -532,10 +585,13 @@ public class OutputCoordinatorTests
         return new OutputCoordinator(
             formatterProvider,
             loggerFactory,
-            serviceProvider.Object,
+            serviceProvider,
             loggerControl.Object,
             nonSpectreLoggerFactory);
     }
+
+    private static int CountOccurrences(string value, string search) =>
+        value.Split(search, StringSplitOptions.None).Length - 1;
 
     private sealed class ConsoleWritingLoggerFactory(TextWriter writer) : ILoggerFactory
     {
@@ -569,6 +625,24 @@ public class OutputCoordinatorTests
         {
             writer.WriteLine(formatter(state, exception));
         }
+    }
+
+    private sealed class ForwardingLogger(ILoggerFactory loggerFactory) : ILogger
+    {
+        private readonly ILogger _inner = loggerFactory.CreateLogger("Forwarded");
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => _inner.BeginScope(state);
+
+        public bool IsEnabled(LogLevel logLevel) => _inner.IsEnabled(logLevel);
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) =>
+            _inner.Log(logLevel, eventId, state, exception, formatter);
     }
 
     private sealed class CancellingOutputBuffer(CancellationTokenSource? cancellationTokenSource = null)
