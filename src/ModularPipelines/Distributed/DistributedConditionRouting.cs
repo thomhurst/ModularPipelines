@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using ModularPipelines.Attributes;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed;
@@ -28,4 +29,47 @@ internal sealed class DistributedConditionRouting
             return groups.Contains(conditionGroupType);
         }
     }
+
+    public IReadOnlyList<string> GetLocallySatisfiedGroupNames(IModule module)
+    {
+        if (!_locallySatisfiedGroups.TryGetValue(module, out var groups))
+        {
+            return [];
+        }
+
+        lock (groups)
+        {
+            return groups
+                .Select(GetGroupName)
+                .Order(StringComparer.Ordinal)
+                .ToArray();
+        }
+    }
+
+    public void RestoreLocallySatisfiedGroups(
+        IModule module,
+        IReadOnlyCollection<string> groupNames)
+    {
+        if (groupNames.Count == 0)
+        {
+            return;
+        }
+
+        var groupsByName = module.GetType()
+            .GetCustomAttributes(inherit: true)
+            .OfType<IGroupedConditionAttribute>()
+            .Select(static attribute => attribute.ConditionGroupType)
+            .Distinct()
+            .ToDictionary(GetGroupName, StringComparer.Ordinal);
+        foreach (var groupName in groupNames)
+        {
+            if (groupsByName.TryGetValue(groupName, out var groupType))
+            {
+                MarkLocallySatisfied(module, groupType);
+            }
+        }
+    }
+
+    private static string GetGroupName(Type groupType) =>
+        groupType.AssemblyQualifiedName ?? groupType.FullName ?? groupType.Name;
 }

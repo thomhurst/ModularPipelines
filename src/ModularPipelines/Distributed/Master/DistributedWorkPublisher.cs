@@ -93,8 +93,10 @@ internal class DistributedWorkPublisher(
                 RetryCount: 0,
                 AlwaysRun: config.AlwaysRun
             ),
-            DependencyResults: dependencyResults
-        );
+            DependencyResults: dependencyResults)
+        {
+            SatisfiedConditionGroups = _conditionRouting?.GetLocallySatisfiedGroupNames(module) ?? [],
+        };
     }
 
     public async Task PublishAsync(ModuleAssignment assignment, CancellationToken cancellationToken)

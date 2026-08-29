@@ -96,32 +96,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return;
         }
 
-        var attributes = GetConditionAttributes(module.GetType()).Any;
-        var pipelineContext = _pipelineContextProvider.GetModuleContext();
-        foreach (var alternatives in attributes
-                     .OfType<IGroupedConditionAttribute>()
-                     .GroupBy(static attribute => attribute.ConditionGroupType))
-        {
-            var localAlternatives = alternatives
-                .Where(attribute => !ShouldDeferOperatingSystemCondition(
-                    attribute,
-                    isDistributedMaster: true))
-                .ToArray();
-            if (localAlternatives.Length == 0
-                || localAlternatives.Length == alternatives.Count())
-            {
-                continue;
-            }
-
-            if (await AnyConditionMatches(
-                    localAlternatives,
-                    pipelineContext,
-                    cancellationToken)
-                .ConfigureAwait(false))
-            {
-                _distributedConditionRouting.MarkLocallySatisfied(module, alternatives.Key);
-            }
-        }
+        await ShouldIgnore(module, cancellationToken).ConfigureAwait(false);
     }
 
     public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
@@ -251,6 +226,9 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             pipelineContext,
             IsDistributedMaster(),
             cancellationToken,
+            conditionGroupType => _distributedConditionRouting?.IsLocallySatisfied(
+                module,
+                conditionGroupType) == true,
             conditionGroupType => _distributedConditionRouting?.MarkLocallySatisfied(
                 module,
                 conditionGroupType)).ConfigureAwait(false);
@@ -612,6 +590,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IPipelineContext pipelineContext,
         bool isDistributedMaster,
         CancellationToken cancellationToken,
+        Func<Type, bool>? isLocallySatisfiedConditionGroup = null,
         Action<Type>? locallySatisfiedConditionGroup = null)
     {
         var skipDecision = await EvaluateSkipConditions(
@@ -628,6 +607,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             pipelineContext,
             isDistributedMaster,
             cancellationToken,
+            isLocallySatisfiedConditionGroup,
             locallySatisfiedConditionGroup).ConfigureAwait(false);
 
         return skipDecision is null ? (true, null) : (false, skipDecision);
@@ -693,6 +673,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IPipelineContext pipelineContext,
         bool isDistributedMaster,
         CancellationToken cancellationToken,
+        Func<Type, bool>? isLocallySatisfiedConditionGroup,
         Action<Type>? locallySatisfiedConditionGroup)
     {
         var evaluatedGroups = new HashSet<Type>();
@@ -717,6 +698,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             }
 
             if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
+            {
+                continue;
+            }
+
+            if (isLocallySatisfiedConditionGroup?.Invoke(groupedAttribute.ConditionGroupType) == true)
             {
                 continue;
             }

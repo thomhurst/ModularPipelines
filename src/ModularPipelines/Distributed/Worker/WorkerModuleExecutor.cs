@@ -28,7 +28,8 @@ internal class WorkerModuleExecutor(
     IOptions<DistributedOptions> options,
     IServiceScopeFactory serviceScopeFactory,
     ArtifactLifecycleManager? artifactLifecycleManager,
-    ILogger<WorkerModuleExecutor> logger) : IModuleExecutor
+    ILogger<WorkerModuleExecutor> logger,
+    DistributedConditionRouting? conditionRouting = null) : IModuleExecutor
 {
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IDistributedCoordinator _coordinator = coordinator;
@@ -46,6 +47,7 @@ internal class WorkerModuleExecutor(
     private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
+    private readonly DistributedConditionRouting? _conditionRouting = conditionRouting;
 
     public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
     {
@@ -197,6 +199,9 @@ internal class WorkerModuleExecutor(
             }
 
             var moduleState = new ModuleState(module, moduleType);
+            _conditionRouting?.RestoreLocallySatisfiedGroups(
+                module,
+                assignment.SatisfiedConditionGroups);
             ModuleStateDependencyInitializer.Populate(
                 moduleState,
                 _typeRegistry.GetRegisteredModuleTypes(),

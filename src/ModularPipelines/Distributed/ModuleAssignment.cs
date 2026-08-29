@@ -11,4 +11,7 @@ public record ModuleAssignment(
     string? MatrixTarget,
     DateTimeOffset AssignedAt,
     ModuleAssignmentConfig Configuration,
-    IReadOnlyList<SerializedModuleResult>? DependencyResults = null);
+    IReadOnlyList<SerializedModuleResult>? DependencyResults = null)
+{
+    public IReadOnlyList<string> SatisfiedConditionGroups { get; init; } = [];
+}

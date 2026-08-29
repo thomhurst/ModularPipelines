@@ -231,6 +231,30 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
+    public async Task CreateAssignment_Includes_MasterSatisfied_Condition_Groups()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(IndependentModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var conditionRouting = new DistributedConditionRouting();
+        var module = new IndependentModule();
+        conditionRouting.MarkLocallySatisfied(module, typeof(DistributedWorkPublisherTests));
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry,
+            conditionRouting: conditionRouting);
+
+        var assignment = publisher.CreateAssignment(module);
+
+        await Assert.That(assignment.SatisfiedConditionGroups)
+            .Contains(typeof(DistributedWorkPublisherTests).AssemblyQualifiedName!);
+    }
+
+    [Test]
     public async Task CreateAssignment_Includes_Multiple_DependencyResults()
     {
         // Arrange

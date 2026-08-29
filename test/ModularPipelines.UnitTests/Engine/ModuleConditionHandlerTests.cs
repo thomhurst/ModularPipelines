@@ -290,6 +290,47 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Routing_Preserves_Condition_ShortCircuiting()
+    {
+        _mixedAlternativeEvaluationCount = 0;
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        }, distributedConditionRouting: new DistributedConditionRouting());
+
+        await handler.PrepareDistributedRoutingAsync(new MandatoryFalseMixedAlternativeModule());
+
+        await Assert.That(_mixedAlternativeEvaluationCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Distributed_Worker_Honors_Restored_Satisfied_Group()
+    {
+        _mixedAlternativeEvaluationCount = 0;
+        var masterModule = new MixedMatchingAlternativeModule();
+        var masterRouting = new DistributedConditionRouting();
+        masterRouting.MarkLocallySatisfied(masterModule, typeof(MixedAlternativeModule));
+        var workerModule = new MixedMatchingAlternativeModule();
+        var workerRouting = new DistributedConditionRouting();
+        workerRouting.RestoreLocallySatisfiedGroups(
+            workerModule,
+            masterRouting.GetLocallySatisfiedGroupNames(masterModule));
+        var handler = CreateHandler(
+            new DistributedOptions(),
+            distributedConditionRouting: workerRouting);
+
+        var result = await handler.ShouldIgnore(workerModule);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsFalse();
+            await Assert.That(_mixedAlternativeEvaluationCount).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task Mandatory_Condition_Is_Not_Overridden_By_Optional_Alternative()
     {
         var logger = Mock.Of<IModuleLogger>();
@@ -474,6 +515,16 @@ public class ModuleConditionHandlerTests
     [MixedOperatingSystem<OnLinux>]
     [MixedAlternativeCondition(true)]
     private sealed class MixedMatchingAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [MandatoryCondition(false)]
+    [MixedOperatingSystem<OnLinux>]
+    [MixedAlternativeCondition(true)]
+    private sealed class MandatoryFalseMixedAlternativeModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
