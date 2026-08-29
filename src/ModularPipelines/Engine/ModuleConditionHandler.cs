@@ -507,7 +507,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                         cancellationToken)
                     .ConfigureAwait(false))
                 {
-                    return new PlanningConditionEvaluation(null, IsResolved: true);
+                    continue;
                 }
 
                 isResolved = false;

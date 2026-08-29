@@ -359,6 +359,27 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Planning_Continues_After_Matching_Local_Alternative()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreForGraphPlanning(
+            new MixedPlanningAlternativeWithRequiredFalseModule(),
+            Mock.Of<IModuleMetadataRegistry>());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsTrue();
+            await Assert.That(result.IsResolved).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Distributed_Worker_Honors_Restored_Satisfied_Group()
     {
         _mixedAlternativeEvaluationCount = 0;
@@ -591,9 +612,23 @@ public class ModuleConditionHandlerTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
+    [RunIfAny<OnLinux, PlanningTrueCondition>]
+    [RunIfAny<PlanningFalseCondition, PlanningFalseCondition>]
+    private sealed class MixedPlanningAlternativeWithRequiredFalseModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
     private sealed class PlanningTrueCondition : IPlanningRunCondition
     {
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+    }
+
+    private sealed class PlanningFalseCondition : IPlanningRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
     }
 
     [AlternativeCondition(false)]
