@@ -178,7 +178,6 @@ public class ArtifactContextApiTests
             ArtifactReference reference,
             CancellationToken cancellationToken)
             => throw new NotSupportedException();
-
     }
 
     public sealed class TestAsyncDisposableArtifactStore : TestArtifactStore, IAsyncDisposable
