@@ -442,6 +442,30 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Assignment_Execution_Evaluates_Worker_Only_Mixed_Alternative()
+    {
+        _workerOnlyEvaluationCount = 0;
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        IModule module = OperatingSystem.IsWindows()
+            ? new LinuxOrWorkerOnlyFalseModule()
+            : new WindowsOrWorkerOnlyFalseModule();
+
+        using var assignmentExecution = DistributedAssignmentExecutionScope.Enter();
+        var result = await handler.ShouldIgnore(module);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsTrue();
+            await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task Distributed_Master_Routing_Does_Not_Evaluate_Worker_Only_Grouped_Alternative()
     {
         _workerOnlyEvaluationCount = 0;
@@ -792,6 +816,31 @@ public class ModuleConditionHandlerTests
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, WorkerOnlyFalseCondition>]
+    private sealed class LinuxOrWorkerOnlyFalseModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnWindows, WorkerOnlyFalseCondition>]
+    private sealed class WindowsOrWorkerOnlyFalseModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class WorkerOnlyFalseCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context)
+        {
+            Interlocked.Increment(ref _workerOnlyEvaluationCount);
+            return Task.FromResult(false);
+        }
     }
 
     private sealed class WorkerOnlyRunCondition : IRunCondition

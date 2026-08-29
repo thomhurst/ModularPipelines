@@ -370,7 +370,13 @@ internal class DistributedModuleExecutor(
                 _typeRegistry.GetRegisteredModuleTypes(),
                 _dependencyRegistry,
                 _metadataRegistry);
-            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
+            using (DistributedAssignmentExecutionScope.Enter())
+            {
+                await _moduleRunner.ExecuteWithoutDependencyWaitAsync(
+                    moduleState,
+                    workerScheduler,
+                    cancellationToken).ConfigureAwait(false);
+            }
 
             var result = await module.AsInternal().ResultTask;
             var artifactReferences = await TryUploadArtifactsAsync(

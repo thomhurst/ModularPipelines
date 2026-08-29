@@ -314,6 +314,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var options = _distributedOptions.Value;
         return options.Enabled
                && options.TotalInstances > 1
+               && !DistributedAssignmentExecutionScope.IsActive
                && _roleDetector.DetectRole() == DistributedRole.Master;
     }
 

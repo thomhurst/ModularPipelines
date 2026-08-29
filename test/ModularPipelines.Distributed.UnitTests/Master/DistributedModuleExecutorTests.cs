@@ -678,11 +678,13 @@ public class DistributedModuleExecutorTests
 
         // Track what scheduler was passed to ExecuteWithoutDependencyWaitAsync
         IModuleScheduler? capturedScheduler = null;
+        var assignmentExecutionScopeWasActive = false;
         moduleRunner.Setup(r => r.ExecuteWithoutDependencyWaitAsync(
                 It.IsAny<ModuleState>(), It.IsAny<IModuleScheduler>(), It.IsAny<CancellationToken>()))
             .Callback<ModuleState, IModuleScheduler, CancellationToken>((_, sched, _) =>
             {
                 capturedScheduler = sched;
+                assignmentExecutionScopeWasActive = DistributedAssignmentExecutionScope.IsActive;
                 // Simulate successful execution by setting the module's CompletionSource
                 var result = CreateSuccessResult(new SimpleResult { Message = "master-executed" }, "DistributedModule");
                 ModuleCompletionSourceApplicator.TryApply(module, result);
@@ -701,6 +703,7 @@ public class DistributedModuleExecutorTests
         // Assert — the master worker loop used a WorkerModuleScheduler (no-op)
         await Assert.That(capturedScheduler).IsNotNull();
         await Assert.That(capturedScheduler).IsTypeOf<WorkerModuleScheduler>();
+        await Assert.That(assignmentExecutionScopeWasActive).IsTrue();
 
         // The result was published through the coordinator and collected by the result collector
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
