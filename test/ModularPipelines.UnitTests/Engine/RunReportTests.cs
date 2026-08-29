@@ -2943,7 +2943,7 @@ public class RunReportTests
             builder.AddModule<SuccessfulModule>();
             builder.AddRequirement(Require.That(_ => false, "requirement failed"));
 
-            await Assert.ThrowsAsync<FailedRequirementsException>(
+            await Assert.ThrowsAsync<RequirementNotMetException>(
                 () => builder.RunAsync());
 
             var failedReport = RunReportJsonSerializer.Deserialize(

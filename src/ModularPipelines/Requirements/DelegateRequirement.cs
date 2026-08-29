@@ -14,8 +14,11 @@ namespace ModularPipelines.Requirements;
 /// <para><b>Example with async delegate:</b></para>
 /// <code>
 /// services.AddRequirement(Require.ThatAsync(
-///     async context =&gt; {
-///         var result = await context.Shell.RunAsync("docker", ["--version"]);
+///     async (context, cancellationToken) =&gt; {
+///         var result = await context.Shell.RunAsync(
+///             "docker",
+///             ["--version"],
+///             cancellationToken: cancellationToken);
 ///         return result.ExitCode == 0;
 ///     },
 ///     "Docker must be installed"));
@@ -30,7 +33,7 @@ namespace ModularPipelines.Requirements;
 /// <seealso cref="Require"/>
 public sealed class DelegateRequirement : IPipelineRequirement
 {
-    private readonly Func<IPipelineContext, Task<bool>> _evaluator;
+    private readonly Func<IPipelineContext, CancellationToken, Task<bool>> _evaluator;
     private readonly string _failureReason;
     private readonly int _order;
 
@@ -41,7 +44,7 @@ public sealed class DelegateRequirement : IPipelineRequirement
     /// <param name="failureReason">The reason to display if the requirement fails.</param>
     /// <param name="order">The evaluation order. Lower values are evaluated first.</param>
     internal DelegateRequirement(
-        Func<IPipelineContext, Task<bool>> evaluator,
+        Func<IPipelineContext, CancellationToken, Task<bool>> evaluator,
         string failureReason,
         int order = 0)
     {
@@ -60,7 +63,7 @@ public sealed class DelegateRequirement : IPipelineRequirement
         Func<IPipelineContext, bool> evaluator,
         string failureReason,
         int order = 0)
-        : this(ctx => Task.FromResult(evaluator(ctx)), failureReason, order)
+        : this((ctx, _) => Task.FromResult(evaluator(ctx)), failureReason, order)
     {
         ArgumentNullException.ThrowIfNull(evaluator);
     }
@@ -69,9 +72,12 @@ public sealed class DelegateRequirement : IPipelineRequirement
     public int Order => _order;
 
     /// <inheritdoc />
-    public async Task<RequirementDecision> MustAsync(IPipelineContext context)
+    public async Task<RequirementDecision> EvaluateAsync(
+        IPipelineContext context,
+        CancellationToken cancellationToken)
     {
-        var passed = await _evaluator(context).ConfigureAwait(false);
-        return RequirementDecision.Of(passed, _failureReason);
+        cancellationToken.ThrowIfCancellationRequested();
+        var passed = await _evaluator(context, cancellationToken).ConfigureAwait(false);
+        return passed ? RequirementDecision.Passed : RequirementDecision.Failed(_failureReason);
     }
 }

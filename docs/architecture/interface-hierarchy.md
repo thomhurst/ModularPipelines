@@ -111,10 +111,13 @@ Pipeline requirements and run conditions receive `IPipelineContext`, giving them
 same shared capability surface as global hooks:
 
 ```csharp
-public class LinuxRequirement : IPipelineRequirement
+public class RequiresLinux : IPipelineRequirement
 {
-    public Task<RequirementDecision> MustAsync(IPipelineContext context)
+    public Task<RequirementDecision> EvaluateAsync(
+        IPipelineContext context,
+        CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         return Task.FromResult(
             context.Environment.OperatingSystem == OSPlatform.Linux
                 ? RequirementDecision.Passed

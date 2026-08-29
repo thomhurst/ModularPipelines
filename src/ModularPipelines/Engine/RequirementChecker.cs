@@ -16,7 +16,7 @@ internal class RequirementChecker : IRequirementChecker
         _requirements = requirements.ToList();
     }
 
-    public async Task CheckRequirementsAsync()
+    public async Task CheckRequirementsAsync(CancellationToken cancellationToken)
     {
         var failedRequirementsNames = new ConcurrentBag<string>();
 
@@ -29,9 +29,11 @@ internal class RequirementChecker : IRequirementChecker
             await pipelineRequirements.ToAsyncProcessorBuilder()
                 .ForEachAsync(async requirement =>
                 {
-                    var requirementDecision = await requirement.MustAsync(_moduleContextProvider.GetModuleContext()).ConfigureAwait(false);
+                    var requirementDecision = await requirement
+                        .EvaluateAsync(_moduleContextProvider.GetModuleContext(), cancellationToken)
+                        .ConfigureAwait(false);
 
-                    if (!requirementDecision.Success)
+                    if (!requirementDecision.IsSatisfied)
                     {
                         failedRequirementsNames.Add(requirementDecision.Reason ?? requirement.GetType().Name);
                     }
@@ -40,7 +42,7 @@ internal class RequirementChecker : IRequirementChecker
 
         if (!failedRequirementsNames.IsEmpty)
         {
-            throw new FailedRequirementsException($"Requirements failed:\r\n{string.Join("\r\n", failedRequirementsNames)}");
+            throw new RequirementNotMetException($"Requirements failed:\r\n{string.Join("\r\n", failedRequirementsNames)}");
         }
     }
 }

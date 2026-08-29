@@ -110,7 +110,7 @@ public class CmdTests : TestBase
         await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
     }
 
-    private static ModularPipelines.FileSystem.File GetCmdTestFile(IModuleContext context)
+    private static ModularPipelines.FileSystem.FilePath GetCmdTestFile(IModuleContext context)
     {
         return context.Files.GetFile(Path.Combine(
             TestContext.OutputDirectory!,

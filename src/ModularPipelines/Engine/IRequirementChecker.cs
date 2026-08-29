@@ -2,5 +2,5 @@ namespace ModularPipelines.Engine;
 
 internal interface IRequirementChecker
 {
-    Task CheckRequirementsAsync();
+    Task CheckRequirementsAsync(CancellationToken cancellationToken);
 }

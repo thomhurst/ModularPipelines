@@ -227,6 +227,8 @@ ModularPipelines.Exceptions.PipelineHttpResponseException.PipelineHttpResponseEx
 ModularPipelines.Exceptions.PipelineHttpResponseException.ReasonPhrase.get -> string?
 ModularPipelines.Exceptions.PipelineHttpResponseException.RequestUri.get -> System.Uri?
 ModularPipelines.Exceptions.PipelineHttpResponseException.ResponseContent.get -> string?
+ModularPipelines.Exceptions.RequirementNotMetException
+ModularPipelines.Exceptions.RequirementNotMetException.RequirementNotMetException(string? message) -> void
 ModularPipelines.FileSystem.FilePath
 ModularPipelines.FileSystem.FilePath.AppendAsync(string! contents, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 ModularPipelines.FileSystem.FilePath.AppendAsync(System.Collections.Generic.IEnumerable<string!>! contents, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
@@ -427,6 +429,7 @@ ModularPipelines.Models.ModuleTimeline.ExecutionHint.init -> void
 ModularPipelines.Models.ModuleTimeline.Status.get -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Models.PipelineRunReport.Status.get -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Models.PipelineSummary.Status.get -> ModularPipelines.Enums.ModuleStatus
+ModularPipelines.Models.RequirementDecision.IsSatisfied.get -> bool
 ModularPipelines.Modules.NonGenericSyncModuleAdapter
 ModularPipelines.Modules.NonGenericSyncModuleAdapter.NonGenericSyncModuleAdapter() -> void
 ModularPipelines.Modules.SyncModule
@@ -477,6 +480,8 @@ ModularPipelines.PipelineBuilderSettings.LoadModularPipelinesAssemblies.init -> 
 ModularPipelines.PipelineBuilderSettings.PipelineBuilderSettings() -> void
 ModularPipelines.PipelineBuilderSettings.WorkingDirectory.get -> string?
 ModularPipelines.PipelineBuilderSettings.WorkingDirectory.init -> void
+ModularPipelines.Requirements.DelegateRequirement.EvaluateAsync(ModularPipelines.Context.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
+ModularPipelines.Requirements.IPipelineRequirement.EvaluateAsync(ModularPipelines.Context.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
 ModularPipelines.Tracing.PipelineTelemetry
 override ModularPipelines.FileSystem.FilePath.Equals(object? obj) -> bool
 override ModularPipelines.FileSystem.FilePath.GetHashCode() -> int
@@ -615,6 +620,12 @@ static ModularPipelines.Pipeline.CreateBuilder(string![]? args = null, string! s
 static ModularPipelines.PipelineBuilderExtensions.AddValidator<TValidator>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderSettings.operator !=(ModularPipelines.PipelineBuilderSettings? left, ModularPipelines.PipelineBuilderSettings? right) -> bool
 static ModularPipelines.PipelineBuilderSettings.operator ==(ModularPipelines.PipelineBuilderSettings? left, ModularPipelines.PipelineBuilderSettings? right) -> bool
+static ModularPipelines.Requirements.Require.Ci(string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
+static ModularPipelines.Requirements.Require.Linux(string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
+static ModularPipelines.Requirements.Require.MacOS(string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
+static ModularPipelines.Requirements.Require.ThatAsync(System.Func<ModularPipelines.Context.IPipelineContext!, System.Threading.CancellationToken, System.Threading.Tasks.Task<bool>!>! condition, string! failureReason, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
+static ModularPipelines.Requirements.Require.Windows(string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
+static ModularPipelines.Requirements.Require.WindowsAdmin(string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 virtual ModularPipelines.Generated.PropertyCommandLinePart.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Generated.PropertyCommandLinePart.Equals(ModularPipelines.Generated.PropertyCommandLinePart? other) -> bool
 virtual ModularPipelines.Generated.PropertyCommandLinePart.PrintMembers(System.Text.StringBuilder! builder) -> bool
@@ -622,3 +633,4 @@ virtual ModularPipelines.Modules.Module<T>.Configure(ModularPipelines.Configurat
 virtual ModularPipelines.Options.PowerShellFileOptions.Equals(ModularPipelines.Options.PowerShellFileOptions? other) -> bool
 virtual ModularPipelines.Options.PowerShellOptions.Equals(ModularPipelines.Options.PowerShellOptions? other) -> bool
 virtual ModularPipelines.Options.PowerShellScriptOptions.Equals(ModularPipelines.Options.PowerShellScriptOptions? other) -> bool
+virtual ModularPipelines.Requirements.PipelineRequirement.EvaluateAsync(ModularPipelines.Context.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!

@@ -43,7 +43,7 @@ namespace ModularPipelines.Exceptions;
 /// </para>
 /// </remarks>
 /// <seealso cref="PipelineException"/>
-/// <seealso cref="FailedRequirementsException"/>
+/// <seealso cref="RequirementNotMetException"/>
 public class PipelineValidationException : PipelineException
 {
     /// <summary>

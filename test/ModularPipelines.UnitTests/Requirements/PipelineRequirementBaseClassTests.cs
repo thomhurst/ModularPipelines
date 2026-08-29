@@ -40,7 +40,7 @@ public class PipelineRequirementBaseClassTests
         };
 
         await Assert.That(executePipelineDelegate)
-            .Throws<FailedRequirementsException>()
+            .Throws<RequirementNotMetException>()
             .And.HasMessageContaining("Sync requirement failed");
     }
 
@@ -71,7 +71,7 @@ public class PipelineRequirementBaseClassTests
         };
 
         await Assert.That(executePipelineDelegate)
-            .Throws<FailedRequirementsException>()
+            .Throws<RequirementNotMetException>()
             .And.HasMessageContaining("Async requirement failed");
     }
 
@@ -102,7 +102,7 @@ public class PipelineRequirementBaseClassTests
         };
 
         await Assert.That(executePipelineDelegate)
-            .Throws<FailedRequirementsException>()
+            .Throws<RequirementNotMetException>()
             .And.HasMessageContaining("When condition failed");
     }
 
@@ -124,17 +124,19 @@ public class PipelineRequirementBaseClassTests
 
     private class PassingSyncRequirement : PipelineRequirement
     {
-        protected override RequirementDecision Must(IPipelineContext context) => Pass();
+        public override Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
+            => Task.FromResult(Pass());
     }
 
     private class FailingSyncRequirement : PipelineRequirement
     {
-        protected override RequirementDecision Must(IPipelineContext context) => Fail("Sync requirement failed");
+        public override Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
+            => Task.FromResult(Fail("Sync requirement failed"));
     }
 
     private class PassingAsyncRequirement : PipelineRequirement
     {
-        public override async Task<RequirementDecision> MustAsync(IPipelineContext context)
+        public override async Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return Pass();
@@ -143,7 +145,7 @@ public class PipelineRequirementBaseClassTests
 
     private class FailingAsyncRequirement : PipelineRequirement
     {
-        public override async Task<RequirementDecision> MustAsync(IPipelineContext context)
+        public override async Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return Fail("Async requirement failed");
@@ -152,14 +154,14 @@ public class PipelineRequirementBaseClassTests
 
     private class WhenTrueRequirement : PipelineRequirement
     {
-        protected override RequirementDecision Must(IPipelineContext context)
-            => When(true, "Should not see this");
+        public override Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
+            => Task.FromResult(When(true, "Should not see this"));
     }
 
     private class WhenFalseRequirement : PipelineRequirement
     {
-        protected override RequirementDecision Must(IPipelineContext context)
-            => When(false, "When condition failed");
+        public override Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
+            => Task.FromResult(When(false, "When condition failed"));
     }
 
     private class CustomOrderRequirement : PipelineRequirement

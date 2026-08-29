@@ -17,9 +17,14 @@ namespace ModularPipelines.Requirements;
 /// <code>
 /// public class HasDotNetSdkRequirement : PipelineRequirement
 /// {
-///     public override async Task&lt;RequirementDecision&gt; MustAsync(IPipelineContext context)
+///     public override async Task&lt;RequirementDecision&gt; EvaluateAsync(
+///         IPipelineContext context,
+///         CancellationToken cancellationToken)
 ///     {
-///         var result = await context.Shell.RunAsync("dotnet", ["--version"]);
+///         var result = await context.Shell.RunAsync(
+///             "dotnet",
+///             ["--version"],
+///             cancellationToken: cancellationToken);
 ///         return result.ExitCode == 0 ? Pass() : Fail(".NET SDK is not installed");
 ///     }
 /// }
@@ -28,8 +33,11 @@ namespace ModularPipelines.Requirements;
 /// <code>
 /// public class Is64BitProcessRequirement : PipelineRequirement
 /// {
-///     protected override RequirementDecision Must(IPipelineContext context)
-///         =&gt; Environment.Is64BitProcess ? Pass() : Fail("64-bit process required");
+///     public override Task&lt;RequirementDecision&gt; EvaluateAsync(
+///         IPipelineContext context,
+///         CancellationToken cancellationToken)
+///         =&gt; Task.FromResult(
+///             Environment.Is64BitProcess ? Pass() : Fail("64-bit process required"));
 /// }
 /// </code>
 /// </remarks>
@@ -47,20 +55,13 @@ public abstract class PipelineRequirement : IPipelineRequirement
     public virtual int Order => 0;
 
     /// <inheritdoc />
-    public virtual Task<RequirementDecision> MustAsync(IPipelineContext context)
-        => Task.FromResult(Must(context));
-
-    /// <summary>
-    /// Synchronous version of requirement evaluation for simpler implementations.
-    /// </summary>
-    /// <param name="context">The pipeline context for evaluation.</param>
-    /// <returns>The requirement decision.</returns>
-    /// <remarks>
-    /// Override this method for synchronous requirements instead of <see cref="MustAsync"/>.
-    /// The default implementation returns <see cref="Pass"/>.
-    /// </remarks>
-    protected virtual RequirementDecision Must(IPipelineContext context)
-        => Pass();
+    public virtual Task<RequirementDecision> EvaluateAsync(
+        IPipelineContext context,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(Pass());
+    }
 
     /// <summary>
     /// Creates a passed requirement decision.
@@ -82,5 +83,5 @@ public abstract class PipelineRequirement : IPipelineRequirement
     /// <param name="failureReason">The reason to provide if the condition is false.</param>
     /// <returns>A <see cref="RequirementDecision"/> based on the condition.</returns>
     protected static RequirementDecision When(bool condition, string failureReason)
-        => RequirementDecision.Of(condition, failureReason);
+        => condition ? RequirementDecision.Passed : RequirementDecision.Failed(failureReason);
 }

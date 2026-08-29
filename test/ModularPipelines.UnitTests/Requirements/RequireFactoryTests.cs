@@ -1,13 +1,16 @@
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
 using ModularPipelines.TestHelpers;
-using ModularPipelines.Enums;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Requirements;
 
@@ -42,7 +45,7 @@ public class RequireFactoryTests
         };
 
         await Assert.That(executePipelineDelegate)
-            .Throws<FailedRequirementsException>()
+            .Throws<RequirementNotMetException>()
             .And.HasMessageContaining(reason);
     }
 
@@ -51,7 +54,7 @@ public class RequireFactoryTests
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
-            .AddRequirement(Require.ThatAsync(async _ =>
+            .AddRequirement(Require.ThatAsync(async (_, _) =>
             {
                 await Task.Yield();
                 return true;
@@ -73,7 +76,7 @@ public class RequireFactoryTests
         {
             await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
-                .AddRequirement(Require.ThatAsync(async _ =>
+                .AddRequirement(Require.ThatAsync(async (_, _) =>
                 {
                     await Task.Yield();
                     return false;
@@ -82,7 +85,7 @@ public class RequireFactoryTests
         };
 
         await Assert.That(executePipelineDelegate)
-            .Throws<FailedRequirementsException>()
+            .Throws<RequirementNotMetException>()
             .And.HasMessageContaining(reason);
     }
 
@@ -124,7 +127,7 @@ public class RequireFactoryTests
         };
 
         await Assert.That(executePipelineDelegate)
-            .Throws<FailedRequirementsException>()
+            .Throws<RequirementNotMetException>()
             .And.HasMessageContaining(varName);
     }
 
@@ -143,7 +146,7 @@ public class RequireFactoryTests
         };
 
         await Assert.That(executePipelineDelegate)
-            .Throws<FailedRequirementsException>()
+            .Throws<RequirementNotMetException>()
             .And.HasMessageContaining(customReason);
     }
 
@@ -188,6 +191,48 @@ public class RequireFactoryTests
     {
         var requirement = Require.That(_ => true, "test", order: 5);
         await Assert.That(requirement.Order).IsEqualTo(5);
+    }
+
+    [Test]
+    public async Task Platform_Factories_Match_Pipeline_Operating_System()
+    {
+        var environment = new Mock<IEnvironmentContext>();
+        var context = new Mock<IPipelineContext>();
+        context.SetupGet(static pipelineContext => pipelineContext.Environment)
+            .Returns(environment.Object);
+
+        var cases = new (OSPlatform Platform, Func<IPipelineRequirement> Create)[]
+        {
+            (OSPlatform.Windows, static () => Require.Windows()),
+            (OSPlatform.Linux, static () => Require.Linux()),
+            (OSPlatform.OSX, static () => Require.MacOS()),
+        };
+
+        foreach (var (platform, create) in cases)
+        {
+            environment.SetupGet(static environmentContext => environmentContext.OperatingSystem)
+                .Returns(platform);
+
+            var decision = await create().EvaluateAsync(context.Object, CancellationToken.None);
+
+            await Assert.That(decision.IsSatisfied).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task WindowsAdmin_Passes_On_Non_Windows_Platforms()
+    {
+        var environment = new Mock<IEnvironmentContext>();
+        environment.SetupGet(static environmentContext => environmentContext.OperatingSystem)
+            .Returns(OSPlatform.Linux);
+        var context = new Mock<IPipelineContext>();
+        context.SetupGet(static pipelineContext => pipelineContext.Environment)
+            .Returns(environment.Object);
+
+        var decision = await Require.WindowsAdmin()
+            .EvaluateAsync(context.Object, CancellationToken.None);
+
+        await Assert.That(decision.IsSatisfied).IsTrue();
     }
 
     private class DummyModule : Module<bool>

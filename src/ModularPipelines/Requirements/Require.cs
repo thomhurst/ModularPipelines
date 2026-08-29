@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+using System.Security.Principal;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Requirements;
@@ -19,8 +21,11 @@ namespace ModularPipelines.Requirements;
 ///
 /// // Async condition
 /// services.AddRequirement(Require.ThatAsync(
-///     async context =&gt; {
-///         var result = await context.Shell.RunAsync("docker", ["--version"]);
+///     async (context, cancellationToken) =&gt; {
+///         var result = await context.Shell.RunAsync(
+///             "docker",
+///             ["--version"],
+///             cancellationToken: cancellationToken);
 ///         return result.ExitCode == 0;
 ///     },
 ///     "Docker must be installed"));
@@ -67,15 +72,18 @@ public static class Require
     /// <example>
     /// <code>
     /// services.AddRequirement(Require.ThatAsync(
-    ///     async ctx =&gt; {
-    ///         var result = await ctx.Shell.RunAsync("git", ["--version"]);
+    ///     async (ctx, cancellationToken) =&gt; {
+    ///         var result = await ctx.Shell.RunAsync(
+    ///             "git",
+    ///             ["--version"],
+    ///             cancellationToken: cancellationToken);
     ///         return result.ExitCode == 0;
     ///     },
     ///     "Git must be installed"));
     /// </code>
     /// </example>
     public static IPipelineRequirement ThatAsync(
-        Func<IPipelineContext, Task<bool>> condition,
+        Func<IPipelineContext, CancellationToken, Task<bool>> condition,
         string failureReason,
         int order = 0)
         => new DelegateRequirement(condition, failureReason, order);
@@ -154,17 +162,56 @@ public static class Require
     /// <returns>A pipeline requirement that checks the operating system.</returns>
     /// <example>
     /// <code>
-    /// using System.Runtime.InteropServices;
     /// services.AddRequirement(Require.Platform(OSPlatform.Windows));
     /// </code>
     /// </example>
     public static IPipelineRequirement Platform(
-        System.Runtime.InteropServices.OSPlatform platform,
+        OSPlatform platform,
         string? failureReason = null,
         int order = 0)
         => new DelegateRequirement(
             ctx => ctx.Environment.OperatingSystem == platform,
             failureReason ?? $"Operating system must be {platform}",
+            order);
+
+    /// <summary>
+    /// Creates a requirement that the current platform is Windows.
+    /// </summary>
+    /// <param name="failureReason">Optional custom failure message.</param>
+    /// <param name="order">The evaluation order. Lower values are evaluated first.</param>
+    /// <returns>A pipeline requirement that checks for Windows.</returns>
+    public static IPipelineRequirement Windows(string? failureReason = null, int order = 0)
+        => Platform(OSPlatform.Windows, failureReason ?? "Windows is required", order);
+
+    /// <summary>
+    /// Creates a requirement that the current platform is Linux.
+    /// </summary>
+    /// <param name="failureReason">Optional custom failure message.</param>
+    /// <param name="order">The evaluation order. Lower values are evaluated first.</param>
+    /// <returns>A pipeline requirement that checks for Linux.</returns>
+    public static IPipelineRequirement Linux(string? failureReason = null, int order = 0)
+        => Platform(OSPlatform.Linux, failureReason ?? "Linux is required", order);
+
+    /// <summary>
+    /// Creates a requirement that the current platform is macOS.
+    /// </summary>
+    /// <param name="failureReason">Optional custom failure message.</param>
+    /// <param name="order">The evaluation order. Lower values are evaluated first.</param>
+    /// <returns>A pipeline requirement that checks for macOS.</returns>
+    public static IPipelineRequirement MacOS(string? failureReason = null, int order = 0)
+        => Platform(OSPlatform.OSX, failureReason ?? "macOS is required", order);
+
+    /// <summary>
+    /// Creates a requirement that the process has Windows Administrator privileges.
+    /// Non-Windows platforms satisfy this requirement.
+    /// </summary>
+    /// <param name="failureReason">Optional custom failure message.</param>
+    /// <param name="order">The evaluation order. Lower values are evaluated first.</param>
+    /// <returns>A pipeline requirement that checks for Windows Administrator privileges.</returns>
+    public static IPipelineRequirement WindowsAdmin(string? failureReason = null, int order = 0)
+        => new DelegateRequirement(
+            IsWindowsAdministrator,
+            failureReason ?? "Windows Admin is required.",
             order);
 
     /// <summary>
@@ -176,10 +223,10 @@ public static class Require
     /// <example>
     /// <code>
     /// // Require running in CI for deployment modules
-    /// services.AddRequirement(Require.CIEnvironment("Deployment can only run in CI"));
+    /// services.AddRequirement(Require.Ci("Deployment can only run in CI"));
     /// </code>
     /// </example>
-    public static IPipelineRequirement CIEnvironment(
+    public static IPipelineRequirement Ci(
         string? failureReason = null,
         int order = 0)
         => new DelegateRequirement(
@@ -220,4 +267,17 @@ public static class Require
                 string.IsNullOrEmpty(ctx.Environment.Variables.Get("TEAMCITY_VERSION")),
             failureReason ?? "This pipeline must run locally (not in CI)",
             order);
+
+    private static bool IsWindowsAdministrator(IPipelineContext context)
+    {
+        if (context.Environment.OperatingSystem != OSPlatform.Windows)
+        {
+            return true;
+        }
+
+#pragma warning disable CA1416 // Guarded by the pipeline context's Windows platform value.
+        using var identity = WindowsIdentity.GetCurrent();
+        return new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+#pragma warning restore CA1416
+    }
 }

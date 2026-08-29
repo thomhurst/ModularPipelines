@@ -15,8 +15,6 @@ public class DocumentationSnippetTests
     private static readonly string[] CurrentApiXmlDocumentation =
     [
         "src/ModularPipelines/Options/SecretMaskingOptions.cs",
-        "src/ModularPipelines/Requirements/MacOSRequirement.cs",
-        "src/ModularPipelines/Requirements/WindowsAdminRequirement.cs",
     ];
 
     [Test]

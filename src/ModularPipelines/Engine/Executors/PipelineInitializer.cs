@@ -331,7 +331,7 @@ internal class PipelineInitializer(
 
         await _pipelineSetupExecutor.OnPipelineStartAsync().ConfigureAwait(false);
 
-        await _requirementsChecker.CheckRequirementsAsync().ConfigureAwait(false);
+        await _requirementsChecker.CheckRequirementsAsync(cancellationToken).ConfigureAwait(false);
 
         var organizedModules = await _moduleRetriever.GetOrganizedModules(cancellationToken).ConfigureAwait(false);
         _dependencyChainProvider.Initialize(organizedModules.AllModules);

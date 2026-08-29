@@ -320,7 +320,7 @@ public class PipelineBuilderRegistrationTests
 
     private class TestRequirement : IPipelineRequirement
     {
-        public Task<RequirementDecision> MustAsync(IPipelineContext context)
+        public Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
             => Task.FromResult(RequirementDecision.Passed);
     }
 

@@ -11,7 +11,7 @@ public class RequirementDecisionTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(requirementDecision.Success).IsTrue();
+            await Assert.That(requirementDecision.IsSatisfied).IsTrue();
             await Assert.That(requirementDecision.Reason).IsNull();
         }
     }
@@ -23,21 +23,23 @@ public class RequirementDecisionTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(requirementDecision.Success).IsFalse();
+            await Assert.That(requirementDecision.IsSatisfied).IsFalse();
             await Assert.That(requirementDecision.Reason).IsNull();
         }
     }
 
     [Test]
-    public async Task String_Implicit_Cast()
+    public async Task Only_Bool_Implicit_Conversion_Remains()
     {
-        RequirementDecision requirementDecision = "Foo!";
+        var implicitConversions = typeof(RequirementDecision)
+            .GetMethods()
+            .Where(static method => method.Name == "op_Implicit")
+            .ToArray();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(requirementDecision.Success).IsFalse();
-            await Assert.That(requirementDecision.Reason).IsEqualTo("Foo!");
-        }
+        await Assert.That(implicitConversions).HasSingleItem();
+        await Assert.That(implicitConversions[0].GetParameters()).HasSingleItem();
+        await Assert.That(implicitConversions[0].GetParameters()[0].ParameterType).IsEqualTo(typeof(bool));
+        await Assert.That(implicitConversions[0].ReturnType).IsEqualTo(typeof(RequirementDecision));
     }
 
     [Test]
@@ -47,7 +49,7 @@ public class RequirementDecisionTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(requirementDecision.Success).IsFalse();
+            await Assert.That(requirementDecision.IsSatisfied).IsFalse();
             await Assert.That(requirementDecision.Reason).IsEqualTo("Blah!");
         }
     }
@@ -59,22 +61,23 @@ public class RequirementDecisionTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(requirementDecision.Success).IsTrue();
+            await Assert.That(requirementDecision.IsSatisfied).IsTrue();
             await Assert.That(requirementDecision.Reason).IsNull();
         }
     }
 
     [Test]
-    [Arguments(true)]
-    [Arguments(false)]
-    public async Task Of(bool success)
+    public async Task Surface_Uses_IsSatisfied_And_Factories()
     {
-        var requirementDecision = RequirementDecision.Of(success, "Blah!");
+        var type = typeof(RequirementDecision);
 
         using (Assert.Multiple())
         {
-            await Assert.That(requirementDecision.Success).IsEqualTo(success);
-            await Assert.That(requirementDecision.Reason).IsEqualTo(!success ? "Blah!" : null);
+            await Assert.That(type.GetProperty("IsSatisfied")).IsNotNull();
+            await Assert.That(type.GetProperty("Success")).IsNull();
+            await Assert.That(type.GetMethod("Of")).IsNull();
+            await Assert.That(type.GetField("Passed")).IsNotNull();
+            await Assert.That(type.GetMethod("Failed")).IsNotNull();
         }
     }
 }

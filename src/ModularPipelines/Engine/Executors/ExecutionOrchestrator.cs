@@ -122,7 +122,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             allModules = _pipelineInitializer.RegisteredModules ?? [];
             _threadPoolConfigurator.Configure();
 
-            var organizedModules = await _pipelineInitializer.Initialize(cancellationToken).ConfigureAwait(false);
+            var organizedModules = await _pipelineInitializer
+                .Initialize(_engineCancellationToken.Token)
+                .ConfigureAwait(false);
             allModules = organizedModules.AllModules;
 
             // Resolve ignored modules against history before cascading required dependencies.
