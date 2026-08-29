@@ -624,10 +624,14 @@ public sealed class PipelineBuilder
     /// <summary>
     /// Defers <see cref="IDistributedArtifactStoreFactory.CreateAsync"/> to first use.
     /// </summary>
-    private sealed class DeferredArtifactStore(IDistributedArtifactStoreFactory factory) : IDistributedArtifactStore
+    private sealed class DeferredArtifactStore(IDistributedArtifactStoreFactory factory) :
+        IDistributedArtifactStore,
+        IDisposable,
+        IAsyncDisposable
     {
         private readonly SemaphoreSlim _lock = new(1, 1);
         private volatile IDistributedArtifactStore? _inner;
+        private int _disposeState;
 
         public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct)).UploadAsync(d, s, ct);
 
@@ -636,6 +640,47 @@ public sealed class PipelineBuilder
         public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string m, CancellationToken ct) => await (await GetAsync(ct)).ListArtifactsAsync(m, ct);
 
         public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DeleteAsync(r, ct);
+
+        public void Dispose()
+        {
+            if (Interlocked.Exchange(ref _disposeState, 1) != 0)
+            {
+                return;
+            }
+
+            try
+            {
+                (_inner as IDisposable)?.Dispose();
+            }
+            finally
+            {
+                _lock.Dispose();
+            }
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (Interlocked.Exchange(ref _disposeState, 1) != 0)
+            {
+                return;
+            }
+
+            try
+            {
+                if (_inner is IAsyncDisposable asyncDisposable)
+                {
+                    await asyncDisposable.DisposeAsync();
+                }
+                else
+                {
+                    (_inner as IDisposable)?.Dispose();
+                }
+            }
+            finally
+            {
+                _lock.Dispose();
+            }
+        }
 
         private async ValueTask<IDistributedArtifactStore> GetAsync(CancellationToken ct)
         {

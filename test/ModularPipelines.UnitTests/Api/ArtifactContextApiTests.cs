@@ -98,6 +98,56 @@ public class ArtifactContextApiTests
         await Assert.That(((TestArtifactStoreFactory) factory).CreateCount).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task Artifact_Store_Factory_Disposes_Created_Store()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ArtifactTestModule>()
+            .AddDistributedArtifactStoreFactory<TestArtifactStoreFactory>();
+        var pipeline = await builder.BuildAsync();
+        var factory = (TestArtifactStoreFactory) pipeline.Services
+            .GetRequiredService<IDistributedArtifactStoreFactory>();
+        var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
+
+        _ = await store.ListArtifactsAsync("module", CancellationToken.None);
+        await pipeline.DisposeAsync();
+
+        await Assert.That(factory.CreatedStore!.DisposeCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Artifact_Store_Factory_Does_Not_Initialize_During_Disposal()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ArtifactTestModule>()
+            .AddDistributedArtifactStoreFactory<TestArtifactStoreFactory>();
+        var pipeline = await builder.BuildAsync();
+        var factory = (TestArtifactStoreFactory) pipeline.Services
+            .GetRequiredService<IDistributedArtifactStoreFactory>();
+
+        _ = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
+        await pipeline.DisposeAsync();
+
+        await Assert.That(factory.CreateCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Artifact_Store_Factory_Disposes_Synchronous_Store()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ArtifactTestModule>()
+            .AddDistributedArtifactStoreFactory<TestDisposableArtifactStoreFactory>();
+        var pipeline = await builder.BuildAsync();
+        var factory = (TestDisposableArtifactStoreFactory) pipeline.Services
+            .GetRequiredService<IDistributedArtifactStoreFactory>();
+        var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
+
+        _ = await store.ListArtifactsAsync("module", CancellationToken.None);
+        await pipeline.DisposeAsync();
+
+        await Assert.That(factory.CreatedStore!.DisposeCount).IsEqualTo(1);
+    }
+
     private sealed class ArtifactTestModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -106,7 +156,7 @@ public class ArtifactContextApiTests
             => Task.FromResult(string.Empty);
     }
 
-    public sealed class TestArtifactStore : IDistributedArtifactStore
+    public class TestArtifactStore : IDistributedArtifactStore
     {
         public Task<ArtifactReference> UploadAsync(
             ArtifactDescriptor descriptor,
@@ -128,16 +178,49 @@ public class ArtifactContextApiTests
             ArtifactReference reference,
             CancellationToken cancellationToken)
             => throw new NotSupportedException();
+
+    }
+
+    public sealed class TestAsyncDisposableArtifactStore : TestArtifactStore, IAsyncDisposable
+    {
+        public int DisposeCount { get; private set; }
+
+        public ValueTask DisposeAsync()
+        {
+            DisposeCount++;
+            return ValueTask.CompletedTask;
+        }
+    }
+
+    public sealed class TestDisposableArtifactStore : TestArtifactStore, IDisposable
+    {
+        public int DisposeCount { get; private set; }
+
+        public void Dispose() => DisposeCount++;
     }
 
     public sealed class TestArtifactStoreFactory : IDistributedArtifactStoreFactory
     {
         public int CreateCount { get; private set; }
 
+        public TestAsyncDisposableArtifactStore? CreatedStore { get; private set; }
+
         public Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
         {
             CreateCount++;
-            return Task.FromResult<IDistributedArtifactStore>(new TestArtifactStore());
+            CreatedStore = new TestAsyncDisposableArtifactStore();
+            return Task.FromResult<IDistributedArtifactStore>(CreatedStore);
+        }
+    }
+
+    public sealed class TestDisposableArtifactStoreFactory : IDistributedArtifactStoreFactory
+    {
+        public TestDisposableArtifactStore? CreatedStore { get; private set; }
+
+        public Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
+        {
+            CreatedStore = new TestDisposableArtifactStore();
+            return Task.FromResult<IDistributedArtifactStore>(CreatedStore);
         }
     }
 }
