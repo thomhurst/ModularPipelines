@@ -18,20 +18,22 @@ internal sealed class NoopSpectreConsoleLoggerControl(
 
     public object SynchronizationLock { get; } = new();
 
+    internal bool HasConsoleProvider => _hasConsoleProvider;
+
     public Task FlushAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
 
     public IDisposable Suspend() => NoopDisposable.Instance;
 
     public bool TryAcquireRenderGate(TimeSpan timeout, out IDisposable? gate)
     {
-        gate = NoopDisposable.Instance;
-        return true;
+        gate = null;
+        return false;
     }
 
     public ValueTask<IDisposable?> TryAcquireRenderGateAsync(
         TimeSpan timeout,
         CancellationToken cancellationToken = default) =>
-        ValueTask.FromResult<IDisposable?>(NoopDisposable.Instance);
+        ValueTask.FromResult<IDisposable?>(null);
 
     public bool WouldRender(string categoryName, LogLevel logLevel) =>
         _hasConsoleProvider && IsEnabled(filterOptions.CurrentValue, categoryName, logLevel);

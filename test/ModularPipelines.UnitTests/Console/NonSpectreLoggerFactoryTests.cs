@@ -22,7 +22,7 @@ public class NonSpectreLoggerFactoryTests
             null));
         using var loggerFactory = new LoggerFactory([provider], CreateOptionsMonitor(options));
         var control = CreateControl();
-        var factory = new NonSpectreLoggerFactory(loggerFactory, control.Object);
+        using var factory = CreateFactory(loggerFactory, control.Object, [provider], options);
         var logger = factory.CreateLoggers("Allowed.Category").Single();
 
         logger.LogInformation("filtered");
@@ -40,7 +40,7 @@ public class NonSpectreLoggerFactoryTests
         var dynamicProvider = new RecordingLoggerProvider();
         using var loggerFactory = new LoggerFactory([initialProvider]);
         var control = CreateControl();
-        var factory = new NonSpectreLoggerFactory(loggerFactory, control.Object);
+        using var factory = CreateFactory(loggerFactory, control.Object, [initialProvider]);
         var logger = factory.CreateLoggers("Category").Single();
 
         loggerFactory.AddProvider(dynamicProvider);
@@ -55,7 +55,10 @@ public class NonSpectreLoggerFactoryTests
     {
         var effectiveProvider = new RecordingLoggerProvider();
         using var effectiveFactory = new LoggerFactory([effectiveProvider]);
-        var factory = new NonSpectreLoggerFactory(effectiveFactory, CreateControl().Object);
+        using var factory = CreateFactory(
+            effectiveFactory,
+            CreateControl().Object,
+            [effectiveProvider]);
 
         factory.CreateLoggers("Category").Single().LogWarning("delivered");
 
@@ -70,7 +73,7 @@ public class NonSpectreLoggerFactoryTests
             LogException = new InvalidOperationException("provider rejected event"),
         };
         using var loggerFactory = new LoggerFactory([failingProvider]);
-        var factory = new NonSpectreLoggerFactory(loggerFactory, CreateControl().Object);
+        using var factory = CreateFactory(loggerFactory, CreateControl().Object, [failingProvider]);
         var logger = factory.CreateLoggers("Category").Single();
 
         var exception = Assert.Throws<ProviderDeliveryException>(
@@ -169,6 +172,16 @@ public class NonSpectreLoggerFactoryTests
             .Returns(Mock.Of<IDisposable>());
         return monitor.Object;
     }
+
+    private static NonSpectreLoggerFactory CreateFactory(
+        ILoggerFactory loggerFactory,
+        ISpectreConsoleLoggerControl control,
+        IEnumerable<ILoggerProvider> providers,
+        LoggerFilterOptions? options = null) => new(
+        loggerFactory,
+        control,
+        providers,
+        CreateOptionsMonitor(options ?? new LoggerFilterOptions()));
 
     [ProviderAlias("Recording")]
     private sealed class RecordingLoggerProvider : ILoggerProvider

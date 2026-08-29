@@ -1,6 +1,8 @@
 using ModularPipelines.Secrets;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
@@ -1136,6 +1138,36 @@ public class ModuleOutputBufferTests
         await Assert.That(fallbackLogger.Entries[0].Exception).IsNotSameReferenceAs(logException);
         await Assert.That(fallbackLogger.Entries[0].Exception?.ToString()).DoesNotContain("secret");
         await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
+    [Test]
+    public async Task Flush_NonSpectreConsole_WritesStructuredOutputSynchronously()
+    {
+        var writer = new StringWriter();
+        var filterOptions = new LoggerFilterOptions();
+        var optionsMonitor = Mock.Of<IOptionsMonitor<LoggerFilterOptions>>(options =>
+            options.CurrentValue == filterOptions);
+        var loggerControl = new NoopSpectreConsoleLoggerControl(
+            NullLoggerFactory.Instance,
+            optionsMonitor,
+            []);
+        var buffer = CreateBufferWithStructuredLog();
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            NullLogger.Instance,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("[INFO] structured log");
+            await Assert.That(output).DoesNotContain("Timed out waiting");
+            await Assert.That(output.IndexOf("[INFO] structured log", StringComparison.Ordinal))
+                .IsLessThan(output.IndexOf("::endgroup::", StringComparison.Ordinal));
+        }
     }
 
     [Test]

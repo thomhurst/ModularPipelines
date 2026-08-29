@@ -1,5 +1,7 @@
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 
 namespace ModularPipelines.Console;
 
@@ -10,10 +12,50 @@ internal interface INonSpectreLoggerFactory
 
 internal sealed class NonSpectreLoggerFactory(
     ILoggerFactory loggerFactory,
-    ISpectreConsoleLoggerControl loggerControl) : INonSpectreLoggerFactory
+    ISpectreConsoleLoggerControl loggerControl,
+    IEnumerable<ILoggerProvider> loggerProviders,
+    IOptionsMonitor<LoggerFilterOptions> filterOptions) : INonSpectreLoggerFactory, IDisposable
 {
+    private readonly LoggerFactory? _ownedFactory = CreateNonConsoleFactory(
+        loggerFactory,
+        loggerControl,
+        loggerProviders,
+        filterOptions);
+
     public IReadOnlyList<ILogger> CreateLoggers(string categoryName)
-        => [new SpectreSuppressingLogger(loggerFactory.CreateLogger(categoryName), loggerControl)];
+        => [new SpectreSuppressingLogger(
+            (_ownedFactory ?? loggerFactory).CreateLogger(categoryName),
+            loggerControl)];
+
+    public void Dispose() => _ownedFactory?.Dispose();
+
+    private static LoggerFactory? CreateNonConsoleFactory(
+        ILoggerFactory effectiveFactory,
+        ISpectreConsoleLoggerControl control,
+        IEnumerable<ILoggerProvider> providers,
+        IOptionsMonitor<LoggerFilterOptions> options)
+    {
+        if (control is not NoopSpectreConsoleLoggerControl { HasConsoleProvider: true }
+            || effectiveFactory.GetType() != typeof(LoggerFactory))
+        {
+            return null;
+        }
+
+        return new LoggerFactory(
+            providers
+                .Where(static provider => provider is not ConsoleLoggerProvider)
+                .Select(static provider => new NonDisposingLoggerProvider(provider)),
+            options);
+    }
+
+    private sealed class NonDisposingLoggerProvider(ILoggerProvider inner) : ILoggerProvider
+    {
+        public ILogger CreateLogger(string categoryName) => inner.CreateLogger(categoryName);
+
+        public void Dispose()
+        {
+        }
+    }
 
     private sealed class SpectreSuppressingLogger(
         ILogger inner,
