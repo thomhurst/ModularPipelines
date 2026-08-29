@@ -9,7 +9,7 @@ internal sealed class ToolsContext(IServicesContext services) : IToolsContext
         where T : class
     {
         var toolType = typeof(T);
-        return services.TryGet<T>() ?? throw ToolRegistrationExceptionFactory.Create(
+        return services.GetService<T>() ?? throw ToolRegistrationExceptionFactory.Create(
             toolType,
             ToolRegistrationExceptionFactory.FindIntegrationAssemblyName(toolType));
     }

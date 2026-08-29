@@ -79,6 +79,20 @@ Replace the removed `WindowsRequirement`, `LinuxRequirement`, `MacOSRequirement`
 `Require.MacOS()`, and `Require.WindowsAdmin()`. `Require.CIEnvironment()` is now
 `Require.Ci()`. `FailedRequirementsException` is now
 `RequirementNotMetException`.
+## Service resolution
+
+Service lookup on `context.Services` now follows the standard .NET naming and
+nullability convention:
+
+- `Get<T>()` is now `GetRequiredService<T>()` and throws when the service is missing.
+- `TryGet<T>()` is now `GetService<T>()` and returns `null` when the service is missing.
+- The duplicate `context.GetService<T>()` and `context.TryGetService<T>()` extension
+  methods have been removed. Resolve services through `context.Services` instead.
+
+```csharp
+var required = context.Services.GetRequiredService<IMyService>();
+var optional = context.Services.GetService<IOptionalService>();
+```
 
 ## Failure modes and execution hints
 

@@ -37,5 +37,5 @@ public static class BrewExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IBrew"/> service for executing brew commands.</returns>
-    public static IBrew Brew(this IPipelineContext context) => context.Services.Get<IBrew>();
+    public static IBrew Brew(this IPipelineContext context) => context.Services.GetRequiredService<IBrew>();
 }

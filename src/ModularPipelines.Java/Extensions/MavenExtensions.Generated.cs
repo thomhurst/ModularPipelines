@@ -37,5 +37,5 @@ public static class MavenExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IMaven"/> service for executing mvn commands.</returns>
-    public static IMaven Maven(this IPipelineContext context) => context.Services.Get<IMaven>();
+    public static IMaven Maven(this IPipelineContext context) => context.Services.GetRequiredService<IMaven>();
 }

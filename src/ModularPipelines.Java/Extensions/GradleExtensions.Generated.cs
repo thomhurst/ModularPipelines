@@ -37,5 +37,5 @@ public static class GradleExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGradle"/> service for executing gradle commands.</returns>
-    public static IGradle Gradle(this IPipelineContext context) => context.Services.Get<IGradle>();
+    public static IGradle Gradle(this IPipelineContext context) => context.Services.GetRequiredService<IGradle>();
 }

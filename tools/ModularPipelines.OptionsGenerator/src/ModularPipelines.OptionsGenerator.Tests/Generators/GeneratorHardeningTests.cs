@@ -421,6 +421,7 @@ public class GeneratorHardeningTests
 
         await Assert.That(content).Contains("using ModularPipelines.Attributes;");
         await Assert.That(content).Contains("[ModularPipelinesIntegration]");
+        await Assert.That(content).Contains("context.Services.GetRequiredService<ITool>()");
         await Assert.That(content).DoesNotContain("ModuleInitializer");
         await Assert.That(content).DoesNotContain("ModularPipelinesContextRegistry");
     }

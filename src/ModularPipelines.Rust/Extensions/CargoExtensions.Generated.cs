@@ -37,5 +37,5 @@ public static class CargoExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ICargo"/> service for executing cargo commands.</returns>
-    public static ICargo Cargo(this IPipelineContext context) => context.Services.Get<ICargo>();
+    public static ICargo Cargo(this IPipelineContext context) => context.Services.GetRequiredService<ICargo>();
 }

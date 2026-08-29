@@ -52,5 +52,5 @@ public static class EksctlExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IEksctl"/> service for executing eksctl commands.</returns>
-    public static IEksctl Eksctl(this IPipelineContext context) => context.Services.Get<IEksctl>();
+    public static IEksctl Eksctl(this IPipelineContext context) => context.Services.GetRequiredService<IEksctl>();
 }

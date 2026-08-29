@@ -39,5 +39,5 @@ public static class SyftExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISyft"/> service for executing syft commands.</returns>
-    public static ISyft Syft(this IPipelineContext context) => context.Services.Get<ISyft>();
+    public static ISyft Syft(this IPipelineContext context) => context.Services.GetRequiredService<ISyft>();
 }

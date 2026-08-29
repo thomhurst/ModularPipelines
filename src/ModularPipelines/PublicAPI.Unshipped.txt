@@ -1,4 +1,6 @@
 #nullable enable
+*REMOVED*ModularPipelines.Context.ContextExtensions.GetService<T>(this ModularPipelines.Context.IPipelineContext! context) -> T!
+*REMOVED*ModularPipelines.Context.ContextExtensions.TryGetService<T>(this ModularPipelines.Context.IPipelineContext! context) -> T?
 *REMOVED*ModularPipelines.Context.Domains.IEnvironmentContext.AppDomainDirectory.get -> ModularPipelines.FileSystem.Folder!
 *REMOVED*ModularPipelines.Context.Domains.IEnvironmentContext.ContentDirectory.get -> ModularPipelines.FileSystem.Folder!
 *REMOVED*ModularPipelines.Context.Domains.IEnvironmentContext.WorkingDirectory.get -> ModularPipelines.FileSystem.Folder!
@@ -7,6 +9,8 @@
 *REMOVED*ModularPipelines.Context.Domains.IFilesContext.GetFolder(System.Environment.SpecialFolder specialFolder) -> ModularPipelines.FileSystem.Folder!
 *REMOVED*ModularPipelines.Context.Domains.IFilesContext.Glob(string! pattern) -> System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.File!>!
 *REMOVED*ModularPipelines.Context.Domains.IFilesContext.GlobFolders(string! pattern) -> System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.Folder!>!
+*REMOVED*ModularPipelines.Context.Domains.IServicesContext.Get<T>() -> T!
+*REMOVED*ModularPipelines.Context.Domains.IServicesContext.TryGet<T>() -> T?
 *REMOVED*ModularPipelines.Context.Domains.Network.IDownloaderContext.DownloadFileAsync(ModularPipelines.Options.DownloadFileOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.File!>!
 *REMOVED*ModularPipelines.FileSystem.File
 *REMOVED*ModularPipelines.FileSystem.File.AppendAsync(string! contents, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
@@ -167,6 +171,8 @@ ModularPipelines.Context.Domains.IFilesContext.GlobFolders(string! pattern) -> S
 ModularPipelines.Context.Domains.IInstallersContext.InstallAsync(ModularPipelines.Options.InstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.IInstallersContext.InstallFromWebAsync(ModularPipelines.Options.WebInstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.ISecurityContext.Hash.get -> ModularPipelines.Context.Domains.Security.IHashContext!
+ModularPipelines.Context.Domains.IServicesContext.GetRequiredService<T>() -> T!
+ModularPipelines.Context.Domains.IServicesContext.GetService<T>() -> T?
 ModularPipelines.Context.Domains.Network.IDownloaderContext.DownloadFileAsync(ModularPipelines.Options.DownloadFileOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.Context.Domains.Security.HashEncoding
 ModularPipelines.Context.Domains.Security.HashEncoding.Base64 = 1 -> ModularPipelines.Context.Domains.Security.HashEncoding

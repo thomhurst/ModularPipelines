@@ -37,5 +37,5 @@ public static class ChocoExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IChoco"/> service for executing choco commands.</returns>
-    public static IChoco Choco(this IPipelineContext context) => context.Services.Get<IChoco>();
+    public static IChoco Choco(this IPipelineContext context) => context.Services.GetRequiredService<IChoco>();
 }

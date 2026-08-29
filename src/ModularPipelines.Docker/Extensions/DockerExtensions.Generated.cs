@@ -52,5 +52,5 @@ public static class DockerExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IDocker"/> service for executing docker commands.</returns>
-    public static IDocker Docker(this IPipelineContext context) => context.Services.Get<IDocker>();
+    public static IDocker Docker(this IPipelineContext context) => context.Services.GetRequiredService<IDocker>();
 }

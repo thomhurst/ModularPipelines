@@ -160,7 +160,7 @@ registration method:
 
 ```csharp
 public static IPrivateWidget PrivateWidget(this IPipelineContext context) =>
-    context.Services.Get<IPrivateWidget>();
+    context.Services.GetRequiredService<IPrivateWidget>();
 ```
 
 The generator uses that shared declaring type to associate the accessor with its

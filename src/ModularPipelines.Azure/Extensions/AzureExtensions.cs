@@ -86,6 +86,6 @@ public static class AzureExtensions
     /// <returns>The Azure services.</returns>
     public static IAzure Azure(this IPipelineContext context)
     {
-        return context.Services.Get<IAzure>();
+        return context.Services.GetRequiredService<IAzure>();
     }
 }

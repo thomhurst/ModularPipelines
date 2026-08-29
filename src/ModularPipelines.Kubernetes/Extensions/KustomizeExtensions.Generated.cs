@@ -40,5 +40,5 @@ public static class KustomizeExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IKustomize"/> service for executing kustomize commands.</returns>
-    public static IKustomize Kustomize(this IPipelineContext context) => context.Services.Get<IKustomize>();
+    public static IKustomize Kustomize(this IPipelineContext context) => context.Services.GetRequiredService<IKustomize>();
 }

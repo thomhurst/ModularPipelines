@@ -38,5 +38,5 @@ public static class GrypeExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGrype"/> service for executing grype commands.</returns>
-    public static IGrype Grype(this IPipelineContext context) => context.Services.Get<IGrype>();
+    public static IGrype Grype(this IPipelineContext context) => context.Services.GetRequiredService<IGrype>();
 }

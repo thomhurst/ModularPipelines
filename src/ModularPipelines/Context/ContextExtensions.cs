@@ -13,45 +13,6 @@ namespace ModularPipelines.Context;
 public static class ContextExtensions
 {
     /// <summary>
-    /// Gets a required service from the DI container.
-    /// </summary>
-    /// <typeparam name="T">The type of service to retrieve.</typeparam>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The service instance.</returns>
-    /// <exception cref="InvalidOperationException">Thrown if the service is not registered.</exception>
-    /// <example>
-    /// <code>
-    /// var myService = context.GetService&lt;IMyService&gt;();
-    /// </code>
-    /// </example>
-    public static T GetService<T>(this IPipelineContext context)
-        where T : class
-    {
-        return context.Services.Get<T>();
-    }
-
-    /// <summary>
-    /// Tries to get a service from the DI container.
-    /// </summary>
-    /// <typeparam name="T">The type of service to retrieve.</typeparam>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The service instance, or null if not registered.</returns>
-    /// <example>
-    /// <code>
-    /// var myService = context.TryGetService&lt;IMyService&gt;();
-    /// if (myService != null)
-    /// {
-    ///     // Use the service
-    /// }
-    /// </code>
-    /// </example>
-    public static T? TryGetService<T>(this IPipelineContext context)
-        where T : class
-    {
-        return context.Services.TryGet<T>();
-    }
-
-    /// <summary>
     /// Gets a configuration value by key, returning null if not found.
     /// </summary>
     /// <param name="context">The pipeline context.</param>

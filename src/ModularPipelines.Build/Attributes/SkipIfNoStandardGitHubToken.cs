@@ -15,7 +15,7 @@ public class SkipIfNoStandardGitHubToken : Attribute, IConditionAttribute
 
     public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
-        var options = pipelineContext.Services.Get<IOptions<GitHubSettings>>();
+        var options = pipelineContext.Services.GetRequiredService<IOptions<GitHubSettings>>();
 
         return Task.FromResult(string.IsNullOrEmpty(options?.Value.StandardToken));
     }

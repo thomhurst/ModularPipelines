@@ -47,5 +47,5 @@ public static class DotNetExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IDotNet"/> service for executing dotnet commands.</returns>
-    public static IDotNet DotNet(this IPipelineContext context) => context.Services.Get<IDotNet>();
+    public static IDotNet DotNet(this IPipelineContext context) => context.Services.GetRequiredService<IDotNet>();
 }

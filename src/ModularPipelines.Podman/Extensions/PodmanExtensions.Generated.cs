@@ -53,5 +53,5 @@ public static class PodmanExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPodman"/> service for executing podman commands.</returns>
-    public static IPodman Podman(this IPipelineContext context) => context.Services.Get<IPodman>();
+    public static IPodman Podman(this IPipelineContext context) => context.Services.GetRequiredService<IPodman>();
 }

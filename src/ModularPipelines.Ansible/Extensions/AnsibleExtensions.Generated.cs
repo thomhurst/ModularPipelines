@@ -37,5 +37,5 @@ public static class AnsibleExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IAnsible"/> service for executing ansible commands.</returns>
-    public static IAnsible Ansible(this IPipelineContext context) => context.Services.Get<IAnsible>();
+    public static IAnsible Ansible(this IPipelineContext context) => context.Services.GetRequiredService<IAnsible>();
 }

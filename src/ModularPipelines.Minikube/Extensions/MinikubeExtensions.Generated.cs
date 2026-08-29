@@ -44,5 +44,5 @@ public static class MinikubeExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IMinikube"/> service for executing minikube commands.</returns>
-    public static IMinikube Minikube(this IPipelineContext context) => context.Services.Get<IMinikube>();
+    public static IMinikube Minikube(this IPipelineContext context) => context.Services.GetRequiredService<IMinikube>();
 }

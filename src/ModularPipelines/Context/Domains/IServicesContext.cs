@@ -14,14 +14,14 @@ public interface IServicesContext
     /// <typeparam name="T">The service type to resolve.</typeparam>
     /// <returns>The resolved service instance.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the service is not registered.</exception>
-    T Get<T>() where T : class;
+    T GetRequiredService<T>() where T : class;
 
     /// <summary>
     /// Tries to resolve a service from the DI container.
     /// </summary>
     /// <typeparam name="T">The service type to resolve.</typeparam>
     /// <returns>The resolved service instance, or <see langword="null"/> when it is not registered.</returns>
-    T? TryGet<T>() where T : class;
+    T? GetService<T>() where T : class;
 
     /// <summary>
     /// Application configuration.

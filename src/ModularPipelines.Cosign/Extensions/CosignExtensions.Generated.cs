@@ -43,5 +43,5 @@ public static class CosignExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ICosign"/> service for executing cosign commands.</returns>
-    public static ICosign Cosign(this IPipelineContext context) => context.Services.Get<ICosign>();
+    public static ICosign Cosign(this IPipelineContext context) => context.Services.GetRequiredService<ICosign>();
 }

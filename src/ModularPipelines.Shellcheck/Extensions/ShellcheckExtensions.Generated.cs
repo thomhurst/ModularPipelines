@@ -37,5 +37,5 @@ public static class ShellcheckExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IShellcheck"/> service for executing shellcheck commands.</returns>
-    public static IShellcheck Shellcheck(this IPipelineContext context) => context.Services.Get<IShellcheck>();
+    public static IShellcheck Shellcheck(this IPipelineContext context) => context.Services.GetRequiredService<IShellcheck>();
 }

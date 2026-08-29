@@ -37,5 +37,5 @@ public static class NewmanExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="INewman"/> service for executing newman commands.</returns>
-    public static INewman Newman(this IPipelineContext context) => context.Services.Get<INewman>();
+    public static INewman Newman(this IPipelineContext context) => context.Services.GetRequiredService<INewman>();
 }

@@ -37,5 +37,5 @@ public static class PnpmExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPnpm"/> service for executing pnpm commands.</returns>
-    public static IPnpm Pnpm(this IPipelineContext context) => context.Services.Get<IPnpm>();
+    public static IPnpm Pnpm(this IPipelineContext context) => context.Services.GetRequiredService<IPnpm>();
 }

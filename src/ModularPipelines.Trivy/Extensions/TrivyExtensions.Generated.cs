@@ -41,5 +41,5 @@ public static class TrivyExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ITrivy"/> service for executing trivy commands.</returns>
-    public static ITrivy Trivy(this IPipelineContext context) => context.Services.Get<ITrivy>();
+    public static ITrivy Trivy(this IPipelineContext context) => context.Services.GetRequiredService<ITrivy>();
 }

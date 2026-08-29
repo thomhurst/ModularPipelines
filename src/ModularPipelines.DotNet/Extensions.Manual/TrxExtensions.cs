@@ -35,5 +35,5 @@ public static class TrxExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ITrx"/> service for parsing TRX test result files.</returns>
-    public static ITrx Trx(this IPipelineContext context) => context.Services.Get<ITrx>();
+    public static ITrx Trx(this IPipelineContext context) => context.Services.GetRequiredService<ITrx>();
 }

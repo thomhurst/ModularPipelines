@@ -37,5 +37,5 @@ public static class PackerExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPacker"/> service for executing packer commands.</returns>
-    public static IPacker Packer(this IPipelineContext context) => context.Services.Get<IPacker>();
+    public static IPacker Packer(this IPipelineContext context) => context.Services.GetRequiredService<IPacker>();
 }

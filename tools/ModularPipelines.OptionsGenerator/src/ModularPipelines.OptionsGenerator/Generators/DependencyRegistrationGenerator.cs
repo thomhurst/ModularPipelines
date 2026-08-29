@@ -121,7 +121,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
             sb.AppendLine("    /// </summary>");
             sb.AppendLine("    /// <param name=\"context\">The pipeline context.</param>");
             sb.AppendLine($"    /// <returns>The <see cref=\"{interfaceName}\"/> service for executing {tool.ToolName} commands.</returns>");
-            sb.AppendLine($"    public static {interfaceName} {serviceName}(this IPipelineContext context) => context.Services.Get<{interfaceName}>();");
+            sb.AppendLine($"    public static {interfaceName} {serviceName}(this IPipelineContext context) => context.Services.GetRequiredService<{interfaceName}>();");
         }
 
         sb.AppendLine("}");

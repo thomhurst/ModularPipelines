@@ -30,5 +30,5 @@ public static class CmdExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The Command Prompt context.</returns>
-    public static ICmdContext Cmd(this IPipelineContext context) => context.Services.Get<ICmdContext>();
+    public static ICmdContext Cmd(this IPipelineContext context) => context.Services.GetRequiredService<ICmdContext>();
 }

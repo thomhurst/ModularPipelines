@@ -40,7 +40,7 @@ public class BranchConditionLoggingTests
                 new ModularPipelines.FileSystem.FolderPath(TestContext.WorkingDirectory)));
         var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
         var services = new Mock<IServicesContext>();
-        services.Setup(x => x.Get<IGit>()).Returns(git);
+        services.Setup(x => x.GetRequiredService<IGit>()).Returns(git);
         var context = Mock.Of<IPipelineContext>(x =>
             x.Logger == logger.Object &&
             x.Services == services.Object);
@@ -64,7 +64,7 @@ public class BranchConditionLoggingTests
                 new ModularPipelines.FileSystem.FolderPath(TestContext.WorkingDirectory)));
         var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
         var services = new Mock<IServicesContext>();
-        services.Setup(x => x.Get<IGit>()).Returns(git);
+        services.Setup(x => x.GetRequiredService<IGit>()).Returns(git);
         var logger = Mock.Of<ILogger>();
         var context = Mock.Of<IPipelineContext>(x =>
             x.Logger == logger &&

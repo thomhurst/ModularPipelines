@@ -16,5 +16,5 @@ public static class MicrosoftTeamsExtensions
         return services;
     }
 
-    public static IMicrosoftTeams MicrosoftTeams(this IPipelineContext context) => context.Services.Get<IMicrosoftTeams>();
+    public static IMicrosoftTeams MicrosoftTeams(this IPipelineContext context) => context.Services.GetRequiredService<IMicrosoftTeams>();
 }
