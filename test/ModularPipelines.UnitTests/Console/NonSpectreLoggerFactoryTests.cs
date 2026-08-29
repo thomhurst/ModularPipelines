@@ -1,13 +1,16 @@
+using System.Text.Json;
 using MEL.Spectre;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Console;
 
+[TUnit.Core.NotInParallel]
 public class NonSpectreLoggerFactoryTests
 {
     [Test]
@@ -22,7 +25,7 @@ public class NonSpectreLoggerFactoryTests
             null));
         using var loggerFactory = new LoggerFactory([provider], CreateOptionsMonitor(options));
         var control = CreateControl();
-        using var factory = CreateFactory(loggerFactory, control.Object, [provider], options);
+        var factory = CreateFactory(loggerFactory, control.Object, [provider], options);
         var logger = factory.CreateLoggers("Allowed.Category").Single();
 
         logger.LogInformation("filtered");
@@ -40,7 +43,7 @@ public class NonSpectreLoggerFactoryTests
         var dynamicProvider = new RecordingLoggerProvider();
         using var loggerFactory = new LoggerFactory([initialProvider]);
         var control = CreateControl();
-        using var factory = CreateFactory(loggerFactory, control.Object, [initialProvider]);
+        var factory = CreateFactory(loggerFactory, control.Object, [initialProvider]);
         var logger = factory.CreateLoggers("Category").Single();
 
         loggerFactory.AddProvider(dynamicProvider);
@@ -55,7 +58,7 @@ public class NonSpectreLoggerFactoryTests
     {
         var effectiveProvider = new RecordingLoggerProvider();
         using var effectiveFactory = new LoggerFactory([effectiveProvider]);
-        using var factory = CreateFactory(
+        var factory = CreateFactory(
             effectiveFactory,
             CreateControl().Object,
             [effectiveProvider]);
@@ -73,7 +76,7 @@ public class NonSpectreLoggerFactoryTests
             LogException = new InvalidOperationException("provider rejected event"),
         };
         using var loggerFactory = new LoggerFactory([failingProvider]);
-        using var factory = CreateFactory(loggerFactory, CreateControl().Object, [failingProvider]);
+        var factory = CreateFactory(loggerFactory, CreateControl().Object, [failingProvider]);
         var logger = factory.CreateLoggers("Category").Single();
 
         var exception = Assert.Throws<ProviderDeliveryException>(
@@ -154,6 +157,63 @@ public class NonSpectreLoggerFactoryTests
         }
     }
 
+    [Test]
+    public async Task CreateLoggers_Uses_Configured_Console_Formatter_Synchronously()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging(builder => builder
+            .ClearProviders()
+            .AddJsonConsole());
+        services.Configure<ConsoleLoggerOptions>(options =>
+            options.LogToStandardErrorThreshold = LogLevel.Warning);
+        await using var serviceProvider = services.BuildServiceProvider();
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        var filterOptions = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
+        var consoleOptions = serviceProvider.GetRequiredService<IOptionsMonitor<ConsoleLoggerOptions>>();
+        var providers = serviceProvider.GetServices<ILoggerProvider>().ToArray();
+        var control = new NoopSpectreConsoleLoggerControl(
+            loggerFactory,
+            filterOptions,
+            providers);
+        var factory = new NonSpectreLoggerFactory(
+            loggerFactory,
+            control,
+            providers,
+            filterOptions,
+            consoleOptions);
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var outputWriter = new StringWriter();
+        var errorWriter = new StringWriter();
+
+        try
+        {
+#pragma warning disable TUnit0055 // Globally non-parallel test restores both writers in finally.
+            System.Console.SetOut(outputWriter);
+            System.Console.SetError(errorWriter);
+#pragma warning restore TUnit0055
+
+            factory.CreateLoggers("Category").Single().LogWarning("formatted");
+
+            using var document = JsonDocument.Parse(errorWriter.ToString());
+            using (Assert.Multiple())
+            {
+                await Assert.That(outputWriter.ToString()).IsEmpty();
+                await Assert.That(document.RootElement.GetProperty("LogLevel").GetString())
+                    .IsEqualTo("Warning");
+                await Assert.That(document.RootElement.GetProperty("Message").GetString())
+                    .IsEqualTo("formatted");
+            }
+        }
+        finally
+        {
+#pragma warning disable TUnit0055 // Restore the process-wide writers before leaving the test.
+            System.Console.SetOut(originalOut);
+            System.Console.SetError(originalError);
+#pragma warning restore TUnit0055
+        }
+    }
+
     private static Mock<ISpectreConsoleLoggerControl> CreateControl()
     {
         var control = new Mock<ISpectreConsoleLoggerControl>();
@@ -161,14 +221,13 @@ public class NonSpectreLoggerFactoryTests
         return control;
     }
 
-    private static IOptionsMonitor<LoggerFilterOptions> CreateOptionsMonitor(
-        LoggerFilterOptions options)
+    private static IOptionsMonitor<T> CreateOptionsMonitor<T>(T options)
     {
-        var monitor = new Mock<IOptionsMonitor<LoggerFilterOptions>>();
+        var monitor = new Mock<IOptionsMonitor<T>>();
         monitor.SetupGet(x => x.CurrentValue).Returns(options);
         monitor.Setup(x => x.Get(It.IsAny<string?>())).Returns(options);
         monitor
-            .Setup(x => x.OnChange(It.IsAny<Action<LoggerFilterOptions, string?>>()))
+            .Setup(x => x.OnChange(It.IsAny<Action<T, string?>>()))
             .Returns(Mock.Of<IDisposable>());
         return monitor.Object;
     }
@@ -181,7 +240,8 @@ public class NonSpectreLoggerFactoryTests
         loggerFactory,
         control,
         providers,
-        CreateOptionsMonitor(options ?? new LoggerFilterOptions()));
+        CreateOptionsMonitor(options ?? new LoggerFilterOptions()),
+        CreateOptionsMonitor(new ConsoleLoggerOptions()));
 
     [ProviderAlias("Recording")]
     private sealed class RecordingLoggerProvider : ILoggerProvider

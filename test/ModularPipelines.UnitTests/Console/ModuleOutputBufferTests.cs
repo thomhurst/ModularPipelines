@@ -1151,6 +1151,7 @@ public class ModuleOutputBufferTests
             NullLoggerFactory.Instance,
             optionsMonitor,
             []);
+        var fallbackLogger = new SynchronousConsoleRecordingLogger(writer);
         var buffer = CreateBufferWithStructuredLog();
 
         await buffer.FlushToAsync(
@@ -1158,14 +1159,16 @@ public class ModuleOutputBufferTests
             new GitHubActionsFormatter(),
             NullLogger.Instance,
             loggerControl,
-            OutputFlushKind.Complete);
+            OutputFlushKind.Complete,
+            [fallbackLogger]);
 
         var output = writer.ToString();
         using (Assert.Multiple())
         {
-            await Assert.That(output).Contains("[INFO] structured log");
+            await Assert.That(output).Contains("formatted: structured log");
+            await Assert.That(output).DoesNotContain("[INFO] structured log");
             await Assert.That(output).DoesNotContain("Timed out waiting");
-            await Assert.That(output.IndexOf("[INFO] structured log", StringComparison.Ordinal))
+            await Assert.That(output.IndexOf("formatted: structured log", StringComparison.Ordinal))
                 .IsLessThan(output.IndexOf("::endgroup::", StringComparison.Ordinal));
         }
     }
@@ -1361,6 +1364,23 @@ public class ModuleOutputBufferTests
             StateTypes.Add(typeof(TState));
             Entries.Add((formatter(state, exception), exception));
         }
+    }
+
+    private sealed class SynchronousConsoleRecordingLogger(TextWriter writer)
+        : ILogger, ISynchronousConsoleLogger
+    {
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) =>
+            writer.WriteLine($"formatted: {formatter(state, exception)}");
     }
 
     private sealed class SynchronousLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl
