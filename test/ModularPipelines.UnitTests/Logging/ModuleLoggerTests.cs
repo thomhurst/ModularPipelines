@@ -458,6 +458,39 @@ public class ModuleLoggerTests
     }
 
     [Test]
+    public async Task WriteMarkupLine_DoesNotApplyCustomObfuscatorTwice()
+    {
+        string? renderedOutput = null;
+        var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
+        moduleOutputBuffer
+            .Setup(x => x.WriteRenderable(
+                It.IsAny<IRenderable>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()))
+            .Callback<IRenderable, string, bool>((_, rendered, _) => renderedOutput = rendered);
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => input switch
+            {
+                "secret" => "masked",
+                "masked" => "masked-twice",
+                _ => input ?? string.Empty,
+            });
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            Mock.Of<ILogger<ModuleLoggerTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            CreateConsoleCoordinator(moduleOutputBuffer.Object).Object,
+            Mock.Of<IOutputCoordinator>());
+
+        logger.WriteMarkupLine("[green]secret[/]");
+
+        await Assert.That(renderedOutput).Contains("masked");
+        await Assert.That(renderedOutput).DoesNotContain("masked-twice");
+    }
+
+    [Test]
     public async Task Write_SnapshotsRenderableAtConfiguredConsoleWidth()
     {
         string? renderedOutput = null;

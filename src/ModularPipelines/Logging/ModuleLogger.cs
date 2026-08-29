@@ -279,7 +279,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     public override void WriteMarkupLine(string value)
     {
-        Markup markup;
+        SecretObfuscatedRenderable markup;
         try
         {
             markup = ObfuscatedMarkup.Create(value, _secretObfuscator);
@@ -300,7 +300,10 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     private void WriteRenderable(IRenderable renderable, bool appendNewLine)
     {
-        var obfuscatedRenderable = new SecretObfuscatedRenderable(renderable, _secretObfuscator);
+        var obfuscatedRenderable = renderable as SecretObfuscatedRenderable
+                                   ?? new SecretObfuscatedRenderable(
+                                       renderable,
+                                       _secretObfuscator);
         var renderWidth = _ansiConsole.Profile.Width;
         var snapshot = obfuscatedRenderable.Snapshot(
             RenderOptions.Create(_ansiConsole),

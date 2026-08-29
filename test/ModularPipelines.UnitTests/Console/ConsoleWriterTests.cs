@@ -213,6 +213,27 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task WriteMarkupLine_DoesNotApplyCustomObfuscatorTwice()
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => input switch
+            {
+                "secret" => "masked",
+                "masked" => "masked-twice",
+                _ => input ?? string.Empty,
+            });
+
+        var output = CaptureFallbackOutput(
+            writer => writer.WriteMarkupLine("[green]secret[/]"),
+            secretObfuscator.Object);
+
+        await Assert.That(output).Contains("masked");
+        await Assert.That(output).DoesNotContain("masked-twice");
+    }
+
+    [Test]
     public async Task WriteMarkupLine_InvalidMarkupUsesConfiguredConsole()
     {
         var output = CaptureFallbackOutput(writer => writer.WriteMarkupLine("[green]unclosed"));

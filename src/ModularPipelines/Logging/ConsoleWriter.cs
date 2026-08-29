@@ -36,9 +36,7 @@ internal class ConsoleWriter : IConsoleWriter
 
         try
         {
-            AnsiConsole.Write(new SecretObfuscatedRenderable(
-                ObfuscatedMarkup.Create(value, _secretObfuscator),
-                _secretObfuscator));
+            AnsiConsole.Write(ObfuscatedMarkup.Create(value, _secretObfuscator));
             AnsiConsole.WriteLine();
         }
         catch (InvalidOperationException)

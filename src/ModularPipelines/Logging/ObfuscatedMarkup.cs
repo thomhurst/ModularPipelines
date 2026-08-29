@@ -7,12 +7,14 @@ namespace ModularPipelines.Logging;
 
 internal static partial class ObfuscatedMarkup
 {
-    internal static Markup Create(string value, ISecretObfuscator secretObfuscator)
+    internal static SecretObfuscatedRenderable Create(
+        string value,
+        ISecretObfuscator secretObfuscator)
     {
         var safeSource = CreateSafeSourceCore(value, secretObfuscator);
         if (safeSource.WasChanged)
         {
-            return new Markup(safeSource.Value);
+            return CreateRenderable(safeSource.Value, secretObfuscator);
         }
 
         var obfuscatedSource = secretObfuscator.Obfuscate(value, null);
@@ -21,11 +23,16 @@ internal static partial class ObfuscatedMarkup
             match => secretObfuscator.Obfuscate(match.Value, null));
         if (string.Equals(tagObfuscatedSource, obfuscatedSource, StringComparison.Ordinal))
         {
-            return new Markup(value);
+            return CreateRenderable(value, secretObfuscator);
         }
 
-        return new Markup(obfuscatedSource);
+        return CreateRenderable(obfuscatedSource, secretObfuscator);
     }
+
+    private static SecretObfuscatedRenderable CreateRenderable(
+        string value,
+        ISecretObfuscator secretObfuscator) =>
+        SecretObfuscatedRenderable.FromPreObfuscated(new Markup(value), secretObfuscator);
 
     internal static string CreateSafeSource(
         string value,

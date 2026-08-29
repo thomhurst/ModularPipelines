@@ -12,9 +12,17 @@ namespace ModularPipelines.Logging;
 /// </summary>
 internal sealed class SecretObfuscatedRenderable(
     IRenderable inner,
-    ISecretObfuscator secretObfuscator) : IRenderable
+    ISecretObfuscator secretObfuscator,
+    bool isObfuscatedBeforeRender = false) : IRenderable
 {
-    private readonly PreparedRenderable _prepared = PrepareRenderable(inner, secretObfuscator);
+    private readonly PreparedRenderable _prepared = isObfuscatedBeforeRender
+        ? Prepared(inner)
+        : PrepareRenderable(inner, secretObfuscator);
+
+    internal static SecretObfuscatedRenderable FromPreObfuscated(
+        IRenderable renderable,
+        ISecretObfuscator secretObfuscator) =>
+        new(renderable, secretObfuscator, isObfuscatedBeforeRender: true);
 
     public Measurement Measure(RenderOptions options, int maxWidth)
     {
