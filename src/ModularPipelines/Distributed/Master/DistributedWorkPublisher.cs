@@ -116,21 +116,8 @@ internal class DistributedWorkPublisher(
         ISet<string> requiredCapabilities,
         IReadOnlyList<OperatingSystemConditions.OperatingSystemRoute> routes)
     {
-        HashSet<string>? effectiveOperatingSystems = null;
         var strictRoutes = routes.Where(static route => !route.IsConditional).ToArray();
-        foreach (var route in strictRoutes)
-        {
-            if (effectiveOperatingSystems is null)
-            {
-                effectiveOperatingSystems = route.OperatingSystems
-                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
-            }
-            else
-            {
-                effectiveOperatingSystems.IntersectWith(route.OperatingSystems);
-            }
-        }
-
+        var effectiveOperatingSystems = IntersectRoutes(strictRoutes);
         if (effectiveOperatingSystems is { Count: 0 })
         {
             foreach (var route in strictRoutes)
@@ -142,8 +129,43 @@ internal class DistributedWorkPublisher(
             return;
         }
 
-        var hasStrictRoutes = effectiveOperatingSystems is not null;
-        foreach (var route in routes.Where(static route => route.IsConditional))
+        effectiveOperatingSystems = ApplyConditionalRoutes(
+            effectiveOperatingSystems,
+            routes.Where(static route => route.IsConditional),
+            hasStrictRoutes: effectiveOperatingSystems is not null);
+        if (effectiveOperatingSystems is { Count: > 0 })
+        {
+            requiredCapabilities.Add(
+                OperatingSystemConditions.GetCapability(effectiveOperatingSystems));
+        }
+    }
+
+    private static HashSet<string>? IntersectRoutes(
+        IEnumerable<OperatingSystemConditions.OperatingSystemRoute> routes)
+    {
+        HashSet<string>? intersection = null;
+        foreach (var route in routes)
+        {
+            if (intersection is null)
+            {
+                intersection = route.OperatingSystems
+                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            }
+            else
+            {
+                intersection.IntersectWith(route.OperatingSystems);
+            }
+        }
+
+        return intersection;
+    }
+
+    private static HashSet<string>? ApplyConditionalRoutes(
+        HashSet<string>? effectiveOperatingSystems,
+        IEnumerable<OperatingSystemConditions.OperatingSystemRoute> routes,
+        bool hasStrictRoutes)
+    {
+        foreach (var route in routes)
         {
             if (effectiveOperatingSystems is null)
             {
@@ -155,21 +177,18 @@ internal class DistributedWorkPublisher(
             var intersection = effectiveOperatingSystems
                 .Intersect(route.OperatingSystems, StringComparer.OrdinalIgnoreCase)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            if (intersection.Count == 0 && !hasStrictRoutes)
+            {
+                return null;
+            }
+
             if (intersection.Count > 0)
             {
                 effectiveOperatingSystems = intersection;
             }
-            else if (!hasStrictRoutes)
-            {
-                return;
-            }
         }
 
-        if (effectiveOperatingSystems is { Count: > 0 })
-        {
-            requiredCapabilities.Add(
-                OperatingSystemConditions.GetCapability(effectiveOperatingSystems));
-        }
+        return effectiveOperatingSystems;
     }
 
     /// <summary>
