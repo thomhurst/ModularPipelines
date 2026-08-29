@@ -36,14 +36,16 @@ internal class ConsoleWriter : IConsoleWriter
 
         try
         {
-            AnsiConsole.Write(new SecretObfuscatedRenderable(new Markup(value), _secretObfuscator));
+            AnsiConsole.Write(new SecretObfuscatedRenderable(
+                CreateObfuscatedMarkup(value),
+                _secretObfuscator));
             AnsiConsole.WriteLine();
         }
         catch (InvalidOperationException)
         {
             // Fall back to plain console output if markup parsing fails
             // (e.g., unbalanced or invalid markup characters)
-            System.Console.WriteLine(_secretObfuscator.Obfuscate(value, null));
+            AnsiConsole.WriteLine(_secretObfuscator.Obfuscate(value, null));
         }
     }
 
@@ -64,5 +66,21 @@ internal class ConsoleWriter : IConsoleWriter
     {
         consoleWriter = ModuleLogger.Values.Value as IConsoleWriter;
         return consoleWriter is not null;
+    }
+
+    private Markup CreateObfuscatedMarkup(string value)
+    {
+        var obfuscatedSource = _secretObfuscator.Obfuscate(value, null);
+        try
+        {
+            return new Markup(obfuscatedSource);
+        }
+        catch (InvalidOperationException) when (!string.Equals(
+            obfuscatedSource,
+            value,
+            StringComparison.Ordinal))
+        {
+            return new Markup(value);
+        }
     }
 }

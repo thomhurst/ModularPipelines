@@ -131,6 +131,7 @@ internal class ModuleRunner : IModuleRunner
         var moduleType = moduleState.ModuleType;
         var moduleName = moduleType.Name;
         var limiterCancellationToken = default(CancellationToken);
+        IInternalModuleLogger? readyLogger = null;
 
         // Create a scope to resolve scoped services like IModuleContext and ModuleLogger<T>
         var scope = _serviceProvider.CreateAsyncScope();
@@ -166,6 +167,7 @@ internal class ModuleRunner : IModuleRunner
                         pipelineContext,
                         scope.ServiceProvider,
                         cancellationToken);
+                    readyLogger = readyLifecycleContext.ConsoleWriter as IInternalModuleLogger;
                     await _pipelineSetupExecutor
                         .OnModuleReadyAsync(moduleState, readyLifecycleContext.ConsoleWriter)
                         .ConfigureAwait(false);
@@ -191,6 +193,7 @@ internal class ModuleRunner : IModuleRunner
                 // until this point prevents limiter wait time from being reported as execution time.
                 if (!scheduler.MarkModuleStarted(moduleType))
                 {
+                    readyLogger?.PreserveBufferForDeferredExecution();
                     _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
                     return; // Module will be rescheduled by the scheduler
                 }

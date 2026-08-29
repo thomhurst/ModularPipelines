@@ -44,6 +44,7 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IA
     protected readonly object _disposeLock = new();
     protected Exception? _exception;
     protected ModuleStatus _status = ModuleStatus.Succeeded;
+    protected bool _preserveBufferForDeferredExecution;
 
     public abstract void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter);
 
@@ -70,6 +71,11 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IA
     public void SetStatus(ModuleStatus status)
     {
         _status = status;
+    }
+
+    public void PreserveBufferForDeferredExecution()
+    {
+        _preserveBufferForDeferredExecution = true;
     }
 }
 
@@ -165,14 +171,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             }
 
             _isDisposed = true;
-
-            if (_exception != null)
-            {
-                _buffer.SetException(_exception);
-            }
-
-            _buffer.SetStatus(_status);
-            _buffer.MarkComplete();
+            CompleteBuffer();
         }
 
         GC.SuppressFinalize(this);
@@ -190,15 +189,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             }
 
             _isDisposed = true;
-
-            if (_exception != null)
-            {
-                _buffer.SetException(_exception);
-            }
-
-            _buffer.SetStatus(_status);
-            _buffer.MarkComplete();
-            shouldFlush = true;
+            shouldFlush = CompleteBuffer();
         }
 
         if (shouldFlush)
@@ -225,6 +216,23 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         }
 
         GC.SuppressFinalize(this);
+    }
+
+    private bool CompleteBuffer()
+    {
+        if (_preserveBufferForDeferredExecution)
+        {
+            return false;
+        }
+
+        if (_exception != null)
+        {
+            _buffer.SetException(_exception);
+        }
+
+        _buffer.SetStatus(_status);
+        _buffer.MarkComplete();
+        return true;
     }
 
     private void LogFlushTimeout()
@@ -263,7 +271,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     public override void WriteLine(string value)
     {
         var obfuscated = _secretObfuscator.Obfuscate(value, null) ?? value;
-        _buffer.WriteLine(Markup.Escape(obfuscated));
+        _buffer.WriteRenderable(new Markup(Markup.Escape(obfuscated)), obfuscated);
     }
 
     public override void WriteMarkupLine(string value)
@@ -271,7 +279,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         Markup markup;
         try
         {
-            markup = new Markup(value);
+            markup = CreateObfuscatedMarkup(value);
         }
         catch (InvalidOperationException)
         {
@@ -290,14 +298,33 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     private void WriteRenderable(IRenderable renderable)
     {
         var obfuscatedRenderable = new SecretObfuscatedRenderable(renderable, _secretObfuscator);
+        var snapshot = obfuscatedRenderable.Snapshot(
+            RenderOptions.Create(_renderConsole),
+            _renderConsole.Profile.Width);
         string rendered;
         lock (_renderLock)
         {
             _renderWriter.GetStringBuilder().Clear();
-            _renderConsole.Write(obfuscatedRenderable);
+            _renderConsole.Write(snapshot);
             rendered = _renderWriter.ToString();
         }
 
-        _buffer.WriteRenderable(obfuscatedRenderable, rendered);
+        _buffer.WriteRenderable(snapshot, rendered);
+    }
+
+    private Markup CreateObfuscatedMarkup(string value)
+    {
+        var obfuscatedSource = _secretObfuscator.Obfuscate(value, null);
+        try
+        {
+            return new Markup(obfuscatedSource);
+        }
+        catch (InvalidOperationException) when (!string.Equals(
+            obfuscatedSource,
+            value,
+            StringComparison.Ordinal))
+        {
+            return new Markup(value);
+        }
     }
 }

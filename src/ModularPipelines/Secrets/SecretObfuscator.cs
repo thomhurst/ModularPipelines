@@ -126,6 +126,11 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
     }
 
     internal MappedObfuscatedOutput ObfuscatePreservingMasksWithSourceMap(string input)
+        => ObfuscateWithSourceMap(input, preserveExistingMasks: true);
+
+    internal MappedObfuscatedOutput ObfuscateWithSourceMap(
+        string input,
+        bool preserveExistingMasks)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -142,12 +147,27 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             return CreateUnchangedSourceMap(input);
         }
 
+        var comparison = caseInsensitive
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        if (!preserveExistingMasks
+            && secretCache.Secrets.Any(secret =>
+                !string.IsNullOrEmpty(secret) && maskValue.Contains(secret, comparison)))
+        {
+            const string safeMask = "[MASKED]";
+            maskValue = secretCache.Secrets.Any(secret =>
+                !string.IsNullOrEmpty(secret) && safeMask.Contains(secret, comparison))
+                ? string.Empty
+                : safeMask;
+        }
+
         return ObfuscateMatchesWithSourceMap(
             input,
             secretCache.Secrets,
             secretCache.SearchValues,
             maskValue,
-            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+            comparison,
+            preserveExistingMasks);
     }
 
     internal SecretRegistrationState GetRegistrationState()
@@ -164,6 +184,12 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             : StringComparison.Ordinal;
         return secrets.All(secret =>
             string.IsNullOrEmpty(secret) || !maskValue.Contains(secret, comparison));
+    }
+
+    internal bool CanSafelyPreserveRegisteredMasks()
+    {
+        var options = _maskingOptions.Value;
+        return CanSafelyPreserveMasks(GetRegisteredSecretCache(options.CaseInsensitive).Secrets);
     }
 
     internal SecretCache GetSecretCache(
@@ -338,9 +364,12 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         IReadOnlyList<string> secrets,
         SearchValues<string> searchValues,
         string maskValue,
-        StringComparison comparison)
+        StringComparison comparison,
+        bool preserveExistingMasks)
     {
-        var existingMaskRanges = GetMaskRanges(input, maskValue);
+        var existingMaskRanges = preserveExistingMasks
+            ? GetMaskRanges(input, maskValue)
+            : [];
         var maskRangeIndex = 0;
         var sourceToOutputByteOffsets = new int[input.Length + 1];
         var result = new StringBuilder(input.Length);

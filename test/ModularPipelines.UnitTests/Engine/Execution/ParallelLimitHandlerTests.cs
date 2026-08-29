@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
+using ModularPipelines.Console;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
@@ -112,12 +113,17 @@ public class ParallelLimitHandlerTests
         await executionTask;
 
         scheduler.Verify(x => x.MarkModuleStarted(typeof(ReadyTestModule)), Times.Once);
+        var outputBuffer = host.Services
+            .GetRequiredService<IConsoleCoordinator>()
+            .GetModuleBuffer(typeof(ReadyTestModule));
+        await Assert.That(outputBuffer.IsComplete).IsFalse();
 
         await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
 
         handler.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()), Times.Once);
         await Assert.That(TrackingReadyAttribute.InvocationCount).IsEqualTo(1);
         scheduler.Verify(x => x.MarkModuleStarted(typeof(ReadyTestModule)), Times.Exactly(2));
+        await Assert.That(outputBuffer.IsComplete).IsFalse();
     }
 
     [Test]

@@ -144,7 +144,7 @@ public class ConsoleWriterTests
     {
         var output = await RunAsync<WriteLineModule>();
 
-        await Assert.That(output).Contains("[[green]]module output[[/]]");
+        await Assert.That(output).Contains("[green]module output[/]");
     }
 
     [Test]
@@ -152,7 +152,7 @@ public class ConsoleWriterTests
     {
         var output = await RunAsync<WriteInvalidMarkupModule>();
 
-        await Assert.That(output).Contains("[[green]]unclosed");
+        await Assert.That(output).Contains("[green]unclosed");
     }
 
     [Test]
@@ -177,6 +177,25 @@ public class ConsoleWriterTests
         var output = CaptureFallbackOutput(writer => writer.WriteMarkupLine("[green]a secret value[/]"));
 
         await AssertFallbackOutputIsObfuscated(output);
+    }
+
+    [Test]
+    public async Task WriteMarkupLine_InvalidMarkupUsesConfiguredConsole()
+    {
+        var output = CaptureFallbackOutput(writer => writer.WriteMarkupLine("[green]unclosed"));
+
+        await Assert.That(output).Contains("[green]unclosed");
+    }
+
+    [Test]
+    public async Task WriteMarkupLine_ObfuscatesMarkupWrappedSecret()
+    {
+        var output = CaptureFallbackOutput(
+            writer => writer.WriteMarkupLine("[red]secret[/]"),
+            CreateSecretObfuscator("[red]secret[/]"));
+
+        await Assert.That(output).Contains("**********");
+        await Assert.That(output).DoesNotContain("secret");
     }
 
     [Test]
@@ -223,7 +242,7 @@ public class ConsoleWriterTests
     }
 
     [Test]
-    public async Task Write_CustomObfuscatorUsesPlainFallbackStyle()
+    public async Task Write_CustomObfuscatorPreservesSegmentStyles()
     {
         var secretObfuscator = new Mock<ISecretObfuscator>();
         secretObfuscator
@@ -238,9 +257,60 @@ public class ConsoleWriterTests
         using (Assert.Multiple())
         {
             await Assert.That(output).Contains("masked");
-            await Assert.That(output).DoesNotContain("\u001b[31m");
-            await Assert.That(output).DoesNotContain("\u001b[34m");
+            await Assert.That(output).Contains("\u001b[");
+            await Assert.That(output.Split("masked").Length - 1).IsEqualTo(2);
         }
+    }
+
+    [Test]
+    public async Task Write_ObfuscatesSecretInHyperlinkTarget()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new Markup("[link=https://example.test/token]label[/]"),
+            CreateSecretObfuscator("token"));
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .ToArray();
+
+        var url = segments.Select(static segment => segment.Link?.Url)
+            .First(static value => value is not null)!;
+        await Assert.That(url).Contains("**********");
+        await Assert.That(url).DoesNotContain("token");
+    }
+
+    [Test]
+    public async Task Write_MeasuresObfuscatedWidth()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new Text("tiny"),
+            CreateSecretObfuscator("tiny"));
+
+        var measurement = renderable.Measure(
+            RenderOptions.Create(AnsiConsole.Console),
+            80);
+
+        await Assert.That(measurement.Max).IsEqualTo(10);
+    }
+
+    [Test]
+    public async Task Write_DoesNotPreserveMaskContainingSecret()
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(0);
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, ["REDACT"]));
+        var obfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                MaskValue = "[REDACTED]",
+            }));
+        var output = CaptureFallbackOutput(
+            writer => writer.Write(new Text("[REDACTED]")),
+            obfuscator);
+
+        await Assert.That(output).DoesNotContain("REDACT");
     }
 
     [Test]

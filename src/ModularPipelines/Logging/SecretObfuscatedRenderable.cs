@@ -12,9 +12,16 @@ internal sealed class SecretObfuscatedRenderable(
     IRenderable inner,
     ISecretObfuscator secretObfuscator) : IRenderable
 {
-    public Measurement Measure(RenderOptions options, int maxWidth) => inner.Measure(options, maxWidth);
+    public Measurement Measure(RenderOptions options, int maxWidth) =>
+        MeasureSegments(GetSegments(options, maxWidth), maxWidth);
 
-    public IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
+    public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) =>
+        GetSegments(options, maxWidth);
+
+    internal IRenderable Snapshot(RenderOptions options, int maxWidth) =>
+        new SegmentSnapshotRenderable(GetSegments(options, maxWidth));
+
+    private Segment[] GetSegments(RenderOptions options, int maxWidth)
     {
         var segments = inner.Render(options, maxWidth).ToArray();
         var visibleText = string.Concat(
@@ -22,33 +29,32 @@ internal sealed class SecretObfuscatedRenderable(
 
         if (visibleText.Length == 0)
         {
-            return segments;
+            return ObfuscateLinks(segments);
         }
 
         if (secretObfuscator is SecretObfuscator concreteObfuscator)
         {
+            var preserveMasks = concreteObfuscator.CanSafelyPreserveRegisteredMasks();
             return MapSegments(
                 segments,
-                concreteObfuscator.ObfuscatePreservingMasksWithSourceMap(visibleText));
+                concreteObfuscator.ObfuscateWithSourceMap(visibleText, preserveMasks));
         }
 
-        var obfuscated = secretObfuscator.Obfuscate(visibleText, null);
-        return string.Equals(obfuscated, visibleText, StringComparison.Ordinal)
-            ? segments
-            : MapFallbackSegments(segments, obfuscated);
+        return MapFallbackSegments(segments);
     }
 
-    private static IEnumerable<Segment> MapSegments(
-        IReadOnlyList<Segment> segments,
+    private Segment[] MapSegments(
+        Segment[] segments,
         SecretObfuscator.MappedObfuscatedOutput mappedOutput)
     {
+        var output = new List<Segment>(segments.Length);
         var outputBytes = Encoding.UTF8.GetBytes(mappedOutput.Value);
         var sourceOffset = 0;
         foreach (var segment in segments)
         {
             if (segment.IsControlCode)
             {
-                yield return segment;
+                output.Add(segment);
                 continue;
             }
 
@@ -59,30 +65,59 @@ internal sealed class SecretObfuscatedRenderable(
 
             if (outputEnd > outputStart)
             {
-                yield return new Segment(
+                output.Add(new Segment(
                     Encoding.UTF8.GetString(outputBytes, outputStart, outputEnd - outputStart),
                     segment.Style,
-                    segment.Link);
+                    ObfuscateLink(segment.Link)));
             }
         }
+
+        return [.. output];
     }
 
-    private static IEnumerable<Segment> MapFallbackSegments(
-        IReadOnlyList<Segment> segments,
-        string obfuscated)
+    private Segment[] MapFallbackSegments(Segment[] segments)
     {
-        var hasWrittenVisibleText = false;
-        foreach (var segment in segments)
+        return [.. segments.Select(segment => segment.IsControlCode
+            ? segment
+            : new Segment(
+                secretObfuscator.Obfuscate(segment.Text, null),
+                segment.Style,
+                ObfuscateLink(segment.Link)))];
+    }
+
+    private Segment[] ObfuscateLinks(Segment[] segments) =>
+        [.. segments.Select(segment => segment.IsControlCode || segment.Link is null
+            ? segment
+            : new Segment(segment.Text, segment.Style, ObfuscateLink(segment.Link)))];
+
+    private Link? ObfuscateLink(Link? link)
+    {
+        if (link is null)
         {
-            if (segment.IsControlCode)
-            {
-                yield return segment;
-            }
-            else if (!hasWrittenVisibleText)
-            {
-                hasWrittenVisibleText = true;
-                yield return new Segment(obfuscated, Style.Plain);
-            }
+            return null;
         }
+
+        var obfuscatedUrl = secretObfuscator.Obfuscate(link.Url, null);
+        return string.Equals(obfuscatedUrl, link.Url, StringComparison.Ordinal)
+            ? link
+            : new Link(obfuscatedUrl);
+    }
+
+    private static Measurement MeasureSegments(Segment[] segments, int maxWidth)
+    {
+        var width = Segment.SplitLines(segments)
+            .Select(static line => line.CellCount())
+            .DefaultIfEmpty(0)
+            .Max();
+        width = Math.Min(width, maxWidth);
+        return new Measurement(width, width);
+    }
+
+    private sealed class SegmentSnapshotRenderable(Segment[] segments) : IRenderable
+    {
+        public Measurement Measure(RenderOptions options, int maxWidth) =>
+            MeasureSegments(segments, maxWidth);
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) => segments;
     }
 }
