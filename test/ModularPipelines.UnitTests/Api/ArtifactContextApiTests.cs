@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Extensions;
@@ -169,6 +170,23 @@ public class ArtifactContextApiTests
         await Assert.That(factory.CreatedStore.DisposeCount).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task Ready_Hook_Artifacts_Use_The_Hook_Module_Type()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ReadyArtifactModule>()
+            .AddDistributedArtifactStore<TestArtifactStore>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var store = (TestArtifactStore) pipeline.Services
+            .GetRequiredService<IDistributedArtifactStore>();
+
+        await pipeline.RunAsync();
+
+        await Assert.That(store.UploadedDescriptor!.ModuleTypeName)
+            .IsEqualTo(typeof(ReadyArtifactModule).FullName);
+    }
+
     private sealed class ArtifactTestModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -177,13 +195,49 @@ public class ArtifactContextApiTests
             => Task.FromResult(string.Empty);
     }
 
+    [PublishArtifactOnReady]
+    private sealed class ReadyArtifactModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+            => Task.FromResult(string.Empty);
+    }
+
+    private sealed class PublishArtifactOnReadyAttribute : Attribute, IModuleReadyHandler
+    {
+        public async Task OnModuleReadyAsync(IModuleHookContext context)
+        {
+            var path = Path.GetTempFileName();
+            try
+            {
+                await context.Artifacts.PublishFileAsync("ready", path);
+            }
+            finally
+            {
+                File.Delete(path);
+            }
+        }
+    }
+
     public class TestArtifactStore : IDistributedArtifactStore
     {
+        public ArtifactDescriptor? UploadedDescriptor { get; private set; }
+
         public Task<ArtifactReference> UploadAsync(
             ArtifactDescriptor descriptor,
             Stream data,
             CancellationToken cancellationToken)
-            => throw new NotSupportedException();
+        {
+            UploadedDescriptor = descriptor;
+            return Task.FromResult(new ArtifactReference(
+                Guid.NewGuid().ToString("N"),
+                descriptor.Name,
+                descriptor.ModuleTypeName,
+                data.Length,
+                descriptor.ContentType,
+                DateTimeOffset.UtcNow));
+        }
 
         public Task<Stream> DownloadAsync(
             ArtifactReference reference,

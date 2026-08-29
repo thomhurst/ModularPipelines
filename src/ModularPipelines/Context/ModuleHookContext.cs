@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
 using ModularPipelines.Logging;
@@ -31,6 +32,9 @@ internal class ModuleHookContext : IModuleHookContext
         Result = result;
         _pipelineContext = pipelineContext;
         _metadataRegistry = metadataRegistry;
+        Artifacts = pipelineContext.Artifacts is IModuleScopedArtifactContext scopedArtifacts
+            ? scopedArtifacts.ForModule(ModuleType)
+            : pipelineContext.Artifacts;
     }
 
     #region IModuleHookContext members
@@ -118,7 +122,7 @@ internal class ModuleHookContext : IModuleHookContext
     public IToolsContext Tools => _pipelineContext.Tools;
 
     /// <inheritdoc />
-    public IArtifactContext Artifacts => _pipelineContext.Artifacts;
+    public IArtifactContext Artifacts { get; }
 
     /// <inheritdoc />
     public ISummaryLogger Summary => _pipelineContext.Summary;

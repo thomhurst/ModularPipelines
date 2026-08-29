@@ -8,10 +8,11 @@ namespace ModularPipelines.Distributed.Artifacts;
 /// Implementation of <see cref="IArtifactContext"/> wrapping <see cref="IDistributedArtifactStore"/>
 /// with convenience methods for file and directory operations.
 /// </summary>
-internal class ArtifactContextImpl : IArtifactContext
+internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactContext
 {
     private readonly IDistributedArtifactStore _store;
     private readonly ArtifactOptions _options;
+    private readonly string? _moduleTypeName;
 
     public ArtifactContextImpl(
         IDistributedArtifactStore store,
@@ -20,6 +21,18 @@ internal class ArtifactContextImpl : IArtifactContext
         _store = store;
         _options = options;
     }
+
+    private ArtifactContextImpl(
+        IDistributedArtifactStore store,
+        ArtifactOptions options,
+        string moduleTypeName)
+        : this(store, options)
+    {
+        _moduleTypeName = moduleTypeName;
+    }
+
+    public IArtifactContext ForModule(Type moduleType)
+        => new ArtifactContextImpl(_store, _options, moduleType.FullName ?? moduleType.Name);
 
     public async Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, CancellationToken cancellationToken)
     {
@@ -101,8 +114,14 @@ internal class ArtifactContextImpl : IArtifactContext
             destinationPath,
             cancellationToken);
 
-    private static string GetCurrentModuleTypeName()
-        => ModuleLogger.CurrentModuleType.Value?.FullName
+    private string GetCurrentModuleTypeName()
+        => _moduleTypeName
+           ?? ModuleLogger.CurrentModuleType.Value?.FullName
            ?? throw new InvalidOperationException(
                "Artifacts can only be published while a module is executing.");
+}
+
+internal interface IModuleScopedArtifactContext
+{
+    IArtifactContext ForModule(Type moduleType);
 }
