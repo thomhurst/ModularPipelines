@@ -8,7 +8,6 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
-using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;

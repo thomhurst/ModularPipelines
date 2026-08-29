@@ -12,7 +12,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine;
-using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;

@@ -1,7 +1,6 @@
 using ModularPipelines.Events;
 using System.Reflection;
 using ModularPipelines.Context;
-using ModularPipelines.Events;
 
 namespace ModularPipelines.UnitTests.Context;
 

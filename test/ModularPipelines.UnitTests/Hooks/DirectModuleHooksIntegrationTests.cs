@@ -4,7 +4,6 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
-using ModularPipelines.Events;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;

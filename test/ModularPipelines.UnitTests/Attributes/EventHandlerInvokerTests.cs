@@ -2,7 +2,6 @@ using ModularPipelines.Events;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
-using ModularPipelines.Events;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Attributes;

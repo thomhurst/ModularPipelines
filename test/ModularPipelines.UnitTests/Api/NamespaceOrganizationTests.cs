@@ -30,7 +30,7 @@ public class NamespaceOrganizationTests
             (typeof(ModuleConfigurationBuilder), "ModularPipelines"),
             (typeof(IShellContext), "ModularPipelines.Context"),
             (typeof(IHttpContext), "ModularPipelines.Context"),
-            (typeof(IPipelineGlobalHooks), "ModularPipelines.Events"),
+            (typeof(IPipelineEventHandler), "ModularPipelines.Events"),
             (typeof(IModuleStartHandler), "ModularPipelines.Events"),
             (typeof(IModuleHookContext), "ModularPipelines.Events"),
             (typeof(ISecretRegistry), "ModularPipelines.Secrets"),

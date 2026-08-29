@@ -18,7 +18,6 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
-using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;

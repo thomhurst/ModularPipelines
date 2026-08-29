@@ -7,7 +7,6 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
-using ModularPipelines.Events;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Moq;
