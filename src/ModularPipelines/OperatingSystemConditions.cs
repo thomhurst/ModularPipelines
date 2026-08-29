@@ -444,8 +444,17 @@ internal static class OperatingSystemConditions
 
         if (!typeof(ConditionGroup).IsAssignableFrom(conditionType)
             || !typeof(IPlanningRunCondition).IsAssignableFrom(conditionType)
-            || Activator.CreateInstance(conditionType) is not ConditionGroup group
-            || group.Conditions.Count == 0)
+            || Activator.CreateInstance(conditionType) is not ConditionGroup group)
+        {
+            return null;
+        }
+
+        return GetSupportedOperatingSystems(group);
+    }
+
+    private static HashSet<string>? GetSupportedOperatingSystems(ConditionGroup group)
+    {
+        if (group.Conditions.Count == 0)
         {
             return null;
         }
