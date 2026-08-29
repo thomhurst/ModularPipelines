@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Buildah
 ```
 
 Resolve the service with `context.Tools.Buildah`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<IBuildah>()` instead.
 
 ## Module example
 

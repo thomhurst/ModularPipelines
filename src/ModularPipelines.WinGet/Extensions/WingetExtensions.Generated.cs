@@ -38,6 +38,6 @@ public static class WingetExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IWinget"/> service for executing winget commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Winget.")]
+    [global::System.Obsolete("Use context.Tools.Get<IWinget>().")]
     public static IWinget Winget(this IPipelineContext context) => context.Services.GetRequiredService<IWinget>();
 }

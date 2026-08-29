@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Flyway
 ```
 
 Resolve the service with `context.Tools.Flyway`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<IFlyway>()` instead.
 
 ## Module example
 

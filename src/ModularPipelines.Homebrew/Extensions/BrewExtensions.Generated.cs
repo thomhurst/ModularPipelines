@@ -38,6 +38,6 @@ public static class BrewExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IBrew"/> service for executing brew commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Brew.")]
+    [global::System.Obsolete("Use context.Tools.Get<IBrew>().")]
     public static IBrew Brew(this IPipelineContext context) => context.Services.GetRequiredService<IBrew>();
 }

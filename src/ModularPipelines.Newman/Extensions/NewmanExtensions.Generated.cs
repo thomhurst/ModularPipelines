@@ -38,6 +38,6 @@ public static class NewmanExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="INewman"/> service for executing newman commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Newman.")]
+    [global::System.Obsolete("Use context.Tools.Get<INewman>().")]
     public static INewman Newman(this IPipelineContext context) => context.Services.GetRequiredService<INewman>();
 }

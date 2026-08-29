@@ -45,6 +45,6 @@ public static class HelmExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IHelm"/> service for executing helm commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Helm.")]
+    [global::System.Obsolete("Use context.Tools.Get<IHelm>().")]
     public static IHelm Helm(this IPipelineContext context) => context.Services.GetRequiredService<IHelm>();
 }

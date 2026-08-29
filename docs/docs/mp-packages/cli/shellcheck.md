@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Shellcheck
 ```
 
 Resolve the service with `context.Tools.Shellcheck`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<IShellcheck>()` instead.
 
 ## Module example
 

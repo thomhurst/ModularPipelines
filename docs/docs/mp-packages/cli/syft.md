@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Syft
 ```
 
 Resolve the service with `context.Tools.Syft`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ISyft>()` instead.
 
 ## Module example
 

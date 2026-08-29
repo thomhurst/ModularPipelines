@@ -38,6 +38,6 @@ public static class SnykExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISnyk"/> service for executing snyk commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Snyk.")]
+    [global::System.Obsolete("Use context.Tools.Get<ISnyk>().")]
     public static ISnyk Snyk(this IPipelineContext context) => context.Services.GetRequiredService<ISnyk>();
 }

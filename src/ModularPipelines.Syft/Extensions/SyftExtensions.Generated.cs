@@ -40,6 +40,6 @@ public static class SyftExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISyft"/> service for executing syft commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Syft.")]
+    [global::System.Obsolete("Use context.Tools.Get<ISyft>().")]
     public static ISyft Syft(this IPipelineContext context) => context.Services.GetRequiredService<ISyft>();
 }

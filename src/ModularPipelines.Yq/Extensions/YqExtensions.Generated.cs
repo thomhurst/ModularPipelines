@@ -38,6 +38,6 @@ public static class YqExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IYq"/> service for executing yq commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Yq.")]
+    [global::System.Obsolete("Use context.Tools.Get<IYq>().")]
     public static IYq Yq(this IPipelineContext context) => context.Services.GetRequiredService<IYq>();
 }

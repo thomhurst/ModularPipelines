@@ -38,6 +38,6 @@ public static class SonarScannerExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISonarScanner"/> service for executing sonar-scanner commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.SonarScanner.")]
+    [global::System.Obsolete("Use context.Tools.Get<ISonarScanner>().")]
     public static ISonarScanner SonarScanner(this IPipelineContext context) => context.Services.GetRequiredService<ISonarScanner>();
 }

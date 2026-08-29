@@ -44,6 +44,6 @@ public static class CosignExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ICosign"/> service for executing cosign commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Cosign.")]
+    [global::System.Obsolete("Use context.Tools.Get<ICosign>().")]
     public static ICosign Cosign(this IPipelineContext context) => context.Services.GetRequiredService<ICosign>();
 }

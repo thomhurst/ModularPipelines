@@ -36,7 +36,7 @@ public static class AwsExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The aws service.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Aws.")]
+    [global::System.Obsolete("Use context.Tools.Get<IAws>().")]
     public static IAws Aws(this IPipelineContext context)
     {
         return context.Services.GetRequiredService<IAws>();

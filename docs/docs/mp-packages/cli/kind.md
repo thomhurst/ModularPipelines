@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Kind
 ```
 
 Resolve the service with `context.Tools.Kind`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<IKind>()` instead.
 
 ## Module example
 

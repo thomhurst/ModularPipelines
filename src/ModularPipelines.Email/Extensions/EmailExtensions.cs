@@ -18,7 +18,7 @@ public static class EmailExtensions
 
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
 
-    [global::System.Obsolete("Use context.Tools.Email.")]
+    [global::System.Obsolete("Use context.Tools.Get<IEmail>().")]
 
     public static IEmail Email(this IPipelineContext context) => context.Services.GetRequiredService<IEmail>();
 }

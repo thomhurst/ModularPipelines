@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Helm
 ```
 
 Resolve the service with `context.Tools.Helm`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<IHelm>()` instead.
 
 ## Module example
 

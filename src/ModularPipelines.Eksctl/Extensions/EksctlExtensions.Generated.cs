@@ -53,6 +53,6 @@ public static class EksctlExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IEksctl"/> service for executing eksctl commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Eksctl.")]
+    [global::System.Obsolete("Use context.Tools.Get<IEksctl>().")]
     public static IEksctl Eksctl(this IPipelineContext context) => context.Services.GetRequiredService<IEksctl>();
 }

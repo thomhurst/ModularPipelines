@@ -56,6 +56,6 @@ public static class FluxExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IFlux"/> service for executing flux commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Flux.")]
+    [global::System.Obsolete("Use context.Tools.Get<IFlux>().")]
     public static IFlux Flux(this IPipelineContext context) => context.Services.GetRequiredService<IFlux>();
 }

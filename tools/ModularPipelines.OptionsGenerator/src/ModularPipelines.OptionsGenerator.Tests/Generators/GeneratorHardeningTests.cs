@@ -256,12 +256,14 @@ public class GeneratorHardeningTests
             .GenerateAsync(Tool(Command("ToolRunOptions", "ToolOptions", ["run"]))))
             .Single();
 
-        await Assert.That(registrationFile.Content)
-            .Contains("[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]");
-        await Assert.That(registrationFile.Content)
-            .Contains("[global::System.Obsolete(\"Use context.Tools.Tool.\")]");
-        await Assert.That(registrationFile.Content)
-            .Contains("public static ITool Tool(this IPipelineContext context)");
+        var expectedDeclaration = string.Join(Environment.NewLine,
+        [
+            "    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]",
+            "    [global::System.Obsolete(\"Use context.Tools.Get<ITool>().\")]",
+            "    public static ITool Tool(this IPipelineContext context)",
+        ]);
+
+        await Assert.That(registrationFile.Content).Contains(expectedDeclaration);
     }
 
     #region NormalizeCommandClassNames

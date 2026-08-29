@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Jq
 ```
 
 Resolve the service with `context.Tools.Jq`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<IJq>()` instead.
 
 ## Module example
 

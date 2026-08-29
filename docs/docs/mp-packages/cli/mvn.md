@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Java
 ```
 
 Resolve the service with `context.Tools.Maven`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<IMaven>()` instead.
 
 ## Module example
 

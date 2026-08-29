@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Podman
 ```
 
 Resolve the service with `context.Tools.Podman`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<IPodman>()` instead.
 
 ## Module example
 

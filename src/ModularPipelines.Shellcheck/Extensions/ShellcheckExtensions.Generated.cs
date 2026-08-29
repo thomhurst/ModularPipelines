@@ -38,6 +38,6 @@ public static class ShellcheckExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IShellcheck"/> service for executing shellcheck commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Shellcheck.")]
+    [global::System.Obsolete("Use context.Tools.Get<IShellcheck>().")]
     public static IShellcheck Shellcheck(this IPipelineContext context) => context.Services.GetRequiredService<IShellcheck>();
 }

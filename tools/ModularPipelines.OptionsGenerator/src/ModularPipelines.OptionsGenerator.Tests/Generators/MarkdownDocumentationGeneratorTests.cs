@@ -56,6 +56,7 @@ public class MarkdownDocumentationGeneratorTests
             .Contains("This package does not install the `fake-cli` executable");
         await Assert.That(files[0].Content).Contains("`fake-cli` is available on `PATH`");
         await Assert.That(files[0].Content).Contains("context.Tools.Fake");
+        await Assert.That(files[0].Content).Contains("context.Tools.Get<IFake>()");
         await Assert.That(files[0].Content).DoesNotContain("context.Fake()");
         await Assert.That(files[0].Content)
             .DoesNotContain("using ModularPipelines.Fake.Extensions;");

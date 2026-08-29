@@ -14,6 +14,7 @@ dotnet add package ModularPipelines.Snyk
 ```
 
 Resolve the service with `context.Tools.Snyk`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ISnyk>()` instead.
 
 ## Module example
 

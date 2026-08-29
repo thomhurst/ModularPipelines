@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Hadolint
 ```
 
 Resolve the service with `context.Tools.Hadolint`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<IHadolint>()` instead.
 
 ## Module example
 

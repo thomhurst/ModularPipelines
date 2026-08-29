@@ -38,6 +38,6 @@ public static class GradleExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGradle"/> service for executing gradle commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Gradle.")]
+    [global::System.Obsolete("Use context.Tools.Get<IGradle>().")]
     public static IGradle Gradle(this IPipelineContext context) => context.Services.GetRequiredService<IGradle>();
 }

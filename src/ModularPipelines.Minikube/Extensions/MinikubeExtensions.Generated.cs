@@ -45,6 +45,6 @@ public static class MinikubeExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IMinikube"/> service for executing minikube commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Minikube.")]
+    [global::System.Obsolete("Use context.Tools.Get<IMinikube>().")]
     public static IMinikube Minikube(this IPipelineContext context) => context.Services.GetRequiredService<IMinikube>();
 }

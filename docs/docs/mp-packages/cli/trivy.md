@@ -20,6 +20,7 @@ dotnet add package ModularPipelines.Trivy
 ```
 
 Resolve the service with `context.Tools.Trivy`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ITrivy>()` instead.
 
 ## Module example
 

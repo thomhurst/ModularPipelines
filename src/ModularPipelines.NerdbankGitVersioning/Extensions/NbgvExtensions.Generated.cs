@@ -38,6 +38,6 @@ public static class NbgvExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="INbgv"/> service for executing nbgv commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Nbgv.")]
+    [global::System.Obsolete("Use context.Tools.Get<INbgv>().")]
     public static INbgv Nbgv(this IPipelineContext context) => context.Services.GetRequiredService<INbgv>();
 }

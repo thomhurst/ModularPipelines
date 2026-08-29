@@ -35,7 +35,9 @@ await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
 ```
 
 `context.Tools.DotNet` is the canonical API and does not require an integration extension
-namespace import. Legacy `context.DotNet()` access is obsolete and hidden from IntelliSense.
+namespace import. Projects using C# 13 or another .NET language can use
+`context.Tools.Get<IDotNet>()`. Legacy `context.DotNet()` access is obsolete and hidden
+from IntelliSense.
 
 ## Strong Typing
 

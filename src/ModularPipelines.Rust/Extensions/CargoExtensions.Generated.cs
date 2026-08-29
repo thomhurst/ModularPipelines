@@ -38,6 +38,6 @@ public static class CargoExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ICargo"/> service for executing cargo commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Cargo.")]
+    [global::System.Obsolete("Use context.Tools.Get<ICargo>().")]
     public static ICargo Cargo(this IPipelineContext context) => context.Services.GetRequiredService<ICargo>();
 }
