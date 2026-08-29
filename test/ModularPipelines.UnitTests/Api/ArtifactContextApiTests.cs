@@ -1,6 +1,8 @@
+using System.IO.Compression;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Events;
 using ModularPipelines.Modules;
@@ -222,6 +224,30 @@ public class ArtifactContextApiTests
 
         await Assert.That(store.UploadedDescriptor!.ModuleTypeName)
             .IsEqualTo(typeof(ReadyArtifactModule).FullName);
+    }
+
+    [Test]
+    public async Task Directory_Archive_Excludes_Destination_Inside_Source()
+    {
+        var sourceDirectory = Directory.CreateTempSubdirectory("artifact-archive-").FullName;
+        var archivePath = Path.Combine(sourceDirectory, "artifact.zip");
+        await File.WriteAllTextAsync(Path.Combine(sourceDirectory, "payload.txt"), "payload");
+
+        try
+        {
+            ArtifactContextImpl.CreateDirectoryArchive(
+                sourceDirectory,
+                archivePath,
+                CompressionLevel.Fastest);
+
+            using var archive = ZipFile.OpenRead(archivePath);
+            await Assert.That(archive.Entries.Select(static entry => entry.FullName))
+                .IsEquivalentTo(["payload.txt"]);
+        }
+        finally
+        {
+            Directory.Delete(sourceDirectory, recursive: true);
+        }
     }
 
     private sealed class ArtifactTestModule : Module<string>

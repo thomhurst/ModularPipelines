@@ -57,17 +57,55 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         var temporaryArchivePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.zip");
         try
         {
-            ZipFile.CreateFromDirectory(
+            CreateDirectoryArchive(
                 directoryPath,
                 temporaryArchivePath,
-                _options.CompressionLevel,
-                includeBaseDirectory: false);
+                _options.CompressionLevel);
             await using var stream = File.OpenRead(temporaryArchivePath);
             return await _store.UploadAsync(descriptor, stream, cancellationToken);
         }
         finally
         {
             File.Delete(temporaryArchivePath);
+        }
+    }
+
+    internal static void CreateDirectoryArchive(
+        string directoryPath,
+        string archivePath,
+        CompressionLevel compressionLevel)
+    {
+        var sourceDirectory = Path.GetFullPath(directoryPath);
+        var fullArchivePath = Path.GetFullPath(archivePath);
+        var pathComparison = OperatingSystem.IsWindows()
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+
+        using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Create);
+        foreach (var directory in Directory.EnumerateDirectories(
+                     sourceDirectory,
+                     "*",
+                     SearchOption.AllDirectories))
+        {
+            var entryName = Path.GetRelativePath(sourceDirectory, directory)
+                .Replace(Path.DirectorySeparatorChar, '/')
+                .TrimEnd('/') + "/";
+            archive.CreateEntry(entryName, compressionLevel);
+        }
+
+        foreach (var file in Directory.EnumerateFiles(
+                     sourceDirectory,
+                     "*",
+                     SearchOption.AllDirectories))
+        {
+            if (string.Equals(Path.GetFullPath(file), fullArchivePath, pathComparison))
+            {
+                continue;
+            }
+
+            var entryName = Path.GetRelativePath(sourceDirectory, file)
+                .Replace(Path.DirectorySeparatorChar, '/');
+            archive.CreateEntryFromFile(file, entryName, compressionLevel);
         }
     }
 
