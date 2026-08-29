@@ -10,8 +10,8 @@ internal sealed class NoopSpectreConsoleLoggerControl(
     IEnumerable<ILoggerProvider> loggerProviders)
     : ISpectreConsoleLoggerControl
 {
-    private static readonly string? ConsoleProviderName = typeof(ConsoleLoggerProvider).FullName;
     private const string ConsoleProviderAlias = "Console";
+    private static readonly string? ConsoleProviderName = typeof(ConsoleLoggerProvider).FullName;
     private readonly bool _hasConsoleProvider = loggerProviders.Any(static provider =>
         provider is ConsoleLoggerProvider);
 
@@ -75,32 +75,28 @@ internal sealed class NoopSpectreConsoleLoggerControl(
         string? providerName,
         string categoryName)
     {
-        if (rule.ProviderName is not null && rule.ProviderName != providerName)
+        if (!MatchesProvider(rule.ProviderName, providerName)
+            || !MatchesCategory(rule.CategoryName, categoryName))
         {
             return false;
         }
 
-        if (!MatchesCategory(rule.CategoryName, categoryName))
+        var ruleTargetsProvider = rule.ProviderName is not null;
+        var selectedRuleTargetsProvider = selectedRule?.ProviderName is not null;
+        if (ruleTargetsProvider != selectedRuleTargetsProvider)
         {
-            return false;
+            return ruleTargetsProvider;
         }
 
-        if (selectedRule?.ProviderName is not null)
-        {
-            if (rule.ProviderName is null)
-            {
-                return false;
-            }
-        }
-        else if (rule.ProviderName is not null)
-        {
-            return true;
-        }
-
-        return selectedRule?.CategoryName is null
-               || (rule.CategoryName is not null
-                   && selectedRule.CategoryName.Length <= rule.CategoryName.Length);
+        return IsAtLeastAsSpecific(rule.CategoryName, selectedRule?.CategoryName);
     }
+
+    private static bool MatchesProvider(string? ruleProviderName, string? providerName) =>
+        ruleProviderName is null || ruleProviderName == providerName;
+
+    private static bool IsAtLeastAsSpecific(string? ruleCategory, string? selectedCategory) =>
+        selectedCategory is null
+        || (ruleCategory is not null && selectedCategory.Length <= ruleCategory.Length);
 
     private static bool MatchesCategory(string? ruleCategory, string categoryName)
     {
