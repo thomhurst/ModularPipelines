@@ -651,7 +651,7 @@ public sealed class PipelineBuilder
             _lock.Wait();
             try
             {
-                (_inner as IDisposable)?.Dispose();
+                DisposeStore(_inner);
             }
             finally
             {
@@ -718,6 +718,18 @@ public sealed class PipelineBuilder
             else
             {
                 (store as IDisposable)?.Dispose();
+            }
+        }
+
+        private static void DisposeStore(IDistributedArtifactStore? store)
+        {
+            if (store is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+            else if (store is IAsyncDisposable asyncDisposable)
+            {
+                asyncDisposable.DisposeAsync().AsTask().GetAwaiter().GetResult();
             }
         }
     }

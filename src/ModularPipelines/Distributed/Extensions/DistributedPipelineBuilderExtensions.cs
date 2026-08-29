@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ModularPipelines.Distributed.Extensions;
 
@@ -79,6 +80,7 @@ public static class DistributedPipelineBuilderExtensions
         this PipelineBuilder builder)
         where TStore : class, IDistributedArtifactStore
     {
+        builder.Services.RemoveAll<IDistributedArtifactStoreFactory>();
         builder.Services.AddSingleton<IDistributedArtifactStore, TStore>();
         return builder;
     }

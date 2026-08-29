@@ -100,6 +100,25 @@ public class ArtifactContextApiTests
     }
 
     [Test]
+    public async Task Direct_Artifact_Store_Overrides_Earlier_Factory()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ArtifactTestModule>()
+            .AddDistributedArtifactStoreFactory<TestArtifactStoreFactory>()
+            .AddDistributedArtifactStore<TestArtifactStore>();
+
+        await using var pipeline = await builder.BuildAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(pipeline.Services.GetRequiredService<IDistributedArtifactStore>())
+                .IsTypeOf<TestArtifactStore>();
+            await Assert.That(pipeline.Services.GetService<IDistributedArtifactStoreFactory>())
+                .IsNull();
+        }
+    }
+
+    [Test]
     public async Task Artifact_Store_Factory_Disposes_Created_Store()
     {
         var builder = TestPipelineBuilder.Create()
@@ -114,6 +133,24 @@ public class ArtifactContextApiTests
         await pipeline.DisposeAsync();
 
         await Assert.That(factory.CreatedStore!.DisposeCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Artifact_Store_Factory_Synchronous_Disposal_Disposes_Async_Store()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ArtifactTestModule>()
+            .AddDistributedArtifactStoreFactory<TestArtifactStoreFactory>();
+        var pipeline = await builder.BuildAsync();
+        var factory = (TestArtifactStoreFactory) pipeline.Services
+            .GetRequiredService<IDistributedArtifactStoreFactory>();
+        var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
+
+        _ = await store.ListArtifactsAsync("module", CancellationToken.None);
+        ((IDisposable) store).Dispose();
+
+        await Assert.That(factory.CreatedStore!.DisposeCount).IsEqualTo(1);
+        await pipeline.DisposeAsync();
     }
 
     [Test]
