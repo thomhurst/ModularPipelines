@@ -29597,7 +29597,7 @@ The package exposes generated options records for its supported CLI commands.
 
 * The .NET ecosystem is rich with features and libraries. You can utilize what already exists and not have to re-invent the wheel.
 
-* If you're already a .NET developer, you don't have to concern yourself as much with the different features, languages or syntaxes of different build systems. No need for YAML-based pipeline definitions, Powershell scripts, bash scripts, or even just unfamiliar UI based build systems.
+* If you're already a .NET developer, you don't have to concern yourself as much with the different features, languages or syntaxes of different build systems. No need for YAML-based pipeline definitions, PowerShell scripts, bash scripts, or even just unfamiliar UI based build systems.
 
 * Strong typing - We can structure our modules with objects that we can pass around, and we know what data we then have available to use.
 
