@@ -62,7 +62,10 @@ internal class ArtifactContextImpl : IArtifactContext
     {
         cancellationToken.ThrowIfCancellationRequested();
         var artifacts = await _store.ListArtifactsAsync(producerModuleTypeName, cancellationToken);
-        var artifact = artifacts.FirstOrDefault(a => a.Name == artifactName)
+        var artifact = artifacts
+            .Where(a => a.Name == artifactName)
+            .OrderByDescending(static a => a.UploadedAt)
+            .FirstOrDefault()
             ?? throw new InvalidOperationException(
                 $"Artifact '{artifactName}' from module '{producerModuleTypeName}' not found.");
 

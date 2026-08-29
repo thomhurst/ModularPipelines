@@ -175,6 +175,47 @@ public class ArtifactContextTests
         }
     }
 
+    [Test]
+    public async Task Download_Selects_Latest_Named_Artifact()
+    {
+        var firstAttempt = CreateArtifact("first", DateTimeOffset.UtcNow.AddMinutes(-1));
+        var successfulRetry = CreateArtifact("retry", DateTimeOffset.UtcNow);
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(artifactStore => artifactStore.ListArtifactsAsync(
+                typeof(ProducerModule).FullName!,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync([firstAttempt, successfulRetry]);
+        store.Setup(artifactStore => artifactStore.DownloadAsync(
+                successfulRetry,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(() => new MemoryStream("current"u8.ToArray()));
+        var context = new ArtifactContextImpl(store.Object, new ArtifactOptions());
+        var destinationPath = Path.GetTempFileName();
+
+        try
+        {
+            await context.DownloadAsync<ProducerModule>("output", destinationPath);
+
+            await Assert.That(await File.ReadAllTextAsync(destinationPath)).IsEqualTo("current");
+            store.Verify(artifactStore => artifactStore.DownloadAsync(
+                successfulRetry,
+                It.IsAny<CancellationToken>()));
+        }
+        finally
+        {
+            File.Delete(destinationPath);
+        }
+    }
+
+    private static ArtifactReference CreateArtifact(string id, DateTimeOffset uploadedAt) =>
+        new(
+            ArtifactId: id,
+            Name: "output",
+            ModuleTypeName: typeof(ProducerModule).FullName!,
+            SizeBytes: 7,
+            ContentType: "application/octet-stream",
+            UploadedAt: uploadedAt);
+
     private sealed class ProducerModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
