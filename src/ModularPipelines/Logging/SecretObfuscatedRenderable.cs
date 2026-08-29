@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using ModularPipelines.Engine;
@@ -171,6 +172,7 @@ internal sealed class SecretObfuscatedRenderable(
         Align align => PrepareAlign(align, secretObfuscator),
         Columns columns => PrepareColumns(columns, secretObfuscator),
         Grid grid => PrepareGrid(grid, secretObfuscator),
+        Layout layout => PrepareLayout(layout, secretObfuscator),
         Padder padder => PreparePadder(padder, secretObfuscator),
         Panel panel => PreparePanel(panel, secretObfuscator),
         Rule rule => PrepareRule(rule, secretObfuscator),
@@ -235,6 +237,41 @@ internal sealed class SecretObfuscatedRenderable(
     {
         Expand = padder.Expand,
     };
+
+    private static Layout PrepareLayout(
+        Layout layout,
+        ISecretObfuscator secretObfuscator)
+    {
+        var preparedLayout = new Layout(
+            layout.Name,
+            new SecretObfuscatedRenderable(GetLayoutRenderable(layout), secretObfuscator))
+        {
+            IsVisible = layout.IsVisible,
+            Ratio = layout.Ratio,
+            Size = layout.Size,
+        };
+        if (layout.MinimumSize > 0)
+        {
+            preparedLayout.MinimumSize = layout.MinimumSize;
+        }
+
+        var children = GetLayoutChildren(layout)
+            .Select(child => PrepareLayout(child, secretObfuscator))
+            .ToArray();
+
+        if (children.Length == 0)
+        {
+            return preparedLayout;
+        }
+
+        return GetLayoutSplitter(layout).GetType().Name switch
+        {
+            "RowSplitter" => preparedLayout.SplitRows(children),
+            "ColumnSplitter" => preparedLayout.SplitColumns(children),
+            var splitter => throw new InvalidOperationException(
+                $"Unsupported Spectre layout splitter '{splitter}'."),
+        };
+    }
 
     private static Panel PreparePanel(
         Panel panel,
@@ -383,6 +420,12 @@ internal sealed class SecretObfuscatedRenderable(
     private static extern ref readonly IRenderable GetPanelChild(Panel panel);
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_children")]
+    private static extern ref readonly Layout[] GetLayoutChildren(Layout layout);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_renderable")]
+    private static extern ref readonly IRenderable GetLayoutRenderable(Layout layout);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_children")]
     private static extern ref readonly List<IRenderable> GetRowChildren(Rows rows);
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_root")]
@@ -390,6 +433,15 @@ internal sealed class SecretObfuscatedRenderable(
 
     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "get_Renderable")]
     private static extern IRenderable GetTreeNodeRenderable(TreeNode node);
+
+    private static object GetLayoutSplitter(Layout layout) =>
+        LayoutSplitterField.GetValue(layout)
+        ?? throw new InvalidOperationException("Spectre layout has no splitter.");
+
+    private static readonly FieldInfo LayoutSplitterField = typeof(Layout).GetField(
+        "_splitter",
+        BindingFlags.Instance | BindingFlags.NonPublic)
+        ?? throw new MissingFieldException(typeof(Layout).FullName, "_splitter");
 
     private Segment[] ObfuscateLinks(Segment[] segments) =>
         [.. segments.Select(segment => segment.IsControlCode
