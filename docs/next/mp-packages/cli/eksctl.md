@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Eksctl
 ```
 
-Resolve the service with `context.Tools.Eksctl`. For projects older than C# 14, import `ModularPipelines.Eksctl.Extensions` and use the `context.Eksctl()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Eksctl`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Eksctl.Services.IEksctl>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

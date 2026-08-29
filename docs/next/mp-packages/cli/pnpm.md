@@ -8,7 +8,7 @@
 dotnet add package ModularPipelines.Node
 ```
 
-Resolve the service with `context.Tools.Pnpm`. For projects older than C# 14, import `ModularPipelines.Node.Extensions` and use the `context.Pnpm()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Pnpm`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Node.Services.IPnpm>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

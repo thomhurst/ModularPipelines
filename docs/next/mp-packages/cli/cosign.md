@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Cosign
 ```
 
-Resolve the service with `context.Tools.Cosign`. For projects older than C# 14, import `ModularPipelines.Cosign.Extensions` and use the `context.Cosign()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Cosign`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Cosign.Services.ICosign>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

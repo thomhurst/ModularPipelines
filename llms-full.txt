@@ -3356,19 +3356,19 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 2. **Add ModularPipelines to your script:** You can add ModularPipelines as a package reference in your F# script. At the top of your `example.fsx`, add the following line:
 
    ```
-   #r "nuget: ModularPipelines, 3.*"
+   #r "nuget: ModularPipelines, 4.*"
    ```
 
    Alternatively, you can specify a specific version:
 
    ```
-   #r "nuget: ModularPipelines, 3.2.8"
+   #r "nuget: ModularPipelines, 4.0.0"
    ```
 
 3. **Write your F# code:** Below the package reference, you can write your F# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to check the dotnet version:
 
    ```
-   #r "nuget: ModularPipelines.DotNet, 3.*"
+   #r "nuget: ModularPipelines.DotNet, 4.*"
 
    open ModularPipelines.DotNet
 
@@ -3377,6 +3377,8 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
    open ModularPipelines.Context
 
    open ModularPipelines.DotNet.Extensions
+
+   open ModularPipelines.DotNet.Services
 
    open ModularPipelines.Extensions
 
@@ -3396,7 +3398,7 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
        override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
 
-               context.DotNet().Workload.Update(cancellationToken = cancellationToken)
+               context.Tools.Get<IDotNet>().Workload.Update(cancellationToken = cancellationToken)
 
 
 
@@ -3410,7 +3412,7 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
        override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
 
-               context.DotNet().Sdk.Check(cancellationToken = cancellationToken);
+               context.Tools.Get<IDotNet>().Sdk.Check(cancellationToken = cancellationToken);
 
 
 
@@ -3591,7 +3593,7 @@ await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
 }, cancellationToken: cancellationToken);
 ```
 
-`context.Tools.DotNet` is the canonical C# 14 API and does not require an integration extension namespace import. The older `context.DotNet()` extension method remains available as a compatibility fallback for projects using an earlier C# language version. When a project declares an integration accessor in its own compilation, source-generator warning `MPG0008` identifies that fallback on earlier language versions.
+`context.Tools.DotNet` is the canonical API and does not require an integration extension namespace import. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Legacy `context.DotNet()` access is obsolete and hidden from IntelliSense.
 
 ## Strong Typing[​](#strong-typing "Direct link to Strong Typing")
 
@@ -5389,6 +5391,8 @@ Version 4 replaces the process-wide `ModularPipelinesContextRegistry` and integr
 For a hand-written integration, mark its service-registration method:
 
 ```
+using System.ComponentModel;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using ModularPipelines.Attributes;
@@ -5421,12 +5425,16 @@ The method must be accessible from its assembly, static, non-generic, declared o
 To expose the integration through the discoverable `context.Tools.PrivateWidget` API, keep its public `IPipelineContext` extension accessor in the same static class as the attributed registration method:
 
 ```
+[EditorBrowsable(EditorBrowsableState.Never)]
+
+[Obsolete("Use context.Tools.Get<global::YourCompany.Pipelines.PrivateWidget.IPrivateWidget>().")]
+
 public static IPrivateWidget PrivateWidget(this IPipelineContext context) =>
 
     context.Services.GetRequiredService<IPrivateWidget>();
 ```
 
-The generator uses that shared declaring type to associate the accessor with its registration. Accessor names must be unique across all referenced integration packages. They also cannot use names already exposed by `IToolsContext` or `object`, such as `Get` or `GetType`, because instance-member lookup would hide the generated property. `context.Tools.*` is the preferred discoverable API; the original extension method remains available for compatibility. Generated tool properties use C# 14 extension members. On older language versions, registration metadata still generates and `MPG0008` explains why the optional `Tools` property was skipped and names the `context.X()` compatibility accessor.
+The generator uses that shared declaring type to associate the accessor with its registration. Accessor names must be unique across all referenced integration packages. They also cannot use names already exposed by `IToolsContext` or `object`, such as `Get` or `GetType`, because instance-member lookup would hide the generated property. `context.Tools.*` is the preferred discoverable API. The original extension method can remain as an obsolete, IntelliSense-hidden compatibility fallback. Generated tool properties use C# 14 extension members. On older language versions, registration metadata still generates and `MPG0008` explains why the optional `Tools` property was skipped; use `context.Tools.Get<YourCompany.Pipelines.PrivateWidget.IPrivateWidget>()` instead. Replace `YourCompany.Pipelines.PrivateWidget` with the namespace containing your interface.
 
 Referencing the `ModularPipelines` package includes the source generator as an analyzer. The generator emits immutable assembly registration metadata, which each pipeline consumes independently. Remove the old parameterless module initializer and any call to `ModularPipelinesContextRegistry.RegisterContext`.
 
@@ -7938,7 +7946,7 @@ public class MyModule : Module<CommandResult>
 
         .WithSkipWhen(
 
-            async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
+            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
 
             "This should only run on the main branch");
 
@@ -7970,7 +7978,7 @@ public class MyModule : Module<CommandResult>
 
         {
 
-            var repositoryInfo = await ctx.Git().Information.GetInfoAsync();
+            var repositoryInfo = await ctx.Tools.Git.Information.GetInfoAsync();
 
             return repositoryInfo?.BranchName != "main";
 
@@ -8034,7 +8042,7 @@ public class CleanupModule : Module<CommandResult>
 
         .WithSkipWhen(
 
-            async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
+            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
 
             "Not on the main branch")
 
@@ -8132,7 +8140,7 @@ Module event metadata generation was skipped because a concrete module type is g
 
 ## MPG0008[​](#mpg0008 "Direct link to MPG0008")
 
-A tool accessor cannot generate a discoverable `context.Tools` property because the consuming project uses a language version older than C# 14. Registration metadata still generates. Use C# 14 or preview to enable the property, or use the diagnostic's `context.X()` compatibility accessor.
+A tool accessor cannot generate a discoverable `context.Tools` property because the consuming project uses a language version older than C# 14. Registration metadata still generates. Use C# 14 or preview to enable the property, or use `context.Tools.Get<Your.Namespace.IIntegration>()` when upgrading is not possible.
 
 **Severity:** Warning
 
@@ -8260,7 +8268,7 @@ public class MyModuleRepository : IModuleResultRepository
 
     {
 
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
 
         var commit = repositoryInfo?.LastCommitSha;
 
@@ -8274,7 +8282,7 @@ public class MyModuleRepository : IModuleResultRepository
 
     {
 
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
 
         var commit = repositoryInfo?.LastCommitSha;
 
@@ -11664,7 +11672,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Ansible
 ```
 
-Resolve the service with `context.Tools.Ansible`. For projects older than C# 14, import `ModularPipelines.Ansible.Extensions` and use the `context.Ansible()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Ansible`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Ansible.Services.IAnsible>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -11733,7 +11741,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.ArgoCd
 ```
 
-Resolve the service with `context.Tools.ArgoCd`. For projects older than C# 14, import `ModularPipelines.ArgoCd.Extensions` and use the `context.ArgoCd()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.ArgoCd`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.ArgoCd.Services.IArgoCd>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -11928,7 +11936,7 @@ var argoCd = context.Tools.ArgoCd;
 dotnet add package ModularPipelines.Azure
 ```
 
-Resolve the service with `context.Tools.Az`. For projects older than C# 14, import `ModularPipelines.Azure.Extensions` and use the `context.Az()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Az`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Azure.Services.IAz>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -15095,7 +15103,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Homebrew
 ```
 
-Resolve the service with `context.Tools.Brew`. For projects older than C# 14, import `ModularPipelines.Homebrew.Extensions` and use the `context.Brew()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Brew`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Homebrew.Services.IBrew>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -15250,7 +15258,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Buildah
 ```
 
-Resolve the service with `context.Tools.Buildah`. For projects older than C# 14, import `ModularPipelines.Buildah.Extensions` and use the `context.Buildah()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Buildah`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Buildah.Services.IBuildah>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -15349,7 +15357,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Rust
 ```
 
-Resolve the service with `context.Tools.Cargo`. For projects older than C# 14, import `ModularPipelines.Rust.Extensions` and use the `context.Cargo()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Cargo`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Rust.Services.ICargo>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -15433,7 +15441,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Chocolatey
 ```
 
-Resolve the service with `context.Tools.Choco`. For projects older than C# 14, import `ModularPipelines.Chocolatey.Extensions` and use the `context.Choco()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Choco`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Chocolatey.Services.IChoco>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -15494,7 +15502,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Cosign
 ```
 
-Resolve the service with `context.Tools.Cosign`. For projects older than C# 14, import `ModularPipelines.Cosign.Extensions` and use the `context.Cosign()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Cosign`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Cosign.Services.ICosign>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -15557,7 +15565,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Docker
 ```
 
-Resolve the service with `context.Tools.Docker`. For projects older than C# 14, import `ModularPipelines.Docker.Extensions` and use the `context.Docker()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Docker`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Docker.Services.IDocker>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -15824,7 +15832,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.DotNet
 ```
 
-Resolve the service with `context.Tools.DotNet`. For projects older than C# 14, import `ModularPipelines.DotNet.Extensions` and use the `context.DotNet()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.DotNet`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -15983,7 +15991,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Eksctl
 ```
 
-Resolve the service with `context.Tools.Eksctl`. For projects older than C# 14, import `ModularPipelines.Eksctl.Extensions` and use the `context.Eksctl()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Eksctl`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Eksctl.Services.IEksctl>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -16102,7 +16110,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Flux
 ```
 
-Resolve the service with `context.Tools.Flux`. For projects older than C# 14, import `ModularPipelines.Flux.Extensions` and use the `context.Flux()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Flux`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Flux.Services.IFlux>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -16309,7 +16317,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Flyway
 ```
 
-Resolve the service with `context.Tools.Flyway`. For projects older than C# 14, import `ModularPipelines.Flyway.Extensions` and use the `context.Flyway()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Flyway`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Flyway.Services.IFlyway>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -16356,7 +16364,7 @@ var flyway = context.Tools.Flyway;
 dotnet add package ModularPipelines.Google
 ```
 
-Resolve the service with `context.Tools.Gcloud`. For projects older than C# 14, import `ModularPipelines.Google.Extensions` and use the `context.Gcloud()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Gcloud`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Google.Services.IGcloud>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24055,7 +24063,7 @@ public class RunCommandModule : Module<CommandResult>
 dotnet add package ModularPipelines.GitHub
 ```
 
-Resolve the service with `context.Tools.Gh`. For projects older than C# 14, import `ModularPipelines.GitHub.Extensions` and use the `context.Gh()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Gh`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.GitHub.Services.IGh>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24234,7 +24242,7 @@ public class RunCommandModule : Module<CommandResult>
 dotnet add package ModularPipelines.Go
 ```
 
-Resolve the service with `context.Tools.Go`. For projects older than C# 14, import `ModularPipelines.Go.Extensions` and use the `context.Go()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Go`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Go.Services.IGo>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24301,7 +24309,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Java
 ```
 
-Resolve the service with `context.Tools.Gradle`. For projects older than C# 14, import `ModularPipelines.Java.Extensions` and use the `context.Gradle()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Gradle`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Java.Services.IGradle>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24336,7 +24344,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Grype
 ```
 
-Resolve the service with `context.Tools.Grype`. For projects older than C# 14, import `ModularPipelines.Grype.Extensions` and use the `context.Grype()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Grype`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Grype.Services.IGrype>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24382,7 +24390,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Hadolint
 ```
 
-Resolve the service with `context.Tools.Hadolint`. For projects older than C# 14, import `ModularPipelines.Hadolint.Extensions` and use the `context.Hadolint()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Hadolint`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Hadolint.Services.IHadolint>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24417,7 +24425,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Helm
 ```
 
-Resolve the service with `context.Tools.Helm`. For projects older than C# 14, import `ModularPipelines.Helm.Extensions` and use the `context.Helm()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Helm`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Helm.Services.IHelm>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24529,7 +24537,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Jq
 ```
 
-Resolve the service with `context.Tools.Jq`. For projects older than C# 14, import `ModularPipelines.Jq.Extensions` and use the `context.Jq()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Jq`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Jq.Services.IJq>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24600,7 +24608,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Kind
 ```
 
-Resolve the service with `context.Tools.Kind`. For projects older than C# 14, import `ModularPipelines.Kind.Extensions` and use the `context.Kind()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Kind`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Kind.Services.IKind>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24645,7 +24653,7 @@ var kind = context.Tools.Kind;
 dotnet add package ModularPipelines.Kubernetes
 ```
 
-Resolve the service with `context.Tools.Kubernetes`. For projects older than C# 14, import `ModularPipelines.Kubernetes.Extensions` and use the `context.Kubernetes()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Kubernetes`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Kubernetes.Services.IKubernetes>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24761,7 +24769,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Kubernetes
 ```
 
-Resolve the service with `context.Tools.Kustomize`. For projects older than C# 14, import `ModularPipelines.Kubernetes.Extensions` and use the `context.Kustomize()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Kustomize`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Kubernetes.Services.IKustomize>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24840,7 +24848,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Liquibase
 ```
 
-Resolve the service with `context.Tools.Liquibase`. For projects older than C# 14, import `ModularPipelines.Liquibase.Extensions` and use the `context.Liquibase()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Liquibase`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Liquibase.Services.ILiquibase>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -24995,7 +25003,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Minikube
 ```
 
-Resolve the service with `context.Tools.Minikube`. For projects older than C# 14, import `ModularPipelines.Minikube.Extensions` and use the `context.Minikube()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Minikube`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Minikube.Services.IMinikube>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25075,7 +25083,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Java
 ```
 
-Resolve the service with `context.Tools.Maven`. For projects older than C# 14, import `ModularPipelines.Java.Extensions` and use the `context.Maven()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Maven`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Java.Services.IMaven>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25114,7 +25122,7 @@ Install the nbgv .NET tool globally or in a tool path available on PATH.
 dotnet add package ModularPipelines.NerdbankGitVersioning
 ```
 
-Resolve the service with `context.Tools.Nbgv`. For projects older than C# 14, import `ModularPipelines.NerdbankGitVersioning.Extensions` and use the `context.Nbgv()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Nbgv`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.NerdbankGitVersioning.Services.INbgv>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25183,7 +25191,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Newman
 ```
 
-Resolve the service with `context.Tools.Newman`. For projects older than C# 14, import `ModularPipelines.Newman.Extensions` and use the `context.Newman()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Newman`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Newman.Services.INewman>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25212,7 +25220,7 @@ var newman = context.Tools.Newman;
 dotnet add package ModularPipelines.Packer
 ```
 
-Resolve the service with `context.Tools.Packer`. For projects older than C# 14, import `ModularPipelines.Packer.Extensions` and use the `context.Packer()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Packer`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Packer.Services.IPacker>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25277,7 +25285,7 @@ public class RunCommandModule : Module<CommandResult>
 dotnet add package ModularPipelines.Python
 ```
 
-Resolve the service with `context.Tools.Pip`. For projects older than C# 14, import `ModularPipelines.Python.Extensions` and use the `context.Pip()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Pip`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Python.Services.IPip>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25347,7 +25355,7 @@ public class RunCommandModule : Module<CommandResult>
 dotnet add package ModularPipelines.Node
 ```
 
-Resolve the service with `context.Tools.Pnpm`. For projects older than C# 14, import `ModularPipelines.Node.Extensions` and use the `context.Pnpm()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Pnpm`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Node.Services.IPnpm>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25425,7 +25433,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Podman
 ```
 
-Resolve the service with `context.Tools.Podman`. For projects older than C# 14, import `ModularPipelines.Podman.Extensions` and use the `context.Podman()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Podman`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Podman.Services.IPodman>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25697,7 +25705,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Pulumi
 ```
 
-Resolve the service with `context.Tools.Pulumi`. For projects older than C# 14, import `ModularPipelines.Pulumi.Extensions` and use the `context.Pulumi()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Pulumi`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Pulumi.Services.IPulumi>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25957,7 +25965,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Shellcheck
 ```
 
-Resolve the service with `context.Tools.Shellcheck`. For projects older than C# 14, import `ModularPipelines.Shellcheck.Extensions` and use the `context.Shellcheck()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Shellcheck`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Shellcheck.Services.IShellcheck>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -25992,7 +26000,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Skopeo
 ```
 
-Resolve the service with `context.Tools.Skopeo`. For projects older than C# 14, import `ModularPipelines.Skopeo.Extensions` and use the `context.Skopeo()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Skopeo`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Skopeo.Services.ISkopeo>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -26031,7 +26039,7 @@ var skopeo = context.Tools.Skopeo;
 dotnet add package ModularPipelines.Snyk
 ```
 
-Resolve the service with `context.Tools.Snyk`. For projects older than C# 14, import `ModularPipelines.Snyk.Extensions` and use the `context.Snyk()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Snyk`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Snyk.Services.ISnyk>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -26115,7 +26123,7 @@ The generator workflow downloads the Linux x64 SonarScanner CLI distribution.
 dotnet add package ModularPipelines.SonarScanner
 ```
 
-Resolve the service with `context.Tools.SonarScanner`. For projects older than C# 14, import `ModularPipelines.SonarScanner.Extensions` and use the `context.SonarScanner()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.SonarScanner`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.SonarScanner.Services.ISonarScanner>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -26150,7 +26158,7 @@ See the [syft installation guide](https://oss.anchore.com/docs/installation/syft
 dotnet add package ModularPipelines.Syft
 ```
 
-Resolve the service with `context.Tools.Syft`. For projects older than C# 14, import `ModularPipelines.Syft.Extensions` and use the `context.Syft()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Syft`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Syft.Services.ISyft>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -26192,7 +26200,7 @@ See the [terraform installation guide](https://developer.hashicorp.com/terraform
 dotnet add package ModularPipelines.Terraform
 ```
 
-Resolve the service with `context.Tools.Terraform`. For projects older than C# 14, import `ModularPipelines.Terraform.Extensions` and use the `context.Terraform()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Terraform`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Terraform.Services.ITerraform>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -26317,7 +26325,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Trivy
 ```
 
-Resolve the service with `context.Tools.Trivy`. For projects older than C# 14, import `ModularPipelines.Trivy.Extensions` and use the `context.Trivy()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Trivy`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Trivy.Services.ITrivy>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -26382,7 +26390,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Vault
 ```
 
-Resolve the service with `context.Tools.Vault`. For projects older than C# 14, import `ModularPipelines.Vault.Extensions` and use the `context.Vault()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Vault`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Vault.Services.IVault>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -26566,7 +26574,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.WinGet
 ```
 
-Resolve the service with `context.Tools.Winget`. For projects older than C# 14, import `ModularPipelines.WinGet.Extensions` and use the `context.Winget()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Winget`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.WinGet.Services.IWinget>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -26642,7 +26650,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Yarn
 ```
 
-Resolve the service with `context.Tools.Yarn`. For projects older than C# 14, import `ModularPipelines.Yarn.Extensions` and use the `context.Yarn()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Yarn`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Yarn.Services.IYarn>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
@@ -26726,7 +26734,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Yq
 ```
 
-Resolve the service with `context.Tools.Yq`. For projects older than C# 14, import `ModularPipelines.Yq.Extensions` and use the `context.Yq()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Yq`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Yq.Services.IYq>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

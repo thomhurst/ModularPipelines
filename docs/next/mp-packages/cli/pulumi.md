@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Pulumi
 ```
 
-Resolve the service with `context.Tools.Pulumi`. For projects older than C# 14, import `ModularPipelines.Pulumi.Extensions` and use the `context.Pulumi()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Pulumi`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Pulumi.Services.IPulumi>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

@@ -8,7 +8,7 @@
 dotnet add package ModularPipelines.Azure
 ```
 
-Resolve the service with `context.Tools.Az`. For projects older than C# 14, import `ModularPipelines.Azure.Extensions` and use the `context.Az()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Az`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Azure.Services.IAz>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Rust
 ```
 
-Resolve the service with `context.Tools.Cargo`. For projects older than C# 14, import `ModularPipelines.Rust.Extensions` and use the `context.Cargo()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Cargo`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Rust.Services.ICargo>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Skopeo
 ```
 
-Resolve the service with `context.Tools.Skopeo`. For projects older than C# 14, import `ModularPipelines.Skopeo.Extensions` and use the `context.Skopeo()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Skopeo`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Skopeo.Services.ISkopeo>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

@@ -49,7 +49,7 @@ public class MyModule : Module<CommandResult>
 
         .WithSkipWhen(
 
-            async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
+            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
 
             "This should only run on the main branch");
 
@@ -81,7 +81,7 @@ public class MyModule : Module<CommandResult>
 
         {
 
-            var repositoryInfo = await ctx.Git().Information.GetInfoAsync();
+            var repositoryInfo = await ctx.Tools.Git.Information.GetInfoAsync();
 
             return repositoryInfo?.BranchName != "main";
 
@@ -145,7 +145,7 @@ public class CleanupModule : Module<CommandResult>
 
         .WithSkipWhen(
 
-            async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
+            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
 
             "Not on the main branch")
 

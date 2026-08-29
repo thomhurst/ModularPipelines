@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Liquibase
 ```
 
-Resolve the service with `context.Tools.Liquibase`. For projects older than C# 14, import `ModularPipelines.Liquibase.Extensions` and use the `context.Liquibase()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Liquibase`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Liquibase.Services.ILiquibase>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

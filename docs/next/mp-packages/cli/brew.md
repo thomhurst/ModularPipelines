@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Homebrew
 ```
 
-Resolve the service with `context.Tools.Brew`. For projects older than C# 14, import `ModularPipelines.Homebrew.Extensions` and use the `context.Brew()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Brew`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Homebrew.Services.IBrew>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

@@ -8,7 +8,7 @@
 dotnet add package ModularPipelines.Google
 ```
 
-Resolve the service with `context.Tools.Gcloud`. For projects older than C# 14, import `ModularPipelines.Google.Extensions` and use the `context.Gcloud()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Gcloud`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Google.Services.IGcloud>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

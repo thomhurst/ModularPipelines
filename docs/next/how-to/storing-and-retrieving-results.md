@@ -59,7 +59,7 @@ public class MyModuleRepository : IModuleResultRepository
 
     {
 
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
 
         var commit = repositoryInfo?.LastCommitSha;
 
@@ -73,7 +73,7 @@ public class MyModuleRepository : IModuleResultRepository
 
     {
 
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
 
         var commit = repositoryInfo?.LastCommitSha;
 

@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.WinGet
 ```
 
-Resolve the service with `context.Tools.Winget`. For projects older than C# 14, import `ModularPipelines.WinGet.Extensions` and use the `context.Winget()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Winget`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.WinGet.Services.IWinget>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

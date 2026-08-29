@@ -48,7 +48,7 @@ Module event metadata generation was skipped because a concrete module type is g
 
 ## MPG0008[​](#mpg0008 "Direct link to MPG0008")
 
-A tool accessor cannot generate a discoverable `context.Tools` property because the consuming project uses a language version older than C# 14. Registration metadata still generates. Use C# 14 or preview to enable the property, or use the diagnostic's `context.X()` compatibility accessor.
+A tool accessor cannot generate a discoverable `context.Tools` property because the consuming project uses a language version older than C# 14. Registration metadata still generates. Use C# 14 or preview to enable the property, or use `context.Tools.Get<Your.Namespace.IIntegration>()` when upgrading is not possible.
 
 **Severity:** Warning
 

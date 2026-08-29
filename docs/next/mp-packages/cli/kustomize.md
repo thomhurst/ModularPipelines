@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Kubernetes
 ```
 
-Resolve the service with `context.Tools.Kustomize`. For projects older than C# 14, import `ModularPipelines.Kubernetes.Extensions` and use the `context.Kustomize()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Kustomize`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Kubernetes.Services.IKustomize>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

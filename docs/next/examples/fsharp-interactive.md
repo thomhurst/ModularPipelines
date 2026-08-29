@@ -9,19 +9,19 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 2. **Add ModularPipelines to your script:** You can add ModularPipelines as a package reference in your F# script. At the top of your `example.fsx`, add the following line:
 
    ```
-   #r "nuget: ModularPipelines, 3.*"
+   #r "nuget: ModularPipelines, 4.*"
    ```
 
    Alternatively, you can specify a specific version:
 
    ```
-   #r "nuget: ModularPipelines, 3.2.8"
+   #r "nuget: ModularPipelines, 4.0.0"
    ```
 
 3. **Write your F# code:** Below the package reference, you can write your F# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to check the dotnet version:
 
    ```
-   #r "nuget: ModularPipelines.DotNet, 3.*"
+   #r "nuget: ModularPipelines.DotNet, 4.*"
 
    open ModularPipelines.DotNet
 
@@ -30,6 +30,8 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
    open ModularPipelines.Context
 
    open ModularPipelines.DotNet.Extensions
+
+   open ModularPipelines.DotNet.Services
 
    open ModularPipelines.Extensions
 
@@ -49,7 +51,7 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
        override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
 
-               context.DotNet().Workload.Update(cancellationToken = cancellationToken)
+               context.Tools.Get<IDotNet>().Workload.Update(cancellationToken = cancellationToken)
 
 
 
@@ -63,7 +65,7 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
        override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
 
-               context.DotNet().Sdk.Check(cancellationToken = cancellationToken);
+               context.Tools.Get<IDotNet>().Sdk.Check(cancellationToken = cancellationToken);
 
 
 

@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Ansible
 ```
 
-Resolve the service with `context.Tools.Ansible`. For projects older than C# 14, import `ModularPipelines.Ansible.Extensions` and use the `context.Ansible()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Ansible`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Ansible.Services.IAnsible>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

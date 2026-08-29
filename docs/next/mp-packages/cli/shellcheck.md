@@ -14,7 +14,7 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Shellcheck
 ```
 
-Resolve the service with `context.Tools.Shellcheck`. For projects older than C# 14, import `ModularPipelines.Shellcheck.Extensions` and use the `context.Shellcheck()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Shellcheck`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Shellcheck.Services.IShellcheck>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 

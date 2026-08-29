@@ -8,7 +8,7 @@
 dotnet add package ModularPipelines.Kubernetes
 ```
 
-Resolve the service with `context.Tools.Kubernetes`. For projects older than C# 14, import `ModularPipelines.Kubernetes.Extensions` and use the `context.Kubernetes()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Kubernetes`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Kubernetes.Services.IKubernetes>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
