@@ -306,6 +306,22 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    [WindowsOnlyTest]
+    public async Task Distributed_Master_Defers_Overlapping_Os_Conditions()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnore(new OverlappingOsModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
     public async Task Distributed_Master_Routing_Preserves_Condition_ShortCircuiting()
     {
         _mixedAlternativeEvaluationCount = 0;
@@ -335,6 +351,25 @@ public class ModuleConditionHandlerTests
         await handler.PrepareDistributedRoutingAsync(new WorkerOnlyConditionModule());
 
         await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Distributed_Master_Routing_Continues_After_Planning_Safe_Condition()
+    {
+        var conditionRouting = new DistributedConditionRouting();
+        var module = new PlanningSafeThenMixedAlternativeModule();
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        }, distributedConditionRouting: conditionRouting);
+
+        await handler.PrepareDistributedRoutingAsync(module);
+
+        await Assert.That(conditionRouting.IsLocallySatisfied(
+            module,
+            typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>))).IsTrue();
     }
 
     [Test]
@@ -604,8 +639,26 @@ public class ModuleConditionHandlerTests
         }
     }
 
+    [RunIf<OnUnix>]
+    [RunIf<OnLinux>]
+    private sealed class OverlappingOsModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
     [RunIfAny<OnLinux, PlanningTrueCondition>]
     private sealed class MixedPlanningAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<PlanningTrueCondition, PlanningFalseCondition>]
+    [RunIfAny<OnLinux, PlanningTrueCondition>]
+    private sealed class PlanningSafeThenMixedAlternativeModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,

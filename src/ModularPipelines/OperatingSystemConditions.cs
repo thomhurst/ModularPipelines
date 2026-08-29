@@ -122,6 +122,29 @@ internal static class OperatingSystemConditions
         CreateCapability(operatingSystems);
 
     /// <summary>
+    /// Returns the intersection of all required operating-system routes.
+    /// </summary>
+    public static IReadOnlySet<string>? GetRequiredOperatingSystems(
+        IEnumerable<IConditionAttribute> attributes)
+    {
+        HashSet<string>? requiredOperatingSystems = null;
+        foreach (var attribute in attributes)
+        {
+            var route = GetRoute(attribute);
+            if (route is null)
+            {
+                continue;
+            }
+
+            IntersectConstraint(
+                ref requiredOperatingSystems,
+                new HashSet<string>(route.OperatingSystems, StringComparer.OrdinalIgnoreCase));
+        }
+
+        return requiredOperatingSystems;
+    }
+
+    /// <summary>
     /// Returns whether required platform attributes have no operating system in common.
     /// </summary>
     public static bool HasImpossibleCombination(IEnumerable<IConditionAttribute> attributes)

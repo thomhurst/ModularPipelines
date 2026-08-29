@@ -447,24 +447,20 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         CancellationToken cancellationToken)
     {
         var isResolved = !hasDeferredConditions;
-        var allConditions = attributes
-            .Select(attribute => (
-                Attribute: attribute,
-                OperatingSystemTargets: OperatingSystemConditions.GetTargets(attribute)))
-            .ToArray();
-        var operatingSystemTargets = allConditions
-            .SelectMany(condition => condition.OperatingSystemTargets)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-        var deferOperatingSystemConditions = isDistributedMaster && operatingSystemTargets.Length == 1;
+        var allConditions = attributes.ToArray();
+        var requiredOperatingSystems = OperatingSystemConditions
+            .GetRequiredOperatingSystems(allConditions);
+        var deferOperatingSystemConditions = isDistributedMaster
+                                              && requiredOperatingSystems is { Count: > 0 };
         if (deferOperatingSystemConditions)
         {
             isResolved = false;
         }
 
-        foreach (var (attribute, attributeOperatingSystemTargets) in allConditions)
+        foreach (var attribute in allConditions)
         {
-            if (deferOperatingSystemConditions && attributeOperatingSystemTargets.Count > 0)
+            if (deferOperatingSystemConditions
+                && OperatingSystemConditions.GetRoute(attribute) is not null)
             {
                 continue;
             }
@@ -668,20 +664,18 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         bool isDistributedMaster,
         CancellationToken cancellationToken)
     {
-        var allConditions = attributes
-            .Select(attribute => (Attribute: attribute, OperatingSystemTargets: OperatingSystemConditions.GetTargets(attribute)))
-            .ToArray();
-        var operatingSystemTargets = allConditions
-            .SelectMany(condition => condition.OperatingSystemTargets)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-        var deferOperatingSystemConditions = isDistributedMaster && operatingSystemTargets.Length == 1;
+        var allConditions = attributes.ToArray();
+        var requiredOperatingSystems = OperatingSystemConditions
+            .GetRequiredOperatingSystems(allConditions);
+        var deferOperatingSystemConditions = isDistributedMaster
+                                              && requiredOperatingSystems is { Count: > 0 };
 
-        foreach (var (attribute, attributeOperatingSystemTargets) in allConditions)
+        foreach (var attribute in allConditions)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (deferOperatingSystemConditions && attributeOperatingSystemTargets.Count > 0)
+            if (deferOperatingSystemConditions
+                && OperatingSystemConditions.GetRoute(attribute) is not null)
             {
                 continue;
             }
@@ -791,7 +785,14 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             {
                 if (OperatingSystemConditions.GetRoute(attribute) is null)
                 {
-                    return;
+                    if (!IsPlanningConditionAttribute(attribute)
+                        || !await attribute.EvaluateAsync(pipelineContext, cancellationToken)
+                            .ConfigureAwait(false))
+                    {
+                        return;
+                    }
+
+                    continue;
                 }
 
                 if (await AnyConditionMatches(
@@ -817,7 +818,17 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 .ToArray();
             if (OperatingSystemConditions.GetRoute(alternatives) is null)
             {
-                return;
+                if (!alternatives.All(IsPlanningConditionAttribute)
+                    || !await AnyConditionMatches(
+                            alternatives,
+                            pipelineContext,
+                            cancellationToken)
+                        .ConfigureAwait(false))
+                {
+                    return;
+                }
+
+                continue;
             }
 
             var localAlternatives = alternatives
