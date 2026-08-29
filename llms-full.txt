@@ -74,7 +74,7 @@
 - [Parallelization Disabling](/docs/next/how-to/parallelization.md): As mentioned, modules will try to run in parallel by default, waiting on any dependencies if they need to.
 - [Pipeline Host](/docs/next/how-to/pipeline-host.md): To begin creating your pipeline, use the Pipeline.CreateBuilder() method.
 - [Pipeline Failure Modes](/docs/next/how-to/pipeline-modes.md): A pipeline has two failure modes:
-- [Requirements](/docs/next/how-to/requirements.md): If you'd like to fail fast, you can register some Requirement classes that do some checks on start up to make sure things are as expected.
+- [Requirements](/docs/next/how-to/requirements.md): Requirements fail a pipeline before module execution when an environment prerequisite
 - [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure(ModuleConfigurationBuilder) method.
 - [Run conditions](/docs/next/how-to/run-conditions.md): Reusable run conditions implement IRunCondition:
 - [Run reports and history](/docs/next/how-to/run-reports.md): ModularPipelines can write a schema-versioned JSON report after every pipeline run. Reports contain
@@ -7112,25 +7112,81 @@ await builder.RunAsync();
 
 # Requirements
 
-If you'd like to fail fast, you can register some `Requirement` classes that do some checks on start up to make sure things are as expected.
-
-Simply implement `IPipelineRequirement` and then call `IServiceCollection.AddRequirement<TRequirement>()`
+Requirements fail a pipeline before module execution when an environment prerequisite is not satisfied. Register built-in requirements through the `Require` factory:
 
 ```
-public class WindowsRequirement : IPipelineRequirement
+builder.AddRequirement(Require.Windows());
+
+builder.AddRequirement(Require.EnvironmentVariable("NUGET_API_KEY"));
+
+builder.AddRequirement(Require.Ci("Publishing can only run in CI"));
+```
+
+The platform shortcuts are `Require.Windows()`, `Require.Linux()`, `Require.MacOS()`, and `Require.WindowsAdmin()`. Use `Require.Platform(...)` for another `OSPlatform` value.
+
+For custom asynchronous checks, implement `IPipelineRequirement` or derive from `PipelineRequirement`. Evaluation receives the pipeline cancellation token:
+
+```
+public sealed class HasDotNetSdkRequirement : PipelineRequirement
 
 {
 
-    public Task<bool> MustAsync(IPipelineContext context)
+    public override async Task<RequirementDecision> EvaluateAsync(
+
+        IPipelineContext context,
+
+        CancellationToken cancellationToken)
 
     {
 
-        return Task.FromResult(context.Environment.OperatingSystem == OSPlatform.Windows);
+        var result = await context.Shell.RunAsync(
+
+            "dotnet",
+
+            ["--version"],
+
+            cancellationToken: cancellationToken);
+
+
+
+        return result.ExitCode == 0
+
+            ? RequirementDecision.Passed
+
+            : RequirementDecision.Failed(".NET SDK is not installed");
 
     }
 
 }
 ```
+
+For synchronous checks, return a completed task from `EvaluateAsync`:
+
+```
+public sealed class Is64BitRequirement : PipelineRequirement
+
+{
+
+    public override Task<RequirementDecision> EvaluateAsync(
+
+        IPipelineContext context,
+
+        CancellationToken cancellationToken)
+
+        => Task.FromResult(
+
+            Environment.Is64BitProcess
+
+                ? RequirementDecision.Passed
+
+                : RequirementDecision.Failed("A 64-bit process is required"));
+
+}
+```
+
+`RequirementDecision.IsSatisfied` reports the outcome. Construct decisions with `Passed` or `Failed(reason)`; a `bool` can also convert implicitly. A bare string does not imply failure.
+
+Requirements and run conditions receive `IPipelineContext`, giving them the same shared capability surface as global hooks. Use `IModuleContext` only inside modules.
 
 
 ---
