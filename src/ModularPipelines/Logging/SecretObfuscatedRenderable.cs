@@ -171,6 +171,7 @@ internal sealed class SecretObfuscatedRenderable(
         {
             Align align => PrepareAlign(align, secretObfuscator),
             Columns columns => PrepareColumns(columns, secretObfuscator),
+            FigletText figletText => PrepareFigletText(figletText, secretObfuscator),
             Grid grid => PrepareGrid(grid, secretObfuscator),
             Layout layout => PrepareLayout(layout, secretObfuscator),
             Padder padder => PreparePadder(padder, secretObfuscator),
@@ -199,6 +200,18 @@ internal sealed class SecretObfuscatedRenderable(
         {
             Expand = columns.Expand,
             Padding = columns.Padding,
+        };
+
+    private static FigletText PrepareFigletText(
+        FigletText figletText,
+        ISecretObfuscator secretObfuscator) => new(
+        GetFigletFont(figletText),
+        secretObfuscator.Obfuscate(GetFigletText(figletText), null))
+        {
+            Color = figletText.Color,
+            Justification = figletText.Justification,
+            LayoutMode = figletText.LayoutMode,
+            Pad = figletText.Pad,
         };
 
     private static Grid PrepareGrid(Grid grid, ISecretObfuscator secretObfuscator)
@@ -415,6 +428,12 @@ internal sealed class SecretObfuscatedRenderable(
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_items")]
     private static extern ref readonly List<IRenderable> GetColumnItems(Columns columns);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_font")]
+    private static extern ref readonly FigletFont GetFigletFont(FigletText figletText);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_text")]
+    private static extern ref readonly string GetFigletText(FigletText figletText);
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_child")]
     private static extern ref readonly IRenderable GetPadderChild(Padder padder);

@@ -601,6 +601,28 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_MasksFigletTextBeforeRendering()
+    {
+        var options = RenderOptions.Create(AnsiConsole.Console);
+        var renderable = new SecretObfuscatedRenderable(
+            new FigletText("secret"),
+            CreateSecretObfuscator("secret"));
+
+        var actual = string.Concat(renderable.Render(options, 120)
+            .Select(static segment => segment.Text));
+        var expected = string.Concat(((IRenderable)new FigletText("**********")).Render(options, 120)
+            .Select(static segment => segment.Text));
+        var unmasked = string.Concat(((IRenderable)new FigletText("secret")).Render(options, 120)
+            .Select(static segment => segment.Text));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(actual).IsEqualTo(expected);
+            await Assert.That(actual).IsNotEqualTo(unmasked);
+        }
+    }
+
+    [Test]
     public async Task Write_EscapesConfiguredMaskInTableTitle()
     {
         var obfuscator = CreateSecretObfuscator("secret", "[REDACTED]");
