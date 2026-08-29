@@ -874,6 +874,16 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             throw new JsonException("Expected StartObject token");
         }
 
+        var state = ReadState(ref reader, options);
+        return CreateResult(state, options);
+    }
+
+    [RequiresDynamicCode("Calls System.Text.Json.JsonSerializer.Deserialize<TValue>(ref Utf8JsonReader, JsonSerializerOptions)")]
+    [RequiresUnreferencedCode("Calls System.Text.Json.JsonSerializer.Deserialize<TValue>(ref Utf8JsonReader, JsonSerializerOptions)")]
+    private static ModuleResultValueReadState ReadState(
+        ref Utf8JsonReader reader,
+        JsonSerializerOptions options)
+    {
         var state = new ModuleResultValueReadState();
         while (reader.Read())
         {
@@ -895,43 +905,76 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             throw new JsonException("Name is required but was not found in the JSON.");
         }
 
+        return state;
+    }
+
+    private static ModuleResult<T> CreateResult(
+        ModuleResultValueReadState state,
+        JsonSerializerOptions options)
+    {
         return state.Discriminator switch
         {
-            "Success" when state.ValueElement is null => throw new JsonException(
-                "Success result requires a Value property in the JSON."),
-            "Success" => new ModuleResult<T>.Success(
-                DeserializeSuccessValue(state.ValueElement, state.ValueTypeName, options)!)
-            {
-                Name = state.Name,
-                TypeName = state.TypeName,
-                Duration = state.Duration,
-                StartTime = state.StartTime,
-                EndTime = state.EndTime,
-                Status = state.Status,
-            },
-            "Failure" => state.Exception is not null
-                ? new ModuleResult<T>.Failure(state.Exception)
-                {
-                    Name = state.Name,
-                    TypeName = state.TypeName,
-                    Duration = state.Duration,
-                    StartTime = state.StartTime,
-                    EndTime = state.EndTime,
-                    Status = state.Status,
-                }
-                : throw new JsonException("Failure result requires an Exception property in the JSON."),
-            "Skipped" => state.SkipDecision is not null
-                ? new ModuleResult<T>.Skipped(state.SkipDecision)
-                {
-                    Name = state.Name,
-                    TypeName = state.TypeName,
-                    Duration = state.Duration,
-                    StartTime = state.StartTime,
-                    EndTime = state.EndTime,
-                    Status = state.Status,
-                }
-                : throw new JsonException("Skipped result requires a Decision property in the JSON."),
+            "Success" => CreateSuccess(state, options),
+            "Failure" => CreateFailure(state),
+            "Skipped" => CreateSkipped(state),
             _ => throw new JsonException($"Unknown discriminator: {state.Discriminator}"),
+        };
+    }
+
+    private static ModuleResult<T>.Success CreateSuccess(
+        ModuleResultValueReadState state,
+        JsonSerializerOptions options)
+    {
+        if (state.ValueElement is null)
+        {
+            throw new JsonException("Success result requires a Value property in the JSON.");
+        }
+
+        return new ModuleResult<T>.Success(
+            DeserializeSuccessValue(state.ValueElement, state.ValueTypeName, options)!)
+        {
+            Name = state.Name!,
+            TypeName = state.TypeName,
+            Duration = state.Duration,
+            StartTime = state.StartTime,
+            EndTime = state.EndTime,
+            Status = state.Status,
+        };
+    }
+
+    private static ModuleResult<T>.Failure CreateFailure(ModuleResultValueReadState state)
+    {
+        if (state.Exception is null)
+        {
+            throw new JsonException("Failure result requires an Exception property in the JSON.");
+        }
+
+        return new ModuleResult<T>.Failure(state.Exception)
+        {
+            Name = state.Name!,
+            TypeName = state.TypeName,
+            Duration = state.Duration,
+            StartTime = state.StartTime,
+            EndTime = state.EndTime,
+            Status = state.Status,
+        };
+    }
+
+    private static ModuleResult<T>.Skipped CreateSkipped(ModuleResultValueReadState state)
+    {
+        if (state.SkipDecision is null)
+        {
+            throw new JsonException("Skipped result requires a Decision property in the JSON.");
+        }
+
+        return new ModuleResult<T>.Skipped(state.SkipDecision)
+        {
+            Name = state.Name!,
+            TypeName = state.TypeName,
+            Duration = state.Duration,
+            StartTime = state.StartTime,
+            EndTime = state.EndTime,
+            Status = state.Status,
         };
     }
 
