@@ -509,4 +509,38 @@ public class PipelineOptionsTests
             await Assert.That(namedOptions.DisableModuleCache).IsFalse();
         }
     }
+
+    [Test]
+    public async Task NamedPipelineOptionsDoNotShareNestedConfiguration()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.ConfigureOptions(options => options with
+        {
+            Http = options.Http with
+            {
+                Logging = new HttpLoggingOptions { LogRequest = true },
+            },
+        });
+        builder.Services
+            .AddOptions<PipelineOptions>("worker")
+            .Configure(options => typeof(HttpLoggingOptions)
+                .GetProperty(nameof(HttpLoggingOptions.LogRequest))!
+                .SetValue(options.Http.Logging, false));
+
+        await using var pipeline = await builder.BuildAsync();
+        var monitor = pipeline.Services
+            .GetRequiredService<IOptionsMonitor<PipelineOptions>>();
+        var namedOptions = monitor.Get("worker");
+        var defaultOptions = monitor.CurrentValue;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(namedOptions.Http.Logging!.LogRequest).IsFalse();
+            await Assert.That(defaultOptions.Http.Logging!.LogRequest).IsTrue();
+            await Assert.That(namedOptions.Http).IsNotSameReferenceAs(defaultOptions.Http);
+            await Assert.That(namedOptions.Http.Logging)
+                .IsNotSameReferenceAs(defaultOptions.Http.Logging);
+        }
+    }
 }

@@ -383,7 +383,7 @@ public sealed class PipelineBuilder
                 .AddSingleton(_options)
                 .AddSingleton(provider => new FixedOptions<PipelineOptions>(
                     _options,
-                    static options => options with { },
+                    ClonePipelineOptions,
                     provider.GetServices<IConfigureOptions<PipelineOptions>>(),
                     provider.GetServices<IPostConfigureOptions<PipelineOptions>>(),
                     provider.GetServices<IValidateOptions<PipelineOptions>>()))
@@ -700,6 +700,29 @@ public sealed class PipelineBuilder
 
     private static Type? GetImplementationType(ServiceDescriptor descriptor) =>
         descriptor.ImplementationType ?? descriptor.ImplementationInstance?.GetType();
+
+    private static PipelineOptions ClonePipelineOptions(PipelineOptions options) => options with
+    {
+        RunReport = options.RunReport with { },
+        Console = options.Console with { },
+        Http = options.Http with
+        {
+            Logging = options.Http.Logging is null
+                ? null
+                : options.Http.Logging with { },
+            Resilience = options.Http.Resilience is null
+                ? null
+                : options.Http.Resilience with { },
+        },
+        Commands = options.Commands with
+        {
+            Logging = options.Commands.Logging is null
+                ? null
+                : options.Commands.Logging with { },
+        },
+        Secrets = options.Secrets with { },
+        Concurrency = options.Concurrency with { },
+    };
 
     private sealed class FixedOptions<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>
