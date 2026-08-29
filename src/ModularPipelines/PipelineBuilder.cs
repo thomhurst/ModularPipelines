@@ -728,7 +728,7 @@ public sealed class PipelineBuilder
             _validators = validators.ToArray();
             _value = new Lazy<T>(() => ConfigureAndValidate(
                 Microsoft.Extensions.Options.Options.DefaultName,
-                value,
+                _clone(value),
                 _configurations,
                 _postConfigurations,
                 _validators));

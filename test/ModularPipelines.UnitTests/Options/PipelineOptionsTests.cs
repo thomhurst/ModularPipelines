@@ -247,9 +247,9 @@ public class PipelineOptionsTests
         using (Assert.Multiple())
         {
             await Assert.That(options).IsEqualTo(expected);
-            await Assert.That(options).IsSameReferenceAs(expected);
-            await Assert.That(snapshot).IsSameReferenceAs(expected);
-            await Assert.That(monitor).IsSameReferenceAs(expected);
+            await Assert.That(options).IsNotSameReferenceAs(expected);
+            await Assert.That(snapshot).IsSameReferenceAs(options);
+            await Assert.That(monitor).IsSameReferenceAs(options);
         }
     }
 
@@ -357,6 +357,22 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task TestPipelineBuilderClearsSpectreLoggingProvider()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var providerTypeNames = pipeline.Services
+            .GetServices<ILoggerProvider>()
+            .Select(static provider => provider.GetType().FullName)
+            .ToArray();
+
+        await Assert.That(providerTypeNames)
+            .DoesNotContain("MEL.Spectre.Provider.SpectreConsoleLoggerProvider");
+    }
+
+    [Test]
     public async Task PipelineBuilderPreservesRegisteredPipelineOptionsValidators()
     {
         var builder = TestPipelineBuilder.Create()
@@ -443,6 +459,33 @@ public class PipelineOptionsTests
         {
             await Assert.That(configureCalled).IsTrue();
             await Assert.That(postConfigureCalledAfterConfigure).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task NamedPipelineOptionsDoNotInheritDefaultConfiguration()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Services
+            .PostConfigure<PipelineOptions>(options =>
+                typeof(PipelineOptions)
+                    .GetProperty(nameof(PipelineOptions.DisableModuleCache))!
+                    .SetValue(options, true))
+            .AddOptions<PipelineOptions>("worker");
+
+        await using var pipeline = await builder.BuildAsync();
+        var defaultOptions = pipeline.Services
+            .GetRequiredService<IOptions<PipelineOptions>>()
+            .Value;
+        var namedOptions = pipeline.Services
+            .GetRequiredService<IOptionsMonitor<PipelineOptions>>()
+            .Get("worker");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(defaultOptions.DisableModuleCache).IsTrue();
+            await Assert.That(namedOptions.DisableModuleCache).IsFalse();
         }
     }
 }

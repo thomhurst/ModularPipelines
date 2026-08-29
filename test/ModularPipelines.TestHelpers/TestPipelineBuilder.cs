@@ -44,7 +44,7 @@ public static class TestPipelineBuilder
 
         if (testHostSettings.ClearLogProviders)
         {
-            builder.Services.AddLogging(b => b.ClearProviders());
+            builder.Logging.ClearProviders();
         }
 
         // Register TimeProvider for tests

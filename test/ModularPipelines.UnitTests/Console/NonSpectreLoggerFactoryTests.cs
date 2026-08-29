@@ -104,6 +104,21 @@ public class NonSpectreLoggerFactoryTests
         }
     }
 
+    [Test]
+    public async Task NoopControlReportsEffectiveNonSpectreLoggingFilter()
+    {
+        var provider = new RecordingLoggerProvider();
+        var options = new LoggerFilterOptions { MinLevel = LogLevel.Error };
+        using var loggerFactory = new LoggerFactory([provider], CreateOptionsMonitor(options));
+        var control = new NoopSpectreConsoleLoggerControl(loggerFactory);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(control.WouldRender("Category", LogLevel.Information)).IsFalse();
+            await Assert.That(control.WouldRender("Category", LogLevel.Error)).IsTrue();
+        }
+    }
+
     private static Mock<ISpectreConsoleLoggerControl> CreateControl()
     {
         var control = new Mock<ISpectreConsoleLoggerControl>();

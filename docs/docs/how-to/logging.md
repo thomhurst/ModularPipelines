@@ -165,7 +165,7 @@ await context.Network.Http.SendAsync(new HttpOptions(request)
     Logging = HttpLoggingOptions.Minimal,
 });
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     Http = options.Http with
     {
