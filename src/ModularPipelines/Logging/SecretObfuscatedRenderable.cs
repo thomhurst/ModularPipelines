@@ -8,7 +8,7 @@ using Spectre.Console.Rendering;
 namespace ModularPipelines.Logging;
 
 /// <summary>
-/// Obfuscates visible renderable text while retaining Spectre segment styling and control codes.
+/// Obfuscates visible renderable text while retaining Spectre segment styling and safe control codes.
 /// </summary>
 internal sealed class SecretObfuscatedRenderable(
     IRenderable inner,
@@ -102,7 +102,7 @@ internal sealed class SecretObfuscatedRenderable(
         {
             if (segment.IsControlCode)
             {
-                output.Add(ObfuscateControlCode(segment));
+                AddSafeControlCode(output, segment);
                 continue;
             }
 
@@ -134,7 +134,7 @@ internal sealed class SecretObfuscatedRenderable(
         {
             if (segment.IsControlCode)
             {
-                output.Add(ObfuscateControlCode(segment));
+                AddSafeControlCode(output, segment);
                 continue;
             }
 
@@ -508,15 +508,34 @@ internal sealed class SecretObfuscatedRenderable(
         BindingFlags.Instance | BindingFlags.NonPublic)
         ?? throw new MissingFieldException(typeof(Layout).FullName, "_splitter");
 
-    private Segment[] ObfuscateLinks(Segment[] segments) =>
-        [.. segments.Select(segment => segment.IsControlCode
-            ? ObfuscateControlCode(segment)
-            : segment.Link is null
-                ? segment
-                : new Segment(segment.Text, segment.Style, ObfuscateLink(segment.Link)))];
+    private Segment[] ObfuscateLinks(Segment[] segments)
+    {
+        var output = new List<Segment>(segments.Length);
+        foreach (var segment in segments)
+        {
+            if (segment.IsControlCode)
+            {
+                AddSafeControlCode(output, segment);
+            }
+            else
+            {
+                output.Add(segment.Link is null
+                    ? segment
+                    : new Segment(segment.Text, segment.Style, ObfuscateLink(segment.Link)));
+            }
+        }
 
-    private Segment ObfuscateControlCode(Segment segment) =>
-        Segment.Control(ObfuscateMetadata(segment.Text));
+        return [.. output];
+    }
+
+    private void AddSafeControlCode(List<Segment> output, Segment segment)
+    {
+        var obfuscatedMetadata = ObfuscateMetadata(segment.Text);
+        if (string.Equals(obfuscatedMetadata, segment.Text, StringComparison.Ordinal))
+        {
+            output.Add(segment);
+        }
+    }
 
     private Link? ObfuscateLink(Link? link)
     {

@@ -376,22 +376,17 @@ public class ConsoleWriterTests
     }
 
     [Test]
-    public async Task Write_ObfuscatesSecretInControlSegment()
+    public async Task Write_RemovesControlSegmentContainingSecret()
     {
         var renderable = new SecretObfuscatedRenderable(
             new ControlRenderable("secret"),
             CreateSecretObfuscator("secret"));
-        var segment = renderable.Render(
+        var segments = renderable.Render(
                 RenderOptions.Create(AnsiConsole.Console),
                 80)
-            .Single();
+            .ToArray();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(segment.IsControlCode).IsTrue();
-            await Assert.That(segment.Text).Contains("**********");
-            await Assert.That(segment.Text).DoesNotContain("secret");
-        }
+        await Assert.That(segments).IsEmpty();
     }
 
     [Test]
@@ -415,22 +410,32 @@ public class ConsoleWriterTests
     }
 
     [Test]
-    public async Task Write_UsesSafeMaskForSecretsInControlMetadata()
+    public async Task Write_RemovesUnsafeControlMetadataMask()
     {
         var renderable = new SecretObfuscatedRenderable(
             new ControlRenderable("token"),
             CreateSecretObfuscator(["token", "REDACT"], "[REDACTED]"));
-        var segment = renderable.Render(
+        var segments = renderable.Render(
                 RenderOptions.Create(AnsiConsole.Console),
                 80)
-            .Single();
+            .ToArray();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(segment.Text).Contains("[MASKED]");
-            await Assert.That(segment.Text).DoesNotContain("token");
-            await Assert.That(segment.Text).DoesNotContain("REDACT");
-        }
+        await Assert.That(segments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Write_RemovesAnsiSequenceContainingSecret()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new ControlRenderable("\u001b[31m"),
+            CreateSecretObfuscator("31"));
+
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .ToArray();
+
+        await Assert.That(segments).IsEmpty();
     }
 
     [Test]
