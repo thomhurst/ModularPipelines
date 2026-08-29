@@ -86,7 +86,8 @@ internal class Downloader : IDownloaderContext
 
         var response = await _http.SendAsync(new HttpOptions(request)
         {
-            LoggingType = options.LoggingType,
+            Logging = options.Logging,
+            FallbackLogging = HttpLoggingOptions.Minimal,
             HttpClient = options.HttpClient,
         }, cancellationToken).ConfigureAwait(false);
 

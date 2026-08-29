@@ -1,5 +1,3 @@
-using ModularPipelines.Http;
-
 namespace ModularPipelines.Options;
 
 /// <summary>
@@ -19,19 +17,14 @@ public record HttpOptions(HttpRequestMessage HttpRequestMessage)
     public bool ThrowOnNonSuccessStatusCode { get; init; }
 
     /// <summary>
-    /// Gets or sets the logging for the HTTP request.
-    /// Controls which handlers are used (Request, Response, StatusCode, Duration).
-    /// For fine-grained control over what gets logged within those handlers, use <see cref="LogSettings"/>.
-    /// </summary>
-    public HttpLoggingType LoggingType { get; init; } = HttpLoggingType.Request | HttpLoggingType.Response | HttpLoggingType.StatusCode | HttpLoggingType.Duration;
-
-    /// <summary>
-    /// Gets or sets detailed logging options controlling what parts of requests/responses are logged.
+    /// Gets logging options controlling what parts of requests and responses are logged.
     /// This controls the verbosity of the logging, including headers, body content, and truncation limits.
     /// Use <see cref="HttpLoggingOptions.None"/> to disable all logging, <see cref="HttpLoggingOptions.Minimal"/> for URL/status only,
     /// <see cref="HttpLoggingOptions.Headers"/> for headers without body, or <see cref="HttpLoggingOptions.Full"/> for complete logging.
     /// </summary>
-    public HttpLoggingOptions? LogSettings { get; init; }
+    public HttpLoggingOptions? Logging { get; init; }
+
+    internal HttpLoggingOptions? FallbackLogging { get; init; }
 
     /// <summary>
     /// Gets or sets the maximum time allowed for the HTTP request to complete.

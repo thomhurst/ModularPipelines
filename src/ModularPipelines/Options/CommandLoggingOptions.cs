@@ -4,7 +4,7 @@ namespace ModularPipelines.Options;
 /// Options for customizing command execution logging.
 /// </summary>
 /// <remarks>
-/// <para>Set via <see cref="CommandExecutionOptions.LogSettings"/> or <see cref="PipelineCommandOptions.Logging"/>.</para>
+/// <para>Set via <see cref="CommandExecutionOptions.Logging"/> or <see cref="PipelineCommandOptions.Logging"/>.</para>
 /// <para>Verbosity levels control what is logged automatically:</para>
 /// <list type="bullet">
 /// <item><description><see cref="CommandLogVerbosity.Silent"/> - No logging</description></item>
@@ -25,7 +25,7 @@ public record CommandLoggingOptions
     /// <summary>
     /// Gets a value indicating whether timestamps are included in output. Default is false.
     /// </summary>
-    public bool IncludeTimestamps { get; init; }
+    public bool ShowTimestamps { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether command arguments are shown. Default is true.
@@ -73,7 +73,7 @@ public record CommandLoggingOptions
     public static CommandLoggingOptions Diagnostic { get; } = new()
     {
         Verbosity = CommandLogVerbosity.Diagnostic,
-        IncludeTimestamps = true,
+        ShowTimestamps = true,
         ShowCommandArguments = true,
         ShowStandardOutput = true,
         ShowStandardError = true,

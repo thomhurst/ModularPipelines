@@ -100,7 +100,7 @@ public class SpectreConsoleLoggerTests
             null,
             new CommandExecutionOptions
             {
-                LogSettings = new CommandLoggingOptions
+                Logging = new CommandLoggingOptions
                 {
                     Verbosity = CommandLogVerbosity.Normal,
                     ShowCommandArguments = true,

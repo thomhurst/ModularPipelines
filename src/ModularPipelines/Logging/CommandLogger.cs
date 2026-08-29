@@ -123,9 +123,9 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
     private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions? options, CommandExecutionOptions? execOpts)
     {
         // Priority: execOpts property > pipeline default > system default
-        if (execOpts?.LogSettings is not null)
+        if (execOpts?.Logging is not null)
         {
-            return execOpts.LogSettings;
+            return execOpts.Logging;
         }
 
         return _pipelineOptions.Value.Commands.Logging ?? CommandLoggingOptions.Default;

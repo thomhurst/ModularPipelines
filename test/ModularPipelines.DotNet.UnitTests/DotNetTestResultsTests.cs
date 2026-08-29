@@ -35,7 +35,7 @@ public class DotNetTestResultsTests : TestBase
                 new CommandExecutionOptions
                 {
                     WorkingDirectory = testProject.Folder!.Path,
-                    LogSettings = new CommandLoggingOptions
+                    Logging = new CommandLoggingOptions
                     {
                         Verbosity = CommandLogVerbosity.Minimal,
                         ShowStandardOutput = false,

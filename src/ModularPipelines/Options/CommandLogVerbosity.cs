@@ -11,7 +11,7 @@ public enum CommandLogVerbosity
     Silent = 0,
 
     /// <summary>
-    /// Only errors and warnings.
+    /// Command input only.
     /// </summary>
     Minimal = 1,
 

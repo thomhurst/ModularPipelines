@@ -27,14 +27,14 @@ namespace ModularPipelines.Options;
 /// </item>
 /// <item>
 /// <term>Per-Call Configuration (highest priority)</term>
-/// <description>Options passed to individual method calls (e.g., <see cref="CommandExecutionOptions.LogSettings"/>,
-/// <see cref="HttpOptions.LogSettings"/>)</description>
+/// <description>Options passed to individual method calls (e.g., <see cref="CommandExecutionOptions.Logging"/>,
+/// <see cref="HttpOptions.Logging"/>)</description>
 /// </item>
 /// </list>
 /// <para>
 /// <strong>Example:</strong>
 /// If <see cref="PipelineCommandOptions.Logging"/> is set globally, it applies to all command executions.
-/// However, if a specific command call passes <see cref="CommandExecutionOptions.LogSettings"/>,
+/// However, if a specific command call passes <see cref="CommandExecutionOptions.Logging"/>,
 /// that per-call setting takes precedence for that execution only.
 /// </para>
 /// <para>

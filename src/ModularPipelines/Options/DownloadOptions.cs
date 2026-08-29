@@ -1,5 +1,3 @@
-using ModularPipelines.Http;
-
 namespace ModularPipelines.Options;
 
 /// <summary>
@@ -19,8 +17,7 @@ public record DownloadOptions(Uri DownloadUri)
     public Action<HttpRequestMessage>? RequestConfigurator { get; init; }
 
     /// <summary>
-    /// Gets the type of HTTP logging to perform during the download.
+    /// Gets logging options for the download.
     /// </summary>
-    public HttpLoggingType LoggingType { get; init; } =
-        HttpLoggingType.Request | HttpLoggingType.StatusCode | HttpLoggingType.Duration;
+    public HttpLoggingOptions? Logging { get; init; }
 }
