@@ -39,12 +39,13 @@ public sealed class PipelineBuilder
 {
     private readonly IHostBuilder _hostBuilder;
     private readonly ServiceCollection _services;
-    private readonly DefaultLoggingServiceCollection _loggingServices;
+    private readonly ServiceCollection _loggingServices;
     private readonly ConfigurationManager _configuration;
     private readonly PipelineHostEnvironment _environment;
     private readonly PipelineBuilderResources _resources;
     private readonly PipelineCommandLineOptions _commandLineOptions;
     private readonly PipelineBuilderSettings _settings;
+    private readonly ServiceDescriptor[] _defaultLoggingServiceDescriptors;
     private readonly ServiceDescriptor[] _defaultLoggingProviderDescriptors;
     private readonly HashSet<Type> _defaultLoggingProviderTypes;
     private PipelineOptions _options;
@@ -63,14 +64,12 @@ public sealed class PipelineBuilder
             };
         var args = _commandLineOptions.HostArguments.ToArray();
         _services = new ServiceCollection();
-        var defaultLoggingServices = new ServiceCollection();
-        DependencyInjectionSetup.RegisterDefaultLogging(defaultLoggingServices);
-        _defaultLoggingProviderDescriptors = defaultLoggingServices
+        _loggingServices = new ServiceCollection();
+        DependencyInjectionSetup.RegisterDefaultLogging(_loggingServices);
+        _defaultLoggingServiceDescriptors = _loggingServices.ToArray();
+        _defaultLoggingProviderDescriptors = _defaultLoggingServiceDescriptors
             .Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))
             .ToArray();
-        _loggingServices = new DefaultLoggingServiceCollection(
-            _services,
-            _defaultLoggingProviderDescriptors);
         _defaultLoggingProviderTypes = _defaultLoggingProviderDescriptors
             .Select(static descriptor => descriptor.ImplementationType)
             .OfType<Type>()
@@ -341,11 +340,14 @@ public sealed class PipelineBuilder
             services.Configure<ModuleCacheOptions>(options =>
                 options.WorkingDirectory = _environment.WorkingDirectory);
 
-            var defaultLoggingProvidersRemoved =
-                !_defaultLoggingProviderDescriptors.All(_loggingServices.Contains);
-            if (defaultLoggingProvidersRemoved)
+            foreach (var defaultProvider in _defaultLoggingProviderDescriptors
+                         .Where(provider => !_loggingServices.Contains(provider)))
             {
-                foreach (var descriptor in services.Where(IsDefaultLoggingProvider).ToArray())
+                foreach (var descriptor in services
+                             .Where(descriptor => IsMatchingLoggingProvider(
+                                 descriptor,
+                                 defaultProvider))
+                             .ToArray())
                 {
                     services.Remove(descriptor);
                 }
@@ -353,6 +355,12 @@ public sealed class PipelineBuilder
 
             // Add user-registered services before plugins so plugins can inspect user configuration
             foreach (var descriptor in _services)
+            {
+                services.Add(descriptor);
+            }
+
+            foreach (var descriptor in _loggingServices
+                         .Where(descriptor => !_defaultLoggingServiceDescriptors.Contains(descriptor)))
             {
                 services.Add(descriptor);
             }
@@ -385,7 +393,9 @@ public sealed class PipelineBuilder
                     provider.GetRequiredService<FixedOptions<PipelineOptions>>())
                 .AddSingleton<IOptionsMonitor<PipelineOptions>>(provider =>
                     provider.GetRequiredService<FixedOptions<PipelineOptions>>())
-                .AddSingleton(Microsoft.Extensions.Options.Options.Create(_options.Secrets));
+                .AddSingleton<IOptions<SecretMaskingOptions>>(provider =>
+                    Microsoft.Extensions.Options.Options.Create(
+                        provider.GetRequiredService<IOptions<PipelineOptions>>().Value.Secrets));
 
             // Auto-register any missing required dependencies
             ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);
@@ -667,98 +677,14 @@ public sealed class PipelineBuilder
         public IServiceCollection Services { get; } = services;
     }
 
-    private sealed class DefaultLoggingServiceCollection(
-        ServiceCollection services,
-        IEnumerable<ServiceDescriptor> defaultProviders) : IServiceCollection
-    {
-        private readonly List<ServiceDescriptor> _defaultProviders = defaultProviders.ToList();
-
-        public ServiceDescriptor this[int index]
-        {
-            get => index < services.Count
-                ? services[index]
-                : _defaultProviders[index - services.Count];
-            set
-            {
-                if (index < services.Count)
-                {
-                    services[index] = value;
-                    return;
-                }
-
-                _defaultProviders.RemoveAt(index - services.Count);
-                services.Add(value);
-            }
-        }
-
-        public int Count => services.Count + _defaultProviders.Count;
-
-        public bool IsReadOnly => false;
-
-        public void Add(ServiceDescriptor item) => services.Add(item);
-
-        public void Clear()
-        {
-            services.Clear();
-            _defaultProviders.Clear();
-        }
-
-        public bool Contains(ServiceDescriptor item) =>
-            services.Contains(item) || _defaultProviders.Contains(item);
-
-        public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
-        {
-            foreach (var descriptor in this)
-            {
-                array[arrayIndex++] = descriptor;
-            }
-        }
-
-        public IEnumerator<ServiceDescriptor> GetEnumerator() =>
-            services.Concat(_defaultProviders).GetEnumerator();
-
-        public int IndexOf(ServiceDescriptor item)
-        {
-            var serviceIndex = services.IndexOf(item);
-            if (serviceIndex >= 0)
-            {
-                return serviceIndex;
-            }
-
-            var defaultIndex = _defaultProviders.IndexOf(item);
-            return defaultIndex >= 0 ? services.Count + defaultIndex : -1;
-        }
-
-        public void Insert(int index, ServiceDescriptor item)
-        {
-            if (index < 0 || index > Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index));
-            }
-
-            services.Insert(Math.Min(index, services.Count), item);
-        }
-
-        public bool Remove(ServiceDescriptor item) =>
-            services.Remove(item) || _defaultProviders.Remove(item);
-
-        public void RemoveAt(int index)
-        {
-            if (index < services.Count)
-            {
-                services.RemoveAt(index);
-                return;
-            }
-
-            _defaultProviders.RemoveAt(index - services.Count);
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
-            GetEnumerator();
-    }
-
     private bool HasDefaultLoggingProvider(IServiceCollection services)
         => services.Any(IsDefaultLoggingProvider);
+
+    private static bool IsMatchingLoggingProvider(
+        ServiceDescriptor candidate,
+        ServiceDescriptor expected) =>
+        candidate.ServiceType == typeof(ILoggerProvider)
+        && GetImplementationType(candidate) == GetImplementationType(expected);
 
     private bool IsDefaultLoggingProvider(ServiceDescriptor descriptor)
     {
@@ -767,11 +693,13 @@ public sealed class PipelineBuilder
             return false;
         }
 
-        var implementationType = descriptor.ImplementationType
-                                 ?? descriptor.ImplementationInstance?.GetType();
+        var implementationType = GetImplementationType(descriptor);
         return implementationType is not null
                && _defaultLoggingProviderTypes.Contains(implementationType);
     }
+
+    private static Type? GetImplementationType(ServiceDescriptor descriptor) =>
+        descriptor.ImplementationType ?? descriptor.ImplementationInstance?.GetType();
 
     private sealed class FixedOptions<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>

@@ -268,13 +268,51 @@ public class PipelineOptionsTests
     [Test]
     public async Task PipelineBuilderExposesLoggingBuilder()
     {
-        var builder = Pipeline.CreateBuilder();
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
         var loggerProvider = new TestLoggerProvider();
         var descriptor = ServiceDescriptor.Singleton<ILoggerProvider>(loggerProvider);
 
         builder.Logging.Services.Add(descriptor);
+        await using var pipeline = await builder.BuildAsync();
 
-        await Assert.That(builder.Services).Contains(descriptor);
+        using (Assert.Multiple())
+        {
+            await Assert.That(builder.Logging.Services).IsTypeOf<ServiceCollection>();
+            await Assert.That(pipeline.Services.GetServices<ILoggerProvider>())
+                .Contains(loggerProvider);
+        }
+    }
+
+    [Test]
+    public async Task ClearingLoggingServicesPreservesApplicationServices()
+    {
+        var builder = Pipeline.CreateBuilder();
+        var applicationService = ServiceDescriptor.Singleton(new object());
+        builder.Services.Add(applicationService);
+
+        builder.Logging.Services.Clear();
+
+        await Assert.That(builder.Services).Contains(applicationService);
+    }
+
+    [Test]
+    public async Task LoggingServicesHonorListOrderingOperations()
+    {
+        var services = Pipeline.CreateBuilder().Logging.Services;
+        var first = ServiceDescriptor.Singleton(new object());
+        var inserted = ServiceDescriptor.Singleton(new Uri("https://example.com"));
+        var replacement = ServiceDescriptor.Singleton(TimeProvider.System);
+
+        services.Insert(0, first);
+        services.Insert(1, inserted);
+        services[1] = replacement;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(services[0]).IsSameReferenceAs(first);
+            await Assert.That(services[1]).IsSameReferenceAs(replacement);
+        }
     }
 
     [Test]
@@ -356,6 +394,32 @@ public class PipelineOptionsTests
             await Assert.That(configureCalled).IsTrue();
             await Assert.That(exception!.OptionsName).IsEqualTo("worker");
             await Assert.That(exception.Failures).Contains("Named validation failure.");
+        }
+    }
+
+    [Test]
+    public async Task SecretMaskingOptionsUseFinalConfiguredPipelineOptions()
+    {
+        var expected = new SecretMaskingOptions { MaskValue = "[hidden]" };
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Services.PostConfigure<PipelineOptions>(options =>
+            typeof(PipelineOptions)
+                .GetProperty(nameof(PipelineOptions.Secrets))!
+                .SetValue(options, expected));
+
+        await using var pipeline = await builder.BuildAsync();
+        var pipelineOptions = pipeline.Services
+            .GetRequiredService<IOptions<PipelineOptions>>()
+            .Value;
+        var secretOptions = pipeline.Services
+            .GetRequiredService<IOptions<SecretMaskingOptions>>()
+            .Value;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(pipelineOptions.Secrets).IsSameReferenceAs(expected);
+            await Assert.That(secretOptions).IsSameReferenceAs(expected);
         }
     }
 
