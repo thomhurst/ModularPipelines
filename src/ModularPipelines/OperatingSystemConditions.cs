@@ -28,7 +28,7 @@ internal static class OperatingSystemConditions
     private static readonly string[] OperatingSystems = [Windows, Linux, MacOS, FreeBSD];
 
     /// <summary>
-    /// Returns the operating-system capabilities targeted by an all-platform condition.
+    /// Returns the operating-system capabilities targeted by a platform condition.
     /// Mixed platform and non-platform conditions are evaluated locally and return no targets.
     /// </summary>
     public static IReadOnlyList<string> GetTargets(IConditionAttribute attribute)
@@ -44,35 +44,49 @@ internal static class OperatingSystemConditions
     }
 
     /// <summary>
-    /// Returns whether all-platform attributes require mutually exclusive operating systems.
+    /// Returns the union capability targeted by one group of alternative conditions.
+    /// A group containing a non-platform alternative cannot impose an OS capability.
+    /// </summary>
+    public static IReadOnlyList<string> GetTargets(
+        IEnumerable<IGroupedConditionAttribute> alternatives)
+    {
+        var supportedOperatingSystems = GetSupportedOperatingSystemsForAlternatives(alternatives);
+
+        return supportedOperatingSystems is null or { Count: 0 }
+            ? []
+            : [CreateCapability(supportedOperatingSystems)];
+    }
+
+    /// <summary>
+    /// Returns whether required platform attributes have no operating system in common.
     /// </summary>
     public static bool HasImpossibleCombination(IEnumerable<IConditionAttribute> attributes)
     {
         HashSet<string>? supportedOperatingSystems = null;
+        var conditionAttributes = attributes.ToArray();
 
-        foreach (var attribute in attributes)
+        foreach (var attribute in conditionAttributes.Where(static attribute =>
+                     attribute is not IGroupedConditionAttribute))
         {
-            var attributeOperatingSystems = GetSupportedOperatingSystems(attribute);
-            if (attributeOperatingSystems is null)
-            {
-                continue;
-            }
+            IntersectConstraint(
+                ref supportedOperatingSystems,
+                GetSupportedOperatingSystems(attribute));
+        }
 
-            if (supportedOperatingSystems is null)
-            {
-                supportedOperatingSystems = attributeOperatingSystems;
-            }
-            else
-            {
-                supportedOperatingSystems.IntersectWith(attributeOperatingSystems);
-            }
+        foreach (var alternatives in conditionAttributes
+                     .OfType<IGroupedConditionAttribute>()
+                     .GroupBy(static attribute => attribute.ConditionGroupType))
+        {
+            IntersectConstraint(
+                ref supportedOperatingSystems,
+                GetSupportedOperatingSystemsForAlternatives(alternatives));
         }
 
         return supportedOperatingSystems is { Count: 0 };
     }
 
     /// <summary>
-    /// Returns whether declared all-platform attributes require mutually exclusive operating systems
+    /// Returns whether declared required platform attributes have no operating system in common
     /// without constructing condition attributes.
     /// </summary>
     public static bool HasImpossibleCombination(Type moduleType)
@@ -81,24 +95,27 @@ internal static class OperatingSystemConditions
         var attributes = CustomAttributeMetadata.GetApplicable(
             moduleType,
             static type => typeof(RunIfAttribute).IsAssignableFrom(type)
-                           || typeof(RunIfAllAttribute).IsAssignableFrom(type));
+                           || typeof(RunIfAllAttribute).IsAssignableFrom(type)
+                           || typeof(RunIfAnyAttribute).IsAssignableFrom(type));
 
-        foreach (var attribute in attributes)
+        foreach (var attribute in attributes.Where(static attribute =>
+                     !typeof(IGroupedConditionAttribute).IsAssignableFrom(attribute.AttributeType)))
         {
-            var attributeOperatingSystems = GetSupportedOperatingSystems(attribute);
-            if (attributeOperatingSystems is null)
-            {
-                continue;
-            }
+            IntersectConstraint(
+                ref supportedOperatingSystems,
+                GetSupportedOperatingSystems(attribute));
+        }
 
-            if (supportedOperatingSystems is null)
-            {
-                supportedOperatingSystems = attributeOperatingSystems;
-            }
-            else
-            {
-                supportedOperatingSystems.IntersectWith(attributeOperatingSystems);
-            }
+        foreach (var alternatives in attributes
+                     .Where(static attribute =>
+                         typeof(IGroupedConditionAttribute).IsAssignableFrom(attribute.AttributeType))
+                     .GroupBy(static attribute => attribute.AttributeType.IsGenericType
+                         ? attribute.AttributeType.GetGenericTypeDefinition()
+                         : attribute.AttributeType))
+        {
+            IntersectConstraint(
+                ref supportedOperatingSystems,
+                GetSupportedOperatingSystemsForAlternatives(alternatives));
         }
 
         return supportedOperatingSystems is { Count: 0 };
@@ -188,34 +205,93 @@ internal static class OperatingSystemConditions
             return null;
         }
 
-        HashSet<string>? supportedOperatingSystems = null;
+        var useUnion = typeof(RunIfAnyAttribute).IsAssignableFrom(attribute.AttributeType);
+        HashSet<string>? supportedOperatingSystems = useUnion
+            ? new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            : null;
         foreach (var conditionType in conditionTypes)
         {
-            var operatingSystem = GetOperatingSystem(conditionType);
-            if (operatingSystem is null)
+            var conditionOperatingSystems = GetSupportedOperatingSystems(conditionType);
+            if (conditionOperatingSystems is null)
             {
                 return null;
             }
 
-            if (supportedOperatingSystems is null)
+            if (useUnion)
             {
-                supportedOperatingSystems = new HashSet<string>(
-                    [operatingSystem],
-                    StringComparer.OrdinalIgnoreCase);
+                supportedOperatingSystems!.UnionWith(conditionOperatingSystems);
+            }
+            else if (supportedOperatingSystems is null)
+            {
+                supportedOperatingSystems = conditionOperatingSystems;
             }
             else
             {
-                supportedOperatingSystems.IntersectWith([operatingSystem]);
+                supportedOperatingSystems.IntersectWith(conditionOperatingSystems);
             }
         }
 
         return supportedOperatingSystems;
     }
 
+    private static HashSet<string>? GetSupportedOperatingSystemsForAlternatives(
+        IEnumerable<IConditionAttribute> alternatives)
+    {
+        var supportedOperatingSystems = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var alternative in alternatives)
+        {
+            var alternativeOperatingSystems = GetSupportedOperatingSystems(alternative);
+            if (alternativeOperatingSystems is null)
+            {
+                return null;
+            }
+
+            supportedOperatingSystems.UnionWith(alternativeOperatingSystems);
+        }
+
+        return supportedOperatingSystems;
+    }
+
+    private static HashSet<string>? GetSupportedOperatingSystemsForAlternatives(
+        IEnumerable<CustomAttributeData> alternatives)
+    {
+        var supportedOperatingSystems = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var alternative in alternatives)
+        {
+            var alternativeOperatingSystems = GetSupportedOperatingSystems(alternative);
+            if (alternativeOperatingSystems is null)
+            {
+                return null;
+            }
+
+            supportedOperatingSystems.UnionWith(alternativeOperatingSystems);
+        }
+
+        return supportedOperatingSystems;
+    }
+
+    private static void IntersectConstraint(
+        ref HashSet<string>? supportedOperatingSystems,
+        HashSet<string>? constraint)
+    {
+        if (constraint is null)
+        {
+            return;
+        }
+
+        if (supportedOperatingSystems is null)
+        {
+            supportedOperatingSystems = constraint;
+            return;
+        }
+
+        supportedOperatingSystems.IntersectWith(constraint);
+    }
+
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2067",
-        Justification = "Condition types come from RunIf<T> or RunIfAll<T...> generic arguments, whose new() constraints preserve a public parameterless constructor.")]
+        Justification = "Condition types come from RunIf<T>, RunIfAll<T...>, or RunIfAny<T...> generic arguments, whose new() constraints preserve a public parameterless constructor.")]
     private static HashSet<string>? GetSupportedOperatingSystems(Type conditionType)
     {
         var operatingSystem = GetOperatingSystem(conditionType);
@@ -268,6 +344,11 @@ internal static class OperatingSystemConditions
         if (conditionType == typeof(OnLinux))
         {
             return Linux;
+        }
+
+        if (conditionType == typeof(OnFreeBSD))
+        {
+            return FreeBSD;
         }
 
         return conditionType == typeof(OnMacOS) ? MacOS : null;

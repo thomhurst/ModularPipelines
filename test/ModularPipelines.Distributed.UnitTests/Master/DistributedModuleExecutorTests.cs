@@ -76,6 +76,28 @@ public class DistributedModuleExecutorTests
             => Task.FromResult<string>("unix done");
     }
 
+    [GroupedOperatingSystem<OnLinux>]
+    [GroupedOperatingSystem<OnWindows>]
+    private sealed class GroupedOperatingSystemModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            Context.IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult("grouped OS done");
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    private sealed class GroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
+        IGroupedConditionAttribute
+        where TCondition : IRunCondition, new()
+    {
+        public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
+
+        public override string ConditionNames => typeof(TCondition).Name;
+
+        public override Task<bool> EvaluateAsync(Context.IPipelineContext context) =>
+            new TCondition().EvaluateAsync(context);
+    }
+
     private class AnotherDistributedModule : Module<int>
     {
         protected internal override Task<int> ExecuteAsync(
@@ -897,6 +919,30 @@ public class DistributedModuleExecutorTests
             await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
                 .Contains(requiredCapability);
             await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
+                .DoesNotContain(requiredCapability);
+        }
+    }
+
+    [Test]
+    public async Task CreateAssignment_Unions_Grouped_Operating_System_Alternatives()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(GroupedOperatingSystemModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new GroupedOperatingSystemModule());
+        var requiredCapability = assignment.RequiredCapabilities.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
                 .DoesNotContain(requiredCapability);
         }
     }

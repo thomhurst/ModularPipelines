@@ -35,9 +35,21 @@ internal class DistributedWorkPublisher(
             .Select(a => a.Capability)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        foreach (var osCondition in moduleType.GetCustomAttributes(true).OfType<IConditionAttribute>())
+        var conditionAttributes = moduleType.GetCustomAttributes(true).OfType<IConditionAttribute>().ToArray();
+        foreach (var osCondition in conditionAttributes.Where(static attribute =>
+                     attribute is not IGroupedConditionAttribute))
         {
             foreach (var osCapability in OperatingSystemConditions.GetTargets(osCondition))
+            {
+                requiredCapabilities.Add(osCapability);
+            }
+        }
+
+        foreach (var alternatives in conditionAttributes
+                     .OfType<IGroupedConditionAttribute>()
+                     .GroupBy(static attribute => attribute.ConditionGroupType))
+        {
+            foreach (var osCapability in OperatingSystemConditions.GetTargets(alternatives))
             {
                 requiredCapabilities.Add(osCapability);
             }

@@ -34,6 +34,7 @@ public class RunConditionApiSurfaceTests
         {
             await Assert.That(typeof(OnCI).IsPublic).IsTrue();
             await Assert.That(typeof(OnLocal).IsPublic).IsTrue();
+            await Assert.That(typeof(OnFreeBSD).IsPublic).IsTrue();
             await Assert.That(assembly.GetType("ModularPipelines.Conditions.IsCI")).IsNull();
             await Assert.That(assembly.GetType("ModularPipelines.Conditions.IsLocal")).IsNull();
             await Assert.That(assembly.GetType("ModularPipelines.OperatingSystemIdentifier")).IsNull();

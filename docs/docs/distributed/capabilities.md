@@ -32,7 +32,7 @@ This means modules with `[RequiresCapability("linux")]` will only run on Linux w
 
 ### Auto-Detected OS from Platform Conditions
 
-When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, or `[RunIf<OnMacOS>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
+When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
 
 ```csharp
 // The "linux" capability is auto-detected — no [RequiresCapability] needed

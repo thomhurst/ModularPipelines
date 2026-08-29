@@ -1003,6 +1003,9 @@ public class LinuxModule : Module<string> { }
 [RunIf<OnMacOS>]
 public class MacModule : Module<string> { }
 
+[RunIf<OnFreeBSD>]
+public class FreeBsdModule : Module<string> { }
+
 // Skip based on custom condition
 [SkipIf<IsNotMainBranchCondition>]
 public class MainBranchModule : Module<string> { }

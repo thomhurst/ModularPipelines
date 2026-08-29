@@ -54,7 +54,7 @@ public class RegionalDeployModule : Module<None>
 The base class also provides a cancellation-aware overload. Override it when the condition performs
 cancellable asynchronous work.
 
-Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIfAll`, then
+Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIf`/`RunIfAll`, then
 `RunIfAny`. Attribute conditions and fluent `.WithSkipWhen(...)` conditions run in the same
 execution pipeline after dependency waiting. Both invoke skipped hooks and lifecycle
 notifications.
@@ -63,7 +63,7 @@ Fluent dependencies are validated before execution conditions are evaluated. Eve
 declared with `DependsOn<T>()` must therefore be registered, even when an attribute condition
 will skip the consuming module on the current platform or environment.
 
-Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, and `OnUnix`:
+Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`:
 
 ```csharp
 [RunIf<OnLinux>]

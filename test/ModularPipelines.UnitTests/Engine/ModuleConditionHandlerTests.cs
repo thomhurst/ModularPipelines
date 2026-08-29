@@ -110,6 +110,36 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Discovery_Filters_Contradictory_Alternative_Os_Conditions()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreByCategory(new ContradictoryAlternativeOsModule());
+
+        await Assert.That(result.ShouldIgnore).IsTrue();
+    }
+
+    [Test]
+    public async Task Distributed_Master_Discovery_Filters_Contradictory_Os_Condition_Group()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreByCategory(new ContradictoryUnixOsModule());
+
+        await Assert.That(result.ShouldIgnore).IsTrue();
+    }
+
+    [Test]
     public async Task Distributed_Master_Discovery_Does_Not_Filter_Routable_Os_Condition()
     {
         var handler = CreateHandler(new DistributedOptions
@@ -320,6 +350,24 @@ public class ModuleConditionHandlerTests
         {
             return Task.FromResult(string.Empty);
         }
+    }
+
+    [RunIfAny<OnLinux, OnMacOS>]
+    [RunIf<OnWindows>]
+    private sealed class ContradictoryAlternativeOsModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIf<OnUnix>]
+    [RunIf<OnWindows>]
+    private sealed class ContradictoryUnixOsModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
     [DeferredDiscoveryCondition]
