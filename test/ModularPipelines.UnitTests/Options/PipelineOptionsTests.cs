@@ -442,9 +442,8 @@ public class PipelineOptionsTests
             .Validate(_ => false, "Named validation failure.")
             .ValidateOnStart();
 
-        await using var pipeline = await builder.BuildAsync();
-        var monitor = pipeline.Services.GetRequiredService<IOptionsMonitor<PipelineOptions>>();
-        var exception = Assert.Throws<OptionsValidationException>(() => monitor.Get("worker"));
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(
+            () => builder.BuildAsync());
 
         using (Assert.Multiple())
         {
