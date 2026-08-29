@@ -25,7 +25,7 @@ public class NonSpectreLoggerFactoryTests
             null));
         using var loggerFactory = new LoggerFactory([provider], CreateOptionsMonitor(options));
         var control = CreateControl();
-        var factory = CreateFactory(loggerFactory, control.Object, [provider], options);
+        var factory = CreateFactory(loggerFactory, control.Object, options);
         var logger = factory.CreateLoggers("Allowed.Category").Single();
 
         logger.LogInformation("filtered");
@@ -43,7 +43,7 @@ public class NonSpectreLoggerFactoryTests
         var dynamicProvider = new RecordingLoggerProvider();
         using var loggerFactory = new LoggerFactory([initialProvider]);
         var control = CreateControl();
-        var factory = CreateFactory(loggerFactory, control.Object, [initialProvider]);
+        var factory = CreateFactory(loggerFactory, control.Object);
         var logger = factory.CreateLoggers("Category").Single();
 
         loggerFactory.AddProvider(dynamicProvider);
@@ -60,8 +60,7 @@ public class NonSpectreLoggerFactoryTests
         using var effectiveFactory = new LoggerFactory([effectiveProvider]);
         var factory = CreateFactory(
             effectiveFactory,
-            CreateControl().Object,
-            [effectiveProvider]);
+            CreateControl().Object);
 
         factory.CreateLoggers("Category").Single().LogWarning("delivered");
 
@@ -76,7 +75,7 @@ public class NonSpectreLoggerFactoryTests
             LogException = new InvalidOperationException("provider rejected event"),
         };
         using var loggerFactory = new LoggerFactory([failingProvider]);
-        var factory = CreateFactory(loggerFactory, CreateControl().Object, [failingProvider]);
+        var factory = CreateFactory(loggerFactory, CreateControl().Object);
         var logger = factory.CreateLoggers("Category").Single();
 
         var exception = Assert.Throws<ProviderDeliveryException>(
@@ -178,7 +177,6 @@ public class NonSpectreLoggerFactoryTests
         var factory = new NonSpectreLoggerFactory(
             loggerFactory,
             control,
-            providers,
             filterOptions,
             consoleOptions);
         var originalOut = System.Console.Out;
@@ -214,6 +212,38 @@ public class NonSpectreLoggerFactoryTests
         }
     }
 
+    [Test]
+    public async Task CreateLoggers_Includes_Provider_Added_After_Construction()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging(builder => builder
+            .ClearProviders()
+            .AddConsole());
+        await using var serviceProvider = services.BuildServiceProvider();
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        var filterOptions = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
+        var providers = serviceProvider.GetServices<ILoggerProvider>().ToArray();
+        var control = new NoopSpectreConsoleLoggerControl(
+            loggerFactory,
+            filterOptions,
+            providers);
+        var factory = new NonSpectreLoggerFactory(
+            loggerFactory,
+            control,
+            filterOptions,
+            serviceProvider.GetRequiredService<IOptionsMonitor<ConsoleLoggerOptions>>());
+        var runtimeProvider = new RecordingLoggerProvider();
+
+        loggerFactory.AddProvider(runtimeProvider);
+        foreach (var logger in factory.CreateLoggers("Category"))
+        {
+            logger.LogInformation("dynamic provider message");
+        }
+
+        await Assert.That(runtimeProvider.Entries)
+            .Contains((LogLevel.Information, "dynamic provider message"));
+    }
+
     private static Mock<ISpectreConsoleLoggerControl> CreateControl()
     {
         var control = new Mock<ISpectreConsoleLoggerControl>();
@@ -235,11 +265,9 @@ public class NonSpectreLoggerFactoryTests
     private static NonSpectreLoggerFactory CreateFactory(
         ILoggerFactory loggerFactory,
         ISpectreConsoleLoggerControl control,
-        IEnumerable<ILoggerProvider> providers,
         LoggerFilterOptions? options = null) => new(
         loggerFactory,
         control,
-        providers,
         CreateOptionsMonitor(options ?? new LoggerFilterOptions()),
         CreateOptionsMonitor(new ConsoleLoggerOptions()));
 

@@ -1,4 +1,7 @@
+using System.Collections;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
@@ -18,12 +21,11 @@ internal interface ISynchronousConsoleLogger;
 internal sealed class NonSpectreLoggerFactory(
     ILoggerFactory loggerFactory,
     ISpectreConsoleLoggerControl loggerControl,
-    IEnumerable<ILoggerProvider> loggerProviders,
     IOptionsMonitor<LoggerFilterOptions> filterOptions,
     IOptionsMonitor<ConsoleLoggerOptions> consoleOptions) : INonSpectreLoggerFactory
 {
-    private readonly ILoggerProvider[] _loggerProviders = loggerProviders.ToArray();
-    private readonly ConcurrentDictionary<string, IReadOnlyList<ILogger>> _providerLoggers = [];
+    private readonly object _providerLoggersLock = new();
+    private readonly Dictionary<string, ProviderLoggerSnapshot> _providerLoggers = [];
 
     public IReadOnlyList<ILogger> CreateLoggers(string categoryName)
     {
@@ -35,13 +37,54 @@ internal sealed class NonSpectreLoggerFactory(
                 loggerControl)];
         }
 
-        return _providerLoggers.GetOrAdd(categoryName, CreateProviderLoggers);
+        lock (_providerLoggersLock)
+        {
+            var currentProviders = GetCurrentProviders(loggerFactory);
+            if (_providerLoggers.TryGetValue(categoryName, out var snapshot)
+                && ProvidersMatch(snapshot.Providers, currentProviders))
+            {
+                return snapshot.Loggers;
+            }
+
+            var loggers = CreateProviderLoggers(categoryName, currentProviders);
+            _providerLoggers[categoryName] = new ProviderLoggerSnapshot(currentProviders, loggers);
+            return loggers;
+        }
     }
 
-    private IReadOnlyList<ILogger> CreateProviderLoggers(string categoryName) =>
-        _loggerProviders
+    private IReadOnlyList<ILogger> CreateProviderLoggers(
+        string categoryName,
+        IReadOnlyList<ILoggerProvider> providers) =>
+        providers
             .Select(provider => CreateProviderLogger(provider, categoryName))
             .ToArray();
+
+    [DynamicDependency(
+        DynamicallyAccessedMemberTypes.NonPublicFields,
+        typeof(LoggerFactory))]
+    [DynamicDependency(
+        DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields,
+        "Microsoft.Extensions.Logging.LoggerFactory+ProviderRegistration",
+        "Microsoft.Extensions.Logging")]
+    private static ILoggerProvider[] GetCurrentProviders(ILoggerFactory loggerFactory)
+    {
+        var sync = LoggerFactoryFields.Sync.GetValue(loggerFactory)!;
+        lock (sync)
+        {
+            var registrations = (IEnumerable) LoggerFactoryFields.ProviderRegistrations
+                .GetValue(loggerFactory)!;
+            return registrations.Cast<object>()
+                .Select(registration => (ILoggerProvider) LoggerFactoryFields.Provider
+                    .GetValue(registration)!)
+                .ToArray();
+        }
+    }
+
+    private static bool ProvidersMatch(
+        IReadOnlyList<ILoggerProvider> left,
+        IReadOnlyList<ILoggerProvider> right) =>
+        left.Count == right.Count
+        && left.Zip(right).All(pair => ReferenceEquals(pair.First, pair.Second));
 
     private ILogger CreateProviderLogger(ILoggerProvider provider, string categoryName)
     {
@@ -216,6 +259,35 @@ internal sealed class NonSpectreLoggerFactory(
                 throw new ProviderDeliveryException([], [deliveryException]);
             }
         }
+    }
+
+    private sealed record ProviderLoggerSnapshot(
+        ILoggerProvider[] Providers,
+        IReadOnlyList<ILogger> Loggers);
+
+    private static class LoggerFactoryFields
+    {
+        private const BindingFlags FieldFlags = BindingFlags.Instance
+                                                | BindingFlags.Public
+                                                | BindingFlags.NonPublic;
+
+        public static readonly FieldInfo ProviderRegistrations =
+            GetRequiredField(typeof(LoggerFactory), "_providerRegistrations");
+
+        public static readonly FieldInfo Sync =
+            GetRequiredField(typeof(LoggerFactory), "_sync");
+
+        public static readonly FieldInfo Provider = GetRequiredField(
+            ProviderRegistrations.FieldType.GetGenericArguments()[0],
+            "Provider");
+
+        [UnconditionalSuppressMessage(
+            "Trimming",
+            "IL2070",
+            Justification = "DynamicDependency preserves LoggerFactory and ProviderRegistration fields.")]
+        private static FieldInfo GetRequiredField(Type type, string name) =>
+            type.GetField(name, FieldFlags)
+            ?? throw new MissingFieldException(type.FullName, name);
     }
 }
 
