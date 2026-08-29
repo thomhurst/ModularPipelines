@@ -1,5 +1,17 @@
 # ModularPipelines V4 Release Notes
 
+## PowerShell casing
+
+PowerShell types now use the product's canonical casing:
+
+- `PowershellOptions` is now `PowerShellOptions`.
+- `PowershellScriptOptions` is now `PowerShellScriptOptions`.
+- `PowershellFileOptions` is now `PowerShellFileOptions`.
+
+The internal implementation class also follows the `PowerShell` casing. The former
+`Powershell7Async` predefined installer was removed with the rest of the predefined
+installer surface; use the dedicated installation integrations instead.
+
 ## Installers
 
 The core installer surface now contains only generic local and web installation:

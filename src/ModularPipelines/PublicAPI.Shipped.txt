@@ -1600,21 +1600,6 @@ ModularPipelines.Options.PipelineOptions.TargetModules.get -> System.Collections
 ModularPipelines.Options.PipelineOptions.TargetModules.init -> void
 ModularPipelines.Options.PipelineOptions.ThrowOnPipelineFailure.get -> bool
 ModularPipelines.Options.PipelineOptions.ThrowOnPipelineFailure.init -> void
-ModularPipelines.Options.PowershellFileOptions
-ModularPipelines.Options.PowershellFileOptions.Deconstruct(out string! FilePath) -> void
-ModularPipelines.Options.PowershellFileOptions.FilePath.get -> string!
-ModularPipelines.Options.PowershellFileOptions.FilePath.init -> void
-ModularPipelines.Options.PowershellFileOptions.PowershellFileOptions(ModularPipelines.Options.PowershellFileOptions! original) -> void
-ModularPipelines.Options.PowershellFileOptions.PowershellFileOptions(string! FilePath) -> void
-ModularPipelines.Options.PowershellOptions
-ModularPipelines.Options.PowershellOptions.PowershellOptions() -> void
-ModularPipelines.Options.PowershellOptions.PowershellOptions(ModularPipelines.Options.PowershellOptions! original) -> void
-ModularPipelines.Options.PowershellScriptOptions
-ModularPipelines.Options.PowershellScriptOptions.Deconstruct(out string! Script) -> void
-ModularPipelines.Options.PowershellScriptOptions.PowershellScriptOptions(ModularPipelines.Options.PowershellScriptOptions! original) -> void
-ModularPipelines.Options.PowershellScriptOptions.PowershellScriptOptions(string! Script) -> void
-ModularPipelines.Options.PowershellScriptOptions.Script.get -> string!
-ModularPipelines.Options.PowershellScriptOptions.Script.init -> void
 ModularPipelines.Options.RunReportOptions
 ModularPipelines.Options.RunReportOptions.<Clone>$() -> ModularPipelines.Options.RunReportOptions!
 ModularPipelines.Options.RunReportOptions.AutoWriteInCi.get -> bool
@@ -1976,24 +1961,6 @@ override ModularPipelines.Options.PipelineHttpOptions.ToString() -> string!
 override ModularPipelines.Options.PipelineOptions.Equals(object? obj) -> bool
 override ModularPipelines.Options.PipelineOptions.GetHashCode() -> int
 override ModularPipelines.Options.PipelineOptions.ToString() -> string!
-override ModularPipelines.Options.PowershellFileOptions.<Clone>$() -> ModularPipelines.Options.PowershellFileOptions!
-override ModularPipelines.Options.PowershellFileOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.PowershellFileOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.PowershellFileOptions.GetHashCode() -> int
-override ModularPipelines.Options.PowershellFileOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.PowershellFileOptions.ToString() -> string!
-override ModularPipelines.Options.PowershellOptions.<Clone>$() -> ModularPipelines.Options.PowershellOptions!
-override ModularPipelines.Options.PowershellOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.PowershellOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.PowershellOptions.GetHashCode() -> int
-override ModularPipelines.Options.PowershellOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.PowershellOptions.ToString() -> string!
-override ModularPipelines.Options.PowershellScriptOptions.<Clone>$() -> ModularPipelines.Options.PowershellScriptOptions!
-override ModularPipelines.Options.PowershellScriptOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.PowershellScriptOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.PowershellScriptOptions.GetHashCode() -> int
-override ModularPipelines.Options.PowershellScriptOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.PowershellScriptOptions.ToString() -> string!
 override ModularPipelines.Options.RunReportOptions.Equals(object? obj) -> bool
 override ModularPipelines.Options.RunReportOptions.GetHashCode() -> int
 override ModularPipelines.Options.RunReportOptions.ToString() -> string!
@@ -2025,9 +1992,6 @@ override sealed ModularPipelines.Options.BashCommandOptions.Equals(ModularPipeli
 override sealed ModularPipelines.Options.BashFileOptions.Equals(ModularPipelines.Options.BashOptions? other) -> bool
 override sealed ModularPipelines.Options.BashOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Options.DownloadFileOptions.Equals(ModularPipelines.Options.DownloadOptions? other) -> bool
-override sealed ModularPipelines.Options.PowershellFileOptions.Equals(ModularPipelines.Options.PowershellOptions? other) -> bool
-override sealed ModularPipelines.Options.PowershellOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
-override sealed ModularPipelines.Options.PowershellScriptOptions.Equals(ModularPipelines.Options.PowershellOptions? other) -> bool
 static ModularPipelines.AmbientModuleContext.CurrentModuleFullName.get -> string?
 static ModularPipelines.AmbientModuleContext.CurrentModuleName.get -> string?
 static ModularPipelines.AmbientModuleContext.CurrentModuleType.get -> System.Type?
@@ -2220,12 +2184,6 @@ static ModularPipelines.Options.PipelineHttpOptions.operator !=(ModularPipelines
 static ModularPipelines.Options.PipelineHttpOptions.operator ==(ModularPipelines.Options.PipelineHttpOptions? left, ModularPipelines.Options.PipelineHttpOptions? right) -> bool
 static ModularPipelines.Options.PipelineOptions.operator !=(ModularPipelines.Options.PipelineOptions? left, ModularPipelines.Options.PipelineOptions? right) -> bool
 static ModularPipelines.Options.PipelineOptions.operator ==(ModularPipelines.Options.PipelineOptions? left, ModularPipelines.Options.PipelineOptions? right) -> bool
-static ModularPipelines.Options.PowershellFileOptions.operator !=(ModularPipelines.Options.PowershellFileOptions? left, ModularPipelines.Options.PowershellFileOptions? right) -> bool
-static ModularPipelines.Options.PowershellFileOptions.operator ==(ModularPipelines.Options.PowershellFileOptions? left, ModularPipelines.Options.PowershellFileOptions? right) -> bool
-static ModularPipelines.Options.PowershellOptions.operator !=(ModularPipelines.Options.PowershellOptions? left, ModularPipelines.Options.PowershellOptions? right) -> bool
-static ModularPipelines.Options.PowershellOptions.operator ==(ModularPipelines.Options.PowershellOptions? left, ModularPipelines.Options.PowershellOptions? right) -> bool
-static ModularPipelines.Options.PowershellScriptOptions.operator !=(ModularPipelines.Options.PowershellScriptOptions? left, ModularPipelines.Options.PowershellScriptOptions? right) -> bool
-static ModularPipelines.Options.PowershellScriptOptions.operator ==(ModularPipelines.Options.PowershellScriptOptions? left, ModularPipelines.Options.PowershellScriptOptions? right) -> bool
 static ModularPipelines.Options.RunReportOptions.operator !=(ModularPipelines.Options.RunReportOptions? left, ModularPipelines.Options.RunReportOptions? right) -> bool
 static ModularPipelines.Options.RunReportOptions.operator ==(ModularPipelines.Options.RunReportOptions? left, ModularPipelines.Options.RunReportOptions? right) -> bool
 static ModularPipelines.Options.SchedulerOptions.operator !=(ModularPipelines.Options.SchedulerOptions? left, ModularPipelines.Options.SchedulerOptions? right) -> bool
@@ -2390,9 +2348,6 @@ virtual ModularPipelines.Options.PipelineOptions.<Clone>$() -> ModularPipelines.
 virtual ModularPipelines.Options.PipelineOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.PipelineOptions.Equals(ModularPipelines.Options.PipelineOptions? other) -> bool
 virtual ModularPipelines.Options.PipelineOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.Options.PowershellFileOptions.Equals(ModularPipelines.Options.PowershellFileOptions? other) -> bool
-virtual ModularPipelines.Options.PowershellOptions.Equals(ModularPipelines.Options.PowershellOptions? other) -> bool
-virtual ModularPipelines.Options.PowershellScriptOptions.Equals(ModularPipelines.Options.PowershellScriptOptions? other) -> bool
 virtual ModularPipelines.Options.SchedulerOptions.<Clone>$() -> ModularPipelines.Options.SchedulerOptions!
 virtual ModularPipelines.Options.SchedulerOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.SchedulerOptions.Equals(ModularPipelines.Options.SchedulerOptions? other) -> bool

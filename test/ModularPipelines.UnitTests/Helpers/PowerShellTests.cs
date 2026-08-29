@@ -9,9 +9,9 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-public class PowershellTests : TestBase
+public class PowerShellTests : TestBase
 {
-    private class PowershellEchoModule : Module<CommandResult>
+    private class PowerShellEchoModule : Module<CommandResult>
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -22,7 +22,7 @@ public class PowershellTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var moduleResult = await await RunModule<PowershellEchoModule>();
+        var moduleResult = await await RunModule<PowerShellEchoModule>();
 
         await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
     }
@@ -30,7 +30,7 @@ public class PowershellTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await await RunModule<PowershellEchoModule>();
+        var moduleResult = await await RunModule<PowerShellEchoModule>();
 
         await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
     }
@@ -38,14 +38,14 @@ public class PowershellTests : TestBase
     [Test]
     public async Task RunAsync_Forwards_Options_Record_And_Execution_Options()
     {
-        var options = new PowershellScriptOptions("Write-Host test");
+        var options = new PowerShellScriptOptions("Write-Host test");
         var executionOptions = new CommandExecutionOptions { WorkingDirectory = "work" };
         var cancellationToken = new CancellationTokenSource().Token;
         var command = new Mock<ICommandContext>();
         command.Setup(context => context.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken))
             .ReturnsAsync(CommandResult.Ok());
 
-        await new Powershell(command.Object).RunAsync(options, executionOptions, cancellationToken);
+        await new PowerShell(command.Object).RunAsync(options, executionOptions, cancellationToken);
 
         command.VerifyAll();
     }
@@ -56,12 +56,12 @@ public class PowershellTests : TestBase
         var executionOptions = new CommandExecutionOptions { ThrowOnNonZeroExitCode = false };
         var command = new Mock<ICommandContext>();
         command.Setup(context => context.ExecuteCommandLineToolAsync(
-                It.Is<PowershellFileOptions>(options => options.FilePath == "script.ps1"),
+                It.Is<PowerShellFileOptions>(options => options.FilePath == "script.ps1"),
                 executionOptions,
                 CancellationToken.None))
             .ReturnsAsync(CommandResult.Ok());
 
-        await new Powershell(command.Object).RunFileAsync("script.ps1", executionOptions);
+        await new PowerShell(command.Object).RunFileAsync("script.ps1", executionOptions);
 
         command.VerifyAll();
     }

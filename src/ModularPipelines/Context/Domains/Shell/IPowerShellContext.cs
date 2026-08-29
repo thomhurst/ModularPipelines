@@ -28,6 +28,7 @@ public interface IPowerShellContext
     /// Console.WriteLine(result.StandardOutput);
     /// </code>
     /// </example>
+#pragma warning disable RS0026 // String and options overloads intentionally share optional execution and cancellation parameters.
     Task<CommandResult> RunAsync(
         string script,
         CommandExecutionOptions? executionOptions = null,
@@ -41,7 +42,7 @@ public interface IPowerShellContext
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
     /// <returns>A <see cref="CommandResult"/> containing the execution results.</returns>
     Task<CommandResult> RunAsync(
-        PowershellScriptOptions options,
+        PowerShellScriptOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
@@ -74,7 +75,8 @@ public interface IPowerShellContext
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
     /// <returns>A <see cref="CommandResult"/> containing the execution results.</returns>
     Task<CommandResult> RunFileAsync(
-        PowershellFileOptions options,
+        PowerShellFileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
+#pragma warning restore RS0026
 }

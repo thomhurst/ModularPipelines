@@ -132,7 +132,7 @@ public class CommandTests : TestBase
     {
         var command = await GetService<ICommandContext>();
         var result = await command.ExecuteCommandLineToolAsync(
-            new PowershellScriptOptions("Write-Output '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'"),
+            new PowerShellScriptOptions("Write-Output '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'"),
             new CommandExecutionOptions { MaxCapturedOutputLength = 10 });
 
         using (Assert.Multiple())
