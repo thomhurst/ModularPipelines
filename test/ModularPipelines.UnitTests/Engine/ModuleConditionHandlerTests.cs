@@ -20,6 +20,7 @@ public class ModuleConditionHandlerTests
     private static int _conditionEvaluationCount;
     private static int _deferredDiscoveryConditionConstructions;
     private static int _mixedAlternativeEvaluationCount;
+    private static int _workerOnlyEvaluationCount;
 
     [Test]
     public async Task Distributed_Master_Does_Not_Filter_Foreign_Os_Module()
@@ -321,6 +322,43 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Routing_Does_Not_Evaluate_Worker_Only_Conditions()
+    {
+        _workerOnlyEvaluationCount = 0;
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        }, distributedConditionRouting: new DistributedConditionRouting());
+
+        await handler.PrepareDistributedRoutingAsync(new WorkerOnlyConditionModule());
+
+        await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Distributed_Master_Planning_Resolves_Matching_Local_Mixed_Alternative()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreForGraphPlanning(
+            new MixedPlanningAlternativeModule(),
+            Mock.Of<IModuleMetadataRegistry>());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsFalse();
+            await Assert.That(result.IsResolved).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Distributed_Worker_Honors_Restored_Satisfied_Group()
     {
         _mixedAlternativeEvaluationCount = 0;
@@ -522,6 +560,40 @@ public class ModuleConditionHandlerTests
     private sealed class FalseCondition : IRunCondition
     {
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+    }
+
+    [WorkerOnlyCondition]
+    private sealed class WorkerOnlyConditionModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class WorkerOnlyConditionAttribute : Attribute, IConditionAttribute
+    {
+        public ConditionLogic Logic => ConditionLogic.All;
+
+        public string ConditionNames => nameof(WorkerOnlyConditionAttribute);
+
+        public Task<bool> EvaluateAsync(IPipelineContext context)
+        {
+            Interlocked.Increment(ref _workerOnlyEvaluationCount);
+            throw new InvalidOperationException("Worker-only condition ran on the master");
+        }
+    }
+
+    [RunIfAny<OnLinux, PlanningTrueCondition>]
+    private sealed class MixedPlanningAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class PlanningTrueCondition : IPlanningRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
     [AlternativeCondition(false)]

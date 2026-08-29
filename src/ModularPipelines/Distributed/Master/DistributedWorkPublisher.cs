@@ -53,6 +53,7 @@ internal class DistributedWorkPublisher(
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
         var conditionAttributes = moduleType.GetCustomAttributes(true).OfType<IConditionAttribute>().ToArray();
+        var operatingSystemRoutes = new List<OperatingSystemConditions.OperatingSystemRoute>();
         foreach (var osCondition in conditionAttributes.Where(static attribute =>
                      attribute is not IGroupedConditionAttribute))
         {
@@ -61,9 +62,9 @@ internal class DistributedWorkPublisher(
                 continue;
             }
 
-            foreach (var osCapability in OperatingSystemConditions.GetTargets(osCondition))
+            if (OperatingSystemConditions.GetRoute(osCondition) is { } route)
             {
-                requiredCapabilities.Add(osCapability);
+                operatingSystemRoutes.Add(route);
             }
         }
 
@@ -76,11 +77,13 @@ internal class DistributedWorkPublisher(
                 continue;
             }
 
-            foreach (var osCapability in OperatingSystemConditions.GetTargets(alternatives))
+            if (OperatingSystemConditions.GetRoute(alternatives) is { } route)
             {
-                requiredCapabilities.Add(osCapability);
+                operatingSystemRoutes.Add(route);
             }
         }
+
+        AddOperatingSystemCapabilities(requiredCapabilities, operatingSystemRoutes);
 
         var config = module.Configuration;
 
@@ -107,6 +110,61 @@ internal class DistributedWorkPublisher(
     public async Task PublishAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
         await _coordinator.EnqueueModuleAsync(assignment, cancellationToken);
+    }
+
+    private static void AddOperatingSystemCapabilities(
+        ISet<string> requiredCapabilities,
+        IReadOnlyList<OperatingSystemConditions.OperatingSystemRoute> routes)
+    {
+        HashSet<string>? effectiveOperatingSystems = null;
+        var strictRoutes = routes.Where(static route => !route.IsConditional).ToArray();
+        foreach (var route in strictRoutes)
+        {
+            if (effectiveOperatingSystems is null)
+            {
+                effectiveOperatingSystems = route.OperatingSystems
+                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            }
+            else
+            {
+                effectiveOperatingSystems.IntersectWith(route.OperatingSystems);
+            }
+        }
+
+        if (effectiveOperatingSystems is { Count: 0 })
+        {
+            foreach (var route in strictRoutes)
+            {
+                requiredCapabilities.Add(
+                    OperatingSystemConditions.GetCapability(route.OperatingSystems));
+            }
+
+            return;
+        }
+
+        foreach (var route in routes.Where(static route => route.IsConditional))
+        {
+            if (effectiveOperatingSystems is null)
+            {
+                effectiveOperatingSystems = route.OperatingSystems
+                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
+                continue;
+            }
+
+            var intersection = effectiveOperatingSystems
+                .Intersect(route.OperatingSystems, StringComparer.OrdinalIgnoreCase)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            if (intersection.Count > 0)
+            {
+                effectiveOperatingSystems = intersection;
+            }
+        }
+
+        if (effectiveOperatingSystems is { Count: > 0 })
+        {
+            requiredCapabilities.Add(
+                OperatingSystemConditions.GetCapability(effectiveOperatingSystems));
+        }
     }
 
     /// <summary>

@@ -7,6 +7,12 @@ namespace ModularPipelines.Distributed;
 internal sealed class DistributedConditionRouting
 {
     private readonly ConditionalWeakTable<IModule, HashSet<Type>> _locallySatisfiedGroups = new();
+    private readonly ConditionalWeakTable<IModule, object> _preparedModules = new();
+
+    public bool IsPrepared(IModule module) => _preparedModules.TryGetValue(module, out _);
+
+    public void MarkPrepared(IModule module) =>
+        _preparedModules.GetValue(module, static _ => new object());
 
     public void MarkLocallySatisfied(IModule module, Type conditionGroupType)
     {

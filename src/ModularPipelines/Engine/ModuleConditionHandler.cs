@@ -97,7 +97,28 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return;
         }
 
-        await ShouldIgnore(module, cancellationToken).ConfigureAwait(false);
+        if (_distributedConditionRouting.IsPrepared(module))
+        {
+            return;
+        }
+
+        var attributes = GetConditionAttributes(module.GetType());
+        if (attributes.Skip.Length > 0
+            || attributes.All.Any(static attribute =>
+                OperatingSystemConditions.GetRoute(attribute) is null))
+        {
+            _distributedConditionRouting.MarkPrepared(module);
+            return;
+        }
+
+        await PrepareAnyConditionRoutingAsync(
+                module,
+                attributes.Any,
+                _pipelineContextProvider.GetModuleContext(),
+                _distributedConditionRouting,
+                cancellationToken)
+            .ConfigureAwait(false);
+        _distributedConditionRouting.MarkPrepared(module);
     }
 
     public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
@@ -480,6 +501,15 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             if (ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
             {
+                if (await AnyConditionMatches(
+                        OperatingSystemConditions.GetLocalAlternatives(attribute),
+                        pipelineContext,
+                        cancellationToken)
+                    .ConfigureAwait(false))
+                {
+                    return new PlanningConditionEvaluation(null, IsResolved: true);
+                }
+
                 isResolved = false;
                 continue;
             }
@@ -744,6 +774,64 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         return null;
+    }
+
+    private static async Task PrepareAnyConditionRoutingAsync(
+        IModule module,
+        IReadOnlyList<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        DistributedConditionRouting conditionRouting,
+        CancellationToken cancellationToken)
+    {
+        var evaluatedGroups = new HashSet<Type>();
+        foreach (var attribute in attributes)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (attribute is not IGroupedConditionAttribute groupedAttribute)
+            {
+                if (OperatingSystemConditions.GetRoute(attribute) is null)
+                {
+                    return;
+                }
+
+                if (await AnyConditionMatches(
+                        OperatingSystemConditions.GetLocalAlternatives(attribute),
+                        pipelineContext,
+                        cancellationToken)
+                    .ConfigureAwait(false))
+                {
+                    conditionRouting.MarkLocallySatisfied(module, attribute.GetType());
+                }
+
+                continue;
+            }
+
+            if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
+            {
+                continue;
+            }
+
+            var alternatives = attributes
+                .OfType<IGroupedConditionAttribute>()
+                .Where(candidate => candidate.ConditionGroupType == groupedAttribute.ConditionGroupType)
+                .ToArray();
+            if (OperatingSystemConditions.GetRoute(alternatives) is null)
+            {
+                return;
+            }
+
+            var localAlternatives = alternatives
+                .Where(attribute => OperatingSystemConditions.GetRoute(attribute) is null)
+                .ToArray();
+            if (await AnyConditionMatches(
+                    localAlternatives,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false))
+            {
+                conditionRouting.MarkLocallySatisfied(module, groupedAttribute.ConditionGroupType);
+            }
+        }
     }
 
     private static async Task<SkipDecision?> EvaluateUngroupedAnyCondition(

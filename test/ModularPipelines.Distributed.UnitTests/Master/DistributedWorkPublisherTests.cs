@@ -106,6 +106,15 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
+    [RunIfAny<OnLinux, FalseCondition>]
+    [RunIf<OnWindows>]
+    private sealed class ConflictingMixedGenericAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            Context.IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
     private sealed class FalseCondition : IRunCondition
     {
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
@@ -282,6 +291,30 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(new MixedGenericAlternativeModule());
 
         await Assert.That(assignment.RequiredCapabilities).Contains("linux");
+    }
+
+    [Test]
+    public async Task CreateAssignment_Does_Not_Combine_Conflicting_Conditional_Os_Route()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(ConflictingMixedGenericAlternativeModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry);
+
+        var assignment = publisher.CreateAssignment(
+            new ConflictingMixedGenericAlternativeModule());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(assignment.RequiredCapabilities).Contains("windows");
+            await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
+        }
     }
 
     [Test]

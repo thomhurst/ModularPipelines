@@ -33,12 +33,7 @@ internal static class OperatingSystemConditions
     /// </summary>
     public static IReadOnlyList<string> GetTargets(IConditionAttribute attribute)
     {
-        var supportedOperatingSystems = GetSupportedOperatingSystems(attribute);
-        if (supportedOperatingSystems is null && attribute is RunIfAnyAttribute)
-        {
-            supportedOperatingSystems = GetRoutableOperatingSystems(
-                attribute.GetType().GetGenericArguments());
-        }
+        var supportedOperatingSystems = GetRoute(attribute)?.OperatingSystems;
 
         if (supportedOperatingSystems is null || supportedOperatingSystems.Count == 0)
         {
@@ -78,12 +73,53 @@ internal static class OperatingSystemConditions
     public static IReadOnlyList<string> GetTargets(
         IEnumerable<IGroupedConditionAttribute> alternatives)
     {
-        var supportedOperatingSystems = GetRoutableOperatingSystemsForAlternatives(alternatives);
+        var supportedOperatingSystems = GetRoute(alternatives)?.OperatingSystems;
 
         return supportedOperatingSystems is null or { Count: 0 }
             ? []
             : [CreateCapability(supportedOperatingSystems)];
     }
+
+    public static OperatingSystemRoute? GetRoute(IConditionAttribute attribute)
+    {
+        var supportedOperatingSystems = GetSupportedOperatingSystems(attribute);
+        if (supportedOperatingSystems is not null)
+        {
+            return new OperatingSystemRoute(supportedOperatingSystems, IsConditional: false);
+        }
+
+        if (attribute is not RunIfAnyAttribute)
+        {
+            return null;
+        }
+
+        var routableOperatingSystems = GetRoutableOperatingSystems(
+            attribute.GetType().GetGenericArguments());
+        return routableOperatingSystems.Count == 0
+            ? null
+            : new OperatingSystemRoute(routableOperatingSystems, IsConditional: true);
+    }
+
+    public static OperatingSystemRoute? GetRoute(
+        IEnumerable<IGroupedConditionAttribute> alternatives)
+    {
+        var alternativeArray = alternatives.ToArray();
+        var supportedOperatingSystems = GetSupportedOperatingSystemsForAlternatives(alternativeArray);
+        if (supportedOperatingSystems is not null)
+        {
+            return supportedOperatingSystems.Count == 0
+                ? null
+                : new OperatingSystemRoute(supportedOperatingSystems, IsConditional: false);
+        }
+
+        var routableOperatingSystems = GetRoutableOperatingSystemsForAlternatives(alternativeArray);
+        return routableOperatingSystems.Count == 0
+            ? null
+            : new OperatingSystemRoute(routableOperatingSystems, IsConditional: true);
+    }
+
+    public static string GetCapability(IEnumerable<string> operatingSystems) =>
+        CreateCapability(operatingSystems);
 
     /// <summary>
     /// Returns whether required platform attributes have no operating system in common.
@@ -423,4 +459,8 @@ internal static class OperatingSystemConditions
             ? orderedOperatingSystems[0]
             : AlternativeCapabilityPrefix + string.Join('|', orderedOperatingSystems);
     }
+
+    internal sealed record OperatingSystemRoute(
+        IReadOnlySet<string> OperatingSystems,
+        bool IsConditional);
 }
