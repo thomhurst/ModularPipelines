@@ -1,4 +1,3 @@
-using ModularPipelines.Cmd.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -27,11 +26,9 @@ public class CmdTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var file = context.Files.GetFile(Path.Combine(
-                TestContext.OutputDirectory!,
-                "Data",
-                "CmdTest %PATH% & echo injected.cmd"));
-            return await context.Tools.Cmd.RunFileAsync(file, cancellationToken: cancellationToken);
+            var file = GetCmdTestFile(context);
+            var options = new CmdFileOptions("missing.cmd") with { FilePath = file.Path };
+            return await context.Tools.Cmd.RunFileAsync(options, cancellationToken: cancellationToken);
         }
     }
 
@@ -43,6 +40,25 @@ public class CmdTests : TestBase
                 new CmdScriptOptions("echo Foo bar!"),
                 new CommandExecutionOptions { ThrowOnNonZeroExitCode = true },
                 cancellationToken);
+        }
+    }
+
+    private class CmdStringFileModule : Module<CommandResult>
+    {
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            var file = GetCmdTestFile(context);
+            return await context.Tools.Cmd.RunFileAsync(file.Path, cancellationToken: cancellationToken);
+        }
+    }
+
+    private class CmdToolOverrideFileModule : Module<CommandResult>
+    {
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            var file = GetCmdTestFile(context);
+            var options = new CmdFileOptions("missing.cmd") { Tool = file.Path };
+            return await context.Tools.Cmd.RunFileAsync(options, cancellationToken: cancellationToken);
         }
     }
 
@@ -76,5 +92,29 @@ public class CmdTests : TestBase
         var moduleResult = await await RunModule<CmdOptionsModule>();
 
         await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
+    }
+
+    [Test]
+    public async Task File_String_Overload_Produces_Expected_Output()
+    {
+        var moduleResult = await await RunModule<CmdStringFileModule>();
+
+        await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
+    }
+
+    [Test]
+    public async Task File_Options_Preserve_Explicit_Tool()
+    {
+        var moduleResult = await await RunModule<CmdToolOverrideFileModule>();
+
+        await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
+    }
+
+    private static ModularPipelines.FileSystem.File GetCmdTestFile(IModuleContext context)
+    {
+        return context.Files.GetFile(Path.Combine(
+            TestContext.OutputDirectory!,
+            "Data",
+            "CmdTest %PATH% & echo injected.cmd"));
     }
 }

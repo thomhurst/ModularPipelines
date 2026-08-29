@@ -1,15 +1,14 @@
-using ModularPipelines.Cmd.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Cmd;
 
-internal class Cmd : ICmd
+internal class CmdContext : ICmdContext
 {
     private readonly IPipelineContext _context;
 
-    public Cmd(IPipelineContext context)
+    public CmdContext(IPipelineContext context)
     {
         _context = context;
     }
@@ -38,8 +37,17 @@ internal class Cmd : ICmd
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
+        return RunFileAsync(new CmdFileOptions(path), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual Task<CommandResult> RunFileAsync(
+        CmdFileOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
         return _context.Shell.RunAsync(
-            new CommandLineToolOptions(path),
+            options.Tool is null ? options with { Tool = options.FilePath } : options,
             executionOptions,
             cancellationToken);
     }
