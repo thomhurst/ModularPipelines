@@ -236,8 +236,8 @@ internal sealed class DependencyGraphExporter(
         var deserializedResultsByTypeName = pipelineSummary.Results
             .OfType<ModuleResult>()
             .Where(static result => result.ModuleType is null
-                                    && result.ModuleTypeName is not null)
-            .GroupBy(static result => result.ModuleTypeName!, StringComparer.Ordinal)
+                                    && result.TypeName is not null)
+            .GroupBy(static result => result.TypeName!, StringComparer.Ordinal)
             .Where(static group => group.Count() == 1)
             .ToDictionary(
                 static group => group.Key,

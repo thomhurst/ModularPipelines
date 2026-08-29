@@ -39,11 +39,11 @@ public class DistributedResultCollectorTests
         var now = DateTimeOffset.UtcNow;
         var successResult = new ModuleResult<TestResult>.Success(new TestResult { Value = "hello" })
         {
-            ModuleName = "TestModule",
-            ModuleTypeName = typeof(TestModule).FullName,
-            ModuleDuration = TimeSpan.FromSeconds(1),
-            ModuleStart = now,
-            ModuleEnd = now.AddSeconds(1),
+            Name = "TestModule",
+            TypeName = typeof(TestModule).FullName,
+            Duration = TimeSpan.FromSeconds(1),
+            StartTime = now,
+            EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
 
@@ -60,7 +60,7 @@ public class DistributedResultCollectorTests
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Succeeded);
-        await Assert.That(result.ModuleName).IsEqualTo("TestModule");
+        await Assert.That(result.Name).IsEqualTo("TestModule");
     }
 
     [Test]
@@ -101,11 +101,11 @@ public class DistributedResultCollectorTests
         var serializer = new ModuleResultSerializer(registry);
         var result = new ModuleResult<TestResult>.Success(new TestResult())
         {
-            ModuleName = nameof(TestModule),
-            ModuleTypeName = typeof(TestModule).FullName,
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(TestModule),
+            TypeName = typeof(TestModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
         var serialized = serializer.Serialize(
@@ -136,7 +136,7 @@ public class DistributedResultCollectorTests
             await Assert.That(commandExecutionCounter.GetCount(typeof(TestModule))).IsEqualTo(4);
             await Assert.That(commandExecutionCounter.GetRemoteModuleCounts()[(1, typeof(TestModule))])
                 .IsEqualTo(4);
-            await Assert.That(collected!.ModuleTypeName).IsEqualTo(ModuleTypeIdentifier.Get(typeof(TestModule)));
+            await Assert.That(collected!.TypeName).IsEqualTo(ModuleTypeIdentifier.Get(typeof(TestModule)));
         }
     }
 
@@ -148,11 +148,11 @@ public class DistributedResultCollectorTests
         var serializer = new ModuleResultSerializer(registry);
         var result = new ModuleResult<TestResult>.Success(new TestResult())
         {
-            ModuleName = nameof(TestModule),
-            ModuleTypeName = typeof(TestModule).FullName,
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(TestModule),
+            TypeName = typeof(TestModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
         var serialized = serializer.Serialize(

@@ -44,6 +44,20 @@ Module resource classification now uses `ExecutionHint` instead of `ExecutionTyp
 
 The `[ExecutionHint(...)]` attribute syntax is unchanged.
 
+## Module result metadata
+
+`IModuleResult` and `ModuleResult` now use concise metadata names:
+
+- `ModuleName` is now `Name`.
+- `ModuleTypeName` is now `TypeName`.
+- `ModuleDuration` is now `Duration`.
+- `ModuleStart` is now `StartTime`.
+- `ModuleEnd` is now `EndTime`.
+
+The custom JSON converters use the same new property names. Consumers of persisted or
+distributed `ModuleResult` JSON must migrate those five field names together with the
+.NET API.
+
 ## Module condition predicates
 
 `WithSkipWhen` now has boolean predicate overloads that accept a skip reason. Use

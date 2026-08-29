@@ -32,11 +32,11 @@ public class TimedDependencyTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(oneSecondResult.ModuleDuration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
+            await Assert.That(oneSecondResult.Duration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
 
-            await Assert.That(oneSecondResult.ModuleEnd).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleStart + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
+            await Assert.That(oneSecondResult.EndTime).IsGreaterThanOrEqualTo(fiveSecondResult.StartTime + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
 
-            await Assert.That(oneSecondResult.ModuleStart).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
+            await Assert.That(oneSecondResult.StartTime).IsGreaterThanOrEqualTo(fiveSecondResult.EndTime);
         }
     }
 

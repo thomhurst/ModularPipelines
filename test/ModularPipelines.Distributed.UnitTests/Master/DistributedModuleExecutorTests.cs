@@ -166,11 +166,11 @@ public class DistributedModuleExecutorTests
         var now = DateTimeOffset.UtcNow;
         return new ModuleResult<T>.Success(value)
         {
-            ModuleName = moduleName,
-            ModuleTypeName = moduleName,
-            ModuleDuration = TimeSpan.FromMilliseconds(100),
-            ModuleStart = now,
-            ModuleEnd = now.AddMilliseconds(100),
+            Name = moduleName,
+            TypeName = moduleName,
+            Duration = TimeSpan.FromMilliseconds(100),
+            StartTime = now,
+            EndTime = now.AddMilliseconds(100),
             Status = status,
         };
     }
@@ -314,7 +314,7 @@ public class DistributedModuleExecutorTests
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
         await Assert.That(registeredResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
-        await Assert.That(registeredResult.ModuleName).IsEqualTo("DistributedModule");
+        await Assert.That(registeredResult.Name).IsEqualTo("DistributedModule");
     }
 
     [Test]

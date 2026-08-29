@@ -24,11 +24,11 @@ public class ModuleCompletionSourceApplicatorTests
         var now = DateTimeOffset.UtcNow;
         return new ModuleResult<T>.Success(value)
         {
-            ModuleName = moduleName,
-            ModuleTypeName = moduleName,
-            ModuleDuration = TimeSpan.FromMilliseconds(100),
-            ModuleStart = now,
-            ModuleEnd = now.AddMilliseconds(100),
+            Name = moduleName,
+            TypeName = moduleName,
+            Duration = TimeSpan.FromMilliseconds(100),
+            StartTime = now,
+            EndTime = now.AddMilliseconds(100),
             Status = ModuleStatus.Succeeded,
         };
     }
@@ -72,6 +72,6 @@ public class ModuleCompletionSourceApplicatorTests
 
         var moduleResult = await ((IInternalModule) module).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
-        await Assert.That(moduleResult!.ModuleName).IsEqualTo("TestModule");
+        await Assert.That(moduleResult!.Name).IsEqualTo("TestModule");
     }
 }

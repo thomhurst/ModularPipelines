@@ -50,8 +50,8 @@ internal sealed class PipelineRunReportFactory(
             .Select(static group => group.Key)
             .ToHashSet(StringComparer.Ordinal);
         var resultsByName = summary.Results
-            .Where(result => uniqueModuleNames.Contains(result.ModuleName))
-            .GroupBy(static result => result.ModuleName, StringComparer.Ordinal)
+            .Where(result => uniqueModuleNames.Contains(result.Name))
+            .GroupBy(static result => result.Name, StringComparer.Ordinal)
             .Where(static group => group.Count() == 1)
             .ToDictionary(static group => group.Key, static group => group.First(), StringComparer.Ordinal);
         var timelinesByType = summary.ModuleTimelines?
@@ -207,7 +207,7 @@ internal sealed class PipelineRunReportFactory(
 
         return new CurrentModuleReportValues(
             status,
-            result?.ModuleDuration ?? TimeSpan.Zero,
+            result?.Duration ?? TimeSpan.Zero,
             DurationMeasured: false,
             Start: null,
             End: null);
@@ -374,7 +374,7 @@ internal sealed class PipelineRunReportFactory(
     private static string? GetResultTypeName(IModuleResult result) =>
         result is ModuleResult { ModuleType: { } moduleType }
             ? ModuleTypeIdentifier.Get(moduleType)
-            : result.ModuleTypeName;
+            : result.TypeName;
 
     public RunReportExceptionDetails? CreateExceptionDetails(Exception? exception)
     {

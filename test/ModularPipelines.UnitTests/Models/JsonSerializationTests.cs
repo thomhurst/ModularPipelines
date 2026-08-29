@@ -87,7 +87,7 @@ public class JsonSerializationTests : TestBase
         {
             await Assert.That(module1Result.ValueOrDefault!["Foo"].ToString()).IsEqualTo("Bar");
             await Assert.That(module1Result.ValueOrDefault!["Hello"].ToString()).IsEqualTo("world!");
-            await Assert.That(module1Result.ModuleName).IsEqualTo(typeof(Module1).Name);
+            await Assert.That(module1Result.Name).IsEqualTo(typeof(Module1).Name);
         }
     }
 }

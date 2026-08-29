@@ -109,14 +109,14 @@ public class DependsOnAllInheritingFromTests : TestBase
         var result3 = resultRegistry.GetResult(typeof(Module3))!;
         var result4 = resultRegistry.GetResult(typeof(Module4))!;
 
-        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result1.ModuleStart.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
-        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result1.ModuleEnd);
+        await Assert.That(result4.StartTime).IsGreaterThanOrEqualTo(result1.StartTime.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
+        await Assert.That(result4.StartTime).IsGreaterThanOrEqualTo(result1.EndTime);
 
-        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result2.ModuleStart.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
-        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result2.ModuleEnd);
+        await Assert.That(result4.StartTime).IsGreaterThanOrEqualTo(result2.StartTime.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
+        await Assert.That(result4.StartTime).IsGreaterThanOrEqualTo(result2.EndTime);
 
-        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result3.ModuleStart.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
-        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result3.ModuleEnd);
+        await Assert.That(result4.StartTime).IsGreaterThanOrEqualTo(result3.StartTime.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
+        await Assert.That(result4.StartTime).IsGreaterThanOrEqualTo(result3.EndTime);
     }
 
     [Test]
@@ -141,7 +141,7 @@ public class DependsOnAllInheritingFromTests : TestBase
         var dependentResult = resultRegistry.GetResult(typeof(DependsOnOpenGenericModule))!;
 
         // The dependent module should start AFTER both generic modules complete
-        await Assert.That(dependentResult.ModuleStart).IsGreaterThanOrEqualTo(result1.ModuleEnd);
-        await Assert.That(dependentResult.ModuleStart).IsGreaterThanOrEqualTo(result2.ModuleEnd);
+        await Assert.That(dependentResult.StartTime).IsGreaterThanOrEqualTo(result1.EndTime);
+        await Assert.That(dependentResult.StartTime).IsGreaterThanOrEqualTo(result2.EndTime);
     }
 }

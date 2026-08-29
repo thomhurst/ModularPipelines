@@ -85,7 +85,7 @@ internal class ModuleResultSerializer
             : result with
             {
                 ModuleType = resolved.ModuleType,
-                ModuleTypeName = ModuleTypeIdentifier.Get(resolved.ModuleType),
+                TypeName = ModuleTypeIdentifier.Get(resolved.ModuleType),
             };
     }
 }

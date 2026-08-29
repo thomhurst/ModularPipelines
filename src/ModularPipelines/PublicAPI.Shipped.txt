@@ -1066,11 +1066,6 @@ ModularPipelines.Models.CommandResult.WorkingDirectory.get -> string!
 ModularPipelines.Models.CommandResult.WorkingDirectory.init -> void
 ModularPipelines.Models.IModuleResult
 ModularPipelines.Models.IModuleResult.ExceptionOrDefault.get -> System.Exception?
-ModularPipelines.Models.IModuleResult.ModuleDuration.get -> System.TimeSpan
-ModularPipelines.Models.IModuleResult.ModuleEnd.get -> System.DateTimeOffset
-ModularPipelines.Models.IModuleResult.ModuleName.get -> string!
-ModularPipelines.Models.IModuleResult.ModuleStart.get -> System.DateTimeOffset
-ModularPipelines.Models.IModuleResult.ModuleTypeName.get -> string?
 ModularPipelines.Models.IModuleResult.SkipDecisionOrDefault.get -> ModularPipelines.Models.SkipDecision?
 ModularPipelines.Models.IModuleResult.ValueOrDefault.get -> object?
 ModularPipelines.Models.KeyValue
@@ -1112,17 +1107,7 @@ ModularPipelines.Models.ModuleResult.Failure.Equals(ModularPipelines.Models.Modu
 ModularPipelines.Models.ModuleResult.Failure.Exception.get -> System.Exception!
 ModularPipelines.Models.ModuleResult.Failure.Exception.init -> void
 ModularPipelines.Models.ModuleResult.Failure.Failure(System.Exception! Exception) -> void
-ModularPipelines.Models.ModuleResult.ModuleDuration.get -> System.TimeSpan
-ModularPipelines.Models.ModuleResult.ModuleDuration.init -> void
-ModularPipelines.Models.ModuleResult.ModuleEnd.get -> System.DateTimeOffset
-ModularPipelines.Models.ModuleResult.ModuleEnd.init -> void
-ModularPipelines.Models.ModuleResult.ModuleName.get -> string!
-ModularPipelines.Models.ModuleResult.ModuleName.init -> void
 ModularPipelines.Models.ModuleResult.ModuleResult(ModularPipelines.Models.ModuleResult! original) -> void
-ModularPipelines.Models.ModuleResult.ModuleStart.get -> System.DateTimeOffset
-ModularPipelines.Models.ModuleResult.ModuleStart.init -> void
-ModularPipelines.Models.ModuleResult.ModuleTypeName.get -> string?
-ModularPipelines.Models.ModuleResult.ModuleTypeName.init -> void
 ModularPipelines.Models.ModuleResult.SkipDecisionOrDefault.get -> ModularPipelines.Models.SkipDecision?
 ModularPipelines.Models.ModuleResult.Skipped
 ModularPipelines.Models.ModuleResult.Skipped.Decision.get -> ModularPipelines.Models.SkipDecision!
@@ -1146,9 +1131,7 @@ ModularPipelines.Models.ModuleResult<T>.Skipped.Deconstruct(out ModularPipelines
 ModularPipelines.Models.ModuleResult<T>.Skipped.Equals(ModularPipelines.Models.ModuleResult<T>.Skipped? other) -> bool
 ModularPipelines.Models.ModuleResult<T>.Skipped.Skipped(ModularPipelines.Models.SkipDecision! Decision) -> void
 ModularPipelines.Models.ModuleResult<T>.Success
-ModularPipelines.Models.ModuleResult<T>.Success.Deconstruct(out T Value) -> void
 ModularPipelines.Models.ModuleResult<T>.Success.Equals(ModularPipelines.Models.ModuleResult<T>.Success? other) -> bool
-ModularPipelines.Models.ModuleResult<T>.Success.Success(T Value) -> void
 ModularPipelines.Models.ModuleResult<T>.Success.Value.get -> T
 ModularPipelines.Models.ModuleResult<T>.Success.Value.init -> void
 ModularPipelines.Models.ModuleResult<T>.Switch(System.Action<T>! onSuccess, System.Action<System.Exception!>! onFailure, System.Action<ModularPipelines.Models.SkipDecision!>! onSkipped) -> void

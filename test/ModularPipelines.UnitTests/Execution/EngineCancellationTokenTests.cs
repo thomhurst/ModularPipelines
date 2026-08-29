@@ -706,7 +706,7 @@ public class EngineCancellationTokenTests : TestBase
         await Assert.That(exception).IsNotNull();
         await Assert.That(longRunningModuleResult).IsNotNull();
         await Assert.That(longRunningModuleResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
-        await Assert.That(longRunningModuleResult.ModuleDuration).IsLessThan(TimeSpan.FromSeconds(5));
+        await Assert.That(longRunningModuleResult.Duration).IsLessThan(TimeSpan.FromSeconds(5));
     }
 
     [Test]
