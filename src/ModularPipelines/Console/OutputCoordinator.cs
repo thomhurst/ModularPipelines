@@ -461,7 +461,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                && loggerType.GetGenericTypeDefinition() == typeof(Logger<>);
     }
 
-    private sealed class ExclusiveModuleLogger(ILogger inner) : ILogger, IDirectStructuredLogSink
+    private sealed class ExclusiveModuleLogger(ILogger inner) : IExclusiveStructuredLogSink
     {
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull => inner.BeginScope(state);

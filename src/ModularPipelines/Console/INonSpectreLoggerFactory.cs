@@ -18,6 +18,8 @@ internal interface INonSpectreLoggerFactory
 
 internal interface IDirectStructuredLogSink;
 
+internal interface IExclusiveStructuredLogSink : ILogger, IDirectStructuredLogSink;
+
 internal interface ISynchronousConsoleLogger : IDirectStructuredLogSink;
 
 internal sealed class NonSpectreLoggerFactory(

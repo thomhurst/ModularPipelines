@@ -325,8 +325,16 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IReadOnlyList<ILogger>? fallbackLoggers = null,
         CancellationToken cancellationToken = default)
     {
+        var effectiveFallbackLoggers = fallbackLoggers ?? [];
+        var exclusiveSink = effectiveFallbackLoggers
+            .OfType<IExclusiveStructuredLogSink>()
+            .SingleOrDefault();
+        Func<LogLevel, bool> isStructuredLogEnabled = exclusiveSink is null
+            ? _isSpectreEnabled
+            : exclusiveSink.IsEnabled;
         if (!TryTakeOutputs(
                 flushKind,
+                isStructuredLogEnabled,
                 out var outputs,
                 out var structuredDeliveryRetries,
                 out var shouldRenderOutputGroup,
@@ -337,7 +345,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         var directConsole = GetDirectConsole(console);
-        var effectiveFallbackLoggers = fallbackLoggers ?? [];
         var failedStructuredDeliveries = new List<StructuredDeliveryRetry>();
         var renderedCount = 0;
         var renderedConsoleOutput = false;
@@ -461,6 +468,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
     private bool TryTakeOutputs(
         OutputFlushKind flushKind,
+        Func<LogLevel, bool> isStructuredLogEnabled,
         out List<BufferedOutput> outputs,
         out List<StructuredDeliveryRetry> structuredDeliveryRetries,
         out bool shouldRenderOutputGroup,
@@ -502,7 +510,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             outputs = [.. _outputs];
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
-            shouldRenderOutputGroup = needsExceptionHeader || _outputs.Any(ProducesConsoleOutput);
+            shouldRenderOutputGroup = needsExceptionHeader
+                                      || _outputs.Any(output => ProducesConsoleOutput(
+                                          output,
+                                          isStructuredLogEnabled));
             isContinuation = _hasRenderedIncrementalOutput;
             _outputs.Clear();
             _structuredDeliveryRetries.Clear();
@@ -856,7 +867,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return $"{_moduleName} {completionMarker}{continuationText} ({durationText})";
     }
 
-    private bool ProducesConsoleOutput(BufferedOutput output)
+    private static bool ProducesConsoleOutput(
+        BufferedOutput output,
+        Func<LogLevel, bool> isStructuredLogEnabled)
     {
         if (output.IsRawBuildSystemCommand)
         {
@@ -868,7 +881,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return !string.IsNullOrEmpty(output.StringValue);
         }
 
-        return output.LogEvent is { } logEvent && _isSpectreEnabled(logEvent.Level);
+        return output.LogEvent is { } logEvent && isStructuredLogEnabled(logEvent.Level);
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)

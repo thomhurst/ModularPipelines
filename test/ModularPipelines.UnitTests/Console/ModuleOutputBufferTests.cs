@@ -1173,6 +1173,56 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_ExclusiveLoggerDisablesOutputGroup()
+    {
+        var writer = new StringWriter();
+        var logger = new ExclusiveRecordingLogger(writer, isEnabled: false);
+        var buffer = CreateBufferWithStructuredLog(isSpectreEnabled: static _ => true);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            logger,
+            new SynchronousLoggerControl(writer),
+            OutputFlushKind.Complete,
+            [logger]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).DoesNotContain("::group::");
+            await Assert.That(writer.ToString()).DoesNotContain("structured log");
+            await Assert.That(logger.Entries).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Flush_ExclusiveLoggerEnablesOutputGroup()
+    {
+        var writer = new StringWriter();
+        var logger = new ExclusiveRecordingLogger(writer, isEnabled: true);
+        var buffer = CreateBufferWithStructuredLog(isSpectreEnabled: static _ => false);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            logger,
+            new SynchronousLoggerControl(writer),
+            OutputFlushKind.Complete,
+            [logger]);
+
+        var output = writer.ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("::group::");
+            await Assert.That(output).Contains("structured log");
+            await Assert.That(output.IndexOf("::group::", StringComparison.Ordinal))
+                .IsLessThan(output.IndexOf("structured log", StringComparison.Ordinal));
+            await Assert.That(output.IndexOf("structured log", StringComparison.Ordinal))
+                .IsLessThan(output.IndexOf("::endgroup::", StringComparison.Ordinal));
+        }
+    }
+
+    [Test]
     public async Task Flush_RenderGateTimeout_Respects_Spectre_Filter()
     {
         var writer = new StringWriter();
@@ -1380,6 +1430,34 @@ public class ModuleOutputBufferTests
             Exception? exception,
             Func<TState, Exception?, string> formatter) =>
             writer.WriteLine($"formatted: {formatter(state, exception)}");
+    }
+
+    private sealed class ExclusiveRecordingLogger(TextWriter writer, bool isEnabled)
+        : IExclusiveStructuredLogSink
+    {
+        public List<string> Entries { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => isEnabled;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            if (!IsEnabled(logLevel))
+            {
+                return;
+            }
+
+            var message = formatter(state, exception);
+            Entries.Add(message);
+            writer.WriteLine(message);
+        }
     }
 
     private sealed class SynchronousLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl
