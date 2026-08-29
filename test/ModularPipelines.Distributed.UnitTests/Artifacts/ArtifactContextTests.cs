@@ -122,7 +122,7 @@ public class ArtifactContextTests
             await File.WriteAllTextAsync(Path.Combine(sourceDirectory.FullName, "output.txt"), "content");
             ModuleLogger.CurrentModuleType.Value = typeof(ProducerModule);
 
-            await context.PublishDirectoryAsync("output", sourceDirectory.FullName);
+            await context.PublishDirectoryAsync("output", sourceDirectory.FullName, CancellationToken.None);
 
             using var archiveStream = new MemoryStream(uploadedContent!);
             using var archive = new System.IO.Compression.ZipArchive(archiveStream, System.IO.Compression.ZipArchiveMode.Read);
