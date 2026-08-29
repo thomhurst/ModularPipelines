@@ -685,28 +685,17 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
             if (attribute is not IGroupedConditionAttribute groupedAttribute)
             {
-                if (isLocallySatisfiedConditionGroup?.Invoke(attribute.GetType()) == true)
+                var skipDecision = await EvaluateUngroupedAnyCondition(
+                        attribute,
+                        pipelineContext,
+                        isDistributedMaster,
+                        cancellationToken,
+                        isLocallySatisfiedConditionGroup,
+                        locallySatisfiedConditionGroup)
+                    .ConfigureAwait(false);
+                if (skipDecision is not null)
                 {
-                    continue;
-                }
-
-                if (ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
-                {
-                    if (await AnyConditionMatches(
-                            OperatingSystemConditions.GetLocalAlternatives(attribute),
-                            pipelineContext,
-                            cancellationToken)
-                        .ConfigureAwait(false))
-                    {
-                        locallySatisfiedConditionGroup?.Invoke(attribute.GetType());
-                    }
-
-                    continue;
-                }
-
-                if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
-                {
-                    return SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied");
+                    return skipDecision;
                 }
 
                 continue;
@@ -752,6 +741,38 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
             return SkipDecision.Skip(
                 $"No grouped run conditions were met: {string.Join(", ", alternatives.Select(x => x.ConditionNames))}");
+        }
+
+        return null;
+    }
+
+    private static async Task<SkipDecision?> EvaluateUngroupedAnyCondition(
+        IConditionAttribute attribute,
+        IPipelineContext pipelineContext,
+        bool isDistributedMaster,
+        CancellationToken cancellationToken,
+        Func<Type, bool>? isLocallySatisfiedConditionGroup,
+        Action<Type>? locallySatisfiedConditionGroup)
+    {
+        if (isLocallySatisfiedConditionGroup?.Invoke(attribute.GetType()) == true)
+        {
+            return null;
+        }
+
+        if (!ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
+        {
+            return await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false)
+                ? null
+                : SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied");
+        }
+
+        if (await AnyConditionMatches(
+                OperatingSystemConditions.GetLocalAlternatives(attribute),
+                pipelineContext,
+                cancellationToken)
+            .ConfigureAwait(false))
+        {
+            locallySatisfiedConditionGroup?.Invoke(attribute.GetType());
         }
 
         return null;
