@@ -40,7 +40,10 @@ internal sealed class SecretObfuscatedRenderable(
                 concreteObfuscator.ObfuscateWithSourceMap(visibleText, preserveMasks));
         }
 
-        return MapFallbackSegments(segments);
+        return MapFallbackSegments(
+            segments,
+            secretObfuscator.Obfuscate(visibleText, null),
+            visibleText.Length);
     }
 
     private Segment[] MapSegments(
@@ -75,14 +78,51 @@ internal sealed class SecretObfuscatedRenderable(
         return [.. output];
     }
 
-    private Segment[] MapFallbackSegments(Segment[] segments)
+    private Segment[] MapFallbackSegments(
+        Segment[] segments,
+        string obfuscatedText,
+        int sourceLength)
     {
-        return [.. segments.Select(segment => segment.IsControlCode
-            ? segment
-            : new Segment(
-                secretObfuscator.Obfuscate(segment.Text, null),
-                segment.Style,
-                ObfuscateLink(segment.Link)))];
+        var output = new List<Segment>(segments.Length);
+        var sourceOffset = 0;
+        foreach (var segment in segments)
+        {
+            if (segment.IsControlCode)
+            {
+                output.Add(segment);
+                continue;
+            }
+
+            var segmentEnd = sourceOffset + segment.Text.Length;
+            var outputStart = ScaleOffset(sourceOffset, sourceLength, obfuscatedText);
+            var outputEnd = ScaleOffset(segmentEnd, sourceLength, obfuscatedText);
+            sourceOffset = segmentEnd;
+
+            if (outputEnd > outputStart)
+            {
+                output.Add(new Segment(
+                    obfuscatedText[outputStart..outputEnd],
+                    segment.Style,
+                    ObfuscateLink(segment.Link)));
+            }
+        }
+
+        return [.. output];
+    }
+
+    private static int ScaleOffset(int sourceOffset, int sourceLength, string output)
+    {
+        if (sourceOffset >= sourceLength)
+        {
+            return output.Length;
+        }
+
+        var outputOffset = (int) ((long) sourceOffset * output.Length / sourceLength);
+        return outputOffset > 0
+               && outputOffset < output.Length
+               && char.IsLowSurrogate(output[outputOffset])
+            ? outputOffset + 1
+            : outputOffset;
     }
 
     private Segment[] ObfuscateLinks(Segment[] segments) =>

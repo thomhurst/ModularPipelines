@@ -224,6 +224,14 @@ internal class ModuleRunner : IModuleRunner
                     scheduler,
                     handledException,
                     cancellationToken);
+                if (readyLogger is not null)
+                {
+                    readyLogger.SetException(handledException);
+                    readyLogger.SetStatus(
+                        moduleState.Result?.Status
+                        ?? _resultRegistry.GetResult(moduleType)?.Status
+                        ?? Enums.ModuleStatus.Failed);
+                }
 
                 if (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
                 {
@@ -812,9 +820,7 @@ internal class ModuleRunner : IModuleRunner
         var pipelineContext = scopedServiceProvider.GetRequiredService<IPipelineContext>();
 
         // Create module-specific context
-        var logger = ModuleLogger.CurrentModuleType.Value == moduleType
-            ? ModuleLogger.Values.Value ?? GetModuleLogger(scopedServiceProvider, moduleType)
-            : GetModuleLogger(scopedServiceProvider, moduleType);
+        var logger = GetAmbientOrScopedModuleLogger(scopedServiceProvider, moduleType);
         var moduleContext = new ModuleContext(
             pipelineContext,
             module,
@@ -1021,7 +1027,7 @@ internal class ModuleRunner : IModuleRunner
             _moduleAttributeEventService.GetAttributes(moduleState.ModuleType),
             startTime,
             pipelineContext,
-            GetModuleLogger(scopedServiceProvider, moduleState.ModuleType) as IConsoleWriter
+            GetAmbientOrScopedModuleLogger(scopedServiceProvider, moduleState.ModuleType) as IConsoleWriter
                 ?? pipelineContext.Console,
             cancellationToken)
         {
@@ -1243,6 +1249,13 @@ internal class ModuleRunner : IModuleRunner
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
         return (IModuleLogger) serviceProvider.GetRequiredService(loggerType);
     }
+
+    private static IModuleLogger GetAmbientOrScopedModuleLogger(
+        IServiceProvider serviceProvider,
+        Type moduleType) =>
+        ModuleLogger.CurrentModuleType.Value == moduleType
+            ? ModuleLogger.Values.Value ?? GetModuleLogger(serviceProvider, moduleType)
+            : GetModuleLogger(serviceProvider, moduleType);
 }
 
 internal sealed class NormalizedWorkerCancellationException(

@@ -1,10 +1,9 @@
 using ModularPipelines;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Events;
 using ModularPipelines.Extensions;
-using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -110,7 +109,7 @@ public class ConsoleWriterTests
         }
     }
 
-    private sealed class WriteLifecycleOutputReceiver : IModuleEventReceiver
+    private sealed class WriteLifecycleOutputHandler : IModuleEventHandler
     {
         public Task OnModuleReadyAsync(IModuleHookContext context)
         {
@@ -124,7 +123,7 @@ public class ConsoleWriterTests
             return Task.CompletedTask;
         }
 
-        public Task OnModuleEndAsync(IModuleHookContext context)
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
         {
             context.Console.WriteLine("receiver end output");
             return Task.CompletedTask;
@@ -271,16 +270,41 @@ public class ConsoleWriterTests
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
             .Returns("masked");
 
+        var renderable = new SecretObfuscatedRenderable(
+            new Markup("[red]abc[/][blue]123[/]"),
+            secretObfuscator.Object);
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .Where(static segment => !segment.IsControlCode)
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(string.Concat(segments.Select(static segment => segment.Text)))
+                .IsEqualTo("masked");
+            await Assert.That(segments).Count().IsEqualTo(2);
+            await Assert.That(segments[0].Style).IsNotEqualTo(segments[1].Style);
+        }
+    }
+
+    [Test]
+    public async Task Write_CustomObfuscatorMasksSecretSplitAcrossStyledSegments()
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => input!.Replace("abc123", "masked"));
+
         var output = CaptureFallbackOutput(
             writer => writer.Write(new Markup("[red]abc[/][blue]123[/]")),
-            secretObfuscator.Object,
-            AnsiSupport.Yes);
+            secretObfuscator.Object);
 
         using (Assert.Multiple())
         {
             await Assert.That(output).Contains("masked");
-            await Assert.That(output).Contains("\u001b[");
-            await Assert.That(output.Split("masked").Length - 1).IsEqualTo(2);
+            await Assert.That(output).DoesNotContain("abc");
+            await Assert.That(output).DoesNotContain("123");
         }
     }
 
@@ -349,7 +373,7 @@ public class ConsoleWriterTests
     public async Task LifecycleHooks_UseModuleConsoleWriter()
     {
         var output = await RunAsync<ReadyOutputModule>(
-            builder => builder.AddModuleEventReceiver<WriteLifecycleOutputReceiver>());
+            builder => builder.AddModuleEventHandler<WriteLifecycleOutputHandler>());
 
         await Assert.That(output).Contains("attribute ready output");
         await Assert.That(output).Contains("receiver ready output");

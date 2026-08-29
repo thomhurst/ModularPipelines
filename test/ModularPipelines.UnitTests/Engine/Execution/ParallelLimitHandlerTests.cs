@@ -11,6 +11,7 @@ using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
+using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -370,10 +371,24 @@ public class ParallelLimitHandlerTests
                 It.IsAny<ModuleCompletedNotification>(),
                 It.IsAny<CancellationToken>()))
             .Returns(ValueTask.CompletedTask);
+        var outputBuffer = new Mock<IModuleOutputBuffer>();
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ThrowingReadyTestModule)))
+            .Returns(outputBuffer.Object);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        outputCoordinator
+            .Setup(x => x.OnModuleCompletedAsync(
+                outputBuffer.Object,
+                typeof(ThrowingReadyTestModule),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
         var builder = TestPipelineBuilder.Create()
             .AddModule<ThrowingReadyTestModule>();
         builder.Services.AddSingleton<IModuleEventHandler>(handler);
         builder.Services.AddSingleton(mediator.Object);
+        builder.Services.AddSingleton(consoleCoordinator.Object);
+        builder.Services.AddSingleton(outputCoordinator.Object);
         await using var host = await builder.BuildAsync();
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
@@ -398,6 +413,43 @@ public class ParallelLimitHandlerTests
                 notification.ModuleState.ModuleType == typeof(ThrowingReadyTestModule)
                 && !notification.IsSuccessful),
             It.IsAny<CancellationToken>()), Times.Once);
+        outputBuffer.Verify(x => x.SetException(It.IsAny<InvalidOperationException>()), Times.Once);
+        outputBuffer.Verify(x => x.SetStatus(ModuleStatus.Failed), Times.Once);
+    }
+
+    [Test]
+    public async Task ModuleRunner_ReusesAmbientLoggerForLifecycleContexts()
+    {
+        IConsoleWriter? readyWriter = null;
+        IConsoleWriter? startWriter = null;
+        var handler = new Mock<IModuleEventHandler>();
+        handler.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()))
+            .Callback<IModuleHookContext>(context => readyWriter = context.Console)
+            .Returns(Task.CompletedTask);
+        handler.Setup(x => x.OnModuleStartAsync(It.IsAny<IModuleHookContext>()))
+            .Callback<IModuleHookContext>(context => startWriter = context.Console)
+            .Returns(Task.CompletedTask);
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<TestModule>();
+        builder.Services.AddSingleton<IModuleEventHandler>(handler.Object);
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.Setup(x => x.MarkModuleStarted(typeof(TestModule))).Returns(true);
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var ambientLogger = new Mock<IInternalModuleLogger>();
+        var ambientWriter = ambientLogger.As<IConsoleWriter>().Object;
+
+        await using (new ModuleLoggerScope(ambientLogger.Object, typeof(TestModule)))
+        {
+            await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(readyWriter).IsSameReferenceAs(ambientWriter);
+            await Assert.That(startWriter).IsSameReferenceAs(ambientWriter);
+        }
     }
 
     [Test]
