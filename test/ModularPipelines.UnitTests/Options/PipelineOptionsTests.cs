@@ -530,12 +530,11 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task PipelineBuilderConsoleLoggingHonorsCustomLoggerFactory()
+    public async Task PipelineBuilderConsoleLoggingHonorsCustomLoggerFactoryWithDefaultProviders()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
         builder.Services.TryAddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
-        builder.Logging.ClearProviders().AddConsole();
 
         await using var pipeline = await builder.BuildAsync();
         var control = pipeline.Services

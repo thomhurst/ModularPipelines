@@ -368,7 +368,7 @@ public sealed class PipelineBuilder
             // Apply plugin services after user services
             PluginIntegration.ApplyPluginServices(services);
 
-            if (!HasDefaultLoggingProvider(services))
+            if (!HasDefaultLoggingProvider(services) || !UsesDefaultLoggerFactory(services))
             {
                 services.Replace(ServiceDescriptor.Singleton<
                     ISpectreConsoleLoggerControl,
@@ -680,6 +680,13 @@ public sealed class PipelineBuilder
     private bool HasDefaultLoggingProvider(IServiceCollection services)
         => services.Any(IsDefaultLoggingProvider);
 
+    private static bool UsesDefaultLoggerFactory(IServiceCollection services)
+    {
+        var descriptor = services.LastOrDefault(static service =>
+            service.ServiceType == typeof(ILoggerFactory));
+        return GetImplementationType(descriptor) == typeof(LoggerFactory);
+    }
+
     private static bool IsMatchingLoggingProvider(
         ServiceDescriptor candidate,
         ServiceDescriptor expected) =>
@@ -698,8 +705,8 @@ public sealed class PipelineBuilder
                && _defaultLoggingProviderTypes.Contains(implementationType);
     }
 
-    private static Type? GetImplementationType(ServiceDescriptor descriptor) =>
-        descriptor.ImplementationType ?? descriptor.ImplementationInstance?.GetType();
+    private static Type? GetImplementationType(ServiceDescriptor? descriptor) =>
+        descriptor?.ImplementationType ?? descriptor?.ImplementationInstance?.GetType();
 
     private static PipelineOptions ClonePipelineOptions(PipelineOptions options) => options with
     {
