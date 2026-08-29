@@ -453,6 +453,19 @@ public sealed class PipelineBuilder
     /// </summary>
     private static void ActivateDistributedModeIfConfigured(IServiceCollection services)
     {
+        // Artifact stores are also available to local pipelines, so factory activation
+        // must not depend on distributed executor configuration.
+        var hasArtifactFactory = services.Any(d => d.ServiceType == typeof(IDistributedArtifactStoreFactory));
+        if (hasArtifactFactory)
+        {
+            RemoveService<IDistributedArtifactStore>(services);
+            services.AddSingleton<IDistributedArtifactStore>(sp =>
+            {
+                var factory = sp.GetRequiredService<IDistributedArtifactStoreFactory>();
+                return new DeferredArtifactStore(factory);
+            });
+        }
+
         var options = ResolveDistributedOptions(services);
         if (options is null || !options.Enabled)
         {
@@ -469,18 +482,6 @@ public sealed class PipelineBuilder
             {
                 var factory = sp.GetRequiredService<IDistributedCoordinatorFactory>();
                 return new DeferredCoordinator(factory);
-            });
-        }
-
-        // Replace artifact store if factory registered — deferred for same reason
-        var hasArtifactFactory = services.Any(d => d.ServiceType == typeof(IDistributedArtifactStoreFactory));
-        if (hasArtifactFactory)
-        {
-            RemoveService<IDistributedArtifactStore>(services);
-            services.AddSingleton<IDistributedArtifactStore>(sp =>
-            {
-                var factory = sp.GetRequiredService<IDistributedArtifactStoreFactory>();
-                return new DeferredArtifactStore(factory);
             });
         }
 

@@ -83,11 +83,10 @@ public class ArtifactContextApiTests
     }
 
     [Test]
-    public async Task Artifact_Store_Factory_Is_Active_For_Single_Instance_Mode()
+    public async Task Artifact_Store_Factory_Is_Active_Without_Distributed_Mode()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<ArtifactTestModule>()
-            .AddDistributedMode(options => options.TotalInstances = 1)
             .AddDistributedArtifactStoreFactory<TestArtifactStoreFactory>();
 
         await using var pipeline = await builder.BuildAsync();
