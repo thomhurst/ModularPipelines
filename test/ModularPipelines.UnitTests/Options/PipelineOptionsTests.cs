@@ -511,6 +511,40 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task PipelineBuilderConsoleLoggingRejectsOverlappingWildcardFilter()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Logging
+            .ClearProviders()
+            .AddConsole()
+            .AddFilter<Microsoft.Extensions.Logging.Console.ConsoleLoggerProvider>(
+                "Abc*Abc",
+                LogLevel.None);
+
+        await using var pipeline = await builder.BuildAsync();
+        var control = pipeline.Services
+            .GetRequiredService<MEL.Spectre.ISpectreConsoleLoggerControl>();
+
+        await Assert.That(control.WouldRender("Abc", LogLevel.Information)).IsTrue();
+    }
+
+    [Test]
+    public async Task PipelineBuilderConsoleLoggingHonorsCustomLoggerFactory()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Services.TryAddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
+        builder.Logging.ClearProviders().AddConsole();
+
+        await using var pipeline = await builder.BuildAsync();
+        var control = pipeline.Services
+            .GetRequiredService<MEL.Spectre.ISpectreConsoleLoggerControl>();
+
+        await Assert.That(control.WouldRender("Category", LogLevel.Error)).IsFalse();
+    }
+
+    [Test]
     public async Task NamedPipelineOptionsDoNotShareNestedConfiguration()
     {
         var builder = TestPipelineBuilder.Create()
@@ -541,6 +575,45 @@ public class PipelineOptionsTests
             await Assert.That(namedOptions.Http).IsNotSameReferenceAs(defaultOptions.Http);
             await Assert.That(namedOptions.Http.Logging)
                 .IsNotSameReferenceAs(defaultOptions.Http.Logging);
+        }
+    }
+
+    [Test]
+    public async Task NamedPipelineOptionsBindingStartsFromPristineNestedConfiguration()
+    {
+        const int initialParallelism = 13;
+        const int defaultParallelism = 7;
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.ConfigureOptions(options => options with
+        {
+            Concurrency = options.Concurrency with
+            {
+                MaxParallelism = initialParallelism,
+            },
+        });
+        builder.Configuration["DefaultPipeline:Concurrency:MaxParallelism"] =
+            defaultParallelism.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        builder.Configuration["WorkerPipeline:DisableModuleCache"] = "true";
+        builder.Services
+            .AddOptions<PipelineOptions>()
+            .BindConfiguration("DefaultPipeline");
+        builder.Services
+            .AddOptions<PipelineOptions>("worker")
+            .BindConfiguration("WorkerPipeline");
+
+        await using var pipeline = await builder.BuildAsync();
+        var monitor = pipeline.Services.GetRequiredService<IOptionsMonitor<PipelineOptions>>();
+        var defaultOptions = monitor.CurrentValue;
+        var namedOptions = monitor.Get("worker");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(defaultOptions.Concurrency.MaxParallelism)
+                .IsEqualTo(defaultParallelism);
+            await Assert.That(namedOptions.Concurrency.MaxParallelism)
+                .IsEqualTo(initialParallelism);
+            await Assert.That(namedOptions.DisableModuleCache).IsTrue();
         }
     }
 }

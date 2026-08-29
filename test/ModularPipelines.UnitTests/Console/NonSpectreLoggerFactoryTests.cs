@@ -1,6 +1,7 @@
 using MEL.Spectre;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using Moq;
@@ -109,7 +110,10 @@ public class NonSpectreLoggerFactoryTests
     {
         var provider = new RecordingLoggerProvider();
         var options = new LoggerFilterOptions { MinLevel = LogLevel.Error };
-        var control = new NoopSpectreConsoleLoggerControl(CreateOptionsMonitor(options), [provider]);
+        var control = new NoopSpectreConsoleLoggerControl(
+            NullLoggerFactory.Instance,
+            CreateOptionsMonitor(options),
+            [provider]);
 
         using (Assert.Multiple())
         {
@@ -135,6 +139,7 @@ public class NonSpectreLoggerFactoryTests
         await using var serviceProvider = services.BuildServiceProvider();
         var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
         var control = new NoopSpectreConsoleLoggerControl(
+            loggerFactory,
             serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>(),
             serviceProvider.GetServices<ILoggerProvider>());
 

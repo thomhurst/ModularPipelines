@@ -6,14 +6,15 @@ using Microsoft.Extensions.Options;
 namespace ModularPipelines.Console;
 
 internal sealed class NoopSpectreConsoleLoggerControl(
+    ILoggerFactory loggerFactory,
     IOptionsMonitor<LoggerFilterOptions> filterOptions,
     IEnumerable<ILoggerProvider> loggerProviders)
     : ISpectreConsoleLoggerControl
 {
     private const string ConsoleProviderAlias = "Console";
     private static readonly string? ConsoleProviderName = typeof(ConsoleLoggerProvider).FullName;
-    private readonly bool _hasConsoleProvider = loggerProviders.Any(static provider =>
-        provider is ConsoleLoggerProvider);
+    private readonly bool _hasConsoleProvider = loggerFactory.GetType() == typeof(LoggerFactory)
+        && loggerProviders.Any(static provider => provider is ConsoleLoggerProvider);
 
     public object SynchronizationLock { get; } = new();
 
@@ -113,7 +114,8 @@ internal sealed class NoopSpectreConsoleLoggerControl(
 
         var prefix = wildcardIndex < 0 ? ruleCategory : ruleCategory[..wildcardIndex];
         var suffix = wildcardIndex < 0 ? string.Empty : ruleCategory[(wildcardIndex + 1)..];
-        return categoryName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+        return categoryName.Length >= prefix.Length + suffix.Length
+               && categoryName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
                && categoryName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase);
     }
 
