@@ -376,6 +376,28 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_ObfuscatesHyperlinkTargetInPreparedTableTitle()
+    {
+        var table = new Table().AddColumn("Value").AddRow("content");
+        table.Title = new TableTitle("[link=https://host/token]label[/]");
+        var renderable = new SecretObfuscatedRenderable(
+            table,
+            CreateSecretObfuscator("token"));
+
+        var url = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .Select(static segment => segment.Link?.Url)
+            .First(static value => value is not null)!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(url).Contains("**********");
+            await Assert.That(url).DoesNotContain("token");
+        }
+    }
+
+    [Test]
     public async Task Write_RemovesControlSegmentContainingSecret()
     {
         var renderable = new SecretObfuscatedRenderable(

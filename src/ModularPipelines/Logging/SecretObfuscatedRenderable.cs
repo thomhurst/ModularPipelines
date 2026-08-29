@@ -36,7 +36,7 @@ internal sealed class SecretObfuscatedRenderable(
         var segments = _prepared.Renderable.Render(options, maxWidth).ToArray();
         if (_prepared.IsObfuscatedBeforeRender)
         {
-            return segments;
+            return ObfuscateLinks(segments);
         }
 
         var visibleText = string.Concat(
