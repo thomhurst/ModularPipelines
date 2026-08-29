@@ -148,6 +148,27 @@ public class ArtifactContextApiTests
         await Assert.That(factory.CreatedStore!.DisposeCount).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task Artifact_Store_Factory_Synchronizes_Creation_With_Disposal()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ArtifactTestModule>()
+            .AddDistributedArtifactStoreFactory<BlockingArtifactStoreFactory>();
+        var pipeline = await builder.BuildAsync();
+        var factory = (BlockingArtifactStoreFactory) pipeline.Services
+            .GetRequiredService<IDistributedArtifactStoreFactory>();
+        var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
+
+        var accessTask = store.ListArtifactsAsync("module", CancellationToken.None);
+        await factory.CreationStarted;
+        var disposalTask = pipeline.DisposeAsync().AsTask();
+        factory.CompleteCreation();
+
+        _ = await Assert.ThrowsAsync<ObjectDisposedException>(() => accessTask);
+        await disposalTask;
+        await Assert.That(factory.CreatedStore.DisposeCount).IsEqualTo(1);
+    }
+
     private sealed class ArtifactTestModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -220,6 +241,28 @@ public class ArtifactContextApiTests
         {
             CreatedStore = new TestDisposableArtifactStore();
             return Task.FromResult<IDistributedArtifactStore>(CreatedStore);
+        }
+    }
+
+    public sealed class BlockingArtifactStoreFactory : IDistributedArtifactStoreFactory
+    {
+        private readonly TaskCompletionSource _creationStarted = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _completeCreation = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task CreationStarted => _creationStarted.Task;
+
+        public TestAsyncDisposableArtifactStore CreatedStore { get; } = new();
+
+        public void CompleteCreation() => _completeCreation.SetResult();
+
+        public async Task<IDistributedArtifactStore> CreateAsync(
+            CancellationToken cancellationToken)
+        {
+            _creationStarted.SetResult();
+            await _completeCreation.Task.WaitAsync(cancellationToken);
+            return CreatedStore;
         }
     }
 }

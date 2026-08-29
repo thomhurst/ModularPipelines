@@ -1,7 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 using Moq;
 
 namespace ModularPipelines.Distributed.UnitTests.Artifacts;
@@ -26,22 +28,23 @@ public class ArtifactContextTests
                 SizeBytes: 0,
                 ContentType: "application/octet-stream",
                 UploadedAt: DateTimeOffset.UtcNow));
-        IArtifactContext context = new ArtifactContextImpl(store.Object, new ArtifactOptions());
         var file = Path.GetTempFileName();
-        var previousModuleType = ModuleLogger.CurrentModuleType.Value;
 
         try
         {
-            ModuleLogger.CurrentModuleType.Value = typeof(ProducerModule);
+            var builder = TestPipelineBuilder.Create()
+                .AddModule<PipelineArtifactProducerModule>();
+            builder.Services.AddSingleton<IDistributedArtifactStore>(store.Object);
+            builder.Services.AddSingleton(new ArtifactPublishState(file));
+            await using var pipeline = await builder.BuildAsync();
 
-            await context.PublishFileAsync("output", file);
+            _ = await pipeline.RunAsync();
 
             await Assert.That(observedDescriptor!.ModuleTypeName)
-                .IsEqualTo(typeof(ProducerModule).FullName);
+                .IsEqualTo(typeof(PipelineArtifactProducerModule).FullName);
         }
         finally
         {
-            ModuleLogger.CurrentModuleType.Value = previousModuleType;
             File.Delete(file);
         }
     }
@@ -179,4 +182,20 @@ public class ArtifactContextTests
             CancellationToken cancellationToken)
             => Task.FromResult(string.Empty);
     }
+
+    private sealed class PipelineArtifactProducerModule(ArtifactPublishState state) : Module<string>
+    {
+        protected internal override async Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await context.Artifacts.PublishFileAsync(
+                "output",
+                state.FilePath,
+                cancellationToken);
+            return string.Empty;
+        }
+    }
+
+    private sealed record ArtifactPublishState(string FilePath);
 }

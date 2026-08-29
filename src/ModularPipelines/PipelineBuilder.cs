@@ -648,13 +648,14 @@ public sealed class PipelineBuilder
                 return;
             }
 
+            _lock.Wait();
             try
             {
                 (_inner as IDisposable)?.Dispose();
             }
             finally
             {
-                _lock.Dispose();
+                _lock.Release();
             }
         }
 
@@ -665,25 +666,20 @@ public sealed class PipelineBuilder
                 return;
             }
 
+            await _lock.WaitAsync().ConfigureAwait(false);
             try
             {
-                if (_inner is IAsyncDisposable asyncDisposable)
-                {
-                    await asyncDisposable.DisposeAsync();
-                }
-                else
-                {
-                    (_inner as IDisposable)?.Dispose();
-                }
+                await DisposeStoreAsync(_inner).ConfigureAwait(false);
             }
             finally
             {
-                _lock.Dispose();
+                _lock.Release();
             }
         }
 
         private async ValueTask<IDistributedArtifactStore> GetAsync(CancellationToken ct)
         {
+            ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);
             if (_inner is not null)
             {
                 return _inner;
@@ -692,11 +688,36 @@ public sealed class PipelineBuilder
             await _lock.WaitAsync(ct);
             try
             {
-                return _inner ??= await factory.CreateAsync(ct);
+                ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);
+                if (_inner is not null)
+                {
+                    return _inner;
+                }
+
+                var createdStore = await factory.CreateAsync(ct).ConfigureAwait(false);
+                if (Volatile.Read(ref _disposeState) != 0)
+                {
+                    await DisposeStoreAsync(createdStore).ConfigureAwait(false);
+                    throw new ObjectDisposedException(nameof(DeferredArtifactStore));
+                }
+
+                return _inner = createdStore;
             }
             finally
             {
                 _lock.Release();
+            }
+        }
+
+        private static async ValueTask DisposeStoreAsync(IDistributedArtifactStore? store)
+        {
+            if (store is IAsyncDisposable asyncDisposable)
+            {
+                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                (store as IDisposable)?.Dispose();
             }
         }
     }
