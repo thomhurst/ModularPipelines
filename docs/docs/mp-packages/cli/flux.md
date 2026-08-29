@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Flux
 ```
 
 Resolve the service with `context.Tools.Flux`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IFlux>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Flux.Services.IFlux>()` instead.
 
 ## Module example
 

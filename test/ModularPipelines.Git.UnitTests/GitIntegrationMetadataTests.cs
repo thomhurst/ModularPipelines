@@ -20,7 +20,7 @@ public class GitIntegrationMetadataTests
             await Assert.That(accessor.GetCustomAttribute<EditorBrowsableAttribute>()!.State)
                 .IsEqualTo(EditorBrowsableState.Never);
             await Assert.That(accessor.GetCustomAttribute<ObsoleteAttribute>()!.Message)
-                .IsEqualTo("Use context.Tools.Get<IGit>().");
+                .IsEqualTo("Use context.Tools.Get<global::ModularPipelines.Git.IGit>().");
         }
     }
 

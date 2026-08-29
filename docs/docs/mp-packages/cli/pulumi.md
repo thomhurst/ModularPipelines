@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Pulumi
 ```
 
 Resolve the service with `context.Tools.Pulumi`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IPulumi>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Pulumi.Services.IPulumi>()` instead.
 
 ## Module example
 

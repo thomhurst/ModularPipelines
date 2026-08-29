@@ -58,6 +58,6 @@ public static class GhExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGh"/> service for executing gh commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<IGh>().")]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.GitHub.Services.IGh>().")]
     public static IGh Gh(this IPipelineContext context) => context.Services.GetRequiredService<IGh>();
 }

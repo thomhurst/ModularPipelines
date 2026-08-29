@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Cosign
 ```
 
 Resolve the service with `context.Tools.Cosign`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<ICosign>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Cosign.Services.ICosign>()` instead.
 
 ## Module example
 

@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Newman
 ```
 
 Resolve the service with `context.Tools.Newman`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<INewman>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Newman.Services.INewman>()` instead.
 
 ## Module example
 

@@ -39,6 +39,6 @@ public static class GrypeExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGrype"/> service for executing grype commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<IGrype>().")]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Grype.Services.IGrype>().")]
     public static IGrype Grype(this IPipelineContext context) => context.Services.GetRequiredService<IGrype>();
 }

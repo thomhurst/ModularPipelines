@@ -85,7 +85,7 @@ public static class AzureExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The Azure services.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<IAzure>().")]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Azure.Services.IAzure>().")]
     public static IAzure Azure(this IPipelineContext context)
     {
         return context.Services.GetRequiredService<IAzure>();

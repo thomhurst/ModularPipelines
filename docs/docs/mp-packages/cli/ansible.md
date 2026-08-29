@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Ansible
 ```
 
 Resolve the service with `context.Tools.Ansible`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IAnsible>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Ansible.Services.IAnsible>()` instead.
 
 ## Module example
 

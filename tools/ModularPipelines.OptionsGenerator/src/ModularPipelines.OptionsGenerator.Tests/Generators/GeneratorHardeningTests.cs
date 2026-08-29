@@ -259,7 +259,7 @@ public class GeneratorHardeningTests
         var expectedDeclaration = string.Join(Environment.NewLine,
         [
             "    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]",
-            "    [global::System.Obsolete(\"Use context.Tools.Get<ITool>().\")]",
+            "    [global::System.Obsolete(\"Use context.Tools.Get<global::ModularPipelines.Tool.Services.ITool>().\")]",
             "    public static ITool Tool(this IPipelineContext context)",
         ]);
 

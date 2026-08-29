@@ -67,7 +67,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine();
         sb.AppendLine($"Resolve the service with `context.Tools.{tool.NamespacePrefix}`.");
         sb.AppendLine(
-            $"Projects using C# 13 or another .NET language can use `context.Tools.Get<I{tool.NamespacePrefix}>()` instead.");
+            $"Projects using C# 13 or another .NET language can use `context.Tools.Get<{tool.TargetNamespace}.Services.I{tool.NamespacePrefix}>()` instead.");
         sb.AppendLine();
         AppendExample(sb, tool, commands);
         AppendGlobalOptions(sb, tool);

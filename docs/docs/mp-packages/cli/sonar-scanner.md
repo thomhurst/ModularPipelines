@@ -24,7 +24,7 @@ dotnet add package ModularPipelines.SonarScanner
 ```
 
 Resolve the service with `context.Tools.SonarScanner`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<ISonarScanner>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.SonarScanner.Services.ISonarScanner>()` instead.
 
 ## Module example
 

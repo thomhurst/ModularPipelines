@@ -122,7 +122,8 @@ public class DependencyRegistrationGenerator : ICodeGenerator
             sb.AppendLine("    /// <param name=\"context\">The pipeline context.</param>");
             sb.AppendLine($"    /// <returns>The <see cref=\"{interfaceName}\"/> service for executing {tool.ToolName} commands.</returns>");
             sb.AppendLine("    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]");
-            sb.AppendLine($"    [global::System.Obsolete(\"Use context.Tools.Get<I{serviceName}>().\")]");
+            sb.AppendLine(
+                $"    [global::System.Obsolete(\"Use context.Tools.Get<global::{tool.TargetNamespace}.Services.I{serviceName}>().\")]");
             sb.AppendLine($"    public static {interfaceName} {serviceName}(this IPipelineContext context) => context.Services.GetRequiredService<{interfaceName}>();");
         }
 

@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Minikube
 ```
 
 Resolve the service with `context.Tools.Minikube`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IMinikube>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Minikube.Services.IMinikube>()` instead.
 
 ## Module example
 

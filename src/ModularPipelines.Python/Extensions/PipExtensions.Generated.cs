@@ -38,6 +38,6 @@ public static class PipExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPip"/> service for executing pip commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<IPip>().")]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Python.Services.IPip>().")]
     public static IPip Pip(this IPipelineContext context) => context.Services.GetRequiredService<IPip>();
 }

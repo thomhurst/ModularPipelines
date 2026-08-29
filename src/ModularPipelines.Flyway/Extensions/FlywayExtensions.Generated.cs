@@ -38,6 +38,6 @@ public static class FlywayExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IFlyway"/> service for executing flyway commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<IFlyway>().")]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Flyway.Services.IFlyway>().")]
     public static IFlyway Flyway(this IPipelineContext context) => context.Services.GetRequiredService<IFlyway>();
 }

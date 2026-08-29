@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Kubernetes
 ```
 
 Resolve the service with `context.Tools.Kustomize`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IKustomize>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Kubernetes.Services.IKustomize>()` instead.
 
 ## Module example
 

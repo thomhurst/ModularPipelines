@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Vault
 ```
 
 Resolve the service with `context.Tools.Vault`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IVault>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Vault.Services.IVault>()` instead.
 
 ## Module example
 

@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Terraform
 ```
 
 Resolve the service with `context.Tools.Terraform`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<ITerraform>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Terraform.Services.ITerraform>()` instead.
 
 ## Module example
 

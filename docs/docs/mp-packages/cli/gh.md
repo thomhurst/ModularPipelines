@@ -14,7 +14,7 @@ dotnet add package ModularPipelines.GitHub
 ```
 
 Resolve the service with `context.Tools.Gh`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IGh>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.GitHub.Services.IGh>()` instead.
 
 ## Module example
 

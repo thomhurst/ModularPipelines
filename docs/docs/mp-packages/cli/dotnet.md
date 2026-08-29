@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.DotNet
 ```
 
 Resolve the service with `context.Tools.DotNet`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IDotNet>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()` instead.
 
 ## Module example
 

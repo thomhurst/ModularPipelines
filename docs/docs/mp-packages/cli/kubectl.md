@@ -14,7 +14,7 @@ dotnet add package ModularPipelines.Kubernetes
 ```
 
 Resolve the service with `context.Tools.Kubernetes`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IKubernetes>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Kubernetes.Services.IKubernetes>()` instead.
 
 ## Module example
 

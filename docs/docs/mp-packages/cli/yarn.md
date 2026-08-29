@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Yarn
 ```
 
 Resolve the service with `context.Tools.Yarn`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IYarn>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Yarn.Services.IYarn>()` instead.
 
 ## Module example
 

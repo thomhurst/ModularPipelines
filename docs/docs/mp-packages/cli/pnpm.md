@@ -14,7 +14,7 @@ dotnet add package ModularPipelines.Node
 ```
 
 Resolve the service with `context.Tools.Pnpm`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IPnpm>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Node.Services.IPnpm>()` instead.
 
 ## Module example
 

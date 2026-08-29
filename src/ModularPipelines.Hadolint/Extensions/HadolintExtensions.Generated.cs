@@ -38,6 +38,6 @@ public static class HadolintExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IHadolint"/> service for executing hadolint commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<IHadolint>().")]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Hadolint.Services.IHadolint>().")]
     public static IHadolint Hadolint(this IPipelineContext context) => context.Services.GetRequiredService<IHadolint>();
 }

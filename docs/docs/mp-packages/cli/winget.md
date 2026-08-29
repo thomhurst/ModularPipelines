@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.WinGet
 ```
 
 Resolve the service with `context.Tools.Winget`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IWinget>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.WinGet.Services.IWinget>()` instead.
 
 ## Module example
 

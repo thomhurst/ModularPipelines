@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Java
 ```
 
 Resolve the service with `context.Tools.Gradle`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IGradle>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Java.Services.IGradle>()` instead.
 
 ## Module example
 

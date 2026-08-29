@@ -14,7 +14,7 @@ dotnet add package ModularPipelines.Go
 ```
 
 Resolve the service with `context.Tools.Go`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IGo>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Go.Services.IGo>()` instead.
 
 ## Module example
 

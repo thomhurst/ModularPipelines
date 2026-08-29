@@ -24,7 +24,7 @@ dotnet add package ModularPipelines.NerdbankGitVersioning
 ```
 
 Resolve the service with `context.Tools.Nbgv`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<INbgv>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.NerdbankGitVersioning.Services.INbgv>()` instead.
 
 ## Module example
 

@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Chocolatey
 ```
 
 Resolve the service with `context.Tools.Choco`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IChoco>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Chocolatey.Services.IChoco>()` instead.
 
 ## Module example
 

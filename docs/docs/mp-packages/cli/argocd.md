@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.ArgoCd
 ```
 
 Resolve the service with `context.Tools.ArgoCd`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IArgoCd>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.ArgoCd.Services.IArgoCd>()` instead.
 
 ## Module example
 

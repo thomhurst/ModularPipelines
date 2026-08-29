@@ -38,6 +38,6 @@ public static class VaultExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IVault"/> service for executing vault commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<IVault>().")]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Vault.Services.IVault>().")]
     public static IVault Vault(this IPipelineContext context) => context.Services.GetRequiredService<IVault>();
 }

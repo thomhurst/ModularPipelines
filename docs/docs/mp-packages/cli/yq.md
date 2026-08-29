@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Yq
 ```
 
 Resolve the service with `context.Tools.Yq`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IYq>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Yq.Services.IYq>()` instead.
 
 ## Module example
 

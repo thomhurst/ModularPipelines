@@ -14,7 +14,7 @@ dotnet add package ModularPipelines.Azure
 ```
 
 Resolve the service with `context.Tools.Az`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IAz>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Azure.Services.IAz>()` instead.
 
 ## Module example
 

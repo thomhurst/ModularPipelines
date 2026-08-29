@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Docker
 ```
 
 Resolve the service with `context.Tools.Docker`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IDocker>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Docker.Services.IDocker>()` instead.
 
 ## Module example
 

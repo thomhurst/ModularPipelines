@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Rust
 ```
 
 Resolve the service with `context.Tools.Cargo`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<ICargo>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Rust.Services.ICargo>()` instead.
 
 ## Module example
 

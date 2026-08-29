@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Liquibase
 ```
 
 Resolve the service with `context.Tools.Liquibase`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<ILiquibase>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Liquibase.Services.ILiquibase>()` instead.
 
 ## Module example
 

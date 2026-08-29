@@ -14,7 +14,7 @@ dotnet add package ModularPipelines.Packer
 ```
 
 Resolve the service with `context.Tools.Packer`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<IPacker>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Packer.Services.IPacker>()` instead.
 
 ## Module example
 

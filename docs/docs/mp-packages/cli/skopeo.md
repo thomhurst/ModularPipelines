@@ -20,7 +20,7 @@ dotnet add package ModularPipelines.Skopeo
 ```
 
 Resolve the service with `context.Tools.Skopeo`.
-Projects using C# 13 or another .NET language can use `context.Tools.Get<ISkopeo>()` instead.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Skopeo.Services.ISkopeo>()` instead.
 
 ## Module example
 

@@ -44,6 +44,6 @@ public static class KindExtensions
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IKind"/> service for executing kind commands.</returns>
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<IKind>().")]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Kind.Services.IKind>().")]
     public static IKind Kind(this IPipelineContext context) => context.Services.GetRequiredService<IKind>();
 }
