@@ -54,7 +54,7 @@ internal class DependencyPrinter : IDependencyPrinter
         _formatter.WriteGroupCommand(
             startCommand,
             _commandWriter.WriteLine,
-            _consoleWriter.WriteLine);
+            _consoleWriter.WriteMarkupLine);
 
         _consoleWriter.Write(tree);
 
@@ -62,6 +62,6 @@ internal class DependencyPrinter : IDependencyPrinter
         _formatter.WriteGroupCommand(
             endCommand,
             _commandWriter.WriteLine,
-            _consoleWriter.WriteLine);
+            _consoleWriter.WriteMarkupLine);
     }
 }

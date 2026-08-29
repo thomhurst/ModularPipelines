@@ -1,8 +1,10 @@
 using ModularPipelines.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using Moq;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
@@ -69,6 +71,30 @@ public class ConsoleWriterTests
         await Assert.That(output).Contains("module output");
     }
 
+    [Test]
+    public async Task WriteLine_ObfuscatesWithoutAmbientModule()
+    {
+        var output = CaptureFallbackOutput(writer => writer.WriteLine("a secret value"));
+
+        await AssertFallbackOutputIsObfuscated(output);
+    }
+
+    [Test]
+    public async Task WriteMarkupLine_ObfuscatesWithoutAmbientModule()
+    {
+        var output = CaptureFallbackOutput(writer => writer.WriteMarkupLine("[green]a secret value[/]"));
+
+        await AssertFallbackOutputIsObfuscated(output);
+    }
+
+    [Test]
+    public async Task Write_ObfuscatesWithoutAmbientModule()
+    {
+        var output = CaptureFallbackOutput(writer => writer.Write(new Markup("[green]a secret value[/]")));
+
+        await AssertFallbackOutputIsObfuscated(output);
+    }
+
     private static async Task<string> RunAsync<TModule>()
         where TModule : class, IModule
     {
@@ -86,5 +112,38 @@ public class ConsoleWriterTests
         var summary = await builder.RunAsync();
 
         return summary.RunReport!.Modules.Single().Output!.StdoutTail ?? string.Empty;
+    }
+
+    private static string CaptureFallbackOutput(Action<ConsoleWriter> write)
+    {
+        var originalConsole = AnsiConsole.Console;
+        using var output = new StringWriter();
+
+        try
+        {
+            AnsiConsole.Console = AnsiConsole.Create(new AnsiConsoleSettings
+            {
+                Out = new AnsiConsoleOutput(output),
+                Ansi = AnsiSupport.No,
+            });
+
+            var secretObfuscator = new Mock<ISecretObfuscator>();
+            secretObfuscator
+                .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+                .Returns((string? input, object? _) => input!.Replace("secret", "********"));
+
+            write(new ConsoleWriter(secretObfuscator.Object));
+            return output.ToString();
+        }
+        finally
+        {
+            AnsiConsole.Console = originalConsole;
+        }
+    }
+
+    private static async Task AssertFallbackOutputIsObfuscated(string output)
+    {
+        await Assert.That(output).Contains("********");
+        await Assert.That(output).DoesNotContain("secret");
     }
 }
