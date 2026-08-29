@@ -29,11 +29,16 @@ internal static class OperatingSystemConditions
 
     /// <summary>
     /// Returns the operating-system capabilities targeted by a platform condition.
-    /// Mixed platform and non-platform conditions are evaluated locally and return no targets.
+    /// Mixed <see cref="RunIfAnyAttribute"/> conditions return targets for their platform alternatives.
     /// </summary>
     public static IReadOnlyList<string> GetTargets(IConditionAttribute attribute)
     {
         var supportedOperatingSystems = GetSupportedOperatingSystems(attribute);
+        if (supportedOperatingSystems is null && attribute is RunIfAnyAttribute)
+        {
+            supportedOperatingSystems = GetRoutableOperatingSystems(
+                attribute.GetType().GetGenericArguments());
+        }
 
         if (supportedOperatingSystems is null || supportedOperatingSystems.Count == 0)
         {
@@ -41,6 +46,28 @@ internal static class OperatingSystemConditions
         }
 
         return [CreateCapability(supportedOperatingSystems)];
+    }
+
+    /// <summary>
+    /// Returns non-platform alternatives that the master can evaluate before routing a mixed
+    /// <see cref="RunIfAnyAttribute"/> condition to an operating-system worker.
+    /// </summary>
+    public static IReadOnlyList<Type> GetLocalAlternatives(IConditionAttribute attribute)
+    {
+        if (attribute is not RunIfAnyAttribute)
+        {
+            return [];
+        }
+
+        var conditionTypes = attribute.GetType().GetGenericArguments();
+        if (!conditionTypes.Any(type => GetSupportedOperatingSystems(type) is not null))
+        {
+            return [];
+        }
+
+        return conditionTypes
+            .Where(type => GetSupportedOperatingSystems(type) is null)
+            .ToArray();
     }
 
     /// <summary>
@@ -263,6 +290,21 @@ internal static class OperatingSystemConditions
             if (alternativeOperatingSystems is not null)
             {
                 supportedOperatingSystems.UnionWith(alternativeOperatingSystems);
+            }
+        }
+
+        return supportedOperatingSystems;
+    }
+
+    private static HashSet<string> GetRoutableOperatingSystems(IEnumerable<Type> conditionTypes)
+    {
+        var supportedOperatingSystems = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var conditionType in conditionTypes)
+        {
+            var conditionOperatingSystems = GetSupportedOperatingSystems(conditionType);
+            if (conditionOperatingSystems is not null)
+            {
+                supportedOperatingSystems.UnionWith(conditionOperatingSystems);
             }
         }
 

@@ -56,6 +56,11 @@ internal class DistributedWorkPublisher(
         foreach (var osCondition in conditionAttributes.Where(static attribute =>
                      attribute is not IGroupedConditionAttribute))
         {
+            if (_conditionRouting?.IsLocallySatisfied(module, osCondition.GetType()) == true)
+            {
+                continue;
+            }
+
             foreach (var osCapability in OperatingSystemConditions.GetTargets(osCondition))
             {
                 requiredCapabilities.Add(osCapability);

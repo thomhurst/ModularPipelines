@@ -1,5 +1,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
+using ModularPipelines.Conditions;
+using ModularPipelines.Context;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
@@ -94,6 +96,19 @@ public class DistributedWorkPublisherTests
         protected internal override Task<string> ExecuteAsync(
             ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("multi");
+    }
+
+    [RunIfAny<OnLinux, FalseCondition>]
+    private sealed class MixedGenericAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            Context.IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class FalseCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
     }
 
     private static ModuleResult<T> CreateSuccessResult<T>(T value, string moduleName) where T : notnull
@@ -252,6 +267,21 @@ public class DistributedWorkPublisherTests
 
         await Assert.That(assignment.SatisfiedConditionGroups)
             .Contains(typeof(DistributedWorkPublisherTests).AssemblyQualifiedName!);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Routes_Mixed_Generic_Alternative_To_Os_Worker()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MixedGenericAlternativeModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new MixedGenericAlternativeModule());
+
+        await Assert.That(assignment.RequiredCapabilities).Contains("linux");
     }
 
     [Test]

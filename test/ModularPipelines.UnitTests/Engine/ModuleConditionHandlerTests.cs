@@ -290,6 +290,21 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Defers_Mixed_Generic_Alternative()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnore(CreateForeignMixedGenericAlternativeModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
     public async Task Distributed_Master_Routing_Preserves_Condition_ShortCircuiting()
     {
         _mixedAlternativeEvaluationCount = 0;
@@ -386,6 +401,13 @@ public class ModuleConditionHandlerTests
             : new WindowsOnlyModule();
     }
 
+    private static IModule CreateForeignMixedGenericAlternativeModule()
+    {
+        return OperatingSystem.IsWindows()
+            ? new LinuxMixedGenericAlternativeModule()
+            : new WindowsMixedGenericAlternativeModule();
+    }
+
     [RunIf<OnLinux>]
     private sealed class LinuxOnlyModule : Module<string>
     {
@@ -477,6 +499,29 @@ public class ModuleConditionHandlerTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, FalseCondition>]
+    private sealed class LinuxMixedGenericAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnWindows, FalseCondition>]
+    private sealed class WindowsMixedGenericAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(string.Empty);
+    }
+
+    private sealed class FalseCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
     }
 
     [AlternativeCondition(false)]

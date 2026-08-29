@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
@@ -684,8 +685,22 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
             if (attribute is not IGroupedConditionAttribute groupedAttribute)
             {
+                if (isLocallySatisfiedConditionGroup?.Invoke(attribute.GetType()) == true)
+                {
+                    continue;
+                }
+
                 if (ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
                 {
+                    if (await AnyConditionMatches(
+                            OperatingSystemConditions.GetLocalAlternatives(attribute),
+                            pipelineContext,
+                            cancellationToken)
+                        .ConfigureAwait(false))
+                    {
+                        locallySatisfiedConditionGroup?.Invoke(attribute.GetType());
+                    }
+
                     continue;
                 }
 
@@ -757,6 +772,28 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             cancellationToken.ThrowIfCancellationRequested();
 
             if (await alternative.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2067",
+        Justification = "Condition types come from RunIfAny<T...> generic arguments with a new() constraint preserving public constructors.")]
+    private static async Task<bool> AnyConditionMatches(
+        IEnumerable<Type> conditionTypes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        foreach (var conditionType in conditionTypes)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var condition = (IRunCondition) Activator.CreateInstance(conditionType)!;
+            if (await condition.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return true;
             }
