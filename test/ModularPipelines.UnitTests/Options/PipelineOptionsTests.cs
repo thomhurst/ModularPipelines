@@ -357,6 +357,27 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task PipelineBuilderConsoleLoggingReportsEffectiveFilter()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Logging
+            .ClearProviders()
+            .AddConsole()
+            .SetMinimumLevel(LogLevel.Error);
+
+        await using var pipeline = await builder.BuildAsync();
+        var control = pipeline.Services
+            .GetRequiredService<MEL.Spectre.ISpectreConsoleLoggerControl>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(control.WouldRender("Category", LogLevel.Information)).IsFalse();
+            await Assert.That(control.WouldRender("Category", LogLevel.Error)).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task TestPipelineBuilderClearsSpectreLoggingProvider()
     {
         var builder = TestPipelineBuilder.Create()

@@ -3,9 +3,14 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Console;
 
-internal sealed class NoopSpectreConsoleLoggerControl(ILoggerFactory loggerFactory)
+internal sealed class NoopSpectreConsoleLoggerControl(
+    ILoggerFactory loggerFactory,
+    IEnumerable<ILoggerProvider> loggerProviders)
     : ISpectreConsoleLoggerControl
 {
+    private readonly bool _hasConsoleProvider = loggerProviders.Any(static provider =>
+        provider is Microsoft.Extensions.Logging.Console.ConsoleLoggerProvider);
+
     public object SynchronizationLock { get; } = new();
 
     public Task FlushAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
@@ -24,7 +29,7 @@ internal sealed class NoopSpectreConsoleLoggerControl(ILoggerFactory loggerFacto
         ValueTask.FromResult<IDisposable?>(NoopDisposable.Instance);
 
     public bool WouldRender(string categoryName, LogLevel logLevel) =>
-        loggerFactory.CreateLogger(categoryName).IsEnabled(logLevel);
+        _hasConsoleProvider && loggerFactory.CreateLogger(categoryName).IsEnabled(logLevel);
 
     private sealed class NoopDisposable : IDisposable
     {
