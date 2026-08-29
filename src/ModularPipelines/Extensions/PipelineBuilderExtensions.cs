@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Caching;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Events;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -151,32 +152,32 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Adds global hooks to run before or after all the modules have executed.
+    /// Adds a handler for pipeline lifecycle events.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <typeparam name="TGlobalSetup">The type of hook class.</typeparam>
+    /// <typeparam name="THandler">The handler type.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddPipelineGlobalHooks<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TGlobalSetup>(
+    public static PipelineBuilder AddPipelineEventHandler<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler>(
         this PipelineBuilder builder)
-        where TGlobalSetup : class, IPipelineGlobalHooks
+        where THandler : class, IPipelineEventHandler
     {
-        builder.Services.AddPipelineGlobalHooks<TGlobalSetup>();
+        builder.Services.AddPipelineEventHandler<THandler>();
         return builder;
     }
 
     /// <summary>
-    /// Adds a global receiver for module lifecycle events.
+    /// Adds a global handler for module lifecycle events.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <typeparam name="TReceiver">The receiver type.</typeparam>
+    /// <typeparam name="THandler">The handler type.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddModuleEventReceiver<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TReceiver>(
+    public static PipelineBuilder AddModuleEventHandler<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler>(
         this PipelineBuilder builder)
-        where TReceiver : class, IModuleEventReceiver
+        where THandler : class, IModuleEventHandler
     {
-        builder.Services.AddModuleEventReceiver<TReceiver>();
+        builder.Services.AddModuleEventHandler<THandler>();
         return builder;
     }
 

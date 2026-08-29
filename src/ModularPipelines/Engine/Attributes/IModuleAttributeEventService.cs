@@ -1,4 +1,4 @@
-using ModularPipelines.Attributes.Events;
+using ModularPipelines.Events;
 
 namespace ModularPipelines.Engine.Attributes;
 
@@ -9,9 +9,9 @@ internal interface IModuleAttributeEventService
 {
     IReadOnlyList<Attribute> GetAttributes(Type moduleType);
 
-    IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType);
+    IReadOnlyList<IModuleRegistrationHandler> GetRegistrationHandlers(Type moduleType);
 
-    IReadOnlyList<IModuleRegistrationEventReceiver> GetPlanningRegistrationReceivers(Type moduleType);
+    IReadOnlyList<IModuleRegistrationHandler> GetPlanningRegistrationHandlers(Type moduleType);
 
     IReadOnlyList<Attribute> GetPlanningAttributes(Type moduleType);
 

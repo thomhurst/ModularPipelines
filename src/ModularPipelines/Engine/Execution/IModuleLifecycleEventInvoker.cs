@@ -29,7 +29,7 @@ internal interface IModuleLifecycleEventInvoker
     /// Invokes the OnModuleFailed lifecycle event.
     /// Called when a module throws an exception.
     /// </summary>
-    Task InvokeFailedEventAsync(ModuleLifecycleContext context, Exception exception);
+    Task InvokeFailedEventAsync(ModuleLifecycleContext context, IModuleResult result, Exception exception);
 
     /// <summary>
     /// Invokes the OnModuleSkipped lifecycle event.

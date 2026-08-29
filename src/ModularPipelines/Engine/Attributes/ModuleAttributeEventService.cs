@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using ModularPipelines.Attributes.Events;
+using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 
 using ModularPipelines.Generated;
@@ -12,8 +12,7 @@ namespace ModularPipelines.Engine.Attributes;
 /// <summary>
 /// Discovers and caches attribute event handlers on modules.
 /// Handlers are returned sorted by priority (lower values first).
-/// Handlers that implement <see cref="IEventHandlerPriority"/> are sorted by their <see cref="IEventHandlerPriority.Priority"/> value.
-/// Handlers without priority default to 0.
+/// The default <see cref="IEventHandler.Priority"/> is 0.
 /// </summary>
 internal class ModuleAttributeEventService : IModuleAttributeEventService
 {
@@ -23,11 +22,11 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
     public IReadOnlyList<Attribute> GetAttributes(Type moduleType)
         => GetCache(moduleType).Attributes;
 
-    public IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType)
-        => GetCache(moduleType).RegistrationReceivers;
+    public IReadOnlyList<IModuleRegistrationHandler> GetRegistrationHandlers(Type moduleType)
+        => GetCache(moduleType).RegistrationHandlers;
 
-    public IReadOnlyList<IModuleRegistrationEventReceiver> GetPlanningRegistrationReceivers(Type moduleType)
-        => GetPlanningCache(moduleType).RegistrationReceivers;
+    public IReadOnlyList<IModuleRegistrationHandler> GetPlanningRegistrationHandlers(Type moduleType)
+        => GetPlanningCache(moduleType).RegistrationHandlers;
 
     public IReadOnlyList<Attribute> GetPlanningAttributes(Type moduleType)
         => GetPlanningCache(moduleType).Attributes;
@@ -41,33 +40,33 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
 
     private static PlanningAttributeCache DiscoverPlanningAttributes(Type moduleType)
     {
-        var receiverData = CustomAttributeMetadata.GetApplicable(
+        var handlerData = CustomAttributeMetadata.GetApplicable(
             moduleType,
-            static type => typeof(IModuleRegistrationEventReceiver).IsAssignableFrom(type));
-        if (receiverData.Count == 0)
+            static type => typeof(IModuleRegistrationHandler).IsAssignableFrom(type));
+        if (handlerData.Count == 0)
         {
             return new PlanningAttributeCache([], []);
         }
 
-        var deferredReceiverTypes = receiverData
+        var unsafeHandlerTypes = handlerData
             .Select(static data => data.AttributeType)
-            .Where(static type => !typeof(IPlanningSafeModuleRegistrationEventReceiver).IsAssignableFrom(type))
             .Distinct()
+            .Where(static type => !typeof(IPlanningSafeModuleRegistrationHandler).IsAssignableFrom(type))
             .ToArray();
-        if (deferredReceiverTypes.Length > 0)
+        if (unsafeHandlerTypes.Length > 0)
         {
             throw new PipelineException(
                 $"Cannot export a resolved dependency graph because {moduleType.FullName} has "
-                + "registration receivers that are not planning-safe: "
-                + string.Join(", ", deferredReceiverTypes.Select(static type => type.FullName))
-                + $". Implement {nameof(IPlanningSafeModuleRegistrationEventReceiver)} only when "
-                + "the receiver is deterministic, idempotent, and free of external side effects.");
+                + "registration handlers that are not planning-safe: "
+                + string.Join(", ", unsafeHandlerTypes.Select(static type => type.FullName))
+                + $". Implement {nameof(IPlanningSafeModuleRegistrationHandler)} only when "
+                + "the handler is deterministic, idempotent, and free of external side effects.");
         }
 
         var attributeData = CustomAttributeMetadata.GetApplicable(moduleType, static _ => true);
         var attributes = attributeData.Select(CreatePlanningAttribute).ToArray();
-        var receivers = attributes.OfType<IModuleRegistrationEventReceiver>().ToList();
-        return new PlanningAttributeCache(attributes, SortByPriority(receivers));
+        var handlers = attributes.OfType<IModuleRegistrationHandler>().ToList();
+        return new PlanningAttributeCache(attributes, SortByPriority(handlers));
     }
 
     [UnconditionalSuppressMessage(
@@ -76,7 +75,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         Justification = "The exact attribute type is preserved by the custom-attribute metadata being inspected.")]
     private static Attribute CreatePlanningAttribute(CustomAttributeData data)
     {
-        if (typeof(IPlanningSafeModuleRegistrationEventReceiver).IsAssignableFrom(data.AttributeType)
+        if (typeof(IModuleRegistrationHandler).IsAssignableFrom(data.AttributeType)
             || data.AttributeType.Assembly == typeof(ModuleAttributeEventService).Assembly)
         {
             return CustomAttributeMetadata.Create<Attribute>(data);
@@ -89,9 +88,9 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         {
             throw new PipelineException(
                 $"Cannot export a resolved dependency graph because {data.AttributeType.FullName} is a stateful "
-                + "companion to a planning-safe registration receiver. Planning cannot construct arbitrary "
+                + "companion to a planning-safe registration handler. Planning cannot construct arbitrary "
                 + "companion attributes. Use a stateless marker attribute or move the required state onto the "
-                + $"{nameof(IPlanningSafeModuleRegistrationEventReceiver)} attribute.");
+                + $"{nameof(IModuleRegistrationHandler)} attribute.");
         }
 
         return (Attribute) RuntimeHelpers.GetUninitializedObject(data.AttributeType);
@@ -164,7 +163,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
 
     private static AttributeHandlerCache CreateHandlerCache(IReadOnlyList<Attribute> attributes)
     {
-        var registrationReceivers = new List<IModuleRegistrationEventReceiver>();
+        var registrationHandlers = new List<IModuleRegistrationHandler>();
         var readyHandlers = new List<IModuleReadyHandler>();
         var startHandlers = new List<IModuleStartHandler>();
         var endHandlers = new List<IModuleEndHandler>();
@@ -173,9 +172,9 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
 
         foreach (var attribute in attributes)
         {
-            if (attribute is IModuleRegistrationEventReceiver registration)
+            if (attribute is IModuleRegistrationHandler registrationHandler)
             {
-                registrationReceivers.Add(registration);
+                registrationHandlers.Add(registrationHandler);
             }
 
             if (attribute is IModuleReadyHandler ready)
@@ -204,11 +203,9 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
             }
         }
 
-        // Sort all handlers by priority (lower values first)
-        // Handlers without IEventHandlerPriority default to 0
         return new AttributeHandlerCache(
             attributes,
-            SortByPriority(registrationReceivers),
+            SortByPriority(registrationHandlers),
             SortByPriority(readyHandlers),
             SortByPriority(startHandlers),
             SortByPriority(endHandlers),
@@ -229,6 +226,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         => [.. moduleType.GetCustomAttributes(inherit: true).OfType<Attribute>()];
 
     private static IReadOnlyList<T> SortByPriority<T>(List<T> handlers)
+        where T : IEventHandler
     {
         if (handlers.Count <= 1)
         {
@@ -236,15 +234,12 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         }
 
         // Use stable sort to preserve declaration order for handlers with same priority
-        return [.. handlers.OrderBy(GetPriority)];
+        return [.. handlers.OrderBy(static handler => handler.Priority)];
     }
-
-    private static int GetPriority<T>(T handler)
-        => handler is IEventHandlerPriority prioritized ? prioritized.Priority : 0;
 
     private sealed record AttributeHandlerCache(
         IReadOnlyList<Attribute> Attributes,
-        IReadOnlyList<IModuleRegistrationEventReceiver> RegistrationReceivers,
+        IReadOnlyList<IModuleRegistrationHandler> RegistrationHandlers,
         IReadOnlyList<IModuleReadyHandler> ReadyHandlers,
         IReadOnlyList<IModuleStartHandler> StartHandlers,
         IReadOnlyList<IModuleEndHandler> EndHandlers,
@@ -253,5 +248,5 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
 
     private sealed record PlanningAttributeCache(
         IReadOnlyList<Attribute> Attributes,
-        IReadOnlyList<IModuleRegistrationEventReceiver> RegistrationReceivers);
+        IReadOnlyList<IModuleRegistrationHandler> RegistrationHandlers);
 }

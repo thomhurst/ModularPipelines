@@ -1,7 +1,7 @@
 namespace ModularPipelines.Engine.Dependencies;
 
 /// <summary>
-/// Stores dynamic dependencies added via attribute event receivers.
+/// Stores dynamic dependencies added via attribute event handlers.
 /// </summary>
 /// <remarks>
 /// <para>

@@ -37,7 +37,7 @@ public class FailedModuleNotificationTests
     }
 
     [Test]
-    public async Task Failed_Module_Publishes_Completion_When_Failure_Receiver_Throws()
+    public async Task Failed_Module_Publishes_Completion_When_Failure_Handler_Throws()
     {
         var mediator = new Mock<IMediator>();
         mediator
@@ -51,7 +51,7 @@ public class FailedModuleNotificationTests
                     .ConfigureServices(services =>
                     {
                         services.AddSingleton(mediator.Object);
-                        services.AddSingleton<IModuleEventReceiver, ThrowingFailureReceiver>();
+                        services.AddSingleton<IModuleEventHandler, ThrowingFailureHandler>();
                     })
                     .AddModule<FailingModule>()
                     .RunAsync())
@@ -74,11 +74,11 @@ public class FailedModuleNotificationTests
         }
     }
 
-    private sealed class ThrowingFailureReceiver : IModuleEventReceiver
+    private sealed class ThrowingFailureHandler : IModuleEventHandler
     {
-        public Task OnModuleFailureAsync(IModuleHookContext context)
+        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception)
         {
-            return Task.FromException(new InvalidOperationException("Expected receiver failure"));
+            return Task.FromException(new InvalidOperationException("Expected handler failure"));
         }
     }
 }

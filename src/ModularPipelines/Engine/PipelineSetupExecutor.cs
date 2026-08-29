@@ -1,28 +1,31 @@
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
-using ModularPipelines.Interfaces;
+using ModularPipelines.Events;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
 
 internal class PipelineSetupExecutor : IPipelineSetupExecutor
 {
-    private readonly IEnumerable<IPipelineGlobalHooks> _globalHooks;
-    private readonly IReadOnlyCollection<IModuleEventReceiver> _moduleEventReceivers;
+    private readonly IReadOnlyList<IPipelineEventHandler> _pipelineEventHandlers;
+    private readonly IReadOnlyList<IModuleEventHandler> _moduleEventHandlers;
+    private readonly IEventHandlerInvoker _eventHandlerInvoker;
     private readonly IPipelineContextProvider _moduleContextProvider;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IModuleAttributeEventService _attributeEventService;
 
-    public PipelineSetupExecutor(IEnumerable<IPipelineGlobalHooks> globalHooks,
-        IEnumerable<IModuleEventReceiver> moduleEventReceivers,
+    public PipelineSetupExecutor(
+        IEnumerable<IPipelineEventHandler> pipelineEventHandlers,
+        IEnumerable<IModuleEventHandler> moduleEventHandlers,
+        IEventHandlerInvoker eventHandlerInvoker,
         IPipelineContextProvider moduleContextProvider,
         IModuleMetadataRegistry metadataRegistry,
         IModuleAttributeEventService attributeEventService)
     {
-        _globalHooks = globalHooks;
-        _moduleEventReceivers = moduleEventReceivers as IReadOnlyCollection<IModuleEventReceiver>
-            ?? moduleEventReceivers.ToArray();
+        _pipelineEventHandlers = [.. pipelineEventHandlers.OrderBy(static handler => handler.Priority)];
+        _moduleEventHandlers = [.. moduleEventHandlers.OrderBy(static handler => handler.Priority)];
+        _eventHandlerInvoker = eventHandlerInvoker;
         _moduleContextProvider = moduleContextProvider;
         _metadataRegistry = metadataRegistry;
         _attributeEventService = attributeEventService;
@@ -30,51 +33,69 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
 
     public Task OnPipelineStartAsync()
     {
-        return Task.WhenAll(_globalHooks.Select(x => x.OnPipelineStartAsync(GetPipelineContext())));
+        return _pipelineEventHandlers.Count == 0
+            ? Task.CompletedTask
+            : _eventHandlerInvoker.InvokePipelineStartHandlersAsync(
+                _pipelineEventHandlers,
+                GetPipelineContext());
     }
 
     public Task OnPipelineEndAsync(PipelineSummary pipelineSummary)
     {
-        return Task.WhenAll(_globalHooks.Select(x => x.OnPipelineEndAsync(GetPipelineContext(), pipelineSummary)));
+        return _pipelineEventHandlers.Count == 0
+            ? Task.CompletedTask
+            : _eventHandlerInvoker.InvokePipelineEndHandlersAsync(
+                _pipelineEventHandlers,
+                GetPipelineContext(),
+                pipelineSummary);
     }
 
     public Task OnModuleReadyAsync(ModuleState moduleState)
-        => InvokeModuleEventReceiversAsync(
-            moduleState,
-            static (receiver, context) => receiver.OnModuleReadyAsync(context));
+    {
+        return _moduleEventHandlers.Count == 0
+            ? Task.CompletedTask
+            : _eventHandlerInvoker.InvokeReadyHandlersAsync(
+                _moduleEventHandlers,
+                CreateModuleHookContext(moduleState));
+    }
 
     public Task OnModuleStartAsync(ModuleState moduleState)
-        => InvokeModuleEventReceiversAsync(
-            moduleState,
-            static (receiver, context) => receiver.OnModuleStartAsync(context));
-
-    public Task OnModuleEndAsync(ModuleState moduleState)
-        => InvokeModuleEventReceiversAsync(
-            moduleState,
-            static (receiver, context) => receiver.OnModuleEndAsync(context));
-
-    public Task OnModuleFailureAsync(ModuleState moduleState)
-        => InvokeModuleEventReceiversAsync(
-            moduleState,
-            static (receiver, context) => receiver.OnModuleFailureAsync(context));
-
-    public Task OnModuleSkippedAsync(ModuleState moduleState)
-        => InvokeModuleEventReceiversAsync(
-            moduleState,
-            static (receiver, context) => receiver.OnModuleSkippedAsync(context));
-
-    private Task InvokeModuleEventReceiversAsync(
-        ModuleState moduleState,
-        Func<IModuleEventReceiver, IModuleHookContext, Task> invokeReceiver)
     {
-        if (_moduleEventReceivers.Count == 0)
-        {
-            return Task.CompletedTask;
-        }
+        return _moduleEventHandlers.Count == 0
+            ? Task.CompletedTask
+            : _eventHandlerInvoker.InvokeStartHandlersAsync(
+                _moduleEventHandlers,
+                CreateModuleHookContext(moduleState));
+    }
 
-        var context = CreateModuleHookContext(moduleState);
-        return Task.WhenAll(
-            _moduleEventReceivers.Select(receiver => invokeReceiver(receiver, context)));
+    public Task OnModuleEndAsync(ModuleState moduleState, IModuleResult result)
+    {
+        return _moduleEventHandlers.Count == 0
+            ? Task.CompletedTask
+            : _eventHandlerInvoker.InvokeEndHandlersAsync(
+                _moduleEventHandlers,
+                CreateModuleHookContext(moduleState),
+                result);
+    }
+
+    public Task OnModuleFailureAsync(ModuleState moduleState, Exception exception)
+    {
+        return _moduleEventHandlers.Count == 0
+            ? Task.CompletedTask
+            : _eventHandlerInvoker.InvokeFailureHandlersAsync(
+                _moduleEventHandlers,
+                CreateModuleHookContext(moduleState),
+                exception);
+    }
+
+    public Task OnModuleSkippedAsync(ModuleState moduleState, SkipDecision reason)
+    {
+        return _moduleEventHandlers.Count == 0
+            ? Task.CompletedTask
+            : _eventHandlerInvoker.InvokeSkippedHandlersAsync(
+                _moduleEventHandlers,
+                CreateModuleHookContext(moduleState),
+                reason);
     }
 
     private IPipelineContext GetPipelineContext()

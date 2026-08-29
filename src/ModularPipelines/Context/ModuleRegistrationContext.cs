@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Events;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Context;

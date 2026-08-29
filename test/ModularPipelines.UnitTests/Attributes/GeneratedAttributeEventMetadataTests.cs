@@ -1,7 +1,7 @@
 using ModularPipelines.Attributes;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Events;
 using ModularPipelines.Modules;
 
 using ModularPipelines.Generated;
@@ -9,7 +9,7 @@ using ModularPipelines.Generated;
 namespace ModularPipelines.UnitTests.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-internal sealed class GeneratedStartAttribute(string name) : Attribute, IModuleStartHandler, IEventHandlerPriority
+internal sealed class GeneratedStartAttribute(string name) : Attribute, IModuleStartHandler
 {
     public string Name { get; } = name;
 

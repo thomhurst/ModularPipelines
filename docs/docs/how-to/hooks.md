@@ -7,9 +7,9 @@ title: Hooks
 Module lifecycle behavior has three extension points:
 
 1. Override the virtual lifecycle methods on `Module<T>` for behavior owned by one module.
-2. Implement the attribute interfaces in `ModularPipelines.Attributes.Events` for reusable,
+2. Implement the attribute interfaces in `ModularPipelines.Events` for reusable,
    opt-in behavior attached to selected modules.
-3. Implement `IModuleEventReceiver` for behavior that observes every module in a pipeline.
+3. Implement `IModuleEventHandler` for behavior that observes every module in a pipeline.
 
 `ModuleConfiguration` controls execution policy only; it does not contain lifecycle hooks.
 
@@ -99,14 +99,20 @@ public class BuildModule : Module<string>
 
 Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`,
 `IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`.
-Handlers can implement `IEventHandlerPriority`; lower values run first.
+All handlers inherit `IEventHandler`. Set `Priority` to control order (lower values run
+first), or `ContinueOnError` to log a handler failure and continue.
 
-## Global module event receivers
+Registration attributes implement `IModuleRegistrationHandler`. Also implement
+`IPlanningSafeModuleRegistrationHandler` only for deterministic, idempotent handlers
+without external side effects; those handlers may run while exporting a resolved
+dependency graph.
 
-Implement `IModuleEventReceiver` to observe every module, then register it once:
+## Global module event handlers
+
+Implement `IModuleEventHandler` to observe every module, then register it once:
 
 ```csharp
-public sealed class ModuleMetricsReceiver : IModuleEventReceiver
+public sealed class ModuleMetricsHandler : IModuleEventHandler
 {
     public Task OnModuleStartAsync(IModuleHookContext context)
     {
@@ -114,7 +120,7 @@ public sealed class ModuleMetricsReceiver : IModuleEventReceiver
         return Task.CompletedTask;
     }
 
-    public Task OnModuleEndAsync(IModuleHookContext context)
+    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
     {
         context.Logger.LogInformation(
             "{Module} finished after {Elapsed}",
@@ -124,11 +130,11 @@ public sealed class ModuleMetricsReceiver : IModuleEventReceiver
     }
 }
 
-builder.AddModuleEventReceiver<ModuleMetricsReceiver>();
+builder.AddModuleEventHandler<ModuleMetricsHandler>();
 ```
 
-All registered global receivers are invoked concurrently for each event. Attribute handlers
-run sequentially in priority order.
+Global and attribute handlers use the same callback signatures and shared error/priority
+properties. Global handlers run sequentially in priority order for each event.
 
 ## Lifecycle ordering
 
@@ -158,16 +164,16 @@ For a skipped module, the completion portion is:
 3. Global `OnModuleSkippedAsync`
 
 If `OnBeforeExecuteAsync` throws, `ExecuteAsync` and `OnAfterExecuteAsync` do not run;
-`OnFailedAsync` and the failure event receivers are still notified. Exceptions from
+`OnFailedAsync` and the failure event handlers are still notified. Exceptions from
 `OnAfterExecuteAsync`, `OnFailedAsync`, and `OnSkippedAsync` are logged without replacing
 the module outcome.
 
-## Pipeline hooks
+## Pipeline event handlers
 
-`IPipelineGlobalHooks` observes the pipeline as a whole rather than individual modules:
+`IPipelineEventHandler` observes the pipeline as a whole rather than individual modules:
 
 ```csharp
-public sealed class PipelineLoggingHooks : IPipelineGlobalHooks
+public sealed class PipelineLoggingHandler : IPipelineEventHandler
 {
     public Task OnPipelineStartAsync(IPipelineContext context)
     {
@@ -184,5 +190,7 @@ public sealed class PipelineLoggingHooks : IPipelineGlobalHooks
     }
 }
 
-builder.AddPipelineGlobalHooks<PipelineLoggingHooks>();
+builder.AddPipelineEventHandler<PipelineLoggingHandler>();
 ```
+
+Pipeline handlers also inherit `IEventHandler` and run in priority order.

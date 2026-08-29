@@ -13,8 +13,9 @@ using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
-using ModularPipelines.Enums;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
+using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
@@ -106,7 +107,7 @@ public class RunReportTests
             Task.FromResult<string?>(typeof(T).FullName);
     }
 
-    private sealed class ThrowingEndHook : IPipelineGlobalHooks
+    private sealed class ThrowingEndHook : IPipelineEventHandler
     {
         private const string RegisteredSecret = "hook-secret-value";
         private readonly ISecretRegistry _secretRegistry;
@@ -125,7 +126,7 @@ public class RunReportTests
         }
     }
 
-    private sealed class MixedFailureEndHook : IPipelineGlobalHooks
+    private sealed class MixedFailureEndHook : IPipelineEventHandler
     {
         public Task OnPipelineEndAsync(
             IPipelineContext context,
@@ -141,7 +142,7 @@ public class RunReportTests
         }
     }
 
-    private sealed class WrappedFailureEndHook : IPipelineGlobalHooks
+    private sealed class WrappedFailureEndHook : IPipelineEventHandler
     {
         public Task OnPipelineEndAsync(
             IPipelineContext context,
@@ -155,7 +156,7 @@ public class RunReportTests
         }
     }
 
-    private sealed class DelayedEndHook : IPipelineGlobalHooks
+    private sealed class DelayedEndHook : IPipelineEventHandler
     {
         public static DateTimeOffset CompletedAt { get; private set; }
 
@@ -2854,7 +2855,7 @@ public class RunReportTests
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<SuccessfulModule>();
-            builder.AddPipelineGlobalHooks<ThrowingEndHook>();
+            builder.AddPipelineEventHandler<ThrowingEndHook>();
 
             await Assert.ThrowsAsync<InvalidOperationException>(
                 () => builder.RunAsync());
@@ -2895,7 +2896,7 @@ public class RunReportTests
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<SuccessfulModule>();
-            builder.AddPipelineGlobalHooks<DelayedEndHook>();
+            builder.AddPipelineEventHandler<DelayedEndHook>();
 
             var summary = await builder.RunAsync();
             var report = RunReportJsonSerializer.Deserialize(
@@ -3112,7 +3113,7 @@ public class RunReportTests
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<FailingModule>();
-            builder.AddPipelineGlobalHooks<MixedFailureEndHook>();
+            builder.AddPipelineEventHandler<MixedFailureEndHook>();
 
             await Assert.ThrowsAsync<AggregateException>(() => builder.RunAsync());
 
@@ -3153,7 +3154,7 @@ public class RunReportTests
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<FailingModule>();
-            builder.AddPipelineGlobalHooks<WrappedFailureEndHook>();
+            builder.AddPipelineEventHandler<WrappedFailureEndHook>();
 
             await Assert.ThrowsAsync<InvalidOperationException>(
                 () => builder.RunAsync());

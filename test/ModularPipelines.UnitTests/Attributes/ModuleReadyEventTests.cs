@@ -1,7 +1,7 @@
 using ModularPipelines.Attributes;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
+using ModularPipelines.Events;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 

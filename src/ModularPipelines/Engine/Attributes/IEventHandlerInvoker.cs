@@ -1,15 +1,22 @@
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
+using ModularPipelines.Events;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine.Attributes;
 
 /// <summary>
-/// Invokes attribute event handlers with error handling.
+/// Invokes event handlers with consistent error handling.
 /// </summary>
-internal interface IAttributeEventInvoker
+internal interface IEventHandlerInvoker
 {
-    Task InvokeRegistrationReceiversAsync(IEnumerable<IModuleRegistrationEventReceiver> receivers, IModuleRegistrationContext context);
+    Task InvokePipelineStartHandlersAsync(IEnumerable<IPipelineEventHandler> handlers, IPipelineContext context);
+
+    Task InvokePipelineEndHandlersAsync(
+        IEnumerable<IPipelineEventHandler> handlers,
+        IPipelineContext context,
+        PipelineSummary summary);
+
+    Task InvokeRegistrationHandlersAsync(IEnumerable<IModuleRegistrationHandler> handlers, IModuleRegistrationContext context);
 
     Task InvokeReadyHandlersAsync(IEnumerable<IModuleReadyHandler> handlers, IModuleHookContext context);
 

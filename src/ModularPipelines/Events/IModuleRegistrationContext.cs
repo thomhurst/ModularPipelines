@@ -3,11 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Modules;
 
-namespace ModularPipelines.Attributes.Events;
+namespace ModularPipelines.Events;
 
 /// <summary>
-/// Context provided to <see cref="IModuleRegistrationEventReceiver.OnRegistrationAsync"/>.
-/// Provides access to pipeline configuration and enables dynamic dependency manipulation.
+/// Context provided to <see cref="IModuleRegistrationHandler.OnRegistrationAsync"/>.
+/// Provides pipeline configuration and dynamic dependency operations.
 /// </summary>
 public interface IModuleRegistrationContext
 {
@@ -37,74 +37,86 @@ public interface IModuleRegistrationContext
     IReadOnlyList<Type> RegisteredModuleTypes { get; }
 
     /// <summary>
-    /// Checks if a specific module type is registered.
+    /// Checks whether a module of the specified type is registered.
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="TModule">The module type.</typeparam>
+    /// <returns><see langword="true"/> when the module is registered; otherwise, <see langword="false"/>.</returns>
     bool IsModuleRegistered<TModule>()
         where TModule : IModule;
 
     /// <summary>
-    /// Checks if a specific module type is registered.
+    /// Checks whether a module of the specified type is registered.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="moduleType">The module type.</param>
+    /// <returns><see langword="true"/> when the module is registered; otherwise, <see langword="false"/>.</returns>
     bool IsModuleRegistered(Type moduleType);
 
     /// <summary>
-    /// Gets all registered module types that are assignable to the specified base type.
+    /// Gets all registered module types assignable to the specified base type.
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="TBase">The base module type.</typeparam>
+    /// <returns>The matching registered module types.</returns>
     IEnumerable<Type> GetModulesAssignableTo<TBase>()
         where TBase : IModule;
 
     /// <summary>
-    /// Gets all registered module types that have the specified attribute.
+    /// Gets all registered module types with the specified attribute.
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="TAttribute">The attribute type.</typeparam>
+    /// <returns>The matching registered module types.</returns>
     IEnumerable<Type> GetModulesWithAttribute<TAttribute>()
         where TAttribute : Attribute;
 
     /// <summary>
-    /// Adds a dependency on another module.
+    /// Adds a dependency on the specified module.
     /// </summary>
+    /// <typeparam name="TModule">The dependency module type.</typeparam>
     void AddDependency<TModule>()
         where TModule : IModule;
 
     /// <summary>
-    /// Adds a dependency on another module.
+    /// Adds a dependency on the specified module.
     /// </summary>
+    /// <param name="moduleType">The dependency module type.</param>
     void AddDependency(Type moduleType);
 
     /// <summary>
     /// Adds dependencies on all modules assignable to the specified base type.
     /// </summary>
+    /// <typeparam name="TBase">The base module type.</typeparam>
     void AddDependencyOnAll<TBase>()
         where TBase : IModule;
 
     /// <summary>
     /// Adds dependencies on all modules matching the specified predicate.
     /// </summary>
+    /// <param name="predicate">The predicate used to select module types.</param>
     void AddDependencyOnAll(Func<Type, bool> predicate);
 
     /// <summary>
-    /// Removes a dependency on another module.
+    /// Removes a dependency on the specified module.
     /// </summary>
+    /// <typeparam name="TModule">The dependency module type.</typeparam>
     void RemoveDependency<TModule>()
         where TModule : IModule;
 
     /// <summary>
-    /// Gets the service collection for registering additional services.
-    /// This is null when the context is used post-container-build (e.g., for hook execution).
+    /// Gets the service collection when registration occurs before the container is built; otherwise, <see langword="null"/>.
     /// </summary>
     IServiceCollection? Services { get; }
 
     /// <summary>
     /// Sets metadata that can be retrieved during module execution.
     /// </summary>
+    /// <param name="key">The metadata key.</param>
+    /// <param name="value">The metadata value.</param>
     void SetMetadata(string key, object value);
 
     /// <summary>
-    /// Gets metadata that was set during registration.
+    /// Gets metadata set during registration.
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="T">The metadata value type.</typeparam>
+    /// <param name="key">The metadata key.</param>
+    /// <returns>The metadata value, or the default value when the key is absent.</returns>
     T? GetMetadata<T>(string key);
 }

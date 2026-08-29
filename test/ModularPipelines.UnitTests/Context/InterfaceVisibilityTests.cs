@@ -1,5 +1,6 @@
 using System.Reflection;
 using ModularPipelines.Context;
+using ModularPipelines.Events;
 
 namespace ModularPipelines.UnitTests.Context;
 
@@ -147,8 +148,17 @@ public class InterfaceVisibilityTests
         var extensionPointInterfaces = new[]
         {
             ("ModularPipelines", "IPipeline"),
-            ("ModularPipelines.Interfaces", "IPipelineGlobalHooks"),
-            ("ModularPipelines.Interfaces", "IModuleEventReceiver"),
+            ("ModularPipelines.Events", "IEventHandler"),
+            ("ModularPipelines.Events", "IPipelineEventHandler"),
+            ("ModularPipelines.Events", "IModuleEventHandler"),
+            ("ModularPipelines.Events", "IModuleReadyHandler"),
+            ("ModularPipelines.Events", "IModuleStartHandler"),
+            ("ModularPipelines.Events", "IModuleEndHandler"),
+            ("ModularPipelines.Events", "IModuleFailureHandler"),
+            ("ModularPipelines.Events", "IModuleSkippedHandler"),
+            ("ModularPipelines.Events", "IModuleRegistrationHandler"),
+            ("ModularPipelines.Events", "IPlanningSafeModuleRegistrationHandler"),
+            ("ModularPipelines.Events", "IModuleRegistrationContext"),
             ("ModularPipelines.Requirements", "IPipelineRequirement")
         };
 
@@ -161,6 +171,40 @@ public class InterfaceVisibilityTests
             await Assert.That(iface!.IsPublic).IsTrue()
                 .Because($"{name} should be public");
         }
+
+        await Assert.That(assembly.GetType("ModularPipelines.Interfaces.IPipelineGlobalHooks")).IsNull();
+        await Assert.That(assembly.GetType("ModularPipelines.Interfaces.IModuleEventReceiver")).IsNull();
+        await Assert.That(assembly.GetType("ModularPipelines.Attributes.Events.IModuleStartHandler")).IsNull();
+        await Assert.That(assembly.GetType("ModularPipelines.Attributes.Events.IModuleRegistrationEventReceiver")).IsNull();
+    }
+
+    [Test]
+    public async Task ModuleEventHandler_Composes_One_Shared_Handler_Family()
+    {
+        var modulePhaseHandlers = new[]
+        {
+            typeof(IModuleReadyHandler),
+            typeof(IModuleStartHandler),
+            typeof(IModuleEndHandler),
+            typeof(IModuleFailureHandler),
+            typeof(IModuleSkippedHandler),
+            typeof(IModuleRegistrationHandler),
+        };
+
+        foreach (var handlerType in modulePhaseHandlers.Append(typeof(IPipelineEventHandler)))
+        {
+            await Assert.That(typeof(IEventHandler).IsAssignableFrom(handlerType)).IsTrue();
+        }
+
+        foreach (var handlerType in modulePhaseHandlers.Take(5))
+        {
+            await Assert.That(handlerType.IsAssignableFrom(typeof(IModuleEventHandler))).IsTrue();
+        }
+
+        await Assert.That(typeof(IEventHandler).GetProperty(nameof(IEventHandler.ContinueOnError))).IsNotNull();
+        await Assert.That(typeof(IEventHandler).GetProperty(nameof(IEventHandler.Priority))).IsNotNull();
+        await Assert.That(typeof(IModuleRegistrationHandler)
+            .IsAssignableFrom(typeof(IPlanningSafeModuleRegistrationHandler))).IsTrue();
     }
 
     [Test]

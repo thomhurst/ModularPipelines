@@ -11,16 +11,16 @@ namespace ModularPipelines.Engine.Execution;
 internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
 {
     private readonly IModuleAttributeEventService _attributeEventService;
-    private readonly IAttributeEventInvoker _attributeEventInvoker;
+    private readonly IEventHandlerInvoker _eventHandlerInvoker;
     private readonly IModuleMetadataRegistry _metadataRegistry;
 
     public ModuleLifecycleEventInvoker(
         IModuleAttributeEventService attributeEventService,
-        IAttributeEventInvoker attributeEventInvoker,
+        IEventHandlerInvoker eventHandlerInvoker,
         IModuleMetadataRegistry metadataRegistry)
     {
         _attributeEventService = attributeEventService;
-        _attributeEventInvoker = attributeEventInvoker;
+        _eventHandlerInvoker = eventHandlerInvoker;
         _metadataRegistry = metadataRegistry;
     }
 
@@ -43,7 +43,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.PipelineContext,
             _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeReadyHandlersAsync(handlers, hookContext).ConfigureAwait(false);
+        await _eventHandlerInvoker.InvokeReadyHandlersAsync(handlers, hookContext).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -63,7 +63,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.PipelineContext,
             _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeStartHandlersAsync(handlers, hookContext).ConfigureAwait(false);
+        await _eventHandlerInvoker.InvokeStartHandlersAsync(handlers, hookContext).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -83,11 +83,14 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.PipelineContext,
             _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeEndHandlersAsync(handlers, hookContext, result).ConfigureAwait(false);
+        await _eventHandlerInvoker.InvokeEndHandlersAsync(handlers, hookContext, result).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public async Task InvokeFailedEventAsync(ModuleLifecycleContext context, Exception exception)
+    public async Task InvokeFailedEventAsync(
+        ModuleLifecycleContext context,
+        IModuleResult result,
+        Exception exception)
     {
         var handlers = _attributeEventService.GetFailureHandlers(context.ModuleType);
         if (handlers.Count == 0)
@@ -99,11 +102,11 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.Module,
             context.ModuleAttributes,
             context.StartTime,
-            result: null,
+            result,
             context.PipelineContext,
             _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeFailureHandlersAsync(handlers, hookContext, exception).ConfigureAwait(false);
+        await _eventHandlerInvoker.InvokeFailureHandlersAsync(handlers, hookContext, exception).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -123,6 +126,6 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.PipelineContext,
             _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeSkippedHandlersAsync(handlers, hookContext, skipReason).ConfigureAwait(false);
+        await _eventHandlerInvoker.InvokeSkippedHandlersAsync(handlers, hookContext, skipReason).ConfigureAwait(false);
     }
 }

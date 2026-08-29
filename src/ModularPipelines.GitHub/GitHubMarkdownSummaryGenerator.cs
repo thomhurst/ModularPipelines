@@ -2,13 +2,14 @@ using System.Text;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Events;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.GitHub;
 
-internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
+internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
 {
     private const long MaxFileSizeInBytes = 1 * 1024 * 1024; // 1MB
 
