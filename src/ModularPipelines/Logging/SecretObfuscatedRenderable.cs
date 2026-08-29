@@ -60,7 +60,7 @@ internal sealed class SecretObfuscatedRenderable(
         {
             if (segment.IsControlCode)
             {
-                output.Add(segment);
+                output.Add(ObfuscateControlCode(segment));
                 continue;
             }
 
@@ -92,7 +92,7 @@ internal sealed class SecretObfuscatedRenderable(
         {
             if (segment.IsControlCode)
             {
-                output.Add(segment);
+                output.Add(ObfuscateControlCode(segment));
                 continue;
             }
 
@@ -326,9 +326,14 @@ internal sealed class SecretObfuscatedRenderable(
     private static extern IRenderable GetTreeNodeRenderable(TreeNode node);
 
     private Segment[] ObfuscateLinks(Segment[] segments) =>
-        [.. segments.Select(segment => segment.IsControlCode || segment.Link is null
-            ? segment
-            : new Segment(segment.Text, segment.Style, ObfuscateLink(segment.Link)))];
+        [.. segments.Select(segment => segment.IsControlCode
+            ? ObfuscateControlCode(segment)
+            : segment.Link is null
+                ? segment
+                : new Segment(segment.Text, segment.Style, ObfuscateLink(segment.Link)))];
+
+    private Segment ObfuscateControlCode(Segment segment) =>
+        Segment.Control(secretObfuscator.Obfuscate(segment.Text, null));
 
     private Link? ObfuscateLink(Link? link)
     {

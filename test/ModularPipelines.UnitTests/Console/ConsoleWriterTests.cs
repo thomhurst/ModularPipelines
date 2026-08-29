@@ -18,6 +18,16 @@ namespace ModularPipelines.UnitTests.Console;
 [TUnit.Core.NotInParallel(nameof(ConsoleWriterTests))]
 public class ConsoleWriterTests
 {
+    private sealed class ControlRenderable(string value) : IRenderable
+    {
+        public Measurement Measure(RenderOptions options, int maxWidth) => new(0, 0);
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
+        {
+            yield return Segment.Control(value);
+        }
+    }
+
     private sealed class WriteMarkupLineModule(IConsoleWriter consoleWriter) : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
@@ -347,6 +357,25 @@ public class ConsoleWriterTests
             .First(static value => value is not null)!;
         await Assert.That(url).Contains("**********");
         await Assert.That(url).DoesNotContain("token");
+    }
+
+    [Test]
+    public async Task Write_ObfuscatesSecretInControlSegment()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new ControlRenderable("secret"),
+            CreateSecretObfuscator("secret"));
+        var segment = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(segment.IsControlCode).IsTrue();
+            await Assert.That(segment.Text).Contains("**********");
+            await Assert.That(segment.Text).DoesNotContain("secret");
+        }
     }
 
     [Test]
