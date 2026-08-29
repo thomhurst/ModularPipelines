@@ -19,8 +19,6 @@ public static class AzurePipelineExtensions
     }
 
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-
     [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Azure.Pipelines.IAzurePipeline>().")]
-
     public static IAzurePipeline AzurePipeline(this IPipelineContext context) => context.Services.GetRequiredService<IAzurePipeline>();
 }

@@ -18,8 +18,6 @@ public static class NodeExtensions
     }
 
     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-
     [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Node.INode>().")]
-
     public static INode Node(this IPipelineContext context) => context.Services.GetRequiredService<INode>();
 }
