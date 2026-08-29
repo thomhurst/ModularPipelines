@@ -470,6 +470,43 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_EscapesConfiguredMaskInTableTitle()
+    {
+        var obfuscator = CreateSecretObfuscator("secret", "[REDACTED]");
+        var table = new Table()
+            .AddColumn("Value")
+            .AddRow("value");
+        table.Title = new TableTitle("secret");
+
+        var output = CaptureFallbackOutput(writer => writer.Write(table), obfuscator);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("[REDACTED]");
+            await Assert.That(output).DoesNotContain("secret");
+        }
+    }
+
+    [Test]
+    public async Task Write_PreparesRuleTitleBeforeLayout()
+    {
+        var obfuscator = CreateSecretObfuscator("tiny", "[REDACTED]");
+        var renderable = new SecretObfuscatedRenderable(new Rule("tiny"), obfuscator);
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                24)
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(string.Concat(segments.Select(static segment => segment.Text)))
+                .Contains("[REDACTED]");
+            await Assert.That(Segment.SplitLines(segments).Max(static line => line.CellCount()))
+                .IsEqualTo(24);
+        }
+    }
+
+    [Test]
     public async Task Write_DoesNotAppendLineBreak()
     {
         var output = CaptureFallbackOutput(writer =>
@@ -592,13 +629,24 @@ public class ConsoleWriterTests
     }
 
     private static ISecretObfuscator CreateSecretObfuscator(params string[] secrets)
+        => CreateSecretObfuscator(secrets, maskValue: null);
+
+    private static ISecretObfuscator CreateSecretObfuscator(string secret, string maskValue)
+        => CreateSecretObfuscator([secret], maskValue);
+
+    private static ISecretObfuscator CreateSecretObfuscator(
+        string[] secrets,
+        string? maskValue)
     {
         var secretProvider = new Mock<ISecretProvider>();
         secretProvider.SetupGet(x => x.Version).Returns(0);
         secretProvider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, secrets));
         return new SecretObfuscator(
             secretProvider.Object,
-            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                MaskValue = maskValue ?? "**********",
+            }));
     }
 
     private static async Task AssertFallbackOutputIsObfuscated(string output)

@@ -137,6 +137,7 @@ internal sealed class SecretObfuscatedRenderable(
         Grid grid => PrepareGrid(grid, secretObfuscator),
         Padder padder => PreparePadder(padder, secretObfuscator),
         Panel panel => PreparePanel(panel, secretObfuscator),
+        Rule rule => PrepareRule(rule, secretObfuscator),
         Rows rows => PrepareRows(rows, secretObfuscator),
         Table table => PrepareTable(table, secretObfuscator),
         Tree tree => PrepareTree(tree, secretObfuscator),
@@ -221,20 +222,32 @@ internal sealed class SecretObfuscatedRenderable(
         Expand = rows.Expand,
     };
 
+    private static Rule PrepareRule(Rule rule, ISecretObfuscator secretObfuscator) => new()
+    {
+        Border = rule.Border,
+        Justification = rule.Justification,
+        Style = rule.Style,
+        Title = rule.Title is null
+            ? null
+            : ObfuscatedMarkup.CreateSafeSource(rule.Title, secretObfuscator),
+    };
+
     private static Table PrepareTable(Table table, ISecretObfuscator secretObfuscator)
     {
+        var title = ObfuscateTitle(table.Title, secretObfuscator);
+        var caption = ObfuscateTitle(table.Caption, secretObfuscator);
         var preparedTable = new Table
         {
             Border = table.Border,
             BorderStyle = table.BorderStyle,
-            Caption = ObfuscateTitle(table.Caption, secretObfuscator),
+            Caption = caption,
             Expand = table.Expand,
             ShowFooters = table.ShowFooters,
             ShowHeaders = table.ShowHeaders,
             ShowRowSeparators = table.ShowRowSeparators,
-            Title = ObfuscateTitle(table.Title, secretObfuscator),
+            Title = title,
             UseSafeBorder = table.UseSafeBorder,
-            Width = table.Width,
+            Width = table.Width ?? GetTitleWidth(title, caption),
         };
 
         foreach (var column in table.Columns)
@@ -259,6 +272,16 @@ internal sealed class SecretObfuscatedRenderable(
         }
 
         return preparedTable;
+    }
+
+    private static int? GetTitleWidth(TableTitle? title, TableTitle? caption)
+    {
+        var contentWidth = new[] { title, caption }
+            .Where(static item => item is not null)
+            .Select(static item => new Segment(Markup.Remove(item!.Text)).CellCount())
+            .DefaultIfEmpty(0)
+            .Max();
+        return contentWidth == 0 ? null : contentWidth + 2;
     }
 
     private static Tree PrepareTree(Tree tree, ISecretObfuscator secretObfuscator)
@@ -296,13 +319,17 @@ internal sealed class SecretObfuscatedRenderable(
         TableTitle? title,
         ISecretObfuscator secretObfuscator) => title is null
         ? null
-        : new TableTitle(secretObfuscator.Obfuscate(title.Text, null), title.Style);
+        : new TableTitle(
+            ObfuscatedMarkup.CreateSafeSource(title.Text, secretObfuscator),
+            title.Style);
 
     private static PanelHeader? ObfuscateHeader(
         PanelHeader? header,
         ISecretObfuscator secretObfuscator) => header is null
         ? null
-        : new PanelHeader(secretObfuscator.Obfuscate(header.Text, null), header.Justification);
+        : new PanelHeader(
+            ObfuscatedMarkup.CreateSafeSource(header.Text, secretObfuscator),
+            header.Justification);
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_renderable")]
     private static extern ref readonly IRenderable GetAlignChild(Align align);

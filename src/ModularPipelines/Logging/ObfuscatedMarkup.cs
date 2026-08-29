@@ -31,6 +31,25 @@ internal static partial class ObfuscatedMarkup
         }
     }
 
+    internal static string CreateSafeSource(
+        string value,
+        ISecretObfuscator secretObfuscator)
+    {
+        var output = new StringBuilder(value.Length);
+        var sourceOffset = 0;
+        foreach (Match match in MarkupTagRegex().Matches(value))
+        {
+            output.Append(Markup.Escape(
+                secretObfuscator.Obfuscate(value[sourceOffset..match.Index], null)));
+            output.Append(match.Value);
+            sourceOffset = match.Index + match.Length;
+        }
+
+        output.Append(Markup.Escape(
+            secretObfuscator.Obfuscate(value[sourceOffset..], null)));
+        return output.ToString();
+    }
+
     private static string ObfuscateText(string value, ISecretObfuscator secretObfuscator)
     {
         var output = new StringBuilder(value.Length);
