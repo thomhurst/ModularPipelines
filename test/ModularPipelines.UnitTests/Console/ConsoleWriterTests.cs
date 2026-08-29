@@ -703,6 +703,32 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_PreparesBreakdownChartContentBeforeLayout()
+    {
+        var options = RenderOptions.Create(AnsiConsole.Console);
+        var chart = new BreakdownChart
+        {
+            ValueFormatter = static (_, _) => "tiny",
+            Width = 24,
+        }.AddItem("tiny", 100, Color.Red);
+        var renderable = new SecretObfuscatedRenderable(
+            chart,
+            CreateSecretObfuscator("tiny"));
+        var expectedChart = new BreakdownChart
+        {
+            ValueFormatter = static (_, _) => "**********",
+            Width = 24,
+        }.AddItem("**********", 100, Color.Red);
+
+        var actual = string.Concat(renderable.Render(options, 24)
+            .Select(static segment => segment.Text));
+        var expected = string.Concat(((IRenderable)expectedChart).Render(options, 24)
+            .Select(static segment => segment.Text));
+
+        await Assert.That(actual).IsEqualTo(expected);
+    }
+
+    [Test]
     public async Task Write_EscapesConfiguredMaskInTableTitle()
     {
         var obfuscator = CreateSecretObfuscator("secret", "[REDACTED]");

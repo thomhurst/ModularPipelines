@@ -176,6 +176,9 @@ internal sealed class SecretObfuscatedRenderable(
         {
             Align align => Prepared(PrepareAlign(align, secretObfuscator)),
             BarChart barChart => Prepared(PrepareBarChart(barChart, secretObfuscator)),
+            BreakdownChart breakdownChart => Prepared(PrepareBreakdownChart(
+                breakdownChart,
+                secretObfuscator)),
             Columns columns => Prepared(PrepareColumns(columns, secretObfuscator)),
             FigletText figletText => Prepared(PrepareFigletText(figletText, secretObfuscator)),
             Grid grid => Prepared(PrepareGrid(grid, secretObfuscator)),
@@ -218,6 +221,30 @@ internal sealed class SecretObfuscatedRenderable(
             Width = barChart.Width,
         };
         preparedChart.Data.AddRange(barChart.Data.Select(item => new BarChartItem(
+            ObfuscatedMarkup.CreateSafeSource(item.Label, secretObfuscator),
+            item.Value,
+            item.Color)));
+        return preparedChart;
+    }
+
+    private static BreakdownChart PrepareBreakdownChart(
+        BreakdownChart breakdownChart,
+        ISecretObfuscator secretObfuscator)
+    {
+        var preparedChart = new BreakdownChart
+        {
+            Compact = breakdownChart.Compact,
+            Culture = breakdownChart.Culture,
+            Expand = breakdownChart.Expand,
+            ShowTags = breakdownChart.ShowTags,
+            ShowTagValues = breakdownChart.ShowTagValues,
+            ValueColor = breakdownChart.ValueColor,
+            ValueFormatter = PrepareValueFormatter(
+                breakdownChart.ValueFormatter,
+                secretObfuscator),
+            Width = breakdownChart.Width,
+        };
+        preparedChart.Data.AddRange(breakdownChart.Data.Select(item => new BreakdownChartItem(
             ObfuscatedMarkup.CreateSafeSource(item.Label, secretObfuscator),
             item.Value,
             item.Color)));
