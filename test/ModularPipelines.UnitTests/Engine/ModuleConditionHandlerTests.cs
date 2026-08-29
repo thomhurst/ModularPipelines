@@ -173,6 +173,21 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Discovery_Does_Not_Construct_Worker_Only_Condition_Groups()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreByCategory(new WorkerOnlyConditionGroupModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
     public async Task Distributed_Master_Graph_Defers_Routable_Os_Condition()
     {
         var handler = CreateHandler(new DistributedOptions
@@ -643,6 +658,24 @@ public class ModuleConditionHandlerTests
         public string ConditionNames => nameof(DeferredDiscoveryConditionAttribute);
 
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+    }
+
+    [RunIf<WorkerOnlyConditionGroup>]
+    private sealed class WorkerOnlyConditionGroupModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class WorkerOnlyConditionGroup : ConditionGroup
+    {
+        public WorkerOnlyConditionGroup() =>
+            throw new InvalidOperationException("Worker-only condition group was constructed on the master");
+
+        public override IReadOnlyList<IRunCondition> Conditions => [];
+
+        public override ConditionLogic Logic => ConditionLogic.All;
     }
 
     [RunIf<OnUnix>]
