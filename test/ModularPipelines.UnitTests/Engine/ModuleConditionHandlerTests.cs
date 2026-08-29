@@ -427,6 +427,22 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Routing_Does_Not_Evaluate_Worker_Only_Grouped_Alternative()
+    {
+        _workerOnlyEvaluationCount = 0;
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        }, distributedConditionRouting: new DistributedConditionRouting());
+
+        await handler.PrepareDistributedRoutingAsync(new MixedWorkerOnlyGroupedAlternativeModule());
+
+        await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(0);
+    }
+
+    [Test]
     public async Task Distributed_Master_Planning_Resolves_Matching_Local_Mixed_Alternative()
     {
         var handler = CreateHandler(new DistributedOptions
@@ -815,6 +831,15 @@ public class ModuleConditionHandlerTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
+    [MixedOperatingSystem<OnLinux>]
+    [MixedWorkerOnlyCondition]
+    private sealed class MixedWorkerOnlyGroupedAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
     [MandatoryCondition(false)]
     [MixedOperatingSystem<OnLinux>]
     [MixedAlternativeCondition(true)]
@@ -836,7 +861,8 @@ public class ModuleConditionHandlerTests
     }
 
     private sealed class MixedAlternativeConditionAttribute(bool result) : Attribute,
-        IGroupedConditionAttribute
+        IGroupedConditionAttribute,
+        IPlanningConditionAttribute
     {
         public ConditionLogic Logic => ConditionLogic.Any;
 
@@ -848,6 +874,22 @@ public class ModuleConditionHandlerTests
         {
             Interlocked.Increment(ref _mixedAlternativeEvaluationCount);
             return Task.FromResult(result);
+        }
+    }
+
+    private sealed class MixedWorkerOnlyConditionAttribute : Attribute,
+        IGroupedConditionAttribute
+    {
+        public ConditionLogic Logic => ConditionLogic.Any;
+
+        public Type ConditionGroupType => typeof(MixedAlternativeModule);
+
+        public string ConditionNames => nameof(MixedWorkerOnlyConditionAttribute);
+
+        public Task<bool> EvaluateAsync(IPipelineContext context)
+        {
+            Interlocked.Increment(ref _workerOnlyEvaluationCount);
+            throw new InvalidOperationException("Worker-only grouped condition ran on the master");
         }
     }
 

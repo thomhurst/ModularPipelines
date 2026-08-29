@@ -62,7 +62,8 @@ internal class DistributedWorkPublisher(
                 continue;
             }
 
-            if (OperatingSystemConditions.GetRoute(osCondition) is { } route)
+            if (OperatingSystemConditions.GetRoute(osCondition) is { } route
+                && !OperatingSystemConditions.HasWorkerOnlyAlternatives(osCondition))
             {
                 operatingSystemRoutes.Add(route);
             }
@@ -77,7 +78,9 @@ internal class DistributedWorkPublisher(
                 continue;
             }
 
-            if (OperatingSystemConditions.GetRoute(alternatives) is { } route)
+            var alternativeArray = alternatives.ToArray();
+            if (OperatingSystemConditions.GetRoute(alternativeArray) is { } route
+                && !HasWorkerOnlyAlternatives(alternativeArray))
             {
                 operatingSystemRoutes.Add(route);
             }
@@ -106,6 +109,11 @@ internal class DistributedWorkPublisher(
             SatisfiedConditionGroups = _conditionRouting?.GetLocallySatisfiedGroupNames(module) ?? [],
         };
     }
+
+    private static bool HasWorkerOnlyAlternatives(
+        IEnumerable<IGroupedConditionAttribute> alternatives) => alternatives.Any(attribute =>
+        OperatingSystemConditions.GetRoute(attribute) is null
+        && !ModuleConditionHandler.IsPlanningConditionAttribute(attribute));
 
     public async Task PublishAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
