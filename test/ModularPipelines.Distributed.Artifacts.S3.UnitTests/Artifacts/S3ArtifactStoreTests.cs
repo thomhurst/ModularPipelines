@@ -145,4 +145,12 @@ public class S3ArtifactStoreTests
         await Assert.That(results[0].Name).IsEqualTo("art1");
         await Assert.That(results[0].ArtifactId).IsEqualTo("id1");
     }
+
+    [Test]
+    public async Task Dispose_DisposesS3Client()
+    {
+        _store.Dispose();
+
+        _mockS3.Verify(s => s.Dispose(), Times.Once);
+    }
 }
