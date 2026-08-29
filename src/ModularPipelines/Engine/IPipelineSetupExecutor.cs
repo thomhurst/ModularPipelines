@@ -1,5 +1,5 @@
-using ModularPipelines.Models;
 using ModularPipelines.Logging;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
 

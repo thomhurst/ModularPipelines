@@ -1,9 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ModularPipelines.Engine.Execution;
 
