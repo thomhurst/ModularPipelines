@@ -139,19 +139,13 @@ internal class ModuleRunner : IModuleRunner
         {
             try
             {
-                if (!skipDependencyWait)
-                {
-                    await _dependencyWaiter.WaitForDependenciesAsync(
-                            moduleState,
-                            scheduler,
-                            scope.ServiceProvider,
-                            cancellationToken)
-                        .ConfigureAwait(false);
-                }
-                else
-                {
-                    _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
-                }
+                await WaitForDependenciesAsync(
+                        moduleState,
+                        scheduler,
+                        scope.ServiceProvider,
+                        cancellationToken,
+                        skipDependencyWait)
+                    .ConfigureAwait(false);
 
                 var allowHistoricalResultWhenSkipped = !await HasRunnableArtifactConsumerAsync(
                         moduleType,
@@ -224,14 +218,11 @@ internal class ModuleRunner : IModuleRunner
                     scheduler,
                     handledException,
                     cancellationToken);
-                if (readyLogger is not null)
-                {
-                    readyLogger.SetException(handledException);
-                    readyLogger.SetStatus(
-                        moduleState.Result?.Status
-                        ?? _resultRegistry.GetResult(moduleType)?.Status
-                        ?? Enums.ModuleStatus.Failed);
-                }
+                FinalizeReadyLoggerAfterFailure(
+                    readyLogger,
+                    moduleState,
+                    moduleType,
+                    handledException);
 
                 if (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
                 {
@@ -244,6 +235,47 @@ internal class ModuleRunner : IModuleRunner
                 }
             }
         }
+    }
+
+    private async Task WaitForDependenciesAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        IServiceProvider serviceProvider,
+        CancellationToken cancellationToken,
+        bool skipDependencyWait)
+    {
+        if (skipDependencyWait)
+        {
+            _logger.LogDebug(
+                "Skipping dependency wait for late-started AlwaysRun module: {ModuleName}",
+                moduleState.ModuleType.Name);
+            return;
+        }
+
+        await _dependencyWaiter.WaitForDependenciesAsync(
+                moduleState,
+                scheduler,
+                serviceProvider,
+                cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    private void FinalizeReadyLoggerAfterFailure(
+        IInternalModuleLogger? readyLogger,
+        ModuleState moduleState,
+        Type moduleType,
+        Exception exception)
+    {
+        if (readyLogger is null)
+        {
+            return;
+        }
+
+        readyLogger.SetException(exception);
+        readyLogger.SetStatus(
+            moduleState.Result?.Status
+            ?? _resultRegistry.GetResult(moduleType)?.Status
+            ?? Enums.ModuleStatus.Failed);
     }
 
     internal static Exception NormalizeLimiterCancellation(
