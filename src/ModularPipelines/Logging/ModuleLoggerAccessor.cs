@@ -17,7 +17,7 @@ namespace ModularPipelines.Logging;
 /// - Service provider: Creates new logger instances
 /// The provider maintains thread-safe singleton behavior per module type.
 /// </remarks>
-internal class ModuleLoggerProvider : IInternalModuleLoggerProvider
+internal class ModuleLoggerAccessor : IInternalModuleLoggerAccessor
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IStackTraceModuleDetector _stackTraceDetector;
@@ -29,7 +29,7 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider
     private IModuleLogger? _moduleLogger;
     private PipelineLevelLogger? _pipelineLevelLogger;
 
-    public ModuleLoggerProvider(
+    public ModuleLoggerAccessor(
         IServiceProvider serviceProvider,
         IStackTraceModuleDetector stackTraceDetector,
         ILoggerFactory loggerFactory,
@@ -45,7 +45,7 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider
 
     /// <summary>
     /// Gets a logger for a specific module type.
-    /// Does not cache to _moduleLogger to avoid conflicts with parameterless GetLogger().
+    /// Does not cache to _moduleLogger to avoid conflicts with ambient logger resolution.
     /// </summary>
     [UnconditionalSuppressMessage(
         "AOT",
@@ -61,6 +61,8 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(type);
         return (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
     }
+
+    public ILogger Logger => GetLogger();
 
     public IModuleLogger GetLogger()
     {

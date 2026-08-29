@@ -26,7 +26,7 @@ internal class HttpLogger : IHttpLogger
     /// <param name="request">The HTTP request to print.</param>
     /// <param name="logger">The current module logger.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public Task PrintRequest(HttpRequestMessage request, IModuleLogger logger)
+    public Task PrintRequest(HttpRequestMessage request, ILogger logger)
     {
         return PrintRequest(
             request,
@@ -38,7 +38,7 @@ internal class HttpLogger : IHttpLogger
     /// <inheritdoc/>
     public Task PrintRequest(
         HttpRequestMessage request,
-        IModuleLogger logger,
+        ILogger logger,
         CancellationToken cancellationToken)
     {
         return PrintRequest(request, logger, HttpLoggingOptions.Default, cancellationToken);
@@ -51,7 +51,7 @@ internal class HttpLogger : IHttpLogger
     /// <param name="logger">The current module logger.</param>
     /// <param name="options">Options controlling what parts of the request to log.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public Task PrintRequest(HttpRequestMessage request, IModuleLogger logger, HttpLoggingOptions options)
+    public Task PrintRequest(HttpRequestMessage request, ILogger logger, HttpLoggingOptions options)
     {
         return PrintRequest(request, logger, options, CancellationToken.None);
     }
@@ -59,7 +59,7 @@ internal class HttpLogger : IHttpLogger
     /// <inheritdoc/>
     public async Task PrintRequest(
         HttpRequestMessage request,
-        IModuleLogger logger,
+        ILogger logger,
         HttpLoggingOptions options,
         CancellationToken cancellationToken)
     {
@@ -80,7 +80,7 @@ internal class HttpLogger : IHttpLogger
     /// <param name="response">The HTTP response to print.</param>
     /// <param name="logger">The current module logger.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public Task PrintResponse(HttpResponseMessage response, IModuleLogger logger)
+    public Task PrintResponse(HttpResponseMessage response, ILogger logger)
     {
         return PrintResponse(
             response,
@@ -92,7 +92,7 @@ internal class HttpLogger : IHttpLogger
     /// <inheritdoc/>
     public Task PrintResponse(
         HttpResponseMessage response,
-        IModuleLogger logger,
+        ILogger logger,
         CancellationToken cancellationToken)
     {
         return PrintResponse(response, logger, HttpLoggingOptions.Default, cancellationToken);
@@ -105,7 +105,7 @@ internal class HttpLogger : IHttpLogger
     /// <param name="logger">The current module logger.</param>
     /// <param name="options">Options controlling what parts of the response to log.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public Task PrintResponse(HttpResponseMessage response, IModuleLogger logger, HttpLoggingOptions options)
+    public Task PrintResponse(HttpResponseMessage response, ILogger logger, HttpLoggingOptions options)
     {
         return PrintResponse(response, logger, options, CancellationToken.None);
     }
@@ -113,7 +113,7 @@ internal class HttpLogger : IHttpLogger
     /// <inheritdoc/>
     public async Task PrintResponse(
         HttpResponseMessage response,
-        IModuleLogger logger,
+        ILogger logger,
         HttpLoggingOptions options,
         CancellationToken cancellationToken)
     {
@@ -128,7 +128,7 @@ internal class HttpLogger : IHttpLogger
         logger.LogInformation("HTTP Response:\n{Response}", formattedResponse);
     }
 
-    public void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)
+    public void PrintStatusCode(HttpStatusCode? httpStatusCode, ILogger logger)
     {
         var statusCode = httpStatusCode == null ? null as int? : (int) httpStatusCode;
         var icon = statusCode is >= 200 and < 300 ? "+" : "x";
@@ -136,7 +136,7 @@ internal class HttpLogger : IHttpLogger
         logger.LogInformation("{Icon} HTTP Status: {StatusCode} {HttpStatusCode}", icon, statusCode, httpStatusCode);
     }
 
-    public void PrintDuration(TimeSpan duration, IModuleLogger logger)
+    public void PrintDuration(TimeSpan duration, ILogger logger)
     {
         logger.LogInformation("Duration: {Duration}", duration.ToDisplayString());
     }

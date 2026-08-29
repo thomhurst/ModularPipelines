@@ -12,14 +12,14 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 {
     private const long MaxFileSizeInBytes = 1 * 1024 * 1024; // 1MB
 
-    private readonly ISummaryLogger _summaryLogger;
+    private readonly ISummaryLogReader _summaryLogReader;
     private readonly IDependencyGraphExporter _dependencyGraphExporter;
 
     public GitHubMarkdownSummaryGenerator(
-        ISummaryLogger summaryLogger,
+        ISummaryLogReader summaryLogReader,
         IDependencyGraphExporter dependencyGraphExporter)
     {
-        _summaryLogger = summaryLogger;
+        _summaryLogReader = summaryLogReader;
         _dependencyGraphExporter = dependencyGraphExporter;
     }
 
@@ -63,7 +63,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     {
         var fileInfo = pipelineContext.Files.GetFile(stepSummaryVariable);
         var currentFileSize = fileInfo.Exists ? fileInfo.Length : 0;
-        var existingSummary = $"{mermaid}\n\n{table}\n\n{_summaryLogger.GetOutput()}{exception}";
+        var existingSummary = $"{mermaid}\n\n{table}\n\n{_summaryLogReader.GetOutput()}{exception}";
         var contents = SelectContentsToAppend(currentFileSize, dependencyGraph, existingSummary);
 
         if (contents is null)

@@ -102,7 +102,7 @@ public class PipelineContextModuleLookupTests
             moduleLookup,
             Mock.Of<IDependencyCollisionDetector>(),
             Mock.Of<IModuleResultRepository>(),
-            Mock.Of<IInternalModuleLoggerProvider>(),
+            Mock.Of<IInternalModuleLoggerAccessor>(),
             engineCancellationToken,
             Mock.Of<IShellContext>(),
             Mock.Of<IFilesContext>(),

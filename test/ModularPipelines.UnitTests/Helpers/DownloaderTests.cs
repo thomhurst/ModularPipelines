@@ -343,13 +343,13 @@ public class DownloaderTests : TestBase
             {
                 Content = content,
             });
-        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
-        moduleLoggerProvider
-            .Setup(x => x.GetLogger())
+        var moduleLoggerAccessor = new Mock<IModuleLoggerAccessor>();
+        moduleLoggerAccessor
+            .Setup(x => x.Logger)
             .Returns(Mock.Of<IModuleLogger>());
 
         return new Downloader(
-            moduleLoggerProvider.Object,
+            moduleLoggerAccessor.Object,
             http.Object,
             fileSystemProvider ?? SystemFileSystemProvider.Instance,
             new PipelineWorkingDirectory(workingDirectory ?? Environment.CurrentDirectory));

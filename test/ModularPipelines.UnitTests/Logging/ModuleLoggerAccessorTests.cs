@@ -7,10 +7,10 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Logging;
 
-public class ModuleLoggerProviderTests
+public class ModuleLoggerAccessorTests
 {
     [Test]
-    public async Task ProviderLifetimeEnd_DoesNotPreventAsyncLoggerFlush()
+    public async Task AccessorLifetimeEnd_DoesNotPreventAsyncLoggerFlush()
     {
         var buffer = new Mock<IModuleOutputBuffer>();
         var consoleCoordinator = new Mock<IConsoleCoordinator>();
@@ -32,7 +32,7 @@ public class ModuleLoggerProviderTests
             .AddSingleton(consoleCoordinator.Object)
             .AddSingleton(outputCoordinator.Object)
             .AddSingleton(Mock.Of<IStackTraceModuleDetector>())
-            .AddScoped<ModuleLoggerProvider>()
+            .AddScoped<ModuleLoggerAccessor>()
             .AddScoped(typeof(ModuleLogger<>));
         await using var serviceProvider = services.BuildServiceProvider();
         var scope = serviceProvider.CreateAsyncScope();
@@ -41,9 +41,9 @@ public class ModuleLoggerProviderTests
         try
         {
             var logger = scope.ServiceProvider.GetRequiredService<ModuleLogger<TestModule>>();
-            var provider = scope.ServiceProvider.GetRequiredService<ModuleLoggerProvider>();
+            var accessor = scope.ServiceProvider.GetRequiredService<ModuleLoggerAccessor>();
             ModuleLogger.Values.Value = logger;
-            _ = provider.GetLogger();
+            _ = accessor.Logger;
         }
         finally
         {

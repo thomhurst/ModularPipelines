@@ -349,7 +349,7 @@ internal class DistributedModuleExecutor(
         var moduleType = module.GetType();
         await using var serviceScope = _serviceScopeFactory.CreateAsyncScope();
         var moduleLogger = serviceScope.ServiceProvider
-            .GetRequiredService<IInternalModuleLoggerProvider>()
+            .GetRequiredService<IInternalModuleLoggerAccessor>()
             .GetLogger(moduleType) as IInternalModuleLogger
             ?? throw new InvalidOperationException($"No internal module logger is available for {moduleType.Name}.");
         await using var loggerScope = new ModuleLoggerScope(moduleLogger, moduleType);

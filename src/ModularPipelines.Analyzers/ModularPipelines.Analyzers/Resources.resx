@@ -136,19 +136,19 @@
     <value>IEnumerable Module Result</value>
   </data>
     <data name="LoggerInConstructorAnalyzerDescription" xml:space="preserve">
-    <value>Remove logger from constructor and use context.Logger or inject in IModuleLoggerProvider.</value>
+    <value>Remove logger from constructor and use context.Logger or inject in IModuleLoggerAccessor.</value>
   </data>
     <data name="LoggerInConstructorAnalyzerMessageFormat" xml:space="preserve">
-    <value>Remove logger from constructor and use context.Logger or inject in IModuleLoggerProvider</value>
+    <value>Remove logger from constructor and use context.Logger or inject in IModuleLoggerAccessor</value>
   </data>
     <data name="LoggerInConstructorAnalyzerTitle" xml:space="preserve">
     <value>Logger found in constructor</value>
   </data>
     <data name="ConsoleUseAnalyzerDescription" xml:space="preserve">
-    <value>Do not use the Console directly. Use context.Logger or inject in IModuleLoggerProvider.</value>
+    <value>Do not use the Console directly. Use context.Logger or inject in IModuleLoggerAccessor.</value>
   </data>
     <data name="ConsoleUseAnalyzerMessageFormat" xml:space="preserve">
-    <value>Do not use the Console directly. Use context.Logger or inject in IModuleLoggerProvider.</value>
+    <value>Do not use the Console directly. Use context.Logger or inject in IModuleLoggerAccessor.</value>
   </data>
     <data name="ConsoleUseAnalyzerTitle" xml:space="preserve">
     <value>Use of Console detected</value>

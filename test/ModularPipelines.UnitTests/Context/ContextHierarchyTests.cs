@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Logging;
@@ -19,6 +20,15 @@ public class ContextHierarchyTests
     }
 
     [Test]
+    public async Task IModuleLoggerAccessor_ShouldExposeStandardLogger()
+    {
+        var loggerProperty = typeof(IModuleLoggerAccessor).GetProperty("Logger");
+
+        await Assert.That(loggerProperty).IsNotNull();
+        await Assert.That(loggerProperty!.PropertyType).IsEqualTo(typeof(ILogger));
+    }
+
+    [Test]
     public async Task IPipelineContext_ShouldHaveExpectedDomainProperties()
     {
         var contextType = typeof(IPipelineContext);
@@ -27,8 +37,8 @@ public class ContextHierarchyTests
         var loggerProperty = contextType.GetProperty("Logger");
         await Assert.That(loggerProperty).IsNotNull()
             .Because("IPipelineContext should have Logger property");
-        await Assert.That(loggerProperty!.PropertyType).IsEqualTo(typeof(IModuleLogger))
-            .Because("Logger should be of type IModuleLogger");
+        await Assert.That(loggerProperty!.PropertyType).IsEqualTo(typeof(ILogger))
+            .Because("Logger should expose the standard ILogger contract");
 
         var shellProperty = contextType.GetProperty("Shell");
         await Assert.That(shellProperty).IsNotNull()

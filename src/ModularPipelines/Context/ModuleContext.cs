@@ -1,5 +1,6 @@
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -172,7 +173,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     #region IPipelineContext delegation (domain-based)
 
     /// <inheritdoc />
-    public IModuleLogger Logger => _logger;
+    public ILogger Logger => _logger;
 
     /// <inheritdoc />
     public Domains.IShellContext Shell => _pipelineContext.Shell;

@@ -1,4 +1,4 @@
-using ModularPipelines.Logging;
+using Microsoft.Extensions.Logging;
 using Spectre.Console.Rendering;
 
 namespace ModularPipelines;
@@ -14,7 +14,7 @@ namespace ModularPipelines;
 /// </para>
 /// <para>
 /// For structured logging with log levels that flows to configured log sinks
-/// (file, Application Insights, etc.), use <see cref="IModuleLogger"/> instead.
+/// (file, Application Insights, etc.), use <see cref="ILogger"/> instead.
 /// </para>
 /// <para><b>Example usage:</b></para>
 /// <code>
@@ -23,7 +23,7 @@ namespace ModularPipelines;
 /// consoleWriter.LogToConsole("[red]Error:[/] Something went wrong");
 /// </code>
 /// </remarks>
-/// <seealso cref="IModuleLogger"/>
+/// <seealso cref="ILogger"/>
 public interface IConsoleWriter
 {
     /// <summary>

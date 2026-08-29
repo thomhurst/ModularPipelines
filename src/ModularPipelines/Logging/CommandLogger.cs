@@ -12,20 +12,20 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 {
     internal const int MaximumInlineOutputLength = 100;
 
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISecretObfuscator _secretObfuscator;
 
-    public CommandLogger(IModuleLoggerProvider moduleLoggerProvider,
+    public CommandLogger(IModuleLoggerAccessor moduleLoggerAccessor,
         IOptions<PipelineOptions> pipelineOptions,
         ISecretObfuscator secretObfuscator)
     {
-        _moduleLoggerProvider = moduleLoggerProvider;
+        _moduleLoggerAccessor = moduleLoggerAccessor;
         _pipelineOptions = pipelineOptions;
         _secretObfuscator = secretObfuscator;
     }
 
-    private ILogger Logger => _moduleLoggerProvider.GetLogger();
+    private ILogger Logger => _moduleLoggerAccessor.Logger;
 
     public void LogCommandStart(
         CommandLineToolOptions? options,

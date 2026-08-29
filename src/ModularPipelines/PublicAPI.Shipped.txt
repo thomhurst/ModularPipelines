@@ -498,7 +498,6 @@ ModularPipelines.Context.IPipelineContext
 ModularPipelines.Context.IPipelineContext.Data.get -> ModularPipelines.Context.Domains.IDataContext!
 ModularPipelines.Context.IPipelineContext.Files.get -> ModularPipelines.Context.Domains.IFilesContext!
 ModularPipelines.Context.IPipelineContext.Installers.get -> ModularPipelines.Context.Domains.IInstallersContext!
-ModularPipelines.Context.IPipelineContext.Logger.get -> ModularPipelines.Logging.IModuleLogger!
 ModularPipelines.Context.IPipelineContext.Network.get -> ModularPipelines.Context.Domains.INetworkContext!
 ModularPipelines.Context.IPipelineContext.Security.get -> ModularPipelines.Context.Domains.ISecurityContext!
 ModularPipelines.Context.IPipelineContext.Services.get -> ModularPipelines.Context.Domains.IServicesContext!
@@ -965,17 +964,9 @@ ModularPipelines.IPipeline.ExportDependencyGraphAsync(ModularPipelines.Enums.Dep
 ModularPipelines.IPipeline.PlanAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.PipelinePlan!>!
 ModularPipelines.IPipeline.RunAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.PipelineSummary!>!
 ModularPipelines.IPipeline.Services.get -> System.IServiceProvider!
-ModularPipelines.Logging.IModuleLogger
-ModularPipelines.Logging.IModuleLoggerProvider
-ModularPipelines.Logging.IModuleLoggerProvider.GetLogger() -> ModularPipelines.Logging.IModuleLogger!
 ModularPipelines.Logging.ISummaryLogger
 ModularPipelines.Logging.ISummaryLogger.Error(string! category, string! message) -> void
 ModularPipelines.Logging.ISummaryLogger.Error(string! message) -> void
-ModularPipelines.Logging.ISummaryLogger.GetEntries() -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Logging.SummaryLogEntry!>!
-ModularPipelines.Logging.ISummaryLogger.GetEntries(string! category) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Logging.SummaryLogEntry!>!
-ModularPipelines.Logging.ISummaryLogger.GetOutput() -> string!
-ModularPipelines.Logging.ISummaryLogger.Info(string! category, string! message) -> void
-ModularPipelines.Logging.ISummaryLogger.Info(string! message) -> void
 ModularPipelines.Logging.ISummaryLogger.KeyValue(string! category, string! key, string! value) -> void
 ModularPipelines.Logging.ISummaryLogger.KeyValue(string! key, string! value) -> void
 ModularPipelines.Logging.ISummaryLogger.Log(ModularPipelines.Logging.SummaryLogLevel level, string! category, string! message) -> void

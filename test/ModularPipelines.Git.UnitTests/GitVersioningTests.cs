@@ -23,7 +23,7 @@ public class GitVersioningTests
         _ = new GitVersioning(
             Mock.Of<IGitInformation>(),
             Mock.Of<ICommandContext>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             fileSystemProvider.Object);
 
         fileSystemProvider.VerifyAll();

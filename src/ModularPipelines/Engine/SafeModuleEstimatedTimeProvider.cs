@@ -17,7 +17,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
         var scope = serviceProvider.CreateScope();
         _scopes.Add(scope);
-        _logger = scope.ServiceProvider.GetRequiredService<IModuleLoggerProvider>().GetLogger();
+        _logger = scope.ServiceProvider.GetRequiredService<IModuleLoggerAccessor>().Logger;
     }
 
     public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)

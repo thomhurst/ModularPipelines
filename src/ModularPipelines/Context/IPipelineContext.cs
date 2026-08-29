@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Logging;
 
@@ -29,7 +30,7 @@ public interface IPipelineContext
     /// <summary>
     /// Gets the logger for the current context. Thread-safe.
     /// </summary>
-    IModuleLogger Logger { get; }
+    ILogger Logger { get; }
 
     /// <summary>
     /// Gets the command execution capabilities.
@@ -92,7 +93,7 @@ public interface IPipelineContext
     /// </list>
     /// <para><b>Example usage:</b></para>
     /// <code>
-    /// context.Summary.Info("Build completed");
+    /// context.Summary.Information("Build completed");
     /// context.Summary.KeyValue("Version", version);
     /// context.Summary.Success("Artifacts", "Published to NuGet");
     /// context.Summary.Warning("Some optional tests were skipped");

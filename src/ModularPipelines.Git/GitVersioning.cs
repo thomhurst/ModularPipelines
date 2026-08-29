@@ -31,7 +31,7 @@ internal class GitVersioning : IGitVersioning
 {
     private readonly IGitInformation _gitInformation;
     private readonly ICommandContext _command;
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
 
     private readonly Folder _temporaryFolder;
 
@@ -45,12 +45,12 @@ internal class GitVersioning : IGitVersioning
     public GitVersioning(
         IGitInformation gitInformation,
         ICommandContext command,
-        IModuleLoggerProvider moduleLoggerProvider,
+        IModuleLoggerAccessor moduleLoggerAccessor,
         IFileSystemProvider fileSystemProvider)
     {
         _gitInformation = gitInformation;
         _command = command;
-        _moduleLoggerProvider = moduleLoggerProvider;
+        _moduleLoggerAccessor = moduleLoggerAccessor;
         _temporaryFolder = Folder.CreateTemporaryFolder(fileSystemProvider);
     }
 
@@ -125,7 +125,7 @@ internal class GitVersioning : IGitVersioning
         }
         catch (Exception e) when (e is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
         {
-            _moduleLoggerProvider.GetLogger().LogWarning(e, "Error defining GitVersion.yml configuration");
+            _moduleLoggerAccessor.Logger.LogWarning(e, "Error defining GitVersion.yml configuration");
         }
     }
 }

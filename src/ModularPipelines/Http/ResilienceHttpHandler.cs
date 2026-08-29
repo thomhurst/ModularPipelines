@@ -12,14 +12,14 @@ namespace ModularPipelines.Http;
 /// </summary>
 internal class ResilienceHttpHandler : DelegatingHandler
 {
-    private readonly IModuleLoggerProvider _loggerProvider;
+    private readonly IModuleLoggerAccessor _loggerAccessor;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
     public ResilienceHttpHandler(
-        IModuleLoggerProvider loggerProvider,
+        IModuleLoggerAccessor loggerAccessor,
         IOptions<PipelineOptions> pipelineOptions)
     {
-        _loggerProvider = loggerProvider;
+        _loggerAccessor = loggerAccessor;
         _pipelineOptions = pipelineOptions;
     }
 
@@ -96,7 +96,7 @@ internal class ResilienceHttpHandler : DelegatingHandler
 
     private void OnRetry(RetryEvent<HttpResponseMessage> retryEvent)
     {
-        var logger = _loggerProvider.GetLogger();
+        var logger = _loggerAccessor.Logger;
         var outcome = retryEvent.Outcome;
 
         if (outcome.Exception != null)

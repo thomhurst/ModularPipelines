@@ -11,7 +11,7 @@ Your options classes should be registered as IOptions.
 
 If you have any sensitive/secret data stored in these classes, you can attribute your property with `[SecretValue]`.
 
-This attribute, combined with the `IModuleLogger`, means that if that value is ever attempted to be written to logs, it'll be censored out, so that secret values aren't visible to those unauthorised.
+This attribute, combined with the logger exposed by `context.Logger`, means that if that value is ever attempted to be written to logs, it'll be censored out, so that secret values aren't visible to those unauthorised.
 
 `[SecretValue]` supports scalar strings, character sequences such as `char[]`,
 `IEnumerable<char>`, `Memory<char>`, and `ReadOnlyMemory<char>`, and collections of
