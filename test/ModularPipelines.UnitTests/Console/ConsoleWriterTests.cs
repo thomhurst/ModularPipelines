@@ -245,7 +245,7 @@ public class ConsoleWriterTests
             writer => writer.WriteMarkupLine("[red]abc[/][blue]123[/]"),
             CreateSecretObfuscator("abc123"));
 
-        await Assert.That(output).Contains("**********");
+        await Assert.That(output).Contains("******");
         await Assert.That(output).DoesNotContain("abc");
         await Assert.That(output).DoesNotContain("123");
     }
@@ -326,7 +326,7 @@ public class ConsoleWriterTests
     }
 
     [Test]
-    public async Task Write_MeasuresObfuscatedWidth()
+    public async Task Write_PreservesRenderableWidthWhileObfuscating()
     {
         var renderable = new SecretObfuscatedRenderable(
             new Text("tiny"),
@@ -336,7 +336,31 @@ public class ConsoleWriterTests
             RenderOptions.Create(AnsiConsole.Console),
             80);
 
-        await Assert.That(measurement.Max).IsEqualTo(10);
+        await Assert.That(measurement.Max).IsEqualTo(4);
+    }
+
+    [Test]
+    public async Task Write_PreservesCompositeLayoutWhenMaskWidthDiffers()
+    {
+        var table = new Table()
+            .AddColumn("Value")
+            .AddRow("tiny");
+
+        var output = CaptureFallbackOutput(
+            writer => writer.Write(table),
+            CreateSecretObfuscator("tiny"));
+        var lineWidths = output
+            .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
+            .Select(line => new Segment(line).CellCount())
+            .Distinct()
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("****");
+            await Assert.That(output).DoesNotContain("tiny");
+            await Assert.That(lineWidths).Count().IsEqualTo(1);
+        }
     }
 
     [Test]
@@ -364,7 +388,7 @@ public class ConsoleWriterTests
     {
         var output = await RunAsync<WriteSplitSecretModule>();
 
-        await Assert.That(output).Contains("**********");
+        await Assert.That(output).Contains("******");
         await Assert.That(output).DoesNotContain("abc");
         await Assert.That(output).DoesNotContain("123");
     }

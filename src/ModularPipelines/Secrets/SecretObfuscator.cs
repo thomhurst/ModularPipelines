@@ -130,7 +130,8 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
 
     internal MappedObfuscatedOutput ObfuscateWithSourceMap(
         string input,
-        bool preserveExistingMasks)
+        bool preserveExistingMasks,
+        Func<string, string, string>? transformMask = null)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -167,7 +168,8 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             secretCache.SearchValues,
             maskValue,
             comparison,
-            preserveExistingMasks);
+            preserveExistingMasks,
+            transformMask);
     }
 
     internal SecretRegistrationState GetRegistrationState()
@@ -365,7 +367,8 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         SearchValues<string> searchValues,
         string maskValue,
         StringComparison comparison,
-        bool preserveExistingMasks)
+        bool preserveExistingMasks,
+        Func<string, string, string>? transformMask)
     {
         var existingMaskRanges = preserveExistingMasks
             ? GetMaskRanges(input, maskValue)
@@ -419,8 +422,9 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
                     sourceToOutputByteOffsets[index] = outputByteCount;
                 }
 
-                result.Append(maskValue);
-                outputByteCount += Encoding.UTF8.GetByteCount(maskValue);
+                var transformedMask = transformMask?.Invoke(matchedSecret, maskValue) ?? maskValue;
+                result.Append(transformedMask);
+                outputByteCount += Encoding.UTF8.GetByteCount(transformedMask);
                 sourceToOutputByteOffsets[matchEnd] = outputByteCount;
             }
 

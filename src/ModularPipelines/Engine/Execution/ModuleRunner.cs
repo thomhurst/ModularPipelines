@@ -218,6 +218,9 @@ internal class ModuleRunner : IModuleRunner
                     scheduler,
                     handledException,
                     cancellationToken);
+                readyLogger ??= GetAmbientOrScopedModuleLogger(
+                    scope.ServiceProvider,
+                    moduleType) as IInternalModuleLogger;
                 FinalizeReadyLoggerAfterFailure(
                     readyLogger,
                     moduleState,

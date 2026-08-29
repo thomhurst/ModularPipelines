@@ -37,7 +37,10 @@ internal sealed class SecretObfuscatedRenderable(
             var preserveMasks = concreteObfuscator.CanSafelyPreserveRegisteredMasks();
             return MapSegments(
                 segments,
-                concreteObfuscator.ObfuscateWithSourceMap(visibleText, preserveMasks));
+                concreteObfuscator.ObfuscateWithSourceMap(
+                    visibleText,
+                    preserveMasks,
+                    FitMaskToSourceWidth));
         }
 
         return MapFallbackSegments(
@@ -123,6 +126,29 @@ internal sealed class SecretObfuscatedRenderable(
                && char.IsLowSurrogate(output[outputOffset])
             ? outputOffset + 1
             : outputOffset;
+    }
+
+    private static string FitMaskToSourceWidth(string source, string mask)
+    {
+        var targetWidth = new Segment(source).CellCount();
+        if (targetWidth == 0)
+        {
+            return string.Empty;
+        }
+
+        var maskUnit = string.IsNullOrEmpty(mask) || new Segment(mask).CellCount() == 0
+            ? "*"
+            : mask;
+        var maskWidth = new Segment(maskUnit).CellCount();
+        var repeatedMask = string.Concat(Enumerable.Repeat(
+            maskUnit,
+            (targetWidth / maskWidth) + 2));
+        var fittedMask = Segment.Truncate(new Segment(repeatedMask), targetWidth)?.Text
+                         ?? string.Empty;
+        var paddingWidth = targetWidth - new Segment(fittedMask).CellCount();
+        return paddingWidth == 0
+            ? fittedMask
+            : fittedMask + new string('*', paddingWidth);
     }
 
     private Segment[] ObfuscateLinks(Segment[] segments) =>

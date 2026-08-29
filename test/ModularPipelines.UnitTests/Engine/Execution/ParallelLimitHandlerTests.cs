@@ -453,6 +453,57 @@ public class ParallelLimitHandlerTests
     }
 
     [Test]
+    public async Task ModuleRunner_CompletesPreservedReadyOutputWhenRescheduledLimiterFails()
+    {
+        var parallelLimitHandler = new Mock<IParallelLimitHandler>();
+        parallelLimitHandler
+            .SetupSequence(x => x.AcquireParallelLimitAsync(
+                typeof(TestModule),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<IDisposable>())
+            .ThrowsAsync(new InvalidOperationException("Limiter failure"));
+        parallelLimitHandler
+            .Setup(x => x.AcquireExecutionHintLimitAsync(
+                It.IsAny<ModuleState>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<IDisposable>());
+        var outputBuffer = new Mock<IModuleOutputBuffer>();
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(TestModule)))
+            .Returns(outputBuffer.Object);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        outputCoordinator
+            .Setup(x => x.OnModuleCompletedAsync(
+                outputBuffer.Object,
+                typeof(TestModule),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<TestModule>();
+        builder.Services.AddSingleton(parallelLimitHandler.Object);
+        builder.Services.AddSingleton(consoleCoordinator.Object);
+        builder.Services.AddSingleton(outputCoordinator.Object);
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.Setup(x => x.MarkModuleStarted(typeof(TestModule))).Returns(false);
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+
+        await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None));
+
+        outputBuffer.Verify(x => x.SetException(It.IsAny<InvalidOperationException>()), Times.Once);
+        outputBuffer.Verify(x => x.SetStatus(It.IsAny<ModuleStatus>()), Times.Once);
+        outputBuffer.Verify(x => x.MarkComplete(), Times.Once);
+        outputCoordinator.Verify(x => x.OnModuleCompletedAsync(
+            outputBuffer.Object,
+            typeof(TestModule),
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Test]
     public async Task ModuleRunner_PreservesWorkerTokenForCancelledLinkedLimiterWait()
     {
         var limiterWaitStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
