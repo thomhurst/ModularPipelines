@@ -2096,8 +2096,6 @@ ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.OutputPa
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.PipelineProjectPath.init -> void
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.Runner.get -> string!
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.Runner.init -> void
-ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.RunnerOperatingSystem.get -> ModularPipelines.OperatingSystemIdentifier
-ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.RunnerOperatingSystem.init -> void
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.TriggerCondition.get -> ModularPipelines.GitHub.PipelineWriters.TriggerCondition!
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.TriggerCondition.init -> void
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.ValuesToMask.get -> System.Collections.Generic.IEnumerable<string!>?
