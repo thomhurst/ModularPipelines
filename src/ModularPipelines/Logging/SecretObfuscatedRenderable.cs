@@ -14,11 +14,11 @@ internal sealed class SecretObfuscatedRenderable(
     IRenderable inner,
     ISecretObfuscator secretObfuscator) : IRenderable
 {
-    private readonly IRenderable _inner = PrepareCompositeLayout(inner, secretObfuscator);
+    private readonly PreparedRenderable _prepared = PrepareRenderable(inner, secretObfuscator);
 
     public Measurement Measure(RenderOptions options, int maxWidth)
     {
-        var innerMeasurement = ((IRenderable) _inner).Measure(options, maxWidth);
+        var innerMeasurement = _prepared.Renderable.Measure(options, maxWidth);
         return MeasureSegments(GetSegments(options, maxWidth), maxWidth, innerMeasurement);
     }
 
@@ -27,13 +27,18 @@ internal sealed class SecretObfuscatedRenderable(
 
     internal IRenderable Snapshot(RenderOptions options, int maxWidth)
     {
-        var innerMeasurement = ((IRenderable) _inner).Measure(options, maxWidth);
+        var innerMeasurement = _prepared.Renderable.Measure(options, maxWidth);
         return new SegmentSnapshotRenderable(GetSegments(options, maxWidth), innerMeasurement);
     }
 
     private Segment[] GetSegments(RenderOptions options, int maxWidth)
     {
-        var segments = _inner.Render(options, maxWidth).ToArray();
+        var segments = _prepared.Renderable.Render(options, maxWidth).ToArray();
+        if (_prepared.IsObfuscatedBeforeRender)
+        {
+            return segments;
+        }
+
         var visibleText = string.Concat(
             segments.Where(static segment => !segment.IsControlCode).Select(static segment => segment.Text));
 
@@ -165,23 +170,27 @@ internal sealed class SecretObfuscatedRenderable(
             : outputOffset;
     }
 
-    private static IRenderable PrepareCompositeLayout(
+    private static PreparedRenderable PrepareRenderable(
         IRenderable renderable,
         ISecretObfuscator secretObfuscator) => renderable switch
         {
-            Align align => PrepareAlign(align, secretObfuscator),
-            Columns columns => PrepareColumns(columns, secretObfuscator),
-            FigletText figletText => PrepareFigletText(figletText, secretObfuscator),
-            Grid grid => PrepareGrid(grid, secretObfuscator),
-            Layout layout => PrepareLayout(layout, secretObfuscator),
-            Padder padder => PreparePadder(padder, secretObfuscator),
-            Panel panel => PreparePanel(panel, secretObfuscator),
-            Rule rule => PrepareRule(rule, secretObfuscator),
-            Rows rows => PrepareRows(rows, secretObfuscator),
-            Table table => PrepareTable(table, secretObfuscator),
-            Tree tree => PrepareTree(tree, secretObfuscator),
-            _ => renderable,
+            Align align => Prepared(PrepareAlign(align, secretObfuscator)),
+            BarChart barChart => Prepared(PrepareBarChart(barChart, secretObfuscator)),
+            Columns columns => Prepared(PrepareColumns(columns, secretObfuscator)),
+            FigletText figletText => Prepared(PrepareFigletText(figletText, secretObfuscator)),
+            Grid grid => Prepared(PrepareGrid(grid, secretObfuscator)),
+            Layout layout => Prepared(PrepareLayout(layout, secretObfuscator)),
+            Padder padder => Prepared(PreparePadder(padder, secretObfuscator)),
+            Panel panel => Prepared(PreparePanel(panel, secretObfuscator)),
+            Rule rule => Prepared(PrepareRule(rule, secretObfuscator)),
+            Rows rows => Prepared(PrepareRows(rows, secretObfuscator)),
+            Table table => Prepared(PrepareTable(table, secretObfuscator)),
+            Tree tree => Prepared(PrepareTree(tree, secretObfuscator)),
+            _ => new PreparedRenderable(renderable, IsObfuscatedBeforeRender: false),
         };
+
+    private static PreparedRenderable Prepared(IRenderable renderable) =>
+        new(renderable, IsObfuscatedBeforeRender: true);
 
     private static Align PrepareAlign(Align align, ISecretObfuscator secretObfuscator) =>
         new(new SecretObfuscatedRenderable(GetAlignChild(align), secretObfuscator),
@@ -191,6 +200,37 @@ internal sealed class SecretObfuscatedRenderable(
             Height = align.Height,
             Width = align.Width,
         };
+
+    private static BarChart PrepareBarChart(
+        BarChart barChart,
+        ISecretObfuscator secretObfuscator)
+    {
+        var preparedChart = new BarChart
+        {
+            Culture = barChart.Culture,
+            Label = barChart.Label is null
+                ? null
+                : ObfuscatedMarkup.CreateSafeSource(barChart.Label, secretObfuscator),
+            LabelAlignment = barChart.LabelAlignment,
+            MaxValue = barChart.MaxValue,
+            ShowValues = barChart.ShowValues,
+            ValueFormatter = PrepareValueFormatter(barChart.ValueFormatter, secretObfuscator),
+            Width = barChart.Width,
+        };
+        preparedChart.Data.AddRange(barChart.Data.Select(item => new BarChartItem(
+            ObfuscatedMarkup.CreateSafeSource(item.Label, secretObfuscator),
+            item.Value,
+            item.Color)));
+        return preparedChart;
+    }
+
+    private static Func<double, System.Globalization.CultureInfo, string>? PrepareValueFormatter(
+        Func<double, System.Globalization.CultureInfo, string>? formatter,
+        ISecretObfuscator secretObfuscator) => formatter is null
+        ? null
+        : (value, culture) => ObfuscatedMarkup.CreateSafeSource(
+            formatter(value, culture),
+            secretObfuscator);
 
     private static Columns PrepareColumns(
         Columns columns,
@@ -258,7 +298,9 @@ internal sealed class SecretObfuscatedRenderable(
         var preparedLayout = new Layout
         {
             IsVisible = layout.IsVisible,
-            Name = layout.Name,
+            Name = layout.Name is null
+                ? null
+                : ObfuscatedMarkup.CreateSafeSource(layout.Name, secretObfuscator),
             Ratio = layout.Ratio,
             Size = layout.Size,
         };
@@ -522,6 +564,10 @@ internal sealed class SecretObfuscatedRenderable(
 
         public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) => segments;
     }
+
+    private readonly record struct PreparedRenderable(
+        IRenderable Renderable,
+        bool IsObfuscatedBeforeRender);
 
     private sealed class AutoSizedTable(Table table, int minimumWidth) : IRenderable
     {

@@ -524,6 +524,32 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_DoesNotReapplyCustomObfuscatorToPreparedComposite()
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns("masked");
+        var table = new Table()
+            .AddColumn("Value")
+            .AddRow("tiny");
+
+        var output = CaptureFallbackOutput(
+            writer => writer.Write(table),
+            secretObfuscator.Object);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("masked");
+            await Assert.That(output).Contains("┌");
+            await Assert.That(output.Split(
+                    Environment.NewLine,
+                    StringSplitOptions.RemoveEmptyEntries))
+                .Count().IsGreaterThan(1);
+        }
+    }
+
+    [Test]
     public async Task Write_PreservesNestedCompositeLayoutWhenMaskWidthDiffers()
     {
         var grid = new Grid()
@@ -580,10 +606,10 @@ public class ConsoleWriterTests
         var layout = new Layout("root")
             .SplitColumns(
                 new Layout("left", new Text("tiny")).Size(10),
-                new Layout("spacer").Size(10));
+                new Layout("secret").Size(10));
         var renderable = new SecretObfuscatedRenderable(
             layout,
-            CreateSecretObfuscator("tiny"));
+            CreateSecretObfuscator(["tiny", "secret"], maskValue: null));
 
         var lines = Segment.SplitLines(renderable.Render(
                 RenderOptions.Create(AnsiConsole.Console),
@@ -595,6 +621,7 @@ public class ConsoleWriterTests
         {
             await Assert.That(lines).Count().IsEqualTo(24);
             await Assert.That(lines[0]).StartsWith("**********");
+            await Assert.That(string.Concat(lines)).DoesNotContain("secret");
             await Assert.That(lines.All(line => new Segment(line).CellCount() == 20))
                 .IsTrue();
         }
@@ -620,6 +647,32 @@ public class ConsoleWriterTests
             await Assert.That(actual).IsEqualTo(expected);
             await Assert.That(actual).IsNotEqualTo(unmasked);
         }
+    }
+
+    [Test]
+    public async Task Write_PreparesBarChartLabelsBeforeLayout()
+    {
+        var options = RenderOptions.Create(AnsiConsole.Console);
+        var chart = new BarChart
+        {
+            ShowValues = false,
+            Width = 24,
+        }.AddItem("tiny", 100, Color.Red);
+        var renderable = new SecretObfuscatedRenderable(
+            chart,
+            CreateSecretObfuscator("tiny"));
+        var expectedChart = new BarChart
+        {
+            ShowValues = false,
+            Width = 24,
+        }.AddItem("**********", 100, Color.Red);
+
+        var actual = string.Concat(renderable.Render(options, 24)
+            .Select(static segment => segment.Text));
+        var expected = string.Concat(((IRenderable)expectedChart).Render(options, 24)
+            .Select(static segment => segment.Text));
+
+        await Assert.That(actual).IsEqualTo(expected);
     }
 
     [Test]
