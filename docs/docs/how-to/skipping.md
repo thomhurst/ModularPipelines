@@ -44,7 +44,7 @@ public class MyModule : Module<CommandResult>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(
-            async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
+            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
             "This should only run on the main branch");
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -64,7 +64,7 @@ public class MyModule : Module<CommandResult>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(async (ctx, _) =>
         {
-            var repositoryInfo = await ctx.Git().Information.GetInfoAsync();
+            var repositoryInfo = await ctx.Tools.Git.Information.GetInfoAsync();
             return repositoryInfo?.BranchName != "main";
         }, "This should only run on the main branch");
 
@@ -107,7 +107,7 @@ public class CleanupModule : Module<CommandResult>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(_ => Environment.GetEnvironmentVariable("CI") == "true", "Running in CI")
         .WithSkipWhen(
-            async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
+            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
             "Not on the main branch")
         .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
         .WithTimeout(TimeSpan.FromMinutes(5));

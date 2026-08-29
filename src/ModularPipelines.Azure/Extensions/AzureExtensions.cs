@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Extensions;
 /// Extension methods for Azure integration with ModularPipelines.
 /// </summary>
 /// <remarks>
-/// Use <c>context.Azure()</c> to access Azure CLI commands from pipeline modules.
+/// Use <c>context.Tools.Azure</c> to access Azure CLI commands from pipeline modules.
 /// </remarks>
 public static class AzureExtensions
 {
@@ -84,6 +84,8 @@ public static class AzureExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The Azure services.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Azure.IAzure>().")]
     public static IAzure Azure(this IPipelineContext context)
     {
         return context.Services.GetRequiredService<IAzure>();

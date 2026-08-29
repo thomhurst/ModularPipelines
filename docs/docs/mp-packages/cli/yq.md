@@ -19,7 +19,8 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Yq
 ```
 
-Resolve the service with `context.Tools.Yq`. For projects older than C# 14, import `ModularPipelines.Yq.Extensions` and use the `context.Yq()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Yq`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Yq.Services.IYq>()` instead.
 
 ## Module example
 

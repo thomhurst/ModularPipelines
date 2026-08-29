@@ -52,5 +52,7 @@ public static class DockerExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IDocker"/> service for executing docker commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Docker.Services.IDocker>().")]
     public static IDocker Docker(this IPipelineContext context) => context.Services.GetRequiredService<IDocker>();
 }

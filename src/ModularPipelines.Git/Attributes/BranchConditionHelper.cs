@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 
 namespace ModularPipelines.Git.Attributes;
 
@@ -18,7 +17,7 @@ internal static class BranchConditionHelper
         string logMessageFormat,
         CancellationToken cancellationToken = default)
     {
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync(cancellationToken).ConfigureAwait(false);
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false);
         var currentBranchName = repositoryInfo?.BranchName;
         pipelineContext.Logger.LogDebug(logMessageFormat, GetDisplayBranchName(currentBranchName), expectedBranchName);
         return currentBranchName == expectedBranchName;
@@ -33,7 +32,7 @@ internal static class BranchConditionHelper
         string logMessageFormat,
         CancellationToken cancellationToken = default)
     {
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync(cancellationToken).ConfigureAwait(false);
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false);
         var currentBranchName = repositoryInfo?.BranchName;
         pipelineContext.Logger.LogDebug(logMessageFormat, GetDisplayBranchName(currentBranchName), expectedPrefix);
         return currentBranchName?.StartsWith(expectedPrefix) ?? false;

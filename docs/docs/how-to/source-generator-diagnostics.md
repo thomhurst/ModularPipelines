@@ -86,7 +86,7 @@ accessible and non-generic. Until fixed, Modular Pipelines uses runtime reflecti
 A tool accessor cannot generate a discoverable `context.Tools` property because
 the consuming project uses a language version older than C# 14. Registration
 metadata still generates. Use C# 14 or preview to enable the property, or use
-the diagnostic's `context.X()` compatibility accessor.
+`context.Tools.Get<Your.Namespace.IIntegration>()` when upgrading is not possible.
 
 **Severity:** Warning
 

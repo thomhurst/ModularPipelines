@@ -147,7 +147,7 @@ pwsh scripts/Invoke-AgentDotNet.ps1 `
 2. **Module Context** (`IModuleContext`):
    - Central interface providing access to all tools and services
    - Includes: file system operations, command execution, logging, Git info
-   - Extensions for each tool integration (e.g., `context.DotNet()`, `context.Git()`)
+   - Discoverable tool properties (e.g., `context.Tools.DotNet`, `context.Tools.Git`)
 
 3. **Host Pattern** (`PipelineHostBuilder`):
    - Built on Microsoft Generic Host

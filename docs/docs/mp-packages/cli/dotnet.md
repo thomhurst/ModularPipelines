@@ -19,7 +19,8 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.DotNet
 ```
 
-Resolve the service with `context.Tools.DotNet`. For projects older than C# 14, import `ModularPipelines.DotNet.Extensions` and use the `context.DotNet()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.DotNet`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()` instead.
 
 ## Module example
 

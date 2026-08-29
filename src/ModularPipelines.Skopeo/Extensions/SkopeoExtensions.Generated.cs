@@ -37,5 +37,7 @@ public static class SkopeoExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISkopeo"/> service for executing skopeo commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Skopeo.Services.ISkopeo>().")]
     public static ISkopeo Skopeo(this IPipelineContext context) => context.Services.GetRequiredService<ISkopeo>();
 }

@@ -44,14 +44,14 @@ public class MyModuleRepository : IModuleResultRepository
     
     public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
     {
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
         var commit = repositoryInfo?.LastCommitSha;
         await _blobContainerClient.UploadBlobAsync(module.GetType().FullName + commit, new BinaryData(JsonSerializer.Serialize(moduleResult)));
     }
 
     public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
     {
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
         var commit = repositoryInfo?.LastCommitSha;
         
         var blobContent = await _blobContainerClient.GetBlobClient(module.GetType().FullName + commit).DownloadContentAsync();

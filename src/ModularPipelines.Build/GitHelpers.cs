@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 
 namespace ModularPipelines.Build;
@@ -18,7 +17,7 @@ public static class GitHelpers
     {
         var settings = GetGitHubSettings(context);
 
-        await context.Git().Commands.Repository.ConfigAsync(new GitConfigOptions
+        await context.Tools.Git.Commands.Repository.ConfigAsync(new GitConfigOptions
         {
             Local = true,
             Arguments =
@@ -32,7 +31,7 @@ public static class GitHelpers
     {
         var settings = GetGitHubSettings(context);
 
-        await context.Git().Commands.Repository.ConfigAsync(new GitConfigOptions
+        await context.Tools.Git.Commands.Repository.ConfigAsync(new GitConfigOptions
         {
             Local = true,
             Arguments =
@@ -48,7 +47,7 @@ public static class GitHelpers
         CancellationToken cancellationToken)
     {
         var pathArguments = paths.ToArray();
-        var changedFilesResult = await context.Git().Commands.WorkingTree.DiffAsync(
+        var changedFilesResult = await context.Tools.Git.Commands.WorkingTree.DiffAsync(
             new GitDiffOptions
             {
                 NameOnly = true,
@@ -62,7 +61,7 @@ public static class GitHelpers
             return null;
         }
 
-        var diffStatResult = await context.Git().Commands.WorkingTree.DiffAsync(
+        var diffStatResult = await context.Tools.Git.Commands.WorkingTree.DiffAsync(
             new GitDiffOptions
             {
                 Stat = true,

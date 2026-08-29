@@ -135,6 +135,7 @@ generator already uses the new mechanism.
 For a hand-written integration, mark its service-registration method:
 
 ```csharp
+using System.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 
@@ -159,6 +160,8 @@ its public `IPipelineContext` extension accessor in the same static class as the
 registration method:
 
 ```csharp
+[EditorBrowsable(EditorBrowsableState.Never)]
+[Obsolete("Use context.Tools.Get<global::YourCompany.Pipelines.PrivateWidget.IPrivateWidget>().")]
 public static IPrivateWidget PrivateWidget(this IPipelineContext context) =>
     context.Services.GetRequiredService<IPrivateWidget>();
 ```
@@ -167,10 +170,12 @@ The generator uses that shared declaring type to associate the accessor with its
 registration. Accessor names must be unique across all referenced integration packages.
 They also cannot use names already exposed by `IToolsContext` or `object`, such as `Get`
 or `GetType`, because instance-member lookup would hide the generated property.
-`context.Tools.*` is the preferred discoverable API; the original extension method remains
-available for compatibility. Generated tool properties use C# 14 extension members. On
-older language versions, registration metadata still generates and `MPG0008` explains why
-the optional `Tools` property was skipped and names the `context.X()` compatibility accessor.
+`context.Tools.*` is the preferred discoverable API. The original extension method can remain
+as an obsolete, IntelliSense-hidden compatibility fallback. Generated tool properties use C# 14
+extension members. On older language versions, registration metadata still generates and
+`MPG0008` explains why the optional `Tools` property was skipped; use
+`context.Tools.Get<YourCompany.Pipelines.PrivateWidget.IPrivateWidget>()` instead. Replace
+`YourCompany.Pipelines.PrivateWidget` with the namespace containing your interface.
 
 Referencing the `ModularPipelines` package includes the source generator as an analyzer.
 The generator emits immutable assembly registration metadata, which each pipeline consumes

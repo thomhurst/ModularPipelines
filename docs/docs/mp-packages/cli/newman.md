@@ -19,7 +19,8 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Newman
 ```
 
-Resolve the service with `context.Tools.Newman`. For projects older than C# 14, import `ModularPipelines.Newman.Extensions` and use the `context.Newman()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Newman`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Newman.Services.INewman>()` instead.
 
 ## Module example
 

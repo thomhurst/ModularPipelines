@@ -249,6 +249,23 @@ public class GeneratorHardeningTests
             .DoesNotContain("public static ITool Tool(this IPipelineContext context)");
     }
 
+    [Test]
+    public async Task Command_Facade_Compatibility_Accessor_Is_Hidden_And_Obsolete()
+    {
+        var registrationFile = (await new DependencyRegistrationGenerator()
+            .GenerateAsync(Tool(Command("ToolRunOptions", "ToolOptions", ["run"]))))
+            .Single();
+
+        var expectedDeclaration = string.Join(Environment.NewLine,
+        [
+            "    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]",
+            "    [global::System.Obsolete(\"Use context.Tools.Get<global::ModularPipelines.Tool.Services.ITool>().\")]",
+            "    public static ITool Tool(this IPipelineContext context)",
+        ]);
+
+        await Assert.That(registrationFile.Content).Contains(expectedDeclaration);
+    }
+
     #region NormalizeCommandClassNames
 
     [Test]

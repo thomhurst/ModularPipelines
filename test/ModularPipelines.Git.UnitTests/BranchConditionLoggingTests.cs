@@ -6,7 +6,6 @@ using ModularPipelines.Context.Domains;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Models;
-using ModularPipelines.Logging;
 using Moq;
 
 namespace ModularPipelines.Git.UnitTests;
@@ -39,11 +38,10 @@ public class BranchConditionLoggingTests
             .ReturnsAsync(new GitRepositoryInfo(
                 new ModularPipelines.FileSystem.FolderPath(TestContext.WorkingDirectory)));
         var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
-        var services = new Mock<IServicesContext>();
-        services.Setup(x => x.GetRequiredService<IGit>()).Returns(git);
+        var tools = Mock.Of<IToolsContext>(x => x.Get<IGit>() == git);
         var context = Mock.Of<IPipelineContext>(x =>
             x.Logger == logger.Object &&
-            x.Services == services.Object);
+            x.Tools == tools);
 
         var result = await new RunIfBranchAttribute("main").EvaluateAsync(context);
         var logMessage = logger.Invocations
@@ -63,12 +61,11 @@ public class BranchConditionLoggingTests
             .ReturnsAsync(new GitRepositoryInfo(
                 new ModularPipelines.FileSystem.FolderPath(TestContext.WorkingDirectory)));
         var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
-        var services = new Mock<IServicesContext>();
-        services.Setup(x => x.GetRequiredService<IGit>()).Returns(git);
+        var tools = Mock.Of<IToolsContext>(x => x.Get<IGit>() == git);
         var logger = Mock.Of<ILogger>();
         var context = Mock.Of<IPipelineContext>(x =>
             x.Logger == logger &&
-            x.Services == services.Object);
+            x.Tools == tools);
         using var cancellationTokenSource = new CancellationTokenSource();
 
         await new RunIfBranchAttribute("main")

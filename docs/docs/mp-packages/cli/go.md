@@ -13,7 +13,8 @@ title: go CLI reference
 dotnet add package ModularPipelines.Go
 ```
 
-Resolve the service with `context.Tools.Go`. For projects older than C# 14, import `ModularPipelines.Go.Extensions` and use the `context.Go()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Go`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Go.Services.IGo>()` instead.
 
 ## Module example
 

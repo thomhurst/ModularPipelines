@@ -5,7 +5,6 @@ using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Shell;
 using Moq;
 using ModularPipelines.Git;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
@@ -20,7 +19,7 @@ public class GitInformationTests : TestBase
     public async Task Repository_Info_Is_Cached()
     {
         var context = await GetService<IPipelineContext>();
-        var gitInformation = context.Git().Information;
+        var gitInformation = context.Tools.Git.Information;
         var first = await gitInformation.GetInfoAsync();
         var second = await gitInformation.GetInfoAsync();
 

@@ -1,7 +1,6 @@
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
 using ModularPipelines.Exceptions;
@@ -27,7 +26,7 @@ public class DotNetTestResultsTests : TestBase
         {
             var testProject = TestProjectPaths.TestsForTestsProject;
 
-            return await context.DotNet().TestAsync(
+            return await context.Tools.DotNet.TestAsync(
                 new DotNetTestOptions
                 {
                     Framework = "net10.0",
@@ -71,7 +70,7 @@ public class DotNetTestResultsTests : TestBase
         // IPipelineContext is a scoped service, so we need to create a scope
         await using var scope = host.Services.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
-        var parsedResults = await context.Trx().ParseTrxFile(TrxFixture);
+        var parsedResults = await context.Tools.Trx.ParseTrxFile(TrxFixture);
 
         await Assert.That(parsedResults.UnitTestResults).Count().IsEqualTo(4);
     }

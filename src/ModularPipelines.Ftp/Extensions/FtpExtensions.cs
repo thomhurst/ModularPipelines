@@ -16,5 +16,7 @@ public static class FtpExtensions
         return services;
     }
 
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Ftp.IFtp>().")]
     public static IFtp Ftp(this IPipelineContext context) => context.Services.GetRequiredService<IFtp>();
 }

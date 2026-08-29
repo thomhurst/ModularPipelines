@@ -52,5 +52,7 @@ public static class PulumiExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPulumi"/> service for executing pulumi commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Pulumi.Services.IPulumi>().")]
     public static IPulumi Pulumi(this IPipelineContext context) => context.Services.GetRequiredService<IPulumi>();
 }

@@ -19,7 +19,8 @@ See the [syft installation guide](https://oss.anchore.com/docs/installation/syft
 dotnet add package ModularPipelines.Syft
 ```
 
-Resolve the service with `context.Tools.Syft`. For projects older than C# 14, import `ModularPipelines.Syft.Extensions` and use the `context.Syft()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Syft`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Syft.Services.ISyft>()` instead.
 
 ## Module example
 

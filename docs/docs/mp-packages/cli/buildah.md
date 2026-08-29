@@ -19,7 +19,8 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Buildah
 ```
 
-Resolve the service with `context.Tools.Buildah`. For projects older than C# 14, import `ModularPipelines.Buildah.Extensions` and use the `context.Buildah()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Buildah`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Buildah.Services.IBuildah>()` instead.
 
 ## Module example
 

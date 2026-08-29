@@ -19,7 +19,8 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Java
 ```
 
-Resolve the service with `context.Tools.Gradle`. For projects older than C# 14, import `ModularPipelines.Java.Extensions` and use the `context.Gradle()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Gradle`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Java.Services.IGradle>()` instead.
 
 ## Module example
 

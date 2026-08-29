@@ -41,5 +41,7 @@ public static class TerraformExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ITerraform"/> service for executing terraform commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Terraform.Services.ITerraform>().")]
     public static ITerraform Terraform(this IPipelineContext context) => context.Services.GetRequiredService<ITerraform>();
 }

@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
-using ModularPipelines.Docker.Extensions;
 using ModularPipelines.Docker.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -22,7 +21,7 @@ public class DockerTests : TestBase
                 .GetFolder("MyApp")
                 .GetFile("Dockerfile");
 
-            return await context.Docker().Image.BuildAsync(new DockerImageBuildOptions(pretendPath.Path)
+            return await context.Tools.Docker.Image.BuildAsync(new DockerImageBuildOptions(pretendPath.Path)
             {
                 BuildArg =
                 [

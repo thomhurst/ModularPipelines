@@ -19,7 +19,8 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Flyway
 ```
 
-Resolve the service with `context.Tools.Flyway`. For projects older than C# 14, import `ModularPipelines.Flyway.Extensions` and use the `context.Flyway()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Flyway`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Flyway.Services.IFlyway>()` instead.
 
 ## Module example
 

@@ -37,5 +37,7 @@ public static class MavenExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IMaven"/> service for executing mvn commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Java.Services.IMaven>().")]
     public static IMaven Maven(this IPipelineContext context) => context.Services.GetRequiredService<IMaven>();
 }

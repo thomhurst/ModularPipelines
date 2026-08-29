@@ -1,8 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -12,10 +10,10 @@ public abstract class BuildSolutionOnPlatformModule : Module<CommandResult>
 {
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
 
-        return await context.DotNet().BuildAsync(new DotNetBuildOptions
+        return await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
         {
             ProjectSolution = Path.Combine(repositoryInfo.Root.Path, "ModularPipelines.All.slnx"),
             Configuration = "Release",

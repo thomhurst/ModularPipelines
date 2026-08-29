@@ -1,5 +1,4 @@
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -15,7 +14,7 @@ public class DotNetTests : TestBase
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use the main solution explicitly; the repository contains several solutions.
-            return await context.DotNet().Package.ListAsync(new DotNetPackageListOptions
+            return await context.Tools.DotNet.Package.ListAsync(new DotNetPackageListOptions
             {
                 Project = TestProjectPaths.CoreSolution,
             }, cancellationToken: cancellationToken);
@@ -26,7 +25,7 @@ public class DotNetTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.DotNet().FormatAsync(new DotNetFormatOptions
+            return await context.Tools.DotNet.FormatAsync(new DotNetFormatOptions
             {
                 ProjectSolution = TestProjectPaths.TestsForTestsProject,
             }, cancellationToken: cancellationToken);

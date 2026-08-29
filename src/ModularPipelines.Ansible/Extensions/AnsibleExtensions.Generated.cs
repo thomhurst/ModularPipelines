@@ -37,5 +37,7 @@ public static class AnsibleExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IAnsible"/> service for executing ansible commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Ansible.Services.IAnsible>().")]
     public static IAnsible Ansible(this IPipelineContext context) => context.Services.GetRequiredService<IAnsible>();
 }

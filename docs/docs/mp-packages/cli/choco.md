@@ -19,7 +19,8 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Chocolatey
 ```
 
-Resolve the service with `context.Tools.Choco`. For projects older than C# 14, import `ModularPipelines.Chocolatey.Extensions` and use the `context.Choco()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Choco`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Chocolatey.Services.IChoco>()` instead.
 
 ## Module example
 

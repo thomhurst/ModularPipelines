@@ -47,5 +47,7 @@ public static class DotNetExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IDotNet"/> service for executing dotnet commands.</returns>
+    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.DotNet.Services.IDotNet>().")]
     public static IDotNet DotNet(this IPipelineContext context) => context.Services.GetRequiredService<IDotNet>();
 }

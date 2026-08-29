@@ -1,6 +1,5 @@
 using ModularPipelines.Context;
 using ModularPipelines.GitHub;
-using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -13,7 +12,7 @@ public class GitHubRepositoryInfoTests : TestBase
         protected internal override async Task<IGitHubRepositoryInfo> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return context.GitHub().RepositoryInfo;
+            return context.Tools.GitHub.RepositoryInfo;
         }
     }
 

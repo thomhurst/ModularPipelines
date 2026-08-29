@@ -10,22 +10,23 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 2. **Add ModularPipelines to your script:** You can add ModularPipelines as a package reference in your F# script. At the top of your `example.fsx`, add the following line:
 
     ```fsharp
-    #r "nuget: ModularPipelines, 3.*"
+    #r "nuget: ModularPipelines, 4.*"
     ```
 
     Alternatively, you can specify a specific version:
 
     ```fsharp
-    #r "nuget: ModularPipelines, 3.2.8"
+    #r "nuget: ModularPipelines, 4.0.0"
     ```
 3. **Write your F# code:** Below the package reference, you can write your F# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to check the dotnet version:
 
     ```fsharp
-    #r "nuget: ModularPipelines.DotNet, 3.*"
+    #r "nuget: ModularPipelines.DotNet, 4.*"
     open ModularPipelines.DotNet
     open ModularPipelines.Attributes
     open ModularPipelines.Context
     open ModularPipelines.DotNet.Extensions
+    open ModularPipelines.DotNet.Services
     open ModularPipelines.Extensions
     open ModularPipelines.Models
     open ModularPipelines.Modules
@@ -35,14 +36,14 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
     type UpdateDotnetWorkloads() =
         inherit Module<CommandResult>()
         override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
-                context.DotNet().Workload.Update(cancellationToken = cancellationToken)
+                context.Tools.Get<IDotNet>().Workload.Update(cancellationToken = cancellationToken)
 
     /// Generic attributes are not supported in fsharp, so have to use the old way of declaring dependencies
     [<DependsOn(typeof<UpdateDotnetWorkloads>)>]
     type CheckDotnetSdkModule () =
         inherit Module<CommandResult>()
         override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
-                context.DotNet().Sdk.Check(cancellationToken = cancellationToken);
+                context.Tools.Get<IDotNet>().Sdk.Check(cancellationToken = cancellationToken);
 
     let args = System.Environment.GetCommandLineArgs()
     let builder = Pipeline.CreateBuilder(args)

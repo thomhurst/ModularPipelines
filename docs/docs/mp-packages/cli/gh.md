@@ -13,7 +13,8 @@ title: gh CLI reference
 dotnet add package ModularPipelines.GitHub
 ```
 
-Resolve the service with `context.Tools.Gh`. For projects older than C# 14, import `ModularPipelines.GitHub.Extensions` and use the `context.Gh()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Gh`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.GitHub.Services.IGh>()` instead.
 
 ## Module example
 

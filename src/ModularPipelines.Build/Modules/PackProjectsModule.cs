@@ -2,9 +2,7 @@ using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.FileSystem;
@@ -43,7 +41,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         var effectiveVersion = GetEffectiveVersion(projectFile, packageVersion);
 
-        return await context.DotNet().PackAsync(new DotNetPackOptions
+        return await context.Tools.DotNet.PackAsync(new DotNetPackOptions
         {
             ProjectSolution = projectFile.Path,
             Configuration = "Release",

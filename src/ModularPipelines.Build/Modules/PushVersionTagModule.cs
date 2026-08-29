@@ -5,9 +5,7 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Attributes;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
-using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -46,7 +44,7 @@ public class PushVersionTagModule : Module<CommandResult>
         // Configure remote URL with authentication token
         var token = _gitHubSettings.Value.StandardToken!;
 
-        await context.Git().Commands.Remotes.RemoteAsync(new GitRemoteOptions
+        await context.Tools.Git.Commands.Remotes.RemoteAsync(new GitRemoteOptions
         {
             Arguments =
             [
@@ -55,12 +53,12 @@ public class PushVersionTagModule : Module<CommandResult>
             ],
         }, null, cancellationToken);
 
-        await context.Git().Commands.Branches.TagAsync(new GitTagOptions
+        await context.Tools.Git.Commands.Branches.TagAsync(new GitTagOptions
         {
             TagName = $"v{versionInformation.Value}",
         }, cancellationToken: cancellationToken);
 
-        return await context.Git().Commands.Remotes.PushAsync(
+        return await context.Tools.Git.Commands.Remotes.PushAsync(
             new GitPushOptions
             {
                 Tags = true,

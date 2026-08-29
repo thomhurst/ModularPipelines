@@ -19,7 +19,8 @@ Follow the executable's official documentation for installation instructions.
 dotnet add package ModularPipelines.Kind
 ```
 
-Resolve the service with `context.Tools.Kind`. For projects older than C# 14, import `ModularPipelines.Kind.Extensions` and use the `context.Kind()` extension method as a compatibility fallback.
+Resolve the service with `context.Tools.Kind`.
+Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Kind.Services.IKind>()` instead.
 
 ## Module example
 
