@@ -373,6 +373,25 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Routing_Continues_After_Required_Planning_Safe_Condition()
+    {
+        var conditionRouting = new DistributedConditionRouting();
+        var module = new RequiredPlanningSafeThenMixedAlternativeModule();
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        }, distributedConditionRouting: conditionRouting);
+
+        await handler.PrepareDistributedRoutingAsync(module);
+
+        await Assert.That(conditionRouting.IsLocallySatisfied(
+            module,
+            typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>))).IsTrue();
+    }
+
+    [Test]
     public async Task Distributed_Master_Planning_Resolves_Matching_Local_Mixed_Alternative()
     {
         var handler = CreateHandler(new DistributedOptions
@@ -659,6 +678,15 @@ public class ModuleConditionHandlerTests
     [RunIfAny<PlanningTrueCondition, PlanningFalseCondition>]
     [RunIfAny<OnLinux, PlanningTrueCondition>]
     private sealed class PlanningSafeThenMixedAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIf<PlanningTrueCondition>]
+    [RunIfAny<OnLinux, PlanningTrueCondition>]
+    private sealed class RequiredPlanningSafeThenMixedAlternativeModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,

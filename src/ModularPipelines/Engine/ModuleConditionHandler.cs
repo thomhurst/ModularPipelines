@@ -103,9 +103,13 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         var attributes = GetConditionAttributes(module.GetType());
+        var pipelineContext = _pipelineContextProvider.GetModuleContext();
         if (attributes.Skip.Length > 0
-            || attributes.All.Any(static attribute =>
-                OperatingSystemConditions.GetRoute(attribute) is null))
+            || !await CanPrepareRequiredConditionRoutingAsync(
+                    attributes.All,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false))
         {
             _distributedConditionRouting.MarkPrepared(module);
             return;
@@ -114,11 +118,34 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         await PrepareAnyConditionRoutingAsync(
                 module,
                 attributes.Any,
-                _pipelineContextProvider.GetModuleContext(),
+                pipelineContext,
                 _distributedConditionRouting,
                 cancellationToken)
             .ConfigureAwait(false);
         _distributedConditionRouting.MarkPrepared(module);
+    }
+
+    private static async Task<bool> CanPrepareRequiredConditionRoutingAsync(
+        IEnumerable<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        foreach (var attribute in attributes.Where(static attribute =>
+                     OperatingSystemConditions.GetRoute(attribute) is null))
+        {
+            if (!IsPlanningConditionAttribute(attribute))
+            {
+                return false;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
