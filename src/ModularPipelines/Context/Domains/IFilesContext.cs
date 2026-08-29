@@ -53,9 +53,4 @@ public interface IFilesContext
     /// Compression operations.
     /// </summary>
     IZipContext Zip { get; }
-
-    /// <summary>
-    /// File checksum operations.
-    /// </summary>
-    IChecksumContext Checksum { get; }
 }

@@ -734,11 +734,11 @@ public class ModuleTesterTests
             var exists = await context.Files.ExistsAsync(filePath, cancellationToken);
             var files = context.Files.Glob($"{rootPath.Value}/**/*.txt").Count();
             var folders = context.Files.GlobFolders(rootPath.Value).Count();
-            var checksum = context.Files.Checksum.Md5(filePath);
+            var checksum = context.Security.Hash.Md5File(filePath);
 
             var zipPath = Path.GetFullPath($"{rootPath.Value}.zip");
-            context.Files.Zip.ZipFolder(root, zipPath);
-            context.Files.Zip.UnZipToFolder(
+            context.Files.Zip.CreateFromDirectory(root, zipPath);
+            context.Files.Zip.ExtractToDirectory(
                 zipPath,
                 Path.GetFullPath($"{rootPath.Value}-unzipped"));
 
@@ -802,14 +802,14 @@ public class ModuleTesterTests
             await source.GetFile("artifact.txt").WriteAsync("contents", cancellationToken);
 
             var dottedDirectory = root.CreateFolder("archives.v1");
-            var directoryZip = context.Files.Zip.ZipFolder(source, dottedDirectory.Path);
+            var directoryZip = context.Files.Zip.CreateFromDirectory(source, dottedDirectory.Path);
 
             var extensionlessFile = root.GetFile("archive");
             await extensionlessFile.WriteAsync("existing", cancellationToken);
             var rejectedExistingFile = false;
             try
             {
-                context.Files.Zip.ZipFolder(source, extensionlessFile.Path);
+                context.Files.Zip.CreateFromDirectory(source, extensionlessFile.Path);
             }
             catch (IOException)
             {
@@ -819,7 +819,7 @@ public class ModuleTesterTests
             var preservedExistingFile =
                 await extensionlessFile.ReadAsync(cancellationToken) == "existing";
             var collidingOutput = root.GetFile("host-collision.zip");
-            var isolatedZip = context.Files.Zip.ZipFolder(source, collidingOutput.Path);
+            var isolatedZip = context.Files.Zip.CreateFromDirectory(source, collidingOutput.Path);
 
             return $"{directoryZip.Folder?.Path == dottedDirectory.Path}:"
                    + $"{rejectedExistingFile && preservedExistingFile}:"

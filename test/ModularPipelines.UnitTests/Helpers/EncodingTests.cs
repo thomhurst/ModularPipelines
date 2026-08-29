@@ -27,9 +27,9 @@ public class EncodingTests : TestBase
         }
     }
 
-    private class FromBase64Module : Module<string>
+    private class FromBase64Module : Module<byte[]>
     {
-        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<byte[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Data.Base64.FromBase64String("Rm9vIGJhciE=");
@@ -75,7 +75,9 @@ public class EncodingTests : TestBase
         var moduleResult = await await RunModule<FromBase64Module>();
 
         await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
-        await Assert.That(moduleResult.ValueOrDefault).IsEqualTo(TestInput);
+        await Assert.That(moduleResult.ValueOrDefault).IsEquivalentTo(
+            "Foo bar!"u8.ToArray(),
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]

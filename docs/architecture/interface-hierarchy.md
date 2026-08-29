@@ -26,12 +26,12 @@ run conditions now receive `IPipelineContext` directly.
 | Property | Interface | Purpose |
 |---|---|---|
 | `Shell` | `IShellContext` | Commands, Bash, and PowerShell |
-| `Files` | `IFilesContext` | File operations, ZIP archives, and checksums |
+| `Files` | `IFilesContext` | File operations and ZIP archives |
 | `Data` | `IDataContext` | JSON, XML, YAML, Base64, and hexadecimal data |
 | `Environment` | `IEnvironmentContext` | Environment and build-system information |
 | `Installers` | `IInstallersContext` | Generic local and web installers |
 | `Network` | `INetworkContext` | HTTP and downloads |
-| `Security` | `ISecurityContext` | Certificates and hashing |
+| `Security` | `ISecurityContext` | Certificates and text/file hashing |
 | `Services` | `IServicesContext` | Dependency injection and configuration |
 
 Modules execute general commands directly through `IShellContext.RunAsync`. Generated

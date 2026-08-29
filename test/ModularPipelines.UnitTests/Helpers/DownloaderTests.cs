@@ -2,6 +2,7 @@ using System.Net;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context.Domains.Security;
 using ModularPipelines.Exceptions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
@@ -37,12 +38,12 @@ public class DownloaderTests : TestBase
     public async Task Can_Download()
     {
         var downloader = await GetService<IDownloaderContext>();
-        var checksum = await GetService<IChecksumContext>();
+        var hash = await GetService<IHashContext>();
         await using var server = LocalHttpServer.Start("local download fixture"u8.ToArray());
 
         var file = await downloader.DownloadFileAsync(new DownloadFileOptions(server.Uri));
 
-        await Assert.That(checksum.Md5(file)).IsEqualTo("AEDF5D7C23744269F358814E602AFE89");
+        await Assert.That(hash.Md5File(file)).IsEqualTo("aedf5d7c23744269f358814e602afe89");
     }
 
     [Test]

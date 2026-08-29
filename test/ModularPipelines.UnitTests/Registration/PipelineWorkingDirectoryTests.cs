@@ -33,9 +33,9 @@ public class PipelineWorkingDirectoryTests
             CancellationToken cancellationToken)
         {
             await context.Files.WriteAsync("relative.txt", "content", cancellationToken);
-            var checksum = context.Files.Checksum.Md5("relative.txt");
-            var zip = context.Files.Zip.ZipFolder(context.Files.GetFolder("."), "out.zip");
-            var unzipped = context.Files.Zip.UnZipToFolder("out.zip", "unzipped");
+            var checksum = context.Security.Hash.Md5File("relative.txt");
+            var zip = context.Files.Zip.CreateFromDirectory(context.Files.GetFolder("."), "out.zip");
+            var unzipped = context.Files.Zip.ExtractToDirectory("out.zip", "unzipped");
             var command = await context.Shell.PowerShell.RunAsync(
                 "Write-Output $PWD.Path",
                 cancellationToken: cancellationToken);
@@ -79,7 +79,7 @@ public class PipelineWorkingDirectoryTests
                 await Assert.That(observation.EnvironmentDirectory).IsEqualTo(workingDirectory.FullName);
                 await Assert.That(observation.FilePath)
                     .IsEqualTo(Path.Combine(workingDirectory.FullName, "relative.txt"));
-                await Assert.That(observation.Checksum).IsEqualTo("9A0364B9E99BB480DD25E1F0284C8555");
+                await Assert.That(observation.Checksum).IsEqualTo("9a0364b9e99bb480dd25e1f0284c8555");
                 await Assert.That(observation.ZipPath)
                     .IsEqualTo(Path.Combine(workingDirectory.FullName, "out.zip"));
                 await Assert.That(observation.UnzipPath)

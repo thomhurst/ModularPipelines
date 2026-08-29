@@ -363,8 +363,6 @@ ModularPipelines.Configuration.ModuleConfigurationBuilder.WithTags(params string
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithTimeout(System.TimeSpan timeout) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Context.ContextExtensions
 ModularPipelines.Context.Domains.Data.IBase64Context
-ModularPipelines.Context.Domains.Data.IBase64Context.FromBase64String(string! base64Input) -> string!
-ModularPipelines.Context.Domains.Data.IBase64Context.FromBase64String(string! base64Input, System.Text.Encoding! encoding) -> string!
 ModularPipelines.Context.Domains.Data.IBase64Context.ToBase64String(byte[]! bytes) -> string!
 ModularPipelines.Context.Domains.Data.IBase64Context.ToBase64String(string! input) -> string!
 ModularPipelines.Context.Domains.Data.IBase64Context.ToBase64String(string! input, System.Text.Encoding! encoding) -> string!
@@ -407,13 +405,7 @@ ModularPipelines.Context.Domains.Environment.IEnvironmentVariablesContext.Get(st
 ModularPipelines.Context.Domains.Environment.IEnvironmentVariablesContext.GetAll(System.EnvironmentVariableTarget target = System.EnvironmentVariableTarget.Process) -> System.Collections.Generic.IReadOnlyDictionary<string!, string?>!
 ModularPipelines.Context.Domains.Environment.IEnvironmentVariablesContext.GetPath(System.EnvironmentVariableTarget target = System.EnvironmentVariableTarget.Process) -> System.Collections.Generic.IReadOnlyList<string!>!
 ModularPipelines.Context.Domains.Environment.IEnvironmentVariablesContext.Set(string! name, string? value, System.EnvironmentVariableTarget target = System.EnvironmentVariableTarget.Process) -> void
-ModularPipelines.Context.Domains.Files.IChecksumContext
-ModularPipelines.Context.Domains.Files.IChecksumContext.Md5(string! filePath) -> string!
 ModularPipelines.Context.Domains.Files.IZipContext
-ModularPipelines.Context.Domains.Files.IZipContext.UnZipToFolder(string! zipPath, string! outputFolderPath) -> ModularPipelines.FileSystem.Folder!
-ModularPipelines.Context.Domains.Files.IZipContext.UnZipToFolder(string! zipPath, string! outputFolderPath, bool overwriteFiles) -> ModularPipelines.FileSystem.Folder!
-ModularPipelines.Context.Domains.Files.IZipContext.ZipFolder(ModularPipelines.FileSystem.Folder! folder, string! outputPath) -> ModularPipelines.FileSystem.File!
-ModularPipelines.Context.Domains.Files.IZipContext.ZipFolder(ModularPipelines.FileSystem.Folder! folder, string! outputPath, System.IO.Compression.CompressionLevel compressionLevel) -> ModularPipelines.FileSystem.File!
 ModularPipelines.Context.Domains.IDataContext
 ModularPipelines.Context.Domains.IDataContext.Base64.get -> ModularPipelines.Context.Domains.Data.IBase64Context!
 ModularPipelines.Context.Domains.IDataContext.Hex.get -> ModularPipelines.Context.Domains.Data.IHexContext!
@@ -421,7 +413,6 @@ ModularPipelines.Context.Domains.IDataContext.Json.get -> ModularPipelines.Conte
 ModularPipelines.Context.Domains.IDataContext.Xml.get -> ModularPipelines.Context.Domains.Data.IXmlContext!
 ModularPipelines.Context.Domains.IDataContext.Yaml.get -> ModularPipelines.Context.Domains.Data.IYamlContext!
 ModularPipelines.Context.Domains.IFilesContext
-ModularPipelines.Context.Domains.IFilesContext.Checksum.get -> ModularPipelines.Context.Domains.Files.IChecksumContext!
 ModularPipelines.Context.Domains.IFilesContext.ExistsAsync(string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.Context.Domains.IFilesContext.GetFile(string! path) -> ModularPipelines.FileSystem.File!
 ModularPipelines.Context.Domains.IFilesContext.GetFolder(string! path) -> ModularPipelines.FileSystem.Folder!
@@ -437,7 +428,6 @@ ModularPipelines.Context.Domains.INetworkContext.Downloader.get -> ModularPipeli
 ModularPipelines.Context.Domains.INetworkContext.Http.get -> ModularPipelines.Context.Domains.Network.IHttpContext!
 ModularPipelines.Context.Domains.ISecurityContext
 ModularPipelines.Context.Domains.ISecurityContext.Certificates.get -> ModularPipelines.Context.Domains.Security.ICertificatesContext!
-ModularPipelines.Context.Domains.ISecurityContext.Hasher.get -> ModularPipelines.Context.Domains.Security.IHasherContext!
 ModularPipelines.Context.Domains.IServicesContext
 ModularPipelines.Context.Domains.IServicesContext.Configuration.get -> Microsoft.Extensions.Configuration.IConfiguration!
 ModularPipelines.Context.Domains.IServicesContext.Get<T>() -> T!
@@ -460,12 +450,6 @@ ModularPipelines.Context.Domains.Security.ICertificatesContext.GetCertificateBy(
 ModularPipelines.Context.Domains.Security.ICertificatesContext.GetCertificateBySerialNumber(System.Security.Cryptography.X509Certificates.StoreLocation storeLocation, string! serialNumber) -> System.Security.Cryptography.X509Certificates.X509Certificate2?
 ModularPipelines.Context.Domains.Security.ICertificatesContext.GetCertificateBySubject(System.Security.Cryptography.X509Certificates.StoreLocation storeLocation, string! subject) -> System.Security.Cryptography.X509Certificates.X509Certificate2?
 ModularPipelines.Context.Domains.Security.ICertificatesContext.GetCertificateByThumbprint(System.Security.Cryptography.X509Certificates.StoreLocation storeLocation, string! thumbprint) -> System.Security.Cryptography.X509Certificates.X509Certificate2?
-ModularPipelines.Context.Domains.Security.IHasherContext
-ModularPipelines.Context.Domains.Security.IHasherContext.Md5(string! input, ModularPipelines.Context.HashType hashType = ModularPipelines.Context.HashType.Hex) -> string!
-ModularPipelines.Context.Domains.Security.IHasherContext.Sha1(string! input, ModularPipelines.Context.HashType hashType = ModularPipelines.Context.HashType.Hex) -> string!
-ModularPipelines.Context.Domains.Security.IHasherContext.Sha256(string! input, ModularPipelines.Context.HashType hashType = ModularPipelines.Context.HashType.Hex) -> string!
-ModularPipelines.Context.Domains.Security.IHasherContext.Sha384(string! input, ModularPipelines.Context.HashType hashType = ModularPipelines.Context.HashType.Hex) -> string!
-ModularPipelines.Context.Domains.Security.IHasherContext.Sha512(string! input, ModularPipelines.Context.HashType hashType = ModularPipelines.Context.HashType.Hex) -> string!
 ModularPipelines.Context.Domains.Shell.CommandInvocation
 ModularPipelines.Context.Domains.Shell.CommandInvocation.<Clone>$() -> ModularPipelines.Context.Domains.Shell.CommandInvocation!
 ModularPipelines.Context.Domains.Shell.CommandInvocation.CommandInput.get -> string!
@@ -489,9 +473,6 @@ ModularPipelines.Context.Domains.Shell.ICommandContext.ExecuteCommandLineToolAsy
 ModularPipelines.Context.Domains.Shell.ICommandInterceptor
 ModularPipelines.Context.Domains.Shell.ICommandInterceptor.InterceptAsync(ModularPipelines.Context.Domains.Shell.CommandInvocation! invocation, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<ModularPipelines.Models.CommandResult?>
 ModularPipelines.Context.Domains.Shell.IPowerShellContext
-ModularPipelines.Context.HashType
-ModularPipelines.Context.HashType.Base64 = 1 -> ModularPipelines.Context.HashType
-ModularPipelines.Context.HashType.Hex = 0 -> ModularPipelines.Context.HashType
 ModularPipelines.Context.IDependencyContext
 ModularPipelines.Context.IDependencyContext.GetAttribute<TAttribute>(System.Type! moduleType) -> TAttribute?
 ModularPipelines.Context.IDependencyContext.GetAttributes<TAttribute>(System.Type! moduleType) -> System.Collections.Generic.IEnumerable<TAttribute!>!

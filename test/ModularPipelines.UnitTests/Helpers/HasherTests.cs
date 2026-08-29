@@ -1,4 +1,3 @@
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Security;
 using ModularPipelines.TestHelpers;
 
@@ -9,7 +8,7 @@ namespace ModularPipelines.UnitTests.Helpers;
 /// Uses [Arguments] attribute to test Md5, Sha1, Sha256, Sha384, and Sha512 with a single test method.
 /// This consolidates what would otherwise be 5 separate test classes with identical structure.
 /// </summary>
-public class HasherTests : TestBase
+public class HashContextTests : TestBase
 {
     private const string TestInput = TestConstants.TestString;
 
@@ -22,18 +21,28 @@ public class HasherTests : TestBase
     [Arguments("Sha512", "e399b0584705f5f229a4398baa31c4b7cc820ac208327d26e66f0668288536981c3460a7ea92ef6be488ce30ff5b6a991babfe24833094eba3226cea5c14162c")]
     public async Task Hash_Algorithm_Produces_Expected_Output(string algorithm, string expected)
     {
-        var hasher = await GetService<IHasherContext>();
+        var hash = await GetService<IHashContext>();
 
         var result = algorithm switch
         {
-            "Md5" => hasher.Md5(TestInput),
-            "Sha1" => hasher.Sha1(TestInput),
-            "Sha256" => hasher.Sha256(TestInput),
-            "Sha384" => hasher.Sha384(TestInput),
-            "Sha512" => hasher.Sha512(TestInput),
+            "Md5" => hash.Md5(TestInput),
+            "Sha1" => hash.Sha1(TestInput),
+            "Sha256" => hash.Sha256(TestInput),
+            "Sha384" => hash.Sha384(TestInput),
+            "Sha512" => hash.Sha512(TestInput),
             _ => throw new ArgumentException($"Unknown algorithm: {algorithm}", nameof(algorithm))
         };
 
         await Assert.That(result).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task HashEncodingBase64ProducesBase64Text()
+    {
+        var hash = await GetService<IHashContext>();
+
+        var result = hash.Sha256(TestInput, HashEncoding.Base64);
+
+        await Assert.That(result).IsEqualTo("2AwUoTKprgCMeNtO5MvEawFbXg8Bj2sKPk6lBBF2uFI=");
     }
 }

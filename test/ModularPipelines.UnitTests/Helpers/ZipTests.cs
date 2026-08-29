@@ -85,7 +85,7 @@ public class ZipTests : TestBase
 
             fileToWrite.Delete();
 
-            context.Files.Zip.ZipFolder(directory, fileToWrite.Path);
+            context.Files.Zip.CreateFromDirectory(directory, fileToWrite.Path);
 
             return None.Value;
         }
@@ -128,7 +128,7 @@ public class ZipTests : TestBase
             // Track for cleanup
             TrackArtifact(unzippedLocation.Path);
 
-            context.Files.Zip.UnZipToFolder(zipLocation.Path, unzippedLocation.Path);
+            context.Files.Zip.ExtractToDirectory(zipLocation.Path, unzippedLocation.Path);
 
             return None.Value;
         }
@@ -178,8 +178,8 @@ public class ZipTests : TestBase
             System.IO.File.SetLastWriteTime(sourceFile, expectedTimestamp);
             var zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root));
 
-            zip.ZipFolder(new Folder(sourceDirectory), zipPath, CompressionLevel.Optimal);
-            zip.UnZipToFolder(zipPath, destinationDirectory, overwriteFiles: true);
+            zip.CreateFromDirectory(new Folder(sourceDirectory), zipPath, CompressionLevel.Optimal);
+            zip.ExtractToDirectory(zipPath, destinationDirectory, overwriteFiles: true);
 
             await Assert.That(System.IO.File.GetLastWriteTime(extractedFile))
                 .IsEqualTo(expectedTimestamp);
@@ -191,7 +191,7 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    public async Task ZipFolderRejectsExistingOutputWithoutChangingIt()
+    public async Task CreateFromDirectoryRejectsExistingOutputWithoutChangingIt()
     {
         var root = Path.Combine(
             Path.GetTempPath(),
@@ -208,7 +208,7 @@ public class ZipTests : TestBase
             var zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root));
 
             await Assert.That(() =>
-                    zip.ZipFolder(
+                    zip.CreateFromDirectory(
                         new Folder(sourceDirectory),
                         zipPath,
                         CompressionLevel.Optimal))
@@ -272,7 +272,7 @@ public class ZipTests : TestBase
             var zip = new Zip(fileSystemProvider.Object, new PipelineWorkingDirectory(root));
 
             await Assert.That(() =>
-                    zip.UnZipToFolder(zipPath, destinationDirectory, overwriteFiles: false))
+                    zip.ExtractToDirectory(zipPath, destinationDirectory, overwriteFiles: false))
                 .Throws<IOException>();
             await Assert.That(await System.IO.File.ReadAllTextAsync(destinationPath))
                 .IsEqualTo("competing contents");

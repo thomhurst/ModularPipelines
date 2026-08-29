@@ -30,8 +30,28 @@ ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHintAttribute(Modula
 ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint?
 ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.init -> void
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithExecutionHint(ModularPipelines.Enums.ExecutionHint executionHint) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
+ModularPipelines.Context.Domains.Data.IBase64Context.FromBase64String(string! base64Input) -> byte[]!
+ModularPipelines.Context.Domains.Files.IZipContext.CreateFromDirectory(ModularPipelines.FileSystem.Folder! folder, string! outputPath) -> ModularPipelines.FileSystem.File!
+ModularPipelines.Context.Domains.Files.IZipContext.CreateFromDirectory(ModularPipelines.FileSystem.Folder! folder, string! outputPath, System.IO.Compression.CompressionLevel compressionLevel) -> ModularPipelines.FileSystem.File!
+ModularPipelines.Context.Domains.Files.IZipContext.ExtractToDirectory(string! zipPath, string! outputFolderPath) -> ModularPipelines.FileSystem.Folder!
+ModularPipelines.Context.Domains.Files.IZipContext.ExtractToDirectory(string! zipPath, string! outputFolderPath, bool overwriteFiles) -> ModularPipelines.FileSystem.Folder!
 ModularPipelines.Context.Domains.IInstallersContext.InstallAsync(ModularPipelines.Options.InstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.IInstallersContext.InstallFromWebAsync(ModularPipelines.Options.WebInstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Context.Domains.ISecurityContext.Hash.get -> ModularPipelines.Context.Domains.Security.IHashContext!
+ModularPipelines.Context.Domains.Security.HashEncoding
+ModularPipelines.Context.Domains.Security.HashEncoding.Base64 = 1 -> ModularPipelines.Context.Domains.Security.HashEncoding
+ModularPipelines.Context.Domains.Security.HashEncoding.Hex = 0 -> ModularPipelines.Context.Domains.Security.HashEncoding
+ModularPipelines.Context.Domains.Security.IHashContext
+ModularPipelines.Context.Domains.Security.IHashContext.Md5(string! text, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
+ModularPipelines.Context.Domains.Security.IHashContext.Md5File(string! path, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
+ModularPipelines.Context.Domains.Security.IHashContext.Sha1(string! text, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
+ModularPipelines.Context.Domains.Security.IHashContext.Sha1File(string! path, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
+ModularPipelines.Context.Domains.Security.IHashContext.Sha256(string! text, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
+ModularPipelines.Context.Domains.Security.IHashContext.Sha256File(string! path, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
+ModularPipelines.Context.Domains.Security.IHashContext.Sha384(string! text, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
+ModularPipelines.Context.Domains.Security.IHashContext.Sha384File(string! path, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
+ModularPipelines.Context.Domains.Security.IHashContext.Sha512(string! text, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
+ModularPipelines.Context.Domains.Security.IHashContext.Sha512File(string! path, ModularPipelines.Context.Domains.Security.HashEncoding encoding = ModularPipelines.Context.Domains.Security.HashEncoding.Hex) -> string!
 ModularPipelines.Context.Domains.Shell.IBashContext.RunAsync(ModularPipelines.Options.BashCommandOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.Shell.IBashContext.RunAsync(string! script, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.Shell.IBashContext.RunFileAsync(ModularPipelines.Options.BashFileOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
