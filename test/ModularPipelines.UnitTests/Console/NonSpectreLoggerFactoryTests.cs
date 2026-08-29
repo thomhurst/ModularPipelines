@@ -109,13 +109,40 @@ public class NonSpectreLoggerFactoryTests
     {
         var provider = new RecordingLoggerProvider();
         var options = new LoggerFilterOptions { MinLevel = LogLevel.Error };
-        using var loggerFactory = new LoggerFactory([provider], CreateOptionsMonitor(options));
-        var control = new NoopSpectreConsoleLoggerControl(loggerFactory, [provider]);
+        var control = new NoopSpectreConsoleLoggerControl(CreateOptionsMonitor(options), [provider]);
 
         using (Assert.Multiple())
         {
             await Assert.That(control.WouldRender("Category", LogLevel.Information)).IsFalse();
             await Assert.That(control.WouldRender("Category", LogLevel.Error)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task NoopControlUsesConsoleProviderSpecificFilter()
+    {
+        var telemetryProvider = new RecordingLoggerProvider();
+        var services = new ServiceCollection();
+        services.AddLogging(builder =>
+        {
+            builder.AddProvider(telemetryProvider);
+            builder.AddConsole();
+            builder.AddFilter<Microsoft.Extensions.Logging.Console.ConsoleLoggerProvider>(
+                "Category",
+                LogLevel.Warning);
+            builder.AddFilter<RecordingLoggerProvider>("Category", LogLevel.Information);
+        });
+        await using var serviceProvider = services.BuildServiceProvider();
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        var control = new NoopSpectreConsoleLoggerControl(
+            serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>(),
+            serviceProvider.GetServices<ILoggerProvider>());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(loggerFactory.CreateLogger("Category").IsEnabled(LogLevel.Information)).IsTrue();
+            await Assert.That(control.WouldRender("Category", LogLevel.Information)).IsFalse();
+            await Assert.That(control.WouldRender("Category", LogLevel.Warning)).IsTrue();
         }
     }
 
