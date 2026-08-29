@@ -43,6 +43,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
     private readonly bool _showFailureHeaderWithoutOutput;
     private readonly bool _showSuccessMarker;
+    private readonly ISecretObfuscator? _renderableSecretObfuscator;
+    private readonly ISecretProvider? _renderableSecretProvider;
     private readonly ModuleOutputExcerptBuffer? _outputExcerptBuffer;
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
@@ -70,6 +72,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="outputExcerptMaximumBytes">Maximum retained UTF-8 bytes for report output, or zero to disable capture.</param>
     /// <param name="outputExcerptSecretObfuscator">Obfuscator used before the final excerpt tail is selected.</param>
     /// <param name="outputExcerptSecretProvider">Provider used to validate late-registered secret boundaries.</param>
+    /// <param name="renderableSecretObfuscator">Obfuscator used to mask rich output again immediately before emission.</param>
+    /// <param name="renderableSecretProvider">Provider used to stabilize secrets while rich output is emitted.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
@@ -79,7 +83,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         bool showFailureHeaderWithoutOutput = false,
         int outputExcerptMaximumBytes = 0,
         ISecretObfuscator? outputExcerptSecretObfuscator = null,
-        ISecretProvider? outputExcerptSecretProvider = null)
+        ISecretProvider? outputExcerptSecretProvider = null,
+        ISecretObfuscator? renderableSecretObfuscator = null,
+        ISecretProvider? renderableSecretProvider = null)
         : this(
             moduleType.Name,
             moduleType,
@@ -90,7 +96,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             showFailureHeaderWithoutOutput,
             outputExcerptMaximumBytes: outputExcerptMaximumBytes,
             outputExcerptSecretObfuscator: outputExcerptSecretObfuscator,
-            outputExcerptSecretProvider: outputExcerptSecretProvider)
+            outputExcerptSecretProvider: outputExcerptSecretProvider,
+            renderableSecretObfuscator: renderableSecretObfuscator,
+            renderableSecretProvider: renderableSecretProvider)
     {
     }
 
@@ -110,6 +118,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="outputExcerptSecretObfuscator">Obfuscator used before the final excerpt tail is selected.</param>
     /// <param name="outputExcerptSecretProvider">Provider used to validate late-registered secret boundaries.</param>
     /// <param name="outputExcerptLogger">Logger for fail-closed excerpt diagnostics.</param>
+    /// <param name="renderableSecretObfuscator">Obfuscator used to mask rich output again immediately before emission.</param>
+    /// <param name="renderableSecretProvider">Provider used to stabilize secrets while rich output is emitted.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
@@ -122,7 +132,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         int outputExcerptMaximumBytes = 0,
         ISecretObfuscator? outputExcerptSecretObfuscator = null,
         ISecretProvider? outputExcerptSecretProvider = null,
-        ILogger? outputExcerptLogger = null)
+        ILogger? outputExcerptLogger = null,
+        ISecretObfuscator? renderableSecretObfuscator = null,
+        ISecretProvider? renderableSecretProvider = null)
     {
         ModuleType = moduleType;
         _moduleName = name;
@@ -133,6 +145,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         _isSpectreEnabled = isSpectreEnabled ?? (static _ => true);
         _showFailureHeaderWithoutOutput = showFailureHeaderWithoutOutput;
         _showSuccessMarker = showSuccessMarker;
+        _renderableSecretObfuscator = renderableSecretObfuscator;
+        _renderableSecretProvider = renderableSecretProvider;
         _outputExcerptBuffer = outputExcerptMaximumBytes > 0
             ? new ModuleOutputExcerptBuffer(
                 outputExcerptMaximumBytes,
@@ -716,7 +730,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             }
             else if (output.Renderable is { } renderable)
             {
-                directConsole.Write(renderable);
+                WriteRenderableWithCurrentSecrets(directConsole, renderable);
                 if (output.AppendNewLine)
                 {
                     directConsole.WriteLine();
@@ -761,6 +775,28 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             // the item avoids guaranteed data loss when delivery never happened.
             renderedCount++;
         }
+    }
+
+    private void WriteRenderableWithCurrentSecrets(
+        IAnsiConsole directConsole,
+        IRenderable renderable)
+    {
+        if (_renderableSecretObfuscator is not SecretObfuscator concreteObfuscator)
+        {
+            directConsole.Write(renderable);
+            return;
+        }
+
+        var remasked = new SecretObfuscatedRenderable(renderable, concreteObfuscator);
+        if (_renderableSecretProvider is ISecretEmissionGuard emissionGuard)
+        {
+            emissionGuard.ExecuteWithStableSecrets(
+                (Console: directConsole, Renderable: remasked),
+                static state => state.Console.Write(state.Renderable));
+            return;
+        }
+
+        directConsole.Write(remasked);
     }
 
     private void RecordRenderedOutput(OutputFlushKind flushKind, bool renderedConsoleOutput)

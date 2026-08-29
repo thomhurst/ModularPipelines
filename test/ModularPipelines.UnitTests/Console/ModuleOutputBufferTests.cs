@@ -9,8 +9,10 @@ using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
 using ModularPipelines.Enums;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using Moq;
+using Spectre.Console;
 
 namespace ModularPipelines.UnitTests.Console;
 
@@ -44,6 +46,42 @@ public class ModuleOutputBufferTests
         buffer.WriteLine("ordinary output");
 
         await Assert.That(buffer.GetOutputExcerpt()).IsNull();
+    }
+
+    [Test]
+    public async Task Flush_RemasksRenderableWithSecretsRegisteredAfterBuffering()
+    {
+        const string secret = "late-registered-secret";
+        long version = 0;
+        IReadOnlyList<string> secrets = [];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator,
+            renderableSecretProvider: secretProvider.Object);
+        buffer.WriteRenderable(new Text(secret), secret, appendNewLine: false);
+
+        secrets = [secret];
+        version++;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).Contains("**********");
+        await Assert.That(writer.ToString()).DoesNotContain(secret);
     }
 
     [Test]
