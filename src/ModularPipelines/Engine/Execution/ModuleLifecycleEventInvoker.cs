@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
@@ -44,7 +43,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             result: null,
             context.PipelineContext,
             _metadataRegistry,
-            GetConsoleWriter(context));
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeReadyHandlersAsync(handlers, hookContext).ConfigureAwait(false);
     }
@@ -65,7 +64,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             result: null,
             context.PipelineContext,
             _metadataRegistry,
-            GetConsoleWriter(context));
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeStartHandlersAsync(handlers, hookContext).ConfigureAwait(false);
     }
@@ -86,7 +85,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             result,
             context.PipelineContext,
             _metadataRegistry,
-            GetConsoleWriter(context));
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeEndHandlersAsync(handlers, hookContext, result).ConfigureAwait(false);
     }
@@ -110,7 +109,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             result,
             context.PipelineContext,
             _metadataRegistry,
-            GetConsoleWriter(context));
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeFailureHandlersAsync(handlers, hookContext, exception).ConfigureAwait(false);
     }
@@ -131,14 +130,8 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             result: null,
             context.PipelineContext,
             _metadataRegistry,
-            GetConsoleWriter(context));
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeSkippedHandlersAsync(handlers, hookContext, skipReason).ConfigureAwait(false);
     }
-
-    private static IConsoleWriter GetConsoleWriter(ModuleLifecycleContext context)
-        => context.ScopedServiceProvider
-               .GetRequiredService<IInternalModuleLoggerAccessor>()
-               .GetLogger(context.ModuleType) as IConsoleWriter
-           ?? context.PipelineContext.Console;
 }

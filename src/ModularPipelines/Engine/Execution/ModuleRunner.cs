@@ -160,17 +160,15 @@ internal class ModuleRunner : IModuleRunner
 
                 if (moduleState.TryStartReadyEvents())
                 {
-                    var readyConsoleWriter = GetModuleLogger(scope.ServiceProvider, moduleType)
-                        as IConsoleWriter
-                        ?? scope.ServiceProvider.GetRequiredService<IPipelineContext>().Console;
-                    await _pipelineSetupExecutor
-                        .OnModuleReadyAsync(moduleState, readyConsoleWriter)
-                        .ConfigureAwait(false);
+                    var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
                     var readyLifecycleContext = CreateLifecycleContext(
                         moduleState,
-                        scope.ServiceProvider.GetRequiredService<IPipelineContext>(),
+                        pipelineContext,
                         scope.ServiceProvider,
                         cancellationToken);
+                    await _pipelineSetupExecutor
+                        .OnModuleReadyAsync(moduleState, readyLifecycleContext.ConsoleWriter)
+                        .ConfigureAwait(false);
                     await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
                 }
 
@@ -912,19 +910,21 @@ internal class ModuleRunner : IModuleRunner
         var moduleType = moduleState.ModuleType;
 
         // Before module hooks - module is starting execution.
-        await _pipelineSetupExecutor.OnModuleStartAsync(moduleState).ConfigureAwait(false);
+        var lifecycleContext = CreateLifecycleContext(
+            moduleState,
+            pipelineContext,
+            scopedServiceProvider,
+            cancellationToken);
+
+        await _pipelineSetupExecutor
+            .OnModuleStartAsync(moduleState, lifecycleContext.ConsoleWriter)
+            .ConfigureAwait(false);
 
         var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
         await _mediator.Publish(
                 new ModuleStartedNotification(moduleState, estimatedDuration),
                 CancellationToken.None)
             .ConfigureAwait(false);
-
-        var lifecycleContext = CreateLifecycleContext(
-            moduleState,
-            pipelineContext,
-            scopedServiceProvider,
-            cancellationToken);
 
         try
         {
@@ -1018,7 +1018,8 @@ internal class ModuleRunner : IModuleRunner
             _moduleAttributeEventService.GetAttributes(moduleState.ModuleType),
             startTime,
             pipelineContext,
-            scopedServiceProvider,
+            GetModuleLogger(scopedServiceProvider, moduleState.ModuleType) as IConsoleWriter
+                ?? pipelineContext.Console,
             cancellationToken)
         {
             ReadyTime = moduleState.ReadyTime ?? startTime,
@@ -1049,7 +1050,9 @@ internal class ModuleRunner : IModuleRunner
         try
         {
             await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, result, exception).ConfigureAwait(false);
-            await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState, exception).ConfigureAwait(false);
+            await _pipelineSetupExecutor
+                .OnModuleFailureAsync(moduleState, exception, lifecycleContext.ConsoleWriter)
+                .ConfigureAwait(false);
         }
         finally
         {
@@ -1074,7 +1077,12 @@ internal class ModuleRunner : IModuleRunner
                     ModuleStatus.Skipped,
                     executionContext.SkipResult!)
                 .ConfigureAwait(false);
-            await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState, executionContext.SkipResult!).ConfigureAwait(false);
+            await _pipelineSetupExecutor
+                .OnModuleSkippedAsync(
+                    moduleState,
+                    executionContext.SkipResult!,
+                    lifecycleContext.ConsoleWriter)
+                .ConfigureAwait(false);
             return;
         }
 
@@ -1086,7 +1094,9 @@ internal class ModuleRunner : IModuleRunner
                 .ConfigureAwait(false);
         }
 
-        await _pipelineSetupExecutor.OnModuleEndAsync(moduleState, result).ConfigureAwait(false);
+        await _pipelineSetupExecutor
+            .OnModuleEndAsync(moduleState, result, lifecycleContext.ConsoleWriter)
+            .ConfigureAwait(false);
         await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
 
         if (!_manageArtifactsLocally

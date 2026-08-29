@@ -60,42 +60,51 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
                 CreateModuleHookContext(moduleState, consoleWriter));
     }
 
-    public Task OnModuleStartAsync(ModuleState moduleState)
+    public Task OnModuleStartAsync(ModuleState moduleState, IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeStartHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState));
+                CreateModuleHookContext(moduleState, consoleWriter));
     }
 
-    public Task OnModuleEndAsync(ModuleState moduleState, IModuleResult result)
+    public Task OnModuleEndAsync(
+        ModuleState moduleState,
+        IModuleResult result,
+        IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeEndHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState),
+                CreateModuleHookContext(moduleState, consoleWriter),
                 result);
     }
 
-    public Task OnModuleFailureAsync(ModuleState moduleState, Exception exception)
+    public Task OnModuleFailureAsync(
+        ModuleState moduleState,
+        Exception exception,
+        IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeFailureHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState),
+                CreateModuleHookContext(moduleState, consoleWriter),
                 exception);
     }
 
-    public Task OnModuleSkippedAsync(ModuleState moduleState, SkipDecision reason)
+    public Task OnModuleSkippedAsync(
+        ModuleState moduleState,
+        SkipDecision reason,
+        IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeSkippedHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState),
+                CreateModuleHookContext(moduleState, consoleWriter),
                 reason);
     }
 
@@ -106,7 +115,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
 
     private ModuleHookContext CreateModuleHookContext(
         ModuleState moduleState,
-        IConsoleWriter? consoleWriter = null)
+        IConsoleWriter consoleWriter)
     {
         var moduleType = moduleState.ModuleType;
         var moduleAttributes = _attributeEventService.GetAttributes(moduleType);

@@ -110,11 +110,23 @@ public class ConsoleWriterTests
         }
     }
 
-    private sealed class WriteReadyOutputReceiver : IModuleEventReceiver
+    private sealed class WriteLifecycleOutputReceiver : IModuleEventReceiver
     {
         public Task OnModuleReadyAsync(IModuleHookContext context)
         {
             context.Console.WriteLine("receiver ready output");
+            return Task.CompletedTask;
+        }
+
+        public Task OnModuleStartAsync(IModuleHookContext context)
+        {
+            context.Console.WriteLine("receiver start output");
+            return Task.CompletedTask;
+        }
+
+        public Task OnModuleEndAsync(IModuleHookContext context)
+        {
+            context.Console.WriteLine("receiver end output");
             return Task.CompletedTask;
         }
     }
@@ -242,13 +254,15 @@ public class ConsoleWriterTests
     }
 
     [Test]
-    public async Task ReadyHooks_UseModuleConsoleWriter()
+    public async Task LifecycleHooks_UseModuleConsoleWriter()
     {
         var output = await RunAsync<ReadyOutputModule>(
-            builder => builder.AddModuleEventReceiver<WriteReadyOutputReceiver>());
+            builder => builder.AddModuleEventReceiver<WriteLifecycleOutputReceiver>());
 
         await Assert.That(output).Contains("attribute ready output");
         await Assert.That(output).Contains("receiver ready output");
+        await Assert.That(output).Contains("receiver start output");
+        await Assert.That(output).Contains("receiver end output");
     }
 
     [Test]
