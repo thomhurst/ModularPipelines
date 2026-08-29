@@ -44,15 +44,45 @@ internal sealed class SecretObfuscatedRenderable(
         if (secretObfuscator is SecretObfuscator concreteObfuscator)
         {
             var preserveMasks = concreteObfuscator.CanSafelyPreserveRegisteredMasks();
-            return MapSegments(
-                segments,
-                concreteObfuscator.ObfuscateWithSourceMap(visibleText, preserveMasks));
+            return ReflowSegments(
+                MapSegments(
+                    segments,
+                    concreteObfuscator.ObfuscateWithSourceMap(visibleText, preserveMasks)),
+                maxWidth);
         }
 
-        return MapFallbackSegments(
-            segments,
-            secretObfuscator.Obfuscate(visibleText, null),
-            visibleText.Length);
+        return ReflowSegments(
+            MapFallbackSegments(
+                segments,
+                secretObfuscator.Obfuscate(visibleText, null),
+                visibleText.Length),
+            maxWidth);
+    }
+
+    private static Segment[] ReflowSegments(Segment[] segments, int maxWidth)
+    {
+        if (maxWidth <= 0)
+        {
+            return [.. segments.Where(static segment => segment.IsControlCode)];
+        }
+
+        if (Segment.SplitLines(segments).All(line => line.CellCount() <= maxWidth))
+        {
+            return segments;
+        }
+
+        var lines = Segment.SplitLines(segments, maxWidth);
+        var output = new List<Segment>(segments.Length + lines.Count - 1);
+        for (var index = 0; index < lines.Count; index++)
+        {
+            output.AddRange(lines[index]);
+            if (index < lines.Count - 1)
+            {
+                output.Add(Segment.LineBreak);
+            }
+        }
+
+        return [.. output];
     }
 
     private Segment[] MapSegments(

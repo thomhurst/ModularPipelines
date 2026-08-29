@@ -448,6 +448,30 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_ReflowsExpandedMaskToRenderWidth()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new Text("tiny"),
+            CreateSecretObfuscator("tiny"));
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                5)
+            .ToArray();
+        var lines = Segment.SplitLines(segments);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(lines).Count().IsEqualTo(2);
+            await Assert.That(lines.Max(static line => line.CellCount())).IsLessThanOrEqualTo(5);
+            await Assert.That(string.Concat(lines.SelectMany(static line => line)
+                    .Select(static segment => segment.Text)))
+                .IsEqualTo("**********");
+            await Assert.That(renderable.Measure(RenderOptions.Create(AnsiConsole.Console), 5).Max)
+                .IsEqualTo(5);
+        }
+    }
+
+    [Test]
     public async Task Write_PreservesCompositeLayoutWhenMaskWidthDiffers()
     {
         var table = new Table()
