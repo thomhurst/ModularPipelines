@@ -456,26 +456,28 @@ public class HttpTests : TestBase
         httpLogger
             .Setup(x => x.PrintRequest(
                 It.IsAny<HttpRequestMessage>(),
-                It.IsAny<IModuleLogger>(),
+                It.IsAny<ILogger>(),
                 It.IsAny<HttpLoggingOptions>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<HttpRequestMessage, IModuleLogger, HttpLoggingOptions, CancellationToken>(
+            .Callback<HttpRequestMessage, ILogger, HttpLoggingOptions, CancellationToken>(
                 (_, _, options, _) => observedOptions.Add(options))
             .Returns(Task.CompletedTask);
         httpLogger
             .Setup(x => x.PrintResponse(
                 It.IsAny<HttpResponseMessage>(),
-                It.IsAny<IModuleLogger>(),
+                It.IsAny<ILogger>(),
                 It.IsAny<HttpLoggingOptions>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
+        var moduleLoggerAccessor = new Mock<IModuleLoggerAccessor>();
+        moduleLoggerAccessor.SetupGet(x => x.Logger).Returns(Mock.Of<ILogger>());
         using var httpClient = new HttpClient(new SequenceResponseHandler(
             new HttpResponseMessage(HttpStatusCode.OK),
             new HttpResponseMessage(HttpStatusCode.OK),
             new HttpResponseMessage(HttpStatusCode.OK)));
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            moduleLoggerAccessor.Object,
             httpLogger.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
