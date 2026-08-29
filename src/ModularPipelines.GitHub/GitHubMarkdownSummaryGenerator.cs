@@ -1,5 +1,3 @@
-using ModularPipelines.Reporting;
-using ModularPipelines.Events;
 using System.Text;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -8,6 +6,7 @@ using ModularPipelines.Events;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.GitHub;
 

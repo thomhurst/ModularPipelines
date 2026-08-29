@@ -1,5 +1,3 @@
-using ModularPipelines.Reporting;
-using ModularPipelines.Events;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -10,6 +8,7 @@ using ModularPipelines.Events;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.GitHub.Extensions;
 
