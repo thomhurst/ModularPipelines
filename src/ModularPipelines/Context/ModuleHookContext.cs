@@ -32,9 +32,6 @@ internal class ModuleHookContext : IModuleHookContext
         Result = result;
         _pipelineContext = pipelineContext;
         _metadataRegistry = metadataRegistry;
-        Artifacts = pipelineContext.Artifacts is IModuleScopedArtifactContext scopedArtifacts
-            ? scopedArtifacts.ForModule(ModuleType)
-            : pipelineContext.Artifacts;
     }
 
     #region IModuleHookContext members
@@ -122,7 +119,16 @@ internal class ModuleHookContext : IModuleHookContext
     public IToolsContext Tools => _pipelineContext.Tools;
 
     /// <inheritdoc />
-    public IArtifactContext Artifacts { get; }
+    public IArtifactContext Artifacts
+    {
+        get
+        {
+            var artifacts = _pipelineContext.Artifacts;
+            return artifacts is IModuleScopedArtifactContext scopedArtifacts
+                ? scopedArtifacts.ForModule(ModuleType)
+                : artifacts;
+        }
+    }
 
     /// <inheritdoc />
     public ISummaryLogger Summary => _pipelineContext.Summary;
