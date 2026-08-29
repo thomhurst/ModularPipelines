@@ -6,6 +6,7 @@ using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
+using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using Moq;
 
@@ -70,7 +71,9 @@ public class PipelineSetupExecutorTests
         var module = new TestModule();
         CountingAttribute.InstanceCount = 0;
 
-        await executor.OnModuleReadyAsync(new ModuleState(module, module.GetType()));
+        await executor.OnModuleReadyAsync(
+            new ModuleState(module, module.GetType()),
+            Mock.Of<IConsoleWriter>());
 
         await Assert.That(CountingAttribute.InstanceCount).IsEqualTo(0);
     }
@@ -93,7 +96,9 @@ public class PipelineSetupExecutorTests
             attributeEventService);
         var module = new TestModule();
 
-        await executor.OnModuleReadyAsync(new ModuleState(module, module.GetType()));
+        await executor.OnModuleReadyAsync(
+            new ModuleState(module, module.GetType()),
+            Mock.Of<IConsoleWriter>());
 
         await Assert.That(ReferenceEquals(
                 handlerAttributes,

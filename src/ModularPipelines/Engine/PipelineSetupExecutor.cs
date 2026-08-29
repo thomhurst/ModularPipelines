@@ -2,6 +2,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
@@ -50,13 +51,13 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
                 pipelineSummary);
     }
 
-    public Task OnModuleReadyAsync(ModuleState moduleState)
+    public Task OnModuleReadyAsync(ModuleState moduleState, IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeReadyHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState));
+                CreateModuleHookContext(moduleState, consoleWriter));
     }
 
     public Task OnModuleStartAsync(ModuleState moduleState)
@@ -103,7 +104,9 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         return _moduleContextProvider.GetModuleContext();
     }
 
-    private ModuleHookContext CreateModuleHookContext(ModuleState moduleState)
+    private ModuleHookContext CreateModuleHookContext(
+        ModuleState moduleState,
+        IConsoleWriter? consoleWriter = null)
     {
         var moduleType = moduleState.ModuleType;
         var moduleAttributes = _attributeEventService.GetAttributes(moduleType);
@@ -115,6 +118,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
             startTime,
             moduleState.Result,
             GetPipelineContext(),
-            _metadataRegistry);
+            _metadataRegistry,
+            consoleWriter);
     }
 }

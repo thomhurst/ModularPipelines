@@ -1,4 +1,5 @@
 using ModularPipelines.Models;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.Engine;
 
@@ -8,7 +9,7 @@ internal interface IPipelineSetupExecutor
 
     Task OnPipelineEndAsync(PipelineSummary pipelineSummary);
 
-    Task OnModuleReadyAsync(ModuleState moduleState);
+    Task OnModuleReadyAsync(ModuleState moduleState, IConsoleWriter consoleWriter);
 
     Task OnModuleStartAsync(ModuleState moduleState);
 

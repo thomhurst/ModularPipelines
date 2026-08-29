@@ -10,6 +10,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Reporting;
 using ModularPipelines.Secrets;
 using Spectre.Console;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines.Console;
 
@@ -157,6 +158,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 message,
                 ModuleOutputStream.StandardOutput,
                 appendNewLine: false),
+            allowAfterCompletion: true);
+    }
+
+    /// <inheritdoc />
+    public void WriteRenderable(IRenderable renderable, string plainText)
+    {
+        AddOutput(
+            BufferedOutput.FromRenderable(renderable, plainText),
             allowAfterCompletion: true);
     }
 
@@ -450,6 +459,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 return;
             }
 
+            if (output.IsRenderable)
+            {
+                _outputExcerptBuffer.Append(
+                    output.RenderablePlainText!,
+                    output.Stream,
+                    appendNewLine: true);
+                return;
+            }
+
             if (output.LogEvent is not { } logEvent)
             {
                 return;
@@ -690,6 +708,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                     output.StringValue,
                     output.AppendNewLine);
             }
+            else if (output.Renderable is { } renderable)
+            {
+                directConsole.Write(renderable);
+                directConsole.WriteLine();
+            }
             else if (output.LogEvent is { } logEvent)
             {
                 if (writeStructuredLogsDirectly)
@@ -885,6 +908,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return !string.IsNullOrEmpty(output.StringValue);
         }
 
+        if (output.IsRenderable)
+        {
+            return true;
+        }
+
         if (output.LogEvent is not { } logEvent)
         {
             return false;
@@ -984,9 +1012,24 @@ internal readonly struct BufferedOutput
     public IBufferedLogEvent? LogEvent { get; private init; }
 
     /// <summary>
+    /// Gets the rich renderable value, when present.
+    /// </summary>
+    public IRenderable? Renderable { get; private init; }
+
+    /// <summary>
+    /// Gets the plain-text representation retained for run reports.
+    /// </summary>
+    public string? RenderablePlainText { get; private init; }
+
+    /// <summary>
     /// Gets a value indicating whether this output contains a string.
     /// </summary>
     public bool IsString => StringValue != null;
+
+    /// <summary>
+    /// Gets a value indicating whether this output contains a rich renderable.
+    /// </summary>
+    public bool IsRenderable => Renderable != null;
 
     /// <summary>
     /// Gets a value indicating whether this string is a raw build-system command.
@@ -1020,6 +1063,18 @@ internal readonly struct BufferedOutput
         {
             StringValue = value,
             IsRawBuildSystemCommand = true,
+        };
+
+    /// <summary>
+    /// Creates buffered output from a rich renderable.
+    /// </summary>
+    public static BufferedOutput FromRenderable(IRenderable renderable, string plainText) =>
+        new()
+        {
+            Renderable = renderable,
+            RenderablePlainText = plainText,
+            Stream = ModuleOutputStream.StandardOutput,
+            AppendNewLine = true,
         };
 
     /// <summary>

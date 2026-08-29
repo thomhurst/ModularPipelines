@@ -268,21 +268,25 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     public override void WriteMarkupLine(string value)
     {
-        var obfuscated = _secretObfuscator.Obfuscate(value, null) ?? value;
-        _buffer.WriteLine(obfuscated);
+        WriteRenderable(new Markup(value));
     }
 
     public override void Write(IRenderable renderable)
     {
+        WriteRenderable(renderable);
+    }
+
+    private void WriteRenderable(IRenderable renderable)
+    {
+        var obfuscatedRenderable = new SecretObfuscatedRenderable(renderable, _secretObfuscator);
         string rendered;
         lock (_renderLock)
         {
             _renderWriter.GetStringBuilder().Clear();
-            _renderConsole.Write(renderable);
+            _renderConsole.Write(obfuscatedRenderable);
             rendered = _renderWriter.ToString();
         }
 
-        var obfuscated = _secretObfuscator.Obfuscate(rendered, null) ?? rendered;
-        _buffer.WriteLine(obfuscated);
+        _buffer.WriteRenderable(obfuscatedRenderable, rendered);
     }
 }

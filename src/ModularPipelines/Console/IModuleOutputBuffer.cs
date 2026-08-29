@@ -4,6 +4,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Reporting;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines.Console;
 
@@ -41,6 +42,11 @@ internal interface IModuleOutputBuffer
     /// Adds plain string output without a trailing line terminator.
     /// </summary>
     void Write(string message) => WriteLine(message);
+
+    /// <summary>
+    /// Adds a rich renderable and its plain-text report representation to the buffer.
+    /// </summary>
+    void WriteRenderable(IRenderable renderable, string plainText) => WriteLine(plainText);
 
     /// <summary>
     /// Adds a standard-error line to the buffer.

@@ -160,7 +160,12 @@ internal class ModuleRunner : IModuleRunner
 
                 if (moduleState.TryStartReadyEvents())
                 {
-                    await _pipelineSetupExecutor.OnModuleReadyAsync(moduleState).ConfigureAwait(false);
+                    var readyConsoleWriter = GetModuleLogger(scope.ServiceProvider, moduleType)
+                        as IConsoleWriter
+                        ?? scope.ServiceProvider.GetRequiredService<IPipelineContext>().Console;
+                    await _pipelineSetupExecutor
+                        .OnModuleReadyAsync(moduleState, readyConsoleWriter)
+                        .ConfigureAwait(false);
                     var readyLifecycleContext = CreateLifecycleContext(
                         moduleState,
                         scope.ServiceProvider.GetRequiredService<IPipelineContext>(),
