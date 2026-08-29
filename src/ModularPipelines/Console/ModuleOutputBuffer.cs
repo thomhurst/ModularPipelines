@@ -544,9 +544,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     {
         if (renderGate is null)
         {
-            renderedConsoleOutput = true;
             if (loggerControl is not NoopSpectreConsoleLoggerControl)
             {
+                renderedConsoleOutput = true;
                 console.WriteLine(
                     $"Timed out waiting for the console logger render gate for {_moduleName}; writing buffered output directly.");
             }

@@ -1173,6 +1173,44 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_NonConsoleIncrementalLogDoesNotCreateCompletionGroup()
+    {
+        var writer = new StringWriter();
+        var filterOptions = new LoggerFilterOptions();
+        var optionsMonitor = Mock.Of<IOptionsMonitor<LoggerFilterOptions>>(options =>
+            options.CurrentValue == filterOptions);
+        var loggerControl = new NoopSpectreConsoleLoggerControl(
+            NullLoggerFactory.Instance,
+            optionsMonitor);
+        var telemetryLogger = new RecordingLogger();
+        var buffer = CreateBufferWithStructuredLog(isSpectreEnabled: static _ => false);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            telemetryLogger,
+            loggerControl,
+            OutputFlushKind.Incremental,
+            [telemetryLogger]);
+        buffer.SetException(new InvalidOperationException("module failed"));
+        buffer.MarkComplete();
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            telemetryLogger,
+            loggerControl,
+            OutputFlushKind.Complete,
+            [telemetryLogger]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(telemetryLogger.Entries).HasSingleItem();
+            await Assert.That(writer.ToString()).DoesNotContain("::group::");
+            await Assert.That(writer.ToString()).DoesNotContain("module failed");
+        }
+    }
+
+    [Test]
     public async Task Flush_ExclusiveLoggerDisablesOutputGroup()
     {
         var writer = new StringWriter();
