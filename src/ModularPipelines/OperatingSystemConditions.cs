@@ -134,6 +134,29 @@ internal static class OperatingSystemConditions
     public static string GetCapability(IEnumerable<string> operatingSystems) =>
         CreateCapability(operatingSystems);
 
+    public static bool TryGetCapabilityRoute(
+        string capability,
+        [NotNullWhen(true)] out OperatingSystemRoute? route)
+    {
+        var operatingSystems = capability.StartsWith(
+            AlternativeCapabilityPrefix,
+            StringComparison.OrdinalIgnoreCase)
+            ? capability[AlternativeCapabilityPrefix.Length..].Split('|')
+            : [capability];
+        if (operatingSystems.Length == 0
+            || operatingSystems.Any(operatingSystem =>
+                !OperatingSystems.Contains(operatingSystem, StringComparer.OrdinalIgnoreCase)))
+        {
+            route = null;
+            return false;
+        }
+
+        route = new OperatingSystemRoute(
+            operatingSystems.ToHashSet(StringComparer.OrdinalIgnoreCase),
+            IsConditional: false);
+        return true;
+    }
+
     /// <summary>
     /// Returns the intersection of all required operating-system routes.
     /// </summary>

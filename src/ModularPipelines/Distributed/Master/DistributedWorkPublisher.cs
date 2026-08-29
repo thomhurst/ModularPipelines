@@ -53,39 +53,8 @@ internal class DistributedWorkPublisher(
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
         var conditionAttributes = moduleType.GetCustomAttributes(true).OfType<IConditionAttribute>().ToArray();
-        var operatingSystemRoutes = new List<OperatingSystemConditions.OperatingSystemRoute>();
-        foreach (var osCondition in conditionAttributes.Where(static attribute =>
-                     attribute is not IGroupedConditionAttribute))
-        {
-            if (_conditionRouting?.IsLocallySatisfied(module, osCondition.GetType()) == true)
-            {
-                continue;
-            }
-
-            if (OperatingSystemConditions.GetRoute(osCondition) is { } route
-                && !OperatingSystemConditions.HasWorkerOnlyAlternatives(osCondition))
-            {
-                operatingSystemRoutes.Add(route);
-            }
-        }
-
-        foreach (var alternatives in conditionAttributes
-                     .OfType<IGroupedConditionAttribute>()
-                     .GroupBy(static attribute => attribute.ConditionGroupType))
-        {
-            if (_conditionRouting?.IsLocallySatisfied(module, alternatives.Key) == true)
-            {
-                continue;
-            }
-
-            var alternativeArray = alternatives.ToArray();
-            if (OperatingSystemConditions.GetRoute(alternativeArray) is { } route
-                && !HasWorkerOnlyAlternatives(alternativeArray))
-            {
-                operatingSystemRoutes.Add(route);
-            }
-        }
-
+        var operatingSystemRoutes = GetOperatingSystemRoutes(module, conditionAttributes);
+        AddExplicitOperatingSystemRoutes(requiredCapabilities, operatingSystemRoutes);
         AddOperatingSystemCapabilities(requiredCapabilities, operatingSystemRoutes);
 
         var config = module.Configuration;
@@ -110,6 +79,60 @@ internal class DistributedWorkPublisher(
         };
     }
 
+    private List<OperatingSystemConditions.OperatingSystemRoute> GetOperatingSystemRoutes(
+        IModule module,
+        IReadOnlyList<IConditionAttribute> conditionAttributes)
+    {
+        var operatingSystemRoutes = new List<OperatingSystemConditions.OperatingSystemRoute>();
+        AddUngroupedOperatingSystemRoutes(module, conditionAttributes, operatingSystemRoutes);
+        AddGroupedOperatingSystemRoutes(module, conditionAttributes, operatingSystemRoutes);
+        return operatingSystemRoutes;
+    }
+
+    private void AddUngroupedOperatingSystemRoutes(
+        IModule module,
+        IEnumerable<IConditionAttribute> conditionAttributes,
+        ICollection<OperatingSystemConditions.OperatingSystemRoute> operatingSystemRoutes)
+    {
+        foreach (var osCondition in conditionAttributes.Where(static attribute =>
+                     attribute is not IGroupedConditionAttribute))
+        {
+            if (_conditionRouting?.IsLocallySatisfied(module, osCondition.GetType()) == true)
+            {
+                continue;
+            }
+
+            if (OperatingSystemConditions.GetRoute(osCondition) is { } route
+                && !OperatingSystemConditions.HasWorkerOnlyAlternatives(osCondition))
+            {
+                operatingSystemRoutes.Add(route);
+            }
+        }
+    }
+
+    private void AddGroupedOperatingSystemRoutes(
+        IModule module,
+        IEnumerable<IConditionAttribute> conditionAttributes,
+        ICollection<OperatingSystemConditions.OperatingSystemRoute> operatingSystemRoutes)
+    {
+        foreach (var alternatives in conditionAttributes
+                     .OfType<IGroupedConditionAttribute>()
+                     .GroupBy(static attribute => attribute.ConditionGroupType))
+        {
+            if (_conditionRouting?.IsLocallySatisfied(module, alternatives.Key) == true)
+            {
+                continue;
+            }
+
+            var alternativeArray = alternatives.ToArray();
+            if (OperatingSystemConditions.GetRoute(alternativeArray) is { } route
+                && !HasWorkerOnlyAlternatives(alternativeArray))
+            {
+                operatingSystemRoutes.Add(route);
+            }
+        }
+    }
+
     private static bool HasWorkerOnlyAlternatives(
         IEnumerable<IGroupedConditionAttribute> alternatives) => alternatives.Any(attribute =>
         OperatingSystemConditions.GetRoute(attribute) is null
@@ -120,6 +143,22 @@ internal class DistributedWorkPublisher(
         await _coordinator.EnqueueModuleAsync(assignment, cancellationToken);
     }
 
+    private static void AddExplicitOperatingSystemRoutes(
+        ISet<string> requiredCapabilities,
+        ICollection<OperatingSystemConditions.OperatingSystemRoute> routes)
+    {
+        foreach (var capability in requiredCapabilities.ToArray())
+        {
+            if (!OperatingSystemConditions.TryGetCapabilityRoute(capability, out var route))
+            {
+                continue;
+            }
+
+            requiredCapabilities.Remove(capability);
+            routes.Add(route);
+        }
+    }
+
     private static void AddOperatingSystemCapabilities(
         ISet<string> requiredCapabilities,
         IReadOnlyList<OperatingSystemConditions.OperatingSystemRoute> routes)
@@ -128,13 +167,8 @@ internal class DistributedWorkPublisher(
         var effectiveOperatingSystems = IntersectRoutes(strictRoutes);
         if (effectiveOperatingSystems is { Count: 0 })
         {
-            foreach (var route in strictRoutes)
-            {
-                requiredCapabilities.Add(
-                    OperatingSystemConditions.GetCapability(route.OperatingSystems));
-            }
-
-            return;
+            throw new InvalidOperationException(
+                "The module has incompatible operating-system requirements.");
         }
 
         effectiveOperatingSystems = ApplyConditionalRoutes(

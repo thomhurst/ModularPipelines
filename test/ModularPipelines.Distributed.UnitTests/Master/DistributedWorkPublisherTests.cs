@@ -114,6 +114,15 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
+    [RequiresCapability("linux")]
+    [RunIfAny<OnWindows, OnMacOS>]
+    private sealed class ConflictingExplicitOperatingSystemModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            Context.IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
     [RunIfAny<OnLinux, FalseCondition>]
     [RunIf<OnWindows>]
     private sealed class ConflictingMixedGenericAlternativeModule : Module<string>
@@ -328,6 +337,22 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(new MixedWorkerOnlyAlternativeModule());
 
         await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
+    }
+
+    [Test]
+    public async Task CreateAssignment_Rejects_Conflicting_Explicit_Operating_System()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(ConflictingExplicitOperatingSystemModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            publisher.CreateAssignment(new ConflictingExplicitOperatingSystemModule()));
+
+        await Assert.That(exception.Message).Contains("incompatible operating-system");
     }
 
     [Test]
