@@ -151,6 +151,8 @@ internal sealed class NonSpectreLoggerFactory(
             var currentOptions = GetOptions(provider).CurrentValue;
             var consoleFormatter = GetFormatter(provider, currentOptions);
             var writer = _writer ??= new StringWriter();
+            var builder = writer.GetStringBuilder();
+            builder.Clear();
             var logEntry = new LogEntry<TState>(
                 logLevel,
                 categoryName,
@@ -158,19 +160,24 @@ internal sealed class NonSpectreLoggerFactory(
                 state,
                 exception,
                 formatter);
-            consoleFormatter.Write(in logEntry, GetScopeProvider(provider), writer);
-
-            var builder = writer.GetStringBuilder();
-            if (builder.Length == 0)
+            string output;
+            try
             {
-                return;
+                consoleFormatter.Write(in logEntry, GetScopeProvider(provider), writer);
+                if (builder.Length == 0)
+                {
+                    return;
+                }
+
+                output = builder.ToString();
             }
-
-            var output = builder.ToString();
-            builder.Clear();
-            if (builder.Capacity > 1024)
+            finally
             {
-                builder.Capacity = 1024;
+                builder.Clear();
+                if (builder.Capacity > 1024)
+                {
+                    builder.Capacity = 1024;
+                }
             }
 
             var destination = logLevel >= currentOptions.LogToStandardErrorThreshold

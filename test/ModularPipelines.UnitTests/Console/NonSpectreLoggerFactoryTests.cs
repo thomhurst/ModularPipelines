@@ -232,6 +232,43 @@ public class NonSpectreLoggerFactoryTests
     }
 
     [Test]
+    public async Task CreateLoggers_ClearsFormatterBufferAfterFailure()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging(builder => builder
+            .ClearProviders()
+            .AddConsole(options => options.FormatterName = FailingOnceConsoleFormatter.FormatterName)
+            .AddConsoleFormatter<FailingOnceConsoleFormatter, ConsoleFormatterOptions>());
+        await using var serviceProvider = services.BuildServiceProvider();
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        var filterOptions = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
+        var control = new NoopSpectreConsoleLoggerControl(loggerFactory, filterOptions);
+        var logger = new NonSpectreLoggerFactory(loggerFactory, control, filterOptions)
+            .CreateLoggers("Category")
+            .Single();
+        var originalOut = System.Console.Out;
+        var outputWriter = new StringWriter();
+
+        try
+        {
+#pragma warning disable TUnit0055 // Globally non-parallel test restores the writer in finally.
+            System.Console.SetOut(outputWriter);
+#pragma warning restore TUnit0055
+
+            _ = Assert.Throws<InvalidOperationException>(() => logger.LogInformation("first"));
+            logger.LogInformation("second");
+
+            await Assert.That(outputWriter.ToString()).IsEqualTo("clean");
+        }
+        finally
+        {
+#pragma warning disable TUnit0055 // Restore the process-wide writer before leaving the test.
+            System.Console.SetOut(originalOut);
+#pragma warning restore TUnit0055
+        }
+    }
+
+    [Test]
     public async Task CreateLoggers_UsesOptionsFromProviderAddedAfterConstruction()
     {
         var targetServices = new ServiceCollection();
@@ -342,6 +379,28 @@ public class NonSpectreLoggerFactoryTests
         loggerFactory,
         control,
         CreateOptionsMonitor(options ?? new LoggerFilterOptions()));
+
+    private sealed class FailingOnceConsoleFormatter()
+        : ConsoleFormatter(FormatterName)
+    {
+        public const string FormatterName = "failing-once";
+
+        private int _callCount;
+
+        public override void Write<TState>(
+            in LogEntry<TState> logEntry,
+            IExternalScopeProvider? scopeProvider,
+            TextWriter textWriter)
+        {
+            if (Interlocked.Increment(ref _callCount) == 1)
+            {
+                textWriter.Write("stale");
+                throw new InvalidOperationException("formatter failed");
+            }
+
+            textWriter.Write("clean");
+        }
+    }
 
     [ProviderAlias("Recording")]
     private sealed class RecordingLoggerProvider : ILoggerProvider
