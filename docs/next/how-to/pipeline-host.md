@@ -395,24 +395,24 @@ builder
 await builder.RunAsync();
 ```
 
-## Hooks and Requirements[​](#hooks-and-requirements "Direct link to Hooks and Requirements")
+## Event Handlers and Requirements[​](#event-handlers-and-requirements "Direct link to Event Handlers and Requirements")
 
-Register global hooks and pipeline requirements:
+Register event handlers and pipeline requirements:
 
 ```
 var builder = Pipeline.CreateBuilder(args);
 
 
 
-// Global hooks (run before/after all modules)
+// Pipeline event handlers (run before/after all modules)
 
-builder.AddPipelineGlobalHooks<MyGlobalHooks>();
+builder.AddPipelineEventHandler<MyPipelineEventHandler>();
 
 
 
-// Module event receivers (observe every module)
+// Module event handlers (observe every module)
 
-builder.AddModuleEventReceiver<MyModuleEventReceiver>();
+builder.AddModuleEventHandler<MyModuleEventHandler>();
 
 
 

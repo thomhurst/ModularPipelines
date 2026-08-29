@@ -3,8 +3,8 @@
 Module lifecycle behavior has three extension points:
 
 1. Override the virtual lifecycle methods on `Module<T>` for behavior owned by one module.
-2. Implement the attribute interfaces in `ModularPipelines.Attributes.Events` for reusable, opt-in behavior attached to selected modules.
-3. Implement `IModuleEventReceiver` for behavior that observes every module in a pipeline.
+2. Implement the attribute interfaces in `ModularPipelines.Events` for reusable, opt-in behavior attached to selected modules.
+3. Implement `IModuleEventHandler` for behavior that observes every module in a pipeline.
 
 `ModuleConfiguration` controls execution policy only; it does not contain lifecycle hooks.
 
@@ -152,14 +152,16 @@ public class BuildModule : Module<string>
 }
 ```
 
-Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`, `IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`. Handlers can implement `IEventHandlerPriority`; lower values run first.
+Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`, `IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`. All handlers inherit `IEventHandler`. Set `Priority` to control order (lower values run first), or `ContinueOnError` to log a handler failure and continue.
 
-## Global module event receivers[​](#global-module-event-receivers "Direct link to Global module event receivers")
+Registration attributes implement `IModuleRegistrationHandler`. Also implement `IPlanningSafeModuleRegistrationHandler` only for deterministic, idempotent handlers without external side effects; those handlers may run while exporting a resolved dependency graph.
 
-Implement `IModuleEventReceiver` to observe every module, then register it once:
+## Global module event handlers[​](#global-module-event-handlers "Direct link to Global module event handlers")
+
+Implement `IModuleEventHandler` to observe every module, then register it once:
 
 ```
-public sealed class ModuleMetricsReceiver : IModuleEventReceiver
+public sealed class ModuleMetricsHandler : IModuleEventHandler
 
 {
 
@@ -175,7 +177,7 @@ public sealed class ModuleMetricsReceiver : IModuleEventReceiver
 
 
 
-    public Task OnModuleEndAsync(IModuleHookContext context)
+    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
 
     {
 
@@ -195,10 +197,10 @@ public sealed class ModuleMetricsReceiver : IModuleEventReceiver
 
 
 
-builder.AddModuleEventReceiver<ModuleMetricsReceiver>();
+builder.AddModuleEventHandler<ModuleMetricsHandler>();
 ```
 
-All registered global receivers are invoked concurrently for each event. Attribute handlers run sequentially in priority order.
+Global and attribute handlers use the same callback signatures and shared error/priority properties. Global handlers run sequentially in priority order for each event.
 
 ## Lifecycle ordering[​](#lifecycle-ordering "Direct link to Lifecycle ordering")
 
@@ -227,14 +229,14 @@ For a skipped module, the completion portion is:
 2. Attribute `IModuleSkippedHandler`
 3. Global `OnModuleSkippedAsync`
 
-If `OnBeforeExecuteAsync` throws, `ExecuteAsync` and `OnAfterExecuteAsync` do not run; `OnFailedAsync` and the failure event receivers are still notified. Exceptions from `OnAfterExecuteAsync`, `OnFailedAsync`, and `OnSkippedAsync` are logged without replacing the module outcome.
+If `OnBeforeExecuteAsync` throws, `ExecuteAsync` and `OnAfterExecuteAsync` do not run; `OnFailedAsync` and the failure event handlers are still notified. Exceptions from `OnAfterExecuteAsync`, `OnFailedAsync`, and `OnSkippedAsync` are logged without replacing the module outcome.
 
-## Pipeline hooks[​](#pipeline-hooks "Direct link to Pipeline hooks")
+## Pipeline event handlers[​](#pipeline-event-handlers "Direct link to Pipeline event handlers")
 
-`IPipelineGlobalHooks` observes the pipeline as a whole rather than individual modules:
+`IPipelineEventHandler` observes the pipeline as a whole rather than individual modules:
 
 ```
-public sealed class PipelineLoggingHooks : IPipelineGlobalHooks
+public sealed class PipelineLoggingHandler : IPipelineEventHandler
 
 {
 
@@ -268,5 +270,7 @@ public sealed class PipelineLoggingHooks : IPipelineGlobalHooks
 
 
 
-builder.AddPipelineGlobalHooks<PipelineLoggingHooks>();
+builder.AddPipelineEventHandler<PipelineLoggingHandler>();
 ```
+
+Pipeline handlers also inherit `IEventHandler` and run in priority order.

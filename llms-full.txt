@@ -1254,22 +1254,22 @@ Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error`
 
 # Module execution lifecycle
 
-A module combines execution policy, module-owned virtual hooks, opt-in attribute handlers, and global event receivers.
+A module combines execution policy, module-owned virtual hooks, opt-in attribute handlers, and global event handlers.
 
 ## Execution phases[​](#execution-phases "Direct link to Execution phases")
 
 For a module that runs successfully, the phases are:
 
 1. Dependencies become ready.
-2. Global `IModuleEventReceiver.OnModuleReadyAsync` receivers run concurrently.
+2. Global `IModuleEventHandler.OnModuleReadyAsync` handlers run sequentially by priority.
 3. Attribute `IModuleReadyHandler` handlers run sequentially by priority.
-4. Global `IModuleEventReceiver.OnModuleStartAsync` receivers run concurrently.
+4. Global `IModuleEventHandler.OnModuleStartAsync` handlers run sequentially by priority.
 5. Attribute `IModuleStartHandler` handlers run sequentially by priority.
 6. The module skip condition is evaluated.
 7. `Module<T>.OnBeforeExecuteAsync` runs once.
 8. `Module<T>.ExecuteAsync` runs through timeout handling and the configured resilience shield, which may compose retries with other resilience strategies.
 9. `Module<T>.OnAfterExecuteAsync` runs once.
-10. Global `IModuleEventReceiver.OnModuleEndAsync` receivers run concurrently.
+10. Global `IModuleEventHandler.OnModuleEndAsync` handlers run sequentially by priority.
 11. Attribute `IModuleEndHandler` handlers run sequentially by priority.
 12. The module result is published and dependants become eligible.
 
@@ -1281,7 +1281,7 @@ The skip condition is evaluated before the module-owned before hook. If it retur
 
 1. `Module<T>.OnSkippedAsync`
 2. Attribute `IModuleSkippedHandler`
-3. Global `IModuleEventReceiver.OnModuleSkippedAsync`
+3. Global `IModuleEventHandler.OnModuleSkippedAsync`
 
 `OnBeforeExecuteAsync`, `ExecuteAsync`, and `OnAfterExecuteAsync` do not run.
 
@@ -1292,20 +1292,19 @@ When module execution throws:
 1. `Module<T>.OnFailedAsync`
 2. `Module<T>.OnAfterExecuteAsync`, with a failed `ModuleResult<T>`
 3. Attribute `IModuleFailureHandler`
-4. Global `IModuleEventReceiver.OnModuleFailureAsync`
+4. Global `IModuleEventHandler.OnModuleFailureAsync`
 
 Retry attempts complete before this failure sequence. If the configured failure condition ignores the failure, the resulting module status reflects that policy.
 
 ## Hook failures[​](#hook-failures "Direct link to Hook failures")
 
-* An exception from `OnBeforeExecuteAsync` prevents module execution. `OnFailedAsync` and the failure event receivers are notified, but `OnAfterExecuteAsync` does not run.
+* An exception from `OnBeforeExecuteAsync` prevents module execution. `OnFailedAsync` and the failure event handlers are notified, but `OnAfterExecuteAsync` does not run.
 * Exceptions from `OnFailedAsync`, `OnSkippedAsync`, and `OnAfterExecuteAsync` are logged and do not replace the module outcome.
-* Attribute handlers propagate by default. Set their `ContinueOnError` property to continue after a handler failure.
-* Exceptions from global event receivers propagate from the lifecycle event.
+* Attribute and global handlers all run in ascending `Priority` order within their registration family, even after a handler fails. `ContinueOnError` controls failure propagation: `false` rethrows one recorded failure or aggregates multiple failures after dispatch; `true` suppresses that handler's failure.
 
 ## Choosing an extension point[​](#choosing-an-extension-point "Direct link to Choosing an extension point")
 
-Use module virtual hooks when behavior is part of one module. Use attribute handlers when behavior should be explicitly attached to selected module types. Use `IModuleEventReceiver` when one service must observe every module in the pipeline.
+Use module virtual hooks when behavior is part of one module. Use attribute handlers when behavior should be explicitly attached to selected module types. Use `IModuleEventHandler` when one service must observe every module in the pipeline.
 
 See [Hooks](/ModularPipelines/docs/next/how-to/hooks.md) for implementation examples.
 
@@ -5455,8 +5454,8 @@ The option is disabled by default to avoid scanning and loading every matching a
 Module lifecycle behavior has three extension points:
 
 1. Override the virtual lifecycle methods on `Module<T>` for behavior owned by one module.
-2. Implement the attribute interfaces in `ModularPipelines.Attributes.Events` for reusable, opt-in behavior attached to selected modules.
-3. Implement `IModuleEventReceiver` for behavior that observes every module in a pipeline.
+2. Implement the attribute interfaces in `ModularPipelines.Events` for reusable, opt-in behavior attached to selected modules.
+3. Implement `IModuleEventHandler` for behavior that observes every module in a pipeline.
 
 `ModuleConfiguration` controls execution policy only; it does not contain lifecycle hooks.
 
@@ -5604,14 +5603,16 @@ public class BuildModule : Module<string>
 }
 ```
 
-Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`, `IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`. Handlers can implement `IEventHandlerPriority`; lower values run first.
+Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`, `IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`. All handlers inherit `IEventHandler`. Set `Priority` to control order (lower values run first), or `ContinueOnError` to log a handler failure and continue.
 
-## Global module event receivers[​](#global-module-event-receivers "Direct link to Global module event receivers")
+Registration attributes implement `IModuleRegistrationHandler`. Also implement `IPlanningSafeModuleRegistrationHandler` only for deterministic, idempotent handlers without external side effects; those handlers may run while exporting a resolved dependency graph.
 
-Implement `IModuleEventReceiver` to observe every module, then register it once:
+## Global module event handlers[​](#global-module-event-handlers "Direct link to Global module event handlers")
+
+Implement `IModuleEventHandler` to observe every module, then register it once:
 
 ```
-public sealed class ModuleMetricsReceiver : IModuleEventReceiver
+public sealed class ModuleMetricsHandler : IModuleEventHandler
 
 {
 
@@ -5627,7 +5628,7 @@ public sealed class ModuleMetricsReceiver : IModuleEventReceiver
 
 
 
-    public Task OnModuleEndAsync(IModuleHookContext context)
+    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
 
     {
 
@@ -5647,10 +5648,10 @@ public sealed class ModuleMetricsReceiver : IModuleEventReceiver
 
 
 
-builder.AddModuleEventReceiver<ModuleMetricsReceiver>();
+builder.AddModuleEventHandler<ModuleMetricsHandler>();
 ```
 
-All registered global receivers are invoked concurrently for each event. Attribute handlers run sequentially in priority order.
+Global and attribute handlers use the same callback signatures and shared error/priority properties. Global handlers run sequentially in priority order for each event.
 
 ## Lifecycle ordering[​](#lifecycle-ordering "Direct link to Lifecycle ordering")
 
@@ -5679,14 +5680,14 @@ For a skipped module, the completion portion is:
 2. Attribute `IModuleSkippedHandler`
 3. Global `OnModuleSkippedAsync`
 
-If `OnBeforeExecuteAsync` throws, `ExecuteAsync` and `OnAfterExecuteAsync` do not run; `OnFailedAsync` and the failure event receivers are still notified. Exceptions from `OnAfterExecuteAsync`, `OnFailedAsync`, and `OnSkippedAsync` are logged without replacing the module outcome.
+If `OnBeforeExecuteAsync` throws, `ExecuteAsync` and `OnAfterExecuteAsync` do not run; `OnFailedAsync` and the failure event handlers are still notified. Exceptions from `OnAfterExecuteAsync`, `OnFailedAsync`, and `OnSkippedAsync` are logged without replacing the module outcome.
 
-## Pipeline hooks[​](#pipeline-hooks "Direct link to Pipeline hooks")
+## Pipeline event handlers[​](#pipeline-event-handlers "Direct link to Pipeline event handlers")
 
-`IPipelineGlobalHooks` observes the pipeline as a whole rather than individual modules:
+`IPipelineEventHandler` observes the pipeline as a whole rather than individual modules:
 
 ```
-public sealed class PipelineLoggingHooks : IPipelineGlobalHooks
+public sealed class PipelineLoggingHandler : IPipelineEventHandler
 
 {
 
@@ -5720,8 +5721,10 @@ public sealed class PipelineLoggingHooks : IPipelineGlobalHooks
 
 
 
-builder.AddPipelineGlobalHooks<PipelineLoggingHooks>();
+builder.AddPipelineEventHandler<PipelineLoggingHandler>();
 ```
+
+Pipeline handlers also inherit `IEventHandler` and run in priority order.
 
 
 ---
@@ -7009,24 +7012,24 @@ builder
 await builder.RunAsync();
 ```
 
-## Hooks and Requirements[​](#hooks-and-requirements "Direct link to Hooks and Requirements")
+## Event Handlers and Requirements[​](#event-handlers-and-requirements "Direct link to Event Handlers and Requirements")
 
-Register global hooks and pipeline requirements:
+Register event handlers and pipeline requirements:
 
 ```
 var builder = Pipeline.CreateBuilder(args);
 
 
 
-// Global hooks (run before/after all modules)
+// Pipeline event handlers (run before/after all modules)
 
-builder.AddPipelineGlobalHooks<MyGlobalHooks>();
+builder.AddPipelineEventHandler<MyPipelineEventHandler>();
 
 
 
-// Module event receivers (observe every module)
+// Module event handlers (observe every module)
 
-builder.AddModuleEventReceiver<MyModuleEventReceiver>();
+builder.AddModuleEventHandler<MyModuleEventHandler>();
 
 
 
