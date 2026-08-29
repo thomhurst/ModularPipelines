@@ -46,7 +46,6 @@ ModularPipelines.SonarScanner.Options.SonarScannerOptions
 ModularPipelines.SonarScanner.Options.SonarScannerOptions.SonarScannerOptions() -> void
 ModularPipelines.SonarScanner.Options.SonarScannerOptions.SonarScannerOptions(ModularPipelines.SonarScanner.Options.SonarScannerOptions! original) -> void
 ModularPipelines.SonarScanner.Services.ISonarScanner
-ModularPipelines.SonarScanner.Services.ISonarScanner.ExecuteAsync(ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override abstract ModularPipelines.SonarScanner.Options.SonarScannerOptions.<Clone>$() -> ModularPipelines.SonarScanner.Options.SonarScannerOptions!
 override ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions.<Clone>$() -> ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions!
 override ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions.EqualityContract.get -> System.Type!
@@ -63,7 +62,6 @@ override sealed ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions
 override sealed ModularPipelines.SonarScanner.Options.SonarScannerOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_SonarScanner_91e771f1898f8c69ToolsExtensions.get_SonarScanner(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.SonarScanner.Services.ISonarScanner!
 static ModularPipelines.SonarScanner.Extensions.SonarScannerExtensions.RegisterSonarScannerContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
-static ModularPipelines.SonarScanner.Extensions.SonarScannerExtensions.SonarScanner(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.SonarScanner.Services.ISonarScanner!
 static ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions.operator !=(ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions? left, ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions? right) -> bool
 static ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions.operator ==(ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions? left, ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions? right) -> bool
 static ModularPipelines.SonarScanner.Options.SonarScannerOptions.operator !=(ModularPipelines.SonarScanner.Options.SonarScannerOptions? left, ModularPipelines.SonarScanner.Options.SonarScannerOptions? right) -> bool

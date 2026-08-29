@@ -1,1 +1,3 @@
 #nullable enable
+*REMOVED*static ModularPipelines.Slack.Extensions.SlackExtensions.Slack(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Slack.ISlack!
+static ModularPipelines.Slack.Extensions.SlackExtensions.Slack(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Slack.ISlack!

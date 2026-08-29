@@ -1,1 +1,3 @@
 #nullable enable
+*REMOVED*static ModularPipelines.AmazonWebServices.Extensions.AwsExtensions.Aws(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.AmazonWebServices.Services.IAws!
+static ModularPipelines.AmazonWebServices.Extensions.AwsExtensions.Aws(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.AmazonWebServices.Services.IAws!

@@ -261,9 +261,7 @@ ModularPipelines.Java.Options.MavenOptions
 ModularPipelines.Java.Options.MavenOptions.MavenOptions() -> void
 ModularPipelines.Java.Options.MavenOptions.MavenOptions(ModularPipelines.Java.Options.MavenOptions! original) -> void
 ModularPipelines.Java.Services.IGradle
-ModularPipelines.Java.Services.IGradle.ExecuteAsync(ModularPipelines.Java.Options.GradleExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Java.Services.IMaven
-ModularPipelines.Java.Services.IMaven.ExecuteAsync(ModularPipelines.Java.Options.MavenExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override abstract ModularPipelines.Java.Options.GradleOptions.<Clone>$() -> ModularPipelines.Java.Options.GradleOptions!
 override abstract ModularPipelines.Java.Options.MavenOptions.<Clone>$() -> ModularPipelines.Java.Options.MavenOptions!
 override ModularPipelines.Java.Options.GradleExecuteOptions.<Clone>$() -> ModularPipelines.Java.Options.GradleExecuteOptions!
@@ -294,9 +292,7 @@ override sealed ModularPipelines.Java.Options.MavenExecuteOptions.Equals(Modular
 override sealed ModularPipelines.Java.Options.MavenOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.get_Gradle(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Java.Services.IGradle!
 static ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.get_Maven(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Java.Services.IMaven!
-static ModularPipelines.Java.Extensions.GradleExtensions.Gradle(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Java.Services.IGradle!
 static ModularPipelines.Java.Extensions.GradleExtensions.RegisterGradleContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
-static ModularPipelines.Java.Extensions.MavenExtensions.Maven(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Java.Services.IMaven!
 static ModularPipelines.Java.Extensions.MavenExtensions.RegisterMavenContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Java.Options.GradleExecuteOptions.operator !=(ModularPipelines.Java.Options.GradleExecuteOptions? left, ModularPipelines.Java.Options.GradleExecuteOptions? right) -> bool
 static ModularPipelines.Java.Options.GradleExecuteOptions.operator ==(ModularPipelines.Java.Options.GradleExecuteOptions? left, ModularPipelines.Java.Options.GradleExecuteOptions? right) -> bool

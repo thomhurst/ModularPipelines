@@ -135,7 +135,6 @@ override ModularPipelines.AmazonWebServices.Options.AwsOptions.GetHashCode() -> 
 override ModularPipelines.AmazonWebServices.Options.AwsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.AmazonWebServices.Options.AwsOptions.ToString() -> string!
 override sealed ModularPipelines.AmazonWebServices.Options.AwsOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
-static ModularPipelines.AmazonWebServices.Extensions.AwsExtensions.Aws(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.AmazonWebServices.Services.IAws!
 static ModularPipelines.AmazonWebServices.Extensions.AwsExtensions.RegisterAwsContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.AmazonWebServices.Options.AwsOptions.operator !=(ModularPipelines.AmazonWebServices.Options.AwsOptions? left, ModularPipelines.AmazonWebServices.Options.AwsOptions? right) -> bool
 static ModularPipelines.AmazonWebServices.Options.AwsOptions.operator ==(ModularPipelines.AmazonWebServices.Options.AwsOptions? left, ModularPipelines.AmazonWebServices.Options.AwsOptions? right) -> bool

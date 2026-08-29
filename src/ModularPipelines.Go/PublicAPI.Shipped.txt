@@ -22,11 +22,6 @@ ModularPipelines.Go.Options.GoVetOptions
 ModularPipelines.Go.Options.GoVetOptions.GoVetOptions() -> void
 ModularPipelines.Go.Options.GoVetOptions.GoVetOptions(ModularPipelines.Go.Options.GoVetOptions! original) -> void
 ModularPipelines.Go.Services.IGo
-ModularPipelines.Go.Services.IGo.BuildAsync(ModularPipelines.Go.Options.GoBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Go.Services.IGo.FixAsync(ModularPipelines.Go.Options.GoFixOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Go.Services.IGo.GenerateAsync(ModularPipelines.Go.Options.GoGenerateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Go.Services.IGo.TestAsync(ModularPipelines.Go.Options.GoTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Go.Services.IGo.VetAsync(ModularPipelines.Go.Options.GoVetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override ModularPipelines.Go.Options.GoBuildOptions.<Clone>$() -> ModularPipelines.Go.Options.GoBuildOptions!
 override ModularPipelines.Go.Options.GoBuildOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Go.Options.GoBuildOptions.Equals(object? obj) -> bool
@@ -70,7 +65,6 @@ override sealed ModularPipelines.Go.Options.GoOptions.Equals(ModularPipelines.Op
 override sealed ModularPipelines.Go.Options.GoTestOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoVetOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Go_c3047d1100b9e364ToolsExtensions.get_Go(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Go.Services.IGo!
-static ModularPipelines.Go.Extensions.GoExtensions.Go(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Go.Services.IGo!
 static ModularPipelines.Go.Extensions.GoExtensions.RegisterGoContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Go.Options.GoBuildOptions.operator !=(ModularPipelines.Go.Options.GoBuildOptions? left, ModularPipelines.Go.Options.GoBuildOptions? right) -> bool
 static ModularPipelines.Go.Options.GoBuildOptions.operator ==(ModularPipelines.Go.Options.GoBuildOptions? left, ModularPipelines.Go.Options.GoBuildOptions? right) -> bool

@@ -1,1 +1,3 @@
 #nullable enable
+*REMOVED*static ModularPipelines.Email.Extensions.EmailExtensions.Email(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Email.IEmail!
+static ModularPipelines.Email.Extensions.EmailExtensions.Email(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Email.IEmail!

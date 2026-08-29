@@ -69,7 +69,6 @@ ModularPipelines.Shellcheck.Options.ShellcheckOptions
 ModularPipelines.Shellcheck.Options.ShellcheckOptions.ShellcheckOptions() -> void
 ModularPipelines.Shellcheck.Options.ShellcheckOptions.ShellcheckOptions(ModularPipelines.Shellcheck.Options.ShellcheckOptions! original) -> void
 ModularPipelines.Shellcheck.Services.IShellcheck
-ModularPipelines.Shellcheck.Services.IShellcheck.ExecuteAsync(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override abstract ModularPipelines.Shellcheck.Options.ShellcheckOptions.<Clone>$() -> ModularPipelines.Shellcheck.Options.ShellcheckOptions!
 override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.<Clone>$() -> ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions!
 override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.EqualityContract.get -> System.Type!
@@ -86,7 +85,6 @@ override sealed ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Equ
 override sealed ModularPipelines.Shellcheck.Options.ShellcheckOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Shellcheck_74437ba6b640cfd0ToolsExtensions.get_Shellcheck(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Shellcheck.Services.IShellcheck!
 static ModularPipelines.Shellcheck.Extensions.ShellcheckExtensions.RegisterShellcheckContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
-static ModularPipelines.Shellcheck.Extensions.ShellcheckExtensions.Shellcheck(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Shellcheck.Services.IShellcheck!
 static ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.operator !=(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? left, ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? right) -> bool
 static ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.operator ==(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? left, ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? right) -> bool
 static ModularPipelines.Shellcheck.Options.ShellcheckOptions.operator !=(ModularPipelines.Shellcheck.Options.ShellcheckOptions? left, ModularPipelines.Shellcheck.Options.ShellcheckOptions? right) -> bool

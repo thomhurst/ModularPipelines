@@ -1,1 +1,3 @@
 #nullable enable
+*REMOVED*static ModularPipelines.Ftp.Extensions.FtpExtensions.Ftp(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Ftp.IFtp!
+static ModularPipelines.Ftp.Extensions.FtpExtensions.Ftp(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Ftp.IFtp!

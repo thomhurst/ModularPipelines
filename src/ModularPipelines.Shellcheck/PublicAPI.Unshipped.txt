@@ -1,1 +1,5 @@
 #nullable enable
+*REMOVED*ModularPipelines.Shellcheck.Services.IShellcheck.ExecuteAsync(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*static ModularPipelines.Shellcheck.Extensions.ShellcheckExtensions.Shellcheck(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Shellcheck.Services.IShellcheck!
+ModularPipelines.Shellcheck.Services.IShellcheck.ExecuteAsync(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+static ModularPipelines.Shellcheck.Extensions.ShellcheckExtensions.Shellcheck(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Shellcheck.Services.IShellcheck!

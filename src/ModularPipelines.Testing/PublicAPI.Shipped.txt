@@ -28,8 +28,6 @@ ModularPipelines.Testing.InMemoryFileSystemProvider.WriteAllLinesAsync(string! p
 ModularPipelines.Testing.InMemoryFileSystemProvider.WriteAllTextAsync(string! path, string! contents, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>
 ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.ExecuteAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Testing.ModuleTestRun<TResult>!>!
-ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, ModularPipelines.Models.CommandResult!>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
-ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.Models.CommandResult!>>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
 ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.ModuleTestBuilder() -> void
 ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.WithArtifact<TProducer>(string! artifactName, byte[]! contents) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
 ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.WithArtifact<TProducer>(string! artifactName, string! contents) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
@@ -37,8 +35,6 @@ ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.WithDependencyResul
 ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.WithService<TService>(TService! service) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
 ModularPipelines.Testing.ModuleTestBuilder<TModule>
 ModularPipelines.Testing.ModuleTestBuilder<TModule>.ExecuteAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Testing.ModuleTestRun!>!
-ModularPipelines.Testing.ModuleTestBuilder<TModule>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, ModularPipelines.Models.CommandResult!>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
-ModularPipelines.Testing.ModuleTestBuilder<TModule>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.Models.CommandResult!>>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
 ModularPipelines.Testing.ModuleTestBuilder<TModule>.ModuleTestBuilder() -> void
 ModularPipelines.Testing.ModuleTestBuilder<TModule>.WithArtifact<TProducer>(string! artifactName, byte[]! contents) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
 ModularPipelines.Testing.ModuleTestBuilder<TModule>.WithArtifact<TProducer>(string! artifactName, string! contents) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
@@ -50,20 +46,15 @@ ModularPipelines.Testing.ModuleTestRun.Commands.get -> System.Collections.Generi
 ModularPipelines.Testing.ModuleTestRun.Exception.get -> System.Exception?
 ModularPipelines.Testing.ModuleTestRun.FileSystem.get -> ModularPipelines.FileSystem.IFileSystemProvider!
 ModularPipelines.Testing.ModuleTestRun.Result.get -> ModularPipelines.Models.IModuleResult!
-ModularPipelines.Testing.ModuleTestRun.SkipDecision.get -> ModularPipelines.Models.SkipDecision?
 ModularPipelines.Testing.ModuleTestRun.Value.get -> object?
 ModularPipelines.Testing.ModuleTestRun<T>
-ModularPipelines.Testing.ModuleTestRun<T>.Result.get -> ModularPipelines.Models.ModuleResult<T>!
 ModularPipelines.Testing.ModuleTestRun<T>.Value.get -> T?
 ModularPipelines.Testing.RecordedCommand
 ModularPipelines.Testing.RecordedCommand.<Clone>$() -> ModularPipelines.Testing.RecordedCommand!
 ModularPipelines.Testing.RecordedCommand.CommandLine.get -> ModularPipelines.Models.CommandLine!
-ModularPipelines.Testing.RecordedCommand.Deconstruct(out ModularPipelines.Context.Domains.Shell.CommandInvocation! Invocation, out ModularPipelines.Models.CommandResult! Result) -> void
 ModularPipelines.Testing.RecordedCommand.Equals(ModularPipelines.Testing.RecordedCommand? other) -> bool
 ModularPipelines.Testing.RecordedCommand.Invocation.get -> ModularPipelines.Context.Domains.Shell.CommandInvocation!
 ModularPipelines.Testing.RecordedCommand.Invocation.init -> void
-ModularPipelines.Testing.RecordedCommand.RecordedCommand(ModularPipelines.Context.Domains.Shell.CommandInvocation! Invocation, ModularPipelines.Models.CommandResult! Result) -> void
-ModularPipelines.Testing.RecordedCommand.Result.get -> ModularPipelines.Models.CommandResult!
 ModularPipelines.Testing.RecordedCommand.Result.init -> void
 override ModularPipelines.Testing.RecordedCommand.Equals(object? obj) -> bool
 override ModularPipelines.Testing.RecordedCommand.GetHashCode() -> int

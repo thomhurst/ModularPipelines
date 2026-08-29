@@ -209,8 +209,6 @@ ModularPipelines.Yq.Options.YqOptions
 ModularPipelines.Yq.Options.YqOptions.YqOptions() -> void
 ModularPipelines.Yq.Options.YqOptions.YqOptions(ModularPipelines.Yq.Options.YqOptions! original) -> void
 ModularPipelines.Yq.Services.IYq
-ModularPipelines.Yq.Services.IYq.EvalAllAsync(ModularPipelines.Yq.Options.YqEvalAllOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Yq.Services.IYq.EvalAsync(ModularPipelines.Yq.Options.YqEvalOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override ModularPipelines.Yq.Options.YqEvalAllOptions.<Clone>$() -> ModularPipelines.Yq.Options.YqEvalAllOptions!
 override ModularPipelines.Yq.Options.YqEvalAllOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Yq.Options.YqEvalAllOptions.Equals(object? obj) -> bool
@@ -234,7 +232,6 @@ override sealed ModularPipelines.Yq.Options.YqEvalOptions.Equals(ModularPipeline
 override sealed ModularPipelines.Yq.Options.YqOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Yq_c2fd971100b3f0e4ToolsExtensions.get_Yq(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Yq.Services.IYq!
 static ModularPipelines.Yq.Extensions.YqExtensions.RegisterYqContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
-static ModularPipelines.Yq.Extensions.YqExtensions.Yq(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Yq.Services.IYq!
 static ModularPipelines.Yq.Options.YqEvalAllOptions.operator !=(ModularPipelines.Yq.Options.YqEvalAllOptions? left, ModularPipelines.Yq.Options.YqEvalAllOptions? right) -> bool
 static ModularPipelines.Yq.Options.YqEvalAllOptions.operator ==(ModularPipelines.Yq.Options.YqEvalAllOptions? left, ModularPipelines.Yq.Options.YqEvalAllOptions? right) -> bool
 static ModularPipelines.Yq.Options.YqEvalOptions.operator !=(ModularPipelines.Yq.Options.YqEvalOptions? left, ModularPipelines.Yq.Options.YqEvalOptions? right) -> bool

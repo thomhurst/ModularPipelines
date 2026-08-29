@@ -76,7 +76,6 @@ ModularPipelines.Jq.Options.JqOptions
 ModularPipelines.Jq.Options.JqOptions.JqOptions() -> void
 ModularPipelines.Jq.Options.JqOptions.JqOptions(ModularPipelines.Jq.Options.JqOptions! original) -> void
 ModularPipelines.Jq.Services.IJq
-ModularPipelines.Jq.Services.IJq.ExecuteAsync(ModularPipelines.Jq.Options.JqExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override abstract ModularPipelines.Jq.Options.JqOptions.<Clone>$() -> ModularPipelines.Jq.Options.JqOptions!
 override ModularPipelines.Jq.Options.JqExecuteOptions.<Clone>$() -> ModularPipelines.Jq.Options.JqExecuteOptions!
 override ModularPipelines.Jq.Options.JqExecuteOptions.EqualityContract.get -> System.Type!
@@ -92,7 +91,6 @@ override ModularPipelines.Jq.Options.JqOptions.ToString() -> string!
 override sealed ModularPipelines.Jq.Options.JqExecuteOptions.Equals(ModularPipelines.Jq.Options.JqOptions? other) -> bool
 override sealed ModularPipelines.Jq.Options.JqOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Jq_c32a871100dac39fToolsExtensions.get_Jq(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Jq.Services.IJq!
-static ModularPipelines.Jq.Extensions.JqExtensions.Jq(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Jq.Services.IJq!
 static ModularPipelines.Jq.Extensions.JqExtensions.RegisterJqContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Jq.Options.JqExecuteOptions.operator !=(ModularPipelines.Jq.Options.JqExecuteOptions? left, ModularPipelines.Jq.Options.JqExecuteOptions? right) -> bool
 static ModularPipelines.Jq.Options.JqExecuteOptions.operator ==(ModularPipelines.Jq.Options.JqExecuteOptions? left, ModularPipelines.Jq.Options.JqExecuteOptions? right) -> bool

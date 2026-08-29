@@ -1,1 +1,3 @@
 #nullable enable
+*REMOVED*static ModularPipelines.TeamCity.Extensions.TeamCityExtensions.TeamCity(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.TeamCity.ITeamCity!
+static ModularPipelines.TeamCity.Extensions.TeamCityExtensions.TeamCity(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.TeamCity.ITeamCity!

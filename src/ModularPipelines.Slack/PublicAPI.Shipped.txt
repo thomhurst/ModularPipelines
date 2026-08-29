@@ -18,7 +18,6 @@ override ModularPipelines.Slack.Options.SlackWebHookOptions.GetHashCode() -> int
 override ModularPipelines.Slack.Options.SlackWebHookOptions.ToString() -> string!
 static ModularPipelines.Context.ModularPipelines_Slack_8cde01b015edb97eToolsExtensions.get_Slack(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Slack.ISlack!
 static ModularPipelines.Slack.Extensions.SlackExtensions.RegisterSlackContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
-static ModularPipelines.Slack.Extensions.SlackExtensions.Slack(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Slack.ISlack!
 static ModularPipelines.Slack.Options.SlackWebHookOptions.operator !=(ModularPipelines.Slack.Options.SlackWebHookOptions? left, ModularPipelines.Slack.Options.SlackWebHookOptions? right) -> bool
 static ModularPipelines.Slack.Options.SlackWebHookOptions.operator ==(ModularPipelines.Slack.Options.SlackWebHookOptions? left, ModularPipelines.Slack.Options.SlackWebHookOptions? right) -> bool
 virtual ModularPipelines.Slack.Options.SlackWebHookOptions.<Clone>$() -> ModularPipelines.Slack.Options.SlackWebHookOptions!

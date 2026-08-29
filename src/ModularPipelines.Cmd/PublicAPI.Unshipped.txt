@@ -1,4 +1,9 @@
 #nullable enable
+*REMOVED*static ModularPipelines.Cmd.Extensions.CmdExtensions.Cmd(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Cmd.ICmd!
+ModularPipelines.Cmd.ICmd.RunAsync(ModularPipelines.Cmd.Models.CmdScriptOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Cmd.ICmd.RunAsync(string! script, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Cmd.ICmd.RunFileAsync(string! path, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+static ModularPipelines.Cmd.Extensions.CmdExtensions.Cmd(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Cmd.ICmd!
 ModularPipelines.Cmd.ICmdContext
 ModularPipelines.Cmd.ICmdContext.RunAsync(ModularPipelines.Options.CmdScriptOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Cmd.ICmdContext.RunAsync(string! script, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
