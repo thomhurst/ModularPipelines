@@ -12,6 +12,8 @@ internal sealed class SecretObfuscatedRenderable(
     IRenderable inner,
     ISecretObfuscator secretObfuscator) : IRenderable
 {
+    private readonly IRenderable _inner = PrepareCompositeLayout(inner, secretObfuscator);
+
     public Measurement Measure(RenderOptions options, int maxWidth) =>
         MeasureSegments(GetSegments(options, maxWidth), maxWidth);
 
@@ -23,7 +25,7 @@ internal sealed class SecretObfuscatedRenderable(
 
     private Segment[] GetSegments(RenderOptions options, int maxWidth)
     {
-        var segments = inner.Render(options, maxWidth).ToArray();
+        var segments = _inner.Render(options, maxWidth).ToArray();
         var visibleText = string.Concat(
             segments.Where(static segment => !segment.IsControlCode).Select(static segment => segment.Text));
 
@@ -37,10 +39,7 @@ internal sealed class SecretObfuscatedRenderable(
             var preserveMasks = concreteObfuscator.CanSafelyPreserveRegisteredMasks();
             return MapSegments(
                 segments,
-                concreteObfuscator.ObfuscateWithSourceMap(
-                    visibleText,
-                    preserveMasks,
-                    FitMaskToSourceWidth));
+                concreteObfuscator.ObfuscateWithSourceMap(visibleText, preserveMasks));
         }
 
         return MapFallbackSegments(
@@ -128,28 +127,58 @@ internal sealed class SecretObfuscatedRenderable(
             : outputOffset;
     }
 
-    private static string FitMaskToSourceWidth(string source, string mask)
+    private static IRenderable PrepareCompositeLayout(
+        IRenderable renderable,
+        ISecretObfuscator secretObfuscator)
     {
-        var targetWidth = new Segment(source).CellCount();
-        if (targetWidth == 0)
+        if (renderable is not Table table)
         {
-            return string.Empty;
+            return renderable;
         }
 
-        var maskUnit = string.IsNullOrEmpty(mask) || new Segment(mask).CellCount() == 0
-            ? "*"
-            : mask;
-        var maskWidth = new Segment(maskUnit).CellCount();
-        var repeatedMask = string.Concat(Enumerable.Repeat(
-            maskUnit,
-            (targetWidth / maskWidth) + 2));
-        var fittedMask = Segment.Truncate(new Segment(repeatedMask), targetWidth)?.Text
-                         ?? string.Empty;
-        var paddingWidth = targetWidth - new Segment(fittedMask).CellCount();
-        return paddingWidth == 0
-            ? fittedMask
-            : fittedMask + new string('*', paddingWidth);
+        var preparedTable = new Table
+        {
+            Border = table.Border,
+            BorderStyle = table.BorderStyle,
+            Caption = ObfuscateTitle(table.Caption, secretObfuscator),
+            Expand = table.Expand,
+            ShowFooters = table.ShowFooters,
+            ShowHeaders = table.ShowHeaders,
+            ShowRowSeparators = table.ShowRowSeparators,
+            Title = ObfuscateTitle(table.Title, secretObfuscator),
+            UseSafeBorder = table.UseSafeBorder,
+            Width = table.Width,
+        };
+
+        foreach (var column in table.Columns)
+        {
+            preparedTable.AddColumn(new TableColumn(
+                new SecretObfuscatedRenderable(column.Header, secretObfuscator))
+            {
+                Alignment = column.Alignment,
+                Footer = column.Footer is null
+                    ? null
+                    : new SecretObfuscatedRenderable(column.Footer, secretObfuscator),
+                NoWrap = column.NoWrap,
+                Padding = column.Padding,
+                Width = column.Width,
+            });
+        }
+
+        foreach (var row in table.Rows)
+        {
+            preparedTable.Rows.Add(row.Select(
+                cell => new SecretObfuscatedRenderable(cell, secretObfuscator)));
+        }
+
+        return preparedTable;
     }
+
+    private static TableTitle? ObfuscateTitle(
+        TableTitle? title,
+        ISecretObfuscator secretObfuscator) => title is null
+        ? null
+        : new TableTitle(secretObfuscator.Obfuscate(title.Text, null), title.Style);
 
     private Segment[] ObfuscateLinks(Segment[] segments) =>
         [.. segments.Select(segment => segment.IsControlCode || segment.Link is null

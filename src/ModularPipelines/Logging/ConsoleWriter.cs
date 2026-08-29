@@ -58,7 +58,6 @@ internal class ConsoleWriter : IConsoleWriter
         }
 
         AnsiConsole.Write(new SecretObfuscatedRenderable(renderable, _secretObfuscator));
-        AnsiConsole.WriteLine();
     }
 
     private static bool TryGetModuleConsoleWriter(

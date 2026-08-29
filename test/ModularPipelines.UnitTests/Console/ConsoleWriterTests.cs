@@ -326,7 +326,7 @@ public class ConsoleWriterTests
     }
 
     [Test]
-    public async Task Write_PreservesRenderableWidthWhileObfuscating()
+    public async Task Write_UsesConfiguredMaskWidthWhileObfuscating()
     {
         var renderable = new SecretObfuscatedRenderable(
             new Text("tiny"),
@@ -336,7 +336,7 @@ public class ConsoleWriterTests
             RenderOptions.Create(AnsiConsole.Console),
             80);
 
-        await Assert.That(measurement.Max).IsEqualTo(4);
+        await Assert.That(measurement.Max).IsEqualTo(10);
     }
 
     [Test]
@@ -357,10 +357,50 @@ public class ConsoleWriterTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(output).Contains("****");
+            await Assert.That(output).Contains("**********");
             await Assert.That(output).DoesNotContain("tiny");
             await Assert.That(lineWidths).Count().IsEqualTo(1);
         }
+    }
+
+    [Test]
+    public async Task Write_CustomObfuscatorPreservesCompositeLayout()
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => input!.Replace("tiny", "[REDACTED]"));
+        var table = new Table()
+            .AddColumn("Value")
+            .AddRow("tiny");
+
+        var output = CaptureFallbackOutput(
+            writer => writer.Write(table),
+            secretObfuscator.Object);
+        var lineWidths = output
+            .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
+            .Select(line => new Segment(line).CellCount())
+            .Distinct()
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("[REDACTED]");
+            await Assert.That(output).DoesNotContain("tiny");
+            await Assert.That(lineWidths).Count().IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Write_DoesNotAppendLineBreak()
+    {
+        var output = CaptureFallbackOutput(writer =>
+        {
+            writer.Write(new Text("prefix"));
+            writer.Write(new Text("suffix"));
+        });
+
+        await Assert.That(output).IsEqualTo("prefixsuffix");
     }
 
     [Test]
