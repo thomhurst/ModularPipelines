@@ -168,19 +168,19 @@ internal sealed class SecretObfuscatedRenderable(
     private static IRenderable PrepareCompositeLayout(
         IRenderable renderable,
         ISecretObfuscator secretObfuscator) => renderable switch
-    {
-        Align align => PrepareAlign(align, secretObfuscator),
-        Columns columns => PrepareColumns(columns, secretObfuscator),
-        Grid grid => PrepareGrid(grid, secretObfuscator),
-        Layout layout => PrepareLayout(layout, secretObfuscator),
-        Padder padder => PreparePadder(padder, secretObfuscator),
-        Panel panel => PreparePanel(panel, secretObfuscator),
-        Rule rule => PrepareRule(rule, secretObfuscator),
-        Rows rows => PrepareRows(rows, secretObfuscator),
-        Table table => PrepareTable(table, secretObfuscator),
-        Tree tree => PrepareTree(tree, secretObfuscator),
-        _ => renderable,
-    };
+        {
+            Align align => PrepareAlign(align, secretObfuscator),
+            Columns columns => PrepareColumns(columns, secretObfuscator),
+            Grid grid => PrepareGrid(grid, secretObfuscator),
+            Layout layout => PrepareLayout(layout, secretObfuscator),
+            Padder padder => PreparePadder(padder, secretObfuscator),
+            Panel panel => PreparePanel(panel, secretObfuscator),
+            Rule rule => PrepareRule(rule, secretObfuscator),
+            Rows rows => PrepareRows(rows, secretObfuscator),
+            Table table => PrepareTable(table, secretObfuscator),
+            Tree tree => PrepareTree(tree, secretObfuscator),
+            _ => renderable,
+        };
 
     private static Align PrepareAlign(Align align, ISecretObfuscator secretObfuscator) =>
         new(new SecretObfuscatedRenderable(GetAlignChild(align), secretObfuscator),
@@ -196,10 +196,10 @@ internal sealed class SecretObfuscatedRenderable(
         ISecretObfuscator secretObfuscator) => new(
         GetColumnItems(columns).Select(
             item => new SecretObfuscatedRenderable(item, secretObfuscator)))
-    {
-        Expand = columns.Expand,
-        Padding = columns.Padding,
-    };
+        {
+            Expand = columns.Expand,
+            Padding = columns.Padding,
+        };
 
     private static Grid PrepareGrid(Grid grid, ISecretObfuscator secretObfuscator)
     {
@@ -234,22 +234,25 @@ internal sealed class SecretObfuscatedRenderable(
         ISecretObfuscator secretObfuscator) => new(
         new SecretObfuscatedRenderable(GetPadderChild(padder), secretObfuscator),
         padder.Padding)
-    {
-        Expand = padder.Expand,
-    };
+        {
+            Expand = padder.Expand,
+        };
 
     private static Layout PrepareLayout(
         Layout layout,
         ISecretObfuscator secretObfuscator)
     {
-        var preparedLayout = new Layout(
-            layout.Name,
-            new SecretObfuscatedRenderable(GetLayoutRenderable(layout), secretObfuscator))
+        var preparedLayout = new Layout(layout.Name)
         {
             IsVisible = layout.IsVisible,
             Ratio = layout.Ratio,
             Size = layout.Size,
         };
+        if (GetLayoutRenderable(layout) is { } renderable)
+        {
+            preparedLayout.Update(new SecretObfuscatedRenderable(renderable, secretObfuscator));
+        }
+
         if (layout.MinimumSize > 0)
         {
             preparedLayout.MinimumSize = layout.MinimumSize;
@@ -277,16 +280,16 @@ internal sealed class SecretObfuscatedRenderable(
         Panel panel,
         ISecretObfuscator secretObfuscator) => new(
         new SecretObfuscatedRenderable(GetPanelChild(panel), secretObfuscator))
-    {
-        Border = panel.Border,
-        BorderStyle = panel.BorderStyle,
-        Expand = panel.Expand,
-        Header = ObfuscateHeader(panel.Header, secretObfuscator),
-        Height = panel.Height,
-        Padding = panel.Padding,
-        UseSafeBorder = panel.UseSafeBorder,
-        Width = panel.Width,
-    };
+        {
+            Border = panel.Border,
+            BorderStyle = panel.BorderStyle,
+            Expand = panel.Expand,
+            Header = ObfuscateHeader(panel.Header, secretObfuscator),
+            Height = panel.Height,
+            Padding = panel.Padding,
+            UseSafeBorder = panel.UseSafeBorder,
+            Width = panel.Width,
+        };
 
     private static Rows PrepareRows(Rows rows, ISecretObfuscator secretObfuscator) => new(
         GetRowChildren(rows).Select(
@@ -423,7 +426,7 @@ internal sealed class SecretObfuscatedRenderable(
     private static extern ref readonly Layout[] GetLayoutChildren(Layout layout);
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_renderable")]
-    private static extern ref readonly IRenderable GetLayoutRenderable(Layout layout);
+    private static extern ref readonly IRenderable? GetLayoutRenderable(Layout layout);
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_children")]
     private static extern ref readonly List<IRenderable> GetRowChildren(Rows rows);

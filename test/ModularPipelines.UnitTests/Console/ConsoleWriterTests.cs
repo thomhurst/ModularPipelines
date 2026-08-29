@@ -575,6 +575,32 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_PreservesEmptyLayoutRegions()
+    {
+        var layout = new Layout("root")
+            .SplitColumns(
+                new Layout("left", new Text("tiny")).Size(10),
+                new Layout("spacer").Size(10));
+        var renderable = new SecretObfuscatedRenderable(
+            layout,
+            CreateSecretObfuscator("tiny"));
+
+        var lines = Segment.SplitLines(renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                20))
+            .Select(static line => string.Concat(line.Select(segment => segment.Text)))
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(lines).Count().IsEqualTo(24);
+            await Assert.That(lines[0]).StartsWith("**********");
+            await Assert.That(lines.All(line => new Segment(line).CellCount() == 20))
+                .IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Write_EscapesConfiguredMaskInTableTitle()
     {
         var obfuscator = CreateSecretObfuscator("secret", "[REDACTED]");
