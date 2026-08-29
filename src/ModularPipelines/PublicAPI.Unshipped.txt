@@ -211,6 +211,44 @@ ModularPipelines.Enums.ModuleStatus.Skipped = 5 -> ModularPipelines.Enums.Module
 ModularPipelines.Enums.ModuleStatus.Succeeded = 2 -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Enums.ModuleStatus.TimedOut = 6 -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Enums.ModuleStatus.Unknown = 11 -> ModularPipelines.Enums.ModuleStatus
+ModularPipelines.Events.IEventHandler
+ModularPipelines.Events.IEventHandler.ContinueOnError.get -> bool
+ModularPipelines.Events.IEventHandler.Priority.get -> int
+ModularPipelines.Events.IModuleEndHandler
+ModularPipelines.Events.IModuleEndHandler.OnModuleEndAsync(ModularPipelines.Context.IModuleHookContext! context, ModularPipelines.Models.IModuleResult! result) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IModuleEventHandler
+ModularPipelines.Events.IModuleFailureHandler
+ModularPipelines.Events.IModuleFailureHandler.OnModuleFailureAsync(ModularPipelines.Context.IModuleHookContext! context, System.Exception! exception) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IModuleReadyHandler
+ModularPipelines.Events.IModuleReadyHandler.OnModuleReadyAsync(ModularPipelines.Context.IModuleHookContext! context) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IModuleRegistrationContext
+ModularPipelines.Events.IModuleRegistrationContext.AddDependency(System.Type! moduleType) -> void
+ModularPipelines.Events.IModuleRegistrationContext.AddDependency<TModule>() -> void
+ModularPipelines.Events.IModuleRegistrationContext.AddDependencyOnAll(System.Func<System.Type!, bool>! predicate) -> void
+ModularPipelines.Events.IModuleRegistrationContext.AddDependencyOnAll<TBase>() -> void
+ModularPipelines.Events.IModuleRegistrationContext.Configuration.get -> Microsoft.Extensions.Configuration.IConfiguration!
+ModularPipelines.Events.IModuleRegistrationContext.Environment.get -> Microsoft.Extensions.Hosting.IHostEnvironment!
+ModularPipelines.Events.IModuleRegistrationContext.GetMetadata<T>(string! key) -> T?
+ModularPipelines.Events.IModuleRegistrationContext.GetModulesAssignableTo<TBase>() -> System.Collections.Generic.IEnumerable<System.Type!>!
+ModularPipelines.Events.IModuleRegistrationContext.GetModulesWithAttribute<TAttribute>() -> System.Collections.Generic.IEnumerable<System.Type!>!
+ModularPipelines.Events.IModuleRegistrationContext.IsModuleRegistered(System.Type! moduleType) -> bool
+ModularPipelines.Events.IModuleRegistrationContext.IsModuleRegistered<TModule>() -> bool
+ModularPipelines.Events.IModuleRegistrationContext.ModuleAttributes.get -> System.Collections.Generic.IReadOnlyList<System.Attribute!>!
+ModularPipelines.Events.IModuleRegistrationContext.ModuleType.get -> System.Type!
+ModularPipelines.Events.IModuleRegistrationContext.RegisteredModuleTypes.get -> System.Collections.Generic.IReadOnlyList<System.Type!>!
+ModularPipelines.Events.IModuleRegistrationContext.RemoveDependency<TModule>() -> void
+ModularPipelines.Events.IModuleRegistrationContext.Services.get -> Microsoft.Extensions.DependencyInjection.IServiceCollection?
+ModularPipelines.Events.IModuleRegistrationContext.SetMetadata(string! key, object! value) -> void
+ModularPipelines.Events.IModuleRegistrationHandler
+ModularPipelines.Events.IModuleRegistrationHandler.OnRegistrationAsync(ModularPipelines.Events.IModuleRegistrationContext! context) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IModuleSkippedHandler
+ModularPipelines.Events.IModuleSkippedHandler.OnModuleSkippedAsync(ModularPipelines.Context.IModuleHookContext! context, ModularPipelines.Models.SkipDecision! reason) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IModuleStartHandler
+ModularPipelines.Events.IModuleStartHandler.OnModuleStartAsync(ModularPipelines.Context.IModuleHookContext! context) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IPipelineEventHandler
+ModularPipelines.Events.IPipelineEventHandler.OnPipelineEndAsync(ModularPipelines.Context.IPipelineContext! context, ModularPipelines.Models.PipelineSummary! pipelineSummary) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IPipelineEventHandler.OnPipelineStartAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IPlanningSafeModuleRegistrationHandler
 ModularPipelines.Exceptions.DependencyFailedException.FailingModuleType.get -> System.Type!
 ModularPipelines.Exceptions.ModuleSelfDependencyException
 ModularPipelines.Exceptions.ModuleSelfDependencyException.ModuleSelfDependencyException(string? message) -> void
@@ -612,6 +650,8 @@ static ModularPipelines.Options.PowerShellScriptOptions.operator !=(ModularPipel
 static ModularPipelines.Options.PowerShellScriptOptions.operator ==(ModularPipelines.Options.PowerShellScriptOptions? left, ModularPipelines.Options.PowerShellScriptOptions? right) -> bool
 static ModularPipelines.Pipeline.CreateBuilder(ModularPipelines.PipelineBuilderSettings! settings, string! sourceFilePath = "") -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Pipeline.CreateBuilder(string![]? args = null, string! sourceFilePath = "") -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.PipelineBuilderExtensions.AddModuleEventHandler<THandler>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.PipelineBuilderExtensions.AddPipelineEventHandler<THandler>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.AddValidator<TValidator>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderSettings.operator !=(ModularPipelines.PipelineBuilderSettings? left, ModularPipelines.PipelineBuilderSettings? right) -> bool
 static ModularPipelines.PipelineBuilderSettings.operator ==(ModularPipelines.PipelineBuilderSettings? left, ModularPipelines.PipelineBuilderSettings? right) -> bool
