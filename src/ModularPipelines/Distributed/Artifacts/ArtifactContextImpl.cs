@@ -41,10 +41,21 @@ internal class ArtifactContextImpl : IArtifactContext
             ModuleTypeName: GetCurrentModuleTypeName(),
             ContentType: "application/zip");
 
-        using var ms = new MemoryStream();
-        ZipFile.CreateFromDirectory(directoryPath, ms, _options.CompressionLevel, includeBaseDirectory: false);
-        ms.Position = 0;
-        return await _store.UploadAsync(descriptor, ms, cancellationToken);
+        var temporaryArchivePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.zip");
+        try
+        {
+            ZipFile.CreateFromDirectory(
+                directoryPath,
+                temporaryArchivePath,
+                _options.CompressionLevel,
+                includeBaseDirectory: false);
+            await using var stream = File.OpenRead(temporaryArchivePath);
+            return await _store.UploadAsync(descriptor, stream, cancellationToken);
+        }
+        finally
+        {
+            File.Delete(temporaryArchivePath);
+        }
     }
 
     public async Task<string> DownloadAsync(string producerModuleTypeName, string artifactName, string destinationPath, CancellationToken cancellationToken)
@@ -65,7 +76,12 @@ internal class ArtifactContextImpl : IArtifactContext
             return destinationPath;
         }
 
-        Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+        var destinationDirectory = Path.GetDirectoryName(destinationPath);
+        if (!string.IsNullOrEmpty(destinationDirectory))
+        {
+            Directory.CreateDirectory(destinationDirectory);
+        }
+
         await using var fileStream = File.Create(destinationPath);
         await stream.CopyToAsync(fileStream, cancellationToken);
         return destinationPath;
