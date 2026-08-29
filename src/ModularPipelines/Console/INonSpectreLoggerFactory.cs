@@ -39,7 +39,7 @@ internal sealed class NonSpectreLoggerFactory(
 
         lock (_providerLoggersLock)
         {
-            var currentProviders = GetCurrentProviders(loggerFactory);
+            var currentProviders = LoggerFactoryProviderAccessor.GetCurrentProviders(loggerFactory);
             if (_providerLoggers.TryGetValue(categoryName, out var snapshot)
                 && ProvidersMatch(snapshot.Providers, currentProviders))
             {
@@ -58,27 +58,6 @@ internal sealed class NonSpectreLoggerFactory(
         providers
             .Select(provider => CreateProviderLogger(provider, categoryName))
             .ToArray();
-
-    [DynamicDependency(
-        DynamicallyAccessedMemberTypes.NonPublicFields,
-        typeof(LoggerFactory))]
-    [DynamicDependency(
-        DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields,
-        "Microsoft.Extensions.Logging.LoggerFactory+ProviderRegistration",
-        "Microsoft.Extensions.Logging")]
-    private static ILoggerProvider[] GetCurrentProviders(ILoggerFactory loggerFactory)
-    {
-        var sync = LoggerFactoryFields.Sync.GetValue(loggerFactory)!;
-        lock (sync)
-        {
-            var registrations = (IEnumerable) LoggerFactoryFields.ProviderRegistrations
-                .GetValue(loggerFactory)!;
-            return registrations.Cast<object>()
-                .Select(registration => (ILoggerProvider) LoggerFactoryFields.Provider
-                    .GetValue(registration)!)
-                .ToArray();
-        }
-    }
 
     private static bool ProvidersMatch(
         IReadOnlyList<ILoggerProvider> left,
@@ -264,6 +243,30 @@ internal sealed class NonSpectreLoggerFactory(
     private sealed record ProviderLoggerSnapshot(
         ILoggerProvider[] Providers,
         IReadOnlyList<ILogger> Loggers);
+}
+
+internal static class LoggerFactoryProviderAccessor
+{
+    [DynamicDependency(
+        DynamicallyAccessedMemberTypes.NonPublicFields,
+        typeof(LoggerFactory))]
+    [DynamicDependency(
+        DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields,
+        "Microsoft.Extensions.Logging.LoggerFactory+ProviderRegistration",
+        "Microsoft.Extensions.Logging")]
+    public static ILoggerProvider[] GetCurrentProviders(ILoggerFactory loggerFactory)
+    {
+        var sync = LoggerFactoryFields.Sync.GetValue(loggerFactory)!;
+        lock (sync)
+        {
+            var registrations = (IEnumerable) LoggerFactoryFields.ProviderRegistrations
+                .GetValue(loggerFactory)!;
+            return registrations.Cast<object>()
+                .Select(registration => (ILoggerProvider) LoggerFactoryFields.Provider
+                    .GetValue(registration)!)
+                .ToArray();
+        }
+    }
 
     private static class LoggerFactoryFields
     {

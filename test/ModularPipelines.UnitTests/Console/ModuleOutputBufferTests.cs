@@ -1149,8 +1149,7 @@ public class ModuleOutputBufferTests
             options.CurrentValue == filterOptions);
         var loggerControl = new NoopSpectreConsoleLoggerControl(
             NullLoggerFactory.Instance,
-            optionsMonitor,
-            []);
+            optionsMonitor);
         var fallbackLogger = new SynchronousConsoleRecordingLogger(writer);
         var buffer = CreateBufferWithStructuredLog();
 

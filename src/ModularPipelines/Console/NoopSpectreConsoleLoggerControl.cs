@@ -7,16 +7,14 @@ namespace ModularPipelines.Console;
 
 internal sealed class NoopSpectreConsoleLoggerControl(
     ILoggerFactory loggerFactory,
-    IOptionsMonitor<LoggerFilterOptions> filterOptions,
-    IEnumerable<ILoggerProvider> loggerProviders)
+    IOptionsMonitor<LoggerFilterOptions> filterOptions)
     : ISpectreConsoleLoggerControl
 {
-    private readonly bool _hasConsoleProvider = loggerFactory.GetType() == typeof(LoggerFactory)
-        && loggerProviders.Any(static provider => provider is ConsoleLoggerProvider);
-
     public object SynchronizationLock { get; } = new();
 
-    internal bool HasConsoleProvider => _hasConsoleProvider;
+    internal bool HasConsoleProvider => loggerFactory.GetType() == typeof(LoggerFactory)
+        && LoggerFactoryProviderAccessor.GetCurrentProviders(loggerFactory)
+            .Any(static provider => provider is ConsoleLoggerProvider);
 
     public Task FlushAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
 
@@ -34,7 +32,7 @@ internal sealed class NoopSpectreConsoleLoggerControl(
         ValueTask.FromResult<IDisposable?>(null);
 
     public bool WouldRender(string categoryName, LogLevel logLevel) =>
-        _hasConsoleProvider
+        HasConsoleProvider
         && LoggerFilterRuleEvaluator.IsEnabled(
             filterOptions.CurrentValue,
             typeof(ConsoleLoggerProvider),

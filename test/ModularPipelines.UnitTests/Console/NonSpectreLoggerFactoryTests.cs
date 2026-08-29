@@ -117,8 +117,7 @@ public class NonSpectreLoggerFactoryTests
         var options = new LoggerFilterOptions { MinLevel = LogLevel.Error };
         var control = new NoopSpectreConsoleLoggerControl(
             NullLoggerFactory.Instance,
-            CreateOptionsMonitor(options),
-            [provider]);
+            CreateOptionsMonitor(options));
 
         using (Assert.Multiple())
         {
@@ -145,8 +144,7 @@ public class NonSpectreLoggerFactoryTests
         var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
         var control = new NoopSpectreConsoleLoggerControl(
             loggerFactory,
-            serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>(),
-            serviceProvider.GetServices<ILoggerProvider>());
+            serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>());
 
         using (Assert.Multiple())
         {
@@ -154,6 +152,31 @@ public class NonSpectreLoggerFactoryTests
             await Assert.That(control.WouldRender("Category", LogLevel.Information)).IsFalse();
             await Assert.That(control.WouldRender("Category", LogLevel.Warning)).IsTrue();
         }
+    }
+
+    [Test]
+    public async Task NoopControlDetectsConsoleProviderAddedAfterConstruction()
+    {
+        var targetServices = new ServiceCollection();
+        targetServices.AddLogging(builder => builder.ClearProviders());
+        await using var targetServiceProvider = targetServices.BuildServiceProvider();
+        var loggerFactory = targetServiceProvider.GetRequiredService<ILoggerFactory>();
+        var control = new NoopSpectreConsoleLoggerControl(
+            loggerFactory,
+            targetServiceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>());
+
+        var consoleServices = new ServiceCollection();
+        consoleServices.AddLogging(builder => builder.ClearProviders().AddConsole());
+        await using var consoleServiceProvider = consoleServices.BuildServiceProvider();
+        var consoleProvider = consoleServiceProvider.GetServices<ILoggerProvider>()
+            .OfType<ConsoleLoggerProvider>()
+            .Single();
+
+        await Assert.That(control.WouldRender("Category", LogLevel.Information)).IsFalse();
+
+        loggerFactory.AddProvider(consoleProvider);
+
+        await Assert.That(control.WouldRender("Category", LogLevel.Information)).IsTrue();
     }
 
     [Test]
@@ -169,11 +192,9 @@ public class NonSpectreLoggerFactoryTests
         var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
         var filterOptions = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
         var consoleOptions = serviceProvider.GetRequiredService<IOptionsMonitor<ConsoleLoggerOptions>>();
-        var providers = serviceProvider.GetServices<ILoggerProvider>().ToArray();
         var control = new NoopSpectreConsoleLoggerControl(
             loggerFactory,
-            filterOptions,
-            providers);
+            filterOptions);
         var factory = new NonSpectreLoggerFactory(
             loggerFactory,
             control,
@@ -222,11 +243,9 @@ public class NonSpectreLoggerFactoryTests
         await using var serviceProvider = services.BuildServiceProvider();
         var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
         var filterOptions = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
-        var providers = serviceProvider.GetServices<ILoggerProvider>().ToArray();
         var control = new NoopSpectreConsoleLoggerControl(
             loggerFactory,
-            filterOptions,
-            providers);
+            filterOptions);
         var factory = new NonSpectreLoggerFactory(
             loggerFactory,
             control,
