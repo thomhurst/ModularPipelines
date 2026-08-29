@@ -40,6 +40,7 @@ public class LifecycleEventIntegrationTests : TestBase
         public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception)
         {
             EventLog.Add($"Failed:{context.ModuleName}:{exception.Message}");
+            EventLog.Add($"FailedResult:{context.Result?.Status}");
             return Task.CompletedTask;
         }
     }
@@ -143,6 +144,7 @@ public class LifecycleEventIntegrationTests : TestBase
 
         await Assert.That(EventLog).Contains("Start:FailingModule");
         await Assert.That(EventLog.Any(e => e.StartsWith("Failed:FailingModule:"))).IsTrue();
+        await Assert.That(EventLog).Contains("FailedResult:Failed");
     }
 
     [Test]

@@ -61,12 +61,47 @@ public class EventHandlerInvokerTests
     {
         var handler = new FailingHandler();
         var handlers = new List<IModuleStartHandler> { handler };
+        var logger = new Mock<ILogger<EventHandlerInvoker>>();
+        var invoker = new EventHandlerInvoker(logger.Object);
+        var context = Mock.Of<IModuleHookContext>();
+
+        await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context))
+            .ThrowsException()
+            .WithMessage("Test exception");
+        logger.Verify(x => x.Log(
+            LogLevel.Error,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) =>
+                state.ToString()!.Contains("Start handler FailingHandler failed", StringComparison.Ordinal)),
+            It.IsAny<InvalidOperationException>(),
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+    }
+
+    [Test]
+    public async Task InvokeAsync_HandlerThrows_ContinueOnErrorFalse_StillCallsRemainingHandlers()
+    {
+        var successHandler = new SuccessfulHandler();
+        var handlers = new List<IModuleStartHandler> { new FailingHandler(), successHandler };
         var invoker = new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>());
         var context = Mock.Of<IModuleHookContext>();
 
         await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context))
             .ThrowsException()
             .WithMessage("Test exception");
+        await Assert.That(successHandler.WasCalled).IsTrue();
+    }
+
+    [Test]
+    public async Task InvokeAsync_MultipleHandlersThrow_AggregatesFailures()
+    {
+        var handlers = new List<IModuleStartHandler> { new FailingHandler(), new FailingHandler() };
+        var invoker = new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>());
+        var context = Mock.Of<IModuleHookContext>();
+
+        var exception = await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context))
+            .Throws<AggregateException>();
+
+        await Assert.That(exception!.InnerExceptions).Count().IsEqualTo(2);
     }
 
     [Test]

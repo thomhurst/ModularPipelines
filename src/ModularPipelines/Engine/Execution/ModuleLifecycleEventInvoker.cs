@@ -87,7 +87,10 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
     }
 
     /// <inheritdoc />
-    public async Task InvokeFailedEventAsync(ModuleLifecycleContext context, Exception exception)
+    public async Task InvokeFailedEventAsync(
+        ModuleLifecycleContext context,
+        IModuleResult result,
+        Exception exception)
     {
         var handlers = _attributeEventService.GetFailureHandlers(context.ModuleType);
         if (handlers.Count == 0)
@@ -99,7 +102,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.Module,
             context.ModuleAttributes,
             context.StartTime,
-            result: null,
+            result,
             context.PipelineContext,
             _metadataRegistry);
 

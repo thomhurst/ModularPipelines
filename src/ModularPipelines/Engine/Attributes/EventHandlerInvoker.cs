@@ -1,3 +1,4 @@
+using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Events;
@@ -67,6 +68,8 @@ internal class EventHandlerInvoker : IEventHandlerInvoker
         string eventName)
         where THandler : IEventHandler
     {
+        List<Exception>? failures = null;
+
         foreach (var handler in handlers)
         {
             try
@@ -85,9 +88,24 @@ internal class EventHandlerInvoker : IEventHandlerInvoker
                 }
                 else
                 {
-                    throw;
+                    _logger.LogError(
+                        ex,
+                        "{EventName} handler {Type} failed",
+                        eventName,
+                        handler.GetType().Name);
+                    (failures ??= []).Add(ex);
                 }
             }
+        }
+
+        if (failures is [var failure])
+        {
+            ExceptionDispatchInfo.Capture(failure).Throw();
+        }
+
+        if (failures is { Count: > 1 })
+        {
+            throw new AggregateException($"Multiple {eventName} handlers failed.", failures);
         }
     }
 }

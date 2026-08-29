@@ -1042,7 +1042,7 @@ internal class ModuleRunner : IModuleRunner
 
         try
         {
-            await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, exception).ConfigureAwait(false);
+            await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, result, exception).ConfigureAwait(false);
             await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState, exception).ConfigureAwait(false);
         }
         finally
