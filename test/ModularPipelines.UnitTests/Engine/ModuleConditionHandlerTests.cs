@@ -266,7 +266,7 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
-    public async Task Distributed_Master_Evaluates_Non_Platform_Grouped_Alternatives()
+    public async Task Distributed_Master_Prepares_Non_Platform_Grouped_Alternatives()
     {
         _mixedAlternativeEvaluationCount = 0;
         var conditionRouting = new DistributedConditionRouting();
@@ -278,11 +278,10 @@ public class ModuleConditionHandlerTests
         }, distributedConditionRouting: conditionRouting);
         var module = new MixedMatchingAlternativeModule();
 
-        var result = await handler.ShouldIgnore(module);
+        await handler.PrepareDistributedRoutingAsync(module);
 
         using (Assert.Multiple())
         {
-            await Assert.That(result.ShouldIgnore).IsFalse();
             await Assert.That(_mixedAlternativeEvaluationCount).IsEqualTo(1);
             await Assert.That(conditionRouting.IsLocallySatisfied(
                 module,

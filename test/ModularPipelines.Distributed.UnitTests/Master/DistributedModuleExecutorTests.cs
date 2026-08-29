@@ -993,18 +993,32 @@ public class DistributedModuleExecutorTests
         var resultRegistry = new ModuleResultRegistry();
         var conditionRouting = new DistributedConditionRouting();
         var module = new MixedGroupedOperatingSystemModule();
-        conditionRouting.MarkLocallySatisfied(module, typeof(GroupedOperatingSystemAttribute<>));
+        var conditionHandler = new Mock<IModuleConditionHandler>();
+        conditionHandler
+            .Setup(handler => handler.PrepareDistributedRoutingAsync(
+                module,
+                It.IsAny<CancellationToken>()))
+            .Callback(() => conditionRouting.MarkLocallySatisfied(
+                module,
+                typeof(GroupedOperatingSystemAttribute<>)))
+            .Returns(Task.CompletedTask);
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
             serializer,
             resultRegistry,
-            conditionRouting: conditionRouting);
+            conditionRouting: conditionRouting,
+            conditionHandler: conditionHandler.Object);
 
-        var assignment = publisher.CreateAssignment(module);
+        var assignment = await publisher.CreateAssignmentAsync(
+            module,
+            CancellationToken.None);
 
         await Assert.That(assignment.RequiredCapabilities)
             .DoesNotContain(OperatingSystemConditions.Linux);
+        conditionHandler.Verify(handler => handler.PrepareDistributedRoutingAsync(
+            module,
+            CancellationToken.None));
     }
 
     // =================================================================

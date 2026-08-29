@@ -87,6 +87,43 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         return Task.FromResult(result);
     }
 
+    public async Task PrepareDistributedRoutingAsync(
+        IModule module,
+        CancellationToken cancellationToken = default)
+    {
+        if (!IsDistributedMaster() || _distributedConditionRouting is null)
+        {
+            return;
+        }
+
+        var attributes = GetConditionAttributes(module.GetType()).Any;
+        var pipelineContext = _pipelineContextProvider.GetModuleContext();
+        foreach (var alternatives in attributes
+                     .OfType<IGroupedConditionAttribute>()
+                     .GroupBy(static attribute => attribute.ConditionGroupType))
+        {
+            var localAlternatives = alternatives
+                .Where(attribute => !ShouldDeferOperatingSystemCondition(
+                    attribute,
+                    isDistributedMaster: true))
+                .ToArray();
+            if (localAlternatives.Length == 0
+                || localAlternatives.Length == alternatives.Count())
+            {
+                continue;
+            }
+
+            if (await AnyConditionMatches(
+                    localAlternatives,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false))
+            {
+                _distributedConditionRouting.MarkLocallySatisfied(module, alternatives.Key);
+            }
+        }
+    }
+
     public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
         IModule module,
         CancellationToken cancellationToken = default)

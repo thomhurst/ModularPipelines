@@ -109,7 +109,10 @@ internal class DistributedModuleExecutor(
                 await foreach (var moduleState in scheduler.ReadyModules.ReadAllAsync(cts.Token))
                 {
                     var moduleType = moduleState.Module.GetType();
-                    var assignment = _publisher.CreateAssignment(moduleState.Module);
+                    var assignment = await _publisher.CreateAssignmentAsync(
+                            moduleState.Module,
+                            cts.Token)
+                        .ConfigureAwait(false);
                     if (!scheduler.MarkModuleStarted(moduleType))
                     {
                         continue;

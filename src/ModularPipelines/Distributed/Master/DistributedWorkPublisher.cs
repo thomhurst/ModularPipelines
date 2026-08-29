@@ -16,7 +16,8 @@ internal class DistributedWorkPublisher(
     IModuleResultRegistry resultRegistry,
     IModuleDependencyRegistry? dependencyRegistry = null,
     IModuleMetadataRegistry? metadataRegistry = null,
-    DistributedConditionRouting? conditionRouting = null)
+    DistributedConditionRouting? conditionRouting = null,
+    IModuleConditionHandler? conditionHandler = null)
 {
     private readonly IDistributedCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
@@ -25,6 +26,20 @@ internal class DistributedWorkPublisher(
     private readonly IModuleDependencyRegistry? _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry? _metadataRegistry = metadataRegistry;
     private readonly DistributedConditionRouting? _conditionRouting = conditionRouting;
+    private readonly IModuleConditionHandler? _conditionHandler = conditionHandler;
+
+    public async Task<ModuleAssignment> CreateAssignmentAsync(
+        IModule module,
+        CancellationToken cancellationToken)
+    {
+        if (_conditionHandler is not null)
+        {
+            await _conditionHandler.PrepareDistributedRoutingAsync(module, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        return CreateAssignment(module);
+    }
 
     public ModuleAssignment CreateAssignment(IModule module)
     {
