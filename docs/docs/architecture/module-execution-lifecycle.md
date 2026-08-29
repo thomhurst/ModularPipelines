@@ -56,8 +56,10 @@ ignores the failure, the resulting module status reflects that policy.
   failure event handlers are notified, but `OnAfterExecuteAsync` does not run.
 - Exceptions from `OnFailedAsync`, `OnSkippedAsync`, and `OnAfterExecuteAsync` are logged and do
   not replace the module outcome.
-- Attribute and global handlers propagate by default. Set `ContinueOnError` to continue after
-  a handler failure. All handlers run in ascending `Priority` order within their registration family.
+- Attribute and global handlers all run in ascending `Priority` order within their registration
+  family, even after a handler fails. `ContinueOnError` controls failure propagation: `false`
+  rethrows one recorded failure or aggregates multiple failures after dispatch; `true` suppresses
+  that handler's failure.
 
 ## Choosing an extension point
 
