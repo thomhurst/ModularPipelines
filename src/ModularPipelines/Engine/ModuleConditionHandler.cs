@@ -679,17 +679,26 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 .Where(candidate => candidate.ConditionGroupType == groupedAttribute.ConditionGroupType)
                 .ToArray();
 
-            if (alternatives.Any(attribute =>
-                    ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster)))
+            var localAlternatives = alternatives
+                .Where(attribute =>
+                    !ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
+                .ToArray();
+            if (await AnyConditionMatches(
+                    localAlternatives,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false))
             {
                 continue;
             }
 
-            if (!await AnyConditionMatches(alternatives, pipelineContext, cancellationToken).ConfigureAwait(false))
+            if (localAlternatives.Length != alternatives.Length)
             {
-                return SkipDecision.Skip(
-                    $"No grouped run conditions were met: {string.Join(", ", alternatives.Select(x => x.ConditionNames))}");
+                continue;
             }
+
+            return SkipDecision.Skip(
+                $"No grouped run conditions were met: {string.Join(", ", alternatives.Select(x => x.ConditionNames))}");
         }
 
         return null;

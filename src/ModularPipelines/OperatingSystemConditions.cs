@@ -45,12 +45,13 @@ internal static class OperatingSystemConditions
 
     /// <summary>
     /// Returns the union capability targeted by one group of alternative conditions.
-    /// A group containing a non-platform alternative cannot impose an OS capability.
+    /// Non-platform alternatives are evaluated on the distributed master and do not
+    /// remove the routing constraint supplied by platform alternatives.
     /// </summary>
     public static IReadOnlyList<string> GetTargets(
         IEnumerable<IGroupedConditionAttribute> alternatives)
     {
-        var supportedOperatingSystems = GetSupportedOperatingSystemsForAlternatives(alternatives);
+        var supportedOperatingSystems = GetRoutableOperatingSystemsForAlternatives(alternatives);
 
         return supportedOperatingSystems is null or { Count: 0 }
             ? []
@@ -109,9 +110,9 @@ internal static class OperatingSystemConditions
         foreach (var alternatives in attributes
                      .Where(static attribute =>
                          typeof(IGroupedConditionAttribute).IsAssignableFrom(attribute.AttributeType))
-                     .GroupBy(static attribute => attribute.AttributeType.IsGenericType
-                         ? attribute.AttributeType.GetGenericTypeDefinition()
-                         : attribute.AttributeType))
+                     .GroupBy(static attribute =>
+                         CustomAttributeMetadata.Create<IGroupedConditionAttribute>(attribute)
+                             .ConditionGroupType))
         {
             IntersectConstraint(
                 ref supportedOperatingSystems,
@@ -247,6 +248,22 @@ internal static class OperatingSystemConditions
             }
 
             supportedOperatingSystems.UnionWith(alternativeOperatingSystems);
+        }
+
+        return supportedOperatingSystems;
+    }
+
+    private static HashSet<string> GetRoutableOperatingSystemsForAlternatives(
+        IEnumerable<IConditionAttribute> alternatives)
+    {
+        var supportedOperatingSystems = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var alternative in alternatives)
+        {
+            var alternativeOperatingSystems = GetSupportedOperatingSystems(alternative);
+            if (alternativeOperatingSystems is not null)
+            {
+                supportedOperatingSystems.UnionWith(alternativeOperatingSystems);
+            }
         }
 
         return supportedOperatingSystems;

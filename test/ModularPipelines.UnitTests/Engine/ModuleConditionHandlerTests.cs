@@ -19,6 +19,7 @@ public class ModuleConditionHandlerTests
 {
     private static int _conditionEvaluationCount;
     private static int _deferredDiscoveryConditionConstructions;
+    private static int _mixedAlternativeEvaluationCount;
 
     [Test]
     public async Task Distributed_Master_Does_Not_Filter_Foreign_Os_Module()
@@ -265,6 +266,26 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Evaluates_Non_Platform_Grouped_Alternatives()
+    {
+        _mixedAlternativeEvaluationCount = 0;
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnore(new MixedAlternativeModule());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsFalse();
+            await Assert.That(_mixedAlternativeEvaluationCount).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task Mandatory_Condition_Is_Not_Overridden_By_Optional_Alternative()
     {
         var logger = Mock.Of<IModuleLogger>();
@@ -432,6 +453,41 @@ public class ModuleConditionHandlerTests
             CancellationToken cancellationToken)
         {
             return Task.FromResult(string.Empty);
+        }
+    }
+
+    [MixedOperatingSystem<OnLinux>]
+    [MixedAlternativeCondition(false)]
+    private sealed class MixedAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class MixedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
+        IGroupedConditionAttribute
+        where TCondition : IRunCondition, new()
+    {
+        public Type ConditionGroupType => typeof(MixedAlternativeModule);
+
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+            new TCondition().EvaluateAsync(context);
+    }
+
+    private sealed class MixedAlternativeConditionAttribute(bool result) : Attribute,
+        IGroupedConditionAttribute
+    {
+        public ConditionLogic Logic => ConditionLogic.Any;
+
+        public Type ConditionGroupType => typeof(MixedAlternativeModule);
+
+        public string ConditionNames => nameof(MixedAlternativeConditionAttribute);
+
+        public Task<bool> EvaluateAsync(IPipelineContext context)
+        {
+            Interlocked.Increment(ref _mixedAlternativeEvaluationCount);
+            return Task.FromResult(result);
         }
     }
 

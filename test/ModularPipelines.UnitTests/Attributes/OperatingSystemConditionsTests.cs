@@ -14,6 +14,15 @@ public class OperatingSystemConditionsTests
             CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
+    [FirstGroupedOperatingSystem<OnLinux>]
+    [SecondGroupedOperatingSystem<OnWindows>]
+    private sealed class SharedDeclaredGroupModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(true);
+    }
+
     [GroupedOperatingSystem<OnLinux>]
     [GroupedOperatingSystem<OnWindows>]
     [RunIf<OnMacOS>]
@@ -30,6 +39,26 @@ public class OperatingSystemConditionsTests
         where TCondition : IRunCondition, new()
     {
         public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
+
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+            new TCondition().EvaluateAsync(context);
+    }
+
+    private sealed class FirstGroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
+        IGroupedConditionAttribute
+        where TCondition : IRunCondition, new()
+    {
+        public Type ConditionGroupType => typeof(SharedDeclaredGroupModule);
+
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+            new TCondition().EvaluateAsync(context);
+    }
+
+    private sealed class SecondGroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
+        IGroupedConditionAttribute
+        where TCondition : IRunCondition, new()
+    {
+        public Type ConditionGroupType => typeof(SharedDeclaredGroupModule);
 
         public override Task<bool> EvaluateAsync(IPipelineContext context) =>
             new TCondition().EvaluateAsync(context);
@@ -147,5 +176,13 @@ public class OperatingSystemConditionsTests
                     typeof(ContradictoryGroupedAlternativeModule)))
                 .IsTrue();
         }
+    }
+
+    [Test]
+    public async Task Metadata_Uses_Declared_Group_Across_Different_Attribute_Types()
+    {
+        await Assert.That(OperatingSystemConditions.HasImpossibleCombination(
+                typeof(SharedDeclaredGroupModule)))
+            .IsFalse();
     }
 }
