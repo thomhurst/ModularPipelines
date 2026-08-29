@@ -255,9 +255,10 @@ internal sealed class SecretObfuscatedRenderable(
         Layout layout,
         ISecretObfuscator secretObfuscator)
     {
-        var preparedLayout = new Layout(layout.Name)
+        var preparedLayout = new Layout
         {
             IsVisible = layout.IsVisible,
+            Name = layout.Name,
             Ratio = layout.Ratio,
             Size = layout.Size,
         };
