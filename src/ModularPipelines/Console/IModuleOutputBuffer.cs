@@ -49,6 +49,21 @@ internal interface IModuleOutputBuffer
     void WriteRenderable(IRenderable renderable, string plainText) => WriteLine(plainText);
 
     /// <summary>
+    /// Adds a rich renderable and controls whether a line terminator follows it.
+    /// </summary>
+    void WriteRenderable(IRenderable renderable, string plainText, bool appendNewLine)
+    {
+        if (appendNewLine)
+        {
+            WriteRenderable(renderable, plainText);
+        }
+        else
+        {
+            Write(plainText);
+        }
+    }
+
+    /// <summary>
     /// Adds a standard-error line to the buffer.
     /// </summary>
     /// <param name="message">The message to buffer.</param>

@@ -63,6 +63,18 @@ public class ConsoleWriterTests
         }
     }
 
+    private sealed class WriteFragmentsModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            context.Console.Write(new Text("prefix"));
+            context.Console.Write(new Text("suffix"));
+            return Task.FromResult(true);
+        }
+    }
+
     private sealed class WriteSplitSecretModule(
         IConsoleWriter consoleWriter,
         ISecretRegistry secretRegistry) : Module<bool>
@@ -160,6 +172,18 @@ public class ConsoleWriterTests
         var output = await RunAsync<WriteModule>();
 
         await Assert.That(output).Contains("module output");
+    }
+
+    [Test]
+    public async Task Write_UsesAmbientModuleConsoleWriterWithoutAppendingLineBreaks()
+    {
+        var output = await RunAsync<WriteFragmentsModule>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("prefixsuffix");
+            await Assert.That(output).DoesNotContain($"prefix{Environment.NewLine}suffix");
+        }
     }
 
     [Test]
@@ -386,6 +410,31 @@ public class ConsoleWriterTests
         using (Assert.Multiple())
         {
             await Assert.That(output).Contains("[REDACTED]");
+            await Assert.That(output).DoesNotContain("tiny");
+            await Assert.That(lineWidths).Count().IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Write_PreservesNestedCompositeLayoutWhenMaskWidthDiffers()
+    {
+        var grid = new Grid()
+            .AddColumn()
+            .AddRow("tiny");
+        var panel = new Panel(grid);
+
+        var output = CaptureFallbackOutput(
+            writer => writer.Write(panel),
+            CreateSecretObfuscator("tiny"));
+        var lineWidths = output
+            .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
+            .Select(line => new Segment(line).CellCount())
+            .Distinct()
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("**********");
             await Assert.That(output).DoesNotContain("tiny");
             await Assert.That(lineWidths).Count().IsEqualTo(1);
         }

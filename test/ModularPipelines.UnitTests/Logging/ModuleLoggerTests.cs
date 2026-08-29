@@ -432,8 +432,11 @@ public class ModuleLoggerTests
         var renderedLines = new List<string>();
         var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
         moduleOutputBuffer
-            .Setup(x => x.WriteRenderable(It.IsAny<IRenderable>(), It.IsAny<string>()))
-            .Callback<IRenderable, string>((_, rendered) => renderedLines.Add(rendered));
+            .Setup(x => x.WriteRenderable(
+                It.IsAny<IRenderable>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()))
+            .Callback<IRenderable, string, bool>((_, rendered, _) => renderedLines.Add(rendered));
         var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer.Object);
         var secretObfuscator = new Mock<ISecretObfuscator>();
         secretObfuscator
@@ -460,8 +463,11 @@ public class ModuleLoggerTests
         var snapshots = new List<IRenderable>();
         var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
         moduleOutputBuffer
-            .Setup(x => x.WriteRenderable(It.IsAny<IRenderable>(), It.IsAny<string>()))
-            .Callback<IRenderable, string>((renderable, _) => snapshots.Add(renderable));
+            .Setup(x => x.WriteRenderable(
+                It.IsAny<IRenderable>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()))
+            .Callback<IRenderable, string, bool>((renderable, _, _) => snapshots.Add(renderable));
         var secretObfuscator = new Mock<ISecretObfuscator>();
         secretObfuscator
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))

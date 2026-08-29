@@ -164,8 +164,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <inheritdoc />
     public void WriteRenderable(IRenderable renderable, string plainText)
     {
+        WriteRenderable(renderable, plainText, appendNewLine: true);
+    }
+
+    /// <inheritdoc />
+    public void WriteRenderable(IRenderable renderable, string plainText, bool appendNewLine)
+    {
         AddOutput(
-            BufferedOutput.FromRenderable(renderable, plainText),
+            BufferedOutput.FromRenderable(renderable, plainText, appendNewLine),
             allowAfterCompletion: true);
     }
 
@@ -464,7 +470,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 _outputExcerptBuffer.Append(
                     output.RenderablePlainText!,
                     output.Stream,
-                    appendNewLine: true);
+                    output.AppendNewLine);
                 return;
             }
 
@@ -711,7 +717,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             else if (output.Renderable is { } renderable)
             {
                 directConsole.Write(renderable);
-                directConsole.WriteLine();
+                if (output.AppendNewLine)
+                {
+                    directConsole.WriteLine();
+                }
             }
             else if (output.LogEvent is { } logEvent)
             {
@@ -1068,13 +1077,16 @@ internal readonly struct BufferedOutput
     /// <summary>
     /// Creates buffered output from a rich renderable.
     /// </summary>
-    public static BufferedOutput FromRenderable(IRenderable renderable, string plainText) =>
+    public static BufferedOutput FromRenderable(
+        IRenderable renderable,
+        string plainText,
+        bool appendNewLine = true) =>
         new()
         {
             Renderable = renderable,
             RenderablePlainText = plainText,
             Stream = ModuleOutputStream.StandardOutput,
-            AppendNewLine = true,
+            AppendNewLine = appendNewLine,
         };
 
     /// <summary>

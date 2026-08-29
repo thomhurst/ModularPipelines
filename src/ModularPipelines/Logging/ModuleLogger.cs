@@ -287,15 +287,15 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             return;
         }
 
-        WriteRenderable(markup);
+        WriteRenderable(markup, appendNewLine: true);
     }
 
     public override void Write(IRenderable renderable)
     {
-        WriteRenderable(renderable);
+        WriteRenderable(renderable, appendNewLine: false);
     }
 
-    private void WriteRenderable(IRenderable renderable)
+    private void WriteRenderable(IRenderable renderable, bool appendNewLine)
     {
         var obfuscatedRenderable = new SecretObfuscatedRenderable(renderable, _secretObfuscator);
         var snapshot = obfuscatedRenderable.Snapshot(
@@ -309,6 +309,6 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             rendered = _renderWriter.ToString();
         }
 
-        _buffer.WriteRenderable(snapshot, rendered);
+        _buffer.WriteRenderable(snapshot, rendered, appendNewLine);
     }
 }

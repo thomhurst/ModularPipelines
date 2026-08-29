@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Text;
 using ModularPipelines.Engine;
 using Spectre.Console;
@@ -129,13 +130,99 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static IRenderable PrepareCompositeLayout(
         IRenderable renderable,
-        ISecretObfuscator secretObfuscator)
+        ISecretObfuscator secretObfuscator) => renderable switch
     {
-        if (renderable is not Table table)
+        Align align => PrepareAlign(align, secretObfuscator),
+        Columns columns => PrepareColumns(columns, secretObfuscator),
+        Grid grid => PrepareGrid(grid, secretObfuscator),
+        Padder padder => PreparePadder(padder, secretObfuscator),
+        Panel panel => PreparePanel(panel, secretObfuscator),
+        Rows rows => PrepareRows(rows, secretObfuscator),
+        Table table => PrepareTable(table, secretObfuscator),
+        Tree tree => PrepareTree(tree, secretObfuscator),
+        _ => renderable,
+    };
+
+    private static Align PrepareAlign(Align align, ISecretObfuscator secretObfuscator) =>
+        new(new SecretObfuscatedRenderable(GetAlignChild(align), secretObfuscator),
+            align.Horizontal,
+            align.Vertical)
         {
-            return renderable;
+            Height = align.Height,
+            Width = align.Width,
+        };
+
+    private static Columns PrepareColumns(
+        Columns columns,
+        ISecretObfuscator secretObfuscator) => new(
+        GetColumnItems(columns).Select(
+            item => new SecretObfuscatedRenderable(item, secretObfuscator)))
+    {
+        Expand = columns.Expand,
+        Padding = columns.Padding,
+    };
+
+    private static Grid PrepareGrid(Grid grid, ISecretObfuscator secretObfuscator)
+    {
+        var preparedGrid = new Grid
+        {
+            Expand = grid.Expand,
+            Width = grid.Width,
+        };
+        foreach (var column in grid.Columns)
+        {
+            preparedGrid.AddColumn(new GridColumn
+            {
+                Alignment = column.Alignment,
+                NoWrap = column.NoWrap,
+                Padding = column.Padding,
+                Width = column.Width,
+            });
         }
 
+        foreach (var row in grid.Rows)
+        {
+            preparedGrid.AddRow(row.Select(
+                    cell => new SecretObfuscatedRenderable(cell, secretObfuscator))
+                .ToArray());
+        }
+
+        return preparedGrid;
+    }
+
+    private static Padder PreparePadder(
+        Padder padder,
+        ISecretObfuscator secretObfuscator) => new(
+        new SecretObfuscatedRenderable(GetPadderChild(padder), secretObfuscator),
+        padder.Padding)
+    {
+        Expand = padder.Expand,
+    };
+
+    private static Panel PreparePanel(
+        Panel panel,
+        ISecretObfuscator secretObfuscator) => new(
+        new SecretObfuscatedRenderable(GetPanelChild(panel), secretObfuscator))
+    {
+        Border = panel.Border,
+        BorderStyle = panel.BorderStyle,
+        Expand = panel.Expand,
+        Header = ObfuscateHeader(panel.Header, secretObfuscator),
+        Height = panel.Height,
+        Padding = panel.Padding,
+        UseSafeBorder = panel.UseSafeBorder,
+        Width = panel.Width,
+    };
+
+    private static Rows PrepareRows(Rows rows, ISecretObfuscator secretObfuscator) => new(
+        GetRowChildren(rows).Select(
+            child => new SecretObfuscatedRenderable(child, secretObfuscator)))
+    {
+        Expand = rows.Expand,
+    };
+
+    private static Table PrepareTable(Table table, ISecretObfuscator secretObfuscator)
+    {
         var preparedTable = new Table
         {
             Border = table.Border,
@@ -174,11 +261,69 @@ internal sealed class SecretObfuscatedRenderable(
         return preparedTable;
     }
 
+    private static Tree PrepareTree(Tree tree, ISecretObfuscator secretObfuscator)
+    {
+        var root = GetTreeRoot(tree);
+        var preparedTree = new Tree(new SecretObfuscatedRenderable(
+            GetTreeNodeRenderable(root),
+            secretObfuscator))
+        {
+            Expanded = tree.Expanded,
+            Guide = tree.Guide,
+            Style = tree.Style,
+        };
+        preparedTree.Nodes.AddRange(root.Nodes.Select(
+            node => PrepareTreeNode(node, secretObfuscator)));
+        return preparedTree;
+    }
+
+    private static TreeNode PrepareTreeNode(
+        TreeNode node,
+        ISecretObfuscator secretObfuscator)
+    {
+        var preparedNode = new TreeNode(new SecretObfuscatedRenderable(
+            GetTreeNodeRenderable(node),
+            secretObfuscator))
+        {
+            Expanded = node.Expanded,
+        };
+        preparedNode.Nodes.AddRange(node.Nodes.Select(
+            child => PrepareTreeNode(child, secretObfuscator)));
+        return preparedNode;
+    }
+
     private static TableTitle? ObfuscateTitle(
         TableTitle? title,
         ISecretObfuscator secretObfuscator) => title is null
         ? null
         : new TableTitle(secretObfuscator.Obfuscate(title.Text, null), title.Style);
+
+    private static PanelHeader? ObfuscateHeader(
+        PanelHeader? header,
+        ISecretObfuscator secretObfuscator) => header is null
+        ? null
+        : new PanelHeader(secretObfuscator.Obfuscate(header.Text, null), header.Justification);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_renderable")]
+    private static extern ref readonly IRenderable GetAlignChild(Align align);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_items")]
+    private static extern ref readonly List<IRenderable> GetColumnItems(Columns columns);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_child")]
+    private static extern ref readonly IRenderable GetPadderChild(Padder padder);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_child")]
+    private static extern ref readonly IRenderable GetPanelChild(Panel panel);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_children")]
+    private static extern ref readonly List<IRenderable> GetRowChildren(Rows rows);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_root")]
+    private static extern ref readonly TreeNode GetTreeRoot(Tree tree);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "get_Renderable")]
+    private static extern IRenderable GetTreeNodeRenderable(TreeNode node);
 
     private Segment[] ObfuscateLinks(Segment[] segments) =>
         [.. segments.Select(segment => segment.IsControlCode || segment.Link is null
