@@ -68,7 +68,8 @@ internal static partial class ObfuscatedMarkup
         var visibleOffset = 0;
         foreach (var match in matches)
         {
-            var textLength = match.Index - sourceOffset;
+            var visibleFragment = DecodeEscapedBrackets(value[sourceOffset..match.Index]);
+            var textLength = visibleFragment.Length;
             output.Append(Markup.Escape(getObfuscatedSlice(
                 visibleOffset,
                 visibleOffset + textLength)));
@@ -87,13 +88,17 @@ internal static partial class ObfuscatedMarkup
         var sourceOffset = 0;
         foreach (var match in matches)
         {
-            output.Append(value[sourceOffset..match.Index]);
+            output.Append(DecodeEscapedBrackets(value[sourceOffset..match.Index]));
             sourceOffset = match.Index + match.Length;
         }
 
-        output.Append(value[sourceOffset..]);
+        output.Append(DecodeEscapedBrackets(value[sourceOffset..]));
         return output.ToString();
     }
+
+    private static string DecodeEscapedBrackets(string value) => value
+        .Replace("[[", "[", StringComparison.Ordinal)
+        .Replace("]]", "]", StringComparison.Ordinal);
 
     private static int ScaleOffset(int sourceOffset, int sourceLength, string output)
     {
@@ -112,6 +117,6 @@ internal static partial class ObfuscatedMarkup
 
     private readonly record struct SafeSource(string Value, bool WasChanged);
 
-    [GeneratedRegex(@"\[[^\]\r\n]+\]", RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"(?<!\[)\[(?!\[)[^\]\r\n]+\](?!\])", RegexOptions.CultureInvariant)]
     private static partial Regex MarkupTagRegex();
 }

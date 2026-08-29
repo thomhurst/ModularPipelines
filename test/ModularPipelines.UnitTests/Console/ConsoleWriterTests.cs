@@ -395,6 +395,45 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_UsesSafeMaskForSecretsInHyperlinkMetadata()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new Markup("[link=https://example.test/token]label[/]"),
+            CreateSecretObfuscator(["token", "REDACT"], "[REDACTED]"));
+        var url = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .Select(static segment => segment.Link?.Url)
+            .First(static value => value is not null)!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(url).Contains("[MASKED]");
+            await Assert.That(url).DoesNotContain("token");
+            await Assert.That(url).DoesNotContain("REDACT");
+        }
+    }
+
+    [Test]
+    public async Task Write_UsesSafeMaskForSecretsInControlMetadata()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new ControlRenderable("token"),
+            CreateSecretObfuscator(["token", "REDACT"], "[REDACTED]"));
+        var segment = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(segment.Text).Contains("[MASKED]");
+            await Assert.That(segment.Text).DoesNotContain("token");
+            await Assert.That(segment.Text).DoesNotContain("REDACT");
+        }
+    }
+
+    [Test]
     public async Task Write_UsesConfiguredMaskWidthWhileObfuscating()
     {
         var renderable = new SecretObfuscatedRenderable(
@@ -542,6 +581,45 @@ public class ConsoleWriterTests
             await Assert.That(renderedText).DoesNotContain("123");
             await Assert.That(Segment.SplitLines(segments).Max(static line => line.CellCount()))
                 .IsEqualTo(24);
+        }
+    }
+
+    [Test]
+    public async Task Write_PreparesEscapedBracketTextBeforeRuleLayout()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new Rule("[[tiny]]"),
+            CreateSecretObfuscator("tiny", "[REDACTED]"));
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                24)
+            .ToArray();
+        var renderedText = string.Concat(segments.Select(static segment => segment.Text));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(renderedText).Contains("[REDACTED]");
+            await Assert.That(renderedText).DoesNotContain("tiny");
+            await Assert.That(Segment.SplitLines(segments).Max(static line => line.CellCount()))
+                .IsEqualTo(24);
+        }
+    }
+
+    [Test]
+    public async Task Write_MeasurePreservesFlexibleMinimumWidth()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new Text("1234567890 abcdefghij"),
+            CreateSecretObfuscator("unrelated"));
+
+        var measurement = renderable.Measure(
+            RenderOptions.Create(AnsiConsole.Console),
+            80);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(measurement.Min).IsEqualTo(10);
+            await Assert.That(measurement.Max).IsEqualTo(21);
         }
     }
 

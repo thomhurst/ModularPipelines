@@ -15,14 +15,20 @@ internal sealed class SecretObfuscatedRenderable(
 {
     private readonly IRenderable _inner = PrepareCompositeLayout(inner, secretObfuscator);
 
-    public Measurement Measure(RenderOptions options, int maxWidth) =>
-        MeasureSegments(GetSegments(options, maxWidth), maxWidth);
+    public Measurement Measure(RenderOptions options, int maxWidth)
+    {
+        var innerMeasurement = ((IRenderable) _inner).Measure(options, maxWidth);
+        return MeasureSegments(GetSegments(options, maxWidth), maxWidth, innerMeasurement);
+    }
 
     public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) =>
         GetSegments(options, maxWidth);
 
-    internal IRenderable Snapshot(RenderOptions options, int maxWidth) =>
-        new SegmentSnapshotRenderable(GetSegments(options, maxWidth));
+    internal IRenderable Snapshot(RenderOptions options, int maxWidth)
+    {
+        var innerMeasurement = ((IRenderable) _inner).Measure(options, maxWidth);
+        return new SegmentSnapshotRenderable(GetSegments(options, maxWidth), innerMeasurement);
+    }
 
     private Segment[] GetSegments(RenderOptions options, int maxWidth)
     {
@@ -363,7 +369,7 @@ internal sealed class SecretObfuscatedRenderable(
                 : new Segment(segment.Text, segment.Style, ObfuscateLink(segment.Link)))];
 
     private Segment ObfuscateControlCode(Segment segment) =>
-        Segment.Control(secretObfuscator.Obfuscate(segment.Text, null));
+        Segment.Control(ObfuscateMetadata(segment.Text));
 
     private Link? ObfuscateLink(Link? link)
     {
@@ -372,26 +378,42 @@ internal sealed class SecretObfuscatedRenderable(
             return null;
         }
 
-        var obfuscatedUrl = secretObfuscator.Obfuscate(link.Url, null);
+        var obfuscatedUrl = ObfuscateMetadata(link.Url);
         return string.Equals(obfuscatedUrl, link.Url, StringComparison.Ordinal)
             ? link
             : new Link(obfuscatedUrl);
     }
 
-    private static Measurement MeasureSegments(Segment[] segments, int maxWidth)
+    private string ObfuscateMetadata(string value) =>
+        secretObfuscator is SecretObfuscator concreteObfuscator
+            ? concreteObfuscator.ObfuscateWithSourceMap(
+                value,
+                concreteObfuscator.CanSafelyPreserveRegisteredMasks()).Value
+            : secretObfuscator.Obfuscate(value, null);
+
+    private static Measurement MeasureSegments(
+        Segment[] segments,
+        int maxWidth,
+        Measurement innerMeasurement)
     {
         var width = Segment.SplitLines(segments)
             .Select(static line => line.CellCount())
             .DefaultIfEmpty(0)
             .Max();
         width = Math.Min(width, maxWidth);
-        return new Measurement(width, width);
+        var innerMaximumWidth = Math.Min(innerMeasurement.Max, maxWidth);
+        var innerMinimumWidth = Math.Min(innerMeasurement.Min, innerMaximumWidth);
+        var widthChange = width - innerMaximumWidth;
+        var minimumWidth = Math.Clamp(innerMinimumWidth + widthChange, 0, width);
+        return new Measurement(minimumWidth, width);
     }
 
-    private sealed class SegmentSnapshotRenderable(Segment[] segments) : IRenderable
+    private sealed class SegmentSnapshotRenderable(
+        Segment[] segments,
+        Measurement innerMeasurement) : IRenderable
     {
         public Measurement Measure(RenderOptions options, int maxWidth) =>
-            MeasureSegments(segments, maxWidth);
+            MeasureSegments(segments, maxWidth, innerMeasurement);
 
         public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) => segments;
     }
