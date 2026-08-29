@@ -254,6 +254,26 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task PipelineBuilder_RegistersSnapshotBackedOptionsFactory()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .ConfigureOptions(options => options with { DryRun = true })
+            .AddModule<OptionsTestModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var factory = pipeline.Services.GetRequiredService<IOptionsFactory<PipelineOptions>>();
+        var first = factory.Create(Microsoft.Extensions.Options.Options.DefaultName);
+        var second = factory.Create(Microsoft.Extensions.Options.Options.DefaultName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(first.DryRun).IsTrue();
+            await Assert.That(second.DryRun).IsTrue();
+            await Assert.That(first).IsNotSameReferenceAs(second);
+        }
+    }
+
+    [Test]
     public async Task ConfigureOptionsRejectsNullResult()
     {
         var builder = Pipeline.CreateBuilder();

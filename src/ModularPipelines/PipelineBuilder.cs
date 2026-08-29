@@ -393,6 +393,8 @@ public sealed class PipelineBuilder
                     provider.GetRequiredService<FixedOptions<PipelineOptions>>())
                 .AddSingleton<IOptionsMonitor<PipelineOptions>>(provider =>
                     provider.GetRequiredService<FixedOptions<PipelineOptions>>())
+                .AddSingleton<IOptionsFactory<PipelineOptions>>(provider =>
+                    provider.GetRequiredService<FixedOptions<PipelineOptions>>())
                 .AddSingleton<IOptions<SecretMaskingOptions>>(provider =>
                     Microsoft.Extensions.Options.Options.Create(
                         provider.GetRequiredService<IOptions<PipelineOptions>>().Value.Secrets));
@@ -733,7 +735,7 @@ public sealed class PipelineBuilder
 
     private sealed class FixedOptions<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>
-        : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>
+        : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>, IOptionsFactory<T>
         where T : class
     {
         private readonly T _initialValue;
@@ -787,6 +789,13 @@ public sealed class PipelineBuilder
         }
 
         public IDisposable? OnChange(Action<T, string?> listener) => NoopDisposable.Instance;
+
+        public T Create(string name) => ConfigureAndValidate(
+            name,
+            _clone(_initialValue),
+            _configurations,
+            _postConfigurations,
+            _validators);
 
         private static T ConfigureAndValidate(
             string name,
