@@ -15,7 +15,7 @@ using Spectre.Console.Rendering;
 
 namespace ModularPipelines.UnitTests.Console;
 
-[TUnit.Core.NotInParallel(nameof(ConsoleWriterTests))]
+[TUnit.Core.NotInParallel]
 public class ConsoleWriterTests
 {
     private sealed class ControlRenderable(string value) : IRenderable
