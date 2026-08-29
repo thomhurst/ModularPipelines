@@ -66,18 +66,6 @@ internal static class OperatingSystemConditions
             .ToArray();
     }
 
-    public static bool HasWorkerOnlyAlternatives(IConditionAttribute attribute)
-    {
-        if (GetRoute(attribute) is not { IsConditional: true })
-        {
-            return false;
-        }
-
-        return attribute.GetType().GetGenericArguments().Any(type =>
-            GetSupportedOperatingSystems(type) is null
-            && !typeof(IPlanningRunCondition).IsAssignableFrom(type));
-    }
-
     /// <summary>
     /// Returns the union capability targeted by one group of alternative conditions.
     /// Non-platform alternatives are evaluated on the distributed master and do not

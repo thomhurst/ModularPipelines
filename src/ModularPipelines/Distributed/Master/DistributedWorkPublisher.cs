@@ -102,8 +102,7 @@ internal class DistributedWorkPublisher(
                 continue;
             }
 
-            if (OperatingSystemConditions.GetRoute(osCondition) is { } route
-                && !OperatingSystemConditions.HasWorkerOnlyAlternatives(osCondition))
+            if (OperatingSystemConditions.GetRoute(osCondition) is { IsConditional: false } route)
             {
                 operatingSystemRoutes.Add(route);
             }
@@ -125,18 +124,12 @@ internal class DistributedWorkPublisher(
             }
 
             var alternativeArray = alternatives.ToArray();
-            if (OperatingSystemConditions.GetRoute(alternativeArray) is { } route
-                && !HasWorkerOnlyAlternatives(alternativeArray))
+            if (OperatingSystemConditions.GetRoute(alternativeArray) is { IsConditional: false } route)
             {
                 operatingSystemRoutes.Add(route);
             }
         }
     }
-
-    private static bool HasWorkerOnlyAlternatives(
-        IEnumerable<IGroupedConditionAttribute> alternatives) => alternatives.Any(attribute =>
-        OperatingSystemConditions.GetRoute(attribute) is null
-        && !ModuleConditionHandler.IsPlanningConditionAttribute(attribute));
 
     public async Task PublishAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
@@ -163,18 +156,13 @@ internal class DistributedWorkPublisher(
         ISet<string> requiredCapabilities,
         IReadOnlyList<OperatingSystemConditions.OperatingSystemRoute> routes)
     {
-        var strictRoutes = routes.Where(static route => !route.IsConditional).ToArray();
-        var effectiveOperatingSystems = IntersectRoutes(strictRoutes);
+        var effectiveOperatingSystems = IntersectRoutes(routes);
         if (effectiveOperatingSystems is { Count: 0 })
         {
             throw new InvalidOperationException(
                 "The module has incompatible operating-system requirements.");
         }
 
-        effectiveOperatingSystems = ApplyConditionalRoutes(
-            effectiveOperatingSystems,
-            routes.Where(static route => route.IsConditional),
-            hasStrictRoutes: effectiveOperatingSystems is not null);
         if (effectiveOperatingSystems is { Count: > 0 })
         {
             requiredCapabilities.Add(
@@ -200,37 +188,6 @@ internal class DistributedWorkPublisher(
         }
 
         return intersection;
-    }
-
-    private static HashSet<string>? ApplyConditionalRoutes(
-        HashSet<string>? effectiveOperatingSystems,
-        IEnumerable<OperatingSystemConditions.OperatingSystemRoute> routes,
-        bool hasStrictRoutes)
-    {
-        foreach (var route in routes)
-        {
-            if (effectiveOperatingSystems is null)
-            {
-                effectiveOperatingSystems = route.OperatingSystems
-                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
-                continue;
-            }
-
-            var intersection = effectiveOperatingSystems
-                .Intersect(route.OperatingSystems, StringComparer.OrdinalIgnoreCase)
-                .ToHashSet(StringComparer.OrdinalIgnoreCase);
-            if (intersection.Count == 0 && !hasStrictRoutes)
-            {
-                return null;
-            }
-
-            if (intersection.Count > 0)
-            {
-                effectiveOperatingSystems = intersection;
-            }
-        }
-
-        return effectiveOperatingSystems;
     }
 
     /// <summary>

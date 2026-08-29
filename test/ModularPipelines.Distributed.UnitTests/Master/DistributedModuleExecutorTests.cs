@@ -989,7 +989,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task CreateAssignment_Retains_Os_Routing_For_Mixed_Alternative_Group()
+    public async Task CreateAssignment_Leaves_Planning_Safe_Mixed_Group_Unrestricted()
     {
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
@@ -1001,7 +1001,7 @@ public class DistributedModuleExecutorTests
         var assignment = publisher.CreateAssignment(new MixedGroupedOperatingSystemModule());
 
         await Assert.That(assignment.RequiredCapabilities)
-            .Contains(OperatingSystemConditions.Linux);
+            .DoesNotContain(OperatingSystemConditions.Linux);
     }
 
     [Test]

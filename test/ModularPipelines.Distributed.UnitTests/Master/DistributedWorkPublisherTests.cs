@@ -310,7 +310,7 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
-    public async Task CreateAssignment_Routes_Mixed_Generic_Alternative_To_Os_Worker()
+    public async Task CreateAssignment_Leaves_Planning_Safe_Mixed_Alternative_Unrestricted()
     {
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
@@ -321,7 +321,7 @@ public class DistributedWorkPublisherTests
 
         var assignment = publisher.CreateAssignment(new MixedGenericAlternativeModule());
 
-        await Assert.That(assignment.RequiredCapabilities).Contains("linux");
+        await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
     }
 
     [Test]

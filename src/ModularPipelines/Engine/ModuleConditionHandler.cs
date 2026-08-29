@@ -390,7 +390,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             : null;
     }
 
-    internal static bool IsPlanningConditionAttribute(IConditionAttribute attribute)
+    private static bool IsPlanningConditionAttribute(IConditionAttribute attribute)
         => IsPlanningConditionAttribute(attribute.GetType());
 
     private static bool IsPlanningConditionAttribute(Type attributeType)
