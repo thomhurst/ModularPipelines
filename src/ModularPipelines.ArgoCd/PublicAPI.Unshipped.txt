@@ -1,4 +1,31 @@
 #nullable enable
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAccount.ArgoCdAccount(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdmin.ArgoCdAdmin(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminApp.ArgoCdAdminApp(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.ArgoCdAdminCluster(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminClusterNamespaces.ArgoCdAdminClusterNamespaces(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminNotifications.ArgoCdAdminNotifications(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminNotificationsTemplate.ArgoCdAdminNotificationsTemplate(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminNotificationsTrigger.ArgoCdAdminNotificationsTrigger(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminProj.ArgoCdAdminProj(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminRepo.ArgoCdAdminRepo(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminSettings.ArgoCdAdminSettings(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminSettingsRbac.ArgoCdAdminSettingsRbac(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminSettingsResourceOverrides.ArgoCdAdminSettingsResourceOverrides(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdApp.ArgoCdApp(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAppActions.ArgoCdAppActions(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdApplicationSet.ArgoCdApplicationSet(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdCert.ArgoCdCert(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdCluster.ArgoCdCluster(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdGpg.ArgoCdGpg(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdProj.ArgoCdProj(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdProjRole.ArgoCdProjRole(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdProjSourceIntegrity.ArgoCdProjSourceIntegrity(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdProjSourceIntegrityGit.ArgoCdProjSourceIntegrityGit(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdProjSourceIntegrityGitPolicies.ArgoCdProjSourceIntegrityGitPolicies(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdProjWindows.ArgoCdProjWindows(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdRepo.ArgoCdRepo(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdRepocreds.ArgoCdRepocreds(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.ArgoCd.Services.IArgoCd.ConfigureAsync(ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.ArgoCd.Services.IArgoCd.ContextAsync(ModularPipelines.ArgoCd.Options.ArgoCdContextOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.ArgoCd.Services.IArgoCd.LoginAsync(ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -263,6 +290,33 @@
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdRepocreds.ExecuteAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdRepocreds.ListAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdRepocreds.RmAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.ArgoCd.Services.ArgoCdAccount.ArgoCdAccount(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdmin.ArgoCdAdmin(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminApp.ArgoCdAdminApp(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.ArgoCdAdminCluster(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminClusterNamespaces.ArgoCdAdminClusterNamespaces(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminNotifications.ArgoCdAdminNotifications(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminNotificationsTemplate.ArgoCdAdminNotificationsTemplate(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminNotificationsTrigger.ArgoCdAdminNotificationsTrigger(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminProj.ArgoCdAdminProj(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminRepo.ArgoCdAdminRepo(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminSettings.ArgoCdAdminSettings(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminSettingsRbac.ArgoCdAdminSettingsRbac(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAdminSettingsResourceOverrides.ArgoCdAdminSettingsResourceOverrides(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdApp.ArgoCdApp(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdAppActions.ArgoCdAppActions(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdApplicationSet.ArgoCdApplicationSet(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdCert.ArgoCdCert(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdCluster.ArgoCdCluster(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdGpg.ArgoCdGpg(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdProj.ArgoCdProj(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdProjRole.ArgoCdProjRole(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdProjSourceIntegrity.ArgoCdProjSourceIntegrity(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdProjSourceIntegrityGit.ArgoCdProjSourceIntegrityGit(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdProjSourceIntegrityGitPolicies.ArgoCdProjSourceIntegrityGitPolicies(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdProjWindows.ArgoCdProjWindows(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdRepo.ArgoCdRepo(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.ArgoCd.Services.ArgoCdRepocreds.ArgoCdRepocreds(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.ArgoCd.Services.IArgoCd.ConfigureAsync(ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCd.ContextAsync(ModularPipelines.ArgoCd.Options.ArgoCdContextOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCd.LoginAsync(ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!

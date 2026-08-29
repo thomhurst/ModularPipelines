@@ -1,4 +1,3 @@
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
@@ -16,6 +15,7 @@ public interface IShellContext
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
+#pragma warning disable RS0026 // Strongly typed and raw command overloads intentionally share execution defaults.
     Task<CommandResult> RunAsync(
         CommandLineToolOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -46,6 +46,7 @@ public interface IShellContext
         string tool,
         IReadOnlyList<string> arguments,
         CancellationToken cancellationToken);
+#pragma warning restore RS0026
 
     /// <summary>
     /// Execute Bash scripts and commands.

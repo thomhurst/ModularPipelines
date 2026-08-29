@@ -26,6 +26,7 @@ public interface IXmlContext
     /// <param name="input">The XML string to deserialize.</param>
     /// <param name="options">The load options to use when parsing the XML string.</param>
     /// <returns>The deserialized object, or null if deserialization fails.</returns>
+#pragma warning disable RS0026 // String and XElement overloads intentionally share the optional load options.
     [RequiresDynamicCode("XmlSerializer may require runtime code generation.")]
     [RequiresUnreferencedCode("XmlSerializer requires members that trimming cannot statically discover.")]
     T? FromXml<T>(string input, LoadOptions options = LoadOptions.PreserveWhitespace)
@@ -42,4 +43,5 @@ public interface IXmlContext
     [RequiresUnreferencedCode("XmlSerializer requires members that trimming cannot statically discover.")]
     T? FromXml<T>(XElement element, LoadOptions options = LoadOptions.PreserveWhitespace)
         where T : class;
+#pragma warning restore RS0026
 }
