@@ -1,20 +1,31 @@
 {
   "formatVersion": 1,
   "toolName": "pnpm",
-  "commandCount": 10,
-  "commandTreeSha256": "cb939fe929bf55ab34691b42cc4b86072d72586b984937e4c3c43dc8b6c6be56",
+  "toolVersion": "11.24.0",
+  "commandCount": 17,
+  "commandTreeSha256": "18696e1b021b815b55d2466263ab6d8af87d0d9de99a4f2adf93ef61a3961e51",
   "commands": [
     "pnpm add",
     "pnpm audit",
+    "pnpm audit signatures",
     "pnpm create",
     "pnpm dlx",
     "pnpm init",
     "pnpm publish",
     "pnpm run",
     "pnpm stage",
+    "pnpm stage approve",
+    "pnpm stage download",
+    "pnpm stage list",
+    "pnpm stage publish",
+    "pnpm stage reject",
+    "pnpm stage view",
     "pnpm unlink",
     "pnpm why"
   ],
-  "commandGroups": [],
+  "commandGroups": [
+    "pnpm audit",
+    "pnpm stage"
+  ],
   "exclusions": []
 }

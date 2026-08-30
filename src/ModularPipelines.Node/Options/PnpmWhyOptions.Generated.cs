@@ -18,8 +18,15 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("why")]
-public record PnpmWhyOptions : PnpmOptions
+public record PnpmWhyOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Pkg
+) : PnpmOptions
 {
+    public PnpmWhyOptions()
+        : this(default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Aggregate output from child processes that are run in parallel, and only print output when child process is finished. It makes reading large logs after running `pnpm recursive` with `--parallel` or with `--workspace-concurrency` much easier (especially on CI). Only `--reporter=append-only` is supported.
     /// </summary>
@@ -39,7 +46,7 @@ public record PnpmWhyOptions : PnpmOptions
     public string? Dev { get; set; }
 
     /// <summary>
-    /// Change to directory &lt;dir&gt; (default: ~/work/ModularPipelines/ModularPipelines/ tools/ModularPipelines.OptionsGenerator/src/ ModularPipelines.OptionsGenerator)
+    /// Change to directory &lt;dir&gt; (default: ~/work/_temp/generator-work)
     /// </summary>
     [CliOption("--dir", ShortForm = "-C")]
     public string? Dir { get; set; }
