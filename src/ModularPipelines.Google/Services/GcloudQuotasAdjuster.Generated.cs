@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Context;
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;

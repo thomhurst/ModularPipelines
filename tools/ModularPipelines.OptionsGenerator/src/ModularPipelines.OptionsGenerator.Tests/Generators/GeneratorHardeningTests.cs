@@ -6159,6 +6159,60 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task EnumGenerator_Preserves_Aliases_With_Unique_Member_Names()
+    {
+        var enumDefinition = new CliEnumDefinition
+        {
+            EnumName = "ToolMaintenanceWindowDay",
+            Values =
+            [
+                new CliEnumValue { MemberName = "Friday", CliValue = "friday" },
+                new CliEnumValue { MemberName = "Fri", CliValue = "fri" },
+                new CliEnumValue { MemberName = "Friday", CliValue = "FRIDAY" },
+                new CliEnumValue { MemberName = "Fri", CliValue = "FRI" },
+                new CliEnumValue { MemberName = "Fri", CliValue = "fri" },
+            ],
+        };
+        var generated = (await new EnumGenerator().GenerateAsync(Tool(Command(
+            "ToolGetOptions",
+            "ToolOptions",
+            ["get"],
+            enums: [enumDefinition])))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("    Friday,");
+            await Assert.That(generated).Contains("    Fri,");
+            await Assert.That(generated).Contains("    FridayUppercase,");
+            await Assert.That(generated).Contains("    FriUppercase");
+            await Assert.That(generated.Split("[EnumValue(\"fri\")]", StringSplitOptions.None).Length)
+                .IsEqualTo(2);
+        }
+    }
+
+    [Test]
+    public async Task Required_Generated_Usings_Are_Added_Once()
+    {
+        const string source = "using System.CodeDom.Compiler;\n"
+            + "public sealed class ToolService(ICommandContext context)\n"
+            + "{\n"
+            + "    [SecretValue] public string? Token { get; init; }\n"
+            + "}\n";
+
+        var normalized = GeneratorUtils.EnsureRequiredUsings(source);
+        var normalizedAgain = GeneratorUtils.EnsureRequiredUsings(normalized);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(normalized).StartsWith(
+                "using ModularPipelines.Context;\n"
+                    + "using ModularPipelines.Secrets;\n"
+                    + "using System.CodeDom.Compiler;");
+            await Assert.That(normalizedAgain).IsEqualTo(normalized);
+        }
+    }
+
+    [Test]
     public async Task Case_Variant_Enum_Names_Fail_The_Duplicate_Path_Check()
     {
         static CliEnumDefinition EnumDef(string name) => new()

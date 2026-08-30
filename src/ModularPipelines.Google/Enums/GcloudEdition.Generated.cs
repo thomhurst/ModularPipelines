@@ -23,8 +23,8 @@ public enum GcloudEdition
     EnterprisePlus = 1,
 
     [EnumValue("enterprise")]
-    Enterprise = 2,
+    EnterpriseLowercase = 2,
 
     [EnumValue("enterprise-plus")]
-    EnterprisePlus = 3
+    EnterprisePlusLowercase = 3
 }
