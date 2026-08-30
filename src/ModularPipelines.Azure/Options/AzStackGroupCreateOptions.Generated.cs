@@ -18,8 +18,42 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "group", "create")]
-public record AzStackGroupCreateOptions : AzOptions
+public record AzStackGroupCreateOptions(
+    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage,
+    [property: CliOption("--deny-settings-mode", ShortForm = "--dm")] string DenySettingsMode,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzStackGroupCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--bse", ShortForm = "--bypass-stack-out-of-sync-error")]
+    public bool? Bse { get; set; }
+
+    /// <summary>
+    /// DenySettings will be applied to child scopes.
+    /// </summary>
+    [CliOption("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
+    public string? Cs { get; set; }
+
+    /// <summary>
+    /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.
+    /// </summary>
+    [CliOption("--deny-settings-excluded-actions", ShortForm = "--ea", GroupValues = true)]
+    public IEnumerable<string>? DenySettingsExcludedActions { get; set; }
+
+    /// <summary>
+    /// List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted.
+    /// </summary>
+    [CliOption("--deny-settings-excluded-principals", ShortForm = "--ep", GroupValues = true)]
+    public IEnumerable<string>? DenySettingsExcludedPrincipals { get; set; }
+
     /// <summary>
     /// The description of deployment stack.
     /// </summary>
@@ -35,8 +69,8 @@ public record AzStackGroupCreateOptions : AzOptions
     /// <summary>
     /// Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
-    [CliOption("--parameters", ShortForm = "-p")]
-    public string? ParametersValue { get; set; }
+    [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
+    public IEnumerable<string>? ParametersValueValues { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
@@ -45,10 +79,16 @@ public record AzStackGroupCreateOptions : AzOptions
     public string? QueryStringValue { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--resources-without-delete-support", ShortForm = "--rwd")]
+    public string? ResourcesWithoutDeleteSupport { get; set; }
+
+    /// <summary>
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// </summary>
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? TagsValues { get; set; }
 
     /// <summary>
     /// A path to a template file or Bicep file in the file system.
@@ -69,6 +109,12 @@ public record AzStackGroupCreateOptions : AzOptions
     public string? TemplateUriValue { get; set; }
 
     /// <summary>
+    /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider,
+    /// </summary>
+    [CliOption("--validation-level", ShortForm = "--vl")]
+    public string? ValidationLevel { get; set; }
+
+    /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes")]
@@ -84,8 +130,8 @@ public record AzStackGroupCreateOptions : AzOptions
     [Obsolete("Use ParametersValue instead.")]
     public bool? Parameters
     {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => bool.TryParse(ParametersValueValues?.FirstOrDefault(), out var value) ? value : null;
+        set => ParametersValueValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
     [Obsolete("Use QueryStringValue instead.")]
@@ -114,6 +160,20 @@ public record AzStackGroupCreateOptions : AzOptions
     {
         get => bool.TryParse(TemplateUriValue, out var value) ? value : null;
         set => TemplateUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ParametersValueValues instead.")]
+    public string? ParametersValue
+    {
+        get => ParametersValueValues?.FirstOrDefault();
+        set => ParametersValueValues = value is null ? null : [value];
+    }
+
+    [Obsolete("Use TagsValues instead.")]
+    public bool? Tags
+    {
+        get => bool.TryParse(TagsValues?.FirstOrDefault(), out var value) ? value : null;
+        set => TagsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
 }

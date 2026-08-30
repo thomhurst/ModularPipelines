@@ -41,13 +41,13 @@ public record AzStackWhatifSubCreateOptions(
     /// <summary>
     /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.
     /// </summary>
-    [CliOption("--deny-settings-excluded-actions", ShortForm = "--ea")]
+    [CliOption("--deny-settings-excluded-actions", ShortForm = "--ea", GroupValues = true)]
     public IEnumerable<string>? DenySettingsExcludedActionsValues { get; set; }
 
     /// <summary>
     /// List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted.
     /// </summary>
-    [CliOption("--deny-settings-excluded-principals", ShortForm = "--ep")]
+    [CliOption("--deny-settings-excluded-principals", ShortForm = "--ep", GroupValues = true)]
     public IEnumerable<string>? DenySettingsExcludedPrincipalsValues { get; set; }
 
     /// <summary>
@@ -83,8 +83,8 @@ public record AzStackWhatifSubCreateOptions(
     /// <summary>
     /// Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
-    [CliOption("--parameters", ShortForm = "-p")]
-    public string? Parameters { get; set; }
+    [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
+    public IEnumerable<string>? ParametersValues { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
@@ -168,6 +168,13 @@ public record AzStackWhatifSubCreateOptions(
     {
         get => bool.TryParse(ValidationLevelValue, out var value) ? value : null;
         set => ValidationLevelValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ParametersValues instead.")]
+    public string? Parameters
+    {
+        get => ParametersValues?.FirstOrDefault();
+        set => ParametersValues = value is null ? null : [value];
     }
 
 }

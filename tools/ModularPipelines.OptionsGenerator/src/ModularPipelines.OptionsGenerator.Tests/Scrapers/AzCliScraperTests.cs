@@ -193,7 +193,7 @@ public class AzCliScraperTests
             Optional Arguments
                 --description     : The description of deployment stack.
                 --no-color        : Disable color in pretty-printed results.
-                --parameters -p   : Parameters may be supplied from a file or as KEY=VALUE pairs.
+                --parameters -p   : Parameters may be supplied from a file or as KEY=VALUE pairs. Parameters are evaluated in order, so the latter value will be used.
                 --tags            : Space-separated tags: key[=value] [key[=value] ...].
                 --template-file -f: A path to a template file or Bicep file.
                 --template-uri -u : A uri to a remote template file.
@@ -207,8 +207,10 @@ public class AzCliScraperTests
         {
             await Assert.That(command!.Options.Single(option => option.PropertyName == "Description").IsFlag)
                 .IsFalse();
-            await Assert.That(command.Options.Single(option => option.PropertyName == "Parameters").IsFlag)
-                .IsFalse();
+            var parameters = command.Options.Single(option => option.PropertyName == "Parameters");
+            await Assert.That(parameters.IsFlag).IsFalse();
+            await Assert.That(parameters.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(parameters.GroupValues).IsTrue();
             await Assert.That(command.Options.Single(option => option.PropertyName == "Tags").CSharpType)
                 .IsEqualTo("IEnumerable<string>?");
             await Assert.That(command.Options.Single(option => option.PropertyName == "TemplateFile").IsFlag)
@@ -346,6 +348,9 @@ public class AzCliScraperTests
         {
             await Assert.That(command!.Options.Where(option => option.PropertyName != "NoColor")
                 .All(option => !option.IsFlag && option.CSharpType != "bool?")).IsTrue();
+            await Assert.That(command.Options.Single(option =>
+                    option.PropertyName == "DenySettingsExcludedActions").GroupValues)
+                .IsTrue();
             await Assert.That(command.Options.Single(option => option.PropertyName == "NoColor").IsFlag)
                 .IsTrue();
         }

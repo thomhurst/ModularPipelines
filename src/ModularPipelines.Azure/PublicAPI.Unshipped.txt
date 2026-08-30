@@ -9080,3 +9080,464 @@ virtual ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.Equ
 virtual ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Equals(ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions? other) -> bool
 virtual ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Equals(ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions? other) -> bool
 virtual ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.Equals(ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions? other) -> bool
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ActionOnUnmanage.get -> string!
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ActionOnUnmanage.init -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.AzStackGroupCreateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Name, string! ResourceGroup) -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.Bse.get -> bool?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.Bse.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.Cs.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.Cs.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Name, out string! ResourceGroup) -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.DenySettingsExcludedActions.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.DenySettingsExcludedActions.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.DenySettingsExcludedPrincipals.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.DenySettingsExcludedPrincipals.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.DenySettingsMode.get -> string!
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.DenySettingsMode.init -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.DescriptionValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.DescriptionValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ParametersValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ParametersValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ParametersValueValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ParametersValueValues.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.QueryStringValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.QueryStringValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ResourceGroup.get -> string!
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ResourcesWithoutDeleteSupport.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ResourcesWithoutDeleteSupport.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.TagsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.TagsValues.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.TemplateFileValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.TemplateFileValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.TemplateSpecValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.TemplateSpecValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.TemplateUriValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.TemplateUriValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ValidationLevel.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupCreateOptions.ValidationLevel.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ActionOnUnmanage.get -> string!
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ActionOnUnmanage.init -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.AzStackGroupValidateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Name, string! ResourceGroup) -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.Bse.get -> bool?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.Bse.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.Cs.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.Cs.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Name, out string! ResourceGroup) -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.DenySettingsExcludedActions.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.DenySettingsExcludedActions.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.DenySettingsExcludedPrincipals.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.DenySettingsExcludedPrincipals.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.DenySettingsMode.get -> string!
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.DenySettingsMode.init -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.DescriptionValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.DescriptionValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ParametersValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ParametersValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ParametersValueValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ParametersValueValues.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.QueryStringValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.QueryStringValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ResourceGroup.get -> string!
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ResourcesWithoutDeleteSupport.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ResourcesWithoutDeleteSupport.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.TagsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.TagsValues.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.TemplateFileValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.TemplateFileValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.TemplateSpecValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.TemplateSpecValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.TemplateUriValue.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.TemplateUriValue.set -> void
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ValidationLevel.get -> string?
+ModularPipelines.Azure.Options.AzStackGroupValidateOptions.ValidationLevel.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ActionOnUnmanage.get -> string!
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ActionOnUnmanage.init -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.AzStackMgCreateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Location, string! ManagementGroupId, string! Name) -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.Bse.get -> bool?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.Bse.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.Cs.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.Cs.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Location, out string! ManagementGroupId, out string! Name) -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DenySettingsExcludedActions.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DenySettingsExcludedActions.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DenySettingsExcludedPrincipals.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DenySettingsExcludedPrincipals.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DenySettingsMode.get -> string!
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DenySettingsMode.init -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DeploymentSubscription.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DeploymentSubscription.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DescriptionValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.DescriptionValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.Location.get -> string!
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.Location.init -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ManagementGroupId.get -> string!
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ManagementGroupId.init -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ParametersValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ParametersValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ParametersValueValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ParametersValueValues.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.QueryStringValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.QueryStringValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ResourcesWithoutDeleteSupport.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ResourcesWithoutDeleteSupport.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.TagsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.TagsValues.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.TemplateFileValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.TemplateFileValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.TemplateSpecValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.TemplateSpecValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.TemplateUriValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.TemplateUriValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ValidationLevel.get -> string?
+ModularPipelines.Azure.Options.AzStackMgCreateOptions.ValidationLevel.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ActionOnUnmanage.get -> string!
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ActionOnUnmanage.init -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.AzStackMgValidateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Location, string! ManagementGroupId, string! Name) -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.Bse.get -> bool?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.Bse.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.Cs.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.Cs.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Location, out string! ManagementGroupId, out string! Name) -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DenySettingsExcludedActions.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DenySettingsExcludedActions.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DenySettingsExcludedPrincipals.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DenySettingsExcludedPrincipals.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DenySettingsMode.get -> string!
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DenySettingsMode.init -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DeploymentSubscription.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DeploymentSubscription.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DescriptionValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.DescriptionValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.Location.get -> string!
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.Location.init -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ManagementGroupId.get -> string!
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ManagementGroupId.init -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ParametersValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ParametersValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ParametersValueValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ParametersValueValues.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.QueryStringValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.QueryStringValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ResourcesWithoutDeleteSupport.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ResourcesWithoutDeleteSupport.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.TagsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.TagsValues.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.TemplateFileValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.TemplateFileValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.TemplateSpecValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.TemplateSpecValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.TemplateUriValue.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.TemplateUriValue.set -> void
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ValidationLevel.get -> string?
+ModularPipelines.Azure.Options.AzStackMgValidateOptions.ValidationLevel.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ActionOnUnmanage.get -> string!
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ActionOnUnmanage.init -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.AzStackSubCreateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Location, string! Name) -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.Bse.get -> bool?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.Bse.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.Cs.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.Cs.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Location, out string! Name) -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DenySettingsExcludedActions.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DenySettingsExcludedActions.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DenySettingsExcludedPrincipals.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DenySettingsExcludedPrincipals.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DenySettingsMode.get -> string!
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DenySettingsMode.init -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DeploymentResourceGroup.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DeploymentResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DescriptionValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.DescriptionValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.Location.get -> string!
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.Location.init -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ParametersValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ParametersValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ParametersValueValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ParametersValueValues.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.QueryStringValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.QueryStringValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ResourcesWithoutDeleteSupport.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ResourcesWithoutDeleteSupport.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.TagsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.TagsValues.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.TemplateFileValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.TemplateFileValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.TemplateSpecValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.TemplateSpecValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.TemplateUriValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.TemplateUriValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ValidationLevel.get -> string?
+ModularPipelines.Azure.Options.AzStackSubCreateOptions.ValidationLevel.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ActionOnUnmanage.get -> string!
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ActionOnUnmanage.init -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.AzStackSubValidateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Location, string! Name) -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.Bse.get -> bool?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.Bse.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.Cs.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.Cs.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Location, out string! Name) -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DenySettingsExcludedActions.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DenySettingsExcludedActions.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DenySettingsExcludedPrincipals.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DenySettingsExcludedPrincipals.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DenySettingsMode.get -> string!
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DenySettingsMode.init -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DeploymentResourceGroup.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DeploymentResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DescriptionValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.DescriptionValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.Location.get -> string!
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.Location.init -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ParametersValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ParametersValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ParametersValueValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ParametersValueValues.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.QueryStringValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.QueryStringValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ResourcesWithoutDeleteSupport.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ResourcesWithoutDeleteSupport.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.TagsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.TagsValues.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.TemplateFileValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.TemplateFileValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.TemplateSpecValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.TemplateSpecValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.TemplateUriValue.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.TemplateUriValue.set -> void
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ValidationLevel.get -> string?
+ModularPipelines.Azure.Options.AzStackSubValidateOptions.ValidationLevel.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ActionOnUnmanage.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ActionOnUnmanage.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.AzStackWhatifGroupCreateOptions() -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.AzStackWhatifGroupCreateOptions(ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions! original) -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.AzStackWhatifGroupCreateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Name, string! ResourceGroup, string! RetentionInterval, string! StackId) -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Cs.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Cs.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.CsValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.CsValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Name, out string! ResourceGroup, out string! RetentionInterval, out string! StackId) -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedActions.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedActions.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedActionsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedActionsValues.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedPrincipals.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedPrincipals.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedPrincipalsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedPrincipalsValues.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsMode.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsMode.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Description.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Description.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.NoColor.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.NoColor.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.NoPrettyPrint.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.NoPrettyPrint.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.NoWait.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.NoWait.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Parameters.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Parameters.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ParametersValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ParametersValues.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.QueryString.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.QueryString.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ResourceGroup.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ResourcesWithoutDeleteSupport.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ResourcesWithoutDeleteSupport.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ResourcesWithoutDeleteSupportValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ResourcesWithoutDeleteSupportValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.RetentionInterval.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.RetentionInterval.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.StackId.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.StackId.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Tags.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.TemplateFile.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.TemplateFile.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.TemplateSpec.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.TemplateSpec.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.TemplateUri.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.TemplateUri.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ValidationLevel.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ValidationLevel.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ValidationLevelValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ValidationLevelValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ActionOnUnmanage.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ActionOnUnmanage.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.AzStackWhatifMgCreateOptions() -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.AzStackWhatifMgCreateOptions(ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions! original) -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.AzStackWhatifMgCreateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Location, string! ManagementGroupId, string! Name, string! RetentionInterval, string! StackId) -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Cs.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Cs.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.CsValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.CsValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Location, out string! ManagementGroupId, out string! Name, out string! RetentionInterval, out string! StackId) -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedActions.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedActions.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedActionsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedActionsValues.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedPrincipals.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedPrincipals.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedPrincipalsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedPrincipalsValues.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsMode.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsMode.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DeploymentSubscription.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DeploymentSubscription.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DeploymentSubscriptionValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DeploymentSubscriptionValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Description.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Description.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Location.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Location.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ManagementGroupId.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ManagementGroupId.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.NoColor.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.NoColor.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.NoPrettyPrint.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.NoPrettyPrint.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.NoWait.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.NoWait.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Parameters.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Parameters.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ParametersValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ParametersValues.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.QueryString.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.QueryString.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ResourcesWithoutDeleteSupport.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ResourcesWithoutDeleteSupport.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ResourcesWithoutDeleteSupportValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ResourcesWithoutDeleteSupportValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.RetentionInterval.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.RetentionInterval.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.StackId.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.StackId.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Tags.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.TemplateFile.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.TemplateFile.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.TemplateSpec.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.TemplateSpec.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.TemplateUri.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.TemplateUri.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ValidationLevel.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ValidationLevel.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ValidationLevelValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ValidationLevelValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ActionOnUnmanage.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ActionOnUnmanage.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.AzStackWhatifSubCreateOptions() -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.AzStackWhatifSubCreateOptions(ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions! original) -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.AzStackWhatifSubCreateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Location, string! Name, string! RetentionInterval, string! StackId) -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Cs.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Cs.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.CsValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.CsValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Location, out string! Name, out string! RetentionInterval, out string! StackId) -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedActions.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedActions.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedActionsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedActionsValues.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedPrincipals.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedPrincipals.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedPrincipalsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedPrincipalsValues.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsMode.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsMode.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DeploymentResourceGroup.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DeploymentResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DeploymentResourceGroupValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DeploymentResourceGroupValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Description.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Description.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Location.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Location.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.NoColor.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.NoColor.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.NoPrettyPrint.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.NoPrettyPrint.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.NoWait.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.NoWait.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Parameters.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Parameters.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ParametersValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ParametersValues.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.QueryString.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.QueryString.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ResourcesWithoutDeleteSupport.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ResourcesWithoutDeleteSupport.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ResourcesWithoutDeleteSupportValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ResourcesWithoutDeleteSupportValue.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.RetentionInterval.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.RetentionInterval.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.StackId.get -> string!
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.StackId.init -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Tags.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.TemplateFile.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.TemplateFile.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.TemplateSpec.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.TemplateSpec.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.TemplateUri.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.TemplateUri.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ValidationLevel.get -> bool?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ValidationLevel.set -> void
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ValidationLevelValue.get -> string?
+ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ValidationLevelValue.set -> void
+override ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.<Clone>$() -> ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions!
+override ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.GetHashCode() -> int
+override ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.ToString() -> string!
+override ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.<Clone>$() -> ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions!
+override ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.GetHashCode() -> int
+override ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.ToString() -> string!
+override ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.<Clone>$() -> ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions!
+override ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.GetHashCode() -> int
+override ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.ToString() -> string!
+override sealed ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Equals(ModularPipelines.Azure.Options.AzOptions? other) -> bool
+override sealed ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Equals(ModularPipelines.Azure.Options.AzOptions? other) -> bool
+override sealed ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Equals(ModularPipelines.Azure.Options.AzOptions? other) -> bool
+static ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.operator !=(ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions? left, ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.operator ==(ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions? left, ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.operator !=(ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions? left, ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.operator ==(ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions? left, ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.operator !=(ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions? left, ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.operator ==(ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions? left, ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions? right) -> bool
+virtual ModularPipelines.Azure.Options.AzOptions.AcquirePolicyToken.get -> bool?
+virtual ModularPipelines.Azure.Options.AzOptions.AcquirePolicyToken.set -> void
+virtual ModularPipelines.Azure.Options.AzOptions.ChangeReference.get -> string?
+virtual ModularPipelines.Azure.Options.AzOptions.ChangeReference.set -> void
+virtual ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Equals(ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions? other) -> bool
+virtual ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Equals(ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions? other) -> bool
+virtual ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Equals(ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions? other) -> bool

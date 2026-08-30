@@ -346,7 +346,7 @@ public partial class AzCliScraper : CliScraperBase
             IsFlag = isFlag,
             IsRequired = isRequired,
             AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
-            GroupValues = HelpDeclaresSpaceSeparatedList(description)
+            GroupValues = HelpDeclaresGroupedValues(description)
                           || IsGroupedAzureGenericUpdateOption(longFlag, description),
             IsKeyValue = false,
             IsNumeric = csharpType == "int?",
@@ -451,7 +451,8 @@ public partial class AzCliScraper : CliScraperBase
         // Check for list types (space-separated or multiple values)
         if (HelpDeclaresSpaceSeparatedList(lowerDesc)
             || DescriptionDeclaresRepeatableOption(lowerDesc)
-            || lowerDesc.Contains("list of"))
+            || lowerDesc.Contains("list of")
+            || HelpDeclaresOrderedParameterValues(lowerDesc))
         {
             return "IEnumerable<string>?";
         }
@@ -469,6 +470,16 @@ public partial class AzCliScraper : CliScraperBase
         description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
         || description.Contains("space-delimited", StringComparison.OrdinalIgnoreCase)
         || description.Contains("separated by spaces", StringComparison.OrdinalIgnoreCase);
+
+    private static bool HelpDeclaresGroupedValues(string description) =>
+        HelpDeclaresSpaceSeparatedList(description)
+        || (description.Contains("list of", StringComparison.OrdinalIgnoreCase)
+            && !DescriptionDeclaresRepeatableOption(description))
+        || HelpDeclaresOrderedParameterValues(description);
+
+    private static bool HelpDeclaresOrderedParameterValues(string description) =>
+        description.Contains("parameters are evaluated in order", StringComparison.OrdinalIgnoreCase)
+        && description.Contains("key=value", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Checks if an option is a global option that should be on the base class.
