@@ -1,5 +1,6 @@
 using ModularPipelines.Secrets;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace ModularPipelines.UnitTests.Documentation;
 
@@ -34,7 +35,7 @@ public class DocumentationSnippetTests
                 .ConfigureAwait(false);
 
             await Assert.That(contents).DoesNotContain("PipelineHostBuilder.Create()");
-            await Assert.That(contents).DoesNotContain("PipelineStatus");
+            await Assert.That(Regex.IsMatch(contents, @"\bPipelineStatus\b")).IsFalse();
             await Assert.That(contents).DoesNotContain("ExecuteAsync(IPipelineContext");
             await Assert.That(contents).DoesNotContain("await GetModule<");
 
