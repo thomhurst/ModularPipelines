@@ -1,6 +1,7 @@
 #nullable enable
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.ConditionallyAvailableCommands.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand!>!
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.ConditionallyAvailableCommands.init -> void
+ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.NullableBooleanToStringCollection = 9 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.CliConditionallyAvailableCommand() -> void
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.CliConditionallyAvailableCommand(ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand! original) -> void
@@ -8,9 +9,13 @@ ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Comman
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Command.init -> void
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Reason.get -> string!
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Reason.init -> void
+ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptionsBeforeSubcommands.get -> bool
+ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptionsBeforeSubcommands.init -> void
 override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Equals(object? obj) -> bool
 override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.GetHashCode() -> int
 override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.ToString() -> string!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.SupplementalGlobalOptions.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.FlywayCliScraper.MaxParallelism.get -> int
 static ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.operator !=(ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? left, ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.operator ==(ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? left, ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? right) -> bool
@@ -18,3 +23,4 @@ virtual ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableComman
 virtual ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.EqualityContract.get -> System.Type!
 virtual ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Equals(ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? other) -> bool
 virtual ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GlobalOptionsBeforeSubcommands.get -> bool
