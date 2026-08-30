@@ -39,6 +39,7 @@ var yarn = context.Tools.Yarn;
 | `yarn constraints query`          | `YarnConstraintsQueryOptions`        |
 | `yarn constraints source`         | `YarnConstraintsSourceOptions`       |
 | `yarn dedupe`                     | `YarnDedupeOptions`                  |
+| `yarn dlx`                        | `YarnDlxOptions`                     |
 | `yarn exec`                       | `YarnExecOptions`                    |
 | `yarn explain`                    | `YarnExplainOptions`                 |
 | `yarn info`                       | `YarnInfoOptions`                    |
@@ -75,6 +76,7 @@ var yarn = context.Tools.Yarn;
 | `yarn version apply`              | `YarnVersionApplyOptions`            |
 | `yarn version check`              | `YarnVersionCheckOptions`            |
 | `yarn why`                        | `YarnWhyOptions`                     |
+| `yarn workspace`                  | `YarnWorkspaceOptions`               |
 | `yarn workspaces focus`           | `YarnWorkspacesFocusOptions`         |
 | `yarn workspaces foreach`         | `YarnWorkspacesForeachOptions`       |
 | `yarn workspaces list`            | `YarnWorkspacesListOptions`          |
