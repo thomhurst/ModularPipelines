@@ -18,4 +18,85 @@ ModularPipelines.Packer.Services.IPacker.InitAsync(ModularPipelines.Packer.Optio
 ModularPipelines.Packer.Services.IPacker.InspectAsync(ModularPipelines.Packer.Options.PackerInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Packer.Services.IPacker.PluginsAsync(ModularPipelines.Packer.Options.PackerPluginsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Packer.Services.IPacker.ValidateAsync(ModularPipelines.Packer.Options.PackerValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.VerifyAttestationAsync(ModularPipelines.Packer.Options.PackerVerifyAttestationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 static ModularPipelines.Packer.Extensions.PackerExtensions.Packer(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Packer.Services.IPacker!
+ModularPipelines.Packer.Options.PackerBuildOptions.Deconstruct(out string! Template) -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.PackerBuildOptions(string! Template) -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.Template.get -> string!
+ModularPipelines.Packer.Options.PackerBuildOptions.Template.init -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.VarFileValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Packer.Options.PackerBuildOptions.VarFileValues.set -> void
+ModularPipelines.Packer.Options.PackerConsoleOptions.Template.get -> string?
+ModularPipelines.Packer.Options.PackerConsoleOptions.Template.set -> void
+ModularPipelines.Packer.Options.PackerFixOptions.Deconstruct(out string! Template) -> void
+ModularPipelines.Packer.Options.PackerFixOptions.PackerFixOptions(string! Template) -> void
+ModularPipelines.Packer.Options.PackerFixOptions.Template.get -> string!
+ModularPipelines.Packer.Options.PackerFixOptions.Template.init -> void
+ModularPipelines.Packer.Options.PackerFmtOptions.Template.get -> string?
+ModularPipelines.Packer.Options.PackerFmtOptions.Template.set -> void
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.Deconstruct(out string! Template) -> void
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.PackerHcl2UpgradeOptions(string! Template) -> void
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.Template.get -> string!
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.Template.init -> void
+ModularPipelines.Packer.Options.PackerInitOptions.Deconstruct(out string! Template) -> void
+ModularPipelines.Packer.Options.PackerInitOptions.PackerInitOptions(string! Template) -> void
+ModularPipelines.Packer.Options.PackerInitOptions.Template.get -> string!
+ModularPipelines.Packer.Options.PackerInitOptions.Template.init -> void
+ModularPipelines.Packer.Options.PackerInspectOptions.Deconstruct(out string! Template) -> void
+ModularPipelines.Packer.Options.PackerInspectOptions.PackerInspectOptions(string! Template) -> void
+ModularPipelines.Packer.Options.PackerInspectOptions.Template.get -> string!
+ModularPipelines.Packer.Options.PackerInspectOptions.Template.init -> void
+ModularPipelines.Packer.Options.PackerPluginsOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Packer.Options.PackerPluginsOptions.Args.set -> void
+ModularPipelines.Packer.Options.PackerPluginsOptions.Deconstruct(out string! Subcommand) -> void
+ModularPipelines.Packer.Options.PackerPluginsOptions.PackerPluginsOptions(string! Subcommand) -> void
+ModularPipelines.Packer.Options.PackerPluginsOptions.Subcommand.get -> string!
+ModularPipelines.Packer.Options.PackerPluginsOptions.Subcommand.init -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.Deconstruct(out string! Template) -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.PackerValidateOptions(string! Template) -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.Template.get -> string!
+ModularPipelines.Packer.Options.PackerValidateOptions.Template.init -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.VarFileValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Packer.Options.PackerValidateOptions.VarFileValues.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Artifact.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Artifact.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Attestation.get -> string!
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Attestation.init -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.BuilderId.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.BuilderId.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Bundle.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Bundle.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Deconstruct(out string! Attestation) -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Key.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Key.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.KeylessIdentity.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.KeylessIdentity.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.KeylessOidcIssuer.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.KeylessOidcIssuer.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.PackerVerifyAttestationOptions(ModularPipelines.Packer.Options.PackerVerifyAttestationOptions! original) -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.PackerVerifyAttestationOptions(string! Attestation) -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.PredicateType.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.PredicateType.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.RequireRekor.get -> bool?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.RequireRekor.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.RequireTimestamp.get -> bool?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.RequireTimestamp.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.SigningMode.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.SigningMode.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.SourceUri.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.SourceUri.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.TrustedRootPath.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.TrustedRootPath.set -> void
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Verifier.get -> string?
+ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Verifier.set -> void
+override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerVerifyAttestationOptions!
+override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.ToString() -> string!
+override sealed ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+static ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.operator !=(ModularPipelines.Packer.Options.PackerVerifyAttestationOptions? left, ModularPipelines.Packer.Options.PackerVerifyAttestationOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.operator ==(ModularPipelines.Packer.Options.PackerVerifyAttestationOptions? left, ModularPipelines.Packer.Options.PackerVerifyAttestationOptions? right) -> bool
+virtual ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Equals(ModularPipelines.Packer.Options.PackerVerifyAttestationOptions? other) -> bool
