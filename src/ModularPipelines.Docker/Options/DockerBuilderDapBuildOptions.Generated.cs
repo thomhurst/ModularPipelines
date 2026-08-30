@@ -33,4 +33,10 @@ public record DockerBuilderDapBuildOptions : DockerBuildxDapBuildOptions
             ? null
             : (DockerBuildxDapBuildProgress)(int)value.Value;
     }
+    [Obsolete("Path is retained for compatibility.")]
+    public new string Path
+    {
+        get => base.Path;
+        init => base.Path = value;
+    }
 }

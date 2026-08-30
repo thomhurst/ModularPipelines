@@ -66,12 +66,6 @@ public record DockerComposeBuildOptions : DockerOptions
     public bool? Print { get; set; }
 
     /// <summary>
-    /// Add a provenance attestation
-    /// </summary>
-    [CliOption("--provenance", Format = OptionFormat.EqualsSeparated)]
-    public string? Provenance { get; set; }
-
-    /// <summary>
     /// Always attempt to pull a newer version of the image
     /// </summary>
     [CliFlag("--pull")]
@@ -84,16 +78,10 @@ public record DockerComposeBuildOptions : DockerOptions
     public bool? Push { get; set; }
 
     /// <summary>
-    /// Suppress the build output
+    /// Don't print anything to STDOUT
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Add a SBOM attestation
-    /// </summary>
-    [CliOption("--sbom", Format = OptionFormat.EqualsSeparated)]
-    public string? Sbom { get; set; }
 
     /// <summary>
     /// Set SSH authentications used when building service images. (use 'default' for using your default SSH Agent)
@@ -112,5 +100,11 @@ public record DockerComposeBuildOptions : DockerOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
+
+    [Obsolete("Provenance is no longer supported by the installed CLI and has no effect.")]
+    public string? Provenance { get; set; }
+
+    [Obsolete("Sbom is no longer supported by the installed CLI and has no effect.")]
+    public string? Sbom { get; set; }
 
 }
