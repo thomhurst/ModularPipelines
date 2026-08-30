@@ -32,6 +32,7 @@ internal partial class Flyway : IFlyway
     #region Commands
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> AddAsync(
         FlywayAddOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -77,6 +78,7 @@ internal partial class Flyway : IFlyway
     }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> DeployAsync(
         FlywayDeployOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -86,6 +88,7 @@ internal partial class Flyway : IFlyway
     }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> DiffApplyAsync(
         FlywayDiffApplyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -113,6 +116,7 @@ internal partial class Flyway : IFlyway
     }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> GenerateAsync(
         FlywayGenerateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -140,6 +144,7 @@ internal partial class Flyway : IFlyway
     }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> ListEnginesAsync(
         FlywayListEnginesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -158,6 +163,7 @@ internal partial class Flyway : IFlyway
     }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> PrepareAsync(
         FlywayPrepareOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -185,6 +191,7 @@ internal partial class Flyway : IFlyway
     }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> UndoAsync(
         FlywayUndoOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
