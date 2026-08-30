@@ -91,7 +91,7 @@ public class AzureCommandTests : TestBase
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["task", "registry", "--assign-identity", "[system]", "/subscriptions/example/identity"],
+            ["--name", "task", "--registry", "registry", "--assign-identity", "[system]", "/subscriptions/example/identity"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
@@ -104,7 +104,7 @@ public class AzureCommandTests : TestBase
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["task", "registry", "--schedule", "daily:0 0 * * *", "--schedule", "weekly:0 0 * * 0"],
+            ["--name", "task", "--registry", "registry", "--schedule", "daily:0 0 * * *", "--schedule", "weekly:0 0 * * 0"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
@@ -117,7 +117,7 @@ public class AzureCommandTests : TestBase
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["task", "registry", "--git-access-token", "token"],
+            ["--name", "task", "--registry", "registry", "--git-access-token", "token"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
@@ -130,7 +130,7 @@ public class AzureCommandTests : TestBase
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["deleteAll", "none", "stack", "group", "--cs"],
+            ["--action-on-unmanage", "deleteAll", "--deny-settings-mode", "none", "--name", "stack", "--resource-group", "group", "--cs"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
