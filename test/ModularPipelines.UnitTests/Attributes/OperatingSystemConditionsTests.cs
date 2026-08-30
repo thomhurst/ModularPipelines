@@ -35,7 +35,8 @@ public class OperatingSystemConditionsTests
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     private sealed class GroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
-        IGroupedConditionAttribute
+        IGroupedConditionAttribute,
+        IPlanningConditionAttribute
         where TCondition : IRunCondition, new()
     {
         public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
@@ -45,7 +46,8 @@ public class OperatingSystemConditionsTests
     }
 
     private sealed class FirstGroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
-        IGroupedConditionAttribute
+        IGroupedConditionAttribute,
+        IPlanningConditionAttribute
         where TCondition : IRunCondition, new()
     {
         public Type ConditionGroupType => typeof(SharedDeclaredGroupModule);
@@ -55,7 +57,8 @@ public class OperatingSystemConditionsTests
     }
 
     private sealed class SecondGroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
-        IGroupedConditionAttribute
+        IGroupedConditionAttribute,
+        IPlanningConditionAttribute
         where TCondition : IRunCondition, new()
     {
         public Type ConditionGroupType => typeof(SharedDeclaredGroupModule);
