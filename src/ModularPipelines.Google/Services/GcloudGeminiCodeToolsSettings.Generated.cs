@@ -43,6 +43,21 @@ public class GcloudGeminiCodeToolsSettings
     #region Commands
 
     /// <summary>
+    /// manage Code Tools Setting resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudGeminiCodeToolsSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudGeminiCodeToolsSettingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create codeToolsSettings
     /// </summary>
     /// <param name="options">The command options.</param>

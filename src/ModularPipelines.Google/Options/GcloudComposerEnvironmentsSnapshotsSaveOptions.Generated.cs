@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComposerEnvironmentsSnapshotsSaveOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The Cloud Storage location where to save the snapshot. It must start     with the prefix gs://. Default value is /snapshots directory in the     Cloud Storage bucket of the environment.
+    /// The Cloud Storage location where to save the snapshot. It must start with the prefix gs://. Default value is /snapshots directory in the Cloud Storage bucket of the environment.
     /// </summary>
     [CliOption("--snapshot-location", Format = OptionFormat.EqualsSeparated)]
     public string? SnapshotLocation { get; set; }

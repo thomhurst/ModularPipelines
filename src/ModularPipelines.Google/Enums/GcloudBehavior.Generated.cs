@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudBehavior
 {
     [EnumValue("behaviorUnspecified")]
-    Behaviorunspecified,
+    Behaviorunspecified = 0,
 
     [EnumValue("bypassResponsePolicy")]
-    Bypassresponsepolicy
+    Bypassresponsepolicy = 1
 }

@@ -24,19 +24,19 @@ public record GcloudComputeTargetInstancesUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The security policy that will be set for this target instance. To     remove the policy from this target instance set the policy to an empty     string.
+    /// The security policy that will be set for this target instance. To remove the policy from this target instance set the policy to an empty string.
     /// </summary>
     [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicy { get; set; }
 
     /// <summary>
-    /// Region of the security policy to operate on. Overrides the default     compute/region property value for this command invocation.
+    /// Region of the security policy to operate on. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--security-policy-region", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicyRegion { get; set; }
 
     /// <summary>
-    /// Zone of the target instance to update. If not specified and the     compute/zone property isn't set, you might be prompted to select a zone     (interactive mode only).     To avoid prompting when this flag is omitted, you can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.
+    /// Zone of the target instance to update. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }

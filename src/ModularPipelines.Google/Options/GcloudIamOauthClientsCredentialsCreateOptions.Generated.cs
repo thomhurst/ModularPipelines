@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamOauthClientsCredentialsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Disables the OAuth client credential. You cannot use a disabled OAuth     client credential for OAuth. Include --no-disabled to enable a disabled     OAuth client credential.
+    /// Disables the OAuth client credential. You cannot use a disabled OAuth client credential for OAuth. Include --no-disabled to enable a disabled OAuth client credential.
     /// </summary>
     [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// A display name for the OAuth client credential. Cannot exceed 32     characters.
+    /// A display name for the OAuth client credential. Cannot exceed 32 characters.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }

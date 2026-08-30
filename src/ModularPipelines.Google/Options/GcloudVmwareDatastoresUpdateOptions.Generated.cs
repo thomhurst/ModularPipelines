@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwareDatastoresUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }

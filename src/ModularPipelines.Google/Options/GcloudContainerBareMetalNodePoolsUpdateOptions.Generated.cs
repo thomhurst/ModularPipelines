@@ -23,51 +23,69 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerBareMetalNodePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// If set, and the Anthos cluster on bare metal is not found, the update     request will try to create a new cluster with the provided     configuration.
+    /// Modifiable kubelet configurations for bare metal machines. If set, and the Anthos cluster on bare metal is not found, the update request will try to create a new cluster with the provided configuration.
     /// </summary>
     [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Modifiable kubelet configurations for bare metal machines. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Display name for the resource.
+    /// Modifiable kubelet configurations for bare metal machines. Display name for the resource.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// If set, only validate the request, but do not actually perform the     operation.    Anthos on bare metal node pool configuration.    Populate Bare Metal Node Pool node config.    At most one of these can be specified:     --node-configs=[labels=LABELS],[node-ip=NODE-IP]      Bare Metal Node Pool node configuration.
+    /// Modifiable kubelet configurations for bare metal machines. If set, only validate the request, but do not actually perform the operation.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Labels assigned to nodes of a node pool.
+    /// Modifiable kubelet configurations for bare metal machines. Anthos on bare metal node pool configuration. Populate Bare Metal Node Pool node config. At most one of these can be specified: Bare Metal Node Pool node configuration.
+    /// </summary>
+    [CliOption("--node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeConfigs { get; set; }
+
+    /// <summary>
+    /// Modifiable kubelet configurations for bare metal machines. Labels assigned to nodes of a node pool.
     /// </summary>
     [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
 
     /// <summary>
-    /// Node taint applied to every Kubernetes node in a node pool.    Modifiable kubelet configurations for bare metal machines.
+    /// Modifiable kubelet configurations for bare metal machines. Node taint applied to every Kubernetes node in a node pool.
     /// </summary>
     [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? NodeTaints { get; set; }
 
     /// <summary>
-    /// Maximum size of bursty pulls, temporarily allow pulls to burst to this     number, while still not exceeding registry_pull_qps.
+    /// Modifiable kubelet configurations for bare metal machines. Maximum size of bursty pulls, temporarily allow pulls to burst to this number, while still not exceeding registry_pull_qps.
     /// </summary>
     [CliOption("--registry-burst", Format = OptionFormat.EqualsSeparated)]
     public string? RegistryBurst { get; set; }
 
     /// <summary>
-    /// Limit of registry pulls per second.    At most one of these can be specified:     --disable-serialize-image-pulls      If set, prevent the Kubelet from pulling multiple images at a time.     --enable-serialize-image-pulls      If set, enable the Kubelet to pull multiple images at a time.
+    /// Modifiable kubelet configurations for bare metal machines. Limit of registry pulls per second.
     /// </summary>
     [CliOption("--registry-pull-qps", Format = OptionFormat.EqualsSeparated)]
     public string? RegistryPullQps { get; set; }
+
+    /// <summary>
+    /// Modifiable kubelet configurations for bare metal machines. At most one of these can be specified: If set, prevent the Kubelet from pulling multiple images at a time.
+    /// </summary>
+    [CliFlag("--disable-serialize-image-pulls")]
+    public bool? DisableSerializeImagePulls { get; set; }
+
+    /// <summary>
+    /// Modifiable kubelet configurations for bare metal machines. At most one of these can be specified: If set, enable the Kubelet to pull multiple images at a time.
+    /// </summary>
+    [CliFlag("--enable-serialize-image-pulls")]
+    public bool? EnableSerializeImagePulls { get; set; }
 
 }

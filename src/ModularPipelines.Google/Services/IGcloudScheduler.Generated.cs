@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud scheduler commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudScheduler
 {
     /// <summary>
     /// gcloud cmek-config sub-commands.
     /// </summary>
-    GcloudSchedulerCmekConfig CmekConfig { get; }
+    GcloudSchedulerCmekConfig CmekConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudSchedulerJobs Jobs { get; }
+    GcloudSchedulerJobs Jobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudSchedulerLocations Locations { get; }
+    GcloudSchedulerLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudSchedulerOperations Operations { get; }
+    GcloudSchedulerOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud Scheduler jobs and schedules
@@ -45,9 +48,7 @@ public interface IGcloudScheduler
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudSchedulerOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudSchedulerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

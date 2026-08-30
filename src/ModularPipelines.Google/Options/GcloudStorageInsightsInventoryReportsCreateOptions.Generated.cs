@@ -24,33 +24,57 @@ public record GcloudStorageInsightsInventoryReportsCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Sets the URL of the destination bucket and path where generated reports     are stored. Defaults to &lt;SOURCE_BUCKET_URL&gt;/inventory_reports/.
+    /// --metadata-fields=[METADATA_FIELDS,...]; default="project,bucket,name,location,size,timeCreated,timeDeleted,updated,storageClass,etag,retentionExpirationTime,crc32c,md5Hash,generation,metageneration,contentType,contentEncoding,timeStorageClassUpdated" The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. --schedule-repeats=FREQUENCY; default="daily" Sets how often the inventory report configuration will run. Defaults to DAILY. FREQUENCY must be one of: daily, weekly. Sets the URL of the destination bucket and path where generated reports are stored. Defaults to &lt;SOURCE_BUCKET_URL&gt;/inventory_reports/.
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
 
     /// <summary>
-    /// Sets the editable name of the report configuration.
+    /// --metadata-fields=[METADATA_FIELDS,...]; default="project,bucket,name,location,size,timeCreated,timeDeleted,updated,storageClass,etag,retentionExpirationTime,crc32c,md5Hash,generation,metageneration,contentType,contentEncoding,timeStorageClassUpdated" The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. --schedule-repeats=FREQUENCY; default="daily" Sets how often the inventory report configuration will run. Defaults to DAILY. FREQUENCY must be one of: daily, weekly. Sets the editable name of the report configuration.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MetadataFields { get; set; }
-
-    [CliOption("--schedule-repeats", Format = OptionFormat.EqualsSeparated)]
-    public string? ScheduleRepeats { get; set; }
-
     /// <summary>
-    /// Sets date after which you want to stop generating inventory reports.     For example, 2022-03-30. Defaults to one year from --schedule-starts     value.
+    /// --metadata-fields=[METADATA_FIELDS,...]; default="project,bucket,name,location,size,timeCreated,timeDeleted,updated,storageClass,etag,retentionExpirationTime,crc32c,md5Hash,generation,metageneration,contentType,contentEncoding,timeStorageClassUpdated" The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. --schedule-repeats=FREQUENCY; default="daily" Sets how often the inventory report configuration will run. Defaults to DAILY. FREQUENCY must be one of: daily, weekly. Sets date after which you want to stop generating inventory reports. For example, 2022-03-30. Defaults to one year from --schedule-starts value.
     /// </summary>
     [CliOption("--schedule-repeats-until", Format = OptionFormat.EqualsSeparated)]
     public string? ScheduleRepeatsUntil { get; set; }
 
     /// <summary>
-    /// Sets the date you want to start generating inventory reports. For     example, 2022-01-30. Should be tomorrow or later based on UTC timezone.     Defaults to tomorrow.    Report format configuration. Any combination of CSV flags is valid as long   as the Parquet flag is not present.    At most one of these can be specified:     --parquet      Generate reports in parquet format.     Or at least one of these can be specified:      Flags for setting CSV format options.      --csv-delimiter=DELIMITER       Sets the delimiter that separates the fields in the inventory       report CSV file. For example, ``,``      --[no-]csv-header       Indicates whether or not headers are included in the inventory       report CSV file. Default is None. Use --csv-header to enable and       --no-csv-header to disable.      --csv-separator=SEPARATOR       Sets the character used to separate the records in the inventory       report CSV file. For example, ``\n``. SEPARATOR must be one of: \n,       \r\n.
+    /// --metadata-fields=[METADATA_FIELDS,...]; default="project,bucket,name,location,size,timeCreated,timeDeleted,updated,storageClass,etag,retentionExpirationTime,crc32c,md5Hash,generation,metageneration,contentType,contentEncoding,timeStorageClassUpdated" The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. --schedule-repeats=FREQUENCY; default="daily" Sets how often the inventory report configuration will run. Defaults to DAILY. FREQUENCY must be one of: daily, weekly. Sets the date you want to start generating inventory reports. For example, 2022-01-30. Should be tomorrow or later based on UTC timezone. Defaults to tomorrow.
     /// </summary>
     [CliOption("--schedule-starts", Format = OptionFormat.EqualsSeparated)]
     public string? ScheduleStarts { get; set; }
+
+    /// <summary>
+    /// --metadata-fields=[METADATA_FIELDS,...]; default="project,bucket,name,location,size,timeCreated,timeDeleted,updated,storageClass,etag,retentionExpirationTime,crc32c,md5Hash,generation,metageneration,contentType,contentEncoding,timeStorageClassUpdated" The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. --schedule-repeats=FREQUENCY; default="daily" Sets how often the inventory report configuration will run. Defaults to DAILY. FREQUENCY must be one of: daily, weekly. Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Generate reports in parquet format.
+    /// </summary>
+    [CliFlag("--parquet")]
+    public bool? Parquet { get; set; }
+
+    /// <summary>
+    /// --metadata-fields=[METADATA_FIELDS,...]; default="project,bucket,name,location,size,timeCreated,timeDeleted,updated,storageClass,etag,retentionExpirationTime,crc32c,md5Hash,generation,metageneration,contentType,contentEncoding,timeStorageClassUpdated" The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. --schedule-repeats=FREQUENCY; default="daily" Sets how often the inventory report configuration will run. Defaults to DAILY. FREQUENCY must be one of: daily, weekly. Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Sets the delimiter that separates the fields in the inventory report CSV file. For example, ``,``
+    /// </summary>
+    [CliOption("--csv-delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvDelimiter { get; set; }
+
+    /// <summary>
+    /// --metadata-fields=[METADATA_FIELDS,...]; default="project,bucket,name,location,size,timeCreated,timeDeleted,updated,storageClass,etag,retentionExpirationTime,crc32c,md5Hash,generation,metageneration,contentType,contentEncoding,timeStorageClassUpdated" The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. --schedule-repeats=FREQUENCY; default="daily" Sets how often the inventory report configuration will run. Defaults to DAILY. FREQUENCY must be one of: daily, weekly. Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Indicates whether or not headers are included in the inventory report CSV file. Default is None. Use --csv-header to enable and --no-csv-header to disable.
+    /// </summary>
+    [CliFlag("--csv-header")]
+    public bool? CsvHeader { get; set; }
+
+    /// <summary>
+    /// --metadata-fields=[METADATA_FIELDS,...]; default="project,bucket,name,location,size,timeCreated,timeDeleted,updated,storageClass,etag,retentionExpirationTime,crc32c,md5Hash,generation,metageneration,contentType,contentEncoding,timeStorageClassUpdated" The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. --schedule-repeats=FREQUENCY; default="daily" Sets how often the inventory report configuration will run. Defaults to DAILY. FREQUENCY must be one of: daily, weekly. Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Sets the character used to separate the records in the inventory report CSV file. For example, ``\n``. SEPARATOR must be one of: \n, \r\n.
+    /// </summary>
+    [CliOption("--csv-separator", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvSeparator { get; set; }
+
+    [Obsolete("MetadataFields is no longer supported by the installed CLI and has no effect.")]
+    public IEnumerable<string>? MetadataFields { get; set; }
+
+    [Obsolete("ScheduleRepeats is no longer supported by the installed CLI and has no effect.")]
+    public string? ScheduleRepeats { get; set; }
 
 }

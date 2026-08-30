@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunServicesReplaceOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set to true, only validates the configuration. The configuration is     not applied.
+    /// If set to true, only validates the configuration. The configuration is not applied.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Region in which the resource can be found. Alternatively, set the     property [run/region].
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

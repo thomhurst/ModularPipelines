@@ -33,6 +33,21 @@ public class GcloudKmsEkmConnections
     #region Commands
 
     /// <summary>
+    /// create and manage ekm connections
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudKmsEkmConnectionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsEkmConnectionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy binding     for a kms ekm connection
     /// </summary>
     /// <param name="options">The command options.</param>

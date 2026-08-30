@@ -24,51 +24,69 @@ public record GcloudContainerClustersUpgradeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The GKE release version to which to upgrade the cluster's node pools or     master.     If desired cluster version is omitted, node pool upgrades default to     the current master version and master upgrades default to the default     cluster version, which can be found in the server config.     You can find the list of allowed versions for upgrades by running:       $ gcloud container get-server-config
+    /// The GKE release version to which to upgrade the cluster's node pools or master. If desired cluster version is omitted, node pool upgrades default to the current master version and master upgrades default to the default cluster version, which can be found in the server config. You can find the list of allowed versions for upgrades by running: $ gcloud container get-server-config
     /// </summary>
     [CliOption("--cluster-version", Format = OptionFormat.EqualsSeparated)]
     public string? ClusterVersion { get; set; }
 
     /// <summary>
-    /// The soak duration for the rollback-able control plane upgrade. It only     applies to minor version upgrades. Setting this flag will trigger a     control plane upgrade with emulated version. The cluster is     rollback-able during the soak period. The soak period can be set     between 6 hours and 7 days.
+    /// The soak duration for the rollback-able control plane upgrade. It only applies to minor version upgrades. Setting this flag will trigger a control plane upgrade with emulated version. The cluster is rollback-able during the soak period. The soak period can be set between 6 hours and 7 days.
     /// </summary>
     [CliOption("--control-plane-soak-duration", Format = OptionFormat.EqualsSeparated)]
     public string? ControlPlaneSoakDuration { get; set; }
 
     /// <summary>
-    /// The Operating System image for the node pool. This is a private     feature, please contact your Google account team for allowlisting this     feature.
+    /// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
     public string? Image { get; set; }
 
     /// <summary>
-    /// The Google Cloud project storing the Operating System image for the     node pool. This is a private feature, please contact your Google     account team for allowlisting this feature.
+    /// The Google Cloud project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
     /// </summary>
     [CliOption("--image-project", Format = OptionFormat.EqualsSeparated)]
     public string? ImageProject { get; set; }
 
     /// <summary>
-    /// The image type to use for the cluster/node pool. Defaults to     server-specified.     Image Type specifies the base OS that the nodes in the cluster/node     pool will run on. If an image type is specified, that will be assigned     to the cluster/node pool and all future upgrades will use the specified     image type. If it is not specified the server will pick the default     image type.     The default image type and the list of valid image types are available     using the following command.       $ gcloud container get-server-config
+    /// The image type to use for the cluster/node pool. Defaults to server-specified. Image Type specifies the base OS that the nodes in the cluster/node pool will run on. If an image type is specified, that will be assigned to the cluster/node pool and all future upgrades will use the specified image type. If it is not specified the server will pick the default image type. The default image type and the list of valid image types are available using the following command. $ gcloud container get-server-config
     /// </summary>
     [CliOption("--image-type", Format = OptionFormat.EqualsSeparated)]
     public string? ImageType { get; set; }
 
     /// <summary>
-    /// Upgrade the cluster's master. Node pools cannot be upgraded at the same     time as the master.
+    /// Upgrade the cluster's master. Node pools cannot be upgraded at the same time as the master.
     /// </summary>
     [CliFlag("--master")]
     public bool? Master { get; set; }
 
     /// <summary>
-    /// The node pool to upgrade.    At most one of these can be specified:     --location=LOCATION      Compute zone or region (e.g. us-central1-a or us-central1) for the      cluster. Overrides the default compute/region or compute/zone value      for this command invocation. Prefer using this flag over the --region      or --zone flags.     --region=REGION      Compute region (e.g. us-central1) for a regional cluster. Overrides      the default compute/region property value for this command      invocation.     --zone=ZONE, -z ZONE      Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the      default compute/zone property value for this command invocation.
+    /// The node pool to upgrade.
     /// </summary>
     [CliOption("--node-pool", Format = OptionFormat.EqualsSeparated)]
     public string? NodePool { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
 
 }

@@ -33,6 +33,21 @@ public class GcloudBmsSshKeys
     #region Commands
 
     /// <summary>
+    /// manage SSH keys for Bare Metal Solution
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBmsSshKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBmsSshKeysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add a public SSH key to the project in Bare Metal     Solution
     /// </summary>
     /// <param name="options">The command options.</param>

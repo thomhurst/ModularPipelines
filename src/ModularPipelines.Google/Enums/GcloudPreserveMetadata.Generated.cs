@@ -17,29 +17,29 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudPreserveMetadata
 {
     [EnumValue("acl")]
-    Acl,
+    Acl = 0,
 
     [EnumValue("gid")]
-    Gid,
+    Gid = 1,
 
     [EnumValue("kms-key")]
-    KmsKey,
+    KmsKey = 2,
 
     [EnumValue("mode")]
-    Mode,
+    Mode = 3,
 
     [EnumValue("storage-class")]
-    StorageClass,
+    StorageClass = 4,
 
     [EnumValue("symlink")]
-    Symlink,
+    Symlink = 5,
 
     [EnumValue("temporary-hold")]
-    TemporaryHold,
+    TemporaryHold = 6,
 
     [EnumValue("time-created")]
-    TimeCreated,
+    TimeCreated = 7,
 
     [EnumValue("uid")]
-    Uid
+    Uid = 8
 }

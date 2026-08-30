@@ -17,11 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudClusterType
 {
     [EnumValue("standard")]
-    Standard,
+    Standard = 0,
 
     [EnumValue("single-node")]
-    SingleNode,
+    SingleNode = 1,
 
     [EnumValue("zero-scale")]
-    ZeroScale
+    ZeroScale = 2,
+
+    [EnumValue("any")]
+    Any = 3,
+
+    [EnumValue("none")]
+    None = 4,
+
+    [EnumValue("specific")]
+    Specific = 5
 }

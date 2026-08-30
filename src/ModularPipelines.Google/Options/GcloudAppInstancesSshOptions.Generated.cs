@@ -36,7 +36,7 @@ public record GcloudAppInstancesSshOptions(
     public string? Service { get; set; }
 
     /// <summary>
-    /// Tunnel the ssh connection through Identity-Aware Proxy for TCP     forwarding.     To learn more, see the IAP for TCP forwarding documentation     (https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+    /// Tunnel the ssh connection through Identity-Aware Proxy for TCP forwarding. To learn more, see the IAP for TCP forwarding documentation (https://cloud.google.com/iap/docs/tcp-forwarding-overview).
     /// </summary>
     [CliFlag("--tunnel-through-iap")]
     public bool? TunnelThroughIap { get; set; }

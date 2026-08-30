@@ -17,8 +17,23 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudTrackingMode
 {
     [EnumValue("PER_CONNECTION")]
-    PerConnection,
+    PerConnection = 0,
 
     [EnumValue("PER_SESSION")]
-    PerSession
+    PerSession = 1,
+
+    [EnumValue("INTERNAL")]
+    Internal = 2,
+
+    [EnumValue("EXTERNAL")]
+    External = 3,
+
+    [EnumValue("INTERNAL_SELF_MANAGED")]
+    InternalSelfManaged = 4,
+
+    [EnumValue("EXTERNAL_MANAGED")]
+    ExternalManaged = 5,
+
+    [EnumValue("INTERNAL_MANAGED")]
+    InternalManaged = 6
 }

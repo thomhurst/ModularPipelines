@@ -55,6 +55,21 @@ public class GcloudNetworkmanagementNetworkMonitoringProviders
     #region Commands
 
     /// <summary>
+    /// a Network     Monitoring Provider manages the enablement state of the Network     Insights service
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkManagementNetworkMonitoringProvidersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     Network Monitoring Provider
     /// </summary>
     /// <param name="options">The command options.</param>

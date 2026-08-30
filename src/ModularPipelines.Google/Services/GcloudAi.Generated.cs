@@ -31,6 +31,8 @@ public class GcloudAi : IGcloudAi
     private GcloudAiModels? _models;
     private GcloudAiOperations? _operations;
     private GcloudAiPersistentResources? _persistentResources;
+    private GcloudAiSemanticGovernancePolicies? _semanticGovernancePolicies;
+    private GcloudAiSemanticGovernancePolicyEngine? _semanticGovernancePolicyEngine;
     private GcloudAiTensorboards? _tensorboards;
     private GcloudAiTuningJobs? _tuningJobs;
 
@@ -93,6 +95,16 @@ public class GcloudAi : IGcloudAi
     /// gcloud persistent-resources sub-commands.
     /// </summary>
     public GcloudAiPersistentResources PersistentResources => _persistentResources ??= new GcloudAiPersistentResources(_command);
+
+    /// <summary>
+    /// gcloud semantic-governance-policies sub-commands.
+    /// </summary>
+    public GcloudAiSemanticGovernancePolicies SemanticGovernancePolicies => _semanticGovernancePolicies ??= new GcloudAiSemanticGovernancePolicies(_command);
+
+    /// <summary>
+    /// gcloud semantic-governance-policy-engine sub-commands.
+    /// </summary>
+    public GcloudAiSemanticGovernancePolicyEngine SemanticGovernancePolicyEngine => _semanticGovernancePolicyEngine ??= new GcloudAiSemanticGovernancePolicyEngine(_command);
 
     /// <summary>
     /// gcloud tensorboards sub-commands.

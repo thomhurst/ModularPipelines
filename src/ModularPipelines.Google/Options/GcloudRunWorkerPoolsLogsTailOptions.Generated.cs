@@ -24,13 +24,13 @@ public record GcloudRunWorkerPoolsLogsTailOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Filter expression that specifies the log entries to return. Detailed     information about filters can be found at:     https://cloud.google.com/logging/docs/view/logging-query-language
+    /// Filter expression that specifies the log entries to return. Detailed information about filters can be found at: https://cloud.google.com/logging/docs/view/logging-query-language
     /// </summary>
     [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
     public string? LogFilter { get; set; }
 
     /// <summary>
-    /// Region in which the resource can be found. Alternatively, set the     property [run/region].
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

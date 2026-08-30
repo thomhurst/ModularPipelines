@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApphubBoundaryDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ Boundaries only support global location.
+    /// Location resource - Location of the Boundary. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ Boundaries only support global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location resource - Location of the Boundary. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ Boundaries only support global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ Boundaries only support global location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

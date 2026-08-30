@@ -33,6 +33,21 @@ public class GcloudBackupdrBackupPlanAssociations
     #region Commands
 
     /// <summary>
+    /// manage Backup and DR backup     plan associations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBackupDrBackupPlanAssociationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBackupDrBackupPlanAssociationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new backup plan     association
     /// </summary>
     /// <param name="options">The command options.</param>

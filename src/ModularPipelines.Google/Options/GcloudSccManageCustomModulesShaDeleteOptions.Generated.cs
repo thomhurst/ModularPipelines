@@ -24,9 +24,33 @@ public record GcloudSccManageCustomModulesShaDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If present, the request is validated (including IAM checks) but no     action is taken.    At most one of these can be specified:     --folder=FOLDER_ID      Folder associated with the custom module.     --organization=ORGANIZATION_ID      Organization associated with the custom module.     --parent=PARENT      Parent associated with the custom module. Can be one of      organizations/&lt;id&gt;, projects/&lt;id or name&gt;, folders/&lt;id&gt;     --project=PROJECT_ID_OR_NUMBER      Project associated with the custom module.
+    /// If present, the request is validated (including IAM checks) but no action is taken.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder associated with the custom module.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization associated with the custom module.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Parent associated with the custom module. Can be one of organizations/&lt;id&gt;, projects/&lt;id or name&gt;, folders/&lt;id&gt;
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string? Parent { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project associated with the custom module.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public int? Project { get; set; }
 
 }

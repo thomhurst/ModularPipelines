@@ -22,18 +22,18 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIdsEndpointsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// --max-wait=MAX_WAIT; default="60m" Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxWait { get; set; }
-
     /// <summary>
-    /// List of threat IDs to be excepted from alerting. Passing empty list     clears the exceptions.
+    /// --max-wait=MAX_WAIT; default="60m" Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats. List of threat IDs to be excepted from alerting. Passing empty list clears the exceptions.
     /// </summary>
     [CliOption("--threat-exceptions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ThreatExceptions { get; set; }
+
+    [Obsolete("MaxWait is no longer supported by the installed CLI and has no effect.")]
+    public string? MaxWait { get; set; }
 
 }

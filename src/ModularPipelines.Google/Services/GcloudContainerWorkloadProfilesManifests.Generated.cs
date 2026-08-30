@@ -33,6 +33,21 @@ public class GcloudContainerWorkloadProfilesManifests
     #region Commands
 
     /// <summary>
+    /// generate optimized     Kubernetes manifests
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerWorkloadProfilesManifestsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerWorkloadProfilesManifestsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// generate optimized     Kubernetes manifests for a given workload profile
     /// </summary>
     /// <param name="options">The command options.</param>

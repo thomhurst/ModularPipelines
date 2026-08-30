@@ -33,6 +33,21 @@ public class GcloudNetworksecurityInterceptEndpointGroupAssociations
     #region Commands
 
     /// <summary>
+    /// manage     Intercept Endpoint Group Association resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecurityInterceptEndpointGroupAssociationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create an Intercept Endpoint Group Association
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -17,11 +17,26 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudConnectionPersistenceOnUnhealthyBackends
 {
     [EnumValue("DEFAULT_FOR_PROTOCOL")]
-    DefaultForProtocol,
+    DefaultForProtocol = 0,
 
     [EnumValue("NEVER_PERSIST")]
-    NeverPersist,
+    NeverPersist = 1,
 
     [EnumValue("ALWAYS_PERSIST")]
-    AlwaysPersist
+    AlwaysPersist = 2,
+
+    [EnumValue("INTERNAL")]
+    Internal = 3,
+
+    [EnumValue("EXTERNAL")]
+    External = 4,
+
+    [EnumValue("INTERNAL_SELF_MANAGED")]
+    InternalSelfManaged = 5,
+
+    [EnumValue("EXTERNAL_MANAGED")]
+    ExternalManaged = 6,
+
+    [EnumValue("INTERNAL_MANAGED")]
+    InternalManaged = 7
 }

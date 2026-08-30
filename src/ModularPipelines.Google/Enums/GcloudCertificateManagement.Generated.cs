@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudCertificateManagement
 {
     [EnumValue("automatic")]
-    Automatic,
+    Automatic = 0,
 
     [EnumValue("manual")]
-    Manual
+    Manual = 1
 }

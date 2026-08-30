@@ -99,4 +99,23 @@ public class GcloudNetworkconnectivity : IGcloudNetworkconnectivity
     public GcloudNetworkconnectivityTransports Transports => _transports ??= new GcloudNetworkconnectivityTransports(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Network Connectivity resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivityOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

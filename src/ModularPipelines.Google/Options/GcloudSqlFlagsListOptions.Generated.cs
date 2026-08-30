@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("sql", "flags", "list")]
 public record GcloudSqlFlagsListOptions : GcloudOptions
 {
-    [CliOption("--database-version", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("DatabaseVersion is no longer supported by the installed CLI and has no effect.")]
     public string? DatabaseVersion { get; set; }
 
 }

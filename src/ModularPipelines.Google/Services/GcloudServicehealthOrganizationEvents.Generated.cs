@@ -33,6 +33,21 @@ public class GcloudServicehealthOrganizationEvents
     #region Commands
 
     /// <summary>
+    /// represents events that may     affect products used across the organization
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudServiceHealthOrganizationEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudServiceHealthOrganizationEventsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// get details of an     event affecting an organization
     /// </summary>
     /// <param name="options">The command options.</param>

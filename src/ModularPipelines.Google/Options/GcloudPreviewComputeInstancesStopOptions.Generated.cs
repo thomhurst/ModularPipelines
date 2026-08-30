@@ -24,18 +24,24 @@ public record GcloudPreviewComputeInstancesStopOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// --discard-local-ssd[=DISCARD_LOCAL_SSD] If set to true, local SSD data is discarded. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CliFlag("--discard-local-ssd")]
-    public bool? DiscardLocalSsd { get; set; }
+    /// <summary>
+    /// --discard-local-ssd[=DISCARD_LOCAL_SSD] If set to true, local SSD data is discarded. Stops the instance immediately without gracefully shutting it down. If a graceful shutdown is in progress, then the instance is forcefully stopped.
+    /// </summary>
+    [CliFlag("--no-graceful-shutdown")]
+    public bool? NoGracefulShutdown { get; set; }
 
     /// <summary>
-    /// Zone of the instances to operate on. If not specified, you might be     prompted to select a zone (interactive mode only). gcloud attempts to     identify the appropriate zone by searching for resources in your     currently active project. If the zone cannot be determined, gcloud     prompts you for a selection with all available Google Cloud Platform     zones.     To avoid prompting when this flag is omitted, the user can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.
+    /// --discard-local-ssd[=DISCARD_LOCAL_SSD] If set to true, local SSD data is discarded. Zone of the instances to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    [Obsolete("DiscardLocalSsd is no longer supported by the installed CLI and has no effect.")]
+    public bool? DiscardLocalSsd { get; set; }
 
 }

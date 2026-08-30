@@ -23,13 +23,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudInfraManagerDeploymentsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Policy on how resources actuated by the deployment should be deleted.     The accepted values are DELETE, ABANDON. DELETE = Delete resources     actuated by the deployment. ABANDON = Abandon resources and only delete     deployment metadata. DELETE_POLICY must be one of: abandon, delete,     delete-policy-unspecified.
+    /// Policy on how resources actuated by the deployment should be deleted. The accepted values are DELETE, ABANDON. DELETE = Delete resources actuated by the deployment. ABANDON = Abandon resources and only delete deployment metadata. DELETE_POLICY must be one of: abandon, delete, delete-policy-unspecified.
     /// </summary>
     [CliOption("--delete-policy", Format = OptionFormat.EqualsSeparated)]
     public GcloudDeletePolicy? DeletePolicy { get; set; }

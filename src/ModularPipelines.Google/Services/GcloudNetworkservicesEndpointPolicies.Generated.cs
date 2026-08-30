@@ -33,6 +33,21 @@ public class GcloudNetworkservicesEndpointPolicies
     #region Commands
 
     /// <summary>
+    /// manage Network Services     EndpointPolicies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkServicesEndpointPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkServicesEndpointPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete endpoint policy
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudStorageOperations
     #region Commands
 
     /// <summary>
+    /// manage storage operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudStorageOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel a storage operation
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudDatastoreIndexes
     #region Commands
 
     /// <summary>
+    /// manage your Cloud Datastore indexes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDatastoreIndexesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatastoreIndexesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// remove unused datastore indexes based on     your local index configuration
     /// </summary>
     /// <param name="options">The command options.</param>

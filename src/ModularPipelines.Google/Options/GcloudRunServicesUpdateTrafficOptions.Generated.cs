@@ -22,18 +22,64 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunServicesUpdateTrafficOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Region in which the resource can be found. Alternatively, set the     property [run/region].    Specify traffic tags. Traffic tags can be assigned to a revision by name   or to the latest ready revision. Assigning a tag to a revision generates a   URL prefixed with the tag that allows addressing that revision directly,   regardless of the percent traffic specified. Keys are tags. Values are   revision names or "LATEST" for the latest ready revision. For example,
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
+    /// <summary>
+    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, --set-tags=candidate=LATEST,current=myservice-v1 assigns the tag "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: Remove all tags.
+    /// </summary>
+    [CliFlag("--clear-tags")]
+    public bool? ClearTags { get; set; }
+
+    /// <summary>
+    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, --set-tags=candidate=LATEST,current=myservice-v1 assigns the tag "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: List of key-value pairs to set as tags. All existing tags will be removed first.
+    /// </summary>
     [CliOption("--set-tags", Format = OptionFormat.EqualsSeparated)]
-    public string? SetTags { get; set; }
+    public IEnumerable<string>? SetTagsValues { get; set; }
+
+    /// <summary>
+    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, --set-tags=candidate=LATEST,current=myservice-v1 assigns the tag "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: Or at least one of these can be specified: Only --update-tags and --remove-tags can be used together. If both are specified, --remove-tags will be applied first. List of tags to be removed.
+    /// </summary>
+    [CliOption("--remove-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveTags { get; set; }
+
+    /// <summary>
+    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, --set-tags=candidate=LATEST,current=myservice-v1 assigns the tag "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: Or at least one of these can be specified: Only --update-tags and --remove-tags can be used together. If both are specified, --remove-tags will be applied first. List of key-value pairs to set as tags.
+    /// </summary>
+    [CliOption("--update-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateTags { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: True to assign 100 percent of traffic to the 'latest' revision of this service. Note that when a new revision is created, it will become the 'latest' and traffic will be directed to it. Defaults to False. Synonymous with '--to-revisions=LATEST=100'.
+    /// </summary>
+    [CliFlag("--to-latest")]
+    public bool? ToLatest { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Comma separated list of traffic assignments in the form REVISION-NAME=PERCENTAGE. REVISION-NAME must be the name for a revision for the service as returned by 'gcloud beta run list revisions'. PERCENTAGE must be an integer percentage between 0 and 100 inclusive. Ex service-nw9hs=10,service-nw9hs=20 Up to 100 percent of traffic may be assigned. If 100 percent of traffic is assigned, the Service traffic is updated as specified. If under 100 percent of traffic is assigned, the Service traffic is updated as specified for revisions with assignments and traffic is scaled up or down down proportionally as needed for revision that are currently serving traffic but that do not have new assignments. For example assume revision-1 is serving 40 percent of traffic and revision-2 is serving 60 percent. If revision-1 is assigned 45 percent of traffic and no assignment is made for revision-2, the service is updated with revsion-1 assigned 45 percent of traffic and revision-2 scaled down to 55 percent. You can use "LATEST" as a special revision name to always put the given percentage of traffic on the latest ready revision.
+    /// </summary>
+    [CliOption("--to-revisions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ToRevisions { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Comma separated list of traffic assignments in the form TAG=PERCENTAGE. TAG must match a traffic tag on a revision of the service. It may match a previously-set tag, or one assigned using the --set-tags or --update-tags flags on this command. PERCENTAGE must be an integer percentage between 0 and 100 inclusive. Up to 100 percent of traffic may be assigned. If 100 percent of traffic is assigned, the service traffic is updated as specified. If under 100 percent of traffic is assigned, the service traffic is updated as specified to the given tags, and other traffic is scaled up or down proportionally. For example, assume the revision tagged next is serving 40 percent of traffic and the revision tagged current is serving 60 percent. If next is assigned 45 percent of traffic and no assignment is made for current, the service is updated with next assigned 45 percent of traffic and current scaled down to 55 percent.
+    /// </summary>
+    [CliOption("--to-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ToTags { get; set; }
+
+    [Obsolete("Use SetTagsValues instead.")]
+    public string? SetTags
+    {
+        get => SetTagsValues?.FirstOrDefault();
+        set => SetTagsValues = value is null ? null : [value];
+    }
 
 }

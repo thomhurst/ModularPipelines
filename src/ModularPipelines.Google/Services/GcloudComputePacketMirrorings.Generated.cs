@@ -33,6 +33,21 @@ public class GcloudComputePacketMirrorings
     #region Commands
 
     /// <summary>
+    /// manage Compute Engine packet mirroring     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputePacketMirroringsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputePacketMirroringsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Compute Engine packet     mirroring policy
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -90,6 +105,21 @@ public class GcloudComputePacketMirrorings
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputePacketMirroringsListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine packet mirroring policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudComputePacketMirroringsTestIamPermissionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

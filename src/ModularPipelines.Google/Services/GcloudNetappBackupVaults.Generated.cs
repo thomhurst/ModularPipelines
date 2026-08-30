@@ -43,6 +43,21 @@ public class GcloudNetappBackupVaults
     #region Commands
 
     /// <summary>
+    /// create and manage Cloud NetApp Backup Vaults
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetappBackupVaultsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetappBackupVaultsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud NetApp Backup Vault
     /// </summary>
     /// <param name="options">The command options.</param>

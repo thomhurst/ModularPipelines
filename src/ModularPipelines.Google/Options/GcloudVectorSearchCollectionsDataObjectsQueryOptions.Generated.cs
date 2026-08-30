@@ -22,25 +22,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVectorSearchCollectionsDataObjectsQueryOptions : GcloudOptions
 {
     /// <summary>
-    /// A filter expression in JSON format to apply to the query, e.g.     '{"genre": {"$eq": "sci-fi"}}'.    Output fields
+    /// Output fields A filter expression in JSON format to apply to the query, e.g. '{"genre": {"$eq": "sci-fi"}}'.
     /// </summary>
     [CliOption("--json-filter", Format = OptionFormat.EqualsSeparated)]
     public string? JsonFilter { get; set; }
 
     /// <summary>
-    /// List of data fields to include in the output. Use * to include all data     fields.
+    /// Output fields List of data fields to include in the output. Use * to include all data fields.
     /// </summary>
     [CliOption("--output-data-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OutputDataFields { get; set; }
 
     /// <summary>
-    /// List of metadata fields to include in the output. Use * to include all     metadata fields.
+    /// Output fields List of metadata fields to include in the output. Use * to include all metadata fields.
     /// </summary>
     [CliOption("--output-metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OutputMetadataFields { get; set; }
 
     /// <summary>
-    /// List of vector fields to include in the output. Use * to include all     vector fields.
+    /// Output fields List of vector fields to include in the output. Use * to include all vector fields.
     /// </summary>
     [CliOption("--output-vector-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OutputVectorFields { get; set; }

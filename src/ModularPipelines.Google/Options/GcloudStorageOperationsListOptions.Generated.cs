@@ -24,7 +24,7 @@ public record GcloudStorageOperationsListOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Server-side filter string used to determine what operations to return.     Example: '(done = true AND complete_time &gt;= "2023-01-01T00:00:00Z") OR     requested_cancellation = true' Note that the entire filter string must     be in quotes and date strings within the filter must be in embedded     quotes.
+    /// Server-side filter string used to determine what operations to return. Example: '(done = true AND complete_time &gt;= "2023-01-01T00:00:00Z") OR requested_cancellation = true' Note that the entire filter string must be in quotes and date strings within the filter must be in embedded quotes.
     /// </summary>
     [CliOption("--server-filter", Format = OptionFormat.EqualsSeparated)]
     public string? ServerFilter { get; set; }

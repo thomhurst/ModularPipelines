@@ -33,6 +33,21 @@ public class GcloudArtifactsPrintSettings
     #region Commands
 
     /// <summary>
+    /// print snippets to add to native tools     settings files
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudArtifactsPrintSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsPrintSettingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// print a snippet to add a     repository to the Gradle build.gradle file
     /// </summary>
     /// <param name="options">The command options.</param>

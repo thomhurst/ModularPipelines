@@ -49,6 +49,21 @@ public class GcloudSchedulerJobs
     #region Commands
 
     /// <summary>
+    /// manage Cloud Scheduler jobs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSchedulerJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSchedulerJobsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete a job
     /// </summary>
     /// <param name="options">The command options.</param>

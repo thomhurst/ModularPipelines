@@ -15,9 +15,22 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud orgpolicies commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudOrgpolicies
 {
+    /// <summary>
+    /// create and manage Organization Policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudOrgPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
     /// <summary>
     /// deletes a custom constraint
     /// </summary>
@@ -25,10 +38,8 @@ public interface IGcloudOrgpolicies
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteCustomConstraintAsync(
-        GcloudOrgPoliciesDeleteCustomConstraintOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteCustomConstraintAsync(GcloudOrgPoliciesDeleteCustomConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// delete an organization policy
@@ -37,10 +48,8 @@ public interface IGcloudOrgpolicies
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        GcloudOrgPoliciesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(GcloudOrgPoliciesDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// describe a custom     constraint
@@ -49,10 +58,8 @@ public interface IGcloudOrgpolicies
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DescribeCustomConstraintAsync(
-        GcloudOrgPoliciesDescribeCustomConstraintOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DescribeCustomConstraintAsync(GcloudOrgPoliciesDescribeCustomConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// describe an organization policy
@@ -61,10 +68,8 @@ public interface IGcloudOrgpolicies
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DescribeAsync(
-        GcloudOrgPoliciesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DescribeAsync(GcloudOrgPoliciesDescribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// lists the custom constraints     set on an organization
@@ -73,10 +78,8 @@ public interface IGcloudOrgpolicies
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListCustomConstraintsAsync(
-        GcloudOrgPoliciesListCustomConstraintsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListCustomConstraintsAsync(GcloudOrgPoliciesListCustomConstraintsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// list the policies set on a resource
@@ -85,10 +88,8 @@ public interface IGcloudOrgpolicies
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        GcloudOrgPoliciesListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(GcloudOrgPoliciesListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// reset the policy to the default for the     constraint
@@ -97,10 +98,8 @@ public interface IGcloudOrgpolicies
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ResetAsync(
-        GcloudOrgPoliciesResetOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ResetAsync(GcloudOrgPoliciesResetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// set a custom constraint from a     JSON or YAML file
@@ -109,10 +108,8 @@ public interface IGcloudOrgpolicies
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SetCustomConstraintAsync(
-        GcloudOrgPoliciesSetCustomConstraintOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetCustomConstraintAsync(GcloudOrgPoliciesSetCustomConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// set an organization policy from a JSON or     YAML file
@@ -121,9 +118,7 @@ public interface IGcloudOrgpolicies
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SetPolicyAsync(
-        GcloudOrgPoliciesSetPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetPolicyAsync(GcloudOrgPoliciesSetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

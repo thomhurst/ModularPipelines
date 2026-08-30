@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudOracleDatabaseGoldengateConnectionAssignmentsTestOptions : GcloudOptions
 {
     /// <summary>
-    /// The type of the test of the assigned connection. The only type actually     supported is DEFAULT. TYPE must be (only one value is supported):      default       The default connection test.
+    /// The type of the test of the assigned connection. The only type actually supported is DEFAULT. TYPE must be (only one value is supported): default The default connection test.
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }

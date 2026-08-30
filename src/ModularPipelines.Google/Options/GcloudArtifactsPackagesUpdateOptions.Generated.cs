@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsPackagesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// List of annotations in the format of KEY=VALUE pairs to add, update, or     remove. Duplicate keys will be overwritten. For more details on     annotations, see https://google.aip.dev/148#annotations.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --annotations=string=string     JSON Example:       --annotations='{"string": "string"}'     File Example:       --annotations=path_to_file.(yaml|json)
+    /// List of annotations in the format of KEY=VALUE pairs to add, update, or remove. Duplicate keys will be overwritten. For more details on annotations, see https://google.aip.dev/148#annotations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }

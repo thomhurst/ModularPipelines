@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudNodeArchitectureTaintBehavior
 {
     [EnumValue("unspecified")]
-    Unspecified,
+    Unspecified = 0,
 
     [EnumValue("arm")]
-    Arm,
+    Arm = 1,
 
     [EnumValue("none")]
-    None
+    None = 2
 }

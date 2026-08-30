@@ -33,6 +33,21 @@ public class GcloudPreviewComputeInterconnectsMacsec
     #region Commands
 
     /// <summary>
+    /// read and manipulate Compute     Engine interconnect MACsec configuration
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeInterconnectsMacsecOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeInterconnectsMacsecOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// shared key to     a Compute Engine interconnect MACsec configuration
     /// </summary>
     /// <param name="options">The command options.</param>

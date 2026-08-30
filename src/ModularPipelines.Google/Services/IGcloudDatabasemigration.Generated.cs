@@ -15,37 +15,50 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud databasemigration commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDatabasemigration
 {
     /// <summary>
     /// gcloud connection-profiles sub-commands.
     /// </summary>
-    GcloudDatabasemigrationConnectionProfiles ConnectionProfiles { get; }
+    GcloudDatabasemigrationConnectionProfiles ConnectionProfiles => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud conversion-workspaces sub-commands.
     /// </summary>
-    GcloudDatabasemigrationConversionWorkspaces ConversionWorkspaces { get; }
+    GcloudDatabasemigrationConversionWorkspaces ConversionWorkspaces => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud migration-jobs sub-commands.
     /// </summary>
-    GcloudDatabasemigrationMigrationJobs MigrationJobs { get; }
+    GcloudDatabasemigrationMigrationJobs MigrationJobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud objects sub-commands.
     /// </summary>
-    GcloudDatabasemigrationObjects Objects { get; }
+    GcloudDatabasemigrationObjects Objects => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDatabasemigrationOperations Operations { get; }
+    GcloudDatabasemigrationOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud private-connections sub-commands.
     /// </summary>
-    GcloudDatabasemigrationPrivateConnections PrivateConnections { get; }
+    GcloudDatabasemigrationPrivateConnections PrivateConnections => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Database Migration Service resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudDatabaseMigrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

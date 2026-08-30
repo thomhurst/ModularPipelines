@@ -39,6 +39,21 @@ public class GcloudAnthosAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAnthosAuthOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAnthosAuthOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// authenticate clusters using the Anthos client
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> LoginAsync(
         GcloudAnthosAuthLoginOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

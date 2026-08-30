@@ -33,6 +33,21 @@ public class GcloudComputeMigrationTargetProjects
     #region Commands
 
     /// <summary>
+    /// manage Target Projects
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeMigrationTargetProjectsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeMigrationTargetProjectsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Target Projects
     /// </summary>
     /// <param name="options">The command options.</param>

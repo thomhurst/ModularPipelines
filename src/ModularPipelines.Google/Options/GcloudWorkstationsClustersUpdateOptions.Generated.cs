@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -41,7 +41,7 @@ public record GcloudWorkstationsClustersUpdateOptions : GcloudOptions
     public bool? EnableHttp2 { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
@@ -53,9 +53,21 @@ public record GcloudWorkstationsClustersUpdateOptions : GcloudOptions
     public string? WorkstationAuthorizationUrl { get; set; }
 
     /// <summary>
-    /// The launch URL for workstations.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud workstations clusters update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud workstations clusters update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
+    /// The launch URL for workstations.
     /// </summary>
     [CliOption("--workstation-launch-url", Format = OptionFormat.EqualsSeparated)]
     public string? WorkstationLaunchUrl { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud workstations clusters update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud workstations clusters update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

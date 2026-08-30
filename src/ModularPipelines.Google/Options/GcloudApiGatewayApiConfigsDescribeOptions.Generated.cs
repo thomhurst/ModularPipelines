@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("api-gateway", "api-configs", "describe")]
 public record GcloudApiGatewayApiConfigsDescribeOptions : GcloudOptions
 {
-    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("View is no longer supported by the installed CLI and has no effect.")]
     public string? View { get; set; }
 
 }

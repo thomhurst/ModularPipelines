@@ -23,16 +23,19 @@ public record GcloudPreviewComputeInstancesNetworkInterfacesGetEffectiveFirewall
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
 ) : GcloudOptions
 {
-    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
-    public string? NetworkInterface { get; set; }
-
+    /// <summary>
+    /// --network-interface=NETWORK_INTERFACE; default="nic0" The name of the network interface to get the effective firewalls for. --network-interface=NETWORK_INTERFACE; default="nic0" The name of the network interface to get the effective firewalls for. (DEPRECATED) Regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out. Flag --regexp is deprecated. Use --filter="name~'REGEXP'" instead.
+    /// </summary>
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
     public string? Regexp { get; set; }
 
     /// <summary>
-    /// Zone of the instance to operate on. If not specified, you might be     prompted to select a zone (interactive mode only). gcloud attempts to     identify the appropriate zone by searching for resources in your     currently active project. If the zone cannot be determined, gcloud     prompts you for a selection with all available Google Cloud Platform     zones.     To avoid prompting when this flag is omitted, the user can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.
+    /// --network-interface=NETWORK_INTERFACE; default="nic0" The name of the network interface to get the effective firewalls for. --network-interface=NETWORK_INTERFACE; default="nic0" The name of the network interface to get the effective firewalls for. Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    [Obsolete("NetworkInterface is no longer supported by the installed CLI and has no effect.")]
+    public string? NetworkInterface { get; set; }
 
 }

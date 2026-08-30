@@ -29,25 +29,25 @@ public record GcloudResourceManagerTagsKeysCreateOptions : GcloudOptions
     public string? AllowedValuesRegex { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// User-assigned description of the TagKey or TagValue. Must not exceed     256 characters.
+    /// User-assigned description of the TagKey or TagValue. Must not exceed 256 characters.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Purpose specifier of the TagKey that can only be set on creation.     Specifying this field adds additional validation from the policy system     that corresponds to the purpose. PURPOSE must be one of: GCE_FIREWALL,     DATA_GOVERNANCE.
+    /// Purpose specifier of the TagKey that can only be set on creation. Specifying this field adds additional validation from the policy system that corresponds to the purpose. PURPOSE must be one of: GCE_FIREWALL, DATA_GOVERNANCE.
     /// </summary>
     [CliOption("--purpose", Format = OptionFormat.EqualsSeparated)]
     public GcloudPurpose? Purpose { get; set; }
 
     /// <summary>
-    /// Purpose data of the TagKey that can only be set on creation. This data     is validated by the policy system that corresponds to the purpose.
+    /// Purpose data of the TagKey that can only be set on creation. This data is validated by the policy system that corresponds to the purpose.
     /// </summary>
     [CliOption("--purpose-data", Format = OptionFormat.EqualsSeparated)]
     public string? PurposeData { get; set; }

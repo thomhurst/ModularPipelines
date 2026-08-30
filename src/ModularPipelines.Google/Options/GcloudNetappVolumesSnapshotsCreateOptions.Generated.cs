@@ -23,25 +23,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappVolumesSnapshotsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Volume resource - The Volume to take a Snapshot of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// A description of the Cloud NetApp Snapshot
+    /// Volume resource - The Volume to take a Snapshot of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. A description of the Cloud NetApp Snapshot
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Volume resource - The Volume to take a Snapshot of. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.
+    /// Volume resource - The Volume to take a Snapshot of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// ID of the volume or fully qualified identifier for the volume.     To set the volume attribute:     ◆ provide the argument --volume on the command line.
+    /// Volume resource - The Volume to take a Snapshot of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ◆ provide the argument --volume on the command line.
     /// </summary>
     [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
     public string? Volume { get; set; }

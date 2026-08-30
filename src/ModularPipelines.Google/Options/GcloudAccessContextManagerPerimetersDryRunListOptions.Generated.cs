@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerPerimetersDryRunListOptions : GcloudOptions
 {
     /// <summary>
-    /// Policy resource - The access policy you want to list the effective     dry-run configuration for. This represents a Cloud resource.
+    /// Policy resource - The access policy you want to list the effective dry-run configuration for. This represents a Cloud resource.
     /// </summary>
     [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public string? Policy { get; set; }

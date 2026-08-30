@@ -24,7 +24,7 @@ public record GcloudComputeNetworkEdgeSecurityServicesDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Region of the network edge security service to describe. Overrides the     default compute/region property value for this command invocation.
+    /// Region of the network edge security service to describe. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

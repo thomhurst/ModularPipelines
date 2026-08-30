@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFilestoreInstancesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Forces the deletion of an instance and its child resources, such as     snapshots.
+    /// Forces the deletion of an instance and its child resources, such as snapshots.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

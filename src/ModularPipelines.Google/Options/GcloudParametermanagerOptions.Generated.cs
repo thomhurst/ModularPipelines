@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// parameter Manager is a single source of truth to     store, access and manage the lifecycle of your application parameters
+/// parameter Manager is a single source of truth for     your parameters
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

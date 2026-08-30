@@ -33,6 +33,21 @@ public class GcloudAlloydbBackups
     #region Commands
 
     /// <summary>
+    /// provide commands for managing AlloyDB backups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAlloydbBackupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAlloydbBackupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a new AlloyDB backup within a given     project
     /// </summary>
     /// <param name="options">The command options.</param>

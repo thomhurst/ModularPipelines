@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBackupDrManagementServersCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) Name of an existing VPC network with private service     access configured in the format -     projects/&lt;project&gt;/global/networks/&lt;network&gt;. This VPC network allows     the management console to communicate with all backup/recovery     appliances and requires a minimum IP range of /23. This value cannot be     changed after you deploy the management server. If you don't have     private service access, configure one. [Learn more]     (https://cloud.google.com/vpc/docs/configure-private-services-access)     Flag --network is deprecated.
+    /// (DEPRECATED) Name of an existing VPC network with private service access configured in the format - projects/&lt;project&gt;/global/networks/&lt;network&gt;. This VPC network allows the management console to communicate with all backup/recovery appliances and requires a minimum IP range of /23. This value cannot be changed after you deploy the management server. If you don't have private service access, configure one. [Learn more] (https://cloud.google.com/vpc/docs/configure-private-services-access) Flag --network is deprecated.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }

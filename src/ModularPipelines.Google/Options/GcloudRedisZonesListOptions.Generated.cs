@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRedisZonesListOptions : GcloudOptions
 {
     /// <summary>
-    /// If provided, returns only resources from the given region. Use region     ID only, not the full URI of the region. This flag is the equivalent     of: --filter="region:REGION". Run gcloud topic filters for more     information.
+    /// If provided, returns only resources from the given region. Use region ID only, not the full URI of the region. This flag is the equivalent of: --filter="region:REGION". Run gcloud topic filters for more information.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

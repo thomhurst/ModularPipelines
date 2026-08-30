@@ -15,17 +15,30 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud modelarmor commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudModelarmor
 {
     /// <summary>
     /// gcloud floorsettings sub-commands.
     /// </summary>
-    GcloudModelarmorFloorsettings Floorsettings { get; }
+    GcloudModelarmorFloorsettings Floorsettings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    GcloudModelarmorTemplates Templates { get; }
+    GcloudModelarmorTemplates Templates => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// agnostic     security and AI safety measures to mitigate risks associated with large     language models (LLMs)
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudModelArmorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

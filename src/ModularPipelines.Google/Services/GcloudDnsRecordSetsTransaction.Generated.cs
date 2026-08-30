@@ -33,6 +33,21 @@ public class GcloudDnsRecordSetsTransaction
     #region Commands
 
     /// <summary>
+    /// make scriptable and transactional     changes to your record-sets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDnsRecordSetsTransactionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDnsRecordSetsTransactionOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// abort transaction
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -84,12 +99,21 @@ public class GcloudDnsRecordSetsTransaction
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExecuteAsync(
+    public virtual async Task<CommandResult> ExecuteCommandAsync(
         GcloudDnsRecordSetsTransactionExecuteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDnsRecordSetsTransactionExecuteOptions(), executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use ExecuteCommandAsync instead.")]
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDnsRecordSetsTransactionExecuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

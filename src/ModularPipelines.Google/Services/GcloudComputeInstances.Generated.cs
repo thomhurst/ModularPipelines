@@ -61,6 +61,21 @@ public class GcloudComputeInstances
     #region Commands
 
     /// <summary>
+    /// read and manipulate Compute Engine virtual     machine instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInstancesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Compute Engine     virtual machine access configuration
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -714,6 +729,21 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TailSerialPortOutputAsync(
         GcloudComputeInstancesTailSerialPortOutputOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM permissions for a     Compute Engine instance
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudComputeInstancesTestIamPermissionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

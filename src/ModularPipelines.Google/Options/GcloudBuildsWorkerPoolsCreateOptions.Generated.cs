@@ -24,9 +24,45 @@ public record GcloudBuildsWorkerPoolsCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Cloud region where the worker pool is created. See     https://cloud.google.com/build/docs/locations for available locations.    At most one of these can be specified:     --config-from-file=CONFIG_FROM_FILE      File that contains the configuration for the worker pool to be      created. See      https://cloud.google.com/build/docs/private-pools/worker-pool-config-file-schema      for options.     Or at least one of these can be specified:      Command-line flags to configure the private pool:      Configuration to be used for creating workers in the worker pool:      --worker-disk-size=WORKER_DISK_SIZE       Size of the disk attached to the worker.       If unspecified, Cloud Build uses a standard disk size.      --worker-machine-type=WORKER_MACHINE_TYPE       Compute Engine machine type for a worker pool.       If unspecified, Cloud Build uses a standard machine type.      Network configuration for Service Networking:      --peered-network=PEERED_NETWORK       Existing network to which workers are peered. The network is       specified in resource URL format       projects/{network_project}/global/networks/{network_name}.       If not specified, the workers are not peered to any network.      --peered-network-ip-range=PEERED_NETWORK_IP_RANGE       An IP range for your peered network. Specify the IP range using       Classless Inter-Domain Routing (CIDR) notation with a slash and the       subnet prefix size, such as /29.       Your subnet prefix size must be between 1 and 29. Optional: you can       specify an IP address before the subnet prefix value - for example       192.168.0.0/24.       If no IP address is specified, your VPC automatically determines       the starting IP for the range. If no IP range is specified, Cloud       Build uses /24 as the default network IP range.      --no-public-egress       If set, workers in the worker pool are created without an external       IP address.       If the worker pool is within a VPC Service Control perimeter, use       this flag.
+    /// Cloud region where the worker pool is created. See https://cloud.google.com/build/docs/locations for available locations.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: File that contains the configuration for the worker pool to be created. See https://cloud.google.com/build/docs/private-pools/worker-pool-config-file-schema for options.
+    /// </summary>
+    [CliOption("--config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFromFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: Configuration to be used for creating workers in the worker pool: Network configuration for Service Networking: Size of the disk attached to the worker. If unspecified, Cloud Build uses a standard disk size.
+    /// </summary>
+    [CliOption("--worker-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? WorkerDiskSize { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: Configuration to be used for creating workers in the worker pool: Network configuration for Service Networking: Compute Engine machine type for a worker pool. If unspecified, Cloud Build uses a standard machine type.
+    /// </summary>
+    [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerMachineType { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: Configuration to be used for creating workers in the worker pool: Network configuration for Service Networking: Existing network to which workers are peered. The network is specified in resource URL format projects/{network_project}/global/networks/{network_name}. If not specified, the workers are not peered to any network.
+    /// </summary>
+    [CliOption("--peered-network", Format = OptionFormat.EqualsSeparated)]
+    public string? PeeredNetwork { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: Configuration to be used for creating workers in the worker pool: Network configuration for Service Networking: An IP range for your peered network. Specify the IP range using Classless Inter-Domain Routing (CIDR) notation with a slash and the subnet prefix size, such as /29. Your subnet prefix size must be between 1 and 29. Optional: you can specify an IP address before the subnet prefix value - for example 192.168.0.0/24. If no IP address is specified, your VPC automatically determines the starting IP for the range. If no IP range is specified, Cloud Build uses /24 as the default network IP range.
+    /// </summary>
+    [CliOption("--peered-network-ip-range", Format = OptionFormat.EqualsSeparated)]
+    public string? PeeredNetworkIpRange { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: Configuration to be used for creating workers in the worker pool: Network configuration for Service Networking: If set, workers in the worker pool are created without an external IP address. If the worker pool is within a VPC Service Control perimeter, use this flag.
+    /// </summary>
+    [CliFlag("--no-public-egress")]
+    public bool? NoPublicEgress { get; set; }
 
 }

@@ -49,6 +49,21 @@ public class GcloudRunWorkerPools
     #region Commands
 
     /// <summary>
+    /// view and manage your Cloud Run worker pools
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRunWorkerPoolsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRunWorkerPoolsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy binding to     a Cloud Run worker pool
     /// </summary>
     /// <param name="options">The command options.</param>

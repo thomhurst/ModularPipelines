@@ -15,73 +15,81 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud apihub commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudApihub
 {
     /// <summary>
     /// gcloud addons sub-commands.
     /// </summary>
-    GcloudApihubAddons Addons { get; }
+    GcloudApihubAddons Addons => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud api-hub-instances sub-commands.
     /// </summary>
-    GcloudApihubApiHubInstances ApiHubInstances { get; }
+    GcloudApihubApiHubInstances ApiHubInstances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud apis sub-commands.
     /// </summary>
-    GcloudApihubApis Apis { get; }
+    GcloudApihubApis Apis => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud attributes sub-commands.
     /// </summary>
-    GcloudApihubAttributes Attributes { get; }
+    GcloudApihubAttributes Attributes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud curations sub-commands.
     /// </summary>
-    GcloudApihubCurations Curations { get; }
+    GcloudApihubCurations Curations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud dependencies sub-commands.
     /// </summary>
-    GcloudApihubDependencies Dependencies { get; }
+    GcloudApihubDependencies Dependencies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud deployments sub-commands.
     /// </summary>
-    GcloudApihubDeployments Deployments { get; }
+    GcloudApihubDeployments Deployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud discovered-api-observations sub-commands.
     /// </summary>
-    GcloudApihubDiscoveredApiObservations DiscoveredApiObservations { get; }
+    GcloudApihubDiscoveredApiObservations DiscoveredApiObservations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud external-apis sub-commands.
     /// </summary>
-    GcloudApihubExternalApis ExternalApis { get; }
+    GcloudApihubExternalApis ExternalApis => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud host-project-registrations sub-commands.
     /// </summary>
-    GcloudApihubHostProjectRegistrations HostProjectRegistrations { get; }
+    GcloudApihubHostProjectRegistrations HostProjectRegistrations => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// gcloud locations sub-commands.
+    /// </summary>
+    GcloudApihubLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudApihubOperations Operations { get; }
+    GcloudApihubOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud plugins sub-commands.
     /// </summary>
-    GcloudApihubPlugins Plugins { get; }
+    GcloudApihubPlugins Plugins => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud runtime-project-attachments sub-commands.
     /// </summary>
-    GcloudApihubRuntimeProjectAttachments RuntimeProjectAttachments { get; }
+    GcloudApihubRuntimeProjectAttachments RuntimeProjectAttachments => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Apihub resources
@@ -90,9 +98,7 @@ public interface IGcloudApihub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudApihubOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudApihubOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

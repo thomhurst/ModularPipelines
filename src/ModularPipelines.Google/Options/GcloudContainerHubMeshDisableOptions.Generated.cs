@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubMeshDisableOptions : GcloudOptions
 {
     /// <summary>
-    /// If specified, deletes the default membership configuration present in     your fleet.       To delete the fleet-level default Membership configuration present in       your fleet, run:       $ gcloud container hub mesh disable --fleet-default-member-config
+    /// If specified, deletes the default membership configuration present in your fleet. To delete the fleet-level default Membership configuration present in your fleet, run: $ gcloud container hub mesh disable --fleet-default-member-config
     /// </summary>
     [CliFlag("--fleet-default-member-config")]
     public bool? FleetDefaultMemberConfig { get; set; }
 
     /// <summary>
-    /// Disable this feature, even if it is currently in use. Force disablement     may result in unexpected behavior.
+    /// Disable this feature, even if it is currently in use. Force disablement may result in unexpected behavior.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

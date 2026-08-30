@@ -22,9 +22,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivitySpokesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    At most one of these can be specified:     --global      Indicates that the spoke is global.     --region=REGION      A Google Cloud region. To see the names of regions, see Viewing a      list of available regions      (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Indicates that the spoke is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: A Google Cloud region. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
 }

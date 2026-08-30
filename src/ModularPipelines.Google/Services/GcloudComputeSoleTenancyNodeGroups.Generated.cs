@@ -33,6 +33,21 @@ public class GcloudComputeSoleTenancyNodeGroups
     #region Commands
 
     /// <summary>
+    /// tenancy     node groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeSoleTenancyNodeGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeSoleTenancyNodeGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM     policy binding to a Compute Engine node group
     /// </summary>
     /// <param name="options">The command options.</param>

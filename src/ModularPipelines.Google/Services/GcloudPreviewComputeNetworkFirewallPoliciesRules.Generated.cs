@@ -33,6 +33,21 @@ public class GcloudPreviewComputeNetworkFirewallPoliciesRules
     #region Commands
 
     /// <summary>
+    /// read and     manipulate Compute Engine network firewall policy rules
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeNetworkFirewallPoliciesRulesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeNetworkFirewallPoliciesRulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a     Compute Engine network firewall policy rule
     /// </summary>
     /// <param name="options">The command options.</param>

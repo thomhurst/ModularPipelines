@@ -33,6 +33,21 @@ public class GcloudContainerHubMembershipsBindings
     #region Commands
 
     /// <summary>
+    /// membership Bindings for     permissions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerHubMembershipsBindingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerHubMembershipsBindingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Membership     Binding
     /// </summary>
     /// <param name="options">The command options.</param>

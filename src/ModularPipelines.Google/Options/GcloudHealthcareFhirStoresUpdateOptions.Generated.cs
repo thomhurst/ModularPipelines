@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudHealthcareFhirStoresUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Whether this FHIR store has the [updateCreate]     (https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate)     capability. Determines if the client can use an Update operation to     create a new resource with a client-specified ID. If false, all IDs are     server-assigned through the Create operation and attempts to Update a     non-existent resource will return errors.
+    /// Whether this FHIR store has the [updateCreate] (https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate) capability. Determines if the client can use an Update operation to create a new resource with a client-specified ID. If false, all IDs are server-assigned through the Create operation and attempts to Update a non-existent resource will return errors.
     /// </summary>
     [CliFlag("--enable-update-create")]
     public bool? EnableUpdateCreate { get; set; }
 
     /// <summary>
-    /// Google Cloud Pub/Sub topic to send updates to.     Note, a topic needs to be created before publishing or subscribing to     it. For instructions on creating topics, refer to:     https://cloud.google.com/pubsub/docs/admin#create_a_topic
+    /// Google Cloud Pub/Sub topic to send updates to. Note, a topic needs to be created before publishing or subscribing to it. For instructions on creating topics, refer to: https://cloud.google.com/pubsub/docs/admin#create_a_topic
     /// </summary>
     [CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)]
     public string? PubsubTopic { get; set; }

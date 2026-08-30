@@ -33,6 +33,21 @@ public class GcloudColabRuntimeTemplates
     #region Commands
 
     /// <summary>
+    /// manage Colab Enterprise runtime templates
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudColabRuntimeTemplatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudColabRuntimeTemplatesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an IAM policy     binding to a Colab Enterprise runtime template
     /// </summary>
     /// <param name="options">The command options.</param>

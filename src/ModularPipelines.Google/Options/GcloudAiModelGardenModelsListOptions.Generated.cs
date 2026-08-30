@@ -34,7 +34,7 @@ public record GcloudAiModelGardenModelsListOptions : GcloudOptions
     public bool? FullResourceName { get; set; }
 
     /// <summary>
-    /// Filter to apply to the model names or the display names of the list of     models.
+    /// Filter to apply to the model names or the display names of the list of models.
     /// </summary>
     [CliOption("--model-filter", Format = OptionFormat.EqualsSeparated)]
     public string? ModelFilter { get; set; }

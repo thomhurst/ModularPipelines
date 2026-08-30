@@ -21,6 +21,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIam : IGcloudIam
 {
     private readonly ICommandContext _command;
+    private GcloudIamAccessPolicies? _accessPolicies;
     private GcloudIamOauthClients? _oauthClients;
     private GcloudIamPolicies? _policies;
     private GcloudIamPolicyBindings? _policyBindings;
@@ -40,6 +41,11 @@ public class GcloudIam : IGcloudIam
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud access-policies sub-commands.
+    /// </summary>
+    public GcloudIamAccessPolicies AccessPolicies => _accessPolicies ??= new GcloudIamAccessPolicies(_command);
 
     /// <summary>
     /// gcloud oauth-clients sub-commands.

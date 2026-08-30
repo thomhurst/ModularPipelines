@@ -24,7 +24,7 @@ public record GcloudComputeInterconnectsApplicationAwarenessConfigureStrictPrior
 ) : GcloudOptions
 {
     /// <summary>
-    /// Enable or disable application awareness on the interconnect.     Application awareness enablement will fail if the application awareness     configuration is not specified. Use --no-enabled to disable it.
+    /// Enable or disable application awareness on the interconnect. Application awareness enablement will fail if the application awareness configuration is not specified. Use --no-enabled to disable it.
     /// </summary>
     [CliFlag("--enabled")]
     public bool? Enabled { get; set; }

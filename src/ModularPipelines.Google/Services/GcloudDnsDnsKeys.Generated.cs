@@ -33,6 +33,21 @@ public class GcloudDnsDnsKeys
     #region Commands
 
     /// <summary>
+    /// manage Cloud DNS DNSKEY records
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDnsDnsKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDnsDnsKeysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show details about a DNS key resource
     /// </summary>
     /// <param name="options">The command options.</param>

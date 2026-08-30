@@ -33,6 +33,21 @@ public class GcloudServiceextensionsAuthzExtensions
     #region Commands
 
     /// <summary>
+    /// manage Service Extensions     AuthzExtension resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudServiceExtensionsAuthzExtensionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudServiceExtensionsAuthzExtensionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete an     AuthzExtension resource
     /// </summary>
     /// <param name="options">The command options.</param>

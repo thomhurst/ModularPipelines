@@ -24,21 +24,39 @@ public record GcloudSccCustomModulesShaUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Path to a YAML file that contains the configuration for the Security     Health Analytics custom module. Use a full or relative path to a local     file containing the value of custom_config.
+    /// Path to a YAML file that contains the configuration for the Security Health Analytics custom module. Use a full or relative path to a local file containing the value of custom_config.
     /// </summary>
     [CliOption("--custom-config-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? CustomConfigFromFile { get; set; }
 
     /// <summary>
-    /// Sets the enablement state of the Security Health Analytics custom     module. From the following list of possible enablement states, specify     either enabled, disabled or inherited only. ENABLEMENT_STATE must be     one of: disabled, enabled, enablement-state-unspecified, inherited.
+    /// Sets the enablement state of the Security Health Analytics custom module. From the following list of possible enablement states, specify either enabled, disabled or inherited only. ENABLEMENT_STATE must be one of: disabled, enabled, enablement-state-unspecified, inherited.
     /// </summary>
     [CliOption("--enablement-state", Format = OptionFormat.EqualsSeparated)]
     public string? EnablementState { get; set; }
 
     /// <summary>
-    /// Optional: If left unspecified (default), an update-mask is     automatically created using the flags specified in the command and only     those values are updated.    At most one of these can be specified:     --folder=FOLDER      Folder where the Security Health Analytics custom module resides.      Formatted as folders/456 or just 456.     --organization=ORGANIZATION      Organization where the Security Health Analytics custom module      resides. Formatted as organizations/123 or just 123.     --project=PROJECT      ID or number of the project where the Security Health Analytics      custom module resides. Formatted as projects/789 or just 789.
+    /// Optional: If left unspecified (default), an update-mask is automatically created using the flags specified in the command and only those values are updated.
     /// </summary>
     [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMask { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder where the Security Health Analytics custom module resides. Formatted as folders/456 or just 456.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization where the Security Health Analytics custom module resides. Formatted as organizations/123 or just 123.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ID or number of the project where the Security Health Analytics custom module resides. Formatted as projects/789 or just 789.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
 
 }

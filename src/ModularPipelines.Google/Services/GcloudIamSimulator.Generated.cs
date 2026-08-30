@@ -33,6 +33,21 @@ public class GcloudIamSimulator
     #region Commands
 
     /// <summary>
+    /// understand how an IAM policy change could impact     access before deploying the change
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIamSimulatorOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamSimulatorOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// determine affected recent     access attempts before IAM policy change deployment
     /// </summary>
     /// <param name="options">The command options.</param>

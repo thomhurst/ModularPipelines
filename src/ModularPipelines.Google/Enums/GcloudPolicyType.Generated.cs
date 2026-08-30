@@ -17,8 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudPolicyType
 {
     [EnumValue("VPC_POLICY")]
-    VpcPolicy,
+    VpcPolicy = 0,
 
     [EnumValue("RDMA_ROCE_POLICY")]
-    RdmaRocePolicy
+    RdmaRocePolicy = 1,
+
+    [EnumValue("ULL_POLICY")]
+    UllPolicy = 2
 }

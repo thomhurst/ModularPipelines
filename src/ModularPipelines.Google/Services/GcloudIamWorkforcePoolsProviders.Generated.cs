@@ -55,6 +55,21 @@ public class GcloudIamWorkforcePoolsProviders
     #region Commands
 
     /// <summary>
+    /// create and manage workforce pool     providers
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIamWorkforcePoolsProvidersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkforcePoolsProvidersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new OIDC     workforce pool provider
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -23,642 +23,652 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the accessapproval sub-domain service.
     /// </summary>
-    IGcloudAccessapproval Accessapproval { get; }
+    IGcloudAccessapproval Accessapproval => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the accesscontextmanager sub-domain service.
     /// </summary>
-    IGcloudAccesscontextmanager Accesscontextmanager { get; }
+    IGcloudAccesscontextmanager Accesscontextmanager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the activedirectory sub-domain service.
     /// </summary>
-    IGcloudActivedirectory Activedirectory { get; }
+    IGcloudActivedirectory Activedirectory => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the agentidentity sub-domain service.
     /// </summary>
-    IGcloudAgentidentity Agentidentity { get; }
+    IGcloudAgentidentity Agentidentity => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the agentregistry sub-domain service.
     /// </summary>
-    IGcloudAgentregistry Agentregistry { get; }
+    IGcloudAgentregistry Agentregistry => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the ai sub-domain service.
     /// </summary>
-    IGcloudAi Ai { get; }
+    IGcloudAi Ai => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the aiplatform sub-domain service.
     /// </summary>
-    IGcloudAiplatform Aiplatform { get; }
+    IGcloudAiplatform Aiplatform => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the alloydb sub-domain service.
     /// </summary>
-    IGcloudAlloydb Alloydb { get; }
+    IGcloudAlloydb Alloydb => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the anthos sub-domain service.
     /// </summary>
-    IGcloudAnthos Anthos { get; }
+    IGcloudAnthos Anthos => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the apigateway sub-domain service.
     /// </summary>
-    IGcloudApigateway Apigateway { get; }
+    IGcloudApigateway Apigateway => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the apigee sub-domain service.
     /// </summary>
-    IGcloudApigee Apigee { get; }
+    IGcloudApigee Apigee => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the apihub sub-domain service.
     /// </summary>
-    IGcloudApihub Apihub { get; }
+    IGcloudApihub Apihub => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the app sub-domain service.
     /// </summary>
-    IGcloudApp App { get; }
+    IGcloudApp App => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the apphub sub-domain service.
     /// </summary>
-    IGcloudApphub Apphub { get; }
+    IGcloudApphub Apphub => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the artifacts sub-domain service.
     /// </summary>
-    IGcloudArtifacts Artifacts { get; }
+    IGcloudArtifacts Artifacts => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the asset sub-domain service.
     /// </summary>
-    IGcloudAsset Asset { get; }
+    IGcloudAsset Asset => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the assured sub-domain service.
     /// </summary>
-    IGcloudAssured Assured { get; }
+    IGcloudAssured Assured => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the auditmanager sub-domain service.
     /// </summary>
-    IGcloudAuditmanager Auditmanager { get; }
+    IGcloudAuditmanager Auditmanager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the auth sub-domain service.
     /// </summary>
-    IGcloudAuth Auth { get; }
+    IGcloudAuth Auth => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the backupdr sub-domain service.
     /// </summary>
-    IGcloudBackupdr Backupdr { get; }
+    IGcloudBackupdr Backupdr => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the batch sub-domain service.
     /// </summary>
-    IGcloudBatch Batch { get; }
+    IGcloudBatch Batch => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the beyondcorp sub-domain service.
     /// </summary>
-    IGcloudBeyondcorp Beyondcorp { get; }
+    IGcloudBeyondcorp Beyondcorp => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the biglake sub-domain service.
     /// </summary>
-    IGcloudBiglake Biglake { get; }
+    IGcloudBiglake Biglake => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the bigtable sub-domain service.
     /// </summary>
-    IGcloudBigtable Bigtable { get; }
+    IGcloudBigtable Bigtable => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the billing sub-domain service.
     /// </summary>
-    IGcloudBilling Billing { get; }
+    IGcloudBilling Billing => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the bms sub-domain service.
     /// </summary>
-    IGcloudBms Bms { get; }
+    IGcloudBms Bms => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the bq sub-domain service.
     /// </summary>
-    IGcloudBq Bq { get; }
+    IGcloudBq Bq => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the builds sub-domain service.
     /// </summary>
-    IGcloudBuilds Builds { get; }
+    IGcloudBuilds Builds => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the certificatemanager sub-domain service.
     /// </summary>
-    IGcloudCertificatemanager Certificatemanager { get; }
+    IGcloudCertificatemanager Certificatemanager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the cloudlocationfinder sub-domain service.
     /// </summary>
-    IGcloudCloudlocationfinder Cloudlocationfinder { get; }
+    IGcloudCloudlocationfinder Cloudlocationfinder => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the cloudshell sub-domain service.
     /// </summary>
-    IGcloudCloudshell Cloudshell { get; }
+    IGcloudCloudshell Cloudshell => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the colab sub-domain service.
     /// </summary>
-    IGcloudColab Colab { get; }
+    IGcloudColab Colab => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the compliancemanager sub-domain service.
     /// </summary>
-    IGcloudCompliancemanager Compliancemanager { get; }
+    IGcloudCompliancemanager Compliancemanager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the components sub-domain service.
     /// </summary>
-    IGcloudComponents Components { get; }
+    IGcloudComponents Components => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the composer sub-domain service.
     /// </summary>
-    IGcloudComposer Composer { get; }
+    IGcloudComposer Composer => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the compute sub-domain service.
     /// </summary>
-    IGcloudCompute Compute { get; }
+    IGcloudCompute Compute => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    IGcloudConfig Config { get; }
+    IGcloudConfig Config => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the container sub-domain service.
     /// </summary>
-    IGcloudContainer Container { get; }
+    IGcloudContainer Container => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the databasemigration sub-domain service.
     /// </summary>
-    IGcloudDatabasemigration Databasemigration { get; }
+    IGcloudDatabasemigration Databasemigration => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the datacatalog sub-domain service.
     /// </summary>
-    IGcloudDatacatalog Datacatalog { get; }
+    IGcloudDatacatalog Datacatalog => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the dataflow sub-domain service.
     /// </summary>
-    IGcloudDataflow Dataflow { get; }
+    IGcloudDataflow Dataflow => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the datalineage sub-domain service.
     /// </summary>
-    IGcloudDatalineage Datalineage { get; }
+    IGcloudDatalineage Datalineage => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the dataplex sub-domain service.
     /// </summary>
-    IGcloudDataplex Dataplex { get; }
+    IGcloudDataplex Dataplex => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the dataproc sub-domain service.
     /// </summary>
-    IGcloudDataproc Dataproc { get; }
+    IGcloudDataproc Dataproc => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the datastore sub-domain service.
     /// </summary>
-    IGcloudDatastore Datastore { get; }
+    IGcloudDatastore Datastore => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the datastream sub-domain service.
     /// </summary>
-    IGcloudDatastream Datastream { get; }
+    IGcloudDatastream Datastream => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the deploy sub-domain service.
     /// </summary>
-    IGcloudDeploy Deploy { get; }
+    IGcloudDeploy Deploy => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the deploymentmanager sub-domain service.
     /// </summary>
-    IGcloudDeploymentmanager Deploymentmanager { get; }
+    IGcloudDeploymentmanager Deploymentmanager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the designcenter sub-domain service.
     /// </summary>
-    IGcloudDesigncenter Designcenter { get; }
+    IGcloudDesigncenter Designcenter => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the developerconnect sub-domain service.
     /// </summary>
-    IGcloudDeveloperconnect Developerconnect { get; }
+    IGcloudDeveloperconnect Developerconnect => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the dns sub-domain service.
     /// </summary>
-    IGcloudDns Dns { get; }
+    IGcloudDns Dns => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the domains sub-domain service.
     /// </summary>
-    IGcloudDomains Domains { get; }
+    IGcloudDomains Domains => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the edgecache sub-domain service.
     /// </summary>
-    IGcloudEdgecache Edgecache { get; }
+    IGcloudEdgecache Edgecache => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the edgecloud sub-domain service.
     /// </summary>
-    IGcloudEdgecloud Edgecloud { get; }
+    IGcloudEdgecloud Edgecloud => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the emulators sub-domain service.
     /// </summary>
-    IGcloudEmulators Emulators { get; }
+    IGcloudEmulators Emulators => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the endpoints sub-domain service.
     /// </summary>
-    IGcloudEndpoints Endpoints { get; }
+    IGcloudEndpoints Endpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the essentialcontacts sub-domain service.
     /// </summary>
-    IGcloudEssentialcontacts Essentialcontacts { get; }
+    IGcloudEssentialcontacts Essentialcontacts => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the eventarc sub-domain service.
     /// </summary>
-    IGcloudEventarc Eventarc { get; }
+    IGcloudEventarc Eventarc => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the filestore sub-domain service.
     /// </summary>
-    IGcloudFilestore Filestore { get; }
+    IGcloudFilestore Filestore => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the firebase sub-domain service.
     /// </summary>
-    IGcloudFirebase Firebase { get; }
+    IGcloudFirebase Firebase => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the firestore sub-domain service.
     /// </summary>
-    IGcloudFirestore Firestore { get; }
+    IGcloudFirestore Firestore => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the functions sub-domain service.
     /// </summary>
-    IGcloudFunctions Functions { get; }
+    IGcloudFunctions Functions => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the gemini sub-domain service.
     /// </summary>
-    IGcloudGemini Gemini { get; }
+    IGcloudGemini Gemini => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the healthcare sub-domain service.
     /// </summary>
-    IGcloudHealthcare Healthcare { get; }
+    IGcloudHealthcare Healthcare => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the iam sub-domain service.
     /// </summary>
-    IGcloudIam Iam { get; }
+    IGcloudIam Iam => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the iap sub-domain service.
     /// </summary>
-    IGcloudIap Iap { get; }
+    IGcloudIap Iap => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the identity sub-domain service.
     /// </summary>
-    IGcloudIdentity Identity { get; }
+    IGcloudIdentity Identity => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the ids sub-domain service.
     /// </summary>
-    IGcloudIds Ids { get; }
+    IGcloudIds Ids => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the inframanager sub-domain service.
     /// </summary>
-    IGcloudInframanager Inframanager { get; }
+    IGcloudInframanager Inframanager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the kms sub-domain service.
     /// </summary>
-    IGcloudKms Kms { get; }
+    IGcloudKms Kms => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the logging sub-domain service.
     /// </summary>
-    IGcloudLogging Logging { get; }
+    IGcloudLogging Logging => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the looker sub-domain service.
     /// </summary>
-    IGcloudLooker Looker { get; }
+    IGcloudLooker Looker => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the lustre sub-domain service.
     /// </summary>
-    IGcloudLustre Lustre { get; }
+    IGcloudLustre Lustre => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the managedkafka sub-domain service.
     /// </summary>
-    IGcloudManagedkafka Managedkafka { get; }
+    IGcloudManagedkafka Managedkafka => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the memcache sub-domain service.
     /// </summary>
-    IGcloudMemcache Memcache { get; }
+    IGcloudMemcache Memcache => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the memorystore sub-domain service.
     /// </summary>
-    IGcloudMemorystore Memorystore { get; }
+    IGcloudMemorystore Memorystore => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the metastore sub-domain service.
     /// </summary>
-    IGcloudMetastore Metastore { get; }
+    IGcloudMetastore Metastore => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the migration sub-domain service.
     /// </summary>
-    IGcloudMigration Migration { get; }
+    IGcloudMigration Migration => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the ml sub-domain service.
     /// </summary>
-    IGcloudMl Ml { get; }
+    IGcloudMl Ml => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the modelarmor sub-domain service.
     /// </summary>
-    IGcloudModelarmor Modelarmor { get; }
+    IGcloudModelarmor Modelarmor => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the monitoring sub-domain service.
     /// </summary>
-    IGcloudMonitoring Monitoring { get; }
+    IGcloudMonitoring Monitoring => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the netapp sub-domain service.
     /// </summary>
-    IGcloudNetapp Netapp { get; }
+    IGcloudNetapp Netapp => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the networkconnectivity sub-domain service.
     /// </summary>
-    IGcloudNetworkconnectivity Networkconnectivity { get; }
+    IGcloudNetworkconnectivity Networkconnectivity => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the networkmanagement sub-domain service.
     /// </summary>
-    IGcloudNetworkmanagement Networkmanagement { get; }
+    IGcloudNetworkmanagement Networkmanagement => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the networksecurity sub-domain service.
     /// </summary>
-    IGcloudNetworksecurity Networksecurity { get; }
+    IGcloudNetworksecurity Networksecurity => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the networkservices sub-domain service.
     /// </summary>
-    IGcloudNetworkservices Networkservices { get; }
+    IGcloudNetworkservices Networkservices => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the notebooks sub-domain service.
     /// </summary>
-    IGcloudNotebooks Notebooks { get; }
+    IGcloudNotebooks Notebooks => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the observability sub-domain service.
     /// </summary>
-    IGcloudObservability Observability { get; }
+    IGcloudObservability Observability => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the oracledatabase sub-domain service.
     /// </summary>
-    IGcloudOracledatabase Oracledatabase { get; }
+    IGcloudOracledatabase Oracledatabase => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the organizations sub-domain service.
     /// </summary>
-    IGcloudOrganizations Organizations { get; }
+    IGcloudOrganizations Organizations => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the orgpolicies sub-domain service.
     /// </summary>
-    IGcloudOrgpolicies Orgpolicies { get; }
+    IGcloudOrgpolicies Orgpolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the pam sub-domain service.
     /// </summary>
-    IGcloudPam Pam { get; }
+    IGcloudPam Pam => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the parametermanager sub-domain service.
     /// </summary>
-    IGcloudParametermanager Parametermanager { get; }
+    IGcloudParametermanager Parametermanager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the policyintelligence sub-domain service.
     /// </summary>
-    IGcloudPolicyintelligence Policyintelligence { get; }
+    IGcloudPolicyintelligence Policyintelligence => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the policytroubleshoot sub-domain service.
     /// </summary>
-    IGcloudPolicytroubleshoot Policytroubleshoot { get; }
+    IGcloudPolicytroubleshoot Policytroubleshoot => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the preview sub-domain service.
     /// </summary>
-    IGcloudPreview Preview { get; }
+    IGcloudPreview Preview => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the privateca sub-domain service.
     /// </summary>
-    IGcloudPrivateca Privateca { get; }
+    IGcloudPrivateca Privateca => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the projects sub-domain service.
     /// </summary>
-    IGcloudProjects Projects { get; }
+    IGcloudProjects Projects => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the publicca sub-domain service.
     /// </summary>
-    IGcloudPublicca Publicca { get; }
+    IGcloudPublicca Publicca => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the pubsub sub-domain service.
     /// </summary>
-    IGcloudPubsub Pubsub { get; }
+    IGcloudPubsub Pubsub => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the quotas sub-domain service.
+    /// </summary>
+    IGcloudQuotas Quotas => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the recaptcha sub-domain service.
     /// </summary>
-    IGcloudRecaptcha Recaptcha { get; }
+    IGcloudRecaptcha Recaptcha => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the recommender sub-domain service.
     /// </summary>
-    IGcloudRecommender Recommender { get; }
+    IGcloudRecommender Recommender => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the redis sub-domain service.
     /// </summary>
-    IGcloudRedis Redis { get; }
+    IGcloudRedis Redis => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the resourcemanager sub-domain service.
     /// </summary>
-    IGcloudResourceManager ResourceManager { get; }
+    IGcloudResourceManager ResourceManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the run sub-domain service.
     /// </summary>
-    IGcloudRun Run { get; }
+    IGcloudRun Run => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the scc sub-domain service.
     /// </summary>
-    IGcloudScc Scc { get; }
+    IGcloudScc Scc => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the scheduler sub-domain service.
     /// </summary>
-    IGcloudScheduler Scheduler { get; }
+    IGcloudScheduler Scheduler => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the secrets sub-domain service.
     /// </summary>
-    IGcloudSecrets Secrets { get; }
+    IGcloudSecrets Secrets => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the servicedirectory sub-domain service.
     /// </summary>
-    IGcloudServicedirectory Servicedirectory { get; }
+    IGcloudServicedirectory Servicedirectory => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the serviceextensions sub-domain service.
     /// </summary>
-    IGcloudServiceextensions Serviceextensions { get; }
+    IGcloudServiceextensions Serviceextensions => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the servicehealth sub-domain service.
     /// </summary>
-    IGcloudServicehealth Servicehealth { get; }
+    IGcloudServicehealth Servicehealth => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the services sub-domain service.
     /// </summary>
-    IGcloudServices Services { get; }
+    IGcloudServices Services => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the source sub-domain service.
     /// </summary>
-    IGcloudSource Source { get; }
+    IGcloudSource Source => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the sourcemanager sub-domain service.
     /// </summary>
-    IGcloudSourcemanager Sourcemanager { get; }
+    IGcloudSourcemanager Sourcemanager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the spanner sub-domain service.
     /// </summary>
-    IGcloudSpanner Spanner { get; }
+    IGcloudSpanner Spanner => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the sql sub-domain service.
     /// </summary>
-    IGcloudSql Sql { get; }
+    IGcloudSql Sql => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the storage sub-domain service.
     /// </summary>
-    IGcloudStorage Storage { get; }
+    IGcloudStorage Storage => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the support sub-domain service.
+    /// </summary>
+    IGcloudSupport Support => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the tasks sub-domain service.
     /// </summary>
-    IGcloudTasks Tasks { get; }
+    IGcloudTasks Tasks => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the telcoautomation sub-domain service.
     /// </summary>
-    IGcloudTelcoautomation Telcoautomation { get; }
+    IGcloudTelcoautomation Telcoautomation => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the transcoder sub-domain service.
     /// </summary>
-    IGcloudTranscoder Transcoder { get; }
+    IGcloudTranscoder Transcoder => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the transfer sub-domain service.
     /// </summary>
-    IGcloudTransfer Transfer { get; }
+    IGcloudTransfer Transfer => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the vectorsearch sub-domain service.
     /// </summary>
-    IGcloudVectorsearch Vectorsearch { get; }
+    IGcloudVectorsearch Vectorsearch => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the vmware sub-domain service.
     /// </summary>
-    IGcloudVmware Vmware { get; }
+    IGcloudVmware Vmware => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the workbench sub-domain service.
     /// </summary>
-    IGcloudWorkbench Workbench { get; }
+    IGcloudWorkbench Workbench => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the workflows sub-domain service.
     /// </summary>
-    IGcloudWorkflows Workflows { get; }
+    IGcloudWorkflows Workflows => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the workloadidentity sub-domain service.
     /// </summary>
-    IGcloudWorkloadidentity Workloadidentity { get; }
+    IGcloudWorkloadidentity Workloadidentity => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the workspaceaddons sub-domain service.
     /// </summary>
-    IGcloudWorkspaceaddons Workspaceaddons { get; }
+    IGcloudWorkspaceaddons Workspaceaddons => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the workstations sub-domain service.
     /// </summary>
-    IGcloudWorkstations Workstations { get; }
+    IGcloudWorkstations Workstations => throw new System.NotSupportedException();
 
     #endregion
 
@@ -671,7 +681,8 @@ public partial interface IGcloud
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CheatSheetAsync(GcloudCheatSheetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> CheatSheetAsync(GcloudCheatSheetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// enable Docker CLI access to Google Container Registry
@@ -680,7 +691,8 @@ public partial interface IGcloud
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DockerAsync(GcloudDockerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> DockerAsync(GcloudDockerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// provide feedback to the Google Cloud CLI team
@@ -689,7 +701,8 @@ public partial interface IGcloud
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FeedbackAsync(GcloudFeedbackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> FeedbackAsync(GcloudFeedbackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// display information about the current gcloud environment
@@ -698,7 +711,8 @@ public partial interface IGcloud
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InfoAsync(GcloudInfoOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> InfoAsync(GcloudInfoOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// initialize or reinitialize gcloud
@@ -707,7 +721,8 @@ public partial interface IGcloud
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InitAsync(GcloudInitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> InitAsync(GcloudInitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// invoke a customer satisfaction survey for Google Cloud CLI
@@ -716,7 +731,8 @@ public partial interface IGcloud
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SurveyAsync(GcloudSurveyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> SurveyAsync(GcloudSurveyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     #endregion
 }

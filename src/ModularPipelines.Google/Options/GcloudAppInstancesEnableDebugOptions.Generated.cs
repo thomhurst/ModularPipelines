@@ -21,9 +21,15 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("app", "instances", "enable-debug")]
 public record GcloudAppInstancesEnableDebugOptions : GcloudOptions
 {
+    /// <summary>
+    /// If specified, only match instances belonging to the given service. This affects both interactive and non-interactive selection.
+    /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
+    /// <summary>
+    /// If specified, only match instances belonging to the given version. This affects both interactive and non-interactive selection.
+    /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 

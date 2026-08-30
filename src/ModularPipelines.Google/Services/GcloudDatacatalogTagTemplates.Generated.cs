@@ -43,6 +43,21 @@ public class GcloudDatacatalogTagTemplates
     #region Commands
 
     /// <summary>
+    /// manage tag templates in Data Catalog
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataCatalogTagTemplatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataCatalogTagTemplatesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy     binding to a Data Catalog tag template
     /// </summary>
     /// <param name="options">The command options.</param>

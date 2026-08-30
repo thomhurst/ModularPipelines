@@ -24,7 +24,7 @@ public record GcloudPreviewComputeSoleTenancyNodeGroupsSimulateMaintenanceEventO
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -36,7 +36,7 @@ public record GcloudPreviewComputeSoleTenancyNodeGroupsSimulateMaintenanceEventO
     public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>
-    /// Zone of the node group to operate on. If not specified and the     compute/zone property isn't set, you might be prompted to select a zone     (interactive mode only).     To avoid prompting when this flag is omitted, you can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.
+    /// Zone of the node group to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }

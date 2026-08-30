@@ -24,19 +24,19 @@ public record GcloudResourceManagerTagsHoldsListOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The holder field of the TagHold to match exactly. If not provided, the     API will return all matching TagHolds disregarding the holder field.
+    /// The holder field of the TagHold to match exactly. If not provided, the API will return all matching TagHolds disregarding the holder field.
     /// </summary>
     [CliOption("--holder", Format = OptionFormat.EqualsSeparated)]
     public string? Holder { get; set; }
 
     /// <summary>
-    /// Region where the matching TagHolds are stored. If not provided, the API     will attempt to retrieve matching TagHolds from the "global" region.
+    /// Region where the matching TagHolds are stored. If not provided, the API will attempt to retrieve matching TagHolds from the "global" region.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// The origin field of the TagHold to match exactly. If not provided, the     API will return all matching TagHolds disregarding the origin field.
+    /// The origin field of the TagHold to match exactly. If not provided, the API will return all matching TagHolds disregarding the origin field.
     /// </summary>
     [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
     public string? Origin { get; set; }

@@ -24,9 +24,21 @@ public record GcloudPreviewComputeInstancesRemoveMetadataOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Zone of the instance to set metadata on. If not specified, you might be     prompted to select a zone (interactive mode only). gcloud attempts to     identify the appropriate zone by searching for resources in your     currently active project. If the zone cannot be determined, gcloud     prompts you for a selection with all available Google Cloud Platform     zones.     To avoid prompting when this flag is omitted, the user can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    At most one of these can be specified:     --all      If provided, all metadata entries are removed.     --keys=KEY,[KEY,...]      The keys of the entries to remove.
+    /// Zone of the instance to set metadata on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If provided, all metadata entries are removed.
+    /// </summary>
+    [CliFlag("--all")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The keys of the entries to remove.
+    /// </summary>
+    [CliOption("--keys", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Keys { get; set; }
 
 }

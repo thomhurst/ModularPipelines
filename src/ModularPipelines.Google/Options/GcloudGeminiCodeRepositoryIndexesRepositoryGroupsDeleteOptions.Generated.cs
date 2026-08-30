@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes after the first request.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }

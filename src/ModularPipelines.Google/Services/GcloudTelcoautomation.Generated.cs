@@ -45,4 +45,23 @@ public class GcloudTelcoautomation : IGcloudTelcoautomation
     public GcloudTelcoautomationOrchestrationCluster OrchestrationCluster => _orchestrationCluster ??= new GcloudTelcoautomationOrchestrationCluster(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Telco Automation resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudTelcoAutomationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudTelcoAutomationOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

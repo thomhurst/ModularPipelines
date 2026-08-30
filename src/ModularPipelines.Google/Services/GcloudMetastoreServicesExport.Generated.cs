@@ -33,6 +33,21 @@ public class GcloudMetastoreServicesExport
     #region Commands
 
     /// <summary>
+    /// export metadata from a Dataproc     Metastore service
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudMetastoreServicesExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMetastoreServicesExportOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// export metadata from a Dataproc     Metastore service to Google Cloud Storage
     /// </summary>
     /// <param name="options">The command options.</param>

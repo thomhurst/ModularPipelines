@@ -33,6 +33,21 @@ public class GcloudArtifactsTags
     #region Commands
 
     /// <summary>
+    /// manage Artifact Registry tags
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudArtifactsTagsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsTagsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create an Artifact Registry tag
     /// </summary>
     /// <param name="options">The command options.</param>

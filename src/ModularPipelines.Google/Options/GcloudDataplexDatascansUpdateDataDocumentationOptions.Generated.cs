@@ -23,27 +23,63 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexDatascansUpdateDataDocumentationOptions : GcloudOptions
 {
     /// <summary>
-    /// Description of the data documentation scan.
+    /// Data documentation scan settings. Description of the data documentation scan.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Display name of the data documentation scan.    Data documentation scan settings.
+    /// Data documentation scan settings. Display name of the data documentation scan.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Publish data documentation results to Knowledge Catalog.
+    /// Data documentation scan settings. Publish data documentation results to Knowledge Catalog.
     /// </summary>
     [CliFlag("--enable-catalog-publishing")]
     public bool? EnableCatalogPublishing { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of --async | --validate-only can be specified.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --validate-only      Validate the update action, but don't actually perform it.    Data documentation scan execution settings.    Data documentation scan trigger settings.    At most one of these can be specified:     --on-demand=ON_DEMAND      If set, the scan runs one-time shortly after data documentation scan      creation.     --schedule=SCHEDULE      Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans      periodically. To explicitly set a timezone to the cron tab, apply a      prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or      "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid      string from IANA time zone database. For example,      CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * * *.      This field is required for RECURRING scans.     Or at least one of these can be specified:      Data documentation scan one-time trigger settings.      --one-time       If set, the data documentation scan runs once, and auto deleted       once the ttl_after_scan_completion expires.      --ttl-after-scan-completion=TTL_AFTER_SCAN_COMPLETION       The time to live for one-time scans. Default value is 24 hours,       minimum value is 0 seconds, and maximum value is 365 days. The time       is calculated from the data scan job completion time. If value is       set as 0 seconds, the scan will be immediately deleted upon job       completion, regardless of whether the job succeeded or failed. The       value should be a number followed by a unit suffix "s". Example:       "100s" for 100 seconds. The argument is only valid when --one-time       is set.
+    /// Data documentation scan settings. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. At most one of --async | --validate-only can be specified. At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. At most one of --async | --validate-only can be specified. At most one of these can be specified: Validate the update action, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Data documentation scan execution settings. Data documentation scan trigger settings. At most one of these can be specified: If set, the scan runs one-time shortly after data documentation scan creation.
+    /// </summary>
+    [CliOption("--on-demand", Format = OptionFormat.EqualsSeparated)]
+    public string? OnDemand { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Data documentation scan execution settings. Data documentation scan trigger settings. At most one of these can be specified: Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * * *. This field is required for RECURRING scans.
+    /// </summary>
+    [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? Schedule { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Data documentation scan execution settings. Data documentation scan trigger settings. At most one of these can be specified: Or at least one of these can be specified: Data documentation scan one-time trigger settings. If set, the data documentation scan runs once, and auto deleted once the ttl_after_scan_completion expires.
+    /// </summary>
+    [CliFlag("--one-time")]
+    public bool? OneTime { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Data documentation scan execution settings. Data documentation scan trigger settings. At most one of these can be specified: Or at least one of these can be specified: Data documentation scan one-time trigger settings. The time to live for one-time scans. Default value is 24 hours, minimum value is 0 seconds, and maximum value is 365 days. The time is calculated from the data scan job completion time. If value is set as 0 seconds, the scan will be immediately deleted upon job completion, regardless of whether the job succeeded or failed. The value should be a number followed by a unit suffix "s". Example: "100s" for 100 seconds. The argument is only valid when --one-time is set.
+    /// </summary>
+    [CliOption("--ttl-after-scan-completion", Format = OptionFormat.EqualsSeparated)]
+    public string? TtlAfterScanCompletion { get; set; }
 
 }

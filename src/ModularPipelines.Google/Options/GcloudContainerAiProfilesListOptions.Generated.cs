@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAiProfilesListOptions : GcloudOptions
 {
     /// <summary>
-    /// The output format. Default is profile, which displays the profile     information in a table format, including cost conversions. csvprofile     displays the profile information in a CSV format.Options include     csvprofile, profile, and yaml.
+    /// The output format. Default is profile, which displays the profile information in a table format, including cost conversions. csvprofile displays the profile information in a CSV format.Options include csvprofile, profile, and yaml.
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
@@ -41,75 +41,75 @@ public record GcloudContainerAiProfilesListOptions : GcloudOptions
     public string? ModelServer { get; set; }
 
     /// <summary>
-    /// The model server version. If omitted, the most recently benchmarked     version is used. Other options include the model server version of a     profile, or 'all' to return all versions.
+    /// The model server version. If omitted, the most recently benchmarked version is used. Other options include the model server version of a profile, or 'all' to return all versions.
     /// </summary>
     [CliOption("--model-server-version", Format = OptionFormat.EqualsSeparated)]
     public string? ModelServerVersion { get; set; }
 
     /// <summary>
-    /// The pricing model to use to calculate token cost. Currently, this     supports on-demand, spot, 3-years-cud, 1-year-cud
+    /// The pricing model to use to calculate token cost. Currently, this supports on-demand, spot, 3-years-cud, 1-year-cud
     /// </summary>
     [CliOption("--pricing-model", Format = OptionFormat.EqualsSeparated)]
     public string? PricingModel { get; set; }
 
     /// <summary>
-    /// The serving stack to filter profiles by. If not provided, profiles for     all serving stacks that support the given model and model server will     be returned.
+    /// The serving stack to filter profiles by. If not provided, profiles for all serving stacks that support the given model and model server will be returned.
     /// </summary>
     [CliOption("--serving-stack", Format = OptionFormat.EqualsSeparated)]
     public string? ServingStack { get; set; }
 
     /// <summary>
-    /// The serving stack version. If omitted, the most recently benchmarked     version is used. Other options include the serving stack version of a     profile, or 'all' to return all versions.
+    /// The serving stack version. If omitted, the most recently benchmarked version is used. Other options include the serving stack version of a profile, or 'all' to return all versions.
     /// </summary>
     [CliOption("--serving-stack-version", Format = OptionFormat.EqualsSeparated)]
     public string? ServingStackVersion { get; set; }
 
     /// <summary>
-    /// The target cost per million input tokens to filter profiles by, unit is     1 USD up to 5 decimal places.
+    /// The target cost per million input tokens to filter profiles by, unit is 1 USD up to 5 decimal places.
     /// </summary>
     [SecretValue]
     [CliOption("--target-cost-per-million-input-tokens", Format = OptionFormat.EqualsSeparated)]
     public string? TargetCostPerMillionInputTokens { get; set; }
 
     /// <summary>
-    /// The target cost per million output tokens to filter profiles by, unit     is 1 USD up to 5 decimal places.
+    /// The target cost per million output tokens to filter profiles by, unit is 1 USD up to 5 decimal places.
     /// </summary>
     [SecretValue]
     [CliOption("--target-cost-per-million-output-tokens", Format = OptionFormat.EqualsSeparated)]
     public string? TargetCostPerMillionOutputTokens { get; set; }
 
     /// <summary>
-    /// If specified, results will only show profiles that have an input length     within 20% of the specified one. Only works alongside output length.
+    /// If specified, results will only show profiles that have an input length within 20% of the specified one. Only works alongside output length.
     /// </summary>
     [CliOption("--target-input-length", Format = OptionFormat.EqualsSeparated)]
     public string? TargetInputLength { get; set; }
 
     /// <summary>
-    /// If specified, results will only show profiles with instance types that     can meet the latency target and will show their throughput performances     at the target inter-token latency (ITL).
+    /// If specified, results will only show profiles with instance types that can meet the latency target and will show their throughput performances at the target inter-token latency (ITL).
     /// </summary>
     [CliOption("--target-itl-milliseconds", Format = OptionFormat.EqualsSeparated)]
     public int? TargetItlMilliseconds { get; set; }
 
     /// <summary>
-    /// The target normalized time per output token (NTPOT) in milliseconds.     NTPOT is measured as the request_latency / output_tokens. If this field     is set, the command will only return accelerators that can meet the     target ntpot milliseconds and display their throughput performance at     the target latency. Otherwise, the command will return all accelerators     and display their highest throughput performance.
+    /// The target normalized time per output token (NTPOT) in milliseconds. NTPOT is measured as the request_latency / output_tokens. If this field is set, the command will only return accelerators that can meet the target ntpot milliseconds and display their throughput performance at the target latency. Otherwise, the command will return all accelerators and display their highest throughput performance.
     /// </summary>
     [CliOption("--target-ntpot-milliseconds", Format = OptionFormat.EqualsSeparated)]
     public int? TargetNtpotMilliseconds { get; set; }
 
     /// <summary>
-    /// If specified, results will only show profiles that have an output     length within 20% of the specified one. Only works alongside input     length.
+    /// If specified, results will only show profiles that have an output length within 20% of the specified one. Only works alongside input length.
     /// </summary>
     [CliOption("--target-output-length", Format = OptionFormat.EqualsSeparated)]
     public string? TargetOutputLength { get; set; }
 
     /// <summary>
-    /// The target time to first token (TTFT) in milliseconds. TTFT is measured     as the request_latency / output_tokens. If this field is set, the     command will only return profiles that can meet the target ttft     milliseconds and display their throughput performance at the target     latency. Otherwise, the command will return all profiles and display     their highest throughput performance.
+    /// The target time to first token (TTFT) in milliseconds. TTFT is measured as the request_latency / output_tokens. If this field is set, the command will only return profiles that can meet the target ttft milliseconds and display their throughput performance at the target latency. Otherwise, the command will return all profiles and display their highest throughput performance.
     /// </summary>
     [CliOption("--target-ttft-milliseconds", Format = OptionFormat.EqualsSeparated)]
     public int? TargetTtftMilliseconds { get; set; }
 
     /// <summary>
-    /// If specified, results will only show profiles that match the provided     use case. Options are: Advanced Customer Support, Code Completion, Text     Summarization, Chatbot (ShareGPT), Text Generation, Deep Research
+    /// If specified, results will only show profiles that match the provided use case. Options are: Advanced Customer Support, Code Completion, Text Summarization, Chatbot (ShareGPT), Text Generation, Deep Research
     /// </summary>
     [CliOption("--use-case", Format = OptionFormat.EqualsSeparated)]
     public string? UseCase { get; set; }

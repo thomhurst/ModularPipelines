@@ -21,16 +21,19 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("docker")]
 public record GcloudDockerOptions : GcloudOptions
 {
+    /// <summary>
+    /// Configure Docker authorization only; do not launch the Docker command-line.
+    /// </summary>
     [CliFlag("--authorize-only")]
     public bool? AuthorizeOnly { get; set; }
 
     /// <summary>
-    /// URL to connect to Docker Daemon. Format: tcp://host:port or     unix:///path/to/socket.
+    /// URL to connect to Docker Daemon. Format: tcp://host:port or unix:///path/to/socket.
     /// </summary>
     [CliOption("--docker-host", Format = OptionFormat.EqualsSeparated)]
     public string? DockerHost { get; set; }
 
-    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("Server is no longer supported by the installed CLI and has no effect.")]
     public IEnumerable<string>? Server { get; set; }
 
 }

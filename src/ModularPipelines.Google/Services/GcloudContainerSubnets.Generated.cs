@@ -33,6 +33,21 @@ public class GcloudContainerSubnets
     #region Commands
 
     /// <summary>
+    /// manage subnets to be used by Google Kubernetes     Engine clusters
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerSubnetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerSubnetsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list subnets usable for cluster     creation in a specific project
     /// </summary>
     /// <param name="options">The command options.</param>

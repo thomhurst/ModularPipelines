@@ -21,6 +21,9 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("sql", "backups", "list")]
 public record GcloudSqlBackupsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Cloud SQL instance ID or "-" for all instances.
+    /// </summary>
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
     public string? Instance { get; set; }
 

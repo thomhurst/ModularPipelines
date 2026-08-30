@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerImagesListOptions : GcloudOptions
 {
     /// <summary>
-    /// The name of the repository. Format: *.gcr.io/repository. Defaults to     gcr.io/&lt;project&gt;, for the active project.
+    /// The name of the repository. Format: *.gcr.io/repository. Defaults to gcr.io/&lt;project&gt;, for the active project.
     /// </summary>
     [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
     public string? Repository { get; set; }

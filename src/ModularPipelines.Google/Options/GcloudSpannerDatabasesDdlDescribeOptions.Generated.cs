@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSpannerDatabasesDdlDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// Include debug string of proto bundle descriptors in the output. The     output is information only and not meant to be parsed.
+    /// Include debug string of proto bundle descriptors in the output. The output is information only and not meant to be parsed.
     /// </summary>
     [CliFlag("--include-proto-descriptors")]
     public bool? IncludeProtoDescriptors { get; set; }

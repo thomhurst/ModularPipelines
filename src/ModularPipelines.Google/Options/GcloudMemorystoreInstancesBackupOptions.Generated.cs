@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMemorystoreInstancesBackupOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The id of the backup to be created. If not specified, the default value     ([YYYYMMDDHHMMSS][Shortened Instance UID] is used.
+    /// The id of the backup to be created. If not specified, the default value ([YYYYMMDDHHMMSS][Shortened Instance UID] is used.
     /// </summary>
     [CliOption("--backup-id", Format = OptionFormat.EqualsSeparated)]
     public string? BackupId { get; set; }
 
     /// <summary>
-    /// TTL for the backup to expire. Value range is 1 day to 100 years. If not     specified, the default value is 100 years.
+    /// TTL for the backup to expire. Value range is 1 day to 100 years. If not specified, the default value is 100 years.
     /// </summary>
     [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
     public string? Ttl { get; set; }

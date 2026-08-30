@@ -22,9 +22,33 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMonitoringSnoozesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The path to a JSON or YAML file containing the snooze. Use a full or     relative path to a local file containing the value of snooze.    At most one of these can be specified:     --fields=[field,...]      The list of fields to update. Must specify --snooze-from-file if      using this flag.     Or at least one of these can be specified:      Snooze Settings. If any of these are specified, they will overwrite     fields in the --snooze-from-file flags if specified.      --display-name=DISPLAY_NAME       The display name for the Snooze.      --end-time=END_TIME       The end time for the Snooze.      --start-time=START_TIME       The start time for the Snooze.
+    /// The path to a JSON or YAML file containing the snooze. Use a full or relative path to a local file containing the value of snooze.
     /// </summary>
     [CliOption("--snooze-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? SnoozeFromFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The list of fields to update. Must specify --snooze-from-file if using this flag.
+    /// </summary>
+    [CliOption("--fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Fields { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Snooze Settings. If any of these are specified, they will overwrite fields in the --snooze-from-file flags if specified. The display name for the Snooze.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Snooze Settings. If any of these are specified, they will overwrite fields in the --snooze-from-file flags if specified. The end time for the Snooze.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Snooze Settings. If any of these are specified, they will overwrite fields in the --snooze-from-file flags if specified. The start time for the Snooze.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
 
 }

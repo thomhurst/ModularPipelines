@@ -33,6 +33,21 @@ public class GcloudEdgecloudNetworkingInterconnectsAttachmentsDedicated
     #region Commands
 
     /// <summary>
+    /// manage     Distributed Cloud Edge Network dedicated interconnect attachments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Distributed Cloud Edge Network interconnect attachment
     /// </summary>
     /// <param name="options">The command options.</param>

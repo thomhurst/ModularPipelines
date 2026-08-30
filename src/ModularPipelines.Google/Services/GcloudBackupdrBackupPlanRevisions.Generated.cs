@@ -33,6 +33,21 @@ public class GcloudBackupdrBackupPlanRevisions
     #region Commands
 
     /// <summary>
+    /// view Backup and DR backup plan     revisions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBackupDrBackupPlanRevisionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBackupDrBackupPlanRevisionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show details of the     backup plan revision
     /// </summary>
     /// <param name="options">The command options.</param>

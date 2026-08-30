@@ -33,6 +33,21 @@ public class GcloudComputeInterconnectsAttachmentsPartner
     #region Commands
 
     /// <summary>
+    /// create or manipulate     partner interconnect attachments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInterconnectsAttachmentsPartnerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInterconnectsAttachmentsPartnerOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Compute     Engine partner interconnect attachment
     /// </summary>
     /// <param name="options">The command options.</param>

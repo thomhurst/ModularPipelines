@@ -33,6 +33,21 @@ public class GcloudVmwarePrivateCloudsClustersNodes
     #region Commands
 
     /// <summary>
+    /// manage nodes in Google Cloud     VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwarePrivateCloudsClustersNodesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsClustersNodesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Google     Cloud VMware Engine node
     /// </summary>
     /// <param name="options">The command options.</param>

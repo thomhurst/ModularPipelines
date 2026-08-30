@@ -33,6 +33,21 @@ public class GcloudComputeAdvice
     #region Commands
 
     /// <summary>
+    /// provides recommendation on optimal allocation of     resources according to a flexible specifications
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeAdviceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeAdviceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// recommends the optimal time window     and zone for Future Reservations
     /// </summary>
     /// <param name="options">The command options.</param>

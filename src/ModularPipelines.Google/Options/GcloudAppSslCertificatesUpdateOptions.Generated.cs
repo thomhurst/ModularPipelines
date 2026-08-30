@@ -25,7 +25,7 @@ public record GcloudAppSslCertificatesUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The file path for the new certificate to upload. Must be in PEM x.509     format including the header and footer.
+    /// The file path for the new certificate to upload. Must be in PEM x.509 format including the header and footer.
     /// </summary>
     [CliOption("--certificate", Format = OptionFormat.EqualsSeparated)]
     public string? Certificate { get; set; }
@@ -37,9 +37,8 @@ public record GcloudAppSslCertificatesUpdateOptions(
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The file path to a local RSA private key file. The private key must be     PEM encoded with header and footer and must be 2048 bits or fewer.
+    /// The file path to a local RSA private key file. The private key must be PEM encoded with header and footer and must be 2048 bits or fewer.
     /// </summary>
-    [SecretValue]
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKey { get; set; }
 

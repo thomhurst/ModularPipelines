@@ -33,6 +33,21 @@ public class GcloudFirebaseTestAndroidVersions
     #region Commands
 
     /// <summary>
+    /// explore Android versions available     for testing
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFirebaseTestAndroidVersionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirebaseTestAndroidVersionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe an Android OS     version
     /// </summary>
     /// <param name="options">The command options.</param>

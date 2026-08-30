@@ -30,19 +30,19 @@ public record GcloudArtifactsRepositoriesUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Do not make an HTTP request to validate the remote upstream. Not     recommended when setting a custom remote upstream unless you are     absolutely sure your upstream URI and any auth is valid.
+    /// Do not make an HTTP request to validate the remote upstream. Not recommended when setting a custom remote upstream unless you are absolutely sure your upstream URI and any auth is valid.
     /// </summary>
     [CliFlag("--disable-remote-validation")]
     public bool? DisableRemoteValidation { get; set; }
 
     /// <summary>
-    /// (Docker only) Prevent changes to tagged images in the repository. Tags     cannot be deleted or moved to a different image digest, and tagged     images cannot be deleted.
+    /// (Docker only) Prevent changes to tagged images in the repository. Tags cannot be deleted or moved to a different image digest, and tagged images cannot be deleted.
     /// </summary>
     [CliFlag("--immutable-tags")]
     public bool? ImmutableTags { get; set; }
 
     /// <summary>
-    /// Secret Manager secret version that contains password for the remote     repository upstream.
+    /// Secret Manager secret version that contains password for the remote repository upstream.
     /// </summary>
     [SecretValue]
     [CliOption("--remote-password-secret-version", Format = OptionFormat.EqualsSeparated)]
@@ -55,21 +55,63 @@ public record GcloudArtifactsRepositoriesUpdateOptions : GcloudOptions
     public string? RemoteUsername { get; set; }
 
     /// <summary>
-    /// The minimum severity level of logs to generate. This flag is only     applicable when using --enable-platform-logs. SEVERITY must be one of:      error       Log events with severity ERROR or higher.     info       Log events with severity INFO or higher.
+    /// The minimum severity level of logs to generate. This flag is only applicable when using --enable-platform-logs. SEVERITY must be one of: error Log events with severity ERROR or higher. info Log events with severity INFO or higher.
     /// </summary>
     [CliOption("--severity", Format = OptionFormat.EqualsSeparated)]
     public string? Severity { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// (Virtual Repositories only) is the upstreams for the Virtual     Repository. Example of the file contents: [ { "id": "test1",     "repository": "projects/p1/locations/us-central1/repositories/repo1",     "priority": 1 }, { "id": "test2", "repository":     "projects/p2/locations/us-west2/repositories/repo2", "priority": 2 } ]    At most one of these can be specified:     --allow-vulnerability-scanning      Allow vulnerability scanning on the repository.     --disable-vulnerability-scanning      Disable vulnerability scanning on the repository.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud artifacts repositories update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud artifacts repositories update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --clear-platform-logs      Clear platform logging settings for the repository to fall back to      project settings.     --disable-platform-logs      Disable platform logging for the repository.     --enable-platform-logs      Enable platform logging for the repository.
+    /// (Virtual Repositories only) is the upstreams for the Virtual Repository. Example of the file contents: [ { "id": "test1", "repository": "projects/p1/locations/us-central1/repositories/repo1", "priority": 1 }, { "id": "test2", "repository": "projects/p2/locations/us-west2/repositories/repo2", "priority": 2 } ]
     /// </summary>
     [CliOption("--upstream-policy-file", Format = OptionFormat.EqualsSeparated)]
     public string? UpstreamPolicyFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Allow vulnerability scanning on the repository.
+    /// </summary>
+    [CliFlag("--allow-vulnerability-scanning")]
+    public bool? AllowVulnerabilityScanning { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Disable vulnerability scanning on the repository.
+    /// </summary>
+    [CliFlag("--disable-vulnerability-scanning")]
+    public bool? DisableVulnerabilityScanning { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud artifacts repositories update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud artifacts repositories update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear platform logging settings for the repository to fall back to project settings.
+    /// </summary>
+    [CliFlag("--clear-platform-logs")]
+    public bool? ClearPlatformLogs { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Disable platform logging for the repository.
+    /// </summary>
+    [CliFlag("--disable-platform-logs")]
+    public bool? DisablePlatformLogs { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Enable platform logging for the repository.
+    /// </summary>
+    [CliFlag("--enable-platform-logs")]
+    public bool? EnablePlatformLogs { get; set; }
 
 }

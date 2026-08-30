@@ -24,34 +24,37 @@ public record GcloudSqlImportSqlOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Option to clean (DROP) database objects before recreating them.     corresponds to the clean flag for pg_restore. Only applies if     --parallel is set. PostgreSQL only.
+    /// Option to clean (DROP) database objects before recreating them. corresponds to the clean flag for pg_restore. Only applies if --parallel is set. PostgreSQL only.
     /// </summary>
     [CliFlag("--clean")]
     public bool? Clean { get; set; }
 
+    /// <summary>
+    /// Database to which the import is made. The database needs to be created before importing. If not set, it is assumed that the database is specified in the file to be imported. If your SQL dump file includes a database statement, it will override the database set in this flag.
+    /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
     /// <summary>
-    /// Include an SQL statement (IF EXISTS) with each DROP statement produced     by --clean; corresponds to the if-exists flag for pg_restore. Only     applies if --parallel is set. PostgreSQL only.
+    /// Include an SQL statement (IF EXISTS) with each DROP statement produced by --clean; corresponds to the if-exists flag for pg_restore. Only applies if --parallel is set. PostgreSQL only.
     /// </summary>
     [CliFlag("--if-exists")]
     public bool? IfExists { get; set; }
 
     /// <summary>
-    /// Perform a parallel import. This flag is only applicable to MySQL and     Postgres. When this flag is used, the URI specifies a folder in the     Cloud Storage bucket where the multiple files to be imported are     located.
+    /// Perform a parallel import. This flag is only applicable to MySQL and Postgres. When this flag is used, the URI specifies a folder in the Cloud Storage bucket where the multiple files to be imported are located.
     /// </summary>
     [CliFlag("--parallel")]
     public bool? Parallel { get; set; }
 
     /// <summary>
-    /// Specifies the number of threads to use for the parallel import. If     --parallel is specified and this flag is not provided, Cloud SQL uses a     default thread count to optimize performance.
+    /// Specifies the number of threads to use for the parallel import. If --parallel is specified and this flag is not provided, Cloud SQL uses a default thread count to optimize performance.
     /// </summary>
     [CliOption("--threads", Format = OptionFormat.EqualsSeparated)]
     public string? Threads { get; set; }

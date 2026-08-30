@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeSecurityPoliciesRulesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Region of the security policy to delete. If not specified, you might be     prompted to select a region (interactive mode only).     A list of regions can be fetched by running:       $ gcloud compute regions list     Overrides the default compute/region property value for this command     invocation.
+    /// Region of the security policy to delete. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

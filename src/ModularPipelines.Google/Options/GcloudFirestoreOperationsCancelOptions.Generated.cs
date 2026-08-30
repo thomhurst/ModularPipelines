@@ -23,7 +23,7 @@ public record GcloudFirestoreOperationsCancelOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("Database is no longer supported by the installed CLI and has no effect.")]
     public string? Database { get; set; }
 
 }

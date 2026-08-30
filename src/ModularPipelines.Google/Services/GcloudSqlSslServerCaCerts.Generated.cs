@@ -33,6 +33,21 @@ public class GcloudSqlSslServerCaCerts
     #region Commands
 
     /// <summary>
+    /// provide commands for managing server CA     certs of Cloud SQL instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSqlSslServerCaCertsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSqlSslServerCaCertsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a server CA cert for a Cloud     SQL instance
     /// </summary>
     /// <param name="options">The command options.</param>

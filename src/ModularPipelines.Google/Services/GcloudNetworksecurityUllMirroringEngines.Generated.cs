@@ -33,6 +33,21 @@ public class GcloudNetworksecurityUllMirroringEngines
     #region Commands
 
     /// <summary>
+    /// manage Ull Mirroring Engine     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecurityUllMirroringEnginesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityUllMirroringEnginesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list networks     configured for mirroring for a Google Cloud ULL Mirroring Engine
     /// </summary>
     /// <param name="options">The command options.</param>

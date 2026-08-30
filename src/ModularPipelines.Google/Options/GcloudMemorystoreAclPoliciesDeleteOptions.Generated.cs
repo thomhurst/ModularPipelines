@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMemorystoreAclPoliciesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Etag of the ACL policy. If this is different from the server's etag,     the request will fail with an ABORTED error.
+    /// Etag of the ACL policy. If this is different from the server's etag, the request will fail with an ABORTED error.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }

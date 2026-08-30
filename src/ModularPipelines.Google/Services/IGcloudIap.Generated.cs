@@ -15,33 +15,36 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud iap commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudIap
 {
     /// <summary>
     /// gcloud oauth-brands sub-commands.
     /// </summary>
-    GcloudIapOauthBrands OauthBrands { get; }
+    GcloudIapOauthBrands OauthBrands => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud oauth-clients sub-commands.
     /// </summary>
-    GcloudIapOauthClients OauthClients { get; }
+    GcloudIapOauthClients OauthClients => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud settings sub-commands.
     /// </summary>
-    GcloudIapSettings Settings { get; }
+    GcloudIapSettings Settings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tcp sub-commands.
     /// </summary>
-    GcloudIapTcp Tcp { get; }
+    GcloudIapTcp Tcp => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud web sub-commands.
     /// </summary>
-    GcloudIapWeb Web { get; }
+    GcloudIapWeb Web => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage IAP policies
@@ -50,9 +53,7 @@ public interface IGcloudIap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudIapOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudIapOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

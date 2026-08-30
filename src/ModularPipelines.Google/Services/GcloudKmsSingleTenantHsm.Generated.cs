@@ -43,6 +43,21 @@ public class GcloudKmsSingleTenantHsm
     #region Commands
 
     /// <summary>
+    /// commands for managing single tenant HSM     instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudKmsSingleTenantHsmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsSingleTenantHsmOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a single tenant HSM instance
     /// </summary>
     /// <param name="options">The command options.</param>

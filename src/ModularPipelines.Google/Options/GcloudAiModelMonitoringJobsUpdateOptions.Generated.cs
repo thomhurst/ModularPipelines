@@ -23,10 +23,16 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// YAML schema file uri(Google Cloud Storage) describing the format of a     single instance that you want Tensorflow Data Validation (TFDV) to     analyze.
+    /// YAML schema file uri(Google Cloud Storage) describing the format of a single instance that you want Tensorflow Data Validation (TFDV) to analyze.
     /// </summary>
     [CliOption("--analysis-instance-schema", Format = OptionFormat.EqualsSeparated)]
     public string? AnalysisInstanceSchema { get; set; }
+
+    /// <summary>
+    /// If true, anomaly will be sent to Cloud Logging. Use --anomaly-cloud-logging to enable and --no-anomaly-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--anomaly-cloud-logging")]
+    public bool? AnomalyCloudLogging { get; set; }
 
     /// <summary>
     /// Display name of the model deployment monitoring job.
@@ -35,13 +41,13 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Comma-separated email address list. e.g.     --emails=a@gmail.com,b@gmail.com
+    /// Comma-separated email address list. e.g. --emails=a@gmail.com,b@gmail.com
     /// </summary>
     [CliOption("--emails", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Emails { get; set; }
 
     /// <summary>
-    /// TTL of BigQuery tables in user projects which stores logs(Day-based     unit).
+    /// TTL of BigQuery tables in user projects which stores logs(Day-based unit).
     /// </summary>
     [CliOption("--log-ttl", Format = OptionFormat.EqualsSeparated)]
     public string? LogTtl { get; set; }
@@ -53,7 +59,7 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public string? MonitoringFrequency { get; set; }
 
     /// <summary>
-    /// Comma-separated notification channel list. e.g.     --notification-channels=projects/fake-project/notificationChannels/123,projects/fake-project/notificationChannels/456
+    /// Comma-separated notification channel list. e.g. --notification-channels=projects/fake-project/notificationChannels/123,projects/fake-project/notificationChannels/456
     /// </summary>
     [CliOption("--notification-channels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NotificationChannels { get; set; }
@@ -65,9 +71,39 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public string? PredictionSamplingRate { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud ai model-monitoring-jobs update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud ai model-monitoring-jobs update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --monitoring-config-from-file=MONITORING_CONFIG_FROM_FILE      Path to the model monitoring objective config file. This file should      be a YAML document containing a      ModelDeploymentMonitoringJob(https://cloud.google.com/vertex-ai/docs/reference/rest/v1beta1/projects.locations.modelDeploymentMonitoringJobs#ModelDeploymentMonitoringJob),      but only the ModelDeploymentMonitoringObjectiveConfig needs to be      configured.      Note: Only one of --monitoring-config-from-file and other objective      config set, like --feature-thresholds,      --feature-attribution-thresholds needs to be set.      Example(YAML):        modelDeploymentMonitoringObjectiveConfigs:        - deployedModelId: '5251549009234886656'         objectiveConfig:          trainingDataset:           dataFormat: csv           gcsSource:            uris:            - gs://fake-bucket/training_data.csv           targetField: price          trainingPredictionSkewDetectionConfig:           skewThresholds:            feat1:             value: 0.9            feat2:             value: 0.8        - deployedModelId: '2945706000021192704'         objectiveConfig:          predictionDriftDetectionConfig:           driftThresholds:            feat1:             value: 0.3            feat2:             value: 0.4     Or at least one of these can be specified:      --feature-attribution-thresholds=[KEY=VALUE,...]       List of feature-attribution score threshold value pairs(Apply for       all the deployed models under the endpoint, if you want to specify       different thresholds for different deployed model, please use flag       --monitoring-config-from-file or call API directly). If only       feature name is set, the default threshold value would be 0.3.       For example:       feature-attribution-thresholds=feat1=0.1,feat2,feat3=0.2      --feature-thresholds=[KEY=VALUE,...]       List of feature-threshold value pairs(Apply for all the deployed       models under the endpoint, if you want to specify different       thresholds for different deployed model, please use flag       --monitoring-config-from-file or call API directly). If only       feature name is set, the default threshold value would be 0.3.       For example: --feature-thresholds=feat1=0.1,feat2,feat3=0.2
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud ai model-monitoring-jobs update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud ai model-monitoring-jobs update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to the model monitoring objective config file. This file should be a YAML document containing a ModelDeploymentMonitoringJob(https://cloud.google.com/vertex-ai/docs/reference/rest/v1beta1/projects.locations.modelDeploymentMonitoringJobs#ModelDeploymentMonitoringJob), but only the ModelDeploymentMonitoringObjectiveConfig needs to be configured. Note: Only one of --monitoring-config-from-file and other objective config set, like --feature-thresholds, --feature-attribution-thresholds needs to be set. Example(YAML): modelDeploymentMonitoringObjectiveConfigs: - deployedModelId: '5251549009234886656' objectiveConfig: trainingDataset: dataFormat: csv gcsSource: uris: - gs://fake-bucket/training_data.csv targetField: price trainingPredictionSkewDetectionConfig: skewThresholds: feat1: value: 0.9 feat2: value: 0.8 - deployedModelId: '2945706000021192704' objectiveConfig: predictionDriftDetectionConfig: driftThresholds: feat1: value: 0.3 feat2: value: 0.4
+    /// </summary>
+    [CliOption("--monitoring-config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MonitoringConfigFromFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: List of feature-attribution score threshold value pairs(Apply for all the deployed models under the endpoint, if you want to specify different thresholds for different deployed model, please use flag --monitoring-config-from-file or call API directly). If only feature name is set, the default threshold value would be 0.3. For example: feature-attribution-thresholds=feat1=0.1,feat2,feat3=0.2
+    /// </summary>
+    [CliOption("--feature-attribution-thresholds", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? FeatureAttributionThresholds { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: List of feature-threshold value pairs(Apply for all the deployed models under the endpoint, if you want to specify different thresholds for different deployed model, please use flag --monitoring-config-from-file or call API directly). If only feature name is set, the default threshold value would be 0.3. For example: --feature-thresholds=feat1=0.1,feat2,feat3=0.2
+    /// </summary>
+    [CliOption("--feature-thresholds", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? FeatureThresholds { get; set; }
 
 }

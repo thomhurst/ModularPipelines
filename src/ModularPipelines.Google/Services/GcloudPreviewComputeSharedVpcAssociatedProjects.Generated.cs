@@ -33,6 +33,21 @@ public class GcloudPreviewComputeSharedVpcAssociatedProjects
     #region Commands
 
     /// <summary>
+    /// configure     associated projects for Shared VPC networking
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeSharedVpcAssociatedProjectsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeSharedVpcAssociatedProjectsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// associate the     given project with a given shared VPC host project
     /// </summary>
     /// <param name="options">The command options.</param>

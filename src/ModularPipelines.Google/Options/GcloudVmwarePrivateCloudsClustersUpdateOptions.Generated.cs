@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwarePrivateCloudsClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) Information about the type and number of nodes associated     with the cluster.       type (required): canonical identifier of the node type.       count (required): number of nodes of this type in the cluster.       custom_core_count: can be passed, but the value will be ignored. Updating custom core count is not supported.     The --node-type-config option is deprecated; please use     --update-nodes-config and --remove-nodes-config instead.
+    /// (DEPRECATED) Information about the type and number of nodes associated with the cluster. type (required): canonical identifier of the node type. count (required): number of nodes of this type in the cluster. custom_core_count: can be passed, but the value will be ignored. Updating custom core count is not supported. The --node-type-config option is deprecated; please use --update-nodes-config and --remove-nodes-config instead.
     /// </summary>
     [CliOption("--node-type-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeTypeConfig { get; set; }
@@ -46,9 +46,39 @@ public record GcloudVmwarePrivateCloudsClustersUpdateOptions : GcloudOptions
     public string? RemoveNodesConfig { get; set; }
 
     /// <summary>
-    /// Information about the type and number of nodes associated with the     cluster.     type (required): canonical identifier of the node type.     count (required): number of nodes of this type in the cluster.    At most one of these can be specified:     --autoscaling-settings-from-file=AUTOSCALING_SETTINGS_FROM_FILE      A YAML file containing the autoscaling settings to be applied to the      cluster     Or at least one of these can be specified:      --autoscaling-cool-down-period=AUTOSCALING_COOL_DOWN_PERIOD       Cool down period (in minutes) between consecutive cluster       expansions/contractions      --autoscaling-max-cluster-node-count=AUTOSCALING_MAX_CLUSTER_NODE_COUNT       Maximum number of nodes in the cluster      --autoscaling-min-cluster-node-count=AUTOSCALING_MIN_CLUSTER_NODE_COUNT       Minimum number of nodes in the cluster      --update-autoscaling-policy=[consumed-memory-thresholds-scale-in=CONSUMED-MEMORY-THRESHOLDS-SCALE-IN],[consumed-memory-thresholds-scale-out=CONSUMED-MEMORY-THRESHOLDS-SCALE-OUT],[cpu-thresholds-scale-in=CPU-THRESHOLDS-SCALE-IN],[cpu-thresholds-scale-out=CPU-THRESHOLDS-SCALE-OUT],[granted-memory-thresholds-scale-in=GRANTED-MEMORY-THRESHOLDS-SCALE-IN],[granted-memory-thresholds-scale-out=GRANTED-MEMORY-THRESHOLDS-SCALE-OUT],[max-node-count=MAX-NODE-COUNT],[min-node-count=MIN-NODE-COUNT],[name=NAME],[node-type-id=NODE-TYPE-ID],[scale-out-size=SCALE-OUT-SIZE],[storage-thresholds-scale-in=STORAGE-THRESHOLDS-SCALE-IN],[storage-thresholds-scale-out=STORAGE-THRESHOLDS-SCALE-OUT]       Autoscaling policy to be applied to the cluster
+    /// Information about the type and number of nodes associated with the cluster. type (required): canonical identifier of the node type. count (required): number of nodes of this type in the cluster.
     /// </summary>
     [CliOption("--update-nodes-config", Format = OptionFormat.EqualsSeparated)]
     public int? UpdateNodesConfig { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: A YAML file containing the autoscaling settings to be applied to the cluster
+    /// </summary>
+    [CliOption("--autoscaling-settings-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingSettingsFromFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Cool down period (in minutes) between consecutive cluster expansions/contractions
+    /// </summary>
+    [CliOption("--autoscaling-cool-down-period", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingCoolDownPeriod { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Maximum number of nodes in the cluster
+    /// </summary>
+    [CliOption("--autoscaling-max-cluster-node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AutoscalingMaxClusterNodeCount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Minimum number of nodes in the cluster
+    /// </summary>
+    [CliOption("--autoscaling-min-cluster-node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AutoscalingMinClusterNodeCount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling policy to be applied to the cluster
+    /// </summary>
+    [CliOption("--update-autoscaling-policy", Format = OptionFormat.EqualsSeparated)]
+    public int? UpdateAutoscalingPolicy { get; set; }
 
 }

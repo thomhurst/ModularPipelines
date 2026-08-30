@@ -33,6 +33,21 @@ public class GcloudOracledatabaseGoldengateConnectionAssignments
     #region Commands
 
     /// <summary>
+    /// manage     Goldengate Connection Assignment resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudOracleDatabaseGoldengateConnectionAssignmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseGoldengateConnectionAssignmentsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     new GoldengateConnectionAssignment
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -17,32 +17,47 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLocalityLbPolicy
 {
     [EnumValue("INVALID_LB_POLICY")]
-    InvalidLbPolicy,
+    InvalidLbPolicy = 0,
 
     [EnumValue("ROUND_ROBIN")]
-    RoundRobin,
+    RoundRobin = 1,
 
     [EnumValue("LEAST_REQUEST")]
-    LeastRequest,
+    LeastRequest = 2,
 
     [EnumValue("RING_HASH")]
-    RingHash,
+    RingHash = 3,
 
     [EnumValue("RANDOM")]
-    Random,
+    Random = 4,
 
     [EnumValue("ORIGINAL_DESTINATION")]
-    OriginalDestination,
+    OriginalDestination = 5,
 
     [EnumValue("MAGLEV")]
-    Maglev,
+    Maglev = 6,
 
     [EnumValue("WEIGHTED_MAGLEV")]
-    WeightedMaglev,
+    WeightedMaglev = 7,
 
     [EnumValue("WEIGHTED_ROUND_ROBIN")]
-    WeightedRoundRobin,
+    WeightedRoundRobin = 8,
 
     [EnumValue("WEIGHTED_GCP_RENDEZVOUS")]
-    WeightedGcpRendezvous
+    WeightedGcpRendezvous = 9,
+
+    [EnumValue("INTERNAL")]
+    Internal = 10,
+
+    [EnumValue("EXTERNAL")]
+    External = 11,
+
+    [EnumValue("INTERNAL_SELF_MANAGED")]
+    InternalSelfManaged = 12,
+
+    [EnumValue("EXTERNAL_MANAGED")]
+    ExternalManaged = 13,
+
+    [EnumValue("INTERNAL_MANAGED")]
+    InternalManaged = 14
 }

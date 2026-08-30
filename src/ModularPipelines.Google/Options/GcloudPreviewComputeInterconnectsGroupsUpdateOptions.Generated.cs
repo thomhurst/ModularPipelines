@@ -30,7 +30,7 @@ public record GcloudPreviewComputeInterconnectsGroupsUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// The reliability the user intends this group to be capable of, in terms     of the Interconnect product SLAs.
+    /// The reliability the user intends this group to be capable of, in terms of the Interconnect product SLAs.
     /// </summary>
     [CliOption("--intended-topology-capability", Format = OptionFormat.EqualsSeparated)]
     public string? IntendedTopologyCapability { get; set; }
@@ -42,7 +42,7 @@ public record GcloudPreviewComputeInterconnectsGroupsUpdateOptions(
     public IEnumerable<string>? Interconnects { get; set; }
 
     /// <summary>
-    /// Optional update mask to specify which fields to update. Use commas to     separate masks. If not specified, all fields present in the command     will be updated.
+    /// Optional update mask to specify which fields to update. Use commas to separate masks. If not specified, all fields present in the command will be updated.
     /// </summary>
     [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMask { get; set; }

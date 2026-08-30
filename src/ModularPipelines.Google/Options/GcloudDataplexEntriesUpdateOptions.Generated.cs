@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -22,21 +23,117 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexEntriesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// List of Aspect keys, identifying Aspects to remove from the entry.     Keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the     Aspect is attached to an entry itself rather than to a specific column     defined in the schema.     ASPECT_TYPE is expected to be in a format     PROJECT_ID.LOCATION.ASPECT_TYPE_ID or a wildcard *, which targets all     aspect types.     PATH can be either empty (which means a 'root' path, such that Aspect     is attached to the entry itself), point to a specific column defined in     the schema (for example: Schema.some_column) or a wildcard * (target     all paths).     ASPECT_TYPE and PATH cannot be both specified as wildcards *.     If both --update-aspects and --remove-aspects flags are specified, and     the same aspect key is used in both flags, then --update-aspects takes     precedence, and such an aspect will be updated and not removed.
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. List of Aspect keys, identifying Aspects to remove from the entry. Keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID or a wildcard *, which targets all aspect types. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself), point to a specific column defined in the schema (for example: Schema.some_column) or a wildcard * (target all paths). ASPECT_TYPE and PATH cannot be both specified as wildcards *. If both --update-aspects and --remove-aspects flags are specified, and the same aspect key is used in both flags, then --update-aspects takes precedence, and such an aspect will be updated and not removed.
     /// </summary>
     [CliOption("--remove-aspects", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveAspects { get; set; }
 
     /// <summary>
-    /// Path to a YAML or JSON file containing Aspects to add or update.     When this flag is specified, only Aspects referenced in the file are     going to be added or updated. Specifying this flag does not remove any     Aspects from the entry. In other words, specifying this flag will not     lead to a full replacement of Aspects with a contents of the provided     file.     Content of the file contains a map, where keys are in the format     ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an     entry itself rather than to a specific column defined in the schema.     Values in the map represent Aspect's content, which must conform to a     template defined for a given ASPECT_TYPE. Each Aspect will be replaced     fully by the provided content. That means data in the Aspect will be     replaced and not merged with existing contents of that Aspect in the     Entry.     ASPECT_TYPE is expected to be in a format     PROJECT_ID.LOCATION.ASPECT_TYPE_ID.     PATH can be either empty (which means a 'root' path, such that Aspect     is attached to the entry itself) or point to a specific column defined     in the schema. For example: Schema.some_column.     Example YAML format:        project-id1.us-central1.my-aspect-type1:         data:          aspectField1: someValue          aspectField2: someOtherValue        project-id2.us-central1.my-aspect-type2@Schema.column1:         data:          aspectField3: someValue3     Example JSON format:        {         "project-id1.us-central1.my-aspect-type1": {          "data": {           "aspectField1": "someValue",           "aspectField2": "someOtherValue"          }         },         "project-id2.us-central1.my-aspect-type2@Schema.column1": {          "data": {           "aspectField3": "someValue3"          }         }        }     If both --update-aspects and --remove-aspects flags are specified, and     the same aspect key is used in both flags, then --update-aspects takes     precedence, and such an aspect will be updated and not removed.    At most one of these can be specified:     --clear-fully-qualified-name      Clear the FQN for the Entry.     --fully-qualified-name=FULLY_QUALIFIED_NAME      FQN, a name for the entry that can reference it in an external      system.    Source system related information for an entry. If any of the entry source   fields are specified, then ``--entry-source-update-time must be specified   as well.
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. Path to a YAML or JSON file containing Aspects to add or update. When this flag is specified, only Aspects referenced in the file are going to be added or updated. Specifying this flag does not remove any Aspects from the entry. In other words, specifying this flag will not lead to a full replacement of Aspects with a contents of the provided file. Content of the file contains a map, where keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. Values in the map represent Aspect's content, which must conform to a template defined for a given ASPECT_TYPE. Each Aspect will be replaced fully by the provided content. That means data in the Aspect will be replaced and not merged with existing contents of that Aspect in the Entry. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself) or point to a specific column defined in the schema. For example: Schema.some_column. Example YAML format: project-id1.us-central1.my-aspect-type1: data: aspectField1: someValue aspectField2: someOtherValue project-id2.us-central1.my-aspect-type2@Schema.column1: data: aspectField3: someValue3 Example JSON format: { "project-id1.us-central1.my-aspect-type1": { "data": { "aspectField1": "someValue", "aspectField2": "someOtherValue" } }, "project-id2.us-central1.my-aspect-type2@Schema.column1": { "data": { "aspectField3": "someValue3" } } } If both --update-aspects and --remove-aspects flags are specified, and the same aspect key is used in both flags, then --update-aspects takes precedence, and such an aspect will be updated and not removed.
     /// </summary>
     [CliOption("--update-aspects", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateAspects { get; set; }
 
     /// <summary>
-    /// The update date and time of the resource in the source system.     This flag argument must be specified if any of the other arguments in     this group are specified.    At most one of these can be specified:     --clear-entry-source-create-time      Clear the value for the create_time field in the Entry Source.     --entry-source-create-time=DATE_TIME      The creation date and time of the resource in the source system.    At most one of these can be specified:     --clear-entry-source-description      Clear the value for the description field in the Entry Source.     --entry-source-description=DESCRIPTION      Description of the Entry.    At most one of these can be specified:     --clear-entry-source-display-name      Clear the value for the display_name field in the Entry Source.     --entry-source-display-name=DISPLAY_NAME      User friendly display name.    At most one of these can be specified:     --clear-entry-source-labels      Clear the labels for the Entry Source.     --entry-source-labels=[KEY=VALUE,...]      List of label KEY=VALUE pairs to add.      Keys must start with a lowercase character and contain only hyphens      (-), underscores (_), lowercase characters, and numbers. Values must      contain only hyphens (-), underscores (_), lowercase characters, and      numbers.    At most one of these can be specified:     --clear-entry-source-platform      Clear the value for the platform field in the Entry Source.     --entry-source-platform=PLATFORM_NAME      The platform containing the source system.    At most one of these can be specified:     --clear-entry-source-resource      Clear the value for the resource field in the Entry Source.     --entry-source-resource=RESOURCE      The name of the resource in the source system.    At most one of these can be specified:     --clear-entry-source-system      Clear the value for the system field in the Entry Source.     --entry-source-system=SYSTEM_NAME      The name of the source system.
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Clear the FQN for the Entry.
+    /// </summary>
+    [CliFlag("--clear-fully-qualified-name")]
+    public bool? ClearFullyQualifiedName { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: FQN, a name for the entry that can reference it in an external system.
+    /// </summary>
+    [CliOption("--fully-qualified-name", Format = OptionFormat.EqualsSeparated)]
+    public string? FullyQualifiedName { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. The update date and time of the resource in the source system. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--entry-source-update-time", Format = OptionFormat.EqualsSeparated)]
     public string? EntrySourceUpdateTime { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Clear the value for the create_time field in the Entry Source.
+    /// </summary>
+    [CliFlag("--clear-entry-source-create-time")]
+    public bool? ClearEntrySourceCreateTime { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: The creation date and time of the resource in the source system.
+    /// </summary>
+    [CliOption("--entry-source-create-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceCreateTime { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Clear the value for the description field in the Entry Source.
+    /// </summary>
+    [CliFlag("--clear-entry-source-description")]
+    public bool? ClearEntrySourceDescription { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Description of the Entry.
+    /// </summary>
+    [CliOption("--entry-source-description", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceDescription { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Clear the value for the display_name field in the Entry Source.
+    /// </summary>
+    [CliFlag("--clear-entry-source-display-name")]
+    public bool? ClearEntrySourceDisplayName { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: User friendly display name.
+    /// </summary>
+    [CliOption("--entry-source-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceDisplayName { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Clear the labels for the Entry Source.
+    /// </summary>
+    [CliFlag("--clear-entry-source-labels")]
+    public bool? ClearEntrySourceLabels { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--entry-source-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? EntrySourceLabels { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Clear the value for the platform field in the Entry Source.
+    /// </summary>
+    [CliFlag("--clear-entry-source-platform")]
+    public bool? ClearEntrySourcePlatform { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: The platform containing the source system.
+    /// </summary>
+    [CliOption("--entry-source-platform", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourcePlatform { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Clear the value for the resource field in the Entry Source.
+    /// </summary>
+    [CliFlag("--clear-entry-source-resource")]
+    public bool? ClearEntrySourceResource { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: The name of the resource in the source system.
+    /// </summary>
+    [CliOption("--entry-source-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceResource { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Clear the value for the system field in the Entry Source.
+    /// </summary>
+    [CliFlag("--clear-entry-source-system")]
+    public bool? ClearEntrySourceSystem { get; set; }
+
+    /// <summary>
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: The name of the source system.
+    /// </summary>
+    [CliOption("--entry-source-system", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceSystem { get; set; }
 
 }

@@ -24,7 +24,7 @@ public record GcloudDataflowJobsCancelOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Forcibly cancels a Dataflow job. Regular cancel must have been     attempted at least 30 minutes prior for a job to be force cancelled.
+    /// Forcibly cancels a Dataflow job. Regular cancel must have been attempted at least 30 minutes prior for a job to be force cancelled.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

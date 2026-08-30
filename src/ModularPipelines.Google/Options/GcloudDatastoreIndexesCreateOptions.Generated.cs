@@ -24,7 +24,7 @@ public record GcloudDatastoreIndexesCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The database to operate on. If not specified, the CLI refers the     (default) database by default.     For example, to operate on database testdb:       $ gcloud datastore indexes create --database='testdb'
+    /// The database to operate on. If not specified, the CLI refers the (default) database by default. For example, to operate on database testdb: $ gcloud datastore indexes create --database='testdb'
     /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }

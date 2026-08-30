@@ -33,6 +33,21 @@ public class GcloudSccPostureTemplates
     #region Commands
 
     /// <summary>
+    /// manage Cloud Security Command Center posture     templates
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSccPostureTemplatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSccPostureTemplatesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Cloud Security Command     Center posture template
     /// </summary>
     /// <param name="options">The command options.</param>

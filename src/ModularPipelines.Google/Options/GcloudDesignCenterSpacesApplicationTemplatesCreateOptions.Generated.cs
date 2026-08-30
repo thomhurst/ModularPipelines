@@ -22,43 +22,43 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationTemplatesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Parameters to apply to all components in an application. You can     specify projectID and region.      key       The key of the parameter.      value       The value of the parameter.     Shorthand Example:       --application-parameters=key=string,value={...} --application-parameters=key=string,value={...}     JSON Example:       --application-parameters='[{"key": "string", "value": {...}}]'     File Example:       --application-parameters=path_to_file.(yaml|json)
+    /// SaaS runtime context. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --application-parameters=key=string,value={...} --application-parameters=key=string,value={...} JSON Example: --application-parameters='[{"key": "string", "value": {...}}]' File Example: --application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--application-parameters", Format = OptionFormat.EqualsSeparated)]
     public string? ApplicationParameters { get; set; }
 
     /// <summary>
-    /// The composition type of the applicationTemplate: STANDARD OR COMPOSITE.     This is a create time only param. COMPOSITION_TYPE must be one of:      composite       ApplicationCompositionType is COMPOSITE. The template is composed       of STANDARD applicationTemplate(s) and might be having multiple       root modules in terraform code.     standard       ApplicationCompositionType is STANDARD. The applicationTemplate or       application is composed of components only of type       service/workload/asset and has a single root module in terraform       code.
+    /// SaaS runtime context. The composition type of the applicationTemplate: STANDARD OR COMPOSITE. This is a create time only param. COMPOSITION_TYPE must be one of: composite ApplicationCompositionType is COMPOSITE. The template is composed of STANDARD applicationTemplate(s) and might be having multiple root modules in terraform code. standard ApplicationCompositionType is STANDARD. The applicationTemplate or application is composed of components only of type service/workload/asset and has a single root module in terraform code.
     /// </summary>
     [CliOption("--composition-type", Format = OptionFormat.EqualsSeparated)]
     public string? CompositionType { get; set; }
 
     /// <summary>
-    /// Application template description.
+    /// SaaS runtime context. Application template description.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Application template display name.
+    /// SaaS runtime context. Application template display name.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Root level input variables of the application template.      componentUri       Component to which this variable belongs.      variable       Name of the variable.     Shorthand Example:       --root-input-variables=componentUri=string,variable=string --root-input-variables=componentUri=string,variable=string     JSON Example:       --root-input-variables='[{"componentUri": "string", "variable": "string"}]'     File Example:       --root-input-variables=path_to_file.(yaml|json)
+    /// SaaS runtime context. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --root-input-variables=componentUri=string,variable=string --root-input-variables=componentUri=string,variable=string JSON Example: --root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --root-input-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--root-input-variables", Format = OptionFormat.EqualsSeparated)]
     public string? RootInputVariables { get; set; }
 
     /// <summary>
-    /// Root level output variables of the application template.      componentUri       Component to which this variable belongs.      variable       Name of the variable.     Shorthand Example:       --root-output-variables=componentUri=string,variable=string --root-output-variables=componentUri=string,variable=string     JSON Example:       --root-output-variables='[{"componentUri": "string", "variable": "string"}]'     File Example:       --root-output-variables=path_to_file.(yaml|json)    SaaS runtime context.
+    /// SaaS runtime context. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --root-output-variables=componentUri=string,variable=string --root-output-variables=componentUri=string,variable=string JSON Example: --root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --root-output-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--root-output-variables", Format = OptionFormat.EqualsSeparated)]
     public string? RootOutputVariables { get; set; }
 
     /// <summary>
-    /// The SaaS names. Format for each SaaS:     projects/{project}/locations/{location}/saas/{saas}
+    /// SaaS runtime context. The SaaS names. Format for each SaaS: projects/{project}/locations/{location}/saas/{saas}
     /// </summary>
     [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SaasRuntimeContextNames { get; set; }

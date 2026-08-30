@@ -33,6 +33,21 @@ public class GcloudDeveloperconnectInsightsConfigsDeploymentEvents
     #region Commands
 
     /// <summary>
+    /// manage     Deployment Event resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDeveloperConnectInsightsConfigsDeploymentEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeveloperConnectInsightsConfigsDeploymentEventsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a deploymentEvent
     /// </summary>
     /// <param name="options">The command options.</param>

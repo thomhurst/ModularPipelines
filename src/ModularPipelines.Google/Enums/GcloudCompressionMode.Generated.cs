@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudCompressionMode
 {
     [EnumValue("DISABLED")]
-    Disabled,
+    Disabled = 0,
 
     [EnumValue("AUTOMATIC")]
-    Automatic
+    Automatic = 1
 }

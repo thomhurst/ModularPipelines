@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityFirewallEndpointAssociationsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -33,7 +33,7 @@ public record GcloudNetworkSecurityFirewallEndpointAssociationsDeleteOptions : G
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
-    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("MaxWait is no longer supported by the installed CLI and has no effect.")]
     public string? MaxWait { get; set; }
 
 }

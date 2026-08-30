@@ -33,6 +33,21 @@ public class GcloudIapWeb
     #region Commands
 
     /// <summary>
+    /// manage IAP web policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIapWebOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIapWebOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy binding to an IAP     IAM resource
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudContainerHubDataplaneV2Encryption
     #region Commands
 
     /// <summary>
+    /// manage Dataplane V2     Encryption Feature
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerHubDataplaneV2EncryptionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerHubDataplaneV2EncryptionOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describes the     status of the Dataplane V2 Encryption Feature resource
     /// </summary>
     /// <param name="options">The command options.</param>

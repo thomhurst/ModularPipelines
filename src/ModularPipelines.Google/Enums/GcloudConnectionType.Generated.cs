@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudConnectionType
 {
     [EnumValue("private-service-connect")]
-    PrivateServiceConnect,
+    PrivateServiceConnect = 0,
 
     [EnumValue("vpc-peering")]
-    VpcPeering
+    VpcPeering = 1
 }

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// If true, allow partial responses for multi-regional aggregated list     requests.
+    /// If true, allow partial responses for multi-regional aggregated list requests.
     /// </summary>
     [CliFlag("--return-partial-success")]
     public bool? ReturnPartialSuccess { get; set; }

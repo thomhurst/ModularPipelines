@@ -33,6 +33,21 @@ public class GcloudComputeGlobalVmExtensionPolicies
     #region Commands
 
     /// <summary>
+    /// compute Engine global VM     extension policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeGlobalVmExtensionPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeGlobalVmExtensionPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Compute     Engine global VM extension policy
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMonitoringPoliciesMigrateOptions : GcloudOptions
 {
     /// <summary>
-    /// Prometheus alert manager YAML file to be converted to Cloud Monitoring     notification channels. Specifying this flag with the     --policies-from-prometheus-alert-rules-yaml flag puts the newly created     notification channels into the translated Alert Policies' definition.     Use a full or relative path to a local file containing the value of     channels_from_prometheus_alertmanager_yaml.
+    /// Prometheus alert manager YAML file to be converted to Cloud Monitoring notification channels. Specifying this flag with the --policies-from-prometheus-alert-rules-yaml flag puts the newly created notification channels into the translated Alert Policies' definition. Use a full or relative path to a local file containing the value of channels_from_prometheus_alertmanager_yaml.
     /// </summary>
     [CliOption("--channels-from-prometheus-alertmanager-yaml", Format = OptionFormat.EqualsSeparated)]
     public string? ChannelsFromPrometheusAlertmanagerYaml { get; set; }
 
     /// <summary>
-    /// One or more Prometheus alert rule YAML files (separated by commas if     multiple) to be converted to Cloud Alerting Policies. Example:     --policies-from-prometheus-alert-rules-yaml=rules_1.yaml,rules_2.yaml
+    /// One or more Prometheus alert rule YAML files (separated by commas if multiple) to be converted to Cloud Alerting Policies. Example: --policies-from-prometheus-alert-rules-yaml=rules_1.yaml,rules_2.yaml
     /// </summary>
     [CliOption("--policies-from-prometheus-alert-rules-yaml", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PoliciesFromPrometheusAlertRulesYaml { get; set; }

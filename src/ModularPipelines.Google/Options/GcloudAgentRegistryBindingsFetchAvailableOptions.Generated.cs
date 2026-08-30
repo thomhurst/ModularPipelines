@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAgentRegistryBindingsFetchAvailableOptions : GcloudOptions
 {
     /// <summary>
-    /// The identifier of the source Agent. Format:     ◆ urn:agent:{publisher}:{namespace}:{name}
+    /// The identifier of the source Agent. Format: ◆ urn:agent:{publisher}:{namespace}:{name}
     /// </summary>
     [CliOption("--source-identifier", Format = OptionFormat.EqualsSeparated)]
     public string? SourceIdentifier { get; set; }
 
     /// <summary>
-    /// The identifier of the target Agent, MCP Server, or Endpoint. Format:     ◆ urn:agent:{publisher}:{namespace}:{name}     ◆ urn:mcp:{publisher}:{namespace}:{name}     ◆ urn:endpoint:{publisher}:{namespace}:{name}
+    /// The identifier of the target Agent, MCP Server, or Endpoint. Format: ◆ urn:agent:{publisher}:{namespace}:{name} ◆ urn:mcp:{publisher}:{namespace}:{name} ◆ urn:endpoint:{publisher}:{namespace}:{name}
     /// </summary>
     [CliOption("--target-identifier", Format = OptionFormat.EqualsSeparated)]
     public string? TargetIdentifier { get; set; }

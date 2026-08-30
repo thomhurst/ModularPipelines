@@ -15,23 +15,26 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud billing commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudBilling
 {
     /// <summary>
     /// gcloud accounts sub-commands.
     /// </summary>
-    GcloudBillingAccounts Accounts { get; }
+    GcloudBillingAccounts Accounts => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud budgets sub-commands.
     /// </summary>
-    GcloudBillingBudgets Budgets { get; }
+    GcloudBillingBudgets Budgets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud projects sub-commands.
     /// </summary>
-    GcloudBillingProjects Projects { get; }
+    GcloudBillingProjects Projects => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage billing accounts and associate them with projects
@@ -40,9 +43,7 @@ public interface IGcloudBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudBillingOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudBillingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

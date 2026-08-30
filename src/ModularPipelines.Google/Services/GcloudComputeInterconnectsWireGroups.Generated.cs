@@ -33,6 +33,21 @@ public class GcloudComputeInterconnectsWireGroups
     #region Commands
 
     /// <summary>
+    /// create or manipulate wire groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInterconnectsWireGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInterconnectsWireGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add endpoint to a     Compute Engine wire group
     /// </summary>
     /// <param name="options">The command options.</param>

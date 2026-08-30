@@ -15,22 +15,35 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud designcenter commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDesigncenter
 {
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudDesigncenterLocations Locations { get; }
+    GcloudDesigncenterLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDesigncenterOperations Operations { get; }
+    GcloudDesigncenterOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud spaces sub-commands.
     /// </summary>
-    GcloudDesigncenterSpaces Spaces { get; }
+    GcloudDesigncenterSpaces Spaces => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Application Design Center resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudDesignCenterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

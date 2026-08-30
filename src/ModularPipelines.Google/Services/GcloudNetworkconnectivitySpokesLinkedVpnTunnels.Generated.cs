@@ -33,6 +33,21 @@ public class GcloudNetworkconnectivitySpokesLinkedVpnTunnels
     #region Commands
 
     /// <summary>
+    /// manage VPN spokes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivitySpokesLinkedVpnTunnelsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new     VPN spoke
     /// </summary>
     /// <param name="options">The command options.</param>

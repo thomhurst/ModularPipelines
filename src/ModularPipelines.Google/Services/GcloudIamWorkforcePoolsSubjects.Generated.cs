@@ -43,6 +43,21 @@ public class GcloudIamWorkforcePoolsSubjects
     #region Commands
 
     /// <summary>
+    /// create and manage workforce pool     subjects
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIamWorkforcePoolsSubjectsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkforcePoolsSubjectsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete a workforce pool     subject
     /// </summary>
     /// <param name="options">The command options.</param>

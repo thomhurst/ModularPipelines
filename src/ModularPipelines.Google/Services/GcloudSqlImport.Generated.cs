@@ -33,6 +33,21 @@ public class GcloudSqlImport
     #region Commands
 
     /// <summary>
+    /// provides commands to import Cloud SQL instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSqlImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSqlImportOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// import data into a Cloud SQL instance from a BAK     file
     /// </summary>
     /// <param name="options">The command options.</param>

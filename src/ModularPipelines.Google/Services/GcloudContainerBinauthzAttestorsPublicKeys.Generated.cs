@@ -33,6 +33,21 @@ public class GcloudContainerBinauthzAttestorsPublicKeys
     #region Commands
 
     /// <summary>
+    /// create and manage public     keys associated with Attestation Authorities
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerBinauthzAttestorsPublicKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerBinauthzAttestorsPublicKeysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add a public key to     an Attestor
     /// </summary>
     /// <param name="options">The command options.</param>

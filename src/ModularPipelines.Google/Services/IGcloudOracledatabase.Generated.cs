@@ -15,137 +15,150 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud oracledatabase commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudOracledatabase
 {
     /// <summary>
     /// gcloud autonomous-database-backups sub-commands.
     /// </summary>
-    GcloudOracledatabaseAutonomousDatabaseBackups AutonomousDatabaseBackups { get; }
+    GcloudOracledatabaseAutonomousDatabaseBackups AutonomousDatabaseBackups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud autonomous-database-character-sets sub-commands.
     /// </summary>
-    GcloudOracledatabaseAutonomousDatabaseCharacterSets AutonomousDatabaseCharacterSets { get; }
+    GcloudOracledatabaseAutonomousDatabaseCharacterSets AutonomousDatabaseCharacterSets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud autonomous-databases sub-commands.
     /// </summary>
-    GcloudOracledatabaseAutonomousDatabases AutonomousDatabases { get; }
+    GcloudOracledatabaseAutonomousDatabases AutonomousDatabases => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud autonomous-db-versions sub-commands.
     /// </summary>
-    GcloudOracledatabaseAutonomousDbVersions AutonomousDbVersions { get; }
+    GcloudOracledatabaseAutonomousDbVersions AutonomousDbVersions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud cloud-exadata-infrastructures sub-commands.
     /// </summary>
-    GcloudOracledatabaseCloudExadataInfrastructures CloudExadataInfrastructures { get; }
+    GcloudOracledatabaseCloudExadataInfrastructures CloudExadataInfrastructures => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud cloud-vm-clusters sub-commands.
     /// </summary>
-    GcloudOracledatabaseCloudVmClusters CloudVmClusters { get; }
+    GcloudOracledatabaseCloudVmClusters CloudVmClusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud database-character-sets sub-commands.
     /// </summary>
-    GcloudOracledatabaseDatabaseCharacterSets DatabaseCharacterSets { get; }
+    GcloudOracledatabaseDatabaseCharacterSets DatabaseCharacterSets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud databases sub-commands.
     /// </summary>
-    GcloudOracledatabaseDatabases Databases { get; }
+    GcloudOracledatabaseDatabases Databases => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud db-system-initial-storage-sizes sub-commands.
     /// </summary>
-    GcloudOracledatabaseDbSystemInitialStorageSizes DbSystemInitialStorageSizes { get; }
+    GcloudOracledatabaseDbSystemInitialStorageSizes DbSystemInitialStorageSizes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud db-systems sub-commands.
     /// </summary>
-    GcloudOracledatabaseDbSystems DbSystems { get; }
+    GcloudOracledatabaseDbSystems DbSystems => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud db-system-shapes sub-commands.
     /// </summary>
-    GcloudOracledatabaseDbSystemShapes DbSystemShapes { get; }
+    GcloudOracledatabaseDbSystemShapes DbSystemShapes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud db-versions sub-commands.
     /// </summary>
-    GcloudOracledatabaseDbVersions DbVersions { get; }
+    GcloudOracledatabaseDbVersions DbVersions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud entitlements sub-commands.
     /// </summary>
-    GcloudOracledatabaseEntitlements Entitlements { get; }
+    GcloudOracledatabaseEntitlements Entitlements => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud exadb-vm-clusters sub-commands.
     /// </summary>
-    GcloudOracledatabaseExadbVmClusters ExadbVmClusters { get; }
+    GcloudOracledatabaseExadbVmClusters ExadbVmClusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud exascale-db-storage-vaults sub-commands.
     /// </summary>
-    GcloudOracledatabaseExascaleDbStorageVaults ExascaleDbStorageVaults { get; }
+    GcloudOracledatabaseExascaleDbStorageVaults ExascaleDbStorageVaults => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud gi-versions sub-commands.
     /// </summary>
-    GcloudOracledatabaseGiVersions GiVersions { get; }
+    GcloudOracledatabaseGiVersions GiVersions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud goldengate-connection-assignments sub-commands.
     /// </summary>
-    GcloudOracledatabaseGoldengateConnectionAssignments GoldengateConnectionAssignments { get; }
+    GcloudOracledatabaseGoldengateConnectionAssignments GoldengateConnectionAssignments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud goldengate-connections sub-commands.
     /// </summary>
-    GcloudOracledatabaseGoldengateConnections GoldengateConnections { get; }
+    GcloudOracledatabaseGoldengateConnections GoldengateConnections => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud goldengate-connection-types sub-commands.
     /// </summary>
-    GcloudOracledatabaseGoldengateConnectionTypes GoldengateConnectionTypes { get; }
+    GcloudOracledatabaseGoldengateConnectionTypes GoldengateConnectionTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud goldengate-deployment-environments sub-commands.
     /// </summary>
-    GcloudOracledatabaseGoldengateDeploymentEnvironments GoldengateDeploymentEnvironments { get; }
+    GcloudOracledatabaseGoldengateDeploymentEnvironments GoldengateDeploymentEnvironments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud goldengate-deployments sub-commands.
     /// </summary>
-    GcloudOracledatabaseGoldengateDeployments GoldengateDeployments { get; }
+    GcloudOracledatabaseGoldengateDeployments GoldengateDeployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud goldengate-deployment-types sub-commands.
     /// </summary>
-    GcloudOracledatabaseGoldengateDeploymentTypes GoldengateDeploymentTypes { get; }
+    GcloudOracledatabaseGoldengateDeploymentTypes GoldengateDeploymentTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud goldengate-deployment-versions sub-commands.
     /// </summary>
-    GcloudOracledatabaseGoldengateDeploymentVersions GoldengateDeploymentVersions { get; }
+    GcloudOracledatabaseGoldengateDeploymentVersions GoldengateDeploymentVersions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud odb-networks sub-commands.
     /// </summary>
-    GcloudOracledatabaseOdbNetworks OdbNetworks { get; }
+    GcloudOracledatabaseOdbNetworks OdbNetworks => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudOracledatabaseOperations Operations { get; }
+    GcloudOracledatabaseOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud pluggable-databases sub-commands.
     /// </summary>
-    GcloudOracledatabasePluggableDatabases PluggableDatabases { get; }
+    GcloudOracledatabasePluggableDatabases PluggableDatabases => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Oracle Database resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudOracleDatabaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

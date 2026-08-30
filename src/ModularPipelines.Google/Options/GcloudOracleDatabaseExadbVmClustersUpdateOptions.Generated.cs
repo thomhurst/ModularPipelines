@@ -22,27 +22,51 @@ namespace ModularPipelines.Google.Options;
 public record GcloudOracleDatabaseExadbVmClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// The properties of an ExadbVmCluster. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// An optional ID to identify the request. This value is used to identify     duplicate requests. If you make a request with the same request ID and     the original request is still in progress or completed, the server     ignores the second request. This prevents clients from accidentally     creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).    The properties of an ExadbVmCluster.
+    /// The properties of an ExadbVmCluster. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Set exadbVmCluster.properties back to default value.
+    /// The properties of an ExadbVmCluster. Set exadbVmCluster.properties back to default value.
     /// </summary>
     [CliFlag("--clear-properties")]
     public bool? ClearProperties { get; set; }
 
     /// <summary>
-    /// The number of nodes/VMs in the ExadbVmCluster.    Update labels.    At most one of these can be specified:     --labels=[LABELS,...]      Set labels to new value. The labels or tags associated with the      ExadbVmCluster.       KEY        Keys must start with a lowercase character and contain only        hyphens (-), underscores (_), lowercase characters, and numbers.       VALUE        Values must contain only hyphens (-), underscores (_), lowercase        characters, and numbers.      Shorthand Example:        --labels=string=string      JSON Example:        --labels='{"string": "string"}'      File Example:        --labels=path_to_file.(yaml|json)     Or at least one of these can be specified:      --update-labels=[UPDATE_LABELS,...]       Update labels value or add key value pair. The labels or tags       associated with the ExadbVmCluster.        KEY         Keys must start with a lowercase character and contain only         hyphens (-), underscores (_), lowercase characters, and         numbers.        VALUE         Values must contain only hyphens (-), underscores (_),         lowercase characters, and numbers.       Shorthand Example:         --update-labels=string=string       JSON Example:         --update-labels='{"string": "string"}'       File Example:         --update-labels=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-labels        Clear labels value and set to empty map.       --remove-labels=REMOVE_LABELS        Remove existing value from map labels. Sets remove_labels value.        Shorthand Example:          --remove-labels=string,string        JSON Example:          --remove-labels=["string"]        File Example:          --remove-labels=path_to_file.(yaml|json)
+    /// The properties of an ExadbVmCluster. The number of nodes/VMs in the ExadbVmCluster.
     /// </summary>
     [CliOption("--properties-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? PropertiesNodeCount { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. Update labels. At most one of these can be specified: Set labels to new value. The labels or tags associated with the ExadbVmCluster. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. The labels or tags associated with the ExadbVmCluster. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveLabels { get; set; }
 
 }

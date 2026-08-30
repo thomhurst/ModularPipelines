@@ -17,11 +17,26 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudProtocol
 {
     [EnumValue("TCP")]
-    Tcp,
+    Tcp = 0,
 
     [EnumValue("UDP")]
-    Udp,
+    Udp = 1,
 
     [EnumValue("UNSPECIFIED")]
-    Unspecified
+    Unspecified = 2,
+
+    [EnumValue("INTERNAL")]
+    Internal = 3,
+
+    [EnumValue("EXTERNAL")]
+    External = 4,
+
+    [EnumValue("INTERNAL_SELF_MANAGED")]
+    InternalSelfManaged = 5,
+
+    [EnumValue("EXTERNAL_MANAGED")]
+    ExternalManaged = 6,
+
+    [EnumValue("INTERNAL_MANAGED")]
+    InternalManaged = 7
 }

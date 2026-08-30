@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRedisClustersCreateBackupOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -34,7 +34,7 @@ public record GcloudRedisClustersCreateBackupOptions : GcloudOptions
     public string? BackupId { get; set; }
 
     /// <summary>
-    /// The time to live for the backup. The backup will be deleted     automatically after the TTL is reached. For example, "10d" for 10 days.     The minimum value is 1 day. If not specified, the default value is 100     years.
+    /// The time to live for the backup. The backup will be deleted automatically after the TTL is reached. For example, "10d" for 10 days. The minimum value is 1 day. If not specified, the default value is 100 years.
     /// </summary>
     [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
     public string? Ttl { get; set; }

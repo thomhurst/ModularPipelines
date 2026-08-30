@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceHealthOrganizationEventsListOptions : GcloudOptions
 {
     /// <summary>
-    /// OrganizationEvent fields to include in response. VIEW must be one of:      organization-event-view-basic       Includes all organization event fields except updates. This view is       the default for ListOrganizationEvents API.     organization-event-view-full       Includes all organization event fields.    Location resource - Parent value using the form   organizations/{organization_id}/locations/{location}/organizationEvents.    organization_id - ID (number) of the organization that contains the event.   To get your organization_id, see Getting your organization resource ID   (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt;   location - The location to get the organization events from. Set this   field to global. The arguments in this group can be used to specify the   attributes of this resource.
+    /// Location resource - Parent value using the form organizations/{organization_id}/locations/{location}/organizationEvents. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; location - The location to get the organization events from. Set this field to global. The arguments in this group can be used to specify the attributes of this resource. OrganizationEvent fields to include in response. VIEW must be one of: organization-event-view-basic Includes all organization event fields except updates. This view is the default for ListOrganizationEvents API. organization-event-view-full Includes all organization event fields.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
 
     /// <summary>
-    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ set the property servicehealth/location.
+    /// Location resource - Parent value using the form organizations/{organization_id}/locations/{location}/organizationEvents. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; location - The location to get the organization events from. Set this field to global. The arguments in this group can be used to specify the attributes of this resource. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property servicehealth/location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// The organization id of the location resource.     To set the organization attribute:     ◆ provide the argument --location on the command line with a fully      specified name;     ◆ set the property servicehealth/location with a fully specified      name;     ◆ provide the argument --organization on the command line.
+    /// Location resource - Parent value using the form organizations/{organization_id}/locations/{location}/organizationEvents. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; location - The location to get the organization events from. Set this field to global. The arguments in this group can be used to specify the attributes of this resource. The organization id of the location resource. To set the organization attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property servicehealth/location with a fully specified name; ◆ provide the argument --organization on the command line.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }

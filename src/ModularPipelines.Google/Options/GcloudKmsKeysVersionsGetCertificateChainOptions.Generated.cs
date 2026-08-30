@@ -23,31 +23,31 @@ public record GcloudKmsKeysVersionsGetCertificateChainOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
 ) : GcloudOptions
 {
-    [CliOption("--certificate-chain-type", Format = OptionFormat.EqualsSeparated)]
-    public string? CertificateChainType { get; set; }
-
     /// <summary>
-    /// The containing key.
+    /// --certificate-chain-type=CERTIFICATE_CHAIN_TYPE; default="all" Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition. --certificate-chain-type=CERTIFICATE_CHAIN_TYPE; default="all" Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition. The containing key.
     /// </summary>
     [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
     public string? Key { get; set; }
 
     /// <summary>
-    /// Key ring of the key.
+    /// --certificate-chain-type=CERTIFICATE_CHAIN_TYPE; default="all" Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition. --certificate-chain-type=CERTIFICATE_CHAIN_TYPE; default="all" Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition. Key ring of the key.
     /// </summary>
     [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
     public string? Keyring { get; set; }
 
     /// <summary>
-    /// Location of the keyring.
+    /// --certificate-chain-type=CERTIFICATE_CHAIN_TYPE; default="all" Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition. --certificate-chain-type=CERTIFICATE_CHAIN_TYPE; default="all" Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition. Location of the keyring.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Path to the output file to store PEM.
+    /// --certificate-chain-type=CERTIFICATE_CHAIN_TYPE; default="all" Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition. --certificate-chain-type=CERTIFICATE_CHAIN_TYPE; default="all" Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition. Path to the output file to store PEM.
     /// </summary>
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFile { get; set; }
+
+    [Obsolete("CertificateChainType is no longer supported by the installed CLI and has no effect.")]
+    public string? CertificateChainType { get; set; }
 
 }

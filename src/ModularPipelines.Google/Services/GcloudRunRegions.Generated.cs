@@ -33,6 +33,21 @@ public class GcloudRunRegions
     #region Commands
 
     /// <summary>
+    /// view available Cloud Run (fully managed) regions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRunRegionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRunRegionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list available Cloud Run (fully managed) regions
     /// </summary>
     /// <param name="options">The command options.</param>

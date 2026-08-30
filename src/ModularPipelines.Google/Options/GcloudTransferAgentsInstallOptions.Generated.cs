@@ -22,45 +22,51 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTransferAgentsInstallOptions : GcloudOptions
 {
     /// <summary>
-    /// Specify the number of agents to install on your current machine. System     requirements: 8 GB of memory and 4 CPUs per agent.     Note: If the 'id-prefix' flag is specified, Transfer Service increments     a number value after each prefix. Example: prefix1, prefix2, etc.
+    /// --logs-directory=LOGS_DIRECTORY; default="/tmp" Specify the absolute path to the directory you want to store transfer logs in. If not specified, gcloud transfer will mount your /tmp directory for logs. --memlock-limit=MEMLOCK_LIMIT; default=64000000 Set the agent container's memlock limit. A value of 64000000 (default) or higher is required to ensure that agent versions 1.14 or later have enough locked memory to be able to start. Specify the number of agents to install on your current machine. System requirements: 8 GB of memory and 4 CPUs per agent. Note: If the 'id-prefix' flag is specified, Transfer Service increments a number value after each prefix. Example: prefix1, prefix2, etc.
     /// </summary>
     [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
     public int? Count { get; set; }
 
     /// <summary>
-    /// Specify the path to the service account's credentials file.     No input required if authenticating with your user account credentials,     which Transfer Service will look for in your system.     Note that the credentials location will be mounted to the agent     container.
+    /// --logs-directory=LOGS_DIRECTORY; default="/tmp" Specify the absolute path to the directory you want to store transfer logs in. If not specified, gcloud transfer will mount your /tmp directory for logs. --memlock-limit=MEMLOCK_LIMIT; default=64000000 Set the agent container's memlock limit. A value of 64000000 (default) or higher is required to ensure that agent versions 1.14 or later have enough locked memory to be able to start. Specify the path to the service account's credentials file. No input required if authenticating with your user account credentials, which Transfer Service will look for in your system. Note that the credentials location will be mounted to the agent container.
     /// </summary>
     [CliOption("--creds-file", Format = OptionFormat.EqualsSeparated)]
     public string? CredsFile { get; set; }
 
     /// <summary>
-    /// Specify the network to connect the container to. This flag maps     directly to the --network flag in the underlying 'docker run' command.     If binding directly to the host's network is an option, then setting     this value to 'host' can dramatically improve transfer performance.
+    /// --logs-directory=LOGS_DIRECTORY; default="/tmp" Specify the absolute path to the directory you want to store transfer logs in. If not specified, gcloud transfer will mount your /tmp directory for logs. --memlock-limit=MEMLOCK_LIMIT; default=64000000 Set the agent container's memlock limit. A value of 64000000 (default) or higher is required to ensure that agent versions 1.14 or later have enough locked memory to be able to start. Specify the network to connect the container to. This flag maps directly to the --network flag in the underlying 'docker run' command. If binding directly to the host's network is an option, then setting this value to 'host' can dramatically improve transfer performance.
     /// </summary>
     [CliOption("--docker-network", Format = OptionFormat.EqualsSeparated)]
     public string? DockerNetwork { get; set; }
 
     /// <summary>
-    /// An optional prefix to add to the agent ID to help identify the agent.
+    /// --logs-directory=LOGS_DIRECTORY; default="/tmp" Specify the absolute path to the directory you want to store transfer logs in. If not specified, gcloud transfer will mount your /tmp directory for logs. --memlock-limit=MEMLOCK_LIMIT; default=64000000 Set the agent container's memlock limit. A value of 64000000 (default) or higher is required to ensure that agent versions 1.14 or later have enough locked memory to be able to start. Split up files and transfer the resulting chunks in parallel before merging them at the destination. Can be used make transfers of large files faster as long as the network and disk speed are not limiting factors. If unset, agent decides when to use the feature. Use --enable-multipart to enable and --no-enable-multipart to disable.
+    /// </summary>
+    [CliFlag("--enable-multipart")]
+    public bool? EnableMultipart { get; set; }
+
+    /// <summary>
+    /// --logs-directory=LOGS_DIRECTORY; default="/tmp" Specify the absolute path to the directory you want to store transfer logs in. If not specified, gcloud transfer will mount your /tmp directory for logs. --memlock-limit=MEMLOCK_LIMIT; default=64000000 Set the agent container's memlock limit. A value of 64000000 (default) or higher is required to ensure that agent versions 1.14 or later have enough locked memory to be able to start. An optional prefix to add to the agent ID to help identify the agent.
     /// </summary>
     [CliOption("--id-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? IdPrefix { get; set; }
 
-    [CliOption("--logs-directory", Format = OptionFormat.EqualsSeparated)]
-    public string? LogsDirectory { get; set; }
-
-    [CliOption("--memlock-limit", Format = OptionFormat.EqualsSeparated)]
-    public string? MemlockLimit { get; set; }
-
     /// <summary>
-    /// If you want to grant agents access to specific parts of your filesystem     instead of the entire filesystem, specify which directory paths to     mount to the agent container. Multiple paths must be separated by     commas with no spaces (e.g.,     --mount-directories=/system/path/to/dir1,/path/to/dir2). When mounting     specific directories, gcloud transfer will also mount a directory for     logs (either /tmp or what you've specified for --logs-directory) and     your Google credentials file for agent authentication.     It is strongly recommended that you use this flag. If this flag isn't     specified, gcloud transfer will mount your entire filesystem to the     agent container and give the agent root access.
+    /// --logs-directory=LOGS_DIRECTORY; default="/tmp" Specify the absolute path to the directory you want to store transfer logs in. If not specified, gcloud transfer will mount your /tmp directory for logs. --memlock-limit=MEMLOCK_LIMIT; default=64000000 Set the agent container's memlock limit. A value of 64000000 (default) or higher is required to ensure that agent versions 1.14 or later have enough locked memory to be able to start. If you want to grant agents access to specific parts of your filesystem instead of the entire filesystem, specify which directory paths to mount to the agent container. Multiple paths must be separated by commas with no spaces (e.g., --mount-directories=/system/path/to/dir1,/path/to/dir2). When mounting specific directories, gcloud transfer will also mount a directory for logs (either /tmp or what you've specified for --logs-directory) and your Google credentials file for agent authentication. It is strongly recommended that you use this flag. If this flag isn't specified, gcloud transfer will mount your entire filesystem to the agent container and give the agent root access.
     /// </summary>
     [CliOption("--mount-directories", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MountDirectories { get; set; }
 
     /// <summary>
-    /// Specify the HTTP URL and port of a proxy server if you want to use a     forward proxy. For example, to use the URL 'example.com' and port     '8080' specify 'http://www.example.com:8080/'     Ensure that you specify the HTTP URL and not an HTTPS URL to avoid     double-wrapping requests in TLS encryption. Double-wrapped requests     prevent the proxy server from sending valid outbound requests.
+    /// --logs-directory=LOGS_DIRECTORY; default="/tmp" Specify the absolute path to the directory you want to store transfer logs in. If not specified, gcloud transfer will mount your /tmp directory for logs. --memlock-limit=MEMLOCK_LIMIT; default=64000000 Set the agent container's memlock limit. A value of 64000000 (default) or higher is required to ensure that agent versions 1.14 or later have enough locked memory to be able to start. Specify the HTTP URL and port of a proxy server if you want to use a forward proxy. For example, to use the URL 'example.com' and port '8080' specify 'http://www.example.com:8080/' Ensure that you specify the HTTP URL and not an HTTPS URL to avoid double-wrapping requests in TLS encryption. Double-wrapped requests prevent the proxy server from sending valid outbound requests.
     /// </summary>
     [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
     public string? Proxy { get; set; }
+
+    [Obsolete("LogsDirectory is no longer supported by the installed CLI and has no effect.")]
+    public string? LogsDirectory { get; set; }
+
+    [Obsolete("MemlockLimit is no longer supported by the installed CLI and has no effect.")]
+    public string? MemlockLimit { get; set; }
 
 }

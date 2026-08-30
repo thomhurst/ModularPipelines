@@ -43,6 +43,21 @@ public class GcloudServicesVpcPeerings
     #region Commands
 
     /// <summary>
+    /// VPC Peerings to various services
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudServicesVpcPeeringsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudServicesVpcPeeringsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// connect to a service via VPC peering     for a project network
     /// </summary>
     /// <param name="options">The command options.</param>

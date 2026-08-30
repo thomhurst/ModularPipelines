@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApphubApplicationsServicesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -34,7 +34,7 @@ public record GcloudApphubApplicationsServicesUpdateOptions : GcloudOptions
     public string? BusinessOwners { get; set; }
 
     /// <summary>
-    /// Criticality Type of the service. CRITICALITY_TYPE must be one of:      HIGH       High impact     LOW       Low impact     MEDIUM       Medium impact     MISSION_CRITICAL       Mission critical service, application or workload     TYPE_UNSPECIFIED       Unspecified criticality type
+    /// Criticality Type of the service. CRITICALITY_TYPE must be one of: HIGH High impact LOW Low impact MEDIUM Medium impact MISSION_CRITICAL Mission critical service, application or workload TYPE_UNSPECIFIED Unspecified criticality type
     /// </summary>
     [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
     public string? CriticalityType { get; set; }
@@ -58,7 +58,7 @@ public record GcloudApphubApplicationsServicesUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Environment Type of the service. ENVIRONMENT_TYPE must be one of:      DEVELOPMENT       Development environment     PRODUCTION       Production environment     STAGING       Staging environment     TEST       Test environment     TYPE_UNSPECIFIED       Unspecified environment type
+    /// Environment Type of the service. ENVIRONMENT_TYPE must be one of: DEVELOPMENT Development environment PRODUCTION Production environment STAGING Staging environment TEST Test environment TYPE_UNSPECIFIED Unspecified environment type
     /// </summary>
     [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
     public string? EnvironmentType { get; set; }

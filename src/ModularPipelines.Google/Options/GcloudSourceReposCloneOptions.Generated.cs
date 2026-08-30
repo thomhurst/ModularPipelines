@@ -24,7 +24,7 @@ public record GcloudSourceReposCloneOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If provided, prints the command that would be run to standard out     instead of executing it.
+    /// If provided, prints the command that would be run to standard out instead of executing it.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }

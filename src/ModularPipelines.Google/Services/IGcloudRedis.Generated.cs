@@ -15,38 +15,41 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud redis commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudRedis
 {
     /// <summary>
     /// gcloud acl-policies sub-commands.
     /// </summary>
-    GcloudRedisAclPolicies AclPolicies { get; }
+    GcloudRedisAclPolicies AclPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    GcloudRedisClusters Clusters { get; }
+    GcloudRedisClusters Clusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudRedisInstances Instances { get; }
+    GcloudRedisInstances Instances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudRedisOperations Operations { get; }
+    GcloudRedisOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud regions sub-commands.
     /// </summary>
-    GcloudRedisRegions Regions { get; }
+    GcloudRedisRegions Regions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    GcloudRedisZones Zones { get; }
+    GcloudRedisZones Zones => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud Memorystore Redis resources
@@ -55,9 +58,7 @@ public interface IGcloudRedis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudRedisOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudRedisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

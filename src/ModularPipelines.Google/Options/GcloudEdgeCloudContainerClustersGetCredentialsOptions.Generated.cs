@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCloudContainerClustersGetCredentialsOptions : GcloudOptions
 {
     /// <summary>
-    /// Path to the gcloud executable for the auth provider field in     kubeconfig.
+    /// Path to the gcloud executable for the auth provider field in kubeconfig.
     /// </summary>
     [CliOption("--auth-provider-cmd-path", Format = OptionFormat.EqualsSeparated)]
     public string? AuthProviderCmdPath { get; set; }
 
     /// <summary>
-    /// Once specified, an offline credential will be generated for the     cluster.
+    /// Once specified, an offline credential will be generated for the cluster.
     /// </summary>
     [CliFlag("--offline-credential")]
     public bool? OfflineCredential { get; set; }

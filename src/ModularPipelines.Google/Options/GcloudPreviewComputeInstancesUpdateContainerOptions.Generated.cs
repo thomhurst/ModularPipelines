@@ -25,84 +25,154 @@ public record GcloudPreviewComputeInstancesUpdateContainerOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Sets container image in the declaration to the specified value.     Empty string is not allowed.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Sets container image in the declaration to the specified value. Empty string is not allowed.
     /// </summary>
     [CliOption("--container-image", Format = OptionFormat.EqualsSeparated)]
-    public string? ContainerImage { get; set; }
+    public IEnumerable<string>? ContainerImageValues { get; set; }
 
     /// <summary>
-    /// Mounts a disk to the container by using mount-path or updates how the     volume is mounted if the same mount path has already been declared. The     disk must already be attached to the instance with a device-name that     matches the disk name. Multiple flags are allowed.      name       Name of the disk. Can be omitted if exactly one additional disk is       attached to the instance. The name of the single additional disk       will be used by default.      mount-path       Path on container to mount to. Mount paths with spaces and commas       (and other special characters) are not supported by this command.      partition       Optional. The partition of the disk to mount. Multiple partitions       of a disk can be mounted.      mode       Volume mount mode: rw (read/write) or ro (read-only). Defaults to       rw. Fails if the disk mode is ro and volume mount mode is rw.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Mounts a disk to the container by using mount-path or updates how the volume is mounted if the same mount path has already been declared. The disk must already be attached to the instance with a device-name that matches the disk name. Multiple flags are allowed. name Name of the disk. Can be omitted if exactly one additional disk is attached to the instance. The name of the single additional disk will be used by default. mount-path Path on container to mount to. Mount paths with spaces and commas (and other special characters) are not supported by this command. partition Optional. The partition of the disk to mount. Multiple partitions of a disk can be mounted. mode Volume mount mode: rw (read/write) or ro (read-only). Defaults to rw. Fails if the disk mode is ro and volume mount mode is rw.
     /// </summary>
     [CliOption("--container-mount-disk", Format = OptionFormat.EqualsSeparated)]
-    public string? ContainerMountDisk { get; set; }
+    public IEnumerable<string>? ContainerMountDiskValues { get; set; }
 
     /// <summary>
-    /// Sets permission to run container to the specified value.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Sets permission to run container to the specified value.
     /// </summary>
     [CliFlag("--container-privileged")]
     public bool? ContainerPrivileged { get; set; }
 
     /// <summary>
-    /// Sets container restart policy to the specified value. POLICY must be     one of: never, on-failure, always.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Sets container restart policy to the specified value. POLICY must be one of: never, on-failure, always.
     /// </summary>
     [CliOption("--container-restart-policy", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerRestartPolicy { get; set; }
 
     /// <summary>
-    /// Sets configuration whether to keep container STDIN always open to the     specified value.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Sets configuration whether to keep container STDIN always open to the specified value.
     /// </summary>
     [CliFlag("--container-stdin")]
     public bool? ContainerStdin { get; set; }
 
     /// <summary>
-    /// Sets configuration whether to allocate a pseudo-TTY for the container     to the specified value.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Sets configuration whether to allocate a pseudo-TTY for the container to the specified value.
     /// </summary>
     [CliFlag("--container-tty")]
     public bool? ContainerTty { get; set; }
 
     /// <summary>
-    /// Causes the instance to re-learn the integrity policy baseline using the     current instance configuration. Use this flag after any planned     boot-specific changes in the instance configuration, like kernel     updates or kernel driver installation.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update-container --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
+    /// </summary>
+    [CliFlag("--shielded-integrity-monitoring")]
+    public bool? ShieldedIntegrityMonitoring { get; set; }
+
+    /// <summary>
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Causes the instance to re-learn the integrity policy baseline using the current instance configuration. Use this flag after any planned boot-specific changes in the instance configuration, like kernel updates or kernel driver installation.
     /// </summary>
     [CliFlag("--shielded-learn-integrity-policy")]
     public bool? ShieldedLearnIntegrityPolicy { get; set; }
 
     /// <summary>
-    /// Zone of the instance to update. If not specified, you might be prompted     to select a zone (interactive mode only). gcloud attempts to identify     the appropriate zone by searching for resources in your currently     active project. If the zone cannot be determined, gcloud prompts you     for a selection with all available Google Cloud Platform zones.     To avoid prompting when this flag is omitted, the user can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    At most one of these can be specified:     --clear-container-args      Removes the list of arguments from container declaration.      Cannot be used in the same command with --container-arg.     --container-arg=CONTAINER_ARG      Completely replaces the list of arguments with the new list. Each      argument must have a separate --container-arg flag. Arguments are      appended the new list in the order of flags.      Cannot be used in the same command with --clear-container-arg.    At most one of these can be specified:     --clear-container-command      Removes command from container declaration.      Cannot be used in the same command with --container-command.     --container-command=CONTAINER_COMMAND      Sets command in the declaration to the specified value. Empty string      is not allowed.      Cannot be used in the same command with --clear-container-command.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-secure-boot to enable and --no-shielded-secure-boot to disable.
+    /// </summary>
+    [CliFlag("--shielded-secure-boot")]
+    public bool? ShieldedSecureBoot { get; set; }
+
+    /// <summary>
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-vtpm to enable and --no-shielded-vtpm to disable.
+    /// </summary>
+    [CliFlag("--shielded-vtpm")]
+    public bool? ShieldedVtpm { get; set; }
+
+    /// <summary>
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Zone of the instance to update. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
-    public string? Zone { get; set; }
-
-    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? ContainerEnv { get; set; }
+    public IEnumerable<string>? ZoneValues { get; set; }
 
     /// <summary>
-    /// Update environment variables from a file. Same update rules as for     --container-env apply. Values, declared with --container-env flag     override those with the same KEY from file.     File with environment variables declarations in format used by docker     (almost). This means:     ◆ Lines are in format KEY=VALUE     ◆ Values must contain equality signs.     ◆ Variables without values are not supported (this is different from      docker format).     ◆ If # is first non-whitespace character in a line the line is      ignored as a comment.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Removes the list of arguments from container declaration. Cannot be used in the same command with --container-arg.
+    /// </summary>
+    [CliFlag("--clear-container-args")]
+    public bool? ClearContainerArgs { get; set; }
+
+    /// <summary>
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Completely replaces the list of arguments with the new list. Each argument must have a separate --container-arg flag. Arguments are appended the new list in the order of flags. Cannot be used in the same command with --clear-container-arg.
+    /// </summary>
+    [CliOption("--container-arg", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerArg { get; set; }
+
+    /// <summary>
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Removes command from container declaration. Cannot be used in the same command with --container-command.
+    /// </summary>
+    [CliFlag("--clear-container-command")]
+    public bool? ClearContainerCommand { get; set; }
+
+    /// <summary>
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Sets command in the declaration to the specified value. Empty string is not allowed. Cannot be used in the same command with --clear-container-command.
+    /// </summary>
+    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerCommand { get; set; }
+
+    /// <summary>
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Update environment variables from a file. Same update rules as for --container-env apply. Values, declared with --container-env flag override those with the same KEY from file. File with environment variables declarations in format used by docker (almost). This means: ◆ Lines are in format KEY=VALUE ◆ Values must contain equality signs. ◆ Variables without values are not supported (this is different from docker format). ◆ If # is first non-whitespace character in a line the line is ignored as a comment.
     /// </summary>
     [CliOption("--container-env-file", Format = OptionFormat.EqualsSeparated)]
-    public string? ContainerEnvFile { get; set; }
+    public IEnumerable<string>? ContainerEnvFileValues { get; set; }
 
     /// <summary>
-    /// Removes environment variables KEY from container declaration Does     nothing, if a variable is not present.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Removes environment variables KEY from container declaration Does nothing, if a variable is not present.
     /// </summary>
     [CliOption("--remove-container-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveContainerEnv { get; set; }
 
     /// <summary>
-    /// Mounts a volume by using host-path.     ◆ Adds a volume, if mount-path is not yet declared.     ◆ Replaces a volume, if mount-path is declared. All parameters      (host-path, mount-path, mode) are completely replaced.      host-path       Path on host to mount from.      mount-path       Path on container to mount to. Mount paths with spaces and commas       (and other special characters) are not supported by this command.      mode       Volume mount mode: rw (read/write) or ro (read-only).       Default: rw.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Mounts a volume by using host-path. ◆ Adds a volume, if mount-path is not yet declared. ◆ Replaces a volume, if mount-path is declared. All parameters (host-path, mount-path, mode) are completely replaced. host-path Path on host to mount from. mount-path Path on container to mount to. Mount paths with spaces and commas (and other special characters) are not supported by this command. mode Volume mount mode: rw (read/write) or ro (read-only). Default: rw.
     /// </summary>
     [CliOption("--container-mount-host-path", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerMountHostPath { get; set; }
 
     /// <summary>
-    /// Mounts empty tmpfs into container at MOUNTPATH.      mount-path       Path on container to mount to. Mount paths with spaces and commas       (and other special characters) are not supported by this command.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Mounts empty tmpfs into container at MOUNTPATH. mount-path Path on container to mount to. Mount paths with spaces and commas (and other special characters) are not supported by this command.
     /// </summary>
     [CliOption("--container-mount-tmpfs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerMountTmpfs { get; set; }
 
     /// <summary>
-    /// Removes volume mounts (host-path, tmpfs, disk) with mountPath:     MOUNTPATH from container declaration.     Does nothing, if a volume mount is not declared.
+    /// --container-env=[KEY=VALUE, ...,...] Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Removes volume mounts (host-path, tmpfs, disk) with mountPath: MOUNTPATH from container declaration. Does nothing, if a volume mount is not declared.
     /// </summary>
     [CliOption("--remove-container-mounts", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveContainerMounts { get; set; }
+
+    [Obsolete("Use ContainerImageValues instead.")]
+    public string? ContainerImage
+    {
+        get => ContainerImageValues?.FirstOrDefault();
+        set => ContainerImageValues = value is null ? null : [value];
+    }
+
+    [Obsolete("Use ContainerMountDiskValues instead.")]
+    public string? ContainerMountDisk
+    {
+        get => ContainerMountDiskValues?.FirstOrDefault();
+        set => ContainerMountDiskValues = value is null ? null : [value];
+    }
+
+    [Obsolete("Use ZoneValues instead.")]
+    public string? Zone
+    {
+        get => ZoneValues?.FirstOrDefault();
+        set => ZoneValues = value is null ? null : [value];
+    }
+
+    [Obsolete("Use ContainerEnvFileValues instead.")]
+    public string? ContainerEnvFile
+    {
+        get => ContainerEnvFileValues?.FirstOrDefault();
+        set => ContainerEnvFileValues = value is null ? null : [value];
+    }
+
+    [Obsolete("ContainerEnv is no longer supported by the installed CLI and has no effect.")]
+    public IReadOnlyList<KeyValue>? ContainerEnv { get; set; }
 
 }

@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatalineageRunsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The new attributes of the run. This will replace any existing     attributes.
+    /// The new attributes of the run. This will replace any existing attributes.
     /// </summary>
     [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attributes { get; set; }
@@ -41,7 +41,7 @@ public record GcloudDatalineageRunsUpdateOptions : GcloudOptions
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The new state of the run. STATE must be one of: aborted, completed,     failed, started, unknown.
+    /// The new state of the run. STATE must be one of: aborted, completed, failed, started, unknown.
     /// </summary>
     [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
     public GcloudState? State { get; set; }

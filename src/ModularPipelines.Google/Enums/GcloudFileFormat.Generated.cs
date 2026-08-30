@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudFileFormat
 {
     [EnumValue("json")]
-    Json,
+    Json = 0,
 
     [EnumValue("yaml")]
-    Yaml
+    Yaml = 1
 }

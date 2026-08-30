@@ -40,7 +40,7 @@ public record GcloudBiglakeDeltaSharingCatalogsUpdateOptions : GcloudOptions
     public string? InvitationUrl { get; set; }
 
     /// <summary>
-    /// The interval for refreshing metadata from the remote catalog (e.g. 300s     or 5m).
+    /// The interval for refreshing metadata from the remote catalog (e.g. 300s or 5m).
     /// </summary>
     [CliOption("--refresh-interval", Format = OptionFormat.EqualsSeparated)]
     public string? RefreshInterval { get; set; }

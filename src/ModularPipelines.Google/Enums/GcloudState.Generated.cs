@@ -17,17 +17,17 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudState
 {
     [EnumValue("aborted")]
-    Aborted,
+    Aborted = 0,
 
     [EnumValue("completed")]
-    Completed,
+    Completed = 1,
 
     [EnumValue("failed")]
-    Failed,
+    Failed = 2,
 
     [EnumValue("started")]
-    Started,
+    Started = 3,
 
     [EnumValue("unknown")]
-    Unknown
+    Unknown = 4
 }

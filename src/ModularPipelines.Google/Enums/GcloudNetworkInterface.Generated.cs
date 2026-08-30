@@ -17,8 +17,17 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudNetworkInterface
 {
     [EnumValue("GVNIC")]
-    Gvnic,
+    Gvnic = 0,
 
     [EnumValue("VIRTIO_NET")]
-    VirtioNet
+    VirtioNet = 1,
+
+    [EnumValue("never")]
+    Never = 2,
+
+    [EnumValue("on-failure")]
+    OnFailure = 3,
+
+    [EnumValue("always")]
+    Always = 4
 }

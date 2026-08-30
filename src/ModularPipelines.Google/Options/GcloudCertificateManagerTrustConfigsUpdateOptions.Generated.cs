@@ -23,13 +23,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudCertificateManagerTrustConfigsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Add allowlisted PEM-encoded certificates. Certificates should be     provided in files. For multiple file names, separate them by a comma     (','). One file can contain multiple certificates.     Examples:       Single file: --add-allowlisted-certificates=ac.pem       Multiple files: --add-allowlisted-certificates=ac1.pem,ac2.pem
+    /// Add allowlisted PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a comma (','). One file can contain multiple certificates. Examples: Single file: --add-allowlisted-certificates=ac.pem Multiple files: --add-allowlisted-certificates=ac1.pem,ac2.pem
     /// </summary>
     [CliOption("--add-allowlisted-certificates", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddAllowlistedCertificates { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -41,15 +41,46 @@ public record GcloudCertificateManagerTrustConfigsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Trust Store with the given trust anchor and intermediate CA PEM-encoded     certificates. Certificates should be provided in files. For multiple     file names, separate them by a semicolon (';') and quote them ('"').     One file can contain multiple certificates. Intermediate CAs are     optional.     Examples:       Single files: --trust-store trust-anchors=ta.pem,intermediate-cas=ica.pem       No intermediate CAs: --trust-store trust-anchors=ta.pem       Multiple files: --trust-store trust-anchors="ta1.pem;ta2.pem",intermediate-cas="ica1.pem;ica2.pem"
+    /// Trust Store with the given trust anchor and intermediate CA PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a semicolon (';') and quote them ('"'). One file can contain multiple certificates. Intermediate CAs are optional. Examples: Single files: --trust-store trust-anchors=ta.pem,intermediate-cas=ica.pem No intermediate CAs: --trust-store trust-anchors=ta.pem Multiple files: --trust-store trust-anchors="ta1.pem;ta2.pem",intermediate-cas="ica1.pem;ica2.pem"
     /// </summary>
     [CliOption("--trust-store", Format = OptionFormat.EqualsSeparated)]
-    public string? TrustStore { get; set; }
+    public IEnumerable<string>? TrustStoreValues { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-allowlisted-certificates      Clear all allowlisted certificates.     --remove-allowlisted-certificates=[REMOVE_ALLOWLISTED_CERTIFICATES,...]      Remove allowlisted PEM-encoded certificates. Certificates should be      provided in files. For multiple file names, separate them by a comma      (','). One file can contain multiple certificates.      Examples:        Single file: --remove-allowlisted-certificates=ac.pem        Multiple files: --remove-allowlisted-certificates=ac1.pem,ac2.pem    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud certificate-manager trust-configs update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud certificate-manager trust-configs update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear all allowlisted certificates.
+    /// </summary>
+    [CliFlag("--clear-allowlisted-certificates")]
+    public bool? ClearAllowlistedCertificates { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove allowlisted PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a comma (','). One file can contain multiple certificates. Examples: Single file: --remove-allowlisted-certificates=ac.pem Multiple files: --remove-allowlisted-certificates=ac1.pem,ac2.pem
+    /// </summary>
+    [CliOption("--remove-allowlisted-certificates", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAllowlistedCertificates { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud certificate-manager trust-configs update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud certificate-manager trust-configs update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    [Obsolete("Use TrustStoreValues instead.")]
+    public string? TrustStore
+    {
+        get => TrustStoreValues?.FirstOrDefault();
+        set => TrustStoreValues = value is null ? null : [value];
+    }
 
 }

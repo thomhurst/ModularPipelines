@@ -33,6 +33,21 @@ public class GcloudApihubHostProjectRegistrations
     #region Commands
 
     /// <summary>
+    /// manage Host Project Registration     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudApihubHostProjectRegistrationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApihubHostProjectRegistrationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Host Project     Registration
     /// </summary>
     /// <param name="options">The command options.</param>

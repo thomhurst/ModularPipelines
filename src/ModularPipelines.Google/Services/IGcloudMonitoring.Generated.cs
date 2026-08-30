@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud monitoring commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudMonitoring
 {
     /// <summary>
     /// gcloud dashboards sub-commands.
     /// </summary>
-    GcloudMonitoringDashboards Dashboards { get; }
+    GcloudMonitoringDashboards Dashboards => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud policies sub-commands.
     /// </summary>
-    GcloudMonitoringPolicies Policies { get; }
+    GcloudMonitoringPolicies Policies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud snoozes sub-commands.
     /// </summary>
-    GcloudMonitoringSnoozes Snoozes { get; }
+    GcloudMonitoringSnoozes Snoozes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud uptime sub-commands.
     /// </summary>
-    GcloudMonitoringUptime Uptime { get; }
+    GcloudMonitoringUptime Uptime => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud Monitoring dashboards
@@ -45,9 +48,7 @@ public interface IGcloudMonitoring
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudMonitoringOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudMonitoringOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -33,6 +33,21 @@ public class GcloudManagedkafkaAcls
     #region Commands
 
     /// <summary>
+    /// administer Managed Service for Apache Kafka     acls
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudManagedKafkaAclsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudManagedKafkaAclsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an acl entry to a Managed     Service for Apache Kafka acl
     /// </summary>
     /// <param name="options">The command options.</param>

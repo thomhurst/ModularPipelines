@@ -43,6 +43,21 @@ public class GcloudDatabasemigrationConversionWorkspaces
     #region Commands
 
     /// <summary>
+    /// manage Database Migration     Service conversion workspaces
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDatabaseMigrationConversionWorkspacesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationConversionWorkspacesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// apply a Database     Migration Service conversion workspace
     /// </summary>
     /// <param name="options">The command options.</param>

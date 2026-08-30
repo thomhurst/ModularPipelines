@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudCloudShellScpOptions : GcloudOptions
 {
     /// <summary>
-    /// If provided, prints the command that would be run to standard out     instead of executing it.
+    /// If provided, prints the command that would be run to standard out instead of executing it.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// If enabled gcloud will regenerate and overwrite the files associated     with a broken SSH key without asking for confirmation in both     interactive and non-interactive environment.     If disabled gcloud will not attempt to regenerate the files associated     with a broken SSH key and fail in both interactive and non-interactive     environment.
+    /// If enabled gcloud will regenerate and overwrite the files associated with a broken SSH key without asking for confirmation in both interactive and non-interactive environment. If disabled gcloud will not attempt to regenerate the files associated with a broken SSH key and fail in both interactive and non-interactive environment.
     /// </summary>
     [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
@@ -46,7 +46,7 @@ public record GcloudCloudShellScpOptions : GcloudOptions
     public IEnumerable<string>? ScpFlag { get; set; }
 
     /// <summary>
-    /// The path to the SSH key file. By default, this is     ~/.ssh/google_compute_engine.
+    /// The path to the SSH key file. By default, this is ~/.ssh/google_compute_engine.
     /// </summary>
     [CliFlag("--ssh-key-file")]
     public bool? SshKeyFile { get; set; }

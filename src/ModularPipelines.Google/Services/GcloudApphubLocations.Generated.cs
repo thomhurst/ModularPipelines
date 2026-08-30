@@ -33,6 +33,21 @@ public class GcloudApphubLocations
     #region Commands
 
     /// <summary>
+    /// manage App Hub Locations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudApphubLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApphubLocationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe an Apphub location
     /// </summary>
     /// <param name="options">The command options.</param>

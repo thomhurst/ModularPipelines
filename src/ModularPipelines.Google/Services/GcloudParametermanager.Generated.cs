@@ -22,6 +22,7 @@ public class GcloudParametermanager : IGcloudParametermanager
 {
     private readonly ICommandContext _command;
     private GcloudParametermanagerParameters? _parameters;
+    private GcloudParametermanagerTemplates? _templates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudParametermanager"/> class.
@@ -38,12 +39,17 @@ public class GcloudParametermanager : IGcloudParametermanager
     /// </summary>
     public GcloudParametermanagerParameters Parameters => _parameters ??= new GcloudParametermanagerParameters(_command);
 
+    /// <summary>
+    /// gcloud templates sub-commands.
+    /// </summary>
+    public GcloudParametermanagerTemplates Templates => _templates ??= new GcloudParametermanagerTemplates(_command);
+
     #endregion
 
     #region Commands
 
     /// <summary>
-    /// parameter Manager is a single source of truth to     store, access and manage the lifecycle of your application parameters
+    /// parameter Manager is a single source of truth for     your parameters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

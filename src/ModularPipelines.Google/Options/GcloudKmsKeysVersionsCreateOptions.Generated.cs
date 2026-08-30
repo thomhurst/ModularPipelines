@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudKmsKeysVersionsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// The path to the external key material on the EKM for keys with     protection level "external-vpc".
+    /// The path to the external key material on the EKM for keys with protection level external-vpc.
     /// </summary>
     [CliOption("--ekm-connection-key-path", Format = OptionFormat.EqualsSeparated)]
     public string? EkmConnectionKeyPath { get; set; }
 
     /// <summary>
-    /// The URI of the external key for keys with protection level "external".
+    /// The URI of the external key for keys with protection level external.
     /// </summary>
     [CliOption("--external-key-uri", Format = OptionFormat.EqualsSeparated)]
     public string? ExternalKeyUri { get; set; }
@@ -52,7 +52,7 @@ public record GcloudKmsKeysVersionsCreateOptions : GcloudOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// If specified, immediately makes the new version primary. This should     only be used with the encryption purpose.
+    /// If specified, immediately makes the new version primary. This should only be used with the encryption purpose.
     /// </summary>
     [CliFlag("--primary")]
     public bool? Primary { get; set; }

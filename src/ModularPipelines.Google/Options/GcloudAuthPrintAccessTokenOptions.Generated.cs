@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAuthPrintAccessTokenOptions : GcloudOptions
 {
     /// <summary>
-    /// Access token lifetime. The default access token lifetime is 3600     seconds, but you can use this flag to reduce the lifetime or extend it     up to 43200 seconds (12 hours). The org policy constraint     constraints/iam.allowServiceAccountCredentialLifetimeExtension must be     set if you want to extend the lifetime beyond 3600 seconds. Note that     this flag is for service account impersonation only, so it must be used     together with the --impersonate-service-account flag.
+    /// Access token lifetime. The default access token lifetime is 3600 seconds, but you can use this flag to reduce the lifetime or extend it up to 43200 seconds (12 hours). The org policy constraint constraints/iam.allowServiceAccountCredentialLifetimeExtension must be set if you want to extend the lifetime beyond 3600 seconds. Note that this flag is for service account impersonation only, so it must be used together with the --impersonate-service-account flag.
     /// </summary>
     [CliOption("--lifetime", Format = OptionFormat.EqualsSeparated)]
     public string? Lifetime { get; set; }

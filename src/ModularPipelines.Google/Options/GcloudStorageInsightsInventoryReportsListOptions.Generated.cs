@@ -28,7 +28,7 @@ public record GcloudStorageInsightsInventoryReportsListOptions : GcloudOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Specifies URL of the source bucket that contains the inventory report     configuration.
+    /// Specifies URL of the source bucket that contains the inventory report configuration.
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }

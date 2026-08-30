@@ -21,6 +21,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRedisAclPolicies
 {
     private readonly ICommandContext _command;
+    private GcloudRedisAclPoliciesRevisions? _revisions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRedisAclPolicies"/> class.
@@ -30,7 +31,31 @@ public class GcloudRedisAclPolicies
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud revisions sub-commands.
+    /// </summary>
+    public GcloudRedisAclPoliciesRevisions Revisions => _revisions ??= new GcloudRedisAclPoliciesRevisions(_command);
+
+    #endregion
+
     #region Commands
+
+    /// <summary>
+    /// manage ACL policies of Memorystore for Redis     Cluster instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRedisAclPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRedisAclPoliciesOptions(), executionOptions, cancellationToken);
+    }
 
     /// <summary>
     /// create a Redis ACL Policy

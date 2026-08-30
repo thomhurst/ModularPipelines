@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBackupDrBackupVaultsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Allow idempotent deletion of backup vault. The request will still     succeed in case the backup vault does not exist.
+    /// Allow idempotent deletion of backup vault. The request will still succeed in case the backup vault does not exist.
     /// </summary>
     [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
@@ -34,13 +34,13 @@ public record GcloudBackupDrBackupVaultsDeleteOptions : GcloudOptions
     public bool? NoAsync { get; set; }
 
     /// <summary>
-    /// If set, the following restrictions against deletion of the backup vault     instance can be overridden: * deletion of a backup vault instance being     actively referenced by a backup plan.
+    /// If set, the following restrictions against deletion of the backup vault instance can be overridden: * deletion of a backup vault instance being actively referenced by a backup plan.
     /// </summary>
     [CliFlag("--ignore-backup-plan-references")]
     public bool? IgnoreBackupPlanReferences { get; set; }
 
     /// <summary>
-    /// If set, the following restrictions against deletion of the backup vault     instance can be overridden: * deletion of a backup vault instance     containing no backups,but still contains empty datasources.
+    /// If set, the following restrictions against deletion of the backup vault instance can be overridden: * deletion of a backup vault instance containing no backups,but still contains empty datasources.
     /// </summary>
     [CliFlag("--ignore-inactive-datasources")]
     public bool? IgnoreInactiveDatasources { get; set; }

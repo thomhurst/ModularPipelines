@@ -33,6 +33,21 @@ public class GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths
     #region Commands
 
     /// <summary>
+    /// a Web     Path represents a monitored web application or URL, assessed from a     monitoring point to measure performance and availability
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkManagementNetworkMonitoringProvidersWebPathsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersWebPathsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Web Path
     /// </summary>
     /// <param name="options">The command options.</param>

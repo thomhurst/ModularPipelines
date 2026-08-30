@@ -24,13 +24,13 @@ public record GcloudArtifactsDockerImagesDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Additional filter to fetch metadata for a given qualified image     reference.
+    /// Additional filter to fetch metadata for a given qualified image reference.
     /// </summary>
     [CliOption("--metadata-filter", Format = OptionFormat.EqualsSeparated)]
     public string? MetadataFilter { get; set; }
 
     /// <summary>
-    /// Include all metadata in the output. Metadata will be grouped by Grafeas     kind, with an additional section for intoto provenance metadata.
+    /// Include all metadata in the output. Metadata will be grouped by Grafeas kind, with an additional section for intoto provenance metadata.
     /// </summary>
     [CliFlag("--show-all-metadata")]
     public bool? ShowAllMetadata { get; set; }
@@ -60,7 +60,7 @@ public record GcloudArtifactsDockerImagesDescribeOptions(
     public bool? ShowPackageVulnerability { get; set; }
 
     /// <summary>
-    /// Include intoto provenance metadata in the output, in the     provenance_summary section. To see all build metadata in the output,     use --show-all-metadata or --show-build-details.
+    /// Include intoto provenance metadata in the output, in the provenance_summary section. To see all build metadata in the output, use --show-all-metadata or --show-build-details.
     /// </summary>
     [CliFlag("--show-provenance")]
     public bool? ShowProvenance { get; set; }

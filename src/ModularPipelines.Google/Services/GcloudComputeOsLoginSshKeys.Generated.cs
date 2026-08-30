@@ -33,6 +33,21 @@ public class GcloudComputeOsLoginSshKeys
     #region Commands
 
     /// <summary>
+    /// list, add, update, and remove OS Login     SSH Keys
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeOsLoginSshKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOsLoginSshKeysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an SSH public key to an OS Login     profile
     /// </summary>
     /// <param name="options">The command options.</param>

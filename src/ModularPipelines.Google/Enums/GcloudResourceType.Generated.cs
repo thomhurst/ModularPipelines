@@ -17,8 +17,26 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudResourceType
 {
     [EnumValue("app-engine")]
-    AppEngine,
+    AppEngine = 0,
 
     [EnumValue("backend-services")]
-    BackendServices
+    BackendServices = 1,
+
+    [EnumValue("iap_web")]
+    IapWeb = 2,
+
+    [EnumValue("compute")]
+    Compute = 3,
+
+    [EnumValue("organization")]
+    Organization = 4,
+
+    [EnumValue("folder")]
+    Folder = 5,
+
+    [EnumValue("forwarding-rule")]
+    ForwardingRule = 6,
+
+    [EnumValue("cloud-run")]
+    CloudRun = 7
 }

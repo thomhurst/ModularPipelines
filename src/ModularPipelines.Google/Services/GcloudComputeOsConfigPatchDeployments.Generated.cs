@@ -33,6 +33,21 @@ public class GcloudComputeOsConfigPatchDeployments
     #region Commands
 
     /// <summary>
+    /// manage guest OS patch     deployments for Compute Engine VM instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeOsConfigPatchDeploymentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOsConfigPatchDeploymentsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a patch     deployment for a project
     /// </summary>
     /// <param name="options">The command options.</param>

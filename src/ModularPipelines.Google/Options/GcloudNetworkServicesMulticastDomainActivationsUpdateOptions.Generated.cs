@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesMulticastDomainActivationsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -35,19 +35,19 @@ public record GcloudNetworkServicesMulticastDomainActivationsUpdateOptions : Gcl
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Aggregated egress packets per second for all multicast groups in the     domain in this zone.
+    /// Aggregated egress packets per second for all multicast groups in the domain in this zone.
     /// </summary>
     [CliOption("--aggr-egress-pps", Format = OptionFormat.EqualsSeparated)]
     public string? AggrEgressPps { get; set; }
 
     /// <summary>
-    /// Aggregated ingress Packet-Per-Second for all multicast groups in the     domain in this zone.
+    /// Aggregated ingress Packet-Per-Second for all multicast groups in the domain in this zone.
     /// </summary>
     [CliOption("--aggr-ingress-pps", Format = OptionFormat.EqualsSeparated)]
     public string? AggrIngressPps { get; set; }
@@ -59,15 +59,27 @@ public record GcloudNetworkServicesMulticastDomainActivationsUpdateOptions : Gcl
     public int? AvgPacketSize { get; set; }
 
     /// <summary>
-    /// Maximum ingress Packet-Per-Second for a single multicast group in this     zone.
+    /// Maximum ingress Packet-Per-Second for a single multicast group in this zone.
     /// </summary>
     [CliOption("--max-per-group-ingress-pps", Format = OptionFormat.EqualsSeparated)]
     public string? MaxPerGroupIngressPps { get; set; }
 
     /// <summary>
-    /// Maximum number of subscribers for a single multicast group in this     zone.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud network-services multicast-domain-activations update \         --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud network-services multicast-domain-activations update \         --clear-labels --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
+    /// Maximum number of subscribers for a single multicast group in this zone.
     /// </summary>
     [CliOption("--max-per-group-subscribers", Format = OptionFormat.EqualsSeparated)]
     public string? MaxPerGroupSubscribers { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud network-services multicast-domain-activations update \ --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud network-services multicast-domain-activations update \ --clear-labels --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

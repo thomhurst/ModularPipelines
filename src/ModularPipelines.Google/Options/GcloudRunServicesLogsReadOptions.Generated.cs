@@ -23,22 +23,22 @@ public record GcloudRunServicesLogsReadOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Service
 ) : GcloudOptions
 {
-    [CliOption("--freshness", Format = OptionFormat.EqualsSeparated)]
-    public string? Freshness { get; set; }
-
     /// <summary>
-    /// Filter expression that specifies the log entries to return. Detailed     information about filters can be found at:     https://cloud.google.com/logging/docs/view/logging-query-language
+    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. Filter expression that specifies the log entries to return. Detailed information about filters can be found at: https://cloud.google.com/logging/docs/view/logging-query-language
     /// </summary>
     [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
     public string? LogFilter { get; set; }
 
-    [CliOption("--order", Format = OptionFormat.EqualsSeparated)]
-    public string? Order { get; set; }
-
     /// <summary>
-    /// Region in which the resource can be found. Alternatively, set the     property [run/region].
+    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    [Obsolete("Freshness is no longer supported by the installed CLI and has no effect.")]
+    public string? Freshness { get; set; }
+
+    [Obsolete("Order is no longer supported by the installed CLI and has no effect.")]
+    public string? Order { get; set; }
 
 }

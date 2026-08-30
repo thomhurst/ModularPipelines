@@ -33,6 +33,21 @@ public class GcloudNetworkconnectivityHubsGroups
     #region Commands
 
     /// <summary>
+    /// manage Network Connectivity     Center groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivityHubsGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivityHubsGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an IAM     policy binding to the IAM policy of a group resource
     /// </summary>
     /// <param name="options">The command options.</param>

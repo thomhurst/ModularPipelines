@@ -33,6 +33,21 @@ public class GcloudNetappVolumesReplications
     #region Commands
 
     /// <summary>
+    /// create and manage Cloud NetApp Volume     Replications
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetappVolumesReplicationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetappVolumesReplicationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud NetApp Volume     Replication
     /// </summary>
     /// <param name="options">The command options.</param>

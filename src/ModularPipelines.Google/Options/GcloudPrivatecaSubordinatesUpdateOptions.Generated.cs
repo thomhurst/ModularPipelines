@@ -25,15 +25,27 @@ public record GcloudPrivatecaSubordinatesUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// A file containing a list of PEM-encoded certificates that represent the     issuing chain of this CA. Please note that the certificate     corresponding to this specific CA should be excluded.
+    /// A file containing a list of PEM-encoded certificates that represent the issuing chain of this CA. Please note that the certificate corresponding to this specific CA should be excluded.
     /// </summary>
     [CliOption("--pem-chain", Format = OptionFormat.EqualsSeparated)]
     public string? PemChain { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud privateca subordinates update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud privateca subordinates update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud privateca subordinates update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud privateca subordinates update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

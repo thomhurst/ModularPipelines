@@ -17,17 +17,17 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudKskAlgorithm
 {
     [EnumValue("ecdsap256sha256")]
-    Ecdsap256sha256,
+    Ecdsap256sha256 = 0,
 
     [EnumValue("ecdsap384sha384")]
-    Ecdsap384sha384,
+    Ecdsap384sha384 = 1,
 
     [EnumValue("rsasha1")]
-    Rsasha1,
+    Rsasha1 = 2,
 
     [EnumValue("rsasha256")]
-    Rsasha256,
+    Rsasha256 = 3,
 
     [EnumValue("rsasha512")]
-    Rsasha512
+    Rsasha512 = 4
 }

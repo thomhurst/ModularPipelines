@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -23,63 +24,106 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSecretsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// File path from which to read secret data. Set this to "-" to read the     secret data from stdin.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. File path from which to read secret data. Set this to "-" to read the secret data from stdin.
     /// </summary>
     [CliOption("--data-file", Format = OptionFormat.EqualsSeparated)]
     public string? DataFile { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Location resource - The location to create secret. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Regional KMS key with which to encrypt and decrypt the secret. Only     valid for regional secrets.    Annotations
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Regional KMS key with which to encrypt and decrypt the secret. Only valid for regional secrets.
     /// </summary>
     [CliOption("--regional-kms-key-name", Format = OptionFormat.EqualsSeparated)]
     public string? RegionalKmsKeyName { get; set; }
 
     /// <summary>
-    /// List of key-value pairs to set as Annotations. All existing Annotations     will be removed first.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. The type of the secret. SECRET-TYPE must be one of: access-key, certificate, cloud-sql-db-credentials, other, other-db-credentials, secret-type-unspecified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSecretType? SecretType { get; set; }
+
+    /// <summary>
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. List of key-value pairs to set as Annotations. All existing Annotations will be removed first.
     /// </summary>
     [CliOption("--set-annotations", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? SetAnnotations { get; set; }
 
     /// <summary>
-    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as     &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;.     Example: 123/environment=production,123/costCenter=marketing
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// List of Pub/Sub topics to configure on the secret.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. List of Pub/Sub topics to configure on the secret.
     /// </summary>
     [CliOption("--topics", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Topics { get; set; }
 
     /// <summary>
-    /// Secret Version Time To Live (TTL) after destruction request. For secret     with TTL&gt;0, version destruction does not happen immediately on calling     destroy; instead, the version goes to a disabled state and destruction     happens after the TTL expires. See $ gcloud topic datetimes for     information on duration formats.    Expiration.    At most one of these can be specified:     --expire-time=EXPIRE-TIME      Timestamp at which to automatically delete the secret.     --ttl=TTL      Duration of time (in seconds) from the running of the command until      the secret is automatically deleted.    Rotation.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Secret Version Time To Live (TTL) after destruction request. For secret with TTL&gt;0, version destruction does not happen immediately on calling destroy; instead, the version goes to a disabled state and destruction happens after the TTL expires. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--version-destroy-ttl", Format = OptionFormat.EqualsSeparated)]
     public string? VersionDestroyTtl { get; set; }
 
     /// <summary>
-    /// Timestamp at which to send rotation notification.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Expiration. At most one of these can be specified: Timestamp at which to automatically delete the secret.
+    /// </summary>
+    [CliOption("--expire-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpireTime { get; set; }
+
+    /// <summary>
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Expiration. At most one of these can be specified: Duration of time (in seconds) from the running of the command until the secret is automatically deleted.
+    /// </summary>
+    [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
+    public string? Ttl { get; set; }
+
+    /// <summary>
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Timestamp at which to send rotation notification.
     /// </summary>
     [CliOption("--next-rotation-time", Format = OptionFormat.EqualsSeparated)]
     public string? NextRotationTime { get; set; }
 
     /// <summary>
-    /// Duration of time (in seconds) between rotation notifications.    Replication policy.    At most one of these can be specified:     --replication-policy-file=REPLICATION-POLICY-FILE      JSON or YAML file to use to read the replication policy. The file      must conform to      https://cloud.google.com/secret-manager/docs/reference/rest/v1/projects.secrets#replication.Set      this to "-" to read from stdin.     Or at least one of these can be specified:      Inline replication arguments.      --kms-key-name=KMS-KEY-NAME       Global KMS key with which to encrypt and decrypt the secret. Only       valid for secrets with an automatic replication policy.      --locations=[LOCATION,...]       Comma-separated list of locations in which the secret should be       replicated.      --replication-policy=POLICY       The type of replication policy to apply to this secret. Allowed       values are "automatic" and "user-managed". If user-managed then       --locations must also be provided.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Duration of time (in seconds) between rotation notifications.
     /// </summary>
     [CliOption("--rotation-period", Format = OptionFormat.EqualsSeparated)]
     public string? RotationPeriod { get; set; }
+
+    /// <summary>
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Replication policy. At most one of these can be specified: JSON or YAML file to use to read the replication policy. The file must conform to https://cloud.google.com/secret-manager/docs/reference/rest/v1/projects.secrets#replication.Set this to "-" to read from stdin.
+    /// </summary>
+    [CliOption("--replication-policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ReplicationPolicyFile { get; set; }
+
+    /// <summary>
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Replication policy. At most one of these can be specified: Or at least one of these can be specified: Inline replication arguments. Global KMS key with which to encrypt and decrypt the secret. Only valid for secrets with an automatic replication policy.
+    /// </summary>
+    [CliOption("--kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyName { get; set; }
+
+    /// <summary>
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Replication policy. At most one of these can be specified: Or at least one of these can be specified: Inline replication arguments. Comma-separated list of locations in which the secret should be replicated.
+    /// </summary>
+    [CliOption("--locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Locations { get; set; }
+
+    /// <summary>
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Replication policy. At most one of these can be specified: Or at least one of these can be specified: Inline replication arguments. The type of replication policy to apply to this secret. Allowed values are "automatic" and "user-managed". If user-managed then --locations must also be provided.
+    /// </summary>
+    [CliOption("--replication-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? ReplicationPolicy { get; set; }
 
 }

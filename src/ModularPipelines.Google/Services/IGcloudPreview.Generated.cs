@@ -15,18 +15,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud preview commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudPreview
 {
     /// <summary>
     /// gcloud compute sub-commands.
     /// </summary>
-    GcloudPreviewCompute Compute { get; }
+    GcloudPreviewCompute Compute => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud config sub-commands.
     /// </summary>
-    GcloudPreviewConfig Config { get; }
+    GcloudPreviewConfig Config => throw new System.NotSupportedException();
 
     /// <summary>
     /// preview versions of gcloud commands
@@ -35,10 +38,8 @@ public interface IGcloudPreview
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudPreviewOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudPreviewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// initialize or reinitialize gcloud
@@ -47,10 +48,8 @@ public interface IGcloudPreview
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InitAsync(
-        GcloudPreviewInitOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> InitAsync(GcloudPreviewInitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// invoke a customer satisfaction survey for Google     Cloud CLI
@@ -59,9 +58,7 @@ public interface IGcloudPreview
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SurveyAsync(
-        GcloudPreviewSurveyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SurveyAsync(GcloudPreviewSurveyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

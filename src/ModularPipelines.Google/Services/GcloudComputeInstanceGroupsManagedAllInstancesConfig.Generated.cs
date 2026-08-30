@@ -33,6 +33,21 @@ public class GcloudComputeInstanceGroupsManagedAllInstancesConfig
     #region Commands
 
     /// <summary>
+    /// override     instance template settings for all instances in a managed instance     group
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInstanceGroupsManagedAllInstancesConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInstanceGroupsManagedAllInstancesConfigOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete     values defined in the all-instances configuration of a managed instance     group
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudArtifactsGeneric
     #region Commands
 
     /// <summary>
+    /// manage Artifact Registry generic artifacts
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudArtifactsGenericOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsGenericOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// download a generic artifact from a     generic artifact repository
     /// </summary>
     /// <param name="options">The command options.</param>

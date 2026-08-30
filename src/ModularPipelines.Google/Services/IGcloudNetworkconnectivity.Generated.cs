@@ -15,62 +15,75 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud networkconnectivity commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudNetworkconnectivity
 {
     /// <summary>
     /// gcloud hubs sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityHubs Hubs { get; }
+    GcloudNetworkconnectivityHubs Hubs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud internal-ranges sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityInternalRanges InternalRanges { get; }
+    GcloudNetworkconnectivityInternalRanges InternalRanges => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityLocations Locations { get; }
+    GcloudNetworkconnectivityLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicloud-data-transfer-configs sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityMulticloudDataTransferConfigs MulticloudDataTransferConfigs { get; }
+    GcloudNetworkconnectivityMulticloudDataTransferConfigs MulticloudDataTransferConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicloud-data-transfer-supported-services sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityMulticloudDataTransferSupportedServices MulticloudDataTransferSupportedServices { get; }
+    GcloudNetworkconnectivityMulticloudDataTransferSupportedServices MulticloudDataTransferSupportedServices => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityOperations Operations { get; }
+    GcloudNetworkconnectivityOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud policy-based-routes sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityPolicyBasedRoutes PolicyBasedRoutes { get; }
+    GcloudNetworkconnectivityPolicyBasedRoutes PolicyBasedRoutes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud regional-endpoints sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityRegionalEndpoints RegionalEndpoints { get; }
+    GcloudNetworkconnectivityRegionalEndpoints RegionalEndpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-connection-policies sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityServiceConnectionPolicies ServiceConnectionPolicies { get; }
+    GcloudNetworkconnectivityServiceConnectionPolicies ServiceConnectionPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud spokes sub-commands.
     /// </summary>
-    GcloudNetworkconnectivitySpokes Spokes { get; }
+    GcloudNetworkconnectivitySpokes Spokes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud transports sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityTransports Transports { get; }
+    GcloudNetworkconnectivityTransports Transports => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Network Connectivity resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudNetworkConnectivityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

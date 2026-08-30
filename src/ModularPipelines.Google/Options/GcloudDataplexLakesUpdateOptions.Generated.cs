@@ -23,37 +23,37 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexLakesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Settings to manage metadata publishing to a Hive Metastore from a lake. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Description of the lake
+    /// Settings to manage metadata publishing to a Hive Metastore from a lake. Description of the lake
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Display Name
+    /// Settings to manage metadata publishing to a Hive Metastore from a lake. Display Name
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Settings to manage metadata publishing to a Hive Metastore from a lake.
+    /// Settings to manage metadata publishing to a Hive Metastore from a lake. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// A relative reference to the Dataproc Metastore     (https://cloud.google.com/dataproc-metastore/docs) service instance     into which metadata will be published. This is of the form:     projects/{project_number}/locations/{location_id}/services/{service_id}     where the location matches the location of the lake.
+    /// Settings to manage metadata publishing to a Hive Metastore from a lake. A relative reference to the Dataproc Metastore (https://cloud.google.com/dataproc-metastore/docs) service instance into which metadata will be published. This is of the form: projects/{project_number}/locations/{location_id}/services/{service_id} where the location matches the location of the lake.
     /// </summary>
     [CliOption("--metastore-service", Format = OptionFormat.EqualsSeparated)]
     public string? MetastoreService { get; set; }
 
     /// <summary>
-    /// Validate the update action, but don't actually perform it.
+    /// Settings to manage metadata publishing to a Hive Metastore from a lake. Validate the update action, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }

@@ -33,6 +33,21 @@ public class GcloudContainerClusters
     #region Commands
 
     /// <summary>
+    /// deploy and teardown Google Kubernetes Engine     clusters
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerClustersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerClustersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// check autopilot     compatibility of a running cluster
     /// </summary>
     /// <param name="options">The command options.</param>

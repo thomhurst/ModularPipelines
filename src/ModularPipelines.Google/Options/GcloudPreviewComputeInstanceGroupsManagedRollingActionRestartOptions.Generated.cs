@@ -24,9 +24,21 @@ public record GcloudPreviewComputeInstanceGroupsManagedRollingActionRestartOptio
 ) : GcloudOptions
 {
     /// <summary>
-    /// Maximum number of instances that can be unavailable during the update     process. This can be a fixed number (e.g. 5) or a percentage of size to     the managed instance group (e.g. 10%). Defaults to the number of zones     in which the managed instance group operates.    At most one of these can be specified:     --region=REGION      Region of the managed instance group to operate on. If not specified,      you might be prompted to select a region (interactive mode only).      A list of regions can be fetched by running:        $ gcloud compute regions list      Overrides the default compute/region property value for this command      invocation.     --zone=ZONE      Zone of the managed instance group to operate on. If not specified,      you might be prompted to select a zone (interactive mode only).      A list of zones can be fetched by running:        $ gcloud compute zones list      Overrides the default compute/zone property value for this command      invocation.
+    /// Maximum number of instances that can be unavailable during the update process. This can be a fixed number (e.g. 5) or a percentage of size to the managed instance group (e.g. 10%). Defaults to the number of zones in which the managed instance group operates.
     /// </summary>
     [CliOption("--max-unavailable", Format = OptionFormat.EqualsSeparated)]
     public string? MaxUnavailable { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
 
 }

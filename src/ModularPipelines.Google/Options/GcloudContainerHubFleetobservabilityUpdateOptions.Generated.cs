@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubFleetobservabilityUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Path of the YAML(or JSON) file that contains the logging     configurations.     The JSON file is formatted as follows, with camelCase field naming:       {         "loggingConfig": {           "defaultConfig": {             "mode": "COPY"           },           "fleetScopeLogsConfig": {             "mode": "MOVE"           }         }       }     The YAML file is formatted as follows, with camelCase field naming:       ---       loggingConfig:        defaultConfig:         mode: COPY        fleetScopeLogsConfig:         mode: MOVE
+    /// Path of the YAML(or JSON) file that contains the logging configurations. The JSON file is formatted as follows, with camelCase field naming: { "loggingConfig": { "defaultConfig": { "mode": "COPY" }, "fleetScopeLogsConfig": { "mode": "MOVE" } } } The YAML file is formatted as follows, with camelCase field naming: --- loggingConfig: defaultConfig: mode: COPY fleetScopeLogsConfig: mode: MOVE
     /// </summary>
     [CliOption("--logging-config", Format = OptionFormat.EqualsSeparated)]
     public string? LoggingConfig { get; set; }

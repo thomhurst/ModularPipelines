@@ -33,6 +33,21 @@ public class GcloudComputeMachineImages
     #region Commands
 
     /// <summary>
+    /// read and manage Compute Engine machine     image resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeMachineImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeMachineImagesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy     binding to the IAM policy of a Compute Engine machine image
     /// </summary>
     /// <param name="options">The command options.</param>

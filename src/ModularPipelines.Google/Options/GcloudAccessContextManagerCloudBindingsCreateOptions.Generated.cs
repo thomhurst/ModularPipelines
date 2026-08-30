@@ -22,31 +22,31 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Path to the file that contains a Google Cloud Platform user access     binding.     This file contains a YAML-compliant object representing a     GcpUserAccessBinding (as described in the API reference:     https://docs.cloud.google.com/access-context-manager/docs/apply-policies-to-user-groups#define_configurations_for_specific_applications)     containing ScopedAccessSettings only. No other binding fields are     allowed. For bindings tied to all workforce identities in a given org,     the ScopedAccessSettings must only contain sessionSettings within the     activeSettings list. No other fields are allowed.
+    /// Path to the file that contains a Google Cloud Platform user access binding. This file contains a YAML-compliant object representing a GcpUserAccessBinding (as described in the API reference: https://docs.cloud.google.com/access-context-manager/docs/apply-policies-to-user-groups#define_configurations_for_specific_applications) containing ScopedAccessSettings only. No other binding fields are allowed.
     /// </summary>
     [CliOption("--binding-file", Format = OptionFormat.EqualsSeparated)]
     public string? BindingFile { get; set; }
 
     /// <summary>
-    /// The dry run access level that binds to the given group. The dry run     access level will be evaluated but won't be enforced. Denial on dry run     access level will be logged. The input must be the full identifier of     an access level, such as accessPolicies/123/accessLevels/new-def.
+    /// The dry run access level that binds to the given group. The dry run access level will be evaluated but won't be enforced. Denial on dry run access level will be logged. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/new-def.
     /// </summary>
     [CliOption("--dry-run-level", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DryRunLevel { get; set; }
 
     /// <summary>
-    /// IAM federated principal that this binding applies to. Can be a single     principal or a principal set. Used to assign policies to third-party     workforce or workload identities. At most one of --group-key or     --federated-principal can be specified.
+    /// IAM federated principal that this binding applies to. Can be a single principal or a principal set. Used to assign policies to third-party workforce or workload identities. At most one of --group-key or --federated-principal can be specified.
     /// </summary>
     [CliOption("--federated-principal", Format = OptionFormat.EqualsSeparated)]
     public string? FederatedPrincipal { get; set; }
 
     /// <summary>
-    /// Google Group ID whose members are subject to the restrictions of this     binding. At most one of --group-key or --federated-principal can be     specified.
+    /// Google Group ID whose members are subject to the restrictions of this binding. At most one of --group-key or --federated-principal can be specified.
     /// </summary>
     [CliOption("--group-key", Format = OptionFormat.EqualsSeparated)]
     public string? GroupKey { get; set; }
 
     /// <summary>
-    /// The access level that binds to the given group. The input must be the     full identifier of an access level, such as     accessPolicies/123/accessLevels/abc.
+    /// The access level that binds to the given group. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/abc.
     /// </summary>
     [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Level { get; set; }
@@ -58,24 +58,24 @@ public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptio
     public string? Organization { get; set; }
 
     /// <summary>
-    /// Service account email that this binding applies to. Used to assign     policies to a single first-party service account. At most one of     --group-key, --federated-principal, --service-account, or     --service-account-project-number can be specified.
+    /// Service account email that this binding applies to. Used to assign policies to a single first-party service account. At most one of --group-key, --federated-principal, --service-account, or --service-account-project-number can be specified.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Project number of the project that contains the service accounts that     are subject to the restrictions of this binding. Used to assign     policies to all service accounts in a Google Cloud project. At most one     of --group-key, --federated-principal, --service-account, or     --service-account-project-number can be specified.
+    /// Project number of the project that contains the service accounts that are subject to the restrictions of this binding. Used to assign policies to all service accounts in a Google Cloud project. At most one of --group-key, --federated-principal, --service-account, or --service-account-project-number can be specified.
     /// </summary>
     [CliOption("--service-account-project-number", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccountProjectNumber { get; set; }
 
     /// <summary>
-    /// The maximum lifetime of a user session provided as an ISO 8601 duration     string. Must be at least one hour or zero seconds, and no more than     twenty-four hours. Granularity is limited to seconds.     When --session-length=0 then users in the group attached to this     binding will have infinite session length, effectively disabling the     session settings.     A session begins when a user signs in successfully. If a user signs out     before the end of the session lifetime, a new login creates a new     session with a fresh lifetime. When a session expires, the user is     asked to re-authenticate in accordance with session-method.     Setting --session-reauth-method when --session-length is empty raises     an error.
+    /// The maximum lifetime of a user session provided as an ISO 8601 duration string. Must be at least one hour or zero seconds, and no more than twenty-four hours. Granularity is limited to seconds. When --session-length=0 then users in the group attached to this binding will have infinite session length, effectively disabling the session settings. A session begins when a user signs in successfully. If a user signs out before the end of the session lifetime, a new login creates a new session with a fresh lifetime. When a session expires, the user is asked to re-authenticate in accordance with session-method. Setting --session-reauth-method when --session-length is empty raises an error.
     /// </summary>
     [CliOption("--session-length", Format = OptionFormat.EqualsSeparated)]
     public string? SessionLength { get; set; }
 
-    [CliOption("--session-reauth-method", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("SessionReauthMethod is no longer supported by the installed CLI and has no effect.")]
     public string? SessionReauthMethod { get; set; }
 
 }

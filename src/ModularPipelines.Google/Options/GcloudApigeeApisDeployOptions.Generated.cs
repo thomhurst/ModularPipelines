@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApigeeApisDeployOptions : GcloudOptions
 {
     /// <summary>
-    /// Force the deployment of the new revision, overriding any currently     deployed revision that would conflict with it.     If an existing API proxy revision is deployed, set this flag to ensure     seamless deployment with zero downtime. In this case, the existing     revision remains deployed until the new revision is fully deployed.     If unset, gcloud apigee apis deploy will fail unless all conflicting     API proxies are first undeployed from the environment. To do this, run     gcloud apigee apis undeploy on the conflicting deployment.
+    /// Force the deployment of the new revision, overriding any currently deployed revision that would conflict with it. If an existing API proxy revision is deployed, set this flag to ensure seamless deployment with zero downtime. In this case, the existing revision remains deployed until the new revision is fully deployed. If unset, gcloud apigee apis deploy will fail unless all conflicting API proxies are first undeployed from the environment. To do this, run gcloud apigee apis undeploy on the conflicting deployment.
     /// </summary>
     [CliFlag("--override")]
     public bool? Override { get; set; }

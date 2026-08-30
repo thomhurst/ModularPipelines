@@ -33,6 +33,21 @@ public class GcloudPreviewComputeInstancesOpsAgentsPolicies
     #region Commands
 
     /// <summary>
+    /// manage Google Cloud     Observability agents policies that install, update, and uninstall     agents for Compute Engine VM instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeInstancesOpsAgentsPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeInstancesOpsAgentsPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     Google Cloud Observability agents policy for the Ops Agent
     /// </summary>
     /// <param name="options">The command options.</param>

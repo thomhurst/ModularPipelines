@@ -22,27 +22,99 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApihubExternalApisUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Description of the external API. Max length is 2000 characters (Unicode     Code Points).
+    /// Documentation details. Description of the external API. Max length is 2000 characters (Unicode Code Points).
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Display name of the external API. Max length is 63 characters (Unicode     Code Points).    Update attributes.    At most one of these can be specified:     --attributes=[ATTRIBUTES,...]      Set attributes to new value. The list of user defined attributes      associated with the Version resource. The key is the attribute name.      It will be of the format:      projects/{project}/locations/{location}/attributes/{attribute}. The      value is the attribute values associated with the resource.       KEY        Sets KEY value.       VALUE        Sets VALUE value.         enumValues          The attribute values associated with a resource in case          attribute data type is enum.           values            The attribute values in case attribute data type is enum.             description              The detailed description of the allowed value.             displayName              The display name of the allowed value.             id              The ID of the allowed value.              ▪ If provided, the same will be used. The service               will throw an error if the specified id is already               used by another allowed value in the same attribute               resource.              ▪ If not provided, a system generated id derived               from the display name will be used. In this case,               the service will handle conflict resolution by               adding a system generated suffix in case of               duplicates.              This value should be 4-63 characters, and valid              characters are /[a-z][0-9]-/.             immutable              When set to true, the allowed value cannot be updated              or deleted by the user. It can only be true for              System defined attributes.         jsonValues          The attribute values associated with a resource in case          attribute data type is JSON.           values            The attribute values in case attribute data type is            string or JSON.         stringValues          The attribute values associated with a resource in case          attribute data type is string.           values            The attribute values in case attribute data type is            string or JSON.         uriValues          The attribute values associated with a resource in case          attribute data type is URL, URI or IP, like          gs://bucket-name/object-name.           values            The attribute values in case attribute data type is            string or JSON.      Shorthand Example:        --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}}      JSON Example:        --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}'      File Example:        --attributes=path_to_file.(yaml|json)     Or at least one of these can be specified:      --update-attributes=[UPDATE_ATTRIBUTES,...]       Update attributes value or add key value pair. The list of user       defined attributes associated with the Version resource. The key is       the attribute name. It will be of the format:       projects/{project}/locations/{location}/attributes/{attribute}. The       value is the attribute values associated with the resource.        KEY         Sets KEY value.        VALUE         Sets VALUE value.          enumValues           The attribute values associated with a resource in case           attribute data type is enum.            values             The attribute values in case attribute data type is             enum.              description               The detailed description of the allowed value.              displayName               The display name of the allowed value.              id               The ID of the allowed value.               ◆ If provided, the same will be used. The service                will throw an error if the specified id is                already used by another allowed value in the same                attribute resource.               ◆ If not provided, a system generated id derived                from the display name will be used. In this case,                the service will handle conflict resolution by                adding a system generated suffix in case of                duplicates.               This value should be 4-63 characters, and valid               characters are /[a-z][0-9]-/.              immutable               When set to true, the allowed value cannot be               updated or deleted by the user. It can only be true               for System defined attributes.          jsonValues           The attribute values associated with a resource in case           attribute data type is JSON.            values             The attribute values in case attribute data type is             string or JSON.          stringValues           The attribute values associated with a resource in case           attribute data type is string.            values             The attribute values in case attribute data type is             string or JSON.          uriValues           The attribute values associated with a resource in case           attribute data type is URL, URI or IP, like           gs://bucket-name/object-name.            values             The attribute values in case attribute data type is             string or JSON.       Shorthand Example:         --update-attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}}       JSON Example:         --update-attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}'       File Example:         --update-attributes=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-attributes        Clear attributes value and set to empty map.       --remove-attributes=REMOVE_ATTRIBUTES        Remove existing value from map attributes. Sets remove_attributes        value.        Shorthand Example:          --remove-attributes=string,string        JSON Example:          --remove-attributes=["string"]        File Example:          --remove-attributes=path_to_file.(yaml|json)    Documentation details.
+    /// Documentation details. Display name of the external API. Max length is 63 characters (Unicode Code Points).
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Set googleCloudApihubV1ExternalApi.documentation back to default value.
+    /// Documentation details. Update attributes. At most one of these can be specified: Set attributes to new value. The list of user defined attributes associated with the Version resource. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▪ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▪ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attributes { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update attributes. At most one of these can be specified: Or at least one of these can be specified: Update attributes value or add key value pair. The list of user defined attributes associated with the Version resource. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ◆ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ◆ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --update-attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --update-attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --update-attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateAttributes { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update attributes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes value and set to empty map.
+    /// </summary>
+    [CliFlag("--clear-attributes")]
+    public bool? ClearAttributes { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update attributes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map attributes. Sets remove_attributes value. Shorthand Example: --remove-attributes=string,string JSON Example: --remove-attributes=["string"] File Example: --remove-attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-attributes", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveAttributes { get; set; }
+
+    /// <summary>
+    /// Documentation details. Set googleCloudApihubV1ExternalApi.documentation back to default value.
     /// </summary>
     [CliFlag("--clear-documentation")]
     public bool? ClearDocumentation { get; set; }
 
     /// <summary>
-    /// The uri of the externally hosted documentation.    Update endpoints.    At most one of these can be specified:     --endpoints=[ENDPOINTS,...]      Set endpoints to new value.     Or at least one of these can be specified:      --add-endpoints=[ADD_ENDPOINTS,...]       Add new value to endpoints list.      At most one of these can be specified:       --clear-endpoints        Clear endpoints value and set to empty list.       --remove-endpoints=[REMOVE_ENDPOINTS,...]        Remove existing value from endpoints list.    Update paths.    At most one of these can be specified:     --paths=[PATHS,...]      Set paths to new value.     Or at least one of these can be specified:      --add-paths=[ADD_PATHS,...]       Add new value to paths list.      At most one of these can be specified:       --clear-paths        Clear paths value and set to empty list.       --remove-paths=[REMOVE_PATHS,...]        Remove existing value from paths list.
+    /// Documentation details. The uri of the externally hosted documentation.
     /// </summary>
     [CliOption("--documentation-external-uri", Format = OptionFormat.EqualsSeparated)]
     public string? DocumentationExternalUri { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update endpoints. At most one of these can be specified: Set endpoints to new value.
+    /// </summary>
+    [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Endpoints { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: Add new value to endpoints list.
+    /// </summary>
+    [CliOption("--add-endpoints", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddEndpoints { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear endpoints value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-endpoints")]
+    public bool? ClearEndpoints { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from endpoints list.
+    /// </summary>
+    [CliOption("--remove-endpoints", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveEndpoints { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update paths. At most one of these can be specified: Set paths to new value.
+    /// </summary>
+    [CliOption("--paths", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Paths { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update paths. At most one of these can be specified: Or at least one of these can be specified: Add new value to paths list.
+    /// </summary>
+    [CliOption("--add-paths", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddPaths { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update paths. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear paths value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-paths")]
+    public bool? ClearPaths { get; set; }
+
+    /// <summary>
+    /// Documentation details. Update paths. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from paths list.
+    /// </summary>
+    [CliOption("--remove-paths", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemovePaths { get; set; }
 
 }

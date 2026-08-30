@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamPolicyBindingsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The etag of the policy binding. If this is provided, it must match the     server's etag.
+    /// The etag of the policy binding. If this is provided, it must match the server's etag.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }

@@ -33,6 +33,21 @@ public class GcloudSpannerDatabasesRoles
     #region Commands
 
     /// <summary>
+    /// manage Cloud Spanner database roles
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSpannerDatabasesRolesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesRolesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list the Cloud Spanner database roles     defined in the given database
     /// </summary>
     /// <param name="options">The command options.</param>

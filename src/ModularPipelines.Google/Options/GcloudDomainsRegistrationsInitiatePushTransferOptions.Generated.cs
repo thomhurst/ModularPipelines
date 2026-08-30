@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDomainsRegistrationsInitiatePushTransferOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The Tag of the new registrar. Can be found at     https://nominet.uk/registrar-list/
+    /// The Tag of the new registrar. Can be found at https://nominet.uk/registrar-list/
     /// </summary>
     [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
     public string? Tag { get; set; }

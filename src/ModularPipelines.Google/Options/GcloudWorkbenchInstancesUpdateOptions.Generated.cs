@@ -23,91 +23,91 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance    Data disk configurations.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Labels to apply to this instance. These can be later modified by the setLabels method.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Resource policies to apply to the data disk. Format:     projects/{project}/regions/{region}/resourcePolicies/{policy}.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Resource policies to apply to the data disk. Format: projects/{project}/regions/{region}/resourcePolicies/{policy}.
     /// </summary>
     [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DataDiskResourcePolicies { get; set; }
 
     /// <summary>
-    /// The Compute Engine machine type     (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types)     of this instance.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. The Compute Engine machine type (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types) of this instance.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Custom metadata to apply to this instance.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Custom metadata to apply to this instance.
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Tags to apply to this instance.    Accelerator configurations.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Tags to apply to this instance.
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Count of cores of this accelerator.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Count of cores of this accelerator.
     /// </summary>
     [CliOption("--accelerator-core-count", Format = OptionFormat.EqualsSeparated)]
     public int? AcceleratorCoreCount { get; set; }
 
     /// <summary>
-    /// Type of this accelerator. ACCELERATOR_TYPE must be one of:     NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100,     NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB,     NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS,     NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB, NVIDIA_H200_141GB,     NVIDIA_B200, NVIDIA_RTX6000.    Container image configurations.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Type of this accelerator. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB, NVIDIA_H200_141GB, NVIDIA_B200, NVIDIA_RTX6000.
     /// </summary>
     [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
     public string? AcceleratorType { get; set; }
 
     /// <summary>
-    /// The path to the container image repository. For example:     gcr.io/{project_id}/{image_name}.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--container-repository", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerRepository { get; set; }
 
     /// <summary>
-    /// The tag of the container image. If not specified, this defaults to the     latest tag.    GPU driver configurations.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. The tag of the container image. If not specified, this defaults to the latest tag.
     /// </summary>
     [CliOption("--container-tag", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerTag { get; set; }
 
     /// <summary>
-    /// custom gpu driver path
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. custom gpu driver path
     /// </summary>
     [CliOption("--custom-gpu-driver-path", Format = OptionFormat.EqualsSeparated)]
     public string? CustomGpuDriverPath { get; set; }
 
     /// <summary>
-    /// Install gpu driver    Shielded VM configurations.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Install gpu driver
     /// </summary>
     [CliFlag("--install-gpu-driver")]
     public bool? InstallGpuDriver { get; set; }
 
     /// <summary>
-    /// Boolean. Enable monitoring of the boot integrity of the instance.     Supported values: true, false.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Boolean. Enable monitoring of the boot integrity of the instance. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-integrity-monitoring", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
-    /// Boolean. Boot instance with secure boot enabled. Supported values:     true, false.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Boolean. Boot instance with secure boot enabled. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-secure-boot", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedSecureBoot { get; set; }
 
     /// <summary>
-    /// Boolean. Boot instance with TPM (Trusted Platform Module) enabled.     Supported values: true, false.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Boolean. Boot instance with TPM (Trusted Platform Module) enabled. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-vtpm", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedVtpm { get; set; }

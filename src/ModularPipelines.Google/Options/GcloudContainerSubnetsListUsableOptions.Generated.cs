@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerSubnetsListUsableOptions : GcloudOptions
 {
     /// <summary>
-    /// The project owning the subnetworks returned. This field is translated     into the expression networkProjectId=[PROJECT_ID] and ANDed to the     --filter flag value.     Defaults to the --project value.
+    /// The project owning the subnetworks returned. This field is translated into the expression networkProjectId=[PROJECT_ID] and ANDed to the --filter flag value. Defaults to the --project value.
     /// </summary>
     [CliOption("--network-project", Format = OptionFormat.EqualsSeparated)]
     public string? NetworkProject { get; set; }

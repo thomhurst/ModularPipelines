@@ -33,6 +33,21 @@ public class GcloudContainerBinauthzPolicy
     #region Commands
 
     /// <summary>
+    /// create and manage Google Binary     Authorization policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerBinauthzPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerBinauthzPolicyOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy     binding to a Binary Authorization policy
     /// </summary>
     /// <param name="options">The command options.</param>

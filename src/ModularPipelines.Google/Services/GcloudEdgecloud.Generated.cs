@@ -23,6 +23,7 @@ public class GcloudEdgecloud : IGcloudEdgecloud
     private readonly ICommandContext _command;
     private GcloudEdgecloudContainer? _container;
     private GcloudEdgecloudNetworking? _networking;
+    private GcloudEdgecloudZones? _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloud"/> class.
@@ -43,6 +44,30 @@ public class GcloudEdgecloud : IGcloudEdgecloud
     /// gcloud networking sub-commands.
     /// </summary>
     public GcloudEdgecloudNetworking Networking => _networking ??= new GcloudEdgecloudNetworking(_command);
+
+    /// <summary>
+    /// gcloud zones sub-commands.
+    /// </summary>
+    public GcloudEdgecloudZones Zones => _zones ??= new GcloudEdgecloudZones(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// cloud resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudEdgeCloudOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudOptions(), executionOptions, cancellationToken);
+    }
 
     #endregion
 }

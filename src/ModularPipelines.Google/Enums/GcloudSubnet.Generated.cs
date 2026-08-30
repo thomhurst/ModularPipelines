@@ -17,8 +17,14 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSubnet
 {
     [EnumValue("IPV4")]
-    Ipv4,
+    Ipv4 = 0,
 
     [EnumValue("IPV6")]
-    Ipv6
+    Ipv6 = 1,
+
+    [EnumValue("secure-always")]
+    SecureAlways = 2,
+
+    [EnumValue("secure-optional")]
+    SecureOptional = 3
 }

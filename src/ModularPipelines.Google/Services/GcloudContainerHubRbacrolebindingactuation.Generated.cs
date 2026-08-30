@@ -33,6 +33,21 @@ public class GcloudContainerHubRbacrolebindingactuation
     #region Commands
 
     /// <summary>
+    /// manage RbacRoleBinding     Actuation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerHubRbacrolebindingactuationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerHubRbacrolebindingactuationOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe the     status of the RbacRoleBinding Actuation Feature in a fleet
     /// </summary>
     /// <param name="options">The command options.</param>

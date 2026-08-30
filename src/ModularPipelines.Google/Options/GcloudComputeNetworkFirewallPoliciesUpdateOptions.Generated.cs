@@ -24,9 +24,21 @@ public record GcloudComputeNetworkFirewallPoliciesUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// An optional, textual description for the network firewall policy.    At most one of these can be specified:     --global      If set, the firewall policy is global.     --region=REGION      Region of the firewall policy to update. Overrides the default      compute/region property value for this command invocation.
+    /// An optional, textual description for the network firewall policy.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the firewall policy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the firewall policy to update. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
 }

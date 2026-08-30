@@ -25,88 +25,106 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions : GcloudOptions
 {
     /// <summary>
-    /// Waits for the operation in progress to complete before returning.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. Waits for the operation in progress to complete before returning.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 
     /// <summary>
-    /// If the source or destination is a Cloud SQL database, then use this     field to provide the respective Cloud SQL instance ID.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. If the source or destination is a Cloud SQL database, then use this field to provide the respective Cloud SQL instance ID.
     /// </summary>
     [CliOption("--cloudsql-instance", Format = OptionFormat.EqualsSeparated)]
     public string? CloudsqlInstance { get; set; }
 
     /// <summary>
-    /// A user-friendly name for the connection profile. The display name can     include letters, numbers, spaces, and hyphens, and must start with a     letter.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. A user-friendly name for the connection profile. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Specifies endpoint mode for a given command. Regional endpoints provide     enhanced data residency and reliability by ensuring your request is     handled entirely within the specified Google Cloud region. This differs     from global endpoints, which may process parts of the request outside     the target region. Overrides the default regional/endpoint_mode     property value for this command invocation. ENDPOINT_MODE must be one     of:      global       (Default) Use global rather than regional endpoints.     regional       Only use regional endpoints. An error will be raised if a regional       endpoint is not available for a given command.     regional-preferred       Use regional endpoints when available, otherwise use global       endpoints. Recommended for most users.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
     /// </summary>
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointMode { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Database provider, for managed databases. PROVIDER must be one of: RDS,     CLOUDSQL.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute: ◆ provide the argument --private-connection on the command line.
+    /// </summary>
+    [CliOption("--private-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateConnection { get; set; }
+
+    /// <summary>
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. Database provider, for managed databases. PROVIDER must be one of: RDS, CLOUDSQL.
     /// </summary>
     [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
     public GcloudProvider? Provider { get; set; }
 
     /// <summary>
-    /// The role of the connection profile. ROLE must be one of: SOURCE,     DESTINATION.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. The role of the connection profile. ROLE must be one of: SOURCE, DESTINATION.
     /// </summary>
     [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
     public GcloudRole? Role { get; set; }
 
     /// <summary>
-    /// x509 PEM-encoded certificate of the CA that signed the database     server's certificate. The value for this flag needs to be the content     of the certificate file, not the path to the file. For example, on a     Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service will use this certificate to verify it's     connecting to the correct host. Database Migration Service encrypts the     value when storing it.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. x509 PEM-encoded certificate of the CA that signed the database server's certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service will use this certificate to verify it's connecting to the correct host. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [CliOption("--ca-certificate", Format = OptionFormat.EqualsSeparated)]
     public string? CaCertificate { get; set; }
 
     /// <summary>
-    /// The type of SSL configuration. SSL_TYPE must be one of: SERVER_ONLY,     SERVER_CLIENT, REQUIRED, NONE.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. The type of SSL configuration. SSL_TYPE must be one of: SERVER_ONLY, SERVER_CLIENT, REQUIRED, NONE.
     /// </summary>
     [CliOption("--ssl-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudSslType? SslType { get; set; }
 
     /// <summary>
-    /// x509 PEM-encoded certificate that will be used by the replica to     authenticate against the database server. The value for this flag needs     to be the content of the certificate file, not the path to the file.     For example, on a Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service encrypts the value when storing it.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. x509 PEM-encoded certificate that will be used by the replica to authenticate against the database server. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
     public string? ClientCertificate { get; set; }
 
     /// <summary>
-    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with     the Client Certificate. The value for this flag needs to be the content     of the certificate file, not the path to the file. For example, on a     Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service encrypts the value when storing it.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
-    [SecretValue]
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKey { get; set; }
 
     /// <summary>
-    /// IP or hostname of the database.       When `--psc-service-attachment` is also specified, this field value       should be:       1. For Cloud SQL PSC enabled instance - the dns_name field        (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.).       2. For Cloud SQL PSA instance (vpc peering) - the private ip of the        instance.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. IP or hostname of the database. When `--psc-service-attachment` is also specified, this field value should be: 1. For Cloud SQL PSC enabled instance - the dns_name field (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.). 2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance.
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }
 
     /// <summary>
-    /// Network port of the database.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. Network port of the database.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
 
     /// <summary>
-    /// Username that Database Migration Service uses to connect to the     database. Database Migration Service encrypts the value when storing     it.    At most one of these can be specified:     --password=PASSWORD      Password for the user that Database Migration Service uses to connect      to the database. Database Migration Service encrypts the value when      storing it, and the field is not returned on request.     --prompt-for-password      Prompt for the password used to connect to the database.
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. Username that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    /// <summary>
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. At most one of these can be specified: Password for the user that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it, and the field is not returned on request.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --private-connection on the command line with a fully specified name; ◆ provide the argument --region on the command line. At most one of these can be specified: Prompt for the password used to connect to the database.
+    /// </summary>
+    [CliFlag("--prompt-for-password")]
+    public bool? PromptForPassword { get; set; }
 
 }

@@ -33,6 +33,21 @@ public class GcloudDeployDeliveryPipelines
     #region Commands
 
     /// <summary>
+    /// create and manage Delivery Pipeline     resources for Cloud Deploy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDeployDeliveryPipelinesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeployDeliveryPipelinesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy     binding for a Cloud Deploy delivery pipeline
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -39,6 +39,21 @@ public class GcloudFunctionsRuntimes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFunctionsRuntimesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFunctionsRuntimesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// list runtimes available to Google Cloud     Functions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
         GcloudFunctionsRuntimesListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

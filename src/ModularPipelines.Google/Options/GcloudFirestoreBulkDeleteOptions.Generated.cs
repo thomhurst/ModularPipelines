@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFirestoreBulkDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// --database=DATABASE; default="(default)" The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore bulk-delete --database='foo' Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// List specifying which collection groups will be included in the     operation. When omitted, all collection groups are included.     For example, to operate on only the customers and orders collections     groups:       $ gcloud firestore bulk-delete --collection-ids='customers','orders'
+    /// --database=DATABASE; default="(default)" The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore bulk-delete --database='foo' List specifying which collection groups will be included in the operation. When omitted, all collection groups are included. For example, to operate on only the customers and orders collections groups: $ gcloud firestore bulk-delete --collection-ids='customers','orders'
     /// </summary>
     [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CollectionIds { get; set; }
 
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
-    public string? Database { get; set; }
-
     /// <summary>
-    /// List specifying which namespaces will be included in the operation.     When omitted, all namespaces are included.     This is only supported for Datastore Mode databases.     For example, to operate on only the customers and orders namespaces:       $ gcloud firestore bulk-delete --namespaces-ids='customers','orders'
+    /// --database=DATABASE; default="(default)" The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore bulk-delete --database='foo' List specifying which namespaces will be included in the operation. When omitted, all namespaces are included. This is only supported for Datastore Mode databases. For example, to operate on only the customers and orders namespaces: $ gcloud firestore bulk-delete --namespaces-ids='customers','orders'
     /// </summary>
     [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NamespaceIds { get; set; }
+
+    [Obsolete("Database is no longer supported by the installed CLI and has no effect.")]
+    public string? Database { get; set; }
 
 }

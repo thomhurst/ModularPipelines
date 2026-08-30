@@ -55,6 +55,21 @@ public class GcloudContainerBinauthz
     #region Commands
 
     /// <summary>
+    /// manage attestations for Binary Authorization on     Google Cloud Platform
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerBinauthzOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerBinauthzOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a JSON     container image signature object
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -22,102 +23,102 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSpannerCliOptions : GcloudOptions
 {
     /// <summary>
-    /// Database role user used to access the database.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Database role user used to access the database.
     /// </summary>
     [CliOption("--database-role", Format = OptionFormat.EqualsSeparated)]
     public string? DatabaseRole { get; set; }
 
-    [CliOption("--delimiter", Format = OptionFormat.EqualsSeparated)]
-    public string? Delimiter { get; set; }
-
     /// <summary>
-    /// Enables directed reads to provide the flexibility to route read-only     transactions and single reads to a specific replica type or region     (replica_location:replica_type). The replica_type is optional and can     be either READ_ONLY or READ_WRITE.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Enables directed reads to provide the flexibility to route read-only transactions and single reads to a specific replica type or region (replica_location:replica_type). The replica_type is optional and can be either READ_ONLY or READ_WRITE.
     /// </summary>
     [CliOption("--directed-read", Format = OptionFormat.EqualsSeparated)]
     public string? DirectedRead { get; set; }
 
     /// <summary>
-    /// Execute the statement and then exits.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Execute the statement and then exits.
     /// </summary>
     [CliOption("--execute", Format = OptionFormat.EqualsSeparated)]
     public string? Execute { get; set; }
 
-    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
-    public string? Host { get; set; }
-
     /// <summary>
-    /// Show output in HTML format.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Show output in HTML format.
     /// </summary>
     [CliFlag("--html")]
     public bool? Html { get; set; }
 
-    [CliOption("--idle-transaction-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? IdleTransactionTimeout { get; set; }
-
     /// <summary>
-    /// SQL statement to execute after startup.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. SQL statement to execute after startup.
     /// </summary>
     [CliOption("--init-command", Format = OptionFormat.EqualsSeparated)]
     public string? InitCommand { get; set; }
 
     /// <summary>
-    /// Additional SQL statement to execute after startup.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Additional SQL statement to execute after startup.
     /// </summary>
     [CliOption("--init-command-add", Format = OptionFormat.EqualsSeparated)]
     public string? InitCommandAdd { get; set; }
 
     /// <summary>
-    /// Port number that gcloud uses to connect to Spanner.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Port number that gcloud uses to connect to Spanner.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
 
-    [CliOption("--prompt", Format = OptionFormat.EqualsSeparated)]
-    public string? Prompt { get; set; }
-
     /// <summary>
-    /// Path of a file that contains a protobuf-serialized     google.protobuf.FileDescriptorSet message to use in this invocation.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Path of a file that contains a protobuf-serialized google.protobuf.FileDescriptorSet message to use in this invocation.
     /// </summary>
     [CliOption("--proto-descriptor-file", Format = OptionFormat.EqualsSeparated)]
     public string? ProtoDescriptorFile { get; set; }
 
     /// <summary>
-    /// Do not show column names in output.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Do not show column names in output.
     /// </summary>
     [CliFlag("--skip-column-names")]
     public bool? SkipColumnNames { get; set; }
 
     /// <summary>
-    /// Do not allow system command.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Do not allow system command.
     /// </summary>
     [CliFlag("--skip-system-command")]
     public bool? SkipSystemCommand { get; set; }
 
     /// <summary>
-    /// Execute the statement from a file and then exits.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Execute the statement from a file and then exits.
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
 
-    [CliOption("--system-command", Format = OptionFormat.EqualsSeparated)]
-    public string? SystemCommand { get; set; }
-
     /// <summary>
-    /// Show output in table format.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Show output in table format.
     /// </summary>
     [CliFlag("--table")]
     public bool? Table { get; set; }
 
     /// <summary>
-    /// Append a copy of the output to a named file.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Append a copy of the output to a named file.
     /// </summary>
     [CliOption("--tee", Format = OptionFormat.EqualsSeparated)]
     public string? Tee { get; set; }
 
     /// <summary>
-    /// Show output in XML format.
+    /// --delimiter=DELIMITER; default=";" Set the statement delimiter. --host=HOST; default="localhost" Host on which Spanner server is located. --idle-transaction-timeout=IDLE_TRANSACTION_TIMEOUT; default=60 Set the idle transaction timeout. The default timeout is 60 seconds. --prompt=PROMPT; default="spanner-cli&gt; " Set the prompt to the specified format. --system-command=SYSTEM_COMMAND; default="ON" Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF. Show output in XML format.
     /// </summary>
     [CliFlag("--xml")]
     public bool? Xml { get; set; }
+
+    [Obsolete("Delimiter is no longer supported by the installed CLI and has no effect.")]
+    public string? Delimiter { get; set; }
+
+    [Obsolete("Host is no longer supported by the installed CLI and has no effect.")]
+    public string? Host { get; set; }
+
+    [Obsolete("IdleTransactionTimeout is no longer supported by the installed CLI and has no effect.")]
+    public int? IdleTransactionTimeout { get; set; }
+
+    [Obsolete("Prompt is no longer supported by the installed CLI and has no effect.")]
+    public string? Prompt { get; set; }
+
+    [Obsolete("SystemCommand is no longer supported by the installed CLI and has no effect.")]
+    public string? SystemCommand { get; set; }
 
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSourceRequestModel
 {
     [EnumValue("PATH_STYLE")]
-    PathStyle,
+    PathStyle = 0,
 
     [EnumValue("VIRTUAL_HOSTED_STYLE")]
-    VirtualHostedStyle
+    VirtualHostedStyle = 1
 }

@@ -39,4 +39,23 @@ public class GcloudFirestoreFields
     public GcloudFirestoreFieldsTtls Ttls => _ttls ??= new GcloudFirestoreFieldsTtls(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage field metadata for Cloud Firestore
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFirestoreFieldsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirestoreFieldsOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

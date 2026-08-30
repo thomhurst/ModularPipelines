@@ -33,6 +33,21 @@ public class GcloudCompliancemanagerCloudControls
     #region Commands
 
     /// <summary>
+    /// manage Cloud Control resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComplianceManagerCloudControlsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComplianceManagerCloudControlsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a cloud control
     /// </summary>
     /// <param name="options">The command options.</param>

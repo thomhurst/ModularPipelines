@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudConnectMode
 {
     [EnumValue("connect-mode-unspecified")]
-    ConnectModeUnspecified,
+    ConnectModeUnspecified = 0,
 
     [EnumValue("direct-peering")]
-    DirectPeering,
+    DirectPeering = 1,
 
     [EnumValue("private-service-access")]
-    PrivateServiceAccess
+    PrivateServiceAccess = 2
 }

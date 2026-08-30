@@ -33,6 +33,21 @@ public class GcloudApihubApisVersionsSpecs
     #region Commands
 
     /// <summary>
+    /// manage Spec resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudApihubApisVersionsSpecsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApihubApisVersionsSpecsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Spec
     /// </summary>
     /// <param name="options">The command options.</param>

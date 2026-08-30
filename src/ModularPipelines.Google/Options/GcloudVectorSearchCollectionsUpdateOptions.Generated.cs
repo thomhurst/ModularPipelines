@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVectorSearchCollectionsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// JSON Schema for data. Field names must contain only alphanumeric     characters, underscores, and hyphens. The schema must be compliant with     JSON Schema Draft 7 (https://json-schema.org/draft-07/schema).
+    /// JSON Schema for data. Field names must contain only alphanumeric characters, underscores, and hyphens. The schema must be compliant with JSON Schema Draft 7 (https://json-schema.org/draft-07/schema).
     /// </summary>
     [CliOption("--data-schema", Format = OptionFormat.EqualsSeparated)]
     public string? DataSchema { get; set; }
@@ -46,9 +46,57 @@ public record GcloudVectorSearchCollectionsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.     For example, consider a situation where you make an initial request and     the request times out. If you make the request again with the same     request ID, the server can check if original operation with the same     request ID was received, and if so, will ignore the second request.     This prevents clients from accidentally creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).    Update labels.    At most one of these can be specified:     --labels=[LABELS,...]      Set labels to new value. Labels as key value pairs.       KEY        Keys must start with a lowercase character and contain only        hyphens (-), underscores (_), lowercase characters, and numbers.       VALUE        Values must contain only hyphens (-), underscores (_), lowercase        characters, and numbers.      Shorthand Example:        --labels=string=string      JSON Example:        --labels='{"string": "string"}'      File Example:        --labels=path_to_file.(yaml|json)     Or at least one of these can be specified:      --update-labels=[UPDATE_LABELS,...]       Update labels value or add key value pair. Labels as key value       pairs.        KEY         Keys must start with a lowercase character and contain only         hyphens (-), underscores (_), lowercase characters, and         numbers.        VALUE         Values must contain only hyphens (-), underscores (_),         lowercase characters, and numbers.       Shorthand Example:         --update-labels=string=string       JSON Example:         --update-labels='{"string": "string"}'       File Example:         --update-labels=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-labels        Clear labels value and set to empty map.       --remove-labels=REMOVE_LABELS        Remove existing value from map labels. Sets remove_labels value.        Shorthand Example:          --remove-labels=string,string        JSON Example:          --remove-labels=["string"]        File Example:          --remove-labels=path_to_file.(yaml|json)    Update vector_schema.    At most one of these can be specified:     --vector-schema=[VECTOR_SCHEMA,...]      Set vector_schema to new value. Schema for vector fields. Only vector      fields in this schema will be searchable. Field names must contain      only alphanumeric characters, underscores, and hyphens.       KEY        Sets KEY value.       VALUE        Sets VALUE value.         denseVector          Dense vector field.           dimensions            Dimensionality of the vector field.           vertexEmbeddingConfig            Configuration for generating embeddings for the vector            field. If not specified, the embedding field must be            populated in the DataObject.             modelId              Required: ID of the embedding model to use. See              https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#embeddings-models              for the list of supported models.             taskType              Required: Task type for the embeddings.             textTemplate              Required: Text template for the input to the model.              The template must contain one or more references to              fields in the DataObject, e.g.: "Movie Title: {title}              ---- Movie Plot: {plot}".         sparseVector          Sparse vector field.      Shorthand Example:        --vector-schema=string={denseVector={dimensions=int,vertexEmbeddingConfig={modelId=string,taskType=string,textTemplate=string}},sparseVector}      JSON Example:        --vector-schema='{"string": {"denseVector": {"dimensions": int, "vertexEmbeddingConfig": {"modelId": "string", "taskType": "string", "textTemplate": "string"}}, "sparseVector": {}}}'      File Example:        --vector-schema=path_to_file.(yaml|json)     Or at least one of these can be specified:      --update-vector-schema=[UPDATE_VECTOR_SCHEMA,...]       Update vector_schema value or add key value pair. Schema for vector       fields. Only vector fields in this schema will be searchable. Field       names must contain only alphanumeric characters, underscores, and       hyphens.        KEY         Sets KEY value.        VALUE         Sets VALUE value.          denseVector           Dense vector field.            dimensions             Dimensionality of the vector field.            vertexEmbeddingConfig             Configuration for generating embeddings for the vector             field. If not specified, the embedding field must be             populated in the DataObject.              modelId               Required: ID of the embedding model to use. See               https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#embeddings-models               for the list of supported models.              taskType               Required: Task type for the embeddings.              textTemplate               Required: Text template for the input to the model.               The template must contain one or more references to               fields in the DataObject, e.g.: "Movie Title:               {title} ---- Movie Plot: {plot}".          sparseVector           Sparse vector field.       Shorthand Example:         --update-vector-schema=string={denseVector={dimensions=int,vertexEmbeddingConfig={modelId=string,taskType=string,textTemplate=string}},sparseVector}       JSON Example:         --update-vector-schema='{"string": {"denseVector": {"dimensions": int, "vertexEmbeddingConfig": {"modelId": "string", "taskType": "string", "textTemplate": "string"}}, "sparseVector": {}}}'       File Example:         --update-vector-schema=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-vector-schema        Clear vector_schema value and set to empty map.       --remove-vector-schema=REMOVE_VECTOR_SCHEMA        Remove existing value from map vector_schema. Sets        remove_vector_schema value.        Shorthand Example:          --remove-vector-schema=string,string        JSON Example:          --remove-vector-schema=["string"]        File Example:          --remove-vector-schema=path_to_file.(yaml|json)
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Update vector_schema. At most one of these can be specified: Set vector_schema to new value. Schema for vector fields. Only vector fields in this schema will be searchable. Field names must contain only alphanumeric characters, underscores, and hyphens. KEY Sets KEY value. VALUE Sets VALUE value. denseVector Dense vector field. dimensions Dimensionality of the vector field. vertexEmbeddingConfig Configuration for generating embeddings for the vector field. If not specified, the embedding field must be populated in the DataObject. modelId Required: ID of the embedding model to use. See https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#embeddings-models for the list of supported models. taskType Required: Task type for the embeddings. textTemplate Required: Text template for the input to the model. The template must contain one or more references to fields in the DataObject, e.g.: "Movie Title: {title} ---- Movie Plot: {plot}". sparseVector Sparse vector field. Shorthand Example: --vector-schema=string={denseVector={dimensions=int,vertexEmbeddingConfig={modelId=string,taskType=string,textTemplate=string}},sparseVector} JSON Example: --vector-schema='{"string": {"denseVector": {"dimensions": int, "vertexEmbeddingConfig": {"modelId": "string", "taskType": "string", "textTemplate": "string"}}, "sparseVector": {}}}' File Example: --vector-schema=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--vector-schema", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? VectorSchema { get; set; }
+
+    /// <summary>
+    /// Update vector_schema. At most one of these can be specified: Or at least one of these can be specified: Update vector_schema value or add key value pair. Schema for vector fields. Only vector fields in this schema will be searchable. Field names must contain only alphanumeric characters, underscores, and hyphens. KEY Sets KEY value. VALUE Sets VALUE value. denseVector Dense vector field. dimensions Dimensionality of the vector field. vertexEmbeddingConfig Configuration for generating embeddings for the vector field. If not specified, the embedding field must be populated in the DataObject. modelId Required: ID of the embedding model to use. See https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#embeddings-models for the list of supported models. taskType Required: Task type for the embeddings. textTemplate Required: Text template for the input to the model. The template must contain one or more references to fields in the DataObject, e.g.: "Movie Title: {title} ---- Movie Plot: {plot}". sparseVector Sparse vector field. Shorthand Example: --update-vector-schema=string={denseVector={dimensions=int,vertexEmbeddingConfig={modelId=string,taskType=string,textTemplate=string}},sparseVector} JSON Example: --update-vector-schema='{"string": {"denseVector": {"dimensions": int, "vertexEmbeddingConfig": {"modelId": "string", "taskType": "string", "textTemplate": "string"}}, "sparseVector": {}}}' File Example: --update-vector-schema=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-vector-schema", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateVectorSchema { get; set; }
+
+    /// <summary>
+    /// Update vector_schema. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear vector_schema value and set to empty map.
+    /// </summary>
+    [CliFlag("--clear-vector-schema")]
+    public bool? ClearVectorSchema { get; set; }
+
+    /// <summary>
+    /// Update vector_schema. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map vector_schema. Sets remove_vector_schema value. Shorthand Example: --remove-vector-schema=string,string JSON Example: --remove-vector-schema=["string"] File Example: --remove-vector-schema=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-vector-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveVectorSchema { get; set; }
 
 }

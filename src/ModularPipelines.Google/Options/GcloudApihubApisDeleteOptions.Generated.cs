@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApihubApisDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// If set to true, any versions from this API will also be deleted.     Otherwise, the request will only work if the API has no versions.
+    /// If set to true, any versions from this API will also be deleted. Otherwise, the request will only work if the API has no versions.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

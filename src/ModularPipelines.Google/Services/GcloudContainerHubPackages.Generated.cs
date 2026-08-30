@@ -49,6 +49,21 @@ public class GcloudContainerHubPackages
     #region Commands
 
     /// <summary>
+    /// manage Fleet Packages resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerHubPackagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerHubPackagesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create Package Rollouts Fleet     Package
     /// </summary>
     /// <param name="options">The command options.</param>

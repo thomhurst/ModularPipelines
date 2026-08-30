@@ -57,4 +57,23 @@ public class GcloudSourcemanager : IGcloudSourcemanager
     public GcloudSourcemanagerRepos Repos => _repos ??= new GcloudSourcemanagerRepos(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Secure Source Manager resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSourceManagerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSourceManagerOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

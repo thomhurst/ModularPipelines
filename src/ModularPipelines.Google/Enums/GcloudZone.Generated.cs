@@ -17,8 +17,17 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudZone
 {
     [EnumValue("local")]
-    Local,
+    Local = 0,
 
     [EnumValue("projects")]
-    Projects
+    Projects = 1,
+
+    [EnumValue("never")]
+    Never = 2,
+
+    [EnumValue("on-failure")]
+    OnFailure = 3,
+
+    [EnumValue("always")]
+    Always = 4
 }

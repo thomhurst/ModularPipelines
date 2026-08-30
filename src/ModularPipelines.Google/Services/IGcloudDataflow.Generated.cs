@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dataflow commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDataflow
 {
     /// <summary>
     /// gcloud flex-template sub-commands.
     /// </summary>
-    GcloudDataflowFlexTemplate FlexTemplate { get; }
+    GcloudDataflowFlexTemplate FlexTemplate => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudDataflowJobs Jobs { get; }
+    GcloudDataflowJobs Jobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud snapshots sub-commands.
     /// </summary>
-    GcloudDataflowSnapshots Snapshots { get; }
+    GcloudDataflowSnapshots Snapshots => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud yaml sub-commands.
     /// </summary>
-    GcloudDataflowYaml Yaml { get; }
+    GcloudDataflowYaml Yaml => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Google Cloud Dataflow resources
@@ -45,9 +48,7 @@ public interface IGcloudDataflow
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudDataflowOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudDataflowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -15,22 +15,35 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud accessapproval commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudAccessapproval
 {
     /// <summary>
     /// gcloud requests sub-commands.
     /// </summary>
-    GcloudAccessapprovalRequests Requests { get; }
+    GcloudAccessapprovalRequests Requests => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-account sub-commands.
     /// </summary>
-    GcloudAccessapprovalServiceAccount ServiceAccount { get; }
+    GcloudAccessapprovalServiceAccount ServiceAccount => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud settings sub-commands.
     /// </summary>
-    GcloudAccessapprovalSettings Settings { get; }
+    GcloudAccessapprovalSettings Settings => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Access Approval requests and settings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudAccessApprovalOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

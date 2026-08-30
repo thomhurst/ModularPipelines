@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudObservabilityScopesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The full resource name of the LogScope. For example:       //logging.googleapis.com/projects/myproject/locations/global/logScopes/my-log-scope
+    /// The full resource name of the LogScope. For example: //logging.googleapis.com/projects/myproject/locations/global/logScopes/my-log-scope
     /// </summary>
     [CliOption("--log-scope", Format = OptionFormat.EqualsSeparated)]
     public string? LogScope { get; set; }
 
     /// <summary>
-    /// The resource name of the TraceScope. For example:       projects/myproject/locations/global/traceScopes/my-trace-scope
+    /// The resource name of the TraceScope. For example: projects/myproject/locations/global/traceScopes/my-trace-scope
     /// </summary>
     [CliOption("--trace-scope", Format = OptionFormat.EqualsSeparated)]
     public string? TraceScope { get; set; }

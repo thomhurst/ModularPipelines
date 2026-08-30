@@ -24,25 +24,25 @@ public record GcloudDatastoreImportOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// A list specifying what kinds will be included in the operation. When     omitted, all Kinds are included. For example, to operate on only the     'Customer' and 'Order' Kinds:       $ gcloud datastore import --kinds='Customer','Order'
+    /// A list specifying what kinds will be included in the operation. When omitted, all Kinds are included. For example, to operate on only the 'Customer' and 'Order' Kinds: $ gcloud datastore import --kinds='Customer','Order'
     /// </summary>
     [CliOption("--kinds", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Kinds { get; set; }
 
     /// <summary>
-    /// A list specifying what namespaces will be included in the operation.     When omitted, all namespaces are included in the operation, including     the default namespace. To specify that only the default namespace     should be operated on, use the special symbol '(default)'. For example,     to operate on entities from both the 'customers' and default     namespaces:       $ gcloud datastore import --namespaces='(default)','customers'
+    /// A list specifying what namespaces will be included in the operation. When omitted, all namespaces are included in the operation, including the default namespace. To specify that only the default namespace should be operated on, use the special symbol '(default)'. For example, to operate on entities from both the 'customers' and default namespaces: $ gcloud datastore import --namespaces='(default)','customers'
     /// </summary>
     [CliOption("--namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Namespaces { get; set; }
 
     /// <summary>
-    /// A string:string map of custom labels to associate with this operation.     For example:       $ gcloud datastore import \         --operation-labels=comment='customer orders','sales rep'=pending
+    /// A string:string map of custom labels to associate with this operation. For example: $ gcloud datastore import \ --operation-labels=comment='customer orders','sales rep'=pending
     /// </summary>
     [CliOption("--operation-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OperationLabels { get; set; }

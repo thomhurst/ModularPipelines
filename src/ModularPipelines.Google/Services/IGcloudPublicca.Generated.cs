@@ -15,13 +15,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud publicca commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudPublicca
 {
     /// <summary>
     /// gcloud external-account-keys sub-commands.
     /// </summary>
-    GcloudPubliccaExternalAccountKeys ExternalAccountKeys { get; }
+    GcloudPubliccaExternalAccountKeys ExternalAccountKeys => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage accounts for Google Trust Services' Certificate     Authority
@@ -30,9 +33,7 @@ public interface IGcloudPublicca
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudPubliccaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudPubliccaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

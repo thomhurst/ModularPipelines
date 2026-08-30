@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLoggingMetadata
 {
     [EnumValue("exclude-all")]
-    ExcludeAll,
+    ExcludeAll = 0,
 
     [EnumValue("include-all")]
-    IncludeAll
+    IncludeAll = 1
 }

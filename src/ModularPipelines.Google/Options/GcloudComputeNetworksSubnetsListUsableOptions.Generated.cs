@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeNetworksSubnetsListUsableOptions : GcloudOptions
 {
     /// <summary>
-    /// The project id or project number in which the subnetwork is intended to     be used. Only applied for Shared VPC. See Shared VPC documentation     (https://cloud.google.com/vpc/docs/shared-vpc/).
+    /// The project id or project number in which the subnetwork is intended to be used. Only applied for Shared VPC. See Shared VPC documentation (https://cloud.google.com/vpc/docs/shared-vpc/).
     /// </summary>
     [CliOption("--service-project", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceProject { get; set; }

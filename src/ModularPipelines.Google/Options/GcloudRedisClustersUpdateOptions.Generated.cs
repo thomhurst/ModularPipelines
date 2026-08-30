@@ -30,37 +30,37 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     public string? AclPolicy { get; set; }
 
     /// <summary>
-    /// Fsync configuration. AOF_APPEND_FSYNC must be one of:      always       Redis explicitly calls fsync for every write command.      everysec       (default) Redis explicitly calls fsync every second.      no       Redis will not explicitly call fsync.
+    /// Fsync configuration. AOF_APPEND_FSYNC must be one of: always Redis explicitly calls fsync for every write command. everysec (default) Redis explicitly calls fsync every second. no Redis will not explicitly call fsync.
     /// </summary>
     [CliOption("--aof-append-fsync", Format = OptionFormat.EqualsSeparated)]
     public string? AofAppendFsync { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Automated backup mode. AUTOMATED_BACKUP_MODE must be one of:      disabled       (default) Automated backup is disabled.      enabled       Automated backup is enabled.
+    /// Automated backup mode. AUTOMATED_BACKUP_MODE must be one of: disabled (default) Automated backup is disabled. enabled Automated backup is enabled.
     /// </summary>
     [CliOption("--automated-backup-mode", Format = OptionFormat.EqualsSeparated)]
     public string? AutomatedBackupMode { get; set; }
 
     /// <summary>
-    /// One-hour window when you want automated-backup operations to start.     Specify the time in the format HH:00 on a 24-hour cycle in UTC time.
+    /// One-hour window when you want automated-backup operations to start. Specify the time in the format HH:00 on a 24-hour cycle in UTC time.
     /// </summary>
     [CliOption("--automated-backup-start-time", Format = OptionFormat.EqualsSeparated)]
     public string? AutomatedBackupStartTime { get; set; }
 
     /// <summary>
-    /// Time to live for automated backups. A backup will be deleted     automatically after the TTL is reached. It ranges from 1 day to 365     days. For example, "10d" for 10 days. If not specified, the default     value is 35 days.
+    /// Time to live for automated backups. A backup will be deleted automatically after the TTL is reached. It ranges from 1 day to 365 days. For example, "10d" for 10 days. If not specified, the default value is 35 days.
     /// </summary>
     [CliOption("--automated-backup-ttl", Format = OptionFormat.EqualsSeparated)]
     public string? AutomatedBackupTtl { get; set; }
 
     /// <summary>
-    /// Enable deletion protection for the Redis Cluster. Use     --deletion-protection/--no-deletion-protection to enable/disable it.
+    /// Enable deletion protection for the Redis Cluster. Use --deletion-protection/--no-deletion-protection to enable/disable it.
     /// </summary>
     [CliFlag("--deletion-protection")]
     public bool? DeletionProtection { get; set; }
@@ -72,31 +72,31 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     public string? MaintenanceVersion { get; set; }
 
     /// <summary>
-    /// Node Type of the redis cluster Node. NODE_TYPE must be one of:     redis-highcpu-medium, redis-highmem-2xlarge, redis-highmem-medium,     redis-highmem-xlarge, redis-shared-core-nano, redis-standard-large,     redis-standard-small.
+    /// Node Type of the redis cluster Node. NODE_TYPE must be one of: redis-highcpu-medium, redis-highmem-2xlarge, redis-highmem-medium, redis-highmem-xlarge, redis-shared-core-nano, redis-standard-large, redis-standard-small.
     /// </summary>
     [CliOption("--node-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudNodeType? NodeType { get; set; }
 
     /// <summary>
-    /// Operation mode for persistence. PERSISTENCE_MODE must be one of:      aof       AOF-based persistence     disabled       Persistence mode is disabled     rdb       RDB-based persistence
+    /// Operation mode for persistence. PERSISTENCE_MODE must be one of: aof AOF-based persistence disabled Persistence mode is disabled rdb RDB-based persistence
     /// </summary>
     [CliOption("--persistence-mode", Format = OptionFormat.EqualsSeparated)]
     public string? PersistenceMode { get; set; }
 
     /// <summary>
-    /// Attempted period between RDB snapshots. RDB_SNAPSHOT_PERIOD must be one     of:      12h       12 hours     1h       1 hour     24h       (default) 24 hours     6h       6 hours
+    /// Attempted period between RDB snapshots. RDB_SNAPSHOT_PERIOD must be one of: 12h 12 hours 1h 1 hour 24h (default) 24 hours 6h 6 hours
     /// </summary>
     [CliOption("--rdb-snapshot-period", Format = OptionFormat.EqualsSeparated)]
     public string? RdbSnapshotPeriod { get; set; }
 
     /// <summary>
-    /// Date and time of the first snapshot in the ISO 1801 format, and     alignment time for future snapshots. For example, 2024-01-01T01:00:00Z.     If not specified, the current time will be used.
+    /// Date and time of the first snapshot in the ISO 1801 format, and alignment time for future snapshots. For example, 2024-01-01T01:00:00Z. If not specified, the current time will be used.
     /// </summary>
     [CliOption("--rdb-snapshot-start-time", Format = OptionFormat.EqualsSeparated)]
     public string? RdbSnapshotStartTime { get; set; }
 
     /// <summary>
-    /// A list of Redis Cluster config parameters to remove. Removing a     non-existent config parameter is silently ignored.
+    /// A list of Redis Cluster config parameters to remove. Removing a non-existent config parameter is silently ignored.
     /// </summary>
     [CliOption("--remove-redis-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveRedisConfig { get; set; }
@@ -108,7 +108,7 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     public int? ReplicaCount { get; set; }
 
     /// <summary>
-    /// Rotate the server certificates for the cluster. This is allowed only     for clusters using a customer-managed CA.
+    /// Rotate the server certificates for the cluster. This is allowed only for clusters using a customer-managed CA.
     /// </summary>
     [CliFlag("--rotate-server-certificate")]
     public bool? RotateServerCertificate { get; set; }
@@ -126,15 +126,45 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     public bool? SimulateMaintenanceEvent { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// A list of Redis Cluster config KEY=VALUE pairs to update. If a config     parameter is already set, its value is modified; otherwise a new Redis     config parameter is added.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud redis clusters update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud redis clusters update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --maintenance-window-any      Removes the user-specified maintenance window.     Or at least one of these can be specified:      --maintenance-window-day=MAINTENANCE_WINDOW_DAY       The day of week when the window starts, e.g. sunday.       MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday,       sunday, thursday, tuesday, wednesday.      --maintenance-window-hour=MAINTENANCE_WINDOW_HOUR       Hour of day (0 to 23) for the start of maintenance window, in UTC       time zone.
+    /// A list of Redis Cluster config KEY=VALUE pairs to update. If a config parameter is already set, its value is modified; otherwise a new Redis config parameter is added.
     /// </summary>
     [CliOption("--update-redis-config", Format = OptionFormat.EqualsSeparated)]
     public GcloudUpdateRedisConfig? UpdateRedisConfig { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud redis clusters update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud redis clusters update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Removes the user-specified maintenance window.
+    /// </summary>
+    [CliFlag("--maintenance-window-any")]
+    public bool? MaintenanceWindowAny { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: The day of week when the window starts, e.g. sunday. MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday, sunday, thursday, tuesday, wednesday.
+    /// </summary>
+    [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Hour of day (0 to 23) for the start of maintenance window, in UTC time zone.
+    /// </summary>
+    [CliOption("--maintenance-window-hour", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowHour { get; set; }
 
 }

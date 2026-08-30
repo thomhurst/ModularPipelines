@@ -33,6 +33,21 @@ public class GcloudPreviewComputeSoleTenancyNodeTypes
     #region Commands
 
     /// <summary>
+    /// read Compute Engine     sole-tenancy node types
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeSoleTenancyNodeTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeSoleTenancyNodeTypesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a     Compute Engine node type
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudPreviewComputeInterconnectsAttachmentsDedicated
     #region Commands
 
     /// <summary>
+    /// create or     manipulate dedicated interconnect attachments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeInterconnectsAttachmentsDedicatedOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeInterconnectsAttachmentsDedicatedOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create     a Compute Engine dedicated interconnect attachment
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -24,7 +24,7 @@ public record GcloudPreviewComputePacketMirroringsDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Region of the packet mirroring to describe. Overrides the default     compute/region property value for this command invocation.
+    /// Region of the packet mirroring to describe. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

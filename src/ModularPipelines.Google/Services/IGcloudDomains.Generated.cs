@@ -15,13 +15,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud domains commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDomains
 {
     /// <summary>
     /// gcloud registrations sub-commands.
     /// </summary>
-    GcloudDomainsRegistrations Registrations { get; }
+    GcloudDomainsRegistrations Registrations => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage domains for your Google Cloud projects
@@ -30,10 +33,8 @@ public interface IGcloudDomains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudDomainsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// lists the user's verified domains
@@ -42,10 +43,8 @@ public interface IGcloudDomains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListUserVerifiedAsync(
-        GcloudDomainsListUserVerifiedOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListUserVerifiedAsync(GcloudDomainsListUserVerifiedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// browser workflow
@@ -54,9 +53,7 @@ public interface IGcloudDomains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> VerifyAsync(
-        GcloudDomainsVerifyOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> VerifyAsync(GcloudDomainsVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

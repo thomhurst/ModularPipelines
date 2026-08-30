@@ -33,6 +33,21 @@ public class GcloudDataflowSnapshots
     #region Commands
 
     /// <summary>
+    /// a group of subcommands for working with Cloud     Dataflow snapshots
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataflowSnapshotsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataflowSnapshotsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a snapshot for a Cloud Dataflow     job
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudTasksCmekConfig
     #region Commands
 
     /// <summary>
+    /// get or change CMEK configuration for Cloud Tasks
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudTasksCmekConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudTasksCmekConfigOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// get CMEK configuration for Cloud Tasks     in the specified location
     /// </summary>
     /// <param name="options">The command options.</param>

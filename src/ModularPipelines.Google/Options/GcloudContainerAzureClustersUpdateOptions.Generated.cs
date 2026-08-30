@@ -35,7 +35,7 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     public IEnumerable<string>? AdminUsers { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -47,7 +47,7 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     public string? ClusterVersion { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled.     Examples:       $ gcloud container azure clusters update --logging=SYSTEM       $ gcloud container azure clusters update --logging=SYSTEM,WORKLOAD     COMPONENT must be one of: SYSTEM, WORKLOAD.
+    /// Set the components that have logging enabled. Examples: $ gcloud container azure clusters update --logging=SYSTEM $ gcloud container azure clusters update --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD.
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
     public GcloudLogging? Logging { get; set; }
@@ -65,9 +65,69 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Azure Virtual Machine Size (e.g. Standard_DS1_v).    Annotations    At most one of these can be specified:     --annotations=ANNOTATION,[ANNOTATION,...]      Annotations for the cluster.     --clear-annotations      Clear the annotations for the cluster.    Description    At most one of these can be specified:     --clear-description      Clear the description for the cluster.     --description=DESCRIPTION      Description for the cluster.    Authentication configuration    At most one of these can be specified:     Client resource - Azure client to use for cluster update. This    represents a Cloud resource. (NOTE) Some attributes are not given    arguments in this group but can be set in other ways.     To set the project attribute:     ▸ provide the argument --client on the command line with a fully      specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.     To set the location attribute:     ▸ provide the argument --client on the command line with a fully      specified name;     ▸ provide the argument --location on the command line;     ▸ set the property container_azure/location.     --client=CLIENT      ID of the client or fully qualified identifier for the client.      To set the client attribute:      ▸ provide the argument --client on the command line.     Azure services authentication     --azure-application-id=AZURE_APPLICATION_ID      ID of the Azure Application to manage Azure resources.     --azure-tenant-id=AZURE_TENANT_ID      ID of the Azure Tenant to manage Azure resources.     --clear-client      Clear the Azure client. This flag is required when updating to use      Azure workload identity federation from Azure client to manage Azure      resources.    Monitoring Config    At most one of these can be specified:     --disable-managed-prometheus      Disable managed collection for Managed Service for Prometheus.     --enable-managed-prometheus      Enable managed collection for Managed Service for Prometheus.
+    /// Azure Virtual Machine Size (e.g. Standard_DS1_v).
     /// </summary>
     [CliOption("--vm-size", Format = OptionFormat.EqualsSeparated)]
     public int? VmSize { get; set; }
+
+    /// <summary>
+    /// Annotations At most one of these can be specified: Annotations for the cluster.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Annotations At most one of these can be specified: Clear the annotations for the cluster.
+    /// </summary>
+    [CliFlag("--clear-annotations")]
+    public bool? ClearAnnotations { get; set; }
+
+    /// <summary>
+    /// Description At most one of these can be specified: Clear the description for the cluster.
+    /// </summary>
+    [CliFlag("--clear-description")]
+    public bool? ClearDescription { get; set; }
+
+    /// <summary>
+    /// Description At most one of these can be specified: Description for the cluster.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument --client on the command line.
+    /// </summary>
+    [CliOption("--client", Format = OptionFormat.EqualsSeparated)]
+    public string? Client { get; set; }
+
+    /// <summary>
+    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the Azure Application to manage Azure resources.
+    /// </summary>
+    [CliOption("--azure-application-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureApplicationId { get; set; }
+
+    /// <summary>
+    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the Azure Tenant to manage Azure resources.
+    /// </summary>
+    [CliOption("--azure-tenant-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureTenantId { get; set; }
+
+    /// <summary>
+    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication Clear the Azure client. This flag is required when updating to use Azure workload identity federation from Azure client to manage Azure resources.
+    /// </summary>
+    [CliFlag("--clear-client")]
+    public bool? ClearClient { get; set; }
+
+    /// <summary>
+    /// Monitoring Config At most one of these can be specified: Disable managed collection for Managed Service for Prometheus.
+    /// </summary>
+    [CliFlag("--disable-managed-prometheus")]
+    public bool? DisableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Monitoring Config At most one of these can be specified: Enable managed collection for Managed Service for Prometheus.
+    /// </summary>
+    [CliFlag("--enable-managed-prometheus")]
+    public bool? EnableManagedPrometheus { get; set; }
 
 }

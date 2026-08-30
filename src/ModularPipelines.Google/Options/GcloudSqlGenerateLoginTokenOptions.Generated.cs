@@ -27,6 +27,9 @@ public record GcloudSqlGenerateLoginTokenOptions : GcloudOptions
     [CliFlag("--application-default-credential")]
     public bool? ApplicationDefaultCredential { get; set; }
 
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
     public string? Instance { get; set; }
 

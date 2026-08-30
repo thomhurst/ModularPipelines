@@ -33,6 +33,21 @@ public class GcloudApihubAddons
     #region Commands
 
     /// <summary>
+    /// manage Addon resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudApihubAddonsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApihubAddonsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe an Addon
     /// </summary>
     /// <param name="options">The command options.</param>

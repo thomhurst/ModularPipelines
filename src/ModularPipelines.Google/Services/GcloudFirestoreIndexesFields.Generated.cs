@@ -33,6 +33,21 @@ public class GcloudFirestoreIndexesFields
     #region Commands
 
     /// <summary>
+    /// field indexes for Cloud     Firestore
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFirestoreIndexesFieldsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirestoreIndexesFieldsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe the index configuration     of the given field
     /// </summary>
     /// <param name="options">The command options.</param>

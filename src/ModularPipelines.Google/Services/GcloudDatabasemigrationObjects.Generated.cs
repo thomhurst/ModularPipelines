@@ -33,6 +33,21 @@ public class GcloudDatabasemigrationObjects
     #region Commands
 
     /// <summary>
+    /// manage Database Migration Service     migration job objects
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDatabaseMigrationObjectsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationObjectsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list a DMS migration job objects
     /// </summary>
     /// <param name="options">The command options.</param>

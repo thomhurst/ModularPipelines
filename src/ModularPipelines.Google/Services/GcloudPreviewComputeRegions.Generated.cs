@@ -33,6 +33,21 @@ public class GcloudPreviewComputeRegions
     #region Commands
 
     /// <summary>
+    /// list Compute Engine regions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeRegionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeRegionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Compute Engine region
     /// </summary>
     /// <param name="options">The command options.</param>

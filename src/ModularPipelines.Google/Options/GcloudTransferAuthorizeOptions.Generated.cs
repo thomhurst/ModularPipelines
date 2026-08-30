@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// authorize an account for all Transfer Service     features
+/// authorize an account for all Storage Transfer     Service features
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTransferAuthorizeOptions : GcloudOptions
 {
     /// <summary>
-    /// Add IAM roles necessary to use all Transfer Service features to the     specified account. By default, this command just prints missing roles.
+    /// Add IAM roles necessary to use all Transfer Service features to the specified account. By default, this command just prints missing roles.
     /// </summary>
     [CliFlag("--add-missing")]
     public bool? AddMissing { get; set; }
 
     /// <summary>
-    /// The path to the creds file for an account to authorize. The file should     be in JSON format and contain a "type" and "client_email", which are     automatically generated for most creds files downloaded from Google     (e.g. service account tokens). If this flag is not present, the command     authorizes the user currently logged into gcloud.
+    /// The path to the creds file for an account to authorize. The file should be in JSON format and contain a "type" and "client_email", which are automatically generated for most creds files downloaded from Google (e.g. service account tokens). If this flag is not present, the command authorizes the user currently logged into gcloud.
     /// </summary>
     [CliOption("--creds-file", Format = OptionFormat.EqualsSeparated)]
     public string? CredsFile { get; set; }

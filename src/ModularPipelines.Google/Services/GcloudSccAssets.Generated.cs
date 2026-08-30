@@ -33,6 +33,21 @@ public class GcloudSccAssets
     #region Commands
 
     /// <summary>
+    /// manage Cloud SCC (Security Command Center) assets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSccAssetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSccAssetsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe an asset given its resource name or     asset id
     /// </summary>
     /// <param name="options">The command options.</param>

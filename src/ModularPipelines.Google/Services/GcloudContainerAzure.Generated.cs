@@ -61,6 +61,21 @@ public class GcloudContainerAzure
     #region Commands
 
     /// <summary>
+    /// deploy and manage clusters of machines on Azure     for running containers
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerAzureOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAzureOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Cloud server     configuration for Azure
     /// </summary>
     /// <param name="options">The command options.</param>

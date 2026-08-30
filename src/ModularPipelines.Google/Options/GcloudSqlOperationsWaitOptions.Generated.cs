@@ -23,7 +23,7 @@ public record GcloudSqlOperationsWaitOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Operation
 ) : GcloudOptions
 {
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("Timeout is no longer supported by the installed CLI and has no effect.")]
     public int? Timeout { get; set; }
 
 }

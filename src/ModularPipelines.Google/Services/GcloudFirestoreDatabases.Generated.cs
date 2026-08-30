@@ -33,6 +33,21 @@ public class GcloudFirestoreDatabases
     #region Commands
 
     /// <summary>
+    /// manage Creation of Cloud Firestore in Native     mode Database
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFirestoreDatabasesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirestoreDatabasesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// clone a Google Cloud Firestore database     from another
     /// </summary>
     /// <param name="options">The command options.</param>

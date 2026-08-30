@@ -15,23 +15,26 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud pam commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudPam
 {
     /// <summary>
     /// gcloud entitlements sub-commands.
     /// </summary>
-    GcloudPamEntitlements Entitlements { get; }
+    GcloudPamEntitlements Entitlements => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud grants sub-commands.
     /// </summary>
-    GcloudPamGrants Grants { get; }
+    GcloudPamGrants Grants => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudPamOperations Operations { get; }
+    GcloudPamOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Privileged Access Manager entitlements and grants
@@ -40,10 +43,8 @@ public interface IGcloudPam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudPamOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudPamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// check Privileged Access Manager     onboarding status for a resource
@@ -52,9 +53,7 @@ public interface IGcloudPam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CheckOnboardingStatusAsync(
-        GcloudPamCheckOnboardingStatusOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CheckOnboardingStatusAsync(GcloudPamCheckOnboardingStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

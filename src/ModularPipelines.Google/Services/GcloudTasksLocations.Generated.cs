@@ -33,6 +33,21 @@ public class GcloudTasksLocations
     #region Commands
 
     /// <summary>
+    /// get information about Cloud Tasks locations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudTasksLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudTasksLocationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show details about a location
     /// </summary>
     /// <param name="options">The command options.</param>

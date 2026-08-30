@@ -43,6 +43,21 @@ public class GcloudApihubPlugins
     #region Commands
 
     /// <summary>
+    /// manage Plugin resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudApihubPluginsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApihubPluginsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Plugin
     /// </summary>
     /// <param name="options">The command options.</param>

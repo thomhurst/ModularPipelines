@@ -22,27 +22,36 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageRmOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma     separated list of key=value pairs, e.g. header1=value1,header2=value2.     Overrides the default storage/additional_headers property value for     this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
+    /// <summary>
+    /// Delete all versions (https://cloud.google.com/storage/docs/object-versioning) of an object.
+    /// </summary>
     [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
+    /// <summary>
+    /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
+    /// </summary>
     [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
-    /// Excludes managed folders from command operations. By default gcloud     storage includes managed folders in recursive removals. Please note     that this flag would not be applicable for hierarchical namespace     buckets as we always list managed folders for these buckets.
+    /// Excludes managed folders from command operations. By default gcloud storage includes managed folders in recursive removals. Please note that this flag would not be applicable for hierarchical namespace buckets as we always list managed folders for these buckets.
     /// </summary>
     [CliFlag("--exclude-managed-folders")]
     public bool? ExcludeManagedFolders { get; set; }
 
+    /// <summary>
+    /// Read the list of URLs from stdin.
+    /// </summary>
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
-    [CliFlag("--recursive")]
+    [Obsolete("Recursive is no longer supported by the installed CLI and has no effect.")]
     public bool? Recursive { get; set; }
 
 }

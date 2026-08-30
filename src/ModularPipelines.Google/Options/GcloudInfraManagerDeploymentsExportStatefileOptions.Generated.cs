@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudInfraManagerDeploymentsExportStatefileOptions : GcloudOptions
 {
     /// <summary>
-    /// If this flag is set to true, the exported deployment state file will be     the draft state
+    /// If this flag is set to true, the exported deployment state file will be the draft state
     /// </summary>
     [CliFlag("--draft")]
     public bool? Draft { get; set; }
 
     /// <summary>
-    /// File name for statefile. It is optional and it specifies the filename     or complete path for the downloaded statefile. If only a file path is     provided, the statefile will be downloaded as "statefile" within that     directory. If a filename is included, the statefile will be downloaded     with that name.
+    /// File name for statefile. It is optional and it specifies the filename or complete path for the downloaded statefile. If only a file path is provided, the statefile will be downloaded as "statefile" within that directory. If a filename is included, the statefile will be downloaded with that name.
     /// </summary>
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }

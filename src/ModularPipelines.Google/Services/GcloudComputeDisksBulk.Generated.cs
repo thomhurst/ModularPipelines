@@ -33,6 +33,21 @@ public class GcloudComputeDisksBulk
     #region Commands
 
     /// <summary>
+    /// manipulate multiple Compute Engine disks with     single command executions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeDisksBulkOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeDisksBulkOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create multiple Compute Engine disks or     a consistency group of instant snapshots
     /// </summary>
     /// <param name="options">The command options.</param>

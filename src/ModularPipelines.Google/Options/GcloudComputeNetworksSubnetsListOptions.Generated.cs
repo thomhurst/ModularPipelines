@@ -27,6 +27,9 @@ public record GcloudComputeNetworksSubnetsListOptions : GcloudOptions
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
+    /// <summary>
+    /// (DEPRECATED) Regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out. Flag --regexp is deprecated. Use --filter="name~'REGEXP'" instead.
+    /// </summary>
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
     public string? Regexp { get; set; }
 
@@ -37,7 +40,7 @@ public record GcloudComputeNetworksSubnetsListOptions : GcloudOptions
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>
-    /// Specifies the information to include in the output. VIEW must be (only     one value is supported):      WITH_UTILIZATION       Output includes the IP address utilization data of all subnetwork       ranges, showing total allocated and free IPv4 and IPv6 IP       addresses.
+    /// Specifies the information to include in the output. VIEW must be (only one value is supported): WITH_UTILIZATION Output includes the IP address utilization data of all subnetwork ranges, showing total allocated and free IPv4 and IPv6 IP addresses.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }

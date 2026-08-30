@@ -24,15 +24,33 @@ public record GcloudDesignCenterSpacesSharedTemplatesRevisionsDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The location id of the revision resource.     To set the location attribute:     ◆ provide the argument revision on the command line with a fully      specified name;     ◆ provide the argument --location on the command line.
+    /// The location id of the revision resource. To set the location attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --location on the command line.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// The sharedTemplate id of the revision resource.     To set the shared-template attribute:     ◆ provide the argument revision on the command line with a fully      specified name;     ◆ provide the argument --shared-template on the command line.    At most one of these can be specified:     --google-catalog      If provided, describes a shared template revision from the Google      Catalog. This sets the project to "gcpdesigncenter" and space to      "googlespace".     Or at least one of these can be specified:      Specify --project and --space for custom shared templates.      --project=PROJECT       The project id of the revision resource.       To set the project attribute:       ▫ provide the argument revision on the command line with a fully        specified name;       ▫ provide the argument --project on the command line;       ▫ set the property core/project.      --space=SPACE       The space id of the revision resource.       To set the space attribute:       ▫ provide the argument revision on the command line with a fully        specified name;       ▫ provide the argument --space on the command line.
+    /// The sharedTemplate id of the revision resource. To set the shared-template attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --shared-template on the command line.
     /// </summary>
     [CliOption("--shared-template", Format = OptionFormat.EqualsSeparated)]
     public string? SharedTemplate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If provided, describes a shared template revision from the Google Catalog. This sets the project to "gcpdesigncenter" and space to "googlespace".
+    /// </summary>
+    [CliFlag("--google-catalog")]
+    public bool? GoogleCatalog { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Specify --project and --space for custom shared templates. The project id of the revision resource. To set the project attribute: ▫ provide the argument revision on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Specify --project and --space for custom shared templates. The space id of the revision resource. To set the space attribute: ▫ provide the argument revision on the command line with a fully specified name; ▫ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
 
 }

@@ -33,6 +33,21 @@ public class GcloudInframanagerResources
     #region Commands
 
     /// <summary>
+    /// list or describe resources under a     Revision
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudInfraManagerResourcesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudInfraManagerResourcesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe resources
     /// </summary>
     /// <param name="options">The command options.</param>

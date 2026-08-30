@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataprocWorkflowTemplatesImportOptions : GcloudOptions
 {
     /// <summary>
-    /// Path to a YAML file containing configuration export data.     Alternatively, you may omit this flag to read from standard input.
+    /// Path to a YAML file containing configuration export data. Alternatively, you may omit this flag to read from standard input.
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }

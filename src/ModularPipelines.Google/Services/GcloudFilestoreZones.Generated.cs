@@ -33,6 +33,21 @@ public class GcloudFilestoreZones
     #region Commands
 
     /// <summary>
+    /// list zones where Filestore is available
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFilestoreZonesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFilestoreZonesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list all Filestore zones
     /// </summary>
     /// <param name="options">The command options.</param>

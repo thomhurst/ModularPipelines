@@ -33,6 +33,21 @@ public class GcloudIapOauthBrands
     #region Commands
 
     /// <summary>
+    /// manage IAP OAuth brands
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIapOauthBrandsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIapOauthBrandsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud OAuth brand for the project
     /// </summary>
     /// <param name="options">The command options.</param>

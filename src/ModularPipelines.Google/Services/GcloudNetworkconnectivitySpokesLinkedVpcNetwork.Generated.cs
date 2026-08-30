@@ -33,6 +33,21 @@ public class GcloudNetworkconnectivitySpokesLinkedVpcNetwork
     #region Commands
 
     /// <summary>
+    /// manage VPC spokes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivitySpokesLinkedVpcNetworkOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivitySpokesLinkedVpcNetworkOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new     VPC spoke
     /// </summary>
     /// <param name="options">The command options.</param>

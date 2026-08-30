@@ -36,9 +36,57 @@ public record GcloudDataCatalogEntriesUpdateOptions(
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The name of the target resource whose entry to update. This can be     either the Google Cloud Platform resource name or the SQL name of a     Google Cloud Platform resource. This flag allows one to update the     entry corresponding to the lookup of the given resource, without     needing to specify the entry directly.    At most one of these can be specified:     --add-file-patterns=[PATTERN,...]      A list of file patterns to add to the current list.     At most one of these can be specified:      --clear-file-patterns       If specified, clear the current list of file patterns.      --remove-file-patterns=[PATTERN,...]       A list of file patterns to remove from the current list.     --linked-resource=LINKED_RESOURCE      Link to the resource in external system. If --type is not used, then      --linked-resource may be provided.     --user-specified-system=USER_SPECIFIED_SYSTEM      External system from which the entry is fed. This can be updated for      on prem entries.     --user-specified-type=USER_SPECIFIED_TYPE      Type of the entry coming from external system. This can be updated      for on prem entries.    New column schema for the entry. A schema consists of a list of column   names along with their types, descriptions, modes, and nested subcolumns.   For example:      - column: first_name      description: First name      mode: REQUIRED      type: STRING     - column: last_name      description: Last name      mode: REQUIRED      type: STRING     - column: addresses      description: Addresses      mode: REPEATED      type: RECORD      subcolumns:      - column: city       description: City       mode: NULLABLE       type: STRING      - column: state       description: State       mode: NULLABLE       type: STRING    At most one of these can be specified:     --schema=[COLUMN_NAME=COLUMN_TYPE,...]      Inline schema for the entry. When specifying a schema via this      argument, only column names and types should be provided. Column      modes will default to NULLABLE, and column descriptions and nested      subcolumns are not supported.     --schema-from-file=PATH_TO_FILE      Path to a JSON or YAML file containing the schema for the entry. This      can be used to specify schemas with column descriptions, column modes      other than NULLABLE, and nested subcolumns. Use a full or relative      path to a local file containing the value of schema.
+    /// The name of the target resource whose entry to update. This can be either the Google Cloud Platform resource name or the SQL name of a Google Cloud Platform resource. This flag allows one to update the entry corresponding to the lookup of the given resource, without needing to specify the entry directly.
     /// </summary>
     [CliOption("--lookup-entry", Format = OptionFormat.EqualsSeparated)]
     public string? LookupEntry { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: A list of file patterns to add to the current list.
+    /// </summary>
+    [CliOption("--add-file-patterns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddFilePatterns { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: If specified, clear the current list of file patterns.
+    /// </summary>
+    [CliFlag("--clear-file-patterns")]
+    public bool? ClearFilePatterns { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: A list of file patterns to remove from the current list.
+    /// </summary>
+    [CliOption("--remove-file-patterns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveFilePatterns { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Link to the resource in external system. If --type is not used, then --linked-resource may be provided.
+    /// </summary>
+    [CliOption("--linked-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? LinkedResource { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: External system from which the entry is fed. This can be updated for on prem entries.
+    /// </summary>
+    [CliOption("--user-specified-system", Format = OptionFormat.EqualsSeparated)]
+    public string? UserSpecifiedSystem { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Type of the entry coming from external system. This can be updated for on prem entries.
+    /// </summary>
+    [CliOption("--user-specified-type", Format = OptionFormat.EqualsSeparated)]
+    public string? UserSpecifiedType { get; set; }
+
+    /// <summary>
+    /// New column schema for the entry. A schema consists of a list of column names along with their types, descriptions, modes, and nested subcolumns. For example: - column: first_name description: First name mode: REQUIRED type: STRING - column: last_name description: Last name mode: REQUIRED type: STRING - column: addresses description: Addresses mode: REPEATED type: RECORD subcolumns: - column: city description: City mode: NULLABLE type: STRING - column: state description: State mode: NULLABLE type: STRING At most one of these can be specified: Inline schema for the entry. When specifying a schema via this argument, only column names and types should be provided. Column modes will default to NULLABLE, and column descriptions and nested subcolumns are not supported.
+    /// </summary>
+    [CliOption("--schema", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Schema { get; set; }
+
+    /// <summary>
+    /// New column schema for the entry. A schema consists of a list of column names along with their types, descriptions, modes, and nested subcolumns. For example: - column: first_name description: First name mode: REQUIRED type: STRING - column: last_name description: Last name mode: REQUIRED type: STRING - column: addresses description: Addresses mode: REPEATED type: RECORD subcolumns: - column: city description: City mode: NULLABLE type: STRING - column: state description: State mode: NULLABLE type: STRING At most one of these can be specified: Path to a JSON or YAML file containing the schema for the entry. This can be used to specify schemas with column descriptions, column modes other than NULLABLE, and nested subcolumns. Use a full or relative path to a local file containing the value of schema.
+    /// </summary>
+    [CliOption("--schema-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SchemaFromFile { get; set; }
 
 }

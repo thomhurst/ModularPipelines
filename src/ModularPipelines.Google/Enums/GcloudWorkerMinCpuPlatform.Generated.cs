@@ -17,11 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudWorkerMinCpuPlatform
 {
     [EnumValue("SEV")]
-    Sev,
+    Sev = 0,
 
     [EnumValue("SEV_SNP")]
-    SevSnp,
+    SevSnp = 1,
 
     [EnumValue("TDX")]
-    Tdx
+    Tdx = 2,
+
+    [EnumValue("any")]
+    Any = 3,
+
+    [EnumValue("none")]
+    None = 4,
+
+    [EnumValue("specific")]
+    Specific = 5
 }

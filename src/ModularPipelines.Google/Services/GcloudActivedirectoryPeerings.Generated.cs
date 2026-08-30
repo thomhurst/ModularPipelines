@@ -33,6 +33,21 @@ public class GcloudActivedirectoryPeerings
     #region Commands
 
     /// <summary>
+    /// managed Microsoft AD peerings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudActiveDirectoryPeeringsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudActiveDirectoryPeeringsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Managed Microsoft Active     Directory domain peering
     /// </summary>
     /// <param name="options">The command options.</param>

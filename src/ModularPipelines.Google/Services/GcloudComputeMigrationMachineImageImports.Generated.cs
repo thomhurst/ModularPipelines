@@ -33,6 +33,21 @@ public class GcloudComputeMigrationMachineImageImports
     #region Commands
 
     /// <summary>
+    /// imports machine images to     Google Compute Engine from Google Cloud Storage
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeMigrationMachineImageImportsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeMigrationMachineImageImportsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// import machine     images to Google Compute Engine
     /// </summary>
     /// <param name="options">The command options.</param>

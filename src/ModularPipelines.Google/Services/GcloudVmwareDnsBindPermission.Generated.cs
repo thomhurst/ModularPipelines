@@ -33,6 +33,21 @@ public class GcloudVmwareDnsBindPermission
     #region Commands
 
     /// <summary>
+    /// manage DNS binding permission in Google     Cloud VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwareDnsBindPermissionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwareDnsBindPermissionOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// get all users and service     accounts having bind permission
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -23,4 +23,16 @@ public record GcloudComputeBackendServicesDescribeOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: If set, the backend service is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Region of the backend service to describe. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

@@ -24,7 +24,7 @@ public record GcloudSourceReposDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// (REMOVED) If provided, skip the delete confirmation prompt.     The --force option has been removed; use --quiet to suppress prompting.
+    /// (REMOVED) If provided, skip the delete confirmation prompt. The --force option has been removed; use --quiet to suppress prompting.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

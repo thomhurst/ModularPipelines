@@ -24,7 +24,7 @@ public record GcloudPreviewComputeDiskTypesDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Zone of the disk type to describe. Overrides the default compute/zone     property value for this command invocation.
+    /// Zone of the disk type to describe. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }

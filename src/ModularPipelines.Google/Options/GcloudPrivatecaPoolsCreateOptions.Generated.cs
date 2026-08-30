@@ -25,7 +25,7 @@ public record GcloudPrivatecaPoolsCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The full resource name of the Cloud KMS key to use for encrypting     certificate data at rest. The key must be in the same region as the CA     pool.
+    /// The full resource name of the Cloud KMS key to use for encrypting certificate data at rest. The key must be in the same region as the CA pool.
     /// </summary>
     [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionKey { get; set; }
@@ -37,27 +37,27 @@ public record GcloudPrivatecaPoolsCreateOptions(
     public string? IssuancePolicy { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// If this is enabled, the following will happen: 1) The CA certificates     will be written to a known location within the CA distribution point.     2) The AIA extension in all issued certificates will point to the CA     cert URL in that distribition point.     Note that the same bucket may be used for the CRLs if --publish-crl is     set.     Enabled by default, use --no-publish-ca-cert to disable.
+    /// If this is enabled, the following will happen: 1) The CA certificates will be written to a known location within the CA distribution point. 2) The AIA extension in all issued certificates will point to the CA cert URL in that distribition point. Note that the same bucket may be used for the CRLs if --publish-crl is set. Enabled by default, use --no-publish-ca-cert to disable.
     /// </summary>
     [CliFlag("--publish-ca-cert")]
     public bool? PublishCaCert { get; set; }
 
     /// <summary>
-    /// If this gets enabled, the following will happen: 1) CRLs will be     written to a known location within the CA distribution point. 2) The     CDP extension in all future issued certificates will point to the CRL     URL in that distribution point.     Note that the same bucket may be used for the CA cert if     --publish-ca-cert is set.     CRL publication is not supported for CAs in the DevOps tier.     Enabled by default, use --no-publish-crl to disable.
+    /// If this gets enabled, the following will happen: 1) CRLs will be written to a known location within the CA distribution point. 2) The CDP extension in all future issued certificates will point to the CRL URL in that distribution point. Note that the same bucket may be used for the CA cert if --publish-ca-cert is set. CRL publication is not supported for CAs in the DevOps tier. Enabled by default, use --no-publish-crl to disable.
     /// </summary>
     [CliFlag("--publish-crl")]
     public bool? PublishCrl { get; set; }
 
-    [CliOption("--publishing-encoding-format", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("PublishingEncodingFormat is no longer supported by the installed CLI and has no effect.")]
     public string? PublishingEncodingFormat { get; set; }
 
-    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("Tier is no longer supported by the installed CLI and has no effect.")]
     public string? Tier { get; set; }
 
 }

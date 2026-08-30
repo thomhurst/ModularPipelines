@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataprocWorkflowTemplatesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// The duration for which a DAG of jobs can run before being     auto-cancelled, such as "10m" or "16h". See $ gcloud topic datetimes     for information on duration formats.
+    /// The duration for which a DAG of jobs can run before being auto-cancelled, such as "10m" or "16h". See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--dag-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? DagTimeout { get; set; }
@@ -35,7 +35,7 @@ public record GcloudDataprocWorkflowTemplatesCreateOptions : GcloudOptions
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }

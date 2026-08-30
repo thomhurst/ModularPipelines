@@ -15,22 +15,35 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud activedirectory commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudActivedirectory
 {
     /// <summary>
     /// gcloud domains sub-commands.
     /// </summary>
-    GcloudActivedirectoryDomains Domains { get; }
+    GcloudActivedirectoryDomains Domains => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudActivedirectoryOperations Operations { get; }
+    GcloudActivedirectoryOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud peerings sub-commands.
     /// </summary>
-    GcloudActivedirectoryPeerings Peerings { get; }
+    GcloudActivedirectoryPeerings Peerings => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Managed Microsoft AD resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudActiveDirectoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

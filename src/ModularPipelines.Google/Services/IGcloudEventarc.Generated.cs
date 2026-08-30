@@ -15,63 +15,66 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud eventarc commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudEventarc
 {
     /// <summary>
     /// gcloud audit-logs-provider sub-commands.
     /// </summary>
-    GcloudEventarcAuditLogsProvider AuditLogsProvider { get; }
+    GcloudEventarcAuditLogsProvider AuditLogsProvider => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud channel-connections sub-commands.
     /// </summary>
-    GcloudEventarcChannelConnections ChannelConnections { get; }
+    GcloudEventarcChannelConnections ChannelConnections => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud channels sub-commands.
     /// </summary>
-    GcloudEventarcChannels Channels { get; }
+    GcloudEventarcChannels Channels => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud enrollments sub-commands.
     /// </summary>
-    GcloudEventarcEnrollments Enrollments { get; }
+    GcloudEventarcEnrollments Enrollments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud google-api-sources sub-commands.
     /// </summary>
-    GcloudEventarcGoogleApiSources GoogleApiSources { get; }
+    GcloudEventarcGoogleApiSources GoogleApiSources => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud google-channels sub-commands.
     /// </summary>
-    GcloudEventarcGoogleChannels GoogleChannels { get; }
+    GcloudEventarcGoogleChannels GoogleChannels => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudEventarcLocations Locations { get; }
+    GcloudEventarcLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud message-buses sub-commands.
     /// </summary>
-    GcloudEventarcMessageBuses MessageBuses { get; }
+    GcloudEventarcMessageBuses MessageBuses => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud pipelines sub-commands.
     /// </summary>
-    GcloudEventarcPipelines Pipelines { get; }
+    GcloudEventarcPipelines Pipelines => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud providers sub-commands.
     /// </summary>
-    GcloudEventarcProviders Providers { get; }
+    GcloudEventarcProviders Providers => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud triggers sub-commands.
     /// </summary>
-    GcloudEventarcTriggers Triggers { get; }
+    GcloudEventarcTriggers Triggers => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Eventarc resources
@@ -80,9 +83,7 @@ public interface IGcloudEventarc
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudEventarcOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudEventarcOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

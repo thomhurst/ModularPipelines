@@ -33,6 +33,21 @@ public class GcloudContainerVmwareNodePools
     #region Commands
 
     /// <summary>
+    /// create and manage node pools in an     Anthos cluster on VMware
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerVmwareNodePoolsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerVmwareNodePoolsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a node pool in an Anthos     cluster on VMware
     /// </summary>
     /// <param name="options">The command options.</param>

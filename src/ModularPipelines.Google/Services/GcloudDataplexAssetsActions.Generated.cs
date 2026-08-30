@@ -33,6 +33,21 @@ public class GcloudDataplexAssetsActions
     #region Commands
 
     /// <summary>
+    /// manage Dataplex asset resource actions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataplexAssetsActionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataplexAssetsActionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Dataplex asset actions
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -21,12 +21,21 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("storage", "hmac", "list")]
 public record GcloudStorageHmacListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Shows all keys, including recently deleted keys.
+    /// </summary>
     [CliFlag("--all")]
     public bool? All { get; set; }
 
+    /// <summary>
+    /// Use long listing format, showing the full metadata for each key excluding the secret.
+    /// </summary>
     [CliFlag("--long")]
     public bool? Long { get; set; }
 
+    /// <summary>
+    /// Filter keys for the provided service account email.
+    /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 

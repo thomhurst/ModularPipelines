@@ -29,7 +29,7 @@ public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// The etag for the version of the Access Policy that this operation is to     be performed on. If, at the time of the operation, the etag for the     Access Policy stored in Access Context Manager is different from the     specified etag, then the commit operation will not be performed and the     call will fail. If etag is not provided, the operation will be     performed as if a valid etag is provided.
+    /// The etag for the version of the Access Policy that this operation is to be performed on. If, at the time of the operation, the etag for the Access Policy stored in Access Context Manager is different from the specified etag, then the commit operation will not be performed and the call will fail. If etag is not provided, the operation will be performed as if a valid etag is provided.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
@@ -41,9 +41,141 @@ public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions
     public string? Title { get; set; }
 
     /// <summary>
-    /// Type of the perimeter.     A regular perimeter allows resources within this service perimeter to     import and export data amongst themselves. A project may belong to at     most one regular service perimeter.     A bridge perimeter allows resources in different regular service     perimeters to import and export data between each other. A project may     belong to multiple bridge service perimeters (only if it also belongs     to a regular service perimeter). Both restricted and unrestricted     service lists, as well as access level lists, must be empty.     TYPE must be one of: bridge, regular.    These flags modify the member access levels of this perimeter. An   intra-perimeter request must satisfy these access levels (for example,   MY_LEVEL; must be in the same access policy as this perimeter) to be   allowed.    At most one of these can be specified:     --add-access-levels=[LEVEL,...]      Append the given values to the current access levels.     --clear-access-levels      Empty the current access levels.     --remove-access-levels=[LEVEL,...]      Remove the given values from the current access levels.     --set-access-levels=[LEVEL,...]      Completely replace the current access levels with the given values.    These flags modify the member resources of this perimeter. Resources must   be projects, in the form projects/&lt;projectnumber&gt;.    At most one of these can be specified:     --add-resources=[RESOURCES,...]      Append the given values to the current resources.     --clear-resources      Empty the current resources.     --remove-resources=[RESOURCES,...]      Remove the given values from the current resources.     --set-resources=[RESOURCES,...]      Completely replace the current resources with the given values.    These flags modify the member restricted services of this perimeter. The   perimeter boundary DOES apply to these services (for example,   storage.googleapis.com).    At most one of these can be specified:     --add-restricted-services=[SERVICE,...]      Append the given values to the current restricted services.     --clear-restricted-services      Empty the current restricted services.     --remove-restricted-services=[SERVICE,...]      Remove the given values from the current restricted services.     --set-restricted-services=[SERVICE,...]      Completely replace the current restricted services with the given      values.    These flags modify the enforced EgressPolicies of this ServicePerimeter.    At most one of these can be specified:     --clear-egress-policies      Empties existing enforced Egress Policies.     --set-egress-policies=YAML_FILE      Path to a file containing a list of Egress Policies.      This file contains a list of YAML-compliant objects representing      Egress Policies described in the API reference.      For more information about the alpha version, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters      For more information about non-alpha versions, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters    These flags modify the enforced IngressPolicies of this ServicePerimeter.    At most one of these can be specified:     --clear-ingress-policies      Empties existing enforced Ingress Policies.     --set-ingress-policies=YAML_FILE      Path to a file containing a list of Ingress Policies.      This file contains a list of YAML-compliant objects representing      Ingress Policies described in the API reference.      For more information about the alpha version, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters      For more information about non-alpha versions, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters    These flags modify the VpcAccessibleServices of this ServicePerimeter   config.    At most one of these can be specified:     --clear-vpc-accessible-services      Empties existing enforced VpcAccessibleServices.     --set-vpc-accessible-services=YAML_FILE      Path to a file containing a VpcAccessibleServices object.      This file contains a YAML-compliant object representing      VpcAccessibleServices described in the API reference.      For more information about the alpha version, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters      For more information about non-alpha versions, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters     Or at least one of these can be specified:      --enable-vpc-accessible-services       When specified restrict API calls within the Service Perimeter to       the set of vpc allowed services. To disable use       '--no-enable-vpc-accessible-services'.      These flags modify the member vpc allowed services of this perimeter.     Services allowed to be called within the Perimeter when VPC Accessible     Services is enabled      At most one of these can be specified:       --add-vpc-allowed-services=[VPC_SERVICE,...]        Append the given values to the current vpc allowed services.       --clear-vpc-allowed-services        Empty the current vpc allowed services.       --remove-vpc-allowed-services=[VPC_SERVICE,...]        Remove the given values from the current vpc allowed services.
+    /// Type of the perimeter. A regular perimeter allows resources within this service perimeter to import and export data amongst themselves. A project may belong to at most one regular service perimeter. A bridge perimeter allows resources in different regular service perimeters to import and export data between each other. A project may belong to multiple bridge service perimeters (only if it also belongs to a regular service perimeter). Both restricted and unrestricted service lists, as well as access level lists, must be empty. TYPE must be one of: bridge, regular.
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public GcloudType? Type { get; set; }
+
+    /// <summary>
+    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Append the given values to the current access levels.
+    /// </summary>
+    [CliOption("--add-access-levels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddAccessLevels { get; set; }
+
+    /// <summary>
+    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Empty the current access levels.
+    /// </summary>
+    [CliFlag("--clear-access-levels")]
+    public bool? ClearAccessLevels { get; set; }
+
+    /// <summary>
+    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Remove the given values from the current access levels.
+    /// </summary>
+    [CliOption("--remove-access-levels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAccessLevels { get; set; }
+
+    /// <summary>
+    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Completely replace the current access levels with the given values.
+    /// </summary>
+    [CliOption("--set-access-levels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetAccessLevels { get; set; }
+
+    /// <summary>
+    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Append the given values to the current resources.
+    /// </summary>
+    [CliOption("--add-resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddResources { get; set; }
+
+    /// <summary>
+    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Empty the current resources.
+    /// </summary>
+    [CliFlag("--clear-resources")]
+    public bool? ClearResources { get; set; }
+
+    /// <summary>
+    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Remove the given values from the current resources.
+    /// </summary>
+    [CliOption("--remove-resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveResources { get; set; }
+
+    /// <summary>
+    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Completely replace the current resources with the given values.
+    /// </summary>
+    [CliOption("--set-resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetResources { get; set; }
+
+    /// <summary>
+    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Append the given values to the current restricted services.
+    /// </summary>
+    [CliOption("--add-restricted-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddRestrictedServices { get; set; }
+
+    /// <summary>
+    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Empty the current restricted services.
+    /// </summary>
+    [CliFlag("--clear-restricted-services")]
+    public bool? ClearRestrictedServices { get; set; }
+
+    /// <summary>
+    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Remove the given values from the current restricted services.
+    /// </summary>
+    [CliOption("--remove-restricted-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveRestrictedServices { get; set; }
+
+    /// <summary>
+    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Completely replace the current restricted services with the given values.
+    /// </summary>
+    [CliOption("--set-restricted-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetRestrictedServices { get; set; }
+
+    /// <summary>
+    /// These flags modify the enforced EgressPolicies of this ServicePerimeter. At most one of these can be specified: Empties existing enforced Egress Policies.
+    /// </summary>
+    [CliFlag("--clear-egress-policies")]
+    public bool? ClearEgressPolicies { get; set; }
+
+    /// <summary>
+    /// These flags modify the enforced EgressPolicies of this ServicePerimeter. At most one of these can be specified: Path to a file containing a list of Egress Policies. This file contains a list of YAML-compliant objects representing Egress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--set-egress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? SetEgressPolicies { get; set; }
+
+    /// <summary>
+    /// These flags modify the enforced IngressPolicies of this ServicePerimeter. At most one of these can be specified: Empties existing enforced Ingress Policies.
+    /// </summary>
+    [CliFlag("--clear-ingress-policies")]
+    public bool? ClearIngressPolicies { get; set; }
+
+    /// <summary>
+    /// These flags modify the enforced IngressPolicies of this ServicePerimeter. At most one of these can be specified: Path to a file containing a list of Ingress Policies. This file contains a list of YAML-compliant objects representing Ingress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--set-ingress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? SetIngressPolicies { get; set; }
+
+    /// <summary>
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Empties existing enforced VpcAccessibleServices.
+    /// </summary>
+    [CliFlag("--clear-vpc-accessible-services")]
+    public bool? ClearVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Path to a file containing a VpcAccessibleServices object. This file contains a YAML-compliant object representing VpcAccessibleServices described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--set-vpc-accessible-services", Format = OptionFormat.EqualsSeparated)]
+    public string? SetVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: When specified restrict API calls within the Service Perimeter to the set of vpc allowed services. To disable use '--no-enable-vpc-accessible-services'.
+    /// </summary>
+    [CliFlag("--enable-vpc-accessible-services")]
+    public bool? EnableVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Append the given values to the current vpc allowed services.
+    /// </summary>
+    [CliOption("--add-vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddVpcAllowedServices { get; set; }
+
+    /// <summary>
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Empty the current vpc allowed services.
+    /// </summary>
+    [CliFlag("--clear-vpc-allowed-services")]
+    public bool? ClearVpcAllowedServices { get; set; }
+
+    /// <summary>
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Remove the given values from the current vpc allowed services.
+    /// </summary>
+    [CliOption("--remove-vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveVpcAllowedServices { get; set; }
 
 }

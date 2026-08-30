@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ml commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudMl
 {
     /// <summary>
     /// gcloud language sub-commands.
     /// </summary>
-    GcloudMlLanguage Language { get; }
+    GcloudMlLanguage Language => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud speech sub-commands.
     /// </summary>
-    GcloudMlSpeech Speech { get; }
+    GcloudMlSpeech Speech => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud video sub-commands.
     /// </summary>
-    GcloudMlVideo Video { get; }
+    GcloudMlVideo Video => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud vision sub-commands.
     /// </summary>
-    GcloudMlVision Vision { get; }
+    GcloudMlVision Vision => throw new System.NotSupportedException();
 
     /// <summary>
     /// use Google Cloud machine learning capabilities
@@ -45,9 +48,7 @@ public interface IGcloudMl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudMlOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudMlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

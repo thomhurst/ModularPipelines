@@ -33,6 +33,21 @@ public class GcloudDeploymentmanagerManifests
     #region Commands
 
     /// <summary>
+    /// commands for Deployment Manager     manifests
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDeploymentManagerManifestsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeploymentManagerManifestsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// provide information about a     manifest
     /// </summary>
     /// <param name="options">The command options.</param>

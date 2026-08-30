@@ -23,13 +23,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIdentityGroupsMembershipsListOptions : GcloudOptions
 {
     /// <summary>
-    /// The next_page_token value returned from a previous list request, if     any.
+    /// The next_page_token value returned from a previous list request, if any.
     /// </summary>
     [SecretValue]
     [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
     public string? PageToken { get; set; }
 
-    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("View is no longer supported by the installed CLI and has no effect.")]
     public string? View { get; set; }
 
 }

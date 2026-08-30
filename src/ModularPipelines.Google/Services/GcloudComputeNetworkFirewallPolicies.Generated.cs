@@ -55,6 +55,21 @@ public class GcloudComputeNetworkFirewallPolicies
     #region Commands
 
     /// <summary>
+    /// manage Compute Engine network     firewall policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeNetworkFirewallPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeNetworkFirewallPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// replace the rules of     a Compute Engine network firewall policy with rules from another policy
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -202,6 +217,21 @@ public class GcloudComputeNetworkFirewallPolicies
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine network firewall policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudComputeNetworkFirewallPoliciesTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeNetworkFirewallPoliciesTestIamPermissionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

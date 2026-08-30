@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLogActionStates
 {
     [EnumValue("failed")]
-    Failed,
+    Failed = 0,
 
     [EnumValue("skipped")]
-    Skipped,
+    Skipped = 1,
 
     [EnumValue("succeeded")]
-    Succeeded
+    Succeeded = 2
 }

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesSharedTemplatesListOptions : GcloudOptions
 {
     /// <summary>
-    /// The location id of the space resource.     To set the location attribute:     ◆ provide the argument --space on the command line with a fully      specified name;     ◆ provide the argument --location on the command line.
+    /// The location id of the space resource. To set the location attribute: ◆ provide the argument --space on the command line with a fully specified name; ◆ provide the argument --location on the command line.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

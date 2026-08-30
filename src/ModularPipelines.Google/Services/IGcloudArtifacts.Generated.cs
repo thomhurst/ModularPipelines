@@ -15,113 +15,116 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud artifacts commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudArtifacts
 {
     /// <summary>
     /// gcloud apt sub-commands.
     /// </summary>
-    GcloudArtifactsApt Apt { get; }
+    GcloudArtifactsApt Apt => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud attachments sub-commands.
     /// </summary>
-    GcloudArtifactsAttachments Attachments { get; }
+    GcloudArtifactsAttachments Attachments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud docker sub-commands.
     /// </summary>
-    GcloudArtifactsDocker Docker { get; }
+    GcloudArtifactsDocker Docker => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud files sub-commands.
     /// </summary>
-    GcloudArtifactsFiles Files { get; }
+    GcloudArtifactsFiles Files => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud generic sub-commands.
     /// </summary>
-    GcloudArtifactsGeneric Generic { get; }
+    GcloudArtifactsGeneric Generic => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud go sub-commands.
     /// </summary>
-    GcloudArtifactsGo Go { get; }
+    GcloudArtifactsGo Go => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud image-streaming-cache sub-commands.
     /// </summary>
-    GcloudArtifactsImageStreamingCache ImageStreamingCache { get; }
+    GcloudArtifactsImageStreamingCache ImageStreamingCache => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudArtifactsLocations Locations { get; }
+    GcloudArtifactsLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudArtifactsOperations Operations { get; }
+    GcloudArtifactsOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud packages sub-commands.
     /// </summary>
-    GcloudArtifactsPackages Packages { get; }
+    GcloudArtifactsPackages Packages => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud print-settings sub-commands.
     /// </summary>
-    GcloudArtifactsPrintSettings PrintSettings { get; }
+    GcloudArtifactsPrintSettings PrintSettings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud projects sub-commands.
     /// </summary>
-    GcloudArtifactsProjects Projects { get; }
+    GcloudArtifactsProjects Projects => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud repositories sub-commands.
     /// </summary>
-    GcloudArtifactsRepositories Repositories { get; }
+    GcloudArtifactsRepositories Repositories => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud rules sub-commands.
     /// </summary>
-    GcloudArtifactsRules Rules { get; }
+    GcloudArtifactsRules Rules => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud sbom sub-commands.
     /// </summary>
-    GcloudArtifactsSbom Sbom { get; }
+    GcloudArtifactsSbom Sbom => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud settings sub-commands.
     /// </summary>
-    GcloudArtifactsSettings Settings { get; }
+    GcloudArtifactsSettings Settings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tags sub-commands.
     /// </summary>
-    GcloudArtifactsTags Tags { get; }
+    GcloudArtifactsTags Tags => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud versions sub-commands.
     /// </summary>
-    GcloudArtifactsVersions Versions { get; }
+    GcloudArtifactsVersions Versions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud vpcsc-config sub-commands.
     /// </summary>
-    GcloudArtifactsVpcscConfig VpcscConfig { get; }
+    GcloudArtifactsVpcscConfig VpcscConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud vulnerabilities sub-commands.
     /// </summary>
-    GcloudArtifactsVulnerabilities Vulnerabilities { get; }
+    GcloudArtifactsVulnerabilities Vulnerabilities => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud yum sub-commands.
     /// </summary>
-    GcloudArtifactsYum Yum { get; }
+    GcloudArtifactsYum Yum => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Artifact Registry resources
@@ -130,9 +133,7 @@ public interface IGcloudArtifacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudArtifactsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudArtifactsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -23,31 +23,73 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The logging config of the Google API source. LOGGING_CONFIG must be one     of: NONE, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT,     EMERGENCY.
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. The logging config of the Google API source. LOGGING_CONFIG must be one of: NONE, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY.
     /// </summary>
     [CliOption("--logging-config", Format = OptionFormat.EqualsSeparated)]
     public string? LoggingConfig { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-crypto-key      Remove the previously configured crypto key. The channel will      continue to be encrypted using Google-managed keys.     --crypto-key=CRYPTO_KEY      Fully qualified name of the crypto key to use for customer-managed      encryption. If this is unspecified, Google-managed keys will be used      for encryption.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud eventarc google-api-sources update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud eventarc google-api-sources update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --clear-project-subscriptions      Clear the project subscriptions for the resource.     --[no-]organization-subscription      The organization subscription for the resource. Use      --organization-subscription to enable and      --no-organization-subscription to disable.     --project-subscriptions=GAS_PROJECT_SUBSCRIPTION,[...]      The project subscriptions for the resource.    Message bus resource - The destination message bus of the Google API   source. The arguments in this group can be used to specify the attributes   of this resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the location attribute:    ◆ provide the argument --destination-message-bus on the command line     with a fully specified name;    ◆ provide the argument --location on the command line;    ◆ set the property eventarc/location.
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// ID of the message bus or fully qualified identifier for the message     bus.     To set the message-bus attribute:     ◆ provide the argument --destination-message-bus on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. At most one of these can be specified: Remove the previously configured crypto key. The channel will continue to be encrypted using Google-managed keys.
+    /// </summary>
+    [CliFlag("--clear-crypto-key")]
+    public bool? ClearCryptoKey { get; set; }
+
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. At most one of these can be specified: Fully qualified name of the crypto key to use for customer-managed encryption. If this is unspecified, Google-managed keys will be used for encryption.
+    /// </summary>
+    [CliOption("--crypto-key", Format = OptionFormat.EqualsSeparated)]
+    public string? CryptoKey { get; set; }
+
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud eventarc google-api-sources update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud eventarc google-api-sources update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. At most one of these can be specified: Clear the project subscriptions for the resource.
+    /// </summary>
+    [CliFlag("--clear-project-subscriptions")]
+    public bool? ClearProjectSubscriptions { get; set; }
+
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. At most one of these can be specified: The organization subscription for the resource. Use --organization-subscription to enable and --no-organization-subscription to disable.
+    /// </summary>
+    [CliFlag("--organization-subscription")]
+    public bool? OrganizationSubscription { get; set; }
+
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. At most one of these can be specified: The project subscriptions for the resource.
+    /// </summary>
+    [CliOption("--project-subscriptions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ProjectSubscriptions { get; set; }
+
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ◆ provide the argument --destination-message-bus on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--destination-message-bus", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationMessageBus { get; set; }
 
     /// <summary>
-    /// Project ID of the Google Cloud project for the message bus.     To set the project attribute:     ◆ provide the argument --destination-message-bus on the command line      with a fully specified name;     ◆ provide the argument --destination-message-bus-project on the      command line;     ◆ provide the argument --project on the command line;     ◆ set the property core/project.
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. Project ID of the Google Cloud project for the message bus. To set the project attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --destination-message-bus-project on the command line; ◆ provide the argument --project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--destination-message-bus-project", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationMessageBusProject { get; set; }

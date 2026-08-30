@@ -33,6 +33,21 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
     #region Commands
 
     /// <summary>
+    /// create enterprise     certificate configurations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAuthEnterpriseCertificateConfigCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuthEnterpriseCertificateConfigCreateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create an     enterprise-certificate configuration file for Linux
     /// </summary>
     /// <param name="options">The command options.</param>

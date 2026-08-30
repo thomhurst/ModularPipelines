@@ -33,6 +33,21 @@ public class GcloudKmsSingleTenantHsmProposal
     #region Commands
 
     /// <summary>
+    /// commands for managing single tenant     HSM instance proposals
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudKmsSingleTenantHsmProposalOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsSingleTenantHsmProposalOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// approve a single tenant HSM     instance proposal
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -99,12 +114,21 @@ public class GcloudKmsSingleTenantHsmProposal
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExecuteAsync(
+    public virtual async Task<CommandResult> ExecuteCommandAsync(
         GcloudKmsSingleTenantHsmProposalExecuteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsSingleTenantHsmProposalExecuteOptions(), executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use ExecuteCommandAsync instead.")]
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudKmsSingleTenantHsmProposalExecuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

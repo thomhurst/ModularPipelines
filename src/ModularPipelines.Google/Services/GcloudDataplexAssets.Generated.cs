@@ -43,6 +43,21 @@ public class GcloudDataplexAssets
     #region Commands
 
     /// <summary>
+    /// manage Dataplex Asset resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataplexAssetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataplexAssetsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// adds IAM policy binding to     a Dataplex asset resource
     /// </summary>
     /// <param name="options">The command options.</param>

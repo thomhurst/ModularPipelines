@@ -33,6 +33,21 @@ public class GcloudVmwarePrivateCloudsLoggingServers
     #region Commands
 
     /// <summary>
+    /// server in     Google Cloud VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwarePrivateCloudsLoggingServersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsLoggingServersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Google Cloud     VMware Engine logging-server
     /// </summary>
     /// <param name="options">The command options.</param>

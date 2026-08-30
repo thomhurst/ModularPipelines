@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecuritySecurityProfilesExportOptions : GcloudOptions
 {
     /// <summary>
-    /// Path to a YAML file where the configuration will be exported.     Alternatively, you may omit this flag to write to standard output. For     a schema describing the export/import format, see:     $CLOUDSDKROOT/lib/googlecloudsdk/schemas/networksecurity/v1/SecurityProfile.yaml.
+    /// Path to a YAML file where the configuration will be exported. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/networksecurity/v1/SecurityProfile.yaml.
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }

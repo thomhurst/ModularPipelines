@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudShareSetting
 {
     [EnumValue("projects")]
-    Projects,
+    Projects = 0,
 
     [EnumValue("organization")]
-    Organization,
+    Organization = 1,
 
     [EnumValue("local")]
-    Local
+    Local = 2
 }

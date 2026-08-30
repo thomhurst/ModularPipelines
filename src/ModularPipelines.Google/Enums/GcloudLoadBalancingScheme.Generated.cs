@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLoadBalancingScheme
 {
     [EnumValue("EXTERNAL")]
-    External,
+    External = 0,
 
     [EnumValue("EXTERNAL_MANAGED")]
-    ExternalManaged
+    ExternalManaged = 1
 }

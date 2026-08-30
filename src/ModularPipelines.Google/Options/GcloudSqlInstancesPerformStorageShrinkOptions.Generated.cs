@@ -24,13 +24,13 @@ public record GcloudSqlInstancesPerformStorageShrinkOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The target storage size must be an integer that represents the number     of GB. For example, --storage-size=10GB. Only supported for primary or     standalone instances. You can't set a target storage size for a replica     instance.
+    /// The target storage size must be an integer that represents the number of GB. For example, --storage-size=10GB. Only supported for primary or standalone instances. You can't set a target storage size for a replica instance.
     /// </summary>
     [CliOption("--storage-size", Format = OptionFormat.EqualsSeparated)]
     public int? StorageSize { get; set; }

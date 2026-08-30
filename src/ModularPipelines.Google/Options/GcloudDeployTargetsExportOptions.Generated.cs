@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeployTargetsExportOptions : GcloudOptions
 {
     /// <summary>
-    /// Path to a YAML file where the configuration will be exported.     Alternatively, you may omit this flag to write to standard output.
+    /// Path to a YAML file where the configuration will be exported. Alternatively, you may omit this flag to write to standard output.
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }

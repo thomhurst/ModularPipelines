@@ -15,42 +15,55 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud accesscontextmanager commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudAccesscontextmanager
 {
     /// <summary>
     /// gcloud authorized-orgs sub-commands.
     /// </summary>
-    GcloudAccesscontextmanagerAuthorizedOrgs AuthorizedOrgs { get; }
+    GcloudAccesscontextmanagerAuthorizedOrgs AuthorizedOrgs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud cloud-bindings sub-commands.
     /// </summary>
-    GcloudAccesscontextmanagerCloudBindings CloudBindings { get; }
+    GcloudAccesscontextmanagerCloudBindings CloudBindings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud levels sub-commands.
     /// </summary>
-    GcloudAccesscontextmanagerLevels Levels { get; }
+    GcloudAccesscontextmanagerLevels Levels => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud perimeters sub-commands.
     /// </summary>
-    GcloudAccesscontextmanagerPerimeters Perimeters { get; }
+    GcloudAccesscontextmanagerPerimeters Perimeters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud policies sub-commands.
     /// </summary>
-    GcloudAccesscontextmanagerPolicies Policies { get; }
+    GcloudAccesscontextmanagerPolicies Policies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud supported-permissions sub-commands.
     /// </summary>
-    GcloudAccesscontextmanagerSupportedPermissions SupportedPermissions { get; }
+    GcloudAccesscontextmanagerSupportedPermissions SupportedPermissions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud supported-services sub-commands.
     /// </summary>
-    GcloudAccesscontextmanagerSupportedServices SupportedServices { get; }
+    GcloudAccesscontextmanagerSupportedServices SupportedServices => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Access Context Manager resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudAccessContextManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -33,6 +33,21 @@ public class GcloudDesigncenterLocations
     #region Commands
 
     /// <summary>
+    /// manage Design Center Locations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDesignCenterLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterLocationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Design Center location
     /// </summary>
     /// <param name="options">The command options.</param>

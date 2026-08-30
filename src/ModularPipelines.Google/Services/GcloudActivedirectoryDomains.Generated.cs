@@ -49,6 +49,21 @@ public class GcloudActivedirectoryDomains
     #region Commands
 
     /// <summary>
+    /// manage Managed Microsoft AD domains
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudActiveDirectoryDomainsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudActiveDirectoryDomainsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Managed Microsoft AD     domain
     /// </summary>
     /// <param name="options">The command options.</param>

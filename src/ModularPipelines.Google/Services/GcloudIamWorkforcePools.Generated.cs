@@ -55,6 +55,21 @@ public class GcloudIamWorkforcePools
     #region Commands
 
     /// <summary>
+    /// create and manage workforce pools
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIamWorkforcePoolsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkforcePoolsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a configuration file     for generated credentials
     /// </summary>
     /// <param name="options">The command options.</param>

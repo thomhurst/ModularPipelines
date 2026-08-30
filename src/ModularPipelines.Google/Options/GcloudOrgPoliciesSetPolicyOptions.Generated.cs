@@ -24,7 +24,7 @@ public record GcloudOrgPoliciesSetPolicyOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Field mask used to specify the fields to be overwritten in the policy     by the set. The fields specified in the update_mask are relative to the     policy, not the full request. The update-mask flag can be empty, or     have values policy.spec, policy.dry_run_spec or *. If the policy does     not contain the dry_run_spec and update-mask flag is not provided, then     it defaults to policy.spec.
+    /// Field mask used to specify the fields to be overwritten in the policy by the set. The fields specified in the update_mask are relative to the policy, not the full request. The update-mask flag can be empty, or have values policy.spec, policy.dry_run_spec or *. If the policy does not contain the dry_run_spec and update-mask flag is not provided, then it defaults to policy.spec.
     /// </summary>
     [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMask { get; set; }

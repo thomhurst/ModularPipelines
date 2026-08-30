@@ -33,6 +33,21 @@ public class GcloudAccesscontextmanagerPerimetersDryRun
     #region Commands
 
     /// <summary>
+    /// enable management of     dry-run mode configuration for Service Perimeters
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAccessContextManagerPerimetersDryRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAccessContextManagerPerimetersDryRunOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// run     mode configuration for a new or existing Service Perimeter
     /// </summary>
     /// <param name="options">The command options.</param>

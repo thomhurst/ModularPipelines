@@ -33,6 +33,21 @@ public class GcloudAssetSavedQueries
     #region Commands
 
     /// <summary>
+    /// manage Cloud Asset Inventory saved queries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAssetSavedQueriesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAssetSavedQueriesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud Asset Inventory saved     query
     /// </summary>
     /// <param name="options">The command options.</param>

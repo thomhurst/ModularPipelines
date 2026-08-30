@@ -24,15 +24,63 @@ public record GcloudPreviewComputeTargetSslProxiesUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// A backend service that will be used for connections to the target SSL     proxy.
+    /// A backend service that will be used for connections to the target SSL proxy.
     /// </summary>
     [CliOption("--backend-service", Format = OptionFormat.EqualsSeparated)]
     public string? BackendService { get; set; }
 
     /// <summary>
-    /// The type of proxy protocol header to be sent to the backend.     PROXY_HEADER must be one of:      NONE       No proxy header is added.     PROXY_V1       Enables PROXY protocol (version 1) for passing client connection       information.    At most one of these can be specified:     --clear-ssl-policy      Removes any attached SSL policy from the SSL proxy.     Or at least one of these can be specified:      --ssl-policy=SSL_POLICY       A reference to an SSL policy resource that defines the server-side       support for SSL features and affects the connections between       clients and load balancers that are using the SSL proxy. The SSL       policy must exist and cannot be deleted while referenced by a       target SSL proxy.      At most one of these can be specified:       --global-ssl-policy        If set, the SSL policy is global.       --ssl-policy-region=SSL_POLICY_REGION        Region of the SSL policy to operate on. Overrides the default        compute/region property value for this command invocation.    At most one of these can be specified:     --ssl-certificates=SSL_CERTIFICATE,[...]      References to at most 15 SSL certificate resources that are used for      server-side authentication. The first SSL certificate in this list is      considered the primary SSL certificate associated with the load      balancer. The SSL certificates must exist and cannot be deleted while      referenced by a target SSL proxy.     --clear-ssl-certificates      Remove any attached SSL certificates from the SSL proxy.     Or at least one of these can be specified:      Certificate map resource - The certificate map to attach. This     represents a Cloud resource. (NOTE) Some attributes are not given     arguments in this group but can be set in other ways.      To set the project attribute:      ▫ provide the argument --certificate-map on the command line with a       fully specified name;      ▫ provide the argument --project on the command line;      ▫ set the property core/project.      To set the location attribute:      ▫ provide the argument --certificate-map on the command line with a       fully specified name;      ▫ default value of location is [global].      --certificate-map=CERTIFICATE_MAP       ID of the certificate map or fully qualified identifier for the       certificate map.       To set the map attribute:       ▫ provide the argument --certificate-map on the command line.     --clear-certificate-map      Removes any attached certificate map from the SSL proxy.
+    /// The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Enables PROXY protocol (version 1) for passing client connection information.
     /// </summary>
     [CliOption("--proxy-header", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyHeader { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Removes any attached SSL policy from the SSL proxy.
+    /// </summary>
+    [CliFlag("--clear-ssl-policy")]
+    public bool? ClearSslPolicy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: A reference to an SSL policy resource that defines the server-side support for SSL features and affects the connections between clients and load balancers that are using the SSL proxy. The SSL policy must exist and cannot be deleted while referenced by a target SSL proxy.
+    /// </summary>
+    [CliOption("--ssl-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPolicy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: If set, the SSL policy is global.
+    /// </summary>
+    [CliFlag("--global-ssl-policy")]
+    public bool? GlobalSslPolicy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Region of the SSL policy to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--ssl-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPolicyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target SSL proxy.
+    /// </summary>
+    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SslCertificates { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove any attached SSL certificates from the SSL proxy.
+    /// </summary>
+    [CliFlag("--clear-ssl-certificates")]
+    public bool? ClearSslCertificates { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --certificate-map on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the location attribute: ▫ provide the argument --certificate-map on the command line with a fully specified name; ▫ default value of location is [global]. ID of the certificate map or fully qualified identifier for the certificate map. To set the map attribute: ▫ provide the argument --certificate-map on the command line.
+    /// </summary>
+    [CliOption("--certificate-map", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificateMap { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Removes any attached certificate map from the SSL proxy.
+    /// </summary>
+    [CliFlag("--clear-certificate-map")]
+    public bool? ClearCertificateMap { get; set; }
 
 }

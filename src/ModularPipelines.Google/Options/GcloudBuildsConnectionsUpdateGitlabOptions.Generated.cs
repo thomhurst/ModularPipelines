@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBuildsConnectionsUpdateGitlabOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -42,14 +42,14 @@ public record GcloudBuildsConnectionsUpdateGitlabOptions : GcloudOptions
     public string? HostUri { get; set; }
 
     /// <summary>
-    /// Secret containing the read_repository personal access token. Required     for GitLab Enterprise versions older than 13.10.
+    /// Secret containing the read_repository personal access token. Required for GitLab Enterprise versions older than 13.10.
     /// </summary>
     [SecretValue]
     [CliOption("--read-authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? ReadAuthorizerTokenSecretVersion { get; set; }
 
     /// <summary>
-    /// Service Directory service resource to use for accessing the GitLab     Enterprise Server. Necessary only if the server has no public access     from the internet.
+    /// Service Directory service resource to use for accessing the GitLab Enterprise Server. Necessary only if the server has no public access from the internet.
     /// </summary>
     [CliOption("--service-directory-service", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceDirectoryService { get; set; }

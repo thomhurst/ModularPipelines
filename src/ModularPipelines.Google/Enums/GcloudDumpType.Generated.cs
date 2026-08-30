@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDumpType
 {
     [EnumValue("LOGICAL")]
-    Logical,
+    Logical = 0,
 
     [EnumValue("PHYSICAL")]
-    Physical
+    Physical = 1
 }

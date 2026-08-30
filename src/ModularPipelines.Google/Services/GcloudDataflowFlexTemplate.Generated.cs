@@ -33,6 +33,21 @@ public class GcloudDataflowFlexTemplate
     #region Commands
 
     /// <summary>
+    /// a group of subcommands for working with     Dataflow flex template
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataflowFlexTemplateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataflowFlexTemplateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// builds a flex template file from the     specified parameters
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAnthosConfigOperationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the operation-list or fully qualified identifier for the     operation-list.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ use global location.
+    /// Operation list resource - List of Anthos Config Controller operations. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ use global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Operation list resource - List of Anthos Config Controller operations. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ use global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the operation-list or fully qualified identifier for the operation-list. To set the location attribute: ◆ provide the argument --location on the command line; ◆ use global location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

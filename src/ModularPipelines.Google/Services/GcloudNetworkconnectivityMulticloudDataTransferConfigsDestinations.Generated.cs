@@ -33,6 +33,21 @@ public class GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations
     #region Commands
 
     /// <summary>
+    /// manage Destination resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// configs destinations     create - create a destination
     /// </summary>
     /// <param name="options">The command options.</param>

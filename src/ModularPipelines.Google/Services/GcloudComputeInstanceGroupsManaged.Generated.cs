@@ -61,6 +61,21 @@ public class GcloudComputeInstanceGroupsManaged
     #region Commands
 
     /// <summary>
+    /// read and manipulate Compute Engine     managed instance groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInstanceGroupsManagedOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInstanceGroupsManagedOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// abandon     instances owned by a managed instance group
     /// </summary>
     /// <param name="options">The command options.</param>

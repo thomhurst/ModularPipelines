@@ -25,13 +25,13 @@ public record GcloudIapWebSetIamPolicyOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Region name. Not applicable for resource-type=app-engine. Required when     resource-type=backend-services and regional scoped. Not applicable for     global backend-services. Required when resource-type=cloud-run.
+    /// Region name. Not applicable for resource-type=app-engine. Required when resource-type=backend-services and regional scoped. Not applicable for global backend-services. Required when resource-type=cloud-run.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Resource type of the IAP resource. RESOURCE_TYPE must be one of:     app-engine, backend-services, forwarding-rule, cloud-run,     agent-registry.
+    /// Resource type of the IAP resource. RESOURCE_TYPE must be one of: app-engine, backend-services, forwarding-rule, cloud-run, agent-registry.
     /// </summary>
     [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudResourceType? ResourceType { get; set; }
@@ -43,9 +43,27 @@ public record GcloudIapWebSetIamPolicyOptions(
     public string? Service { get; set; }
 
     /// <summary>
-    /// Service version. Should only be specified with     --resource-type=app-engine.    At most one of these can be specified:     --agent=AGENT      Agent ID for the agent-registry resource type.     --endpoint=ENDPOINT      Endpoint ID for the agent-registry resource type.     --mcp-server=MCP_SERVER      MCP server ID for the agent-registry resource type.
+    /// Service version. Should only be specified with --resource-type=app-engine.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Agent ID for the agent-registry resource type.
+    /// </summary>
+    [CliOption("--agent", Format = OptionFormat.EqualsSeparated)]
+    public string? Agent { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Endpoint ID for the agent-registry resource type.
+    /// </summary>
+    [CliOption("--endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? Endpoint { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: MCP server ID for the agent-registry resource type.
+    /// </summary>
+    [CliOption("--mcp-server", Format = OptionFormat.EqualsSeparated)]
+    public string? McpServer { get; set; }
 
 }

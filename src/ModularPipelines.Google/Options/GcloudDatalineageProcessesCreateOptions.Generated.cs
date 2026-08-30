@@ -39,7 +39,7 @@ public record GcloudDatalineageProcessesCreateOptions : GcloudOptions
     [CliOption("--origin-name", Format = OptionFormat.EqualsSeparated)]
     public string? OriginName { get; set; }
 
-    [CliOption("--origin-source-type", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("OriginSourceType is no longer supported by the installed CLI and has no effect.")]
     public string? OriginSourceType { get; set; }
 
 }

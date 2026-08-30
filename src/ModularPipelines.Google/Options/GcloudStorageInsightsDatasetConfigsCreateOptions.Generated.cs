@@ -23,4 +23,11 @@ public record GcloudStorageInsightsDatasetConfigsCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DatasetConfigName
 ) : GcloudOptions
 {
+    [Obsolete("Use DatasetConfigName instead.")]
+    public string DataSetConfigName
+    {
+        get => DatasetConfigName;
+        init => DatasetConfigName = value;
+    }
+
 }

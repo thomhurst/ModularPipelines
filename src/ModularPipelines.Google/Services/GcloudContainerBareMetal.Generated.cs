@@ -57,4 +57,23 @@ public class GcloudContainerBareMetal
     public GcloudContainerBareMetalOperations Operations => _operations ??= new GcloudContainerBareMetalOperations(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// deploy and manage Anthos clusters on bare     metal for running containers
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerBareMetalOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerBareMetalOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

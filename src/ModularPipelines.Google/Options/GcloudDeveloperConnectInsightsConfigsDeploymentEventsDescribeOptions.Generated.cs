@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// If true, enriches the deployment event with vulnerability and package     dependency details from Container Analysis.
+    /// If true, enriches the deployment event with vulnerability and package dependency details from Container Analysis.
     /// </summary>
     [CliFlag("--show-details")]
     public bool? ShowDetails { get; set; }

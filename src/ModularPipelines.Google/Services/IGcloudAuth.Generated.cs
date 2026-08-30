@@ -15,18 +15,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud auth commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudAuth
 {
     /// <summary>
     /// gcloud application-default sub-commands.
     /// </summary>
-    GcloudAuthApplicationDefault ApplicationDefault { get; }
+    GcloudAuthApplicationDefault ApplicationDefault => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud enterprise-certificate-config sub-commands.
     /// </summary>
-    GcloudAuthEnterpriseCertificateConfig EnterpriseCertificateConfig { get; }
+    GcloudAuthEnterpriseCertificateConfig EnterpriseCertificateConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage oauth2 credentials for the Google Cloud CLI
@@ -35,10 +38,8 @@ public interface IGcloudAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudAuthOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudAuthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// authorize access to Google Cloud     with a service account
@@ -47,10 +48,8 @@ public interface IGcloudAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ActivateServiceAccountAsync(
-        GcloudAuthActivateServiceAccountOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ActivateServiceAccountAsync(GcloudAuthActivateServiceAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// register gcloud as a Docker credential     helper
@@ -59,10 +58,8 @@ public interface IGcloudAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConfigureDockerAsync(
-        GcloudAuthConfigureDockerOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ConfigureDockerAsync(GcloudAuthConfigureDockerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// lists credentialed accounts
@@ -71,10 +68,8 @@ public interface IGcloudAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        GcloudAuthListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(GcloudAuthListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// authorize gcloud to access the Cloud Platform with     Google user credentials
@@ -83,10 +78,8 @@ public interface IGcloudAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LoginAsync(
-        GcloudAuthLoginOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> LoginAsync(GcloudAuthLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// print an access token for the specified     account
@@ -95,10 +88,8 @@ public interface IGcloudAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PrintAccessTokenAsync(
-        GcloudAuthPrintAccessTokenOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> PrintAccessTokenAsync(GcloudAuthPrintAccessTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// print an identity token for the     specified account
@@ -107,10 +98,8 @@ public interface IGcloudAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PrintIdentityTokenAsync(
-        GcloudAuthPrintIdentityTokenOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> PrintIdentityTokenAsync(GcloudAuthPrintIdentityTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// revoke access credentials for an account
@@ -119,9 +108,7 @@ public interface IGcloudAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RevokeAsync(
-        GcloudAuthRevokeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RevokeAsync(GcloudAuthRevokeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

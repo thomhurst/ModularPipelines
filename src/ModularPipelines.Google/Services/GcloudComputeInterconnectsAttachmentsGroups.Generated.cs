@@ -33,6 +33,21 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     #region Commands
 
     /// <summary>
+    /// create or manipulate     interconnect attachment groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInterconnectsAttachmentsGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInterconnectsAttachmentsGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add member     interconnect attachments to a Compute Engine interconnect attachment     group
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -131,6 +146,21 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMembersAsync(
         GcloudComputeInterconnectsAttachmentsGroupsRemoveMembersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set the     IAM policy for a Compute Engine interconnect attachment group
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicyAsync(
+        GcloudComputeInterconnectsAttachmentsGroupsSetIamPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

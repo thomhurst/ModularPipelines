@@ -17,8 +17,17 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudNicType
 {
     [EnumValue("VIRTIGO_NET")]
-    VirtigoNet,
+    VirtigoNet = 0,
 
     [EnumValue("GVNIC")]
-    Gvnic
+    Gvnic = 1,
+
+    [EnumValue("none")]
+    None = 2,
+
+    [EnumValue("any")]
+    Any = 3,
+
+    [EnumValue("specific")]
+    Specific = 4
 }

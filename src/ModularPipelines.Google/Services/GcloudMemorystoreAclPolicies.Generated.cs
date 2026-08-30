@@ -21,6 +21,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMemorystoreAclPolicies
 {
     private readonly ICommandContext _command;
+    private GcloudMemorystoreAclPoliciesRevisions? _revisions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMemorystoreAclPolicies"/> class.
@@ -30,7 +31,31 @@ public class GcloudMemorystoreAclPolicies
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud revisions sub-commands.
+    /// </summary>
+    public GcloudMemorystoreAclPoliciesRevisions Revisions => _revisions ??= new GcloudMemorystoreAclPoliciesRevisions(_command);
+
+    #endregion
+
     #region Commands
+
+    /// <summary>
+    /// manage Acl Policy resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudMemorystoreAclPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMemorystoreAclPoliciesOptions(), executionOptions, cancellationToken);
+    }
 
     /// <summary>
     /// create aclPolicies

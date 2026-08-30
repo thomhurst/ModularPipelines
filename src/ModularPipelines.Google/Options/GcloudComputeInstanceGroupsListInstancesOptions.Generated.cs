@@ -23,7 +23,22 @@ public record GcloudComputeInstanceGroupsListInstancesOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// A regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out.
+    /// </summary>
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
     public string? Regexp { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
 
 }

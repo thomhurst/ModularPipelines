@@ -24,19 +24,19 @@ public record GcloudComputeInstancesSimulateMaintenanceEventOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Send an extended notification before simulating a host maintenance     event on a Compute Engine VM.
+    /// Send an extended notification before simulating a host maintenance event on a Compute Engine VM.
     /// </summary>
     [CliOption("--with-extended-notifications", Format = OptionFormat.EqualsSeparated)]
     public string? WithExtendedNotifications { get; set; }
 
     /// <summary>
-    /// Zone of the instances to operate on. If not specified, you might be     prompted to select a zone (interactive mode only). gcloud attempts to     identify the appropriate zone by searching for resources in your     currently active project. If the zone cannot be determined, gcloud     prompts you for a selection with all available Google Cloud Platform     zones.     To avoid prompting when this flag is omitted, the user can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.
+    /// Zone of the instances to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }

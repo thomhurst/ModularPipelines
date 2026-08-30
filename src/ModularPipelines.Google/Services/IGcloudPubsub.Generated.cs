@@ -15,53 +15,56 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud pubsub commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudPubsub
 {
     /// <summary>
     /// gcloud lite-operations sub-commands.
     /// </summary>
-    GcloudPubsubLiteOperations LiteOperations { get; }
+    GcloudPubsubLiteOperations LiteOperations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud lite-reservations sub-commands.
     /// </summary>
-    GcloudPubsubLiteReservations LiteReservations { get; }
+    GcloudPubsubLiteReservations LiteReservations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud lite-subscriptions sub-commands.
     /// </summary>
-    GcloudPubsubLiteSubscriptions LiteSubscriptions { get; }
+    GcloudPubsubLiteSubscriptions LiteSubscriptions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud lite-topics sub-commands.
     /// </summary>
-    GcloudPubsubLiteTopics LiteTopics { get; }
+    GcloudPubsubLiteTopics LiteTopics => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud message-transforms sub-commands.
     /// </summary>
-    GcloudPubsubMessageTransforms MessageTransforms { get; }
+    GcloudPubsubMessageTransforms MessageTransforms => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud schemas sub-commands.
     /// </summary>
-    GcloudPubsubSchemas Schemas { get; }
+    GcloudPubsubSchemas Schemas => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud snapshots sub-commands.
     /// </summary>
-    GcloudPubsubSnapshots Snapshots { get; }
+    GcloudPubsubSnapshots Snapshots => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud subscriptions sub-commands.
     /// </summary>
-    GcloudPubsubSubscriptions Subscriptions { get; }
+    GcloudPubsubSubscriptions Subscriptions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud topics sub-commands.
     /// </summary>
-    GcloudPubsubTopics Topics { get; }
+    GcloudPubsubTopics Topics => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud Pub/Sub topics, subscriptions, and snapshots
@@ -70,9 +73,7 @@ public interface IGcloudPubsub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudPubsubOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudPubsubOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

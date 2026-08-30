@@ -28,9 +28,33 @@ public record GcloudVectorSearchCollectionsDataObjectsUpdateOptions : GcloudOpti
     public string? Data { get; set; }
 
     /// <summary>
-    /// The etag of the dataObject.    Update vectors.    At most one of these can be specified:     --vectors=[VECTORS,...]      Set vectors to new value. The vectors of the dataObject.       KEY        Sets KEY value.       VALUE        Sets VALUE value.         dense          A dense vector.           values            The values of the vector.         sparse          A sparse vector.           indices            The corresponding indices for the values.           values            The values of the vector.      Shorthand Example:        --vectors=string={dense={values=[float]},sparse={indices=[int],values=[float]}}      JSON Example:        --vectors='{"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}'      File Example:        --vectors=path_to_file.(yaml|json)     Or at least one of these can be specified:      --update-vectors=[UPDATE_VECTORS,...]       Update vectors value or add key value pair. The vectors of the       dataObject.        KEY         Sets KEY value.        VALUE         Sets VALUE value.          dense           A dense vector.            values             The values of the vector.          sparse           A sparse vector.            indices             The corresponding indices for the values.            values             The values of the vector.       Shorthand Example:         --update-vectors=string={dense={values=[float]},sparse={indices=[int],values=[float]}}       JSON Example:         --update-vectors='{"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}'       File Example:         --update-vectors=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-vectors        Clear vectors value and set to empty map.       --remove-vectors=REMOVE_VECTORS        Remove existing value from map vectors. Sets remove_vectors        value.        Shorthand Example:          --remove-vectors=string,string        JSON Example:          --remove-vectors=["string"]        File Example:          --remove-vectors=path_to_file.(yaml|json)
+    /// The etag of the dataObject.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// Update vectors. At most one of these can be specified: Set vectors to new value. The vectors of the dataObject. KEY Sets KEY value. VALUE Sets VALUE value. dense A dense vector. values The values of the vector. sparse A sparse vector. indices The corresponding indices for the values. values The values of the vector. Shorthand Example: --vectors=string={dense={values=[float]},sparse={indices=[int],values=[float]}} JSON Example: --vectors='{"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}' File Example: --vectors=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--vectors", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Vectors { get; set; }
+
+    /// <summary>
+    /// Update vectors. At most one of these can be specified: Or at least one of these can be specified: Update vectors value or add key value pair. The vectors of the dataObject. KEY Sets KEY value. VALUE Sets VALUE value. dense A dense vector. values The values of the vector. sparse A sparse vector. indices The corresponding indices for the values. values The values of the vector. Shorthand Example: --update-vectors=string={dense={values=[float]},sparse={indices=[int],values=[float]}} JSON Example: --update-vectors='{"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}' File Example: --update-vectors=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-vectors", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateVectors { get; set; }
+
+    /// <summary>
+    /// Update vectors. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear vectors value and set to empty map.
+    /// </summary>
+    [CliFlag("--clear-vectors")]
+    public bool? ClearVectors { get; set; }
+
+    /// <summary>
+    /// Update vectors. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map vectors. Sets remove_vectors value. Shorthand Example: --remove-vectors=string,string JSON Example: --remove-vectors=["string"] File Example: --remove-vectors=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-vectors", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveVectors { get; set; }
 
 }

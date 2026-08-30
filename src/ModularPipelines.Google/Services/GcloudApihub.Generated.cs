@@ -31,6 +31,7 @@ public class GcloudApihub : IGcloudApihub
     private GcloudApihubDiscoveredApiObservations? _discoveredApiObservations;
     private GcloudApihubExternalApis? _externalApis;
     private GcloudApihubHostProjectRegistrations? _hostProjectRegistrations;
+    private GcloudApihubLocations? _locations;
     private GcloudApihubOperations? _operations;
     private GcloudApihubPlugins? _plugins;
     private GcloudApihubRuntimeProjectAttachments? _runtimeProjectAttachments;
@@ -94,6 +95,11 @@ public class GcloudApihub : IGcloudApihub
     /// gcloud host-project-registrations sub-commands.
     /// </summary>
     public GcloudApihubHostProjectRegistrations HostProjectRegistrations => _hostProjectRegistrations ??= new GcloudApihubHostProjectRegistrations(_command);
+
+    /// <summary>
+    /// gcloud locations sub-commands.
+    /// </summary>
+    public GcloudApihubLocations Locations => _locations ??= new GcloudApihubLocations(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.

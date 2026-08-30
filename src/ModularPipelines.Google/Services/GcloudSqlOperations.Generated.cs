@@ -33,6 +33,21 @@ public class GcloudSqlOperations
     #region Commands
 
     /// <summary>
+    /// provide commands for working with Cloud SQL     instance operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSqlOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSqlOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancels a Cloud SQL instance operation
     /// </summary>
     /// <param name="options">The command options.</param>

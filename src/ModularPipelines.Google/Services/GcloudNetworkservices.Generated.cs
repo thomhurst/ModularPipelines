@@ -21,6 +21,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkservices : IGcloudNetworkservices
 {
     private readonly ICommandContext _command;
+    private GcloudNetworkservicesAgentConnectivityTemplates? _agentConnectivityTemplates;
     private GcloudNetworkservicesAgentGateways? _agentGateways;
     private GcloudNetworkservicesEndpointPolicies? _endpointPolicies;
     private GcloudNetworkservicesGateways? _gateways;
@@ -52,6 +53,11 @@ public class GcloudNetworkservices : IGcloudNetworkservices
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud agent-connectivity-templates sub-commands.
+    /// </summary>
+    public GcloudNetworkservicesAgentConnectivityTemplates AgentConnectivityTemplates => _agentConnectivityTemplates ??= new GcloudNetworkservicesAgentConnectivityTemplates(_command);
 
     /// <summary>
     /// gcloud agent-gateways sub-commands.
@@ -157,6 +163,25 @@ public class GcloudNetworkservices : IGcloudNetworkservices
     /// gcloud tls-routes sub-commands.
     /// </summary>
     public GcloudNetworkservicesTlsRoutes TlsRoutes => _tlsRoutes ??= new GcloudNetworkservicesTlsRoutes(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Network Services resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkServicesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkServicesOptions(), executionOptions, cancellationToken);
+    }
 
     #endregion
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudKeyManagementMode
 {
     [EnumValue("manual")]
-    Manual,
+    Manual = 0,
 
     [EnumValue("cloud-kms")]
-    CloudKms
+    CloudKms = 1
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -22,19 +23,31 @@ namespace ModularPipelines.Google.Options;
 public record GcloudManagedKafkaConnectorsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Disable default task retry policy.    At most one of these can be specified:     --config-file=JSON|YAML|FILE      The path to the JSON or YAML file containing the configuration that      are overridden from the connector defaults. This also supports inline      JSON or YAML. Sets config_file value.      Input Example:        --config-file=string      File Example:        --config-file=path_to_file.(yaml|json)     --configs=[KEY=VALUE,...]      Configuration for the connector that are overridden from the      connector defaults. The key of the map is a Kafka topic property      name, for example: cleanup.policy=compact,compression.type=producer.
+    /// Disable default task retry policy.
     /// </summary>
     [CliFlag("--task-retry-disabled")]
     public bool? TaskRetryDisabled { get; set; }
 
     /// <summary>
-    /// The maximum amount of time to wait before retrying a failed task in     seconds. This sets an upper bound for the backoff delay. The default     value is 1800s (30 minutes). See $ gcloud topic datetimes for     information on duration formats.
+    /// At most one of these can be specified: The path to the JSON or YAML file containing the configuration that are overridden from the connector defaults. This also supports inline JSON or YAML. Sets config_file value. Input Example: --config-file=string File Example: --config-file=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Configuration for the connector that are overridden from the connector defaults. The key of the map is a Kafka topic property name, for example: cleanup.policy=compact,compression.type=producer.
+    /// </summary>
+    [CliOption("--configs", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Configs { get; set; }
+
+    /// <summary>
+    /// The maximum amount of time to wait before retrying a failed task in seconds. This sets an upper bound for the backoff delay. The default value is 1800s (30 minutes). See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--task-restart-max-backoff", Format = OptionFormat.EqualsSeparated)]
     public string? TaskRestartMaxBackoff { get; set; }
 
     /// <summary>
-    /// The minimum amount of time to wait before retrying a failed task in     seconds. This sets a lower bound for the backoff delay. The default     value is 60s. See $ gcloud topic datetimes for information on duration     formats.
+    /// The minimum amount of time to wait before retrying a failed task in seconds. This sets a lower bound for the backoff delay. The default value is 60s. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--task-restart-min-backoff", Format = OptionFormat.EqualsSeparated)]
     public string? TaskRestartMinBackoff { get; set; }

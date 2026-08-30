@@ -43,6 +43,21 @@ public class GcloudAssuredWorkloads
     #region Commands
 
     /// <summary>
+    /// read and manipulate Assured Workloads resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAssuredWorkloadsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAssuredWorkloadsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new Assured Workloads     environment
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -35,13 +35,13 @@ public record GcloudContainerAwsClustersUpdateOptions : GcloudOptions
     public IEnumerable<string>? AdminUsers { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Set Binary Authorization evaluation mode for this cluster.     BINAUTHZ_EVALUATION_MODE must be one of: DISABLED,     PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
     /// </summary>
     [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BinauthzEvaluationMode { get; set; }
@@ -71,13 +71,13 @@ public record GcloudContainerAwsClustersUpdateOptions : GcloudOptions
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled.     Examples:       $ gcloud container aws clusters update --logging=SYSTEM       $ gcloud container aws clusters update --logging=SYSTEM,WORKLOAD     COMPONENT must be one of: SYSTEM, WORKLOAD.
+    /// Set the components that have logging enabled. Examples: $ gcloud container aws clusters update --logging=SYSTEM $ gcloud container aws clusters update --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD.
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
     public GcloudLogging? Logging { get; set; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the IAM role to assume when managing AWS     resources.
+    /// Amazon Resource Name (ARN) of the IAM role to assume when managing AWS resources.
     /// </summary>
     [CliOption("--role-arn", Format = OptionFormat.EqualsSeparated)]
     public string? RoleArn { get; set; }
@@ -89,25 +89,25 @@ public record GcloudContainerAwsClustersUpdateOptions : GcloudOptions
     public string? RoleSessionName { get; set; }
 
     /// <summary>
-    /// Number of I/O operations per second (IOPS) to provision for the root     volume.
+    /// Number of I/O operations per second (IOPS) to provision for the root volume.
     /// </summary>
     [CliOption("--root-volume-iops", Format = OptionFormat.EqualsSeparated)]
     public int? RootVolumeIops { get; set; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root     volume.
+    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root volume.
     /// </summary>
     [CliOption("--root-volume-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
     public string? RootVolumeKmsKeyArn { get; set; }
 
     /// <summary>
-    /// Size of the root volume. The value must be a whole number followed by a     size unit of GB for gigabyte, or TB for terabyte. If no size unit is     specified, GB is assumed.
+    /// Size of the root volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
     /// </summary>
     [CliOption("--root-volume-size", Format = OptionFormat.EqualsSeparated)]
     public int? RootVolumeSize { get; set; }
 
     /// <summary>
-    /// Throughput to provision for the root volume, in MiB/s. Only valid if     the volume type is GP3. If volume type is GP3 and throughput is not     provided, it defaults to 125.
+    /// Throughput to provision for the root volume, in MiB/s. Only valid if the volume type is GP3. If volume type is GP3 and throughput is not provided, it defaults to 125.
     /// </summary>
     [CliOption("--root-volume-throughput", Format = OptionFormat.EqualsSeparated)]
     public string? RootVolumeThroughput { get; set; }
@@ -119,9 +119,113 @@ public record GcloudContainerAwsClustersUpdateOptions : GcloudOptions
     public GcloudRootVolumeType? RootVolumeType { get; set; }
 
     /// <summary>
-    /// Validate the update of the cluster, but don't actually perform it.    Annotations    At most one of these can be specified:     --annotations=ANNOTATION,[ANNOTATION,...]      Annotations for the cluster.     --clear-annotations      Clear the annotations for the cluster.    Description    At most one of these can be specified:     --clear-description      Clear the description for the cluster.     --description=DESCRIPTION      Description for the cluster.    Proxy config    At most one of these can be specified:     --clear-proxy-config      Clear the proxy configuration associated with the control plane.     Or at least one of these can be specified:      Update existing proxy config parameters      --proxy-secret-arn=PROXY_SECRET_ARN       ARN of the AWS Secrets Manager secret that contains a proxy       configuration.      --proxy-secret-version-id=PROXY_SECRET_VERSION_ID       Version ID string of the AWS Secrets Manager secret that contains a       proxy configuration.    Security groups    At most one of these can be specified:     --clear-security-group-ids      Clear any additional security groups associated with the control      plane's nodes. This does not remove the default security groups.     --security-group-ids=[SECURITY_GROUP_ID,...]      IDs of additional security groups to add to the control plane's      nodes.    SSH config    At most one of these can be specified:     --clear-ssh-ec2-key-pair      Clear the EC2 key pair authorized to login to the control plane's      nodes.     --ssh-ec2-key-pair=SSH_EC2_KEY_PAIR      Name of the EC2 key pair authorized to login to the control plane's      nodes.    Tags    At most one of these can be specified:     --clear-tags      Clear any tags associated with the control plane's nodes.     --tags=TAG,[TAG,...]      Applies the given tags (comma separated) on the control plane.      Example:        $ gcloud container aws clusters update EXAMPLE_CONTROL_PLANE \          --tags=tag1=one,tag2=two    Monitoring Config    At most one of these can be specified:     --disable-managed-prometheus      Disable managed collection for Managed Service for Prometheus.     --enable-managed-prometheus      Enable managed collection for Managed Service for Prometheus.    Default per node pool security group rules    At most one of these can be specified:     --disable-per-node-pool-sg-rules      Disable the default per node pool subnet security group rules on the      control plane security group. When disabled, at least one security      group that allows node pools to send traffic to the control plane on      ports TCP/443 and TCP/8132 must be provided.     --enable-per-node-pool-sg-rules      Enable the default per node pool subnet security group rules on the      control plane security group.
+    /// Validate the update of the cluster, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Annotations At most one of these can be specified: Annotations for the cluster.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Annotations At most one of these can be specified: Clear the annotations for the cluster.
+    /// </summary>
+    [CliFlag("--clear-annotations")]
+    public bool? ClearAnnotations { get; set; }
+
+    /// <summary>
+    /// Description At most one of these can be specified: Clear the description for the cluster.
+    /// </summary>
+    [CliFlag("--clear-description")]
+    public bool? ClearDescription { get; set; }
+
+    /// <summary>
+    /// Description At most one of these can be specified: Description for the cluster.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Proxy config At most one of these can be specified: Clear the proxy configuration associated with the control plane.
+    /// </summary>
+    [CliFlag("--clear-proxy-config")]
+    public bool? ClearProxyConfig { get; set; }
+
+    /// <summary>
+    /// Proxy config At most one of these can be specified: Or at least one of these can be specified: Update existing proxy config parameters ARN of the AWS Secrets Manager secret that contains a proxy configuration.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretArn { get; set; }
+
+    /// <summary>
+    /// Proxy config At most one of these can be specified: Or at least one of these can be specified: Update existing proxy config parameters Version ID string of the AWS Secrets Manager secret that contains a proxy configuration.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-version-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretVersionId { get; set; }
+
+    /// <summary>
+    /// Security groups At most one of these can be specified: Clear any additional security groups associated with the control plane's nodes. This does not remove the default security groups.
+    /// </summary>
+    [CliFlag("--clear-security-group-ids")]
+    public bool? ClearSecurityGroupIds { get; set; }
+
+    /// <summary>
+    /// Security groups At most one of these can be specified: IDs of additional security groups to add to the control plane's nodes.
+    /// </summary>
+    [CliOption("--security-group-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SecurityGroupIds { get; set; }
+
+    /// <summary>
+    /// SSH config At most one of these can be specified: Clear the EC2 key pair authorized to login to the control plane's nodes.
+    /// </summary>
+    [CliFlag("--clear-ssh-ec2-key-pair")]
+    public bool? ClearSshEc2KeyPair { get; set; }
+
+    /// <summary>
+    /// SSH config At most one of these can be specified: Name of the EC2 key pair authorized to login to the control plane's nodes.
+    /// </summary>
+    [CliOption("--ssh-ec2-key-pair", Format = OptionFormat.EqualsSeparated)]
+    public string? SshEc2KeyPair { get; set; }
+
+    /// <summary>
+    /// Tags At most one of these can be specified: Clear any tags associated with the control plane's nodes.
+    /// </summary>
+    [CliFlag("--clear-tags")]
+    public bool? ClearTags { get; set; }
+
+    /// <summary>
+    /// Tags At most one of these can be specified: Applies the given tags (comma separated) on the control plane. Example: $ gcloud container aws clusters update EXAMPLE_CONTROL_PLANE \ --tags=tag1=one,tag2=two
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Monitoring Config At most one of these can be specified: Disable managed collection for Managed Service for Prometheus.
+    /// </summary>
+    [CliFlag("--disable-managed-prometheus")]
+    public bool? DisableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Monitoring Config At most one of these can be specified: Enable managed collection for Managed Service for Prometheus.
+    /// </summary>
+    [CliFlag("--enable-managed-prometheus")]
+    public bool? EnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Default per node pool security group rules At most one of these can be specified: Disable the default per node pool subnet security group rules on the control plane security group. When disabled, at least one security group that allows node pools to send traffic to the control plane on ports TCP/443 and TCP/8132 must be provided.
+    /// </summary>
+    [CliFlag("--disable-per-node-pool-sg-rules")]
+    public bool? DisablePerNodePoolSgRules { get; set; }
+
+    /// <summary>
+    /// Default per node pool security group rules At most one of these can be specified: Enable the default per node pool subnet security group rules on the control plane security group.
+    /// </summary>
+    [CliFlag("--enable-per-node-pool-sg-rules")]
+    public bool? EnablePerNodePoolSgRules { get; set; }
 
 }

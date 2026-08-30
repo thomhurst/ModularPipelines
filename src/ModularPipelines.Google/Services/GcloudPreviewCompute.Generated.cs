@@ -433,6 +433,21 @@ public class GcloudPreviewCompute
     #region Commands
 
     /// <summary>
+    /// create and manipulate Compute Engine resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// populate SSH config files with Host     entries from each instance
     /// </summary>
     /// <param name="options">The command options.</param>

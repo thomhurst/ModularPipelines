@@ -22,9 +22,27 @@ namespace ModularPipelines.Google.Options;
 public record GcloudModelArmorTemplatesSanitizeModelResponseOptions : GcloudOptions
 {
     /// <summary>
-    /// User Prompt associated with Model response.    Arguments for the data item.    At most one of these can be specified:     --model-response-data-text=MODEL_RESPONSE_DATA_TEXT      Plaintext string data for sanitization.     Or at least one of these can be specified:      Represents Byte Data item.      --model-response-data-byte-item-from-file=PATH_TO_FILE       Bytes Data. Use a full or relative path to a local file containing       the value of model_response_data_byte_item.       This flag argument must be specified if any of the other arguments       in this group are specified.      --model-response-data-byte-item-type=MODEL_RESPONSE_DATA_BYTE_ITEM_TYPE       The type of byte data. MODEL_RESPONSE_DATA_BYTE_ITEM_TYPE must be       one of:        pdf         PDF       plaintext-utf8         plain text       This flag argument must be specified if any of the other arguments       in this group are specified.
+    /// User Prompt associated with Model response.
     /// </summary>
     [CliOption("--user-prompt", Format = OptionFormat.EqualsSeparated)]
     public string? UserPrompt { get; set; }
+
+    /// <summary>
+    /// Arguments for the data item. At most one of these can be specified: Plaintext string data for sanitization.
+    /// </summary>
+    [CliOption("--model-response-data-text", Format = OptionFormat.EqualsSeparated)]
+    public string? ModelResponseDataText { get; set; }
+
+    /// <summary>
+    /// Arguments for the data item. At most one of these can be specified: Or at least one of these can be specified: Represents Byte Data item. Bytes Data. Use a full or relative path to a local file containing the value of model_response_data_byte_item. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--model-response-data-byte-item-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ModelResponseDataByteItemFromFile { get; set; }
+
+    /// <summary>
+    /// Arguments for the data item. At most one of these can be specified: Or at least one of these can be specified: Represents Byte Data item. The type of byte data. MODEL_RESPONSE_DATA_BYTE_ITEM_TYPE must be one of: pdf PDF plaintext-utf8 plain text This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--model-response-data-byte-item-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ModelResponseDataByteItemType { get; set; }
 
 }

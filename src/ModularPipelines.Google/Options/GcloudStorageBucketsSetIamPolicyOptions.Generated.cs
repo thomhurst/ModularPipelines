@@ -23,9 +23,15 @@ public record GcloudStorageBucketsSetIamPolicyOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Urls
 ) : GcloudOptions
 {
+    /// <summary>
+    /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
+    /// </summary>
     [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
+    /// <summary>
+    /// Custom etag to set on IAM policy. API will reject etags that do not match this value, making it useful as a precondition during concurrent operations.
+    /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 

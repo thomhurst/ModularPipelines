@@ -15,43 +15,46 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud apigee commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudApigee
 {
     /// <summary>
     /// gcloud apis sub-commands.
     /// </summary>
-    GcloudApigeeApis Apis { get; }
+    GcloudApigeeApis Apis => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud applications sub-commands.
     /// </summary>
-    GcloudApigeeApplications Applications { get; }
+    GcloudApigeeApplications Applications => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud deployments sub-commands.
     /// </summary>
-    GcloudApigeeDeployments Deployments { get; }
+    GcloudApigeeDeployments Deployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud developers sub-commands.
     /// </summary>
-    GcloudApigeeDevelopers Developers { get; }
+    GcloudApigeeDevelopers Developers => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud environments sub-commands.
     /// </summary>
-    GcloudApigeeEnvironments Environments { get; }
+    GcloudApigeeEnvironments Environments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud organizations sub-commands.
     /// </summary>
-    GcloudApigeeOrganizations Organizations { get; }
+    GcloudApigeeOrganizations Organizations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud products sub-commands.
     /// </summary>
-    GcloudApigeeProducts Products { get; }
+    GcloudApigeeProducts Products => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Apigee resources
@@ -60,9 +63,7 @@ public interface IGcloudApigee
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudApigeeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudApigeeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

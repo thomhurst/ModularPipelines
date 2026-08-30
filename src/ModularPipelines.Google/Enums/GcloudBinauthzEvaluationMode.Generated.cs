@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudBinauthzEvaluationMode
 {
     [EnumValue("disabled")]
-    Disabled,
+    Disabled = 0,
 
     [EnumValue("policy-bindings")]
-    PolicyBindings
+    PolicyBindings = 1
 }

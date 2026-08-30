@@ -43,6 +43,21 @@ public class GcloudPreviewComputeRouters
     #region Commands
 
     /// <summary>
+    /// list, create, and delete Compute Engine     routers
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeRoutersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeRoutersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add a BGP peer to a Compute     Engine router
     /// </summary>
     /// <param name="options">The command options.</param>

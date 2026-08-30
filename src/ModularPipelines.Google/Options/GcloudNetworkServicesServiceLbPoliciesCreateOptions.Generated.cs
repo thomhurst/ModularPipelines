@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesServiceLbPoliciesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If specified, an unhealthy MIG/NEG will be removed from Global load     balancing and traffic routing for the service. A MIG/NEG is considered     to be unhealthy if less than 25% of the instance/endpoints in the     MIG/NEG are healthy. autoCapacityDrain will never drain more than 50%     of the configured MIGs/NEGs of a Backend Service.
+    /// If specified, an unhealthy MIG/NEG will be removed from Global load balancing and traffic routing for the service. A MIG/NEG is considered to be unhealthy if less than 25%% of the instance/endpoints in the MIG/NEG are healthy. autoCapacityDrain will never drain more than 50%% of the configured MIGs/NEGs of a Backend Service.
     /// </summary>
     [CliFlag("--auto-capacity-drain")]
     public bool? AutoCapacityDrain { get; set; }
@@ -40,18 +40,18 @@ public record GcloudNetworkServicesServiceLbPoliciesCreateOptions : GcloudOption
     public string? Description { get; set; }
 
     /// <summary>
-    /// The percentage threshold that a load balancer will begin to send     traffic to failover backends. If the percentage of endpoints in a     MIG/NEG is smaller than this value, traffic would be sent to failover     backends if possible. This field should be set to a value between 1 and     99. The default value is 50 for Proxyless service mesh, and 70 for     others.
+    /// The percentage threshold that a load balancer will begin to send traffic to failover backends. If the percentage of endpoints in a MIG/NEG is smaller than this value, traffic would be sent to failover backends if possible. This field should be set to a value between 1 and 99. The default value is 50 for Proxyless service mesh, and 70 for others.
     /// </summary>
     [CliOption("--failover-health-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? FailoverHealthThreshold { get; set; }
 
-    [CliOption("--isolation-config-granularity", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("IsolationConfigGranularity is no longer supported by the installed CLI and has no effect.")]
     public string? IsolationConfigGranularity { get; set; }
 
-    [CliOption("--isolation-config-mode", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("IsolationConfigMode is no longer supported by the installed CLI and has no effect.")]
     public string? IsolationConfigMode { get; set; }
 
-    [CliOption("--load-balancing-algorithm", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("LoadBalancingAlgorithm is no longer supported by the installed CLI and has no effect.")]
     public string? LoadBalancingAlgorithm { get; set; }
 
 }

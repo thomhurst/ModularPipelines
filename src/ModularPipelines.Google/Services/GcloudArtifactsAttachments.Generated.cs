@@ -33,6 +33,21 @@ public class GcloudArtifactsAttachments
     #region Commands
 
     /// <summary>
+    /// manage Artifact Registry attachments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudArtifactsAttachmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsAttachmentsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates an Artifact Registry     attachment in a repository
     /// </summary>
     /// <param name="options">The command options.</param>

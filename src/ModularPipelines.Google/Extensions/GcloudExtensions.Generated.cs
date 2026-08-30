@@ -129,6 +129,7 @@ public static class GcloudExtensions
         services.TryAddScoped<IGcloudProjects, GcloudProjects>();
         services.TryAddScoped<IGcloudPublicca, GcloudPublicca>();
         services.TryAddScoped<IGcloudPubsub, GcloudPubsub>();
+        services.TryAddScoped<IGcloudQuotas, GcloudQuotas>();
         services.TryAddScoped<IGcloudRecaptcha, GcloudRecaptcha>();
         services.TryAddScoped<IGcloudRecommender, GcloudRecommender>();
         services.TryAddScoped<IGcloudRedis, GcloudRedis>();
@@ -146,6 +147,7 @@ public static class GcloudExtensions
         services.TryAddScoped<IGcloudSpanner, GcloudSpanner>();
         services.TryAddScoped<IGcloudSql, GcloudSql>();
         services.TryAddScoped<IGcloudStorage, GcloudStorage>();
+        services.TryAddScoped<IGcloudSupport, GcloudSupport>();
         services.TryAddScoped<IGcloudTasks, GcloudTasks>();
         services.TryAddScoped<IGcloudTelcoautomation, GcloudTelcoautomation>();
         services.TryAddScoped<IGcloudTranscoder, GcloudTranscoder>();
@@ -161,7 +163,7 @@ public static class GcloudExtensions
     }
 
     /// <summary>
-    /// Gets the gcloud service from the pipeline context.
+    /// Gets the gcloud service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGcloud"/> service for executing gcloud commands.</returns>

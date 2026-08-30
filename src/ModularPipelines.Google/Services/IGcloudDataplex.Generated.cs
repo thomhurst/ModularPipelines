@@ -15,73 +15,76 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dataplex commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDataplex
 {
     /// <summary>
     /// gcloud aspect-types sub-commands.
     /// </summary>
-    GcloudDataplexAspectTypes AspectTypes { get; }
+    GcloudDataplexAspectTypes AspectTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud assets sub-commands.
     /// </summary>
-    GcloudDataplexAssets Assets { get; }
+    GcloudDataplexAssets Assets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud context sub-commands.
     /// </summary>
-    GcloudDataplexContext Context { get; }
+    GcloudDataplexContext Context => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud datascans sub-commands.
     /// </summary>
-    GcloudDataplexDatascans Datascans { get; }
+    GcloudDataplexDatascans Datascans => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud encryption-config sub-commands.
     /// </summary>
-    GcloudDataplexEncryptionConfig EncryptionConfig { get; }
+    GcloudDataplexEncryptionConfig EncryptionConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud entries sub-commands.
     /// </summary>
-    GcloudDataplexEntries Entries { get; }
+    GcloudDataplexEntries Entries => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud entry-groups sub-commands.
     /// </summary>
-    GcloudDataplexEntryGroups EntryGroups { get; }
+    GcloudDataplexEntryGroups EntryGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud entry-types sub-commands.
     /// </summary>
-    GcloudDataplexEntryTypes EntryTypes { get; }
+    GcloudDataplexEntryTypes EntryTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud glossaries sub-commands.
     /// </summary>
-    GcloudDataplexGlossaries Glossaries { get; }
+    GcloudDataplexGlossaries Glossaries => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud lakes sub-commands.
     /// </summary>
-    GcloudDataplexLakes Lakes { get; }
+    GcloudDataplexLakes Lakes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud metadata-jobs sub-commands.
     /// </summary>
-    GcloudDataplexMetadataJobs MetadataJobs { get; }
+    GcloudDataplexMetadataJobs MetadataJobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tasks sub-commands.
     /// </summary>
-    GcloudDataplexTasks Tasks { get; }
+    GcloudDataplexTasks Tasks => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    GcloudDataplexZones Zones { get; }
+    GcloudDataplexZones Zones => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Dataplex resources
@@ -90,9 +93,7 @@ public interface IGcloudDataplex
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudDataplexOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudDataplexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

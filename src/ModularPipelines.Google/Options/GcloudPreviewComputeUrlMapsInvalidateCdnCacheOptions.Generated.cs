@@ -24,7 +24,7 @@ public record GcloudPreviewComputeUrlMapsInvalidateCdnCacheOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -36,19 +36,19 @@ public record GcloudPreviewComputeUrlMapsInvalidateCdnCacheOptions(
     public bool? Global { get; set; }
 
     /// <summary>
-    /// If set, this invalidation will apply only to requests to the specified     host.
+    /// If set, this invalidation will apply only to requests to the specified host.
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }
 
     /// <summary>
-    /// A path specifying which objects to invalidate. PATH must start with     ``/'' and the only place a ``*'' is allowed is at the end following a     ``/''. It will be matched against URL paths, which do not include     scheme, host, or any text after the first ``?'' or ``#'' (and those     characters are not allowed here). For example, for the URL     https://example.com/whatever/x.html?a=b, the path is /whatever/x.html.     If PATH ends with ``*'', the preceding string is a prefix, and all URLs     whose paths begin with it will be invalidated. If PATH doesn't end with     ``*'', then only URLs with exactly that path will be invalidated.     Examples:     ◆ ``'', ``*'', anything that doesn't start with ``/'': error     ◆ ``/'': just the root URL     ◆ ``/*'': everything     ◆ ``/x/y'': ``/x/y'' only (and not ``/x/y/'')     ◆ ``/x/y/'': ``/x/y/'' only (and not ``/x/y'')     ◆ ``/x/y/*'': ``/x/y/'' and everything under it
+    /// A path specifying which objects to invalidate. PATH must start with ``/'' and the only place a ``*'' is allowed is at the end following a ``/''. It will be matched against URL paths, which do not include scheme, host, or any text after the first ``?'' or ``#'' (and those characters are not allowed here). For example, for the URL https://example.com/whatever/x.html?a=b, the path is /whatever/x.html. If PATH ends with ``*'', the preceding string is a prefix, and all URLs whose paths begin with it will be invalidated. If PATH doesn't end with ``*'', then only URLs with exactly that path will be invalidated. Examples: ◆ ``'', ``*'', anything that doesn't start with ``/'': error ◆ ``/'': just the root URL ◆ ``/*'': everything ◆ ``/x/y'': ``/x/y'' only (and not ``/x/y/'') ◆ ``/x/y/'': ``/x/y/'' only (and not ``/x/y'') ◆ ``/x/y/*'': ``/x/y/'' and everything under it
     /// </summary>
     [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
     public string? Path { get; set; }
 
     /// <summary>
-    /// A single tag or a comma-delimited list of tags. When multiple tags are     specified, the invalidation applies them using boolean OR logic.     Example:     ◆ --tags=abcd,user123
+    /// A single tag or a comma-delimited list of tags. When multiple tags are specified, the invalidation applies them using boolean OR logic. Example: ◆ --tags=abcd,user123
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public string? Tags { get; set; }

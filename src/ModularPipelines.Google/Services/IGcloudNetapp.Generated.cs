@@ -15,53 +15,56 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud netapp commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudNetapp
 {
     /// <summary>
     /// gcloud active-directories sub-commands.
     /// </summary>
-    GcloudNetappActiveDirectories ActiveDirectories { get; }
+    GcloudNetappActiveDirectories ActiveDirectories => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backup-policies sub-commands.
     /// </summary>
-    GcloudNetappBackupPolicies BackupPolicies { get; }
+    GcloudNetappBackupPolicies BackupPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backup-vaults sub-commands.
     /// </summary>
-    GcloudNetappBackupVaults BackupVaults { get; }
+    GcloudNetappBackupVaults BackupVaults => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud host-groups sub-commands.
     /// </summary>
-    GcloudNetappHostGroups HostGroups { get; }
+    GcloudNetappHostGroups HostGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud kms-configs sub-commands.
     /// </summary>
-    GcloudNetappKmsConfigs KmsConfigs { get; }
+    GcloudNetappKmsConfigs KmsConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudNetappLocations Locations { get; }
+    GcloudNetappLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudNetappOperations Operations { get; }
+    GcloudNetappOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud storage-pools sub-commands.
     /// </summary>
-    GcloudNetappStoragePools StoragePools { get; }
+    GcloudNetappStoragePools StoragePools => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud volumes sub-commands.
     /// </summary>
-    GcloudNetappVolumes Volumes { get; }
+    GcloudNetappVolumes Volumes => throw new System.NotSupportedException();
 
     /// <summary>
     /// create and manipulate Cloud NetApp Files resources
@@ -70,9 +73,7 @@ public interface IGcloudNetapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudNetappOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudNetappOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

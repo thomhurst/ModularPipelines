@@ -22,18 +22,18 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAiCustomJobsStreamLogsOptions : GcloudOptions
 {
     /// <summary>
-    /// Output multiline log messages as single records.
+    /// --polling-interval=POLLING_INTERVAL; default=60 Number of seconds to wait between efforts to fetch the latest log messages. Output multiline log messages as single records.
     /// </summary>
     [CliFlag("--allow-multiline-logs")]
     public bool? AllowMultilineLogs { get; set; }
 
-    [CliOption("--polling-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? PollingInterval { get; set; }
-
     /// <summary>
-    /// If set, display only the logs for this particular task.
+    /// --polling-interval=POLLING_INTERVAL; default=60 Number of seconds to wait between efforts to fetch the latest log messages. If set, display only the logs for this particular task.
     /// </summary>
     [CliOption("--task-name", Format = OptionFormat.EqualsSeparated)]
     public string? TaskName { get; set; }
+
+    [Obsolete("PollingInterval is no longer supported by the installed CLI and has no effect.")]
+    public string? PollingInterval { get; set; }
 
 }

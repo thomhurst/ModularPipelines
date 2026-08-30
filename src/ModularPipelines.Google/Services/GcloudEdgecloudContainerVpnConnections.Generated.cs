@@ -33,6 +33,21 @@ public class GcloudEdgecloudContainerVpnConnections
     #region Commands
 
     /// <summary>
+    /// manage Edge VPN connections     between an Edge Container cluster and a VPC network
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudEdgeCloudContainerVpnConnectionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudContainerVpnConnectionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a VPN     connection between an Edge Container cluster and a VPC network
     /// </summary>
     /// <param name="options">The command options.</param>

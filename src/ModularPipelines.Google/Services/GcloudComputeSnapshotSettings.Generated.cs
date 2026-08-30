@@ -33,6 +33,21 @@ public class GcloudComputeSnapshotSettings
     #region Commands
 
     /// <summary>
+    /// describe and update Compute Engine     snapshot settings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeSnapshotSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeSnapshotSettingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe snapshot settings
     /// </summary>
     /// <param name="options">The command options.</param>

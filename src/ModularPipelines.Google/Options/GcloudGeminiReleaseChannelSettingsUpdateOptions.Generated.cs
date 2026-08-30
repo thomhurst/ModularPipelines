@@ -22,15 +22,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudGeminiReleaseChannelSettingsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Release channel to be used. RELEASE_CHANNEL must be one of:      experimental       Experimental release channel.     stable       Stable channel.
+    /// Release channel to be used. RELEASE_CHANNEL must be one of: experimental Experimental release channel. stable Stable channel.
     /// </summary>
     [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
     public string? ReleaseChannel { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.     For example, consider a situation where you make an initial request and     the request times out. If you make the request again with the same     request ID, the server can check if original operation with the same     request ID was received, and if so, will ignore the second request.     This prevents clients from accidentally creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).    Update labels.    At most one of these can be specified:     --labels=[LABELS,...]      Set labels to new value. Labels as key value pairs.       KEY        Keys must start with a lowercase character and contain only        hyphens (-), underscores (_), lowercase characters, and numbers.       VALUE        Values must contain only hyphens (-), underscores (_), lowercase        characters, and numbers.      Shorthand Example:        --labels=string=string      JSON Example:        --labels='{"string": "string"}'      File Example:        --labels=path_to_file.(yaml|json)     Or at least one of these can be specified:      --update-labels=[UPDATE_LABELS,...]       Update labels value or add key value pair. Labels as key value       pairs.        KEY         Keys must start with a lowercase character and contain only         hyphens (-), underscores (_), lowercase characters, and         numbers.        VALUE         Values must contain only hyphens (-), underscores (_),         lowercase characters, and numbers.       Shorthand Example:         --update-labels=string=string       JSON Example:         --update-labels='{"string": "string"}'       File Example:         --update-labels=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-labels        Clear labels value and set to empty map.       --remove-labels=REMOVE_LABELS        Remove existing value from map labels. Sets remove_labels value.        Shorthand Example:          --remove-labels=string,string        JSON Example:          --remove-labels=["string"]        File Example:          --remove-labels=path_to_file.(yaml|json)
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveLabels { get; set; }
 
 }

@@ -43,6 +43,21 @@ public class GcloudBackupdrBackups
     #region Commands
 
     /// <summary>
+    /// manage Backup and DR backups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBackupDrBackupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBackupDrBackupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete the specified Backup
     /// </summary>
     /// <param name="options">The command options.</param>

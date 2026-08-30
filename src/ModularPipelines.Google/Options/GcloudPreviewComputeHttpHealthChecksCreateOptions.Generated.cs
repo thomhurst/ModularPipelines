@@ -23,34 +23,34 @@ public record GcloudPreviewComputeHttpHealthChecksCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
-    [CliOption("--check-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? CheckInterval { get; set; }
-
     /// <summary>
-    /// An optional, textual description for the HTTP health check.
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. An optional, textual description for the HTTP health check.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
-    [CliOption("--healthy-threshold", Format = OptionFormat.EqualsSeparated)]
-    public string? HealthyThreshold { get; set; }
-
     /// <summary>
-    /// The value of the host header used in this HTTP health check request. By     default, this is empty and Compute Engine automatically sets the host     header in health requests to the same external IP address as the     forwarding rule associated with the target pool.
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. The value of the host header used in this HTTP health check request. By default, this is empty and Compute Engine automatically sets the host header in health requests to the same external IP address as the forwarding rule associated with the target pool.
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }
 
-    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("CheckInterval is no longer supported by the installed CLI and has no effect.")]
+    public string? CheckInterval { get; set; }
+
+    [Obsolete("HealthyThreshold is no longer supported by the installed CLI and has no effect.")]
+    public string? HealthyThreshold { get; set; }
+
+    [Obsolete("Port is no longer supported by the installed CLI and has no effect.")]
     public string? Port { get; set; }
 
-    [CliOption("--request-path", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("RequestPath is no longer supported by the installed CLI and has no effect.")]
     public string? RequestPath { get; set; }
 
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("Timeout is no longer supported by the installed CLI and has no effect.")]
     public int? Timeout { get; set; }
 
-    [CliOption("--unhealthy-threshold", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("UnhealthyThreshold is no longer supported by the installed CLI and has no effect.")]
     public string? UnhealthyThreshold { get; set; }
 
 }

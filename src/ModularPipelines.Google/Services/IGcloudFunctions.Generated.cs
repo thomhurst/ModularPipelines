@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud functions commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudFunctions
 {
     /// <summary>
     /// gcloud event-types sub-commands.
     /// </summary>
-    GcloudFunctionsEventTypes EventTypes { get; }
+    GcloudFunctionsEventTypes EventTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud logs sub-commands.
     /// </summary>
-    GcloudFunctionsLogs Logs { get; }
+    GcloudFunctionsLogs Logs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud regions sub-commands.
     /// </summary>
-    GcloudFunctionsRegions Regions { get; }
+    GcloudFunctionsRegions Regions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud runtimes sub-commands.
     /// </summary>
-    GcloudFunctionsRuntimes Runtimes { get; }
+    GcloudFunctionsRuntimes Runtimes => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Google Cloud Functions
@@ -45,10 +48,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudFunctionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudFunctionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// adds an IAM policy binding for a     Google Cloud Function
@@ -57,10 +58,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AddIamPolicyBindingAsync(
-        GcloudFunctionsAddIamPolicyBindingOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> AddIamPolicyBindingAsync(GcloudFunctionsAddIamPolicyBindingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// adds an invoker binding to     the IAM policy of a Google Cloud Function
@@ -69,10 +68,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AddInvokerPolicyBindingAsync(
-        GcloudFunctionsAddInvokerPolicyBindingOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> AddInvokerPolicyBindingAsync(GcloudFunctionsAddInvokerPolicyBindingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// triggers execution of a Google Cloud Function
@@ -81,10 +78,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CallAsync(
-        GcloudFunctionsCallOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CallAsync(GcloudFunctionsCallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// delete a Google Cloud Function
@@ -93,10 +88,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        GcloudFunctionsDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(GcloudFunctionsDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// create or update a Google Cloud Function
@@ -105,10 +98,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeployAsync(
-        GcloudFunctionsDeployOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeployAsync(GcloudFunctionsDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// display details of a Google Cloud Function
@@ -117,10 +108,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DescribeAsync(
-        GcloudFunctionsDescribeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DescribeAsync(GcloudFunctionsDescribeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// detach a Cloud Functions v2 function from its     existing environment and make it a native Cloud Run function
@@ -129,10 +118,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DetachAsync(
-        GcloudFunctionsDetachOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DetachAsync(GcloudFunctionsDetachOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// get IAM policy for a Google Cloud     Function
@@ -141,10 +128,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetIamPolicyAsync(
-        GcloudFunctionsGetIamPolicyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> GetIamPolicyAsync(GcloudFunctionsGetIamPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// list Google Cloud Functions
@@ -153,10 +138,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        GcloudFunctionsListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(GcloudFunctionsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// removes an IAM policy binding     from a Google Cloud Function
@@ -165,10 +148,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RemoveIamPolicyBindingAsync(
-        GcloudFunctionsRemoveIamPolicyBindingOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RemoveIamPolicyBindingAsync(GcloudFunctionsRemoveIamPolicyBindingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// removes an invoker binding     from the IAM policy of a Google Cloud Function
@@ -177,10 +158,8 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RemoveInvokerPolicyBindingAsync(
-        GcloudFunctionsRemoveInvokerPolicyBindingOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RemoveInvokerPolicyBindingAsync(GcloudFunctionsRemoveInvokerPolicyBindingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// sets IAM policy for a Google Cloud     Function
@@ -189,9 +168,17 @@ public interface IGcloudFunctions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SetIamPolicyAsync(
-        GcloudFunctionsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetIamPolicyAsync(GcloudFunctionsSetIamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// upgrade a 1st gen Cloud Function to the Cloud     Run function
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpgradeAsync(GcloudFunctionsUpgradeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

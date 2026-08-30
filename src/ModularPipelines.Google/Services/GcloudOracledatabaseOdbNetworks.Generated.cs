@@ -43,6 +43,21 @@ public class GcloudOracledatabaseOdbNetworks
     #region Commands
 
     /// <summary>
+    /// manage Odb Network resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudOracleDatabaseOdbNetworksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseOdbNetworksOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new OdbNetwork
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -48,9 +48,75 @@ public record GcloudLoggingSavedQueriesUpdateOptions(
     public string? Name { get; set; }
 
     /// <summary>
-    /// The visibility of the saved query.    At most one of these can be specified:     --billing-account=BILLING_ACCOUNT_ID      Billing account of the saved query to update.     --folder=FOLDER_ID      Folder of the saved query to update.     --organization=ORGANIZATION_ID      Organization of the saved query to update.     --project=PROJECT_ID      Project of the saved query to update.      The Google Cloud project ID to use for this invocation. If omitted,      then the current project is assumed; the current project can be      listed using gcloud config list --format='text(core.project)' and can      be set using gcloud config set project PROJECTID.      --project and its fallback core/project property play two roles in      the invocation. It specifies the project of the resource to operate      on. It also specifies the project for API enablement check, quota,      and billing. To specify a different project for quota and billing,      use --billing-project or billing/quota_project property.    At most one of these can be specified:     --sql-query-text=SQL_QUERY_TEXT      The SQL query text. If this argument is specified, no LoggingQuery      arguments (--log-filter, --add-summary-field, etc.) may be specified.     Or at least one of these can be specified:      --add-summary-field=ADD_SUMMARY_FIELD       Add a summary field.      --clear-summary-fields       Clear all summary fields.      --log-filter=LOG_FILTER       The logging filter. If this argument is specified, --sql-query-text       may not be specified.      --remove-summary-field=REMOVE_SUMMARY_FIELD       Remove a summary field.      At most one of these can be specified:       --summary-field-end=SUMMARY_FIELD_END        Summary field end.       --summary-field-start=SUMMARY_FIELD_START        Summary field start.
+    /// The visibility of the saved query.
     /// </summary>
     [CliOption("--visibility", Format = OptionFormat.EqualsSeparated)]
     public string? Visibility { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Billing account of the saved query to update.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public int? BillingAccount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder of the saved query to update.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization of the saved query to update.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project of the saved query to update. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The SQL query text. If this argument is specified, no LoggingQuery arguments (--log-filter, --add-summary-field, etc.) may be specified.
+    /// </summary>
+    [CliOption("--sql-query-text", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlQueryText { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Add a summary field.
+    /// </summary>
+    [CliOption("--add-summary-field", Format = OptionFormat.EqualsSeparated)]
+    public string? AddSummaryField { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Clear all summary fields.
+    /// </summary>
+    [CliFlag("--clear-summary-fields")]
+    public bool? ClearSummaryFields { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: The logging filter. If this argument is specified, --sql-query-text may not be specified.
+    /// </summary>
+    [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? LogFilter { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Remove a summary field.
+    /// </summary>
+    [CliOption("--remove-summary-field", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveSummaryField { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Summary field end.
+    /// </summary>
+    [CliOption("--summary-field-end", Format = OptionFormat.EqualsSeparated)]
+    public string? SummaryFieldEnd { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Summary field start.
+    /// </summary>
+    [CliOption("--summary-field-start", Format = OptionFormat.EqualsSeparated)]
+    public string? SummaryFieldStart { get; set; }
 
 }

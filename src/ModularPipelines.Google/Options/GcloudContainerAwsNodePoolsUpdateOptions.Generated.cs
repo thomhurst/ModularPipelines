@@ -23,97 +23,195 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAwsNodePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Node pool autoscaling Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.
+    /// Node pool autoscaling Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.
     /// </summary>
     [CliOption("--config-encryption-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
     public string? ConfigEncryptionKmsKeyArn { get; set; }
 
     /// <summary>
-    /// Enable node autorepair feature for a node pool. Use     --no-enable-autorepair to disable.       $ gcloud container aws node-pools update --enable-autorepair
+    /// Node pool autoscaling Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container aws node-pools update --enable-autorepair
     /// </summary>
     [CliFlag("--enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
 
     /// <summary>
-    /// Name or ARN of the IAM instance profile associated with the node pool.
+    /// Node pool autoscaling Name or ARN of the IAM instance profile associated with the node pool.
     /// </summary>
     [CliOption("--iam-instance-profile", Format = OptionFormat.EqualsSeparated)]
     public string? IamInstanceProfile { get; set; }
 
     /// <summary>
-    /// AWS EC2 instance type for the node pool's nodes.
+    /// Node pool autoscaling AWS EC2 instance type for the node pool's nodes.
     /// </summary>
     [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// Maximum number of extra (surge) nodes to be created beyond the current     size of the node pool during its update process. Use     --max-unavailable-update as well, if needed, to control the overall     surge settings.     To create an extra node each time the node pool is rolling updated,     run:       $ gcloud container aws node-pools update --max-surge-update=1 \         --max-unavailable-update=0
+    /// Node pool autoscaling Maximum number of extra (surge) nodes to be created beyond the current size of the node pool during its update process. Use --max-unavailable-update as well, if needed, to control the overall surge settings. To create an extra node each time the node pool is rolling updated, run: $ gcloud container aws node-pools update --max-surge-update=1 \ --max-unavailable-update=0
     /// </summary>
     [CliOption("--max-surge-update", Format = OptionFormat.EqualsSeparated)]
     public string? MaxSurgeUpdate { get; set; }
 
     /// <summary>
-    /// Maximum number of nodes that can be simultaneously unavailable during     this node pool's update process. Use --max-surge-update as well, if     needed, to control the overall surge settings.     To modify a node pool with 6 nodes such that, 3 nodes are updated in     parallel (1 + 2), but keep at least 4 nodes (6 - 2) available each time     this node pool is rolling updated, run:       $ gcloud container aws node-pools update --max-surge-update=1 \         --max-unavailable-update=2
+    /// Node pool autoscaling Maximum number of nodes that can be simultaneously unavailable during this node pool's update process. Use --max-surge-update as well, if needed, to control the overall surge settings. To modify a node pool with 6 nodes such that, 3 nodes are updated in parallel (1 + 2), but keep at least 4 nodes (6 - 2) available each time this node pool is rolling updated, run: $ gcloud container aws node-pools update --max-surge-update=1 \ --max-unavailable-update=2
     /// </summary>
     [CliOption("--max-unavailable-update", Format = OptionFormat.EqualsSeparated)]
     public string? MaxUnavailableUpdate { get; set; }
 
     /// <summary>
-    /// Kubernetes version to use for the node pool.
+    /// Node pool autoscaling Kubernetes version to use for the node pool.
     /// </summary>
     [CliOption("--node-version", Format = OptionFormat.EqualsSeparated)]
     public string? NodeVersion { get; set; }
 
     /// <summary>
-    /// Number of I/O operations per second (IOPS) to provision for the root     volume.
+    /// Node pool autoscaling Number of I/O operations per second (IOPS) to provision for the root volume.
     /// </summary>
     [CliOption("--root-volume-iops", Format = OptionFormat.EqualsSeparated)]
     public int? RootVolumeIops { get; set; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root     volume.
+    /// Node pool autoscaling Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root volume.
     /// </summary>
     [CliOption("--root-volume-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
     public string? RootVolumeKmsKeyArn { get; set; }
 
     /// <summary>
-    /// Size of the root volume. The value must be a whole number followed by a     size unit of GB for gigabyte, or TB for terabyte. If no size unit is     specified, GB is assumed.
+    /// Node pool autoscaling Size of the root volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
     /// </summary>
     [CliOption("--root-volume-size", Format = OptionFormat.EqualsSeparated)]
     public int? RootVolumeSize { get; set; }
 
     /// <summary>
-    /// Throughput to provision for the root volume, in MiB/s. Only valid if     the volume type is GP3. If volume type is GP3 and throughput is not     provided, it defaults to 125.
+    /// Node pool autoscaling Throughput to provision for the root volume, in MiB/s. Only valid if the volume type is GP3. If volume type is GP3 and throughput is not provided, it defaults to 125.
     /// </summary>
     [CliOption("--root-volume-throughput", Format = OptionFormat.EqualsSeparated)]
     public string? RootVolumeThroughput { get; set; }
 
     /// <summary>
-    /// Type of the root volume. ROOT_VOLUME_TYPE must be one of: gp2, gp3.
+    /// Node pool autoscaling Type of the root volume. ROOT_VOLUME_TYPE must be one of: gp2, gp3.
     /// </summary>
     [CliOption("--root-volume-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudRootVolumeType? RootVolumeType { get; set; }
 
     /// <summary>
-    /// Validate the node pool to update, but don't actually perform it.    Annotations    At most one of these can be specified:     --annotations=ANNOTATION,[ANNOTATION,...]      Annotations for the node pool.     --clear-annotations      Clear the annotations for the node pool.    Node pool autoscaling metrics collection    At most one of these can be specified:     --clear-autoscaling-metrics      Clear the cloudwatch autoscaling metrics collection associated with      the nodepool.     Or at least one of these can be specified:      Update existing cloudwatch autoscaling metrics collection parameters      --autoscaling-metrics=[AUTOSCALING_METRIC,...]       Autoscaling metrics to enable. For a list of valid metrics, refer       to       https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html.       If granularity is specified but not any metrics, all metrics are       enabled.      --autoscaling-metrics-granularity=AUTOSCALING_METRICS_GRANULARITY       Frequency at which EC2 Auto Scaling sends aggregated data to AWS       CloudWatch. The only valid value is "1Minute".    Node labels    At most one of these can be specified:     --clear-node-labels      Clear the labels assigned to the node pool's nodes.     --node-labels=NODE_LABEL,[NODE_LABEL,...]      Labels assigned to the node pool's nodes.    Proxy config    At most one of these can be specified:     --clear-proxy-config      Clear the proxy configuration associated with the node pool.     Or at least one of these can be specified:      Update existing proxy config parameters      --proxy-secret-arn=PROXY_SECRET_ARN       ARN of the AWS Secrets Manager secret that contains a proxy       configuration.      --proxy-secret-version-id=PROXY_SECRET_VERSION_ID       Version ID string of the AWS Secrets Manager secret that contains a       proxy configuration.    Security groups    At most one of these can be specified:     --clear-security-group-ids      Clear any additional security groups associated with the node pool's      nodes. This does not remove the default security groups.     --security-group-ids=[SECURITY_GROUP_ID,...]      IDs of additional security groups to add to the node pool's nodes.    SSH config    At most one of these can be specified:     --clear-ssh-ec2-key-pair      Clear the EC2 key pair authorized to login to the node pool's nodes.     --ssh-ec2-key-pair=SSH_EC2_KEY_PAIR      Name of the EC2 key pair authorized to login to the node pool's      nodes.    Tags    At most one of these can be specified:     --clear-tags      Clear any tags associated with the node pool's nodes.     --tags=TAG,[TAG,...]      Applies the given tags (comma separated) on the node pool. Example:        $ gcloud container aws node-pools update EXAMPLE_NODE_POOL \          --tags=tag1=one,tag2=two    Node pool autoscaling
+    /// Node pool autoscaling Validate the node pool to update, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Maximum number of nodes in the node pool.
+    /// Node pool autoscaling Annotations At most one of these can be specified: Annotations for the node pool.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Annotations At most one of these can be specified: Clear the annotations for the node pool.
+    /// </summary>
+    [CliFlag("--clear-annotations")]
+    public bool? ClearAnnotations { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Node pool autoscaling metrics collection At most one of these can be specified: Clear the cloudwatch autoscaling metrics collection associated with the nodepool.
+    /// </summary>
+    [CliFlag("--clear-autoscaling-metrics")]
+    public bool? ClearAutoscalingMetrics { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Node pool autoscaling metrics collection At most one of these can be specified: Or at least one of these can be specified: Update existing cloudwatch autoscaling metrics collection parameters Autoscaling metrics to enable. For a list of valid metrics, refer to https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If granularity is specified but not any metrics, all metrics are enabled.
+    /// </summary>
+    [CliOption("--autoscaling-metrics", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutoscalingMetrics { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Node pool autoscaling metrics collection At most one of these can be specified: Or at least one of these can be specified: Update existing cloudwatch autoscaling metrics collection parameters Frequency at which EC2 Auto Scaling sends aggregated data to AWS CloudWatch. The only valid value is "1Minute".
+    /// </summary>
+    [CliOption("--autoscaling-metrics-granularity", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMetricsGranularity { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Node labels At most one of these can be specified: Clear the labels assigned to the node pool's nodes.
+    /// </summary>
+    [CliFlag("--clear-node-labels")]
+    public bool? ClearNodeLabels { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Node labels At most one of these can be specified: Labels assigned to the node pool's nodes.
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Proxy config At most one of these can be specified: Clear the proxy configuration associated with the node pool.
+    /// </summary>
+    [CliFlag("--clear-proxy-config")]
+    public bool? ClearProxyConfig { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Proxy config At most one of these can be specified: Or at least one of these can be specified: Update existing proxy config parameters ARN of the AWS Secrets Manager secret that contains a proxy configuration.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretArn { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Proxy config At most one of these can be specified: Or at least one of these can be specified: Update existing proxy config parameters Version ID string of the AWS Secrets Manager secret that contains a proxy configuration.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-version-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretVersionId { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Security groups At most one of these can be specified: Clear any additional security groups associated with the node pool's nodes. This does not remove the default security groups.
+    /// </summary>
+    [CliFlag("--clear-security-group-ids")]
+    public bool? ClearSecurityGroupIds { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Security groups At most one of these can be specified: IDs of additional security groups to add to the node pool's nodes.
+    /// </summary>
+    [CliOption("--security-group-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SecurityGroupIds { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling SSH config At most one of these can be specified: Clear the EC2 key pair authorized to login to the node pool's nodes.
+    /// </summary>
+    [CliFlag("--clear-ssh-ec2-key-pair")]
+    public bool? ClearSshEc2KeyPair { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling SSH config At most one of these can be specified: Name of the EC2 key pair authorized to login to the node pool's nodes.
+    /// </summary>
+    [CliOption("--ssh-ec2-key-pair", Format = OptionFormat.EqualsSeparated)]
+    public string? SshEc2KeyPair { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Tags At most one of these can be specified: Clear any tags associated with the node pool's nodes.
+    /// </summary>
+    [CliFlag("--clear-tags")]
+    public bool? ClearTags { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Tags At most one of these can be specified: Applies the given tags (comma separated) on the node pool. Example: $ gcloud container aws node-pools update EXAMPLE_NODE_POOL \ --tags=tag1=one,tag2=two
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Maximum number of nodes in the node pool.
     /// </summary>
     [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? MaxNodes { get; set; }
 
     /// <summary>
-    /// Minimum number of nodes in the node pool.
+    /// Node pool autoscaling Minimum number of nodes in the node pool.
     /// </summary>
     [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? MinNodes { get; set; }

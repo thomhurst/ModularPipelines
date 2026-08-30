@@ -33,6 +33,21 @@ public class GcloudApigatewayOperations
     #region Commands
 
     /// <summary>
+    /// manage operations for Cloud API Gateways
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudApiGatewayOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApiGatewayOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel a Cloud API Gateway operation
     /// </summary>
     /// <param name="options">The command options.</param>

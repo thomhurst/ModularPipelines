@@ -23,13 +23,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPubsubLiteTopicsPublishOptions : GcloudOptions
 {
     /// <summary>
-    /// Comma-separated list of attributes. Each ATTRIBUTE has the form     name="value". You can specify up to 100 attributes.
+    /// Comma-separated list of attributes. Each ATTRIBUTE has the form name="value". You can specify up to 100 attributes.
     /// </summary>
     [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// A user-specified event time. Run gcloud topic datetimes for information     on time formats.
+    /// A user-specified event time. Run gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--event-time", Format = OptionFormat.EqualsSeparated)]
     public string? EventTime { get; set; }
@@ -41,7 +41,7 @@ public record GcloudPubsubLiteTopicsPublishOptions : GcloudOptions
     public string? Message { get; set; }
 
     /// <summary>
-    /// A string key, used for ordering delivery to subscribers. All messages     with the same ordering key will be assigned to the same partition for     ordered delivery.
+    /// A string key, used for ordering delivery to subscribers. All messages with the same ordering key will be assigned to the same partition for ordered delivery.
     /// </summary>
     [CliOption("--ordering-key", Format = OptionFormat.EqualsSeparated)]
     public string? OrderingKey { get; set; }

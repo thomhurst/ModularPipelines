@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunWorkerPoolsReplaceOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set to true, only validates the configuration. The configuration is     not applied.
+    /// If set to true, only validates the configuration. The configuration is not applied.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }

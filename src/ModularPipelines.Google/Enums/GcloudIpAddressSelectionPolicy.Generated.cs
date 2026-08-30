@@ -17,11 +17,26 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudIpAddressSelectionPolicy
 {
     [EnumValue("IPV4_ONLY")]
-    Ipv4Only,
+    Ipv4Only = 0,
 
     [EnumValue("PREFER_IPV6")]
-    PreferIpv6,
+    PreferIpv6 = 1,
 
     [EnumValue("IPV6_ONLY")]
-    Ipv6Only
+    Ipv6Only = 2,
+
+    [EnumValue("INTERNAL")]
+    Internal = 3,
+
+    [EnumValue("EXTERNAL")]
+    External = 4,
+
+    [EnumValue("INTERNAL_SELF_MANAGED")]
+    InternalSelfManaged = 5,
+
+    [EnumValue("EXTERNAL_MANAGED")]
+    ExternalManaged = 6,
+
+    [EnumValue("INTERNAL_MANAGED")]
+    InternalManaged = 7
 }

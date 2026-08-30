@@ -33,6 +33,21 @@ public class GcloudVmwarePrivateConnectionsRoutes
     #region Commands
 
     /// <summary>
+    /// manage private connection     peering routes in Google Cloud VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwarePrivateConnectionsRoutesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateConnectionsRoutesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Google Cloud private     connection peering routes
     /// </summary>
     /// <param name="options">The command options.</param>

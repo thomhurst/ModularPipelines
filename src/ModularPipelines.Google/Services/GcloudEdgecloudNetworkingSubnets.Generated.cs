@@ -33,6 +33,21 @@ public class GcloudEdgecloudNetworkingSubnets
     #region Commands
 
     /// <summary>
+    /// manage Distributed Cloud Edge     Network subnets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudEdgeCloudNetworkingSubnetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudNetworkingSubnetsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Distributed Cloud     Edge Network subnet
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudApphubApplicationsWorkloads
     #region Commands
 
     /// <summary>
+    /// manage App Hub Application Workloads
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudApphubApplicationsWorkloadsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApphubApplicationsWorkloadsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create an Apphub application     workload
     /// </summary>
     /// <param name="options">The command options.</param>

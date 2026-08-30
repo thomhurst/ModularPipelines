@@ -33,6 +33,21 @@ public class GcloudComputeVpnGateways
     #region Commands
 
     /// <summary>
+    /// read and manipulate Highly Available VPN     Gateways
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeVpnGatewaysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeVpnGatewaysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new Compute Engine Highly     Available VPN gateway
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -105,6 +120,21 @@ public class GcloudComputeVpnGateways
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeVpnGatewaysListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM permissions for     a Compute Engine VPN gateway
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudComputeVpnGatewaysTestIamPermissionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

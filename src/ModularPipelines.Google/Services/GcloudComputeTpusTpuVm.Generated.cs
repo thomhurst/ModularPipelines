@@ -55,6 +55,21 @@ public class GcloudComputeTpusTpuVm
     #region Commands
 
     /// <summary>
+    /// list, create, and manage Cloud TPU VM nodes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeTpusTpuVmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeTpusTpuVmOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new Cloud TPU VM node
     /// </summary>
     /// <param name="options">The command options.</param>

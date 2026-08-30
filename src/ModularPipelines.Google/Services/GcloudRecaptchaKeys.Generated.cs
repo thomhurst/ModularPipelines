@@ -33,6 +33,21 @@ public class GcloudRecaptchaKeys
     #region Commands
 
     /// <summary>
+    /// managed reCAPTCHA Keys
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRecaptchaKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRecaptchaKeysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an IP override to a key
     /// </summary>
     /// <param name="options">The command options.</param>

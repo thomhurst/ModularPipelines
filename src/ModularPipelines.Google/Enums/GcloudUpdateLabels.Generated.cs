@@ -17,8 +17,14 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudUpdateLabels
 {
     [EnumValue("READ_ONLY")]
-    ReadOnly,
+    ReadOnly = 0,
 
     [EnumValue("READ_WRITE")]
-    ReadWrite
+    ReadWrite = 1,
+
+    [EnumValue("secure-always")]
+    SecureAlways = 2,
+
+    [EnumValue("secure-optional")]
+    SecureOptional = 3
 }

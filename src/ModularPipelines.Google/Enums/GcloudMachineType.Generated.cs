@@ -17,20 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudMachineType
 {
     [EnumValue("e2-highcpu-32")]
-    E2Highcpu_32,
+    E2Highcpu_32 = 0,
 
     [EnumValue("e2-highcpu-8")]
-    E2Highcpu_8,
+    E2Highcpu_8 = 1,
 
     [EnumValue("e2-medium")]
-    E2Medium,
+    E2Medium = 2,
 
     [EnumValue("e2-standard-2")]
-    E2Standard_2,
+    E2Standard_2 = 3,
 
     [EnumValue("n1-highcpu-32")]
-    N1Highcpu_32,
+    N1Highcpu_32 = 4,
 
     [EnumValue("n1-highcpu-8")]
-    N1Highcpu_8
+    N1Highcpu_8 = 5
 }

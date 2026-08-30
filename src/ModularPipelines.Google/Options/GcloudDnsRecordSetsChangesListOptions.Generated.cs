@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsRecordSetsChangesListOptions : GcloudOptions
 {
     /// <summary>
-    /// Sort order for listing. SORT_ORDER must be one of: ascending,     descending.
+    /// Sort order for listing. SORT_ORDER must be one of: ascending, descending.
     /// </summary>
     [CliOption("--sort-order", Format = OptionFormat.EqualsSeparated)]
     public GcloudSortOrder? SortOrder { get; set; }

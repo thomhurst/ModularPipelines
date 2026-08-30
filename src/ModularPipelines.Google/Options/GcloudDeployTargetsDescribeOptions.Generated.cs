@@ -28,13 +28,13 @@ public record GcloudDeployTargetsDescribeOptions : GcloudOptions
     public string? DeliveryPipeline { get; set; }
 
     /// <summary>
-    /// List all Delivery Pipelines associated with a target.     Usage:       $ gcloud deploy targets describe --list-all-pipelines
+    /// List all Delivery Pipelines associated with a target. Usage: $ gcloud deploy targets describe --list-all-pipelines
     /// </summary>
     [CliFlag("--list-all-pipelines")]
     public bool? ListAllPipelines { get; set; }
 
     /// <summary>
-    /// If set, skip fetching details of associated pipelines when describing a     target.     Usage:       $ gcloud deploy targets describe --skip-pipeline-lookup
+    /// If set, skip fetching details of associated pipelines when describing a target. Usage: $ gcloud deploy targets describe --skip-pipeline-lookup
     /// </summary>
     [CliFlag("--skip-pipeline-lookup")]
     public bool? SkipPipelineLookup { get; set; }

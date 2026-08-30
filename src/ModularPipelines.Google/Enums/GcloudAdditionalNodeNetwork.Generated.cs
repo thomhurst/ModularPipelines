@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudAdditionalNodeNetwork
 {
     [EnumValue("ipv4")]
-    Ipv4,
+    Ipv4 = 0,
 
     [EnumValue("ipv4-ipv6")]
-    Ipv4Ipv6,
+    Ipv4Ipv6 = 1,
 
     [EnumValue("ipv6")]
-    Ipv6
+    Ipv6 = 2
 }

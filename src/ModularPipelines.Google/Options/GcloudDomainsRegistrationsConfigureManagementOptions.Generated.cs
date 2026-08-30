@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDomainsRegistrationsConfigureManagementOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Preferred Renewal Method of a registration. It defines how the     registration should be renewed. The actual Renewal Method can be set to     renewal-disabled in case of e.g. problems with the Billing Account or     reporeted domain abuse. PREFERRED_RENEWAL_METHOD must be one of:      automatic-renewal       The domain is automatically renewed each year.     renewal-disabled       The domain won't be renewed and will expire at its expiration time.
+    /// Preferred Renewal Method of a registration. It defines how the registration should be renewed. The actual Renewal Method can be set to renewal-disabled in case of e.g. problems with the Billing Account or reporeted domain abuse. PREFERRED_RENEWAL_METHOD must be one of: automatic-renewal The domain is automatically renewed each year. renewal-disabled The domain won't be renewed and will expire at its expiration time.
     /// </summary>
     [CliOption("--preferred-renewal-method", Format = OptionFormat.EqualsSeparated)]
     public string? PreferredRenewalMethod { get; set; }
 
     /// <summary>
-    /// Transfer Lock of a registration. It needs to be unlocked in order to     transfer the domain to another registrar. TRANSFER_LOCK_STATE must be     one of:      locked       The transfer lock is locked.     unlocked       The transfer lock is unlocked.
+    /// Transfer Lock of a registration. It needs to be unlocked in order to transfer the domain to another registrar. TRANSFER_LOCK_STATE must be one of: locked The transfer lock is locked. unlocked The transfer lock is unlocked.
     /// </summary>
     [CliOption("--transfer-lock-state", Format = OptionFormat.EqualsSeparated)]
     public string? TransferLockState { get; set; }

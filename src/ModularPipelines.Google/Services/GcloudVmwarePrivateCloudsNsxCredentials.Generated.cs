@@ -33,6 +33,21 @@ public class GcloudVmwarePrivateCloudsNsxCredentials
     #region Commands
 
     /// <summary>
+    /// manage VMware NSX     credentials using Google Cloud VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwarePrivateCloudsNsxCredentialsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsNsxCredentialsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// retrieve VMware NSX     sign-in credentials associated with a Google Cloud VMware Engine     private cloud
     /// </summary>
     /// <param name="options">The command options.</param>

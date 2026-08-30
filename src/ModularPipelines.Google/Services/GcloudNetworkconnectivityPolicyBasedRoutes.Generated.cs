@@ -33,6 +33,21 @@ public class GcloudNetworkconnectivityPolicyBasedRoutes
     #region Commands
 
     /// <summary>
+    /// based     Routes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivityPolicyBasedRoutesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivityPolicyBasedRoutesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new     policy-based route
     /// </summary>
     /// <param name="options">The command options.</param>

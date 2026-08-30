@@ -33,6 +33,21 @@ public class GcloudComputeResourcePoliciesUpdate
     #region Commands
 
     /// <summary>
+    /// update Compute Engine Resource     Policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeResourcePoliciesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeResourcePoliciesUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// update a     Compute Engine Instance Schedule Resource Policy
     /// </summary>
     /// <param name="options">The command options.</param>

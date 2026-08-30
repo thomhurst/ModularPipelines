@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeHealthAggregationPoliciesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -33,13 +33,13 @@ public record GcloudComputeHealthAggregationPoliciesCreateOptions : GcloudOption
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
-    [CliOption("--healthy-percent-threshold", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("HealthyPercentThreshold is no longer supported by the installed CLI and has no effect.")]
     public string? HealthyPercentThreshold { get; set; }
 
-    [CliOption("--min-healthy-threshold", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("MinHealthyThreshold is no longer supported by the installed CLI and has no effect.")]
     public string? MinHealthyThreshold { get; set; }
 
-    [CliOption("--policy-type", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("PolicyType is no longer supported by the installed CLI and has no effect.")]
     public string? PolicyType { get; set; }
 
 }

@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud notebooks commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudNotebooks
 {
     /// <summary>
     /// gcloud environments sub-commands.
     /// </summary>
-    GcloudNotebooksEnvironments Environments { get; }
+    GcloudNotebooksEnvironments Environments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudNotebooksInstances Instances { get; }
+    GcloudNotebooksInstances Instances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudNotebooksLocations Locations { get; }
+    GcloudNotebooksLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud runtimes sub-commands.
     /// </summary>
-    GcloudNotebooksRuntimes Runtimes { get; }
+    GcloudNotebooksRuntimes Runtimes => throw new System.NotSupportedException();
 
     /// <summary>
     /// notebooks Command Group
@@ -45,9 +48,7 @@ public interface IGcloudNotebooks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudNotebooksOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudNotebooksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

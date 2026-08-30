@@ -33,6 +33,21 @@ public class GcloudStorageBucketsNotifications
     #region Commands
 
     /// <summary>
+    /// manage Cloud Storage bucket     notifications
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudStorageBucketsNotificationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageBucketsNotificationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a notification     configuration on a bucket
     /// </summary>
     /// <param name="options">The command options.</param>

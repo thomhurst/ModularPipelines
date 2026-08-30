@@ -29,13 +29,13 @@ public record GcloudIamWorkforcePoolsProvidersScimTenantsUpdateOptions : GcloudO
     public IReadOnlyList<KeyValue>? ClaimMapping { get; set; }
 
     /// <summary>
-    /// Optional, user-specified description for the SCIM tenant (max 256     characters).
+    /// Optional, user-specified description for the SCIM tenant (max 256 characters).
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Optional, user-specified display name for the SCIM tenant (max 32     characters).
+    /// Optional, user-specified display name for the SCIM tenant (max 32 characters).
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }

@@ -15,48 +15,51 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud run commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudRun
 {
     /// <summary>
     /// gcloud compose sub-commands.
     /// </summary>
-    GcloudRunCompose Compose { get; }
+    GcloudRunCompose Compose => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud domain-mappings sub-commands.
     /// </summary>
-    GcloudRunDomainMappings DomainMappings { get; }
+    GcloudRunDomainMappings DomainMappings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudRunJobs Jobs { get; }
+    GcloudRunJobs Jobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multi-region-services sub-commands.
     /// </summary>
-    GcloudRunMultiRegionServices MultiRegionServices { get; }
+    GcloudRunMultiRegionServices MultiRegionServices => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud regions sub-commands.
     /// </summary>
-    GcloudRunRegions Regions { get; }
+    GcloudRunRegions Regions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud revisions sub-commands.
     /// </summary>
-    GcloudRunRevisions Revisions { get; }
+    GcloudRunRevisions Revisions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudRunServices Services { get; }
+    GcloudRunServices Services => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud worker-pools sub-commands.
     /// </summary>
-    GcloudRunWorkerPools WorkerPools { get; }
+    GcloudRunWorkerPools WorkerPools => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage your Cloud Run applications
@@ -65,10 +68,8 @@ public interface IGcloudRun
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudRunOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudRunOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// create or update a Cloud Run service
@@ -77,9 +78,7 @@ public interface IGcloudRun
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeployAsync(
-        GcloudRunDeployOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeployAsync(GcloudRunDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

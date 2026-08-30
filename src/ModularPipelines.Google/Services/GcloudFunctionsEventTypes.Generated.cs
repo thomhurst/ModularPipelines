@@ -33,6 +33,21 @@ public class GcloudFunctionsEventTypes
     #region Commands
 
     /// <summary>
+    /// list types of events that can be a trigger     for a Google Cloud Function
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFunctionsEventTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFunctionsEventTypesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list types of events that can be a     trigger for a Google Cloud Function
     /// </summary>
     /// <param name="options">The command options.</param>

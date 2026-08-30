@@ -33,6 +33,21 @@ public class GcloudDataflowYaml
     #region Commands
 
     /// <summary>
+    /// a group of subcommands for launching Beam YAML jobs     on Dataflow
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataflowYamlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataflowYamlOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// runs a job from the specified path
     /// </summary>
     /// <param name="options">The command options.</param>

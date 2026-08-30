@@ -33,6 +33,21 @@ public class GcloudAiModels
     #region Commands
 
     /// <summary>
+    /// manage Vertex AI models
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAiModelsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiModelsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// copy a model
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudDeployCustomTargetTypes
     #region Commands
 
     /// <summary>
+    /// create and manage Custom Target Type     resources for Cloud Deploy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDeployCustomTargetTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeployCustomTargetTypesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy     binding for a Cloud Deploy Custom Target Type
     /// </summary>
     /// <param name="options">The command options.</param>

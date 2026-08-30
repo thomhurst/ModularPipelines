@@ -28,13 +28,13 @@ public record GcloudDataCatalogTagTemplatesFieldsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Comma-separated list of enum values. The list of enum values passed     with this flag replaces the existing one in tag template enum field.     That means:     ◆ the enum values passed to the flag and not present in tag template      enum field get created     ◆ the enum values present in tag template enum field and missing in      the list get removed     ◆ the order of the items on the list is preserved     Enum values can only be removed from optional enum fields for now.
+    /// Comma-separated list of enum values. The list of enum values passed with this flag replaces the existing one in tag template enum field. That means: ◆ the enum values passed to the flag and not present in tag template enum field get created ◆ the enum values present in tag template enum field and missing in the list get removed ◆ the order of the items on the list is preserved Enum values can only be removed from optional enum fields for now.
     /// </summary>
     [CliOption("--enum-values", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnumValues { get; set; }
 
     /// <summary>
-    /// Indicates if the tag template field is required. Updating from FALSE     (optional) to TRUE (required) is NOT allowed.
+    /// Indicates if the tag template field is required. Updating from FALSE (optional) to TRUE (required) is NOT allowed.
     /// </summary>
     [CliFlag("--required")]
     public bool? Required { get; set; }

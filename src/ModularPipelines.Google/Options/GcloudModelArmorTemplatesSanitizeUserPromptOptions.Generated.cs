@@ -21,4 +21,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("model-armor", "templates", "sanitize-user-prompt")]
 public record GcloudModelArmorTemplatesSanitizeUserPromptOptions : GcloudOptions
 {
+    /// <summary>
+    /// Arguments for the data item. At most one of these can be specified: Arguments for the data item. At most one of these can be specified: Plaintext string data for sanitization.
+    /// </summary>
+    [CliOption("--user-prompt-data-text", Format = OptionFormat.EqualsSeparated)]
+    public string? UserPromptDataText { get; set; }
+
+    /// <summary>
+    /// Arguments for the data item. At most one of these can be specified: Arguments for the data item. At most one of these can be specified: Or at least one of these can be specified: Represents Byte Data item. Bytes Data. Use a full or relative path to a local file containing the value of byte_item_data. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--byte-item-data-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ByteItemDataFromFile { get; set; }
+
+    /// <summary>
+    /// Arguments for the data item. At most one of these can be specified: Arguments for the data item. At most one of these can be specified: Or at least one of these can be specified: Represents Byte Data item. The type of byte data. BYTE_ITEM_DATA_TYPE must be one of: pdf PDF plaintext-utf8 plain text This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--byte-item-data-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ByteItemDataType { get; set; }
+
 }

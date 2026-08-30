@@ -28,7 +28,7 @@ public record GcloudDeploymentManagerResourcesListOptions : GcloudOptions
     public string? Deployment { get; set; }
 
     /// <summary>
-    /// Changes the --format flag to print the resource IDs. Otherwise either     the --format value or the default format is used.
+    /// Changes the --format flag to print the resource IDs. Otherwise either the --format value or the default format is used.
     /// </summary>
     [CliFlag("--simple-list")]
     public bool? SimpleList { get; set; }

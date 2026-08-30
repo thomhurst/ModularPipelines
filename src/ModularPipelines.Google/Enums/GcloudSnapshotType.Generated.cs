@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSnapshotType
 {
     [EnumValue("ARCHIVE")]
-    Archive,
+    Archive = 0,
 
     [EnumValue("STANDARD")]
-    Standard
+    Standard = 1
 }

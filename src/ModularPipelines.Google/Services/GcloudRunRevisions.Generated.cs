@@ -33,6 +33,21 @@ public class GcloudRunRevisions
     #region Commands
 
     /// <summary>
+    /// view and manage your Cloud Run revisions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRunRevisionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRunRevisionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete a revision
     /// </summary>
     /// <param name="options">The command options.</param>

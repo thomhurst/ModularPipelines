@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPreviewComputeStoragePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -32,6 +32,24 @@ public record GcloudPreviewComputeStoragePoolsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// Provisioned capacity-optimized capacity of the exapool. Can only be specified for Exapool storage pools.
+    /// </summary>
+    [CliOption("--exapool-capacity-optimized-capacity", Format = OptionFormat.EqualsSeparated)]
+    public string? ExapoolCapacityOptimizedCapacity { get; set; }
+
+    /// <summary>
+    /// Provisioned read-optimized capacity of the exapool. Can only be specified for Exapool storage pools.
+    /// </summary>
+    [CliOption("--exapool-read-optimized-capacity", Format = OptionFormat.EqualsSeparated)]
+    public string? ExapoolReadOptimizedCapacity { get; set; }
+
+    /// <summary>
+    /// Provisioned write-optimized capacity of the exapool. Can only be specified for Exapool storage pools.
+    /// </summary>
+    [CliOption("--exapool-write-optimized-capacity", Format = OptionFormat.EqualsSeparated)]
+    public string? ExapoolWriteOptimizedCapacity { get; set; }
 
     /// <summary>
     /// Provisioned capacity of the storage pool.

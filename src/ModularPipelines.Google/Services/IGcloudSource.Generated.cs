@@ -15,18 +15,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud source commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudSource
 {
     /// <summary>
     /// gcloud project-configs sub-commands.
     /// </summary>
-    GcloudSourceProjectConfigs ProjectConfigs { get; }
+    GcloudSourceProjectConfigs ProjectConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud repos sub-commands.
     /// </summary>
-    GcloudSourceRepos Repos { get; }
+    GcloudSourceRepos Repos => throw new System.NotSupportedException();
 
     /// <summary>
     /// cloud git repository commands
@@ -35,9 +38,7 @@ public interface IGcloudSource
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudSourceOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

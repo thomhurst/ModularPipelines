@@ -33,6 +33,21 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
     #region Commands
 
     /// <summary>
+    /// create or     manipulate dedicated interconnect attachments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInterconnectsAttachmentsL2ForwardingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add     new vlan to ip mapping rule to an L2-forwarding attachment
     /// </summary>
     /// <param name="options">The command options.</param>

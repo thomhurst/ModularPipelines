@@ -33,6 +33,21 @@ public class GcloudPreviewComputeInterconnectsGroups
     #region Commands
 
     /// <summary>
+    /// create or manipulate     interconnect groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeInterconnectsGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeInterconnectsGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add member     interconnects to a Compute Engine interconnect group
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -146,6 +161,21 @@ public class GcloudPreviewComputeInterconnectsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMembersAsync(
         GcloudPreviewComputeInterconnectsGroupsRemoveMembersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set the IAM     policy for a Compute Engine interconnect group
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicyAsync(
+        GcloudPreviewComputeInterconnectsGroupsSetIamPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

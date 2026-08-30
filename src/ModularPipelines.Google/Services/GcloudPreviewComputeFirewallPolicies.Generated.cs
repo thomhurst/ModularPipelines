@@ -49,6 +49,21 @@ public class GcloudPreviewComputeFirewallPolicies
     #region Commands
 
     /// <summary>
+    /// manage Compute Engine     organization firewall policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeFirewallPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeFirewallPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// replace the rules of     a Compute Engine organization firewall policy with rules from another     policy
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -207,6 +222,21 @@ public class GcloudPreviewComputeFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicyAsync(
         GcloudPreviewComputeFirewallPoliciesSetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine organization firewall policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudPreviewComputeFirewallPoliciesTestIamPermissionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

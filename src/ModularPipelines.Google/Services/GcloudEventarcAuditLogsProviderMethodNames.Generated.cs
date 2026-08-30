@@ -33,6 +33,21 @@ public class GcloudEventarcAuditLogsProviderMethodNames
     #region Commands
 
     /// <summary>
+    /// explore values for the     methodName attribute for event type google.cloud.audit.log.v1.written
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudEventarcAuditLogsProviderMethodNamesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEventarcAuditLogsProviderMethodNamesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list values for the     methodName attribute for event type google.cloud.audit.log.v1.written
     /// </summary>
     /// <param name="options">The command options.</param>

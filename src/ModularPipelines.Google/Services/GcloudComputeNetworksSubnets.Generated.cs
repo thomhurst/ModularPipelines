@@ -33,6 +33,21 @@ public class GcloudComputeNetworksSubnets
     #region Commands
 
     /// <summary>
+    /// list, describe, and delete, and update     Compute Engine subnetworks
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeNetworksSubnetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeNetworksSubnetsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an IAM policy     binding to a Compute Engine subnetwork
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -180,6 +195,21 @@ public class GcloudComputeNetworksSubnets
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM permissions     for a Compute Engine subnetwork
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudComputeNetworksSubnetsTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeNetworksSubnetsTestIamPermissionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

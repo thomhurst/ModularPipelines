@@ -17,8 +17,14 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudView
 {
     [EnumValue("BASIC")]
-    Basic,
+    Basic = 0,
 
     [EnumValue("FULL")]
-    Full
+    Full = 1,
+
+    [EnumValue("desc")]
+    Desc = 2,
+
+    [EnumValue("asc")]
+    Asc = 3
 }

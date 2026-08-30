@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRedisClustersGetSharedRegionalCertificateAuthorityOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the region or fully qualified identifier for the region.     To set the region attribute:     ◆ provide the argument --region on the command line;     ◆ set the property redis/region.
+    /// Region resource - Arguments and flags that specify the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property redis/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Region resource - Arguments and flags that specify the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property redis/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property redis/region.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

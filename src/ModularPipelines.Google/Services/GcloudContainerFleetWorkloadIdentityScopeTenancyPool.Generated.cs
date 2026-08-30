@@ -33,6 +33,21 @@ public class GcloudContainerFleetWorkloadIdentityScopeTenancyPool
     #region Commands
 
     /// <summary>
+    /// manage     Workload Identity Feature scope tenancy pool
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerFleetWorkloadIdentityScopeTenancyPoolOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// set Scope     Tenancy Pool
     /// </summary>
     /// <param name="options">The command options.</param>

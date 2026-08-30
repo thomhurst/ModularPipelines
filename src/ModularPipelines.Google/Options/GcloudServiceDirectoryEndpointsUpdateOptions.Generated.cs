@@ -29,13 +29,13 @@ public record GcloudServiceDirectoryEndpointsUpdateOptions : GcloudOptions
     public string? Address { get; set; }
 
     /// <summary>
-    /// Annotations for the endpoint.     Annotations take the form of key/value string pairs. Keys are composed     of an optional prefix and a name segment, separated by a slash(/).     Prefixes and names must be composed of alphanumeric characters, dashes,     and dots. Names may also use underscores. There are no character     restrictions on what may go into the value of an annotation. The entire     dictionary is limited to 512 characters, spread across all key-value     pairs.
+    /// Annotations for the endpoint. Annotations take the form of key/value string pairs. Keys are composed of an optional prefix and a name segment, separated by a slash(/). Prefixes and names must be composed of alphanumeric characters, dashes, and dots. Names may also use underscores. There are no character restrictions on what may go into the value of an annotation. The entire dictionary is limited to 512 characters, spread across all key-value pairs.
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
-    /// Port that the endpoint is running on, must be in the range of [0,     65535]. The default is 0.
+    /// Port that the endpoint is running on, must be in the range of [0, 65535]. The default is 0.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }

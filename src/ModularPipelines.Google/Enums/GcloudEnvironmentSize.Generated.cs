@@ -17,17 +17,17 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudEnvironmentSize
 {
     [EnumValue("extra-large")]
-    ExtraLarge,
+    ExtraLarge = 0,
 
     [EnumValue("large")]
-    Large,
+    Large = 1,
 
     [EnumValue("medium")]
-    Medium,
+    Medium = 2,
 
     [EnumValue("small")]
-    Small,
+    Small = 3,
 
     [EnumValue("unspecified")]
-    Unspecified
+    Unspecified = 4
 }

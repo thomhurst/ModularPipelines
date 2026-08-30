@@ -22,12 +22,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwarePrivateCloudsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CliOption("--delay-hours", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("DelayHours is no longer supported by the installed CLI and has no effect.")]
     public string? DelayHours { get; set; }
 
 }

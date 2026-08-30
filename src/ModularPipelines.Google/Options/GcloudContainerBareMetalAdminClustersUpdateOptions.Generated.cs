@@ -23,91 +23,97 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Set Binary Authorization evaluation mode for this cluster.     BINAUTHZ_EVALUATION_MODE must be one of: DISABLED,     PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
     /// </summary>
     [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BinauthzEvaluationMode { get; set; }
 
     /// <summary>
-    /// Description for the resource.    Anthos on bare metal cluster operations configuration.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Description for the resource.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Whether collection of application logs/metrics should be enabled (in     addition to system logs/metrics).    Populate one of the network configs.    Island mode CIDR network configuration.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
     /// </summary>
     [CliFlag("--enable-application-logs")]
     public bool? EnableApplicationLogs { get; set; }
 
     /// <summary>
-    /// IPv4 address range for all services in the cluster.    Anthos on bare metal node access related settings for the admin cluster.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. IPv4 address range for all services in the cluster.
     /// </summary>
     [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IslandModeServiceAddressCidrBlocks { get; set; }
 
     /// <summary>
-    /// User name used to access node machines.    Anthos on bare metal cluster maintenance configuration.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. User name used to access node machines.
     /// </summary>
     [CliOption("--login-user", Format = OptionFormat.EqualsSeparated)]
     public string? LoginUser { get; set; }
 
     /// <summary>
-    /// IPv4 addresses to be placed into maintenance mode.    Anthos on bare metal admin cluster workload node configuration.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. IPv4 addresses to be placed into maintenance mode.
     /// </summary>
     [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
 
     /// <summary>
-    /// Maximum number of pods a node can run.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Maximum number of pods a node can run.
     /// </summary>
     [CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)]
     public string? MaxPodsPerNode { get; set; }
 
     /// <summary>
-    /// If set, only validate the request, but do not actually perform the     operation.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. If set, only validate the request, but do not actually perform the operation.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Anthos cluster on bare metal version for the admin cluster resource.    Anthos on bare metal cluster control plane configuration.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Anthos cluster on bare metal version for the admin cluster resource.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
     /// <summary>
-    /// API Server argument configuration.    Anthos on bare metal cluster control plane node pool configuration.    Anthos on bare metal node pool configuration for control plane nodes.    Anthos on bare metal node configuration for control plane nodes.    Populate control plane node config.    At most one of these can be specified:     --control-plane-node-configs=[labels=LABELS],[node-ip=NODE-IP]      Control plane node configuration.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. API Server argument configuration.
     /// </summary>
     [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ApiServerArgs { get; set; }
 
     /// <summary>
-    /// Labels assigned to nodes of a node pool.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Anthos on bare metal cluster control plane node pool configuration. Anthos on bare metal node pool configuration for control plane nodes. Anthos on bare metal node configuration for control plane nodes. Populate control plane node config. At most one of these can be specified: Control plane node configuration.
+    /// </summary>
+    [CliOption("--control-plane-node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneNodeConfigs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Labels assigned to nodes of a node pool.
     /// </summary>
     [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ControlPlaneNodeLabels { get; set; }
 
     /// <summary>
-    /// Node taint applied to every Kubernetes node in a node pool.    Anthos on bare metal cluster proxy configuration.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Node taint applied to every Kubernetes node in a node pool.
     /// </summary>
     [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints { get; set; }
 
     /// <summary>
-    /// List of IPs, hostnames, and domains that should skip the proxy.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. List of IPs, hostnames, and domains that should skip the proxy.
     /// </summary>
     [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NoProxy { get; set; }
 
     /// <summary>
-    /// Address of the proxy server.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. Address of the proxy server.
     /// </summary>
     [CliOption("--uri", Format = OptionFormat.EqualsSeparated)]
     public string? Uri { get; set; }

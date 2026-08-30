@@ -15,43 +15,46 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud privateca commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudPrivateca
 {
     /// <summary>
     /// gcloud certificates sub-commands.
     /// </summary>
-    GcloudPrivatecaCertificates Certificates { get; }
+    GcloudPrivatecaCertificates Certificates => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudPrivatecaLocations Locations { get; }
+    GcloudPrivatecaLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudPrivatecaOperations Operations { get; }
+    GcloudPrivatecaOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud pools sub-commands.
     /// </summary>
-    GcloudPrivatecaPools Pools { get; }
+    GcloudPrivatecaPools Pools => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud roots sub-commands.
     /// </summary>
-    GcloudPrivatecaRoots Roots { get; }
+    GcloudPrivatecaRoots Roots => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud subordinates sub-commands.
     /// </summary>
-    GcloudPrivatecaSubordinates Subordinates { get; }
+    GcloudPrivatecaSubordinates Subordinates => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    GcloudPrivatecaTemplates Templates { get; }
+    GcloudPrivatecaTemplates Templates => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage private Certificate Authorities on Google Cloud
@@ -60,9 +63,7 @@ public interface IGcloudPrivateca
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudPrivatecaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudPrivatecaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

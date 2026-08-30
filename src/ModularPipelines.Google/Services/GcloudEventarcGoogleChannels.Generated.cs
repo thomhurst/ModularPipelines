@@ -33,6 +33,21 @@ public class GcloudEventarcGoogleChannels
     #region Commands
 
     /// <summary>
+    /// manage Eventarc Google channels
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudEventarcGoogleChannelsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEventarcGoogleChannelsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe an Eventarc Google     channel
     /// </summary>
     /// <param name="options">The command options.</param>

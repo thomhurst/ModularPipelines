@@ -15,33 +15,36 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud alloydb commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudAlloydb
 {
     /// <summary>
     /// gcloud backups sub-commands.
     /// </summary>
-    GcloudAlloydbBackups Backups { get; }
+    GcloudAlloydbBackups Backups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    GcloudAlloydbClusters Clusters { get; }
+    GcloudAlloydbClusters Clusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudAlloydbInstances Instances { get; }
+    GcloudAlloydbInstances Instances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAlloydbOperations Operations { get; }
+    GcloudAlloydbOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud users sub-commands.
     /// </summary>
-    GcloudAlloydbUsers Users { get; }
+    GcloudAlloydbUsers Users => throw new System.NotSupportedException();
 
     /// <summary>
     /// create and manage AlloyDB databases
@@ -50,9 +53,7 @@ public interface IGcloudAlloydb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudAlloydbOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudAlloydbOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

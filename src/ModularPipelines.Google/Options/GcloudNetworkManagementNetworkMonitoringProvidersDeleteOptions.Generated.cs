@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkManagementNetworkMonitoringProvidersDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set to true, any nested     [MonitoringPoints][google.cloud.networkmanagement.v1.MonitoringPoint],     [NetworkPaths][google.cloud.networkmanagement.v1.NetworkPath] and     [WebPaths][google.cloud.networkmanagement.v1.WebPath] resources from     this     [NetworkMonitoringProvider][google.cloud.networkmanagement.v1.NetworkMonitoringProvider]     will also be deleted. Otherwise, the request will only work if there     are no nested resources.
+    /// If set to true, any nested [MonitoringPoints][google.cloud.networkmanagement.v1.MonitoringPoint], [NetworkPaths][google.cloud.networkmanagement.v1.NetworkPath] and [WebPaths][google.cloud.networkmanagement.v1.WebPath] resources from this [NetworkMonitoringProvider][google.cloud.networkmanagement.v1.NetworkMonitoringProvider] will also be deleted. Otherwise, the request will only work if there are no nested resources.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

@@ -35,9 +35,75 @@ public record GcloudDataplexDatascansUpdateDataProfileOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of --async | --validate-only can be specified.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --validate-only      Validate the update action, but don't actually perform it.    Data spec for the data profile scan.    At most one of these can be specified:     --data-profile-spec-file=DATA_PROFILE_SPEC_FILE      path to the JSON/YAML file containing the spec for the data profile      scan. The JSON representation reference:      https://cloud.google.com/dataplex/docs/reference/rest/v1/DataProfileSpec     Or at least one of these can be specified:      Command line spec arguments for the data profile scan.      --enable-catalog-publishing       Publish data profile results to Dataplex catalog.      --exclude-field-names=EXCLUDE_FIELD_NAMES       Names of the fields to exclude from data profile. If specified, the       respective fields will be excluded from data profile, regardless of       the fields specified in the --include-field-names flag.      --include-field-names=INCLUDE_FIELD_NAMES       Names of the fields to include in data profile. If not specified,       all fields at the time of profile scan job execution are included.       The fields listed in the --exclude-field-names flag are excluded.      --mode=MODE       The execution mode for the profile scan. MODE must be one of:        LIGHTWEIGHT         Get quick insights with a low-latency, low-fidelity scan.       STANDARD         Profile your data with customizable scan settings.      --row-filter=ROW_FILTER       A filter applied to all rows in a single data profile scan job.      --sampling-percent=SAMPLING_PERCENT       The percentage of the records to be selected from the dataset for       data profile scan.    Data profile scan execution settings.    Data profile scan scheduling and trigger settings    At most one of these can be specified:     --on-demand=ON_DEMAND      If set, the scan runs one-time shortly after data profile scan      updation.     --schedule=SCHEDULE      Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans      periodically. To explicitly set a timezone to the cron tab, apply a      prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or      "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid      string from IANA time zone database. For example,      CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * * *.      This field is required for RECURRING scans.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At most one of --async | --validate-only can be specified. At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// At most one of --async | --validate-only can be specified. At most one of these can be specified: Validate the update action, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: path to the JSON/YAML file containing the spec for the data profile scan. The JSON representation reference: https://cloud.google.com/dataplex/docs/reference/rest/v1/DataProfileSpec
+    /// </summary>
+    [CliOption("--data-profile-spec-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DataProfileSpecFile { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. Publish data profile results to Dataplex catalog.
+    /// </summary>
+    [CliFlag("--enable-catalog-publishing")]
+    public bool? EnableCatalogPublishing { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. Names of the fields to exclude from data profile. If specified, the respective fields will be excluded from data profile, regardless of the fields specified in the --include-field-names flag.
+    /// </summary>
+    [CliOption("--exclude-field-names", Format = OptionFormat.EqualsSeparated)]
+    public string? ExcludeFieldNames { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. Names of the fields to include in data profile. If not specified, all fields at the time of profile scan job execution are included. The fields listed in the --exclude-field-names flag are excluded.
+    /// </summary>
+    [CliOption("--include-field-names", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeFieldNames { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. The execution mode for the profile scan. MODE must be one of: LIGHTWEIGHT Get quick insights with a low-latency, low-fidelity scan. STANDARD Profile your data with customizable scan settings.
+    /// </summary>
+    [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
+    public string? Mode { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. A filter applied to all rows in a single data profile scan job.
+    /// </summary>
+    [CliOption("--row-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? RowFilter { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. The percentage of the records to be selected from the dataset for data profile scan.
+    /// </summary>
+    [CliOption("--sampling-percent", Format = OptionFormat.EqualsSeparated)]
+    public string? SamplingPercent { get; set; }
+
+    /// <summary>
+    /// Data profile scan execution settings. Data profile scan scheduling and trigger settings At most one of these can be specified: If set, the scan runs one-time shortly after data profile scan updation.
+    /// </summary>
+    [CliOption("--on-demand", Format = OptionFormat.EqualsSeparated)]
+    public string? OnDemand { get; set; }
+
+    /// <summary>
+    /// Data profile scan execution settings. Data profile scan scheduling and trigger settings At most one of these can be specified: Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * * *. This field is required for RECURRING scans.
+    /// </summary>
+    [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? Schedule { get; set; }
 
 }

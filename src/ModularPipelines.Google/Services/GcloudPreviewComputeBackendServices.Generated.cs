@@ -33,6 +33,21 @@ public class GcloudPreviewComputeBackendServices
     #region Commands
 
     /// <summary>
+    /// list, create, and delete backend     services
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeBackendServicesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeBackendServicesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add a backend to a     backend service
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -311,6 +326,21 @@ public class GcloudPreviewComputeBackendServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicyAsync(
         GcloudPreviewComputeBackendServicesSetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine backend service
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudPreviewComputeBackendServicesTestIamPermissionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

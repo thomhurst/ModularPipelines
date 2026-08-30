@@ -33,6 +33,21 @@ public class GcloudKmsOperations
     #region Commands
 
     /// <summary>
+    /// commands for managing operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudKmsOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// view the details of an operation
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -22,12 +22,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBigtableOperationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the instance or fully qualified identifier for the instance.     To set the instance attribute:     ◆ provide the argument --instance on the command line.
+    /// Instance resource - The instance to list operations for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Instance resource - The instance to list operations for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ◆ provide the argument --instance on the command line.
     /// </summary>
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
     public string? Instance { get; set; }
 
-    [CliOption("--return-partial-success", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("ReturnPartialSuccess is no longer supported by the installed CLI and has no effect.")]
     public string? ReturnPartialSuccess { get; set; }
 
 }

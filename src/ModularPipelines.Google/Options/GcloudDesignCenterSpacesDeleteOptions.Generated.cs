@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// If set to true, the space's children are also deleted. If false, the     space is only deleted if it has no children.
+    /// If set to true, the space's children are also deleted. If false, the space is only deleted if it has no children.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

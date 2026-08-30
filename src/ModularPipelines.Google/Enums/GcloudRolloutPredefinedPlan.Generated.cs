@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudRolloutPredefinedPlan
 {
     [EnumValue("fast_rollout")]
-    FastRollout,
+    FastRollout = 0,
 
     [EnumValue("slow_rollout")]
-    SlowRollout
+    SlowRollout = 1
 }

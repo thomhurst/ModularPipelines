@@ -22,21 +22,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsDockerImagesListOptions : GcloudOptions
 {
     /// <summary>
-    /// If specified, tags associated with each image digest are displayed up     to a maximum of 100 tags per version.
+    /// --occurrence-filter=OCCURRENCE_FILTER; default='kind="BUILD" OR kind="IMAGE" OR kind="DISCOVERY" OR kind="SBOM_REFERENCE"' A filter for the occurrences which will be summarized. If specified, tags associated with each image digest are displayed up to a maximum of 100 tags per version.
     /// </summary>
     [CliFlag("--include-tags")]
     public bool? IncludeTags { get; set; }
 
-    [CliOption("--occurrence-filter", Format = OptionFormat.EqualsSeparated)]
-    public string? OccurrenceFilter { get; set; }
-
     /// <summary>
-    /// Show summaries of the various occurrence types.
+    /// --occurrence-filter=OCCURRENCE_FILTER; default='kind="BUILD" OR kind="IMAGE" OR kind="DISCOVERY" OR kind="SBOM_REFERENCE"' A filter for the occurrences which will be summarized. Show summaries of the various occurrence types.
     /// </summary>
     [CliFlag("--show-occurrences")]
     public bool? ShowOccurrences { get; set; }
 
-    [CliOption("--show-occurrences-from", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("OccurrenceFilter is no longer supported by the installed CLI and has no effect.")]
+    public string? OccurrenceFilter { get; set; }
+
+    [Obsolete("ShowOccurrencesFrom is no longer supported by the installed CLI and has no effect.")]
     public string? ShowOccurrencesFrom { get; set; }
 
 }

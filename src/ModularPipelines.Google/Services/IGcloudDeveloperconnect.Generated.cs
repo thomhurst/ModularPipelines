@@ -15,22 +15,40 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud developerconnect commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDeveloperconnect
 {
     /// <summary>
+    /// gcloud account-connectors sub-commands.
+    /// </summary>
+    GcloudDeveloperconnectAccountConnectors AccountConnectors => throw new System.NotSupportedException();
+
+    /// <summary>
     /// gcloud connections sub-commands.
     /// </summary>
-    GcloudDeveloperconnectConnections Connections { get; }
+    GcloudDeveloperconnectConnections Connections => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud insights-configs sub-commands.
     /// </summary>
-    GcloudDeveloperconnectInsightsConfigs InsightsConfigs { get; }
+    GcloudDeveloperconnectInsightsConfigs InsightsConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDeveloperconnectOperations Operations { get; }
+    GcloudDeveloperconnectOperations Operations => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Developer Connect resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudDeveloperConnectOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

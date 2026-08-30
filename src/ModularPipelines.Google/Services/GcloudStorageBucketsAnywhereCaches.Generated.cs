@@ -33,6 +33,21 @@ public class GcloudStorageBucketsAnywhereCaches
     #region Commands
 
     /// <summary>
+    /// manage Cloud Storage Anywhere     Caches
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudStorageBucketsAnywhereCachesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageBucketsAnywhereCachesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create Anywhere Cache     instances for a bucket
     /// </summary>
     /// <param name="options">The command options.</param>

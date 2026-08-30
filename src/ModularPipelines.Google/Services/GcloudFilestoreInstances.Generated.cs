@@ -43,6 +43,21 @@ public class GcloudFilestoreInstances
     #region Commands
 
     /// <summary>
+    /// create and manage Filestore instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFilestoreInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFilestoreInstancesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Filestore instance
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -25,31 +25,31 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// If the destination is an AlloyDB cluster, use this field to provide the     AlloyDB cluster ID.
+    /// If the destination is an AlloyDB cluster, use this field to provide the AlloyDB cluster ID.
     /// </summary>
     [CliOption("--alloydb-cluster", Format = OptionFormat.EqualsSeparated)]
     public string? AlloydbCluster { get; set; }
 
     /// <summary>
-    /// x509 PEM-encoded certificate of the CA that signed the database     server's certificate. The value for this flag needs to be the content     of the certificate file, not the path to the file. For example, on a     Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service will use this certificate to verify it's     connecting to the correct host. Database Migration Service encrypts the     value when storing it.
+    /// x509 PEM-encoded certificate of the CA that signed the database server's certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service will use this certificate to verify it's connecting to the correct host. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [CliOption("--ca-certificate", Format = OptionFormat.EqualsSeparated)]
     public string? CaCertificate { get; set; }
 
     /// <summary>
-    /// x509 PEM-encoded certificate that will be used by the replica to     authenticate against the database server. The value for this flag needs     to be the content of the certificate file, not the path to the file.     For example, on a Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service encrypts the value when storing it.
+    /// x509 PEM-encoded certificate that will be used by the replica to authenticate against the database server. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
     public string? ClientCertificate { get; set; }
 
     /// <summary>
-    /// If the source or destination is a Cloud SQL database, then use this     field to provide the respective Cloud SQL instance ID.
+    /// If the source or destination is a Cloud SQL database, then use this field to provide the respective Cloud SQL instance ID.
     /// </summary>
     [CliOption("--cloudsql-instance", Format = OptionFormat.EqualsSeparated)]
     public string? CloudsqlInstance { get; set; }
 
     /// <summary>
-    /// The project id of the Cloud SQL instance. Only needed if the Cloud SQL     instance is in a different project than the connection profile. This is     only supported for source connection profiles for SQL Server.
+    /// The project id of the Cloud SQL instance. Only needed if the Cloud SQL instance is in a different project than the connection profile. This is only supported for source connection profiles for SQL Server.
     /// </summary>
     [CliOption("--cloudsql-project-id", Format = OptionFormat.EqualsSeparated)]
     public string? CloudsqlProjectId { get; set; }
@@ -67,64 +67,100 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     public string? DatabaseService { get; set; }
 
     /// <summary>
-    /// A user-friendly name for the connection profile. The display name can     include letters, numbers, spaces, and hyphens, and must start with a     letter.
+    /// A user-friendly name for the connection profile. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Specifies endpoint mode for a given command. Regional endpoints provide     enhanced data residency and reliability by ensuring your request is     handled entirely within the specified Google Cloud region. This differs     from global endpoints, which may process parts of the request outside     the target region. Overrides the default regional/endpoint_mode     property value for this command invocation. ENDPOINT_MODE must be one     of:      global       (Default) Use global rather than regional endpoints.     regional       Only use regional endpoints. An error will be raised if a regional       endpoint is not available for a given command.     regional-preferred       Use regional endpoints when available, otherwise use global       endpoints. Recommended for most users.
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
     /// </summary>
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointMode { get; set; }
 
     /// <summary>
-    /// IP or hostname of the database.       For PostgreSQL destination profiles with Cloud SQL or AlloyDB, this flag is       optional if the instance or cluster is provided.       When `--psc-service-attachment` is also specified, this field value       should be:       1. For Cloud SQL PSC enabled instance - the dns_name field        (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.).       2. For Cloud SQL PSA instance (vpc peering) - the private ip of the        instance.       3. For AlloyDB PSC enabled cluster - the dns_name field of the primary        instance (e.g &lt;uid&gt;.&lt;region&gt;.alloydb-psc.goog.).       4. For AlloyDB PSA cluster - the private ip of the primary instance.
+    /// IP or hostname of the database. For PostgreSQL destination profiles with Cloud SQL or AlloyDB, this flag is optional if the instance or cluster is provided. When `--psc-service-attachment` is also specified, this field value should be: 1. For Cloud SQL PSC enabled instance - the dns_name field (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.). 2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance. 3. For AlloyDB PSC enabled cluster - the dns_name field of the primary instance (e.g &lt;uid&gt;.&lt;region&gt;.alloydb-psc.goog.). 4. For AlloyDB PSA cluster - the private ip of the primary instance.
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }
 
     /// <summary>
-    /// Network port of the database.       For PostgreSQL destination profiles with Cloud SQL or AlloyDB, this flag is       optional if the instance or cluster is provided.
+    /// Network port of the database. For PostgreSQL destination profiles with Cloud SQL or AlloyDB, this flag is optional if the instance or cluster is provided.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
 
     /// <summary>
-    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with     the Client Certificate. The value for this flag needs to be the content     of the certificate file, not the path to the file. For example, on a     Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service encrypts the value when storing it.
+    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
-    [SecretValue]
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKey { get; set; }
 
     /// <summary>
-    /// The type of SSL configuration. SSL_TYPE must be one of: SERVER_ONLY,     SERVER_CLIENT, REQUIRED, NONE.
+    /// The type of SSL configuration. SSL_TYPE must be one of: SERVER_ONLY, SERVER_CLIENT, REQUIRED, NONE.
     /// </summary>
     [CliOption("--ssl-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudSslType? SslType { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Username that Database Migration Service uses to connect to the     database. Database Migration Service encrypts the value when storing     it.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud database-migration connection-profiles update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud database-migration connection-profiles update \         --clear-labels --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --disable-iam-authentication      Use IAM database authentication to connect to the database. The      username will be overridden by the DMS service agent principal. This      flag is only supported for PostgreSQL Destinations.     --enable-iam-authentication      Use IAM database authentication to connect to the database. The      username will be overridden by the DMS service agent principal. This      flag is only supported for PostgreSQL Destinations.
+    /// Username that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
     /// <summary>
-    /// Cloud Storage bucket for the source SQL Server connection profile where     the backups are stored. This flag is used only for SQL Server to Cloud     SQL migrations.
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud database-migration connection-profiles update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud database-migration connection-profiles update \ --clear-labels --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Use IAM database authentication to connect to the database. The username will be overridden by the DMS service agent principal. This flag is only supported for PostgreSQL Destinations.
+    /// </summary>
+    [CliFlag("--disable-iam-authentication")]
+    public bool? DisableIamAuthentication { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Use IAM database authentication to connect to the database. The username will be overridden by the DMS service agent principal. This flag is only supported for PostgreSQL Destinations.
+    /// </summary>
+    [CliFlag("--enable-iam-authentication")]
+    public bool? EnableIamAuthentication { get; set; }
+
+    /// <summary>
+    /// Cloud Storage bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations.
     /// </summary>
     [CliOption("--gcs-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? GcsBucket { get; set; }
 
     /// <summary>
-    /// Cloud Storage prefix path within the bucket for the source SQL Server     connection profile where the backups are stored. This flag is used only     for SQL Server to Cloud SQL migrations.    At most one of these can be specified:     --password=PASSWORD      Password for the user that Database Migration Service uses to connect      to the database. Database Migration Service encrypts the value when      storing it, and the field is not returned on request.     --prompt-for-password      Prompt for the password used to connect to the database.
+    /// Cloud Storage prefix path within the bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations.
     /// </summary>
     [CliOption("--gcs-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? GcsPrefix { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Password for the user that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it, and the field is not returned on request.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Prompt for the password used to connect to the database.
+    /// </summary>
+    [CliFlag("--prompt-for-password")]
+    public bool? PromptForPassword { get; set; }
 
 }

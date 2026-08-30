@@ -43,6 +43,21 @@ public class GcloudComputeSecurityPolicies
     #region Commands
 
     /// <summary>
+    /// read and manipulate Cloud Armor security     policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeSecurityPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeSecurityPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add a layer7 ddos defense threshold config to a Compute Engine security     policy
     /// </summary>
     /// <param name="options">The command options.</param>

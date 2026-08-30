@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBigtableInstancesTablesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -34,9 +34,69 @@ public record GcloudBigtableInstancesTablesUpdateOptions : GcloudOptions
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// By default, Base64 encoding is applied to all binary fields in the     YAML/JSON file (for example, encoding.delimitedBytes.delimiter).     Use this to indicate that all binary fields are already encoded in the     YAML/JSON file and should not be encoded again.     This field is only used when row-key-schema-definition-file is set. It     is ignored if clear-row-key-schema is set.    At most one of these can be specified:     Group for automated backup policy parameters.     --automated-backup-retention-period=AUTOMATED_BACKUP_RETENTION_PERIOD      The retention period of automated backup in the format of 30d for 30      days. Min retention period is 3d and max is 90d. Setting this flag      will enable automated backup for the table.     At most one of these can be specified:      --automated-backup-locations=[LOCATION,...]       List of Cloud Bigtable zones where automated backups are allowed to       be created. If empty, automated backups will be created in all       zones of the instance. Locations are in the format       projects/{project}/locations/{zone}. Setting this flag will enable       automated backup for the table.      --clear-automated-backup-locations       Empty the automated backup locations list if populated.     At most one of these can be specified:      --disable-automated-backup       Once set, disables automated backup policy for the table.      --enable-automated-backup       Once set, enables the default automated backup policy       (retention_period=7d, frequency=1d) for the table. Note: If a table       has automated backup enabled, this flag resets it to the default       policy.    At most one of these can be specified:     --change-stream-retention-period=CHANGE_STREAM_RETENTION_PERIOD      The length of time to retain change stream data for the table, in the      range of [1 day, 7 days]. Acceptable units are days (d), hours (h),      minutes (m), and seconds (s). If not already specified, enables a      change stream for the table. Examples: 5d or 48h.     --clear-change-stream-retention-period      This disables the change stream and eventually removes the change      stream data.    Whether to update or clear the row key schema in the updated table. Only   one of these flags can be set.    At most one of these can be specified:     --clear-row-key-schema      Whether to clear the row key schema in the updated table.     --row-key-schema-definition-file=ROW_KEY_SCHEMA_DEFINITION_FILE      The row key schema for the table. The schema is defined in a YAML or      JSON file, equivalent to the StructType protobuf message.      Example YAML:        encoding:         delimitedBytes:          delimiter: '#'        fields:        - fieldName: field1         type:          bytesType:           encoding:            raw: {}        - fieldName: field2         type:          bytesType:           encoding:            raw: {}
+    /// If true, warnings about potentially risky changes (such as enabling tiered storage or clearing row key schemas) will be ignored and the update will proceed.
+    /// </summary>
+    [CliFlag("--ignore-warnings")]
+    public bool? IgnoreWarnings { get; set; }
+
+    /// <summary>
+    /// By default, Base64 encoding is applied to all binary fields in the YAML/JSON file (for example, encoding.delimitedBytes.delimiter). Use this to indicate that all binary fields are already encoded in the YAML/JSON file and should not be encoded again. This field is only used when row-key-schema-definition-file is set. It is ignored if clear-row-key-schema is set.
     /// </summary>
     [CliFlag("--row-key-schema-pre-encoded-bytes")]
     public bool? RowKeySchemaPreEncodedBytes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Group for automated backup policy parameters. The retention period of automated backup in the format of 30d for 30 days. Min retention period is 3d and max is 90d. Setting this flag will enable automated backup for the table.
+    /// </summary>
+    [CliOption("--automated-backup-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Group for automated backup policy parameters. At most one of these can be specified: List of Cloud Bigtable zones where automated backups are allowed to be created. If empty, automated backups will be created in all zones of the instance. Locations are in the format projects/{project}/locations/{zone}. Setting this flag will enable automated backup for the table.
+    /// </summary>
+    [CliOption("--automated-backup-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutomatedBackupLocations { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Group for automated backup policy parameters. At most one of these can be specified: Empty the automated backup locations list if populated.
+    /// </summary>
+    [CliFlag("--clear-automated-backup-locations")]
+    public bool? ClearAutomatedBackupLocations { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Group for automated backup policy parameters. At most one of these can be specified: Once set, disables automated backup policy for the table.
+    /// </summary>
+    [CliFlag("--disable-automated-backup")]
+    public bool? DisableAutomatedBackup { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Group for automated backup policy parameters. At most one of these can be specified: Once set, enables the default automated backup policy (retention_period=7d, frequency=1d) for the table. Note: If a table has automated backup enabled, this flag resets it to the default policy.
+    /// </summary>
+    [CliFlag("--enable-automated-backup")]
+    public bool? EnableAutomatedBackup { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The length of time to retain change stream data for the table, in the range of [1 day, 7 days]. Acceptable units are days (d), hours (h), minutes (m), and seconds (s). If not already specified, enables a change stream for the table. Examples: 5d or 48h.
+    /// </summary>
+    [CliOption("--change-stream-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangeStreamRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: This disables the change stream and eventually removes the change stream data.
+    /// </summary>
+    [CliFlag("--clear-change-stream-retention-period")]
+    public bool? ClearChangeStreamRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Whether to update or clear the row key schema in the updated table. Only one of these flags can be set. At most one of these can be specified: Whether to clear the row key schema in the updated table.
+    /// </summary>
+    [CliFlag("--clear-row-key-schema")]
+    public bool? ClearRowKeySchema { get; set; }
+
+    /// <summary>
+    /// Whether to update or clear the row key schema in the updated table. Only one of these flags can be set. At most one of these can be specified: The row key schema for the table. The schema is defined in a YAML or JSON file, equivalent to the StructType protobuf message. Example YAML: encoding: delimitedBytes: delimiter: '#' fields: - fieldName: field1 type: bytesType: encoding: raw: {} - fieldName: field2 type: bytesType: encoding: raw: {}
+    /// </summary>
+    [CliOption("--row-key-schema-definition-file", Format = OptionFormat.EqualsSeparated)]
+    public string? RowKeySchemaDefinitionFile { get; set; }
 
 }

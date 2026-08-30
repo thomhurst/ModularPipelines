@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeInstancesGetGuestAttributesOptions : GcloudOptions
 {
     /// <summary>
-    /// Attribute path to query. Can be empty string or of the form     &lt;namespace&gt;/ or &lt;namespace&gt;/&lt;key&gt;. Default is the empty string.
+    /// Attribute path to query. Can be empty string or of the form &lt;namespace&gt;/ or &lt;namespace&gt;/&lt;key&gt;. Default is the empty string.
     /// </summary>
     [CliOption("--query-path", Format = OptionFormat.EqualsSeparated)]
     public string? QueryPath { get; set; }

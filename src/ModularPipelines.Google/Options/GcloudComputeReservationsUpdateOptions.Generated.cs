@@ -24,49 +24,55 @@ public record GcloudComputeReservationsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If this reservation is shared (--share-setting is projects), then     specify a comma-separated list of projects to share the reservation     with. You must list the projects using project IDs or project numbers.
+    /// If this reservation is shared (--share-setting is projects), then specify a comma-separated list of projects to share the reservation with. You must list the projects using project IDs or project numbers.
     /// </summary>
     [CliOption("--add-share-with", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddShareWith { get; set; }
 
     /// <summary>
-    /// Specify a comma-separated list of projects to share the reservation     with. You must list the projects using project IDs or project numbers.
+    /// Specify a comma-separated list of projects to share the reservation with. You must list the projects using project IDs or project numbers.
     /// </summary>
     [CliOption("--add-share-with-project", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddShareWithProject { get; set; }
 
     /// <summary>
-    /// Enable this feature to receive quarterly updates and new features for     your reservation earlier than the standard schedule..     EARLY_ACCESS_MAINTENANCE must be one of:      NO_EARLY_ACCESS       Standard maintenance schedule. The reservation doesn't have early       access maintenance.     WAVE1       Provides the earliest available notification and maintenance.     WAVE2       Provides notification and maintenance after WAVE1, but before the       standard maintenance schedule.
+    /// Enable this feature to receive quarterly updates and new features for your reservation earlier than the standard schedule.. EARLY_ACCESS_MAINTENANCE must be one of: NO_EARLY_ACCESS Standard maintenance schedule. The reservation doesn't have early access maintenance. WAVE1 Provides the earliest available notification and maintenance. WAVE2 Provides notification and maintenance after WAVE1, but before the standard maintenance schedule.
     /// </summary>
     [CliOption("--early-access-maintenance", Format = OptionFormat.EqualsSeparated)]
     public string? EarlyAccessMaintenance { get; set; }
 
     /// <summary>
-    /// A list of specific projects to remove from the list of projects that     this reservation is shared with. List must contain project IDs or     project numbers.
+    /// Enables the reservation to receive notifications when urgent maintenance for a GPU VM starts after the VM encounters a host error. Use --enable-emergent-maintenance to enable and --no-enable-emergent-maintenance to disable.
+    /// </summary>
+    [CliFlag("--enable-emergent-maintenance")]
+    public bool? EnableEmergentMaintenance { get; set; }
+
+    /// <summary>
+    /// A list of specific projects to remove from the list of projects that this reservation is shared with. List must contain project IDs or project numbers.
     /// </summary>
     [CliOption("--remove-share-with", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveShareWith { get; set; }
 
     /// <summary>
-    /// The reservation sharing policy to use for this reservation.     RESERVATION_SHARING_POLICY must be one of:      ALLOW_ALL       The reservation can be shared with Google Cloud services.     DISALLOW_ALL       The reservation won't be shared with Google Cloud services. If you       omit this flag during creation, the default value is DISALLOW_ALL.
+    /// The reservation sharing policy to use for this reservation. RESERVATION_SHARING_POLICY must be one of: ALLOW_ALL The reservation can be shared with Google Cloud services. DISALLOW_ALL The reservation won't be shared with Google Cloud services. If you omit this flag during creation, the default value is DISALLOW_ALL.
     /// </summary>
     [CliOption("--reservation-sharing-policy", Format = OptionFormat.EqualsSeparated)]
     public string? ReservationSharingPolicy { get; set; }
 
     /// <summary>
-    /// How Compute Engine schedules maintenance events for your reserved     hosts. SCHEDULING_TYPE must be one of:      GROUPED       In GROUPED mode, maintenance is synchronized across all your VMs.     INDEPENDENT       In INDEPENDENT mode, your VMs have different, unsynchronized       maintenance schedules.
+    /// How Compute Engine schedules maintenance events for your reserved hosts. SCHEDULING_TYPE must be one of: GROUPED In GROUPED mode, maintenance is synchronized across all your VMs. INDEPENDENT In INDEPENDENT mode, your VMs have different, unsynchronized maintenance schedules.
     /// </summary>
     [CliOption("--scheduling-type", Format = OptionFormat.EqualsSeparated)]
     public string? SchedulingType { get; set; }
 
     /// <summary>
-    /// The number of VM instances that are allocated to this reservation. The     value of this field must be an int in the range [1, 1000].
+    /// The number of VM instances that are allocated to this reservation. The value of this field must be an int in the range [1, 1000].
     /// </summary>
     [CliOption("--vm-count", Format = OptionFormat.EqualsSeparated)]
     public int? VmCount { get; set; }
 
     /// <summary>
-    /// Zone of the reservation to update. If not specified and the     compute/zone property isn't set, you might be prompted to select a zone     (interactive mode only).     To avoid prompting when this flag is omitted, you can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.
+    /// Zone of the reservation to update. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }

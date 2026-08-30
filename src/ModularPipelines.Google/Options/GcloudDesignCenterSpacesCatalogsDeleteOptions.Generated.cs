@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesCatalogsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set to true, the catalog's children are also deleted. If false, the     catalog is only deleted if it has no children.
+    /// If set to true, the catalog's children are also deleted. If false, the catalog is only deleted if it has no children.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

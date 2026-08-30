@@ -22,31 +22,31 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApihubCurationsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The description of the curation.
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. The description of the curation.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The display name of the curation.    The endpoint to be triggered for curation. The endpoint will be invoked   with a request payload containing   [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should   contain curated data in the form of   [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata].
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. The display name of the curation.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Set googleCloudApihubV1Curation.endpoint back to default value.    Arguments for the endpoint details.    The details of the Application Integration endpoint to be triggered for   curation.
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. Set googleCloudApihubV1Curation.endpoint back to default value.
     /// </summary>
     [CliFlag("--clear-endpoint")]
     public bool? ClearEndpoint { get; set; }
 
     /// <summary>
-    /// The API trigger ID of the Application Integration workflow.
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. The API trigger ID of the Application Integration workflow.
     /// </summary>
     [CliOption("--application-integration-endpoint-details-trigger-id", Format = OptionFormat.EqualsSeparated)]
     public string? ApplicationIntegrationEndpointDetailsTriggerId { get; set; }
 
     /// <summary>
-    /// The endpoint URI should be a valid REST URI for triggering an     Application Integration. Format:     https://integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute     or     https://{location}-integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. The endpoint URI should be a valid REST URI for triggering an Application Integration. Format: https://integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute or https://{location}-integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute
     /// </summary>
     [CliOption("--application-integration-endpoint-details-uri", Format = OptionFormat.EqualsSeparated)]
     public string? ApplicationIntegrationEndpointDetailsUri { get; set; }

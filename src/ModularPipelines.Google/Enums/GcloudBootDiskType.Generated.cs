@@ -17,14 +17,23 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudBootDiskType
 {
     [EnumValue("PD_STANDARD")]
-    PdStandard,
+    PdStandard = 0,
 
     [EnumValue("PD_SSD")]
-    PdSsd,
+    PdSsd = 1,
 
     [EnumValue("PD_BALANCED")]
-    PdBalanced,
+    PdBalanced = 2,
 
     [EnumValue("PD_EXTREME")]
-    PdExtreme
+    PdExtreme = 3,
+
+    [EnumValue("never")]
+    Never = 4,
+
+    [EnumValue("on-failure")]
+    OnFailure = 5,
+
+    [EnumValue("always")]
+    Always = 6
 }

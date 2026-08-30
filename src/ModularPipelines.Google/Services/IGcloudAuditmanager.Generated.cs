@@ -15,27 +15,40 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud auditmanager commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudAuditmanager
 {
     /// <summary>
     /// gcloud audit-reports sub-commands.
     /// </summary>
-    GcloudAuditmanagerAuditReports AuditReports { get; }
+    GcloudAuditmanagerAuditReports AuditReports => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud audit-scopes sub-commands.
     /// </summary>
-    GcloudAuditmanagerAuditScopes AuditScopes { get; }
+    GcloudAuditmanagerAuditScopes AuditScopes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud enrollments sub-commands.
     /// </summary>
-    GcloudAuditmanagerEnrollments Enrollments { get; }
+    GcloudAuditmanagerEnrollments Enrollments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAuditmanagerOperations Operations { get; }
+    GcloudAuditmanagerOperations Operations => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// enroll resources, audit workloads and generate     reports
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudAuditManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

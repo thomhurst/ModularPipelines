@@ -22,43 +22,55 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAzureNodePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Node pool autoscaling Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Enable node autorepair feature for a node pool. Use     --no-enable-autorepair to disable.       $ gcloud container azure node-pools update --enable-autorepair
+    /// Node pool autoscaling Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools update --enable-autorepair
     /// </summary>
     [CliFlag("--enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
 
     /// <summary>
-    /// Kubernetes version to use for the node pool.
+    /// Node pool autoscaling Kubernetes version to use for the node pool.
     /// </summary>
     [CliOption("--node-version", Format = OptionFormat.EqualsSeparated)]
     public string? NodeVersion { get; set; }
 
     /// <summary>
-    /// SSH public key to use for authentication.
+    /// Node pool autoscaling SSH public key to use for authentication.
     /// </summary>
     [CliOption("--ssh-public-key", Format = OptionFormat.EqualsSeparated)]
     public string? SshPublicKey { get; set; }
 
     /// <summary>
-    /// Validate the update of the node pool, but don't actually perform it.    Annotations    At most one of these can be specified:     --annotations=ANNOTATION,[ANNOTATION,...]      Annotations for the node pool.     --clear-annotations      Clear the annotations for the node pool.    Node pool autoscaling
+    /// Node pool autoscaling Validate the update of the node pool, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Maximum number of nodes in the node pool.
+    /// Node pool autoscaling Annotations At most one of these can be specified: Annotations for the node pool.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Annotations At most one of these can be specified: Clear the annotations for the node pool.
+    /// </summary>
+    [CliFlag("--clear-annotations")]
+    public bool? ClearAnnotations { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Maximum number of nodes in the node pool.
     /// </summary>
     [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? MaxNodes { get; set; }
 
     /// <summary>
-    /// Minimum number of nodes in the node pool.
+    /// Node pool autoscaling Minimum number of nodes in the node pool.
     /// </summary>
     [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? MinNodes { get; set; }

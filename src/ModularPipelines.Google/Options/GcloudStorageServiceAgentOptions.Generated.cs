@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageServiceAgentOptions : GcloudOptions
 {
     /// <summary>
-    /// Adds appropriate encrypt/decrypt permissions to the specified Cloud KMS     key. This allows the Cloud Storage service agent to write and read     Cloud KMS-encrypted objects in buckets associated with the service     agent's project.
+    /// Adds appropriate encrypt/decrypt permissions to the specified Cloud KMS key. This allows the Cloud Storage service agent to write and read Cloud KMS-encrypted objects in buckets associated with the service agent's project.
     /// </summary>
     [CliOption("--authorize-cmek", Format = OptionFormat.EqualsSeparated)]
     public string? AuthorizeCmek { get; set; }

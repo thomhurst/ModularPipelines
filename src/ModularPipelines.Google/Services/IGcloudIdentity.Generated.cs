@@ -15,13 +15,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud identity commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudIdentity
 {
     /// <summary>
     /// gcloud groups sub-commands.
     /// </summary>
-    GcloudIdentityGroups Groups { get; }
+    GcloudIdentityGroups Groups => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud Identity Groups and Memberships resources
@@ -30,9 +33,7 @@ public interface IGcloudIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudIdentityOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

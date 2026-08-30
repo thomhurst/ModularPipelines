@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudReservationAffinity
 {
     [EnumValue("any")]
-    Any,
+    Any = 0,
 
     [EnumValue("none")]
-    None,
+    None = 1,
 
     [EnumValue("specific")]
-    Specific
+    Specific = 2
 }

@@ -33,6 +33,21 @@ public class GcloudDeployAutomationRuns
     #region Commands
 
     /// <summary>
+    /// manages AutomationRuns resources for Cloud     Deploy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDeployAutomationRunsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeployAutomationRunsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancels a Cloud Deploy Automation     Run
     /// </summary>
     /// <param name="options">The command options.</param>

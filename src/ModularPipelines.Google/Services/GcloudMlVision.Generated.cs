@@ -33,6 +33,21 @@ public class GcloudMlVision
     #region Commands
 
     /// <summary>
+    /// use Google Cloud Vision to analyze images
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudMlVisionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMlVisionOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// detect dense text in an image
     /// </summary>
     /// <param name="options">The command options.</param>

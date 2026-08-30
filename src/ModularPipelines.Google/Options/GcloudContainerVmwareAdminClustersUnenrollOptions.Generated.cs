@@ -22,25 +22,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerVmwareAdminClustersUnenrollOptions : GcloudOptions
 {
     /// <summary>
-    /// If set, and the VMware Cluster is not found, the request will succeed     but no action will be taken on the server and return a completed LRO.
+    /// If set, and the VMware Cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO.
     /// </summary>
     [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set, the unenrollment of a VMware admin cluster resource will     succeed even if errors occur during deletion.
+    /// If set, the unenrollment of a VMware admin cluster resource will succeed even if errors occur during deletion.
     /// </summary>
     [CliFlag("--ignore-errors")]
     public bool? IgnoreErrors { get; set; }
 
     /// <summary>
-    /// If set, only validate the request, but do not actually perform the     operation.
+    /// If set, only validate the request, but do not actually perform the operation.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }

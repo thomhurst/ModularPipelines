@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudPatchUpdate
 {
     [EnumValue("accelerated")]
-    Accelerated,
+    Accelerated = 0,
 
     [EnumValue("default")]
-    Default
+    Default = 1
 }

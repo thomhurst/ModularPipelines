@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubMultiClusterServicesDisableOptions : GcloudOptions
 {
     /// <summary>
-    /// Force disablement. Bypasses any prompts for confirmation. When     disabling the entire feature, proceeds even if the feature is in use.     Might result in unexpected behavior.
+    /// Force disablement. Bypasses any prompts for confirmation. When disabling the entire feature, proceeds even if the feature is in use. Might result in unexpected behavior.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

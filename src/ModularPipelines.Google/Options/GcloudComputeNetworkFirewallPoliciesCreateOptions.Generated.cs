@@ -31,9 +31,21 @@ public record GcloudComputeNetworkFirewallPoliciesCreateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// Network firewall policy type. POLICY_TYPE must be one of: VPC_POLICY,     RDMA_ROCE_POLICY.    At most one of these can be specified:     --global      If set, the firewall policy is global.     --region=REGION      Region of the firewall policy to create. Overrides the default      compute/region property value for this command invocation.
+    /// Network firewall policy type. POLICY_TYPE must be one of: VPC_POLICY, RDMA_ROCE_POLICY, ULL_POLICY.
     /// </summary>
     [CliOption("--policy-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudPolicyType? PolicyType { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the firewall policy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the firewall policy to create. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
 }

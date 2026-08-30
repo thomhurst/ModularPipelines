@@ -28,12 +28,12 @@ public record GcloudTransferAgentPoolsListOptions : GcloudOptions
     public string? Limit { get; set; }
 
     /// <summary>
-    /// The names of the agent pools you want to list. Separate multiple names     with commas (e.g., --name=foo,bar). If not specified, all agent pools     in your current project will be listed.
+    /// The names of the agent pools you want to list. Separate multiple names with commas (e.g., --name=foo,bar). If not specified, all agent pools in your current project will be listed.
     /// </summary>
     [CliOption("--names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Names { get; set; }
 
-    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("PageSize is no longer supported by the installed CLI and has no effect.")]
     public int? PageSize { get; set; }
 
 }

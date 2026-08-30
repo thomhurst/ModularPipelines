@@ -15,43 +15,46 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud apphub commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudApphub
 {
     /// <summary>
     /// gcloud applications sub-commands.
     /// </summary>
-    GcloudApphubApplications Applications { get; }
+    GcloudApphubApplications Applications => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud boundary sub-commands.
     /// </summary>
-    GcloudApphubBoundary Boundary { get; }
+    GcloudApphubBoundary Boundary => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud discovered-services sub-commands.
     /// </summary>
-    GcloudApphubDiscoveredServices DiscoveredServices { get; }
+    GcloudApphubDiscoveredServices DiscoveredServices => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud discovered-workloads sub-commands.
     /// </summary>
-    GcloudApphubDiscoveredWorkloads DiscoveredWorkloads { get; }
+    GcloudApphubDiscoveredWorkloads DiscoveredWorkloads => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudApphubLocations Locations { get; }
+    GcloudApphubLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudApphubOperations Operations { get; }
+    GcloudApphubOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-projects sub-commands.
     /// </summary>
-    GcloudApphubServiceProjects ServiceProjects { get; }
+    GcloudApphubServiceProjects ServiceProjects => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage App Hub resources
@@ -60,9 +63,7 @@ public interface IGcloudApphub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudApphubOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudApphubOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

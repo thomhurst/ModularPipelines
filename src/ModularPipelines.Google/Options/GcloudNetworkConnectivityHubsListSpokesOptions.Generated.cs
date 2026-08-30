@@ -22,12 +22,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityHubsListSpokesOptions : GcloudOptions
 {
     /// <summary>
-    /// A comma separated list of locations. The locations can be set to     'global' and/or Google Cloud supported regions. To see the names of     regions, see Viewing a list of available regions     (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).
+    /// A comma separated list of locations. The locations can be set to 'global' and/or Google Cloud supported regions. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).
     /// </summary>
     [CliOption("--spoke-locations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SpokeLocations { get; set; }
 
-    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("View is no longer supported by the installed CLI and has no effect.")]
     public string? View { get; set; }
 
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudConfidentialNodeType
 {
     [EnumValue("sev")]
-    Sev,
+    Sev = 0,
 
     [EnumValue("sev_snp")]
-    SevSnp,
+    SevSnp = 1,
 
     [EnumValue("tdx")]
-    Tdx
+    Tdx = 2
 }

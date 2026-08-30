@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud services commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudServices
 {
     /// <summary>
     /// gcloud api-keys sub-commands.
     /// </summary>
-    GcloudServicesApiKeys ApiKeys { get; }
+    GcloudServicesApiKeys ApiKeys => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudServicesOperations Operations { get; }
+    GcloudServicesOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud peered-dns-domains sub-commands.
     /// </summary>
-    GcloudServicesPeeredDnsDomains PeeredDnsDomains { get; }
+    GcloudServicesPeeredDnsDomains PeeredDnsDomains => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud vpc-peerings sub-commands.
     /// </summary>
-    GcloudServicesVpcPeerings VpcPeerings { get; }
+    GcloudServicesVpcPeerings VpcPeerings => throw new System.NotSupportedException();
 
     /// <summary>
     /// list, enable and disable APIs and services
@@ -45,10 +48,8 @@ public interface IGcloudServices
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudServicesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// disable a service for consumption for a project
@@ -57,10 +58,8 @@ public interface IGcloudServices
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DisableAsync(
-        GcloudServicesDisableOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DisableAsync(GcloudServicesDisableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// enables a service for consumption for a project
@@ -69,10 +68,8 @@ public interface IGcloudServices
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> EnableAsync(
-        GcloudServicesEnableOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> EnableAsync(GcloudServicesEnableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// list services for a project
@@ -81,9 +78,7 @@ public interface IGcloudServices
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        GcloudServicesListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(GcloudServicesListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

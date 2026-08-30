@@ -10,15 +10,12 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
-/// <summary>
-/// Allowed values for --title.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudTitle
 {
     [EnumValue("and")]
-    And,
+    And = 0,
 
     [EnumValue("or")]
-    Or
+    Or = 1
 }

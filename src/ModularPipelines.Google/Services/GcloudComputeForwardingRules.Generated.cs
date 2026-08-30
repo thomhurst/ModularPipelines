@@ -33,6 +33,21 @@ public class GcloudComputeForwardingRules
     #region Commands
 
     /// <summary>
+    /// read and manipulate traffic forwarding     rules to network load balancers
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeForwardingRulesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeForwardingRulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a forwarding rule to direct     network traffic to a load balancer
     /// </summary>
     /// <param name="options">The command options.</param>

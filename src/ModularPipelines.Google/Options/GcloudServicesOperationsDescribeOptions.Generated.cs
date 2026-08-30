@@ -24,7 +24,7 @@ public record GcloudServicesOperationsDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// (DEPRECATED) This flag is deprecated.     This flag is deprecated.
+    /// (DEPRECATED) This flag is deprecated. This flag is deprecated.
     /// </summary>
     [CliOption("--full", Format = OptionFormat.EqualsSeparated)]
     public string? Full { get; set; }

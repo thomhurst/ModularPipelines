@@ -24,7 +24,7 @@ public record GcloudComputeOrgSecurityPoliciesDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Organization in which the organization security policy is to be     described. Must be set if SECURITY_POLICY is short name.
+    /// Organization in which the organization security policy is to be described. Must be set if SECURITY_POLICY is short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }

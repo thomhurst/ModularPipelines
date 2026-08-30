@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -28,15 +29,93 @@ public record GcloudSchedulerJobsUpdatePubsubOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Schedule on which the job will be executed.     As a general rule, execution n + 1 of a job will not begin until     execution n has finished. Cloud Scheduler will never allow two     simultaneously outstanding executions. For example, this implies that     if the n+1 execution is scheduled to run at 16:00 but the n execution     takes until 16:15, the n+1 execution will not start until 16:15. A     scheduled start time will be delayed if the previous execution has not     ended when its scheduled time occurs. Learn more about the cron job     format     (https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules).     If --retry-count &gt; 0 and a job attempt fails, the job will be tried a     total of --retry-count times, with exponential backoff, until the job     succeeds or the number of retries is exhausted. Note that the next     scheduled execution time might be skipped if the retries continue     through that time. For more information, see Retry jobs     (https://cloud.google.com/scheduler/docs/configuring/retry-jobs).
+    /// Schedule on which the job will be executed. As a general rule, execution n + 1 of a job will not begin until execution n has finished. Cloud Scheduler will never allow two simultaneously outstanding executions. For example, this implies that if the n+1 execution is scheduled to run at 16:00 but the n execution takes until 16:15, the n+1 execution will not start until 16:15. A scheduled start time will be delayed if the previous execution has not ended when its scheduled time occurs. Learn more about the cron job format (https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). If --retry-count &gt; 0 and a job attempt fails, the job will be tried a total of --retry-count times, with exponential backoff, until the job succeeds or the number of retries is exhausted. Note that the next scheduled execution time might be skipped if the retries continue through that time. For more information, see Retry jobs (https://cloud.google.com/scheduler/docs/configuring/retry-jobs).
     /// </summary>
     [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
     public string? Schedule { get; set; }
 
     /// <summary>
-    /// Name of the Google Cloud Pub/Sub topic to publish to when the job runs.    At most one of these can be specified:     --clear-attributes      Clear the field corresponding to --attributes.     Or at least one of these can be specified:      --remove-attributes=[REMOVE_ATTRIBUTES,...]       Comma-separated list of attribute keys to remove with the form       "KEY1,KEY2".      --update-attributes=[KEY=VALUE,...]       Comma-separated list of attributes. Each attribute has the form       "NAME=VALUE". You can specify up to 100 attributes.    At most one of these can be specified:     --clear-max-backoff      Clear the field corresponding to --max-backoff.     --max-backoff=MAX_BACKOFF; default="3600s"      Maximum amount of time to wait before retrying a job after it fails.      For example, 60s. Default is 3600s (1 hour).    At most one of these can be specified:     --clear-max-doublings      Clear the field corresponding to --max-doublings.     --max-doublings=MAX_DOUBLINGS; default=5      Maximum number of times that the interval between failed job retries      will be doubled before the increase becomes constant.    At most one of these can be specified:     --clear-max-retry-attempts      Clear the field corresponding to --max-retry-attempts.     --max-retry-attempts=MAX_RETRY_ATTEMPTS      Number of times to retry the request if it fails or times out. Must      be in range 0-5 inclusive. Default is 0.    At most one of these can be specified:     --clear-max-retry-duration      Clear the field corresponding to --max-retry-duration.     --max-retry-duration=MAX_RETRY_DURATION      Time limit for retrying a failed job, measured from when the job was      first run. If specified with --max-retry-attempts greater than 0, the      job will be retried until both limits are reached. Default is 0      seconds (which means unlimited); however, if --max-retry-attempts is      also 0, a job attempt won't be retried if it fails.    At most one of these can be specified:     --clear-min-backoff      Clear the field corresponding to --min-backoff.     --min-backoff=MIN_BACKOFF; default="5s"      Minimum amount of time to wait before retrying a job after it fails.      For example, 10s. Default is 5s.    At most one of these can be specified:     --clear-time-zone      Clear the field corresponding to --time-zone.     --time-zone=TIME_ZONE; default="Etc/UTC"      Specifies the time zone to be used in interpreting --schedule. The      value of this field must be a time zone name from the tz database      (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).      Note that some time zones include a provision for daylight savings      time. The rules for daylight saving time are determined by the chosen      time zone.      For UTC use the string "utc". Default is "utc".    Body of the message to publish to the given topic name. Information on   message formatting and size limits can be found at:   https://cloud.google.com/pubsub/docs/publisher#publish    At most one of these can be specified:     --message-body=MESSAGE_BODY      Body of the message.     --message-body-from-file=PATH_TO_FILE      Path to a file containing the body of the message. Use a full or      relative path to a local file containing the value of message_body.
+    /// Name of the Google Cloud Pub/Sub topic to publish to when the job runs.
     /// </summary>
     [CliOption("--topic", Format = OptionFormat.EqualsSeparated)]
     public string? Topic { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the field corresponding to --attributes.
+    /// </summary>
+    [CliFlag("--clear-attributes")]
+    public bool? ClearAttributes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attribute keys to remove with the form "KEY1,KEY2".
+    /// </summary>
+    [CliOption("--remove-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAttributes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attributes. Each attribute has the form "NAME=VALUE". You can specify up to 100 attributes.
+    /// </summary>
+    [CliOption("--update-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateAttributes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the field corresponding to --max-backoff.
+    /// </summary>
+    [CliFlag("--clear-max-backoff")]
+    public bool? ClearMaxBackoff { get; set; }
+
+    /// <summary>
+    /// --max-backoff=MAX_BACKOFF; default="3600s" Maximum amount of time to wait before retrying a job after it fails. For example, 60s. Default is 3600s (1 hour). At most one of these can be specified: Clear the field corresponding to --max-doublings.
+    /// </summary>
+    [CliFlag("--clear-max-doublings")]
+    public bool? ClearMaxDoublings { get; set; }
+
+    /// <summary>
+    /// --max-doublings=MAX_DOUBLINGS; default=5 Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant. At most one of these can be specified: Clear the field corresponding to --max-retry-attempts.
+    /// </summary>
+    [CliFlag("--clear-max-retry-attempts")]
+    public bool? ClearMaxRetryAttempts { get; set; }
+
+    /// <summary>
+    /// --max-doublings=MAX_DOUBLINGS; default=5 Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant. At most one of these can be specified: Number of times to retry the request if it fails or times out. Must be in range 0-5 inclusive. Default is 0.
+    /// </summary>
+    [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryAttempts { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the field corresponding to --max-retry-duration.
+    /// </summary>
+    [CliFlag("--clear-max-retry-duration")]
+    public bool? ClearMaxRetryDuration { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Time limit for retrying a failed job, measured from when the job was first run. If specified with --max-retry-attempts greater than 0, the job will be retried until both limits are reached. Default is 0 seconds (which means unlimited); however, if --max-retry-attempts is also 0, a job attempt won't be retried if it fails.
+    /// </summary>
+    [CliOption("--max-retry-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryDuration { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the field corresponding to --min-backoff.
+    /// </summary>
+    [CliFlag("--clear-min-backoff")]
+    public bool? ClearMinBackoff { get; set; }
+
+    /// <summary>
+    /// --min-backoff=MIN_BACKOFF; default="5s" Minimum amount of time to wait before retrying a job after it fails. For example, 10s. Default is 5s. At most one of these can be specified: Clear the field corresponding to --time-zone.
+    /// </summary>
+    [CliFlag("--clear-time-zone")]
+    public bool? ClearTimeZone { get; set; }
+
+    /// <summary>
+    /// --time-zone=TIME_ZONE; default="Etc/UTC" Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc". Body of the message to publish to the given topic name. Information on message formatting and size limits can be found at: https://cloud.google.com/pubsub/docs/publisher#publish At most one of these can be specified: Body of the message.
+    /// </summary>
+    [CliOption("--message-body", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageBody { get; set; }
+
+    /// <summary>
+    /// --time-zone=TIME_ZONE; default="Etc/UTC" Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc". Body of the message to publish to the given topic name. Information on message formatting and size limits can be found at: https://cloud.google.com/pubsub/docs/publisher#publish At most one of these can be specified: Path to a file containing the body of the message. Use a full or relative path to a local file containing the value of message_body.
+    /// </summary>
+    [CliOption("--message-body-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageBodyFromFile { get; set; }
 
 }

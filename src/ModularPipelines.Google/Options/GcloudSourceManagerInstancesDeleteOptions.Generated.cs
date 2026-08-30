@@ -22,18 +22,18 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSourceManagerInstancesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Specifies endpoint mode for a given command. Regional endpoints provide     enhanced data residency and reliability by ensuring your request is     handled entirely within the specified Google Cloud region. This differs     from global endpoints, which may process parts of the request outside     the target region. Overrides the default regional/endpoint_mode     property value for this command invocation. ENDPOINT_MODE must be one     of:      global       (Default) Use global rather than regional endpoints.     regional       Only use regional endpoints. An error will be raised if a regional       endpoint is not available for a given command.     regional-preferred       Use regional endpoints when available, otherwise use global       endpoints. Recommended for most users.
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
     /// </summary>
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointMode { get; set; }
 
-    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("MaxWait is no longer supported by the installed CLI and has no effect.")]
     public string? MaxWait { get; set; }
 
 }

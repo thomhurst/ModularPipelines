@@ -23,15 +23,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerFleetScopesNamespacesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// List of namespace-level label KEY=VALUE pairs to update in the cluster     namespace. If a label exists, its value is modified. Otherwise, a new     label is' created.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud container fleet scopes namespaces update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud container fleet scopes namespaces update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --clear-namespace-labels      Remove all namespace-level labels from the cluster namespace. If      --update-namespace-labels is also specified then      --clear-namespace-labels is applied first.      For example, to remove all labels:        $ gcloud container fleet scopes namespaces update namespace_name \         --clear-namespace-labels      To remove all existing namespace-level labels and create two new      labels, foo and baz:        $ gcloud container fleet scopes namespaces update namespace_name \         --clear-namespace-labels \         --update-namespace-labels foo=bar,baz=qux     --remove-namespace-labels=[KEY,...]      List of namespace-level label keys to remove in the cluster      namespace. If a label does not exist it is silently ignored. If      --update-namespace-labels is also specified then      --update-namespace-labels is applied first.
+    /// List of namespace-level label KEY=VALUE pairs to update in the cluster namespace. If a label exists, its value is modified. Otherwise, a new label is' created.
     /// </summary>
     [CliOption("--update-namespace-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateNamespaceLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud container fleet scopes namespaces update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud container fleet scopes namespaces update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all namespace-level labels from the cluster namespace. If --update-namespace-labels is also specified then --clear-namespace-labels is applied first. For example, to remove all labels: $ gcloud container fleet scopes namespaces update namespace_name \ --clear-namespace-labels To remove all existing namespace-level labels and create two new labels, foo and baz: $ gcloud container fleet scopes namespaces update namespace_name \ --clear-namespace-labels \ --update-namespace-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-namespace-labels")]
+    public bool? ClearNamespaceLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of namespace-level label keys to remove in the cluster namespace. If a label does not exist it is silently ignored. If --update-namespace-labels is also specified then --update-namespace-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-namespace-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveNamespaceLabels { get; set; }
 
 }

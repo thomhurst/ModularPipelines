@@ -33,6 +33,21 @@ public class GcloudDesigncenterSpacesSharedTemplatesRevisions
     #region Commands
 
     /// <summary>
+    /// manage shared     template revision resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDesignCenterSpacesSharedTemplatesRevisionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesSharedTemplatesRevisionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe     a shared template revision
     /// </summary>
     /// <param name="options">The command options.</param>

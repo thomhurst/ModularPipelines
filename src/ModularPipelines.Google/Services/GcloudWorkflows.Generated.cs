@@ -109,12 +109,21 @@ public class GcloudWorkflows : IGcloudWorkflows
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExecuteAsync(
+    public virtual async Task<CommandResult> ExecuteCommandAsync(
         GcloudWorkflowsExecuteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkflowsExecuteOptions(), executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use ExecuteCommandAsync instead.")]
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudWorkflowsExecuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

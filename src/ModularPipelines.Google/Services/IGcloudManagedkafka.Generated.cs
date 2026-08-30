@@ -15,42 +15,55 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud managedkafka commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudManagedkafka
 {
     /// <summary>
     /// gcloud acls sub-commands.
     /// </summary>
-    GcloudManagedkafkaAcls Acls { get; }
+    GcloudManagedkafkaAcls Acls => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    GcloudManagedkafkaClusters Clusters { get; }
+    GcloudManagedkafkaClusters Clusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud connect-clusters sub-commands.
     /// </summary>
-    GcloudManagedkafkaConnectClusters ConnectClusters { get; }
+    GcloudManagedkafkaConnectClusters ConnectClusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud connectors sub-commands.
     /// </summary>
-    GcloudManagedkafkaConnectors Connectors { get; }
+    GcloudManagedkafkaConnectors Connectors => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud consumer-groups sub-commands.
     /// </summary>
-    GcloudManagedkafkaConsumerGroups ConsumerGroups { get; }
+    GcloudManagedkafkaConsumerGroups ConsumerGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudManagedkafkaOperations Operations { get; }
+    GcloudManagedkafkaOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud topics sub-commands.
     /// </summary>
-    GcloudManagedkafkaTopics Topics { get; }
+    GcloudManagedkafkaTopics Topics => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// administer Managed Service for Apache Kafka     clusters, topics, and consumer groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudManagedKafkaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -41,13 +41,13 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     public bool? EnableHttp2 { get; set; }
 
     /// <summary>
-    /// Default is false. If specified, the cluster will be assigned an     internal IP address to the Cluster Gateway. This isolates the cluster's     workstations from public networks, but requires additional     configuration. Learn more: https://cloud.google.com/workstations/docs.
+    /// Default is false. If specified, the cluster will be assigned an internal IP address to the Cluster Gateway. This isolates the cluster's workstations from public networks, but requires additional configuration. Learn more: https://cloud.google.com/workstations/docs.
     /// </summary>
     [CliFlag("--enable-private-endpoint")]
     public bool? EnablePrivateEndpoint { get; set; }
 
     /// <summary>
-    /// Labels that are applied to the cluster and propagated to the underlying     Compute Engine resources.
+    /// Labels that are applied to the cluster and propagated to the underlying Compute Engine resources.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
@@ -65,19 +65,19 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     public string? Subnetwork { get; set; }
 
     /// <summary>
-    /// Resource manager tags to be bound to this cluster. For example:     "123/environment=production" "123/costCenter=marketing"
+    /// Resource manager tags to be bound to this cluster. For example: "123/environment=production" "123/costCenter=marketing"
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The redirect URL for unauthorized requests. Redirects to this endpoint     send a base64 encoded 'state' query param with the workstation name and     original request hostname.
+    /// The redirect URL for unauthorized requests. Redirects to this endpoint send a base64 encoded 'state' query param with the workstation name and original request hostname.
     /// </summary>
     [CliOption("--workstation-authorization-url", Format = OptionFormat.EqualsSeparated)]
     public string? WorkstationAuthorizationUrl { get; set; }
 
     /// <summary>
-    /// The launch URL for workstations. Requests sent to unstarted     workstations will be redirected to this URL with 'workstation' and     'project' query params.
+    /// The launch URL for workstations. Requests sent to unstarted workstations will be redirected to this URL with 'workstation' and 'project' query params.
     /// </summary>
     [CliOption("--workstation-launch-url", Format = OptionFormat.EqualsSeparated)]
     public string? WorkstationLaunchUrl { get; set; }

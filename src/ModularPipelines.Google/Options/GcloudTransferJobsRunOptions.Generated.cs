@@ -24,7 +24,7 @@ public record GcloudTransferJobsRunOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Blocks other tasks in your terminal until the transfer operation has     completed. If not included, tasks will run asynchronously.
+    /// Blocks other tasks in your terminal until the transfer operation has completed. If not included, tasks will run asynchronously.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }

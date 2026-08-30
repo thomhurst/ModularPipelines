@@ -126,10 +126,11 @@ internal partial class Gcloud : IGcloud
         IGcloudProjects projects,
         IGcloudPublicca publicca,
         IGcloudPubsub pubsub,
+        IGcloudQuotas quotas,
         IGcloudRecaptcha recaptcha,
         IGcloudRecommender recommender,
         IGcloudRedis redis,
-        IGcloudResourceManager resourcemanager,
+        IGcloudResourceManager resourceManager,
         IGcloudRun run,
         IGcloudScc scc,
         IGcloudScheduler scheduler,
@@ -143,6 +144,7 @@ internal partial class Gcloud : IGcloud
         IGcloudSpanner spanner,
         IGcloudSql sql,
         IGcloudStorage storage,
+        IGcloudSupport support,
         IGcloudTasks tasks,
         IGcloudTelcoautomation telcoautomation,
         IGcloudTranscoder transcoder,
@@ -257,10 +259,11 @@ internal partial class Gcloud : IGcloud
         Projects = projects;
         Publicca = publicca;
         Pubsub = pubsub;
+        Quotas = quotas;
         Recaptcha = recaptcha;
         Recommender = recommender;
         Redis = redis;
-        ResourceManager = resourcemanager;
+        ResourceManager = resourceManager;
         Run = run;
         Scc = scc;
         Scheduler = scheduler;
@@ -274,6 +277,7 @@ internal partial class Gcloud : IGcloud
         Spanner = spanner;
         Sql = sql;
         Storage = storage;
+        Support = support;
         Tasks = tasks;
         Telcoautomation = telcoautomation;
         Transcoder = transcoder;
@@ -591,6 +595,9 @@ internal partial class Gcloud : IGcloud
     public IGcloudPubsub Pubsub { get; }
 
     /// <inheritdoc />
+    public IGcloudQuotas Quotas { get; }
+
+    /// <inheritdoc />
     public IGcloudRecaptcha Recaptcha { get; }
 
     /// <inheritdoc />
@@ -640,6 +647,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public IGcloudStorage Storage { get; }
+
+    /// <inheritdoc />
+    public IGcloudSupport Support { get; }
 
     /// <inheritdoc />
     public IGcloudTasks Tasks { get; }

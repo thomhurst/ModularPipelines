@@ -22,27 +22,111 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApihubApisVersionsOperationsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// The list of user defined attributes associated with the API operation     resource. The key is the attribute name. It will be of the format:     projects/{project}/locations/{location}/attributes/{attribute}. The     value is the attribute values associated with the resource.      KEY       Sets KEY value.      VALUE       Sets VALUE value.        enumValues         The attribute values associated with a resource in case         attribute data type is enum.          values           The attribute values in case attribute data type is enum.            description             The detailed description of the allowed value.            displayName             The display name of the allowed value.            id             The ID of the allowed value.             ▹ If provided, the same will be used. The service              will throw an error if the specified id is already              used by another allowed value in the same attribute              resource.             ▹ If not provided, a system generated id derived from              the display name will be used. In this case, the              service will handle conflict resolution by adding a              system generated suffix in case of duplicates.             This value should be 4-63 characters, and valid             characters are /[a-z][0-9]-/.            immutable             When set to true, the allowed value cannot be updated             or deleted by the user. It can only be true for System             defined attributes.        jsonValues         The attribute values associated with a resource in case         attribute data type is JSON.          values           The attribute values in case attribute data type is string           or JSON.        stringValues         The attribute values associated with a resource in case         attribute data type is string.          values           The attribute values in case attribute data type is string           or JSON.        uriValues         The attribute values associated with a resource in case         attribute data type is URL, URI or IP, like         gs://bucket-name/object-name.          values           The attribute values in case attribute data type is string           or JSON.     Shorthand Example:       --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}}     JSON Example:       --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}'     File Example:       --attributes=path_to_file.(yaml|json)    The operation details parsed from the spec.
+    /// The operation details parsed from the spec. Documentation details. The list of user defined attributes associated with the API operation resource. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▹ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▹ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --attributes=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attributes { get; set; }
 
     /// <summary>
-    /// For OpenAPI spec, this will be set if operation.deprecated`is marked as     true in the spec.
+    /// The operation details parsed from the spec. Documentation details. For OpenAPI spec, this will be set if operation.deprecated`is marked as true in the spec.
     /// </summary>
     [CliFlag("--details-deprecated")]
     public bool? DetailsDeprecated { get; set; }
 
     /// <summary>
-    /// Description of the operation behavior. For OpenAPI spec, this will map     to operation.description in the spec, in case description is empty,     operation.summary will be used.    Documentation details.
+    /// The operation details parsed from the spec. Documentation details. Description of the operation behavior. For OpenAPI spec, this will map to operation.description in the spec, in case description is empty, operation.summary will be used.
     /// </summary>
     [CliOption("--details-description", Format = OptionFormat.EqualsSeparated)]
     public string? DetailsDescription { get; set; }
 
     /// <summary>
-    /// The uri of the externally hosted documentation.    Arguments for the operation.    At most one of these can be specified:     The HTTP Operation.     --http-operation-method=HTTP_OPERATION_METHOD      Operation method Note: Even though this field is optional, it is      required for      [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation]      API and we will fail the request if not provided.      HTTP_OPERATION_METHOD must be one of:       delete        Delete Operation type.      get        Get Operation type.      head        Head Operation type.      options        Options Operation type.      patch        Patch Operation type.      post        Post Operation type.      put        Put Operation type.      trace        Trace Operation type.     The path details derived from the spec.     --http-operation-path=HTTP_OPERATION_PATH      Complete path relative to server endpoint. Note: Even though this      field is optional, it is required for      [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation]      API and we will fail the request if not provided.     --http-operation-path-description=HTTP_OPERATION_PATH_DESCRIPTION      A short description for the path applicable to all operations.     Details describing an MCP Tool.     --mcp-tool-name=MCP_TOOL_NAME      The name of the tool, unique within its parent scope (version).      This flag argument must be specified if any of the other arguments in      this group are specified.     --mcp-tool-description=MCP_TOOL_DESCRIPTION      Description of what the tool does.     The operation schema needed for an operation.     Arguments for the value.     --mcp-tool-input-schema-json=MCP_TOOL_INPUT_SCHEMA_JSON      The JSON schema. Only valid JSON is accepted but semantic validation      of schema is not supported right now.     The operation schema needed for an operation.     Arguments for the value.     --mcp-tool-output-schema-json=MCP_TOOL_OUTPUT_SCHEMA_JSON      The JSON schema. Only valid JSON is accepted but semantic validation      of schema is not supported right now.     --mcp-tool-title=MCP_TOOL_TITLE      Optional title for the tool.     Annotations for a Tool.     --mcp-tool-annotations-additional-hints=[MCP_TOOL_ANNOTATIONS_ADDITIONAL_HINTS,...]      Additional hints which may help tools and not covered in defaults.       KEY        Sets KEY value.       VALUE        Sets VALUE value.      Shorthand Example:        --mcp-tool-annotations-additional-hints=string=string      JSON Example:        --mcp-tool-annotations-additional-hints='{"string": "string"}'      File Example:        --mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)     Arguments for the destructive hint.     --mcp-tool-annotations-destructive-hint      Hint indicating if the tool may have destructive side effects.     Arguments for the idempotent hint.     --mcp-tool-annotations-idempotent-hint      Hint indicating if the tool is idempotent.     Arguments for the open world hint.     --mcp-tool-annotations-open-world-hint      Hint indicating if the tool interacts with the open world (e.g.,      internet).     Arguments for the read only hint.     --mcp-tool-annotations-read-only-hint      Hint indicating if the tool is read-only.     --mcp-tool-annotations-title=MCP_TOOL_ANNOTATIONS_TITLE      A human-readable title for the tool (if different from Tool.title).
+    /// The operation details parsed from the spec. Documentation details. The uri of the externally hosted documentation.
     /// </summary>
     [CliOption("--documentation-external-uri", Format = OptionFormat.EqualsSeparated)]
     public string? DocumentationExternalUri { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. Operation method Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided. HTTP_OPERATION_METHOD must be one of: delete Delete Operation type. get Get Operation type. head Head Operation type. options Options Operation type. patch Patch Operation type. post Post Operation type. put Put Operation type. trace Trace Operation type.
+    /// </summary>
+    [CliOption("--http-operation-method", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpOperationMethod { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. Complete path relative to server endpoint. Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided.
+    /// </summary>
+    [CliOption("--http-operation-path", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpOperationPath { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. A short description for the path applicable to all operations.
+    /// </summary>
+    [CliOption("--http-operation-path-description", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpOperationPathDescription { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. The name of the tool, unique within its parent scope (version). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--mcp-tool-name", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolName { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. Description of what the tool does.
+    /// </summary>
+    [CliOption("--mcp-tool-description", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolDescription { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. The operation schema needed for an operation. Arguments for the value. The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
+    /// </summary>
+    [CliOption("--mcp-tool-input-schema-json", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolInputSchemaJson { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. The operation schema needed for an operation. Arguments for the value. Annotations for a Tool. The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
+    /// </summary>
+    [CliOption("--mcp-tool-output-schema-json", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolOutputSchemaJson { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. The operation schema needed for an operation. Arguments for the value. Annotations for a Tool. Optional title for the tool.
+    /// </summary>
+    [CliOption("--mcp-tool-title", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolTitle { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. The operation schema needed for an operation. Arguments for the value. Annotations for a Tool. Additional hints which may help tools and not covered in defaults. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --mcp-tool-annotations-additional-hints=string=string JSON Example: --mcp-tool-annotations-additional-hints='{"string": "string"}' File Example: --mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--mcp-tool-annotations-additional-hints", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? McpToolAnnotationsAdditionalHints { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the destructive hint. Hint indicating if the tool may have destructive side effects.
+    /// </summary>
+    [CliFlag("--mcp-tool-annotations-destructive-hint")]
+    public bool? McpToolAnnotationsDestructiveHint { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the idempotent hint. Hint indicating if the tool is idempotent.
+    /// </summary>
+    [CliFlag("--mcp-tool-annotations-idempotent-hint")]
+    public bool? McpToolAnnotationsIdempotentHint { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the open world hint. Hint indicating if the tool interacts with the open world (e.g., internet).
+    /// </summary>
+    [CliFlag("--mcp-tool-annotations-open-world-hint")]
+    public bool? McpToolAnnotationsOpenWorldHint { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the read only hint. Hint indicating if the tool is read-only.
+    /// </summary>
+    [CliFlag("--mcp-tool-annotations-read-only-hint")]
+    public bool? McpToolAnnotationsReadOnlyHint { get; set; }
+
+    /// <summary>
+    /// The operation details parsed from the spec. Documentation details. Arguments for the read only hint. A human-readable title for the tool (if different from Tool.title).
+    /// </summary>
+    [CliOption("--mcp-tool-annotations-title", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolAnnotationsTitle { get; set; }
 
 }

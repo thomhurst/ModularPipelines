@@ -43,6 +43,21 @@ public class GcloudContainerHubWorkloadIdentity
     #region Commands
 
     /// <summary>
+    /// manage Workload Identity Feature
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerHubWorkloadIdentityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerHubWorkloadIdentityOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe the status of     Workload Identity Feature resource
     /// </summary>
     /// <param name="options">The command options.</param>

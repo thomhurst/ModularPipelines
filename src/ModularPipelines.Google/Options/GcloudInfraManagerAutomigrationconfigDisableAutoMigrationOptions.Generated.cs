@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudInfraManagerAutomigrationconfigDisableAutoMigrationOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    Location resource - The location to disable AutoMigrationConfig for. This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ set the property infra-manager/location with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// Location resource - The location to disable AutoMigrationConfig for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ set the property infra-manager/location.
+    /// Location resource - The location to disable AutoMigrationConfig for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property infra-manager/location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

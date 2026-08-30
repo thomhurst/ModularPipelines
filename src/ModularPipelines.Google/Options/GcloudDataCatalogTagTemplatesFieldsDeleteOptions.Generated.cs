@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataCatalogTagTemplatesFieldsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// If True, this tag template field will be deleted from any existing     tags.
+    /// If True, this tag template field will be deleted from any existing tags.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

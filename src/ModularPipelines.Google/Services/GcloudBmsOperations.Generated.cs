@@ -33,6 +33,21 @@ public class GcloudBmsOperations
     #region Commands
 
     /// <summary>
+    /// manage operations in Bare Metal Solution
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBmsOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBmsOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show metadata for a Bare Metal Solution     operation
     /// </summary>
     /// <param name="options">The command options.</param>

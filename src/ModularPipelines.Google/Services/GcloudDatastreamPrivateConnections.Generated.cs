@@ -33,6 +33,21 @@ public class GcloudDatastreamPrivateConnections
     #region Commands
 
     /// <summary>
+    /// manage Datastream private     connections
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDatastreamPrivateConnectionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatastreamPrivateConnectionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Datastream private     connection
     /// </summary>
     /// <param name="options">The command options.</param>

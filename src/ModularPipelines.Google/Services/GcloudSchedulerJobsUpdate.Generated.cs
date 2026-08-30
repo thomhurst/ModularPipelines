@@ -33,6 +33,21 @@ public class GcloudSchedulerJobsUpdate
     #region Commands
 
     /// <summary>
+    /// update Cloud Scheduler jobs for various     types of targets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSchedulerJobsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSchedulerJobsUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// update a Cloud Scheduler job with     an App Engine target
     /// </summary>
     /// <param name="options">The command options.</param>

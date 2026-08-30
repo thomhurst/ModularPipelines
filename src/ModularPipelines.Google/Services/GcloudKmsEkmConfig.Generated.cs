@@ -33,6 +33,21 @@ public class GcloudKmsEkmConfig
     #region Commands
 
     /// <summary>
+    /// update and retrieve the EkmConfig
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudKmsEkmConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsEkmConfigOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy binding to an     EkmConfig
     /// </summary>
     /// <param name="options">The command options.</param>

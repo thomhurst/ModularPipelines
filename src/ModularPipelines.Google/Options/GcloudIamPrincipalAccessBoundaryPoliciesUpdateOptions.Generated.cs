@@ -22,33 +22,81 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Principal access boundary policy details Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The description of the principal access boundary policy. Must be less     than or equal to 63 characters.
+    /// Principal access boundary policy details The description of the principal access boundary policy. Must be less than or equal to 63 characters.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The etag for the principal access boundary. If this is provided on     update, it must match the server's etag.    Update annotations.    At most one of these can be specified:     --annotations=[ANNOTATIONS,...]      Set annotations to new value. User defined annotations. See      https://google.aip.dev/148#annotations for more details such as      format and size limitations.       KEY        Sets KEY value.       VALUE        Sets VALUE value.      Shorthand Example:        --annotations=string=string      JSON Example:        --annotations='{"string": "string"}'      File Example:        --annotations=path_to_file.(yaml|json)     Or at least one of these can be specified:      --update-annotations=[UPDATE_ANNOTATIONS,...]       Update annotations value or add key value pair. User defined       annotations. See https://google.aip.dev/148#annotations for more       details such as format and size limitations.        KEY         Sets KEY value.        VALUE         Sets VALUE value.       Shorthand Example:         --update-annotations=string=string       JSON Example:         --update-annotations='{"string": "string"}'       File Example:         --update-annotations=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-annotations        Clear annotations value and set to empty map.       --remove-annotations=REMOVE_ANNOTATIONS        Remove existing value from map annotations. Sets        remove_annotations value.        Shorthand Example:          --remove-annotations=string,string        JSON Example:          --remove-annotations=["string"]        File Example:          --remove-annotations=path_to_file.(yaml|json)    Principal access boundary policy details
+    /// Principal access boundary policy details The etag for the principal access boundary. If this is provided on update, it must match the server's etag.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 
     /// <summary>
-    /// Set googleIamV3PrincipalAccessBoundaryPolicy.details back to default     value.
+    /// Principal access boundary policy details Update annotations. At most one of these can be specified: Set annotations to new value. User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Principal access boundary policy details Update annotations. At most one of these can be specified: Or at least one of these can be specified: Update annotations value or add key value pair. User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-annotations=string=string JSON Example: --update-annotations='{"string": "string"}' File Example: --update-annotations=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateAnnotations { get; set; }
+
+    /// <summary>
+    /// Principal access boundary policy details Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear annotations value and set to empty map.
+    /// </summary>
+    [CliFlag("--clear-annotations")]
+    public bool? ClearAnnotations { get; set; }
+
+    /// <summary>
+    /// Principal access boundary policy details Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map annotations. Sets remove_annotations value. Shorthand Example: --remove-annotations=string,string JSON Example: --remove-annotations=["string"] File Example: --remove-annotations=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveAnnotations { get; set; }
+
+    /// <summary>
+    /// Principal access boundary policy details Set googleIamV3PrincipalAccessBoundaryPolicy.details back to default value.
     /// </summary>
     [CliFlag("--clear-details")]
     public bool? ClearDetails { get; set; }
 
     /// <summary>
-    /// The version number (for example, 1 or latest) that indicates which     permissions are able to be blocked by the policy. If empty, the PAB     policy version will be set to the most recent version number at the     time of the policy's creation.    Update details_rules.    At most one of these can be specified:     --details-rules=[description=DESCRIPTION],[effect=EFFECT],[resources=RESOURCES]      Set details_rules to new value. A list of principal access boundary      policy rules. The number of rules in a policy is limited to 500.       description        The description of the principal access boundary policy rule.        Must be less than or equal to 256 characters.       effect        The access relationship of principals to the resources in this        rule.       resources        A list of Resource Manager resources. If a resource is listed in        the rule, then the rule applies for that resource and its        descendants. The number of resources in a policy is limited to        500 across all rules in the policy.        The following resource types are supported:        ▫ Organizations, such as         //cloudresourcemanager.googleapis.com/organizations/123.        ▫ Folders, such as         //cloudresourcemanager.googleapis.com/folders/123.        ▫ Projects, such as         //cloudresourcemanager.googleapis.com/projects/123 or         //cloudresourcemanager.googleapis.com/projects/my-project-id.      Shorthand Example:        --details-rules=description=string,effect=string,resources=[string] --details-rules=description=string,effect=string,resources=[string]      JSON Example:        --details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]'      File Example:        --details-rules=path_to_file.(yaml|json)     Or at least one of these can be specified:      --add-details-rules=[description=DESCRIPTION],[effect=EFFECT],[resources=RESOURCES]       Add new value to details_rules list. A list of principal access       boundary policy rules. The number of rules in a policy is limited       to 500.        description         The description of the principal access boundary policy rule.         Must be less than or equal to 256 characters.        effect         The access relationship of principals to the resources in this         rule.        resources         A list of Resource Manager resources. If a resource is listed         in the rule, then the rule applies for that resource and its         descendants. The number of resources in a policy is limited to         500 across all rules in the policy.         The following resource types are supported:         ◇ Organizations, such as          //cloudresourcemanager.googleapis.com/organizations/123.         ◇ Folders, such as          //cloudresourcemanager.googleapis.com/folders/123.         ◇ Projects, such as          //cloudresourcemanager.googleapis.com/projects/123 or          //cloudresourcemanager.googleapis.com/projects/my-project-id.       Shorthand Example:         --add-details-rules=description=string,effect=string,resources=[string] --add-details-rules=description=string,effect=string,resources=[string]       JSON Example:         --add-details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]'       File Example:         --add-details-rules=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-details-rules        Clear details_rules value and set to empty list.       --remove-details-rules=[description=DESCRIPTION],[effect=EFFECT],[resources=RESOURCES]        Remove existing value from details_rules list. A list of        principal access boundary policy rules. The number of rules in a        policy is limited to 500.         description          The description of the principal access boundary policy rule.          Must be less than or equal to 256 characters.         effect          The access relationship of principals to the resources in          this rule.         resources          A list of Resource Manager resources. If a resource is listed          in the rule, then the rule applies for that resource and its          descendants. The number of resources in a policy is limited          to 500 across all rules in the policy.          The following resource types are supported:          ▹ Organizations, such as           //cloudresourcemanager.googleapis.com/organizations/123.          ▹ Folders, such as           //cloudresourcemanager.googleapis.com/folders/123.          ▹ Projects, such as           //cloudresourcemanager.googleapis.com/projects/123 or           //cloudresourcemanager.googleapis.com/projects/my-project-id.        Shorthand Example:          --remove-details-rules=description=string,effect=string,resources=[string] --remove-details-rules=description=string,effect=string,resources=[string]        JSON Example:          --remove-details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]'        File Example:          --remove-details-rules=path_to_file.(yaml|json)
+    /// Principal access boundary policy details The version number (for example, 1 or latest) that indicates which permissions are able to be blocked by the policy. If empty, the PAB policy version will be set to the most recent version number at the time of the policy's creation.
     /// </summary>
     [CliOption("--details-enforcement-version", Format = OptionFormat.EqualsSeparated)]
     public string? DetailsEnforcementVersion { get; set; }
+
+    /// <summary>
+    /// Principal access boundary policy details Update details_rules. At most one of these can be specified: Set details_rules to new value. A list of principal access boundary policy rules. The number of rules in a policy is limited to 500. description The description of the principal access boundary policy rule. Must be less than or equal to 256 characters. effect The access relationship of principals to the resources in this rule. resources A list of Resource Manager resources. If a resource is listed in the rule, then the rule applies for that resource and its descendants. The number of resources in a policy is limited to 500 across all rules in the policy. The following resource types are supported: ▫ Organizations, such as //cloudresourcemanager.googleapis.com/organizations/123. ▫ Folders, such as //cloudresourcemanager.googleapis.com/folders/123. ▫ Projects, such as //cloudresourcemanager.googleapis.com/projects/123 or //cloudresourcemanager.googleapis.com/projects/my-project-id. Shorthand Example: --details-rules=description=string,effect=string,resources=[string] --details-rules=description=string,effect=string,resources=[string] JSON Example: --details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]' File Example: --details-rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--details-rules", Format = OptionFormat.EqualsSeparated)]
+    public string? DetailsRules { get; set; }
+
+    /// <summary>
+    /// Principal access boundary policy details Update details_rules. At most one of these can be specified: Or at least one of these can be specified: Add new value to details_rules list. A list of principal access boundary policy rules. The number of rules in a policy is limited to 500. description The description of the principal access boundary policy rule. Must be less than or equal to 256 characters. effect The access relationship of principals to the resources in this rule. resources A list of Resource Manager resources. If a resource is listed in the rule, then the rule applies for that resource and its descendants. The number of resources in a policy is limited to 500 across all rules in the policy. The following resource types are supported: ◇ Organizations, such as //cloudresourcemanager.googleapis.com/organizations/123. ◇ Folders, such as //cloudresourcemanager.googleapis.com/folders/123. ◇ Projects, such as //cloudresourcemanager.googleapis.com/projects/123 or //cloudresourcemanager.googleapis.com/projects/my-project-id. Shorthand Example: --add-details-rules=description=string,effect=string,resources=[string] --add-details-rules=description=string,effect=string,resources=[string] JSON Example: --add-details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]' File Example: --add-details-rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-details-rules", Format = OptionFormat.EqualsSeparated)]
+    public string? AddDetailsRules { get; set; }
+
+    /// <summary>
+    /// Principal access boundary policy details Update details_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear details_rules value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-details-rules")]
+    public bool? ClearDetailsRules { get; set; }
+
+    /// <summary>
+    /// Principal access boundary policy details Update details_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from details_rules list. A list of principal access boundary policy rules. The number of rules in a policy is limited to 500. description The description of the principal access boundary policy rule. Must be less than or equal to 256 characters. effect The access relationship of principals to the resources in this rule. resources A list of Resource Manager resources. If a resource is listed in the rule, then the rule applies for that resource and its descendants. The number of resources in a policy is limited to 500 across all rules in the policy. The following resource types are supported: ▹ Organizations, such as //cloudresourcemanager.googleapis.com/organizations/123. ▹ Folders, such as //cloudresourcemanager.googleapis.com/folders/123. ▹ Projects, such as //cloudresourcemanager.googleapis.com/projects/123 or //cloudresourcemanager.googleapis.com/projects/my-project-id. Shorthand Example: --remove-details-rules=description=string,effect=string,resources=[string] --remove-details-rules=description=string,effect=string,resources=[string] JSON Example: --remove-details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]' File Example: --remove-details-rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-details-rules", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveDetailsRules { get; set; }
 
 }

@@ -27,7 +27,7 @@ public record GcloudAlloydbOperationsListOptions : GcloudOptions
     [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
     public string? Cluster { get; set; }
 
-    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("Region is no longer supported by the installed CLI and has no effect.")]
     public string? Region { get; set; }
 
 }

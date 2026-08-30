@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudResourceManagerTagsBindingsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Show all effective TagBindings on the resource. TagBindings applied at     a higher level will be inherited to all descendants.
+    /// Show all effective TagBindings on the resource. TagBindings applied at a higher level will be inherited to all descendants.
     /// </summary>
     [CliFlag("--effective")]
     public bool? Effective { get; set; }
 
     /// <summary>
-    /// Region or zone of the resource for listing TagBindings. This field     should not be set if the resource is a global resource like projects,     folders and organizations.
+    /// Region or zone of the resource for listing TagBindings. This field should not be set if the resource is a global resource like projects, folders and organizations.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

@@ -33,6 +33,21 @@ public class GcloudBackupdrResourceBackupConfig
     #region Commands
 
     /// <summary>
+    /// show protection summary for     resources in a particular location and project
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBackupDrResourceBackupConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBackupDrResourceBackupConfigOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show backup configuration     metadata associated with specified resources in a particular location     for the project
     /// </summary>
     /// <param name="options">The command options.</param>

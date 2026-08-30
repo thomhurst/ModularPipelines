@@ -33,6 +33,21 @@ public class GcloudDataplexTasksJobs
     #region Commands
 
     /// <summary>
+    /// manage Dataplex Jobs services
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataplexTasksJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataplexTasksJobsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel a Dataplex Job running a     particular task
     /// </summary>
     /// <param name="options">The command options.</param>

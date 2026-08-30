@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAiModelGardenModelsListDeploymentConfigOptions : GcloudOptions
 {
     /// <summary>
-    /// The access token from Hugging Face needed to read the model artifacts     of gated models in order to generate the deployment configs. It is only     needed when the Hugging Face model to deploy is gated and not verified     by Model Garden. You can use the gcloud ai alpha/beta model-garden     models list command to find out which ones are verified by Model     Garden.
+    /// The access token from Hugging Face needed to read the model artifacts of gated models in order to generate the deployment configs. It is only needed when the Hugging Face model to deploy is gated and not verified by Model Garden. You can use the gcloud ai alpha/beta model-garden models list command to find out which ones are verified by Model Garden.
     /// </summary>
     [SecretValue]
     [CliOption("--hugging-face-access-token", Format = OptionFormat.EqualsSeparated)]

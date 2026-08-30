@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeRolloutsCancelOptions : GcloudOptions
 {
     /// <summary>
-    /// If true, then the ongoing rollout must be rolled back. Else, just     cancel the rollout without taking any further actions.
+    /// If true, then the ongoing rollout must be rolled back. Else, just cancel the rollout without taking any further actions.
     /// </summary>
     [CliFlag("--rollback")]
     public bool? Rollback { get; set; }

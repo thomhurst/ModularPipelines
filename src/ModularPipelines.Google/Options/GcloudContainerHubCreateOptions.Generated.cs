@@ -24,43 +24,43 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Default cluster configurations to apply across the fleet. Binary Authorization config. Security posture config. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Display name of the fleet to be created (optional). 4-30 characters,     alphanumeric and [ '"!-] only.
+    /// Default cluster configurations to apply across the fleet. Binary Authorization config. Security posture config. Display name of the fleet to be created (optional). 4-30 characters, alphanumeric and [ '"!-] only.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Default cluster configurations to apply across the fleet.    Binary Authorization config.
+    /// Default cluster configurations to apply across the fleet. Binary Authorization config. Security posture config. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Configure binary authorization mode for clusters to onboard the fleet,       $ gcloud container hub create \         --binauthz-evaluation-mode=policy-bindings     BINAUTHZ_EVALUATION_MODE must be one of: disabled, policy-bindings.
+    /// Default cluster configurations to apply across the fleet. Binary Authorization config. Security posture config. Configure binary authorization mode for clusters to onboard the fleet, $ gcloud container hub create \ --binauthz-evaluation-mode=policy-bindings BINAUTHZ_EVALUATION_MODE must be one of: disabled, policy-bindings.
     /// </summary>
     [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
     public GcloudBinauthzEvaluationMode? BinauthzEvaluationMode { get; set; }
 
     /// <summary>
-    /// The relative resource name of the Binary Authorization policy to audit     and/or enforce. GKE policies have the following format:     projects/{project_number}/platforms/gke/policies/{policy_id}.    Security posture config.
+    /// Default cluster configurations to apply across the fleet. Binary Authorization config. Security posture config. The relative resource name of the Binary Authorization policy to audit and/or enforce. GKE policies have the following format: projects/{project_number}/platforms/gke/policies/{policy_id}.
     /// </summary>
     [CliOption("--binauthz-policy-bindings", Format = OptionFormat.EqualsSeparated)]
     public string? BinauthzPolicyBindings { get; set; }
 
     /// <summary>
-    /// To apply standard security posture to clusters in the fleet,       $ gcloud container hub create --security-posture=standard     SECURITY_POSTURE must be one of: disabled, standard, enterprise.
+    /// Default cluster configurations to apply across the fleet. Binary Authorization config. Security posture config. To apply standard security posture to clusters in the fleet, $ gcloud container hub create --security-posture=standard SECURITY_POSTURE must be one of: disabled, standard, enterprise.
     /// </summary>
     [CliOption("--security-posture", Format = OptionFormat.EqualsSeparated)]
     public GcloudSecurityPosture? SecurityPosture { get; set; }
 
     /// <summary>
-    /// To apply standard vulnerability scanning to clusters in the fleet,       $ gcloud container hub create \         --workload-vulnerability-scanning=standard     WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard,     enterprise.
+    /// Default cluster configurations to apply across the fleet. Binary Authorization config. Security posture config. To apply standard vulnerability scanning to clusters in the fleet, $ gcloud container hub create \ --workload-vulnerability-scanning=standard WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard, enterprise.
     /// </summary>
     [CliOption("--workload-vulnerability-scanning", Format = OptionFormat.EqualsSeparated)]
     public GcloudWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }

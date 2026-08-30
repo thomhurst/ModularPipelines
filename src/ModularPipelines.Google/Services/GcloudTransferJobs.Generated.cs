@@ -33,6 +33,21 @@ public class GcloudTransferJobs
     #region Commands
 
     /// <summary>
+    /// manage transfer jobs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudTransferJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudTransferJobsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Transfer Service transfer job
     /// </summary>
     /// <param name="options">The command options.</param>

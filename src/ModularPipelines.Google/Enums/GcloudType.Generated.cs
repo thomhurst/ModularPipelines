@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudType
 {
     [EnumValue("bridge")]
-    Bridge,
+    Bridge = 0,
 
     [EnumValue("regular")]
-    Regular
+    Regular = 1
 }

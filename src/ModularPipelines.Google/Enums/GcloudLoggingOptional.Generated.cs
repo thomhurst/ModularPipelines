@@ -17,11 +17,26 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLoggingOptional
 {
     [EnumValue("EXCLUDE_ALL_OPTIONAL")]
-    ExcludeAllOptional,
+    ExcludeAllOptional = 0,
 
     [EnumValue("INCLUDE_ALL_OPTIONAL")]
-    IncludeAllOptional,
+    IncludeAllOptional = 1,
 
     [EnumValue("CUSTOM")]
-    Custom
+    Custom = 2,
+
+    [EnumValue("INTERNAL")]
+    Internal = 3,
+
+    [EnumValue("EXTERNAL")]
+    External = 4,
+
+    [EnumValue("INTERNAL_SELF_MANAGED")]
+    InternalSelfManaged = 5,
+
+    [EnumValue("EXTERNAL_MANAGED")]
+    ExternalManaged = 6,
+
+    [EnumValue("INTERNAL_MANAGED")]
+    InternalManaged = 7
 }

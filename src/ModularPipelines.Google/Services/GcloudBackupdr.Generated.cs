@@ -105,4 +105,23 @@ public class GcloudBackupdr : IGcloudBackupdr
     public GcloudBackupdrServiceConfig ServiceConfig => _serviceConfig ??= new GcloudBackupdrServiceConfig(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Backup and DR resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBackupDrOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBackupDrOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

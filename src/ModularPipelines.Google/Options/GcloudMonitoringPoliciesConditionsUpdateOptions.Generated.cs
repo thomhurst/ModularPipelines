@@ -28,9 +28,21 @@ public record GcloudMonitoringPoliciesConditionsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// One of "absent", "&lt; THRESHOLD", "&gt; THRESHOLD" where "THRESHOLD" is an     integer or float.    At most one of these can be specified:     --trigger-count=TRIGGER_COUNT      The absolute number of time series that must fail the predicate for      the condition to be triggered.     --trigger-percent=TRIGGER_PERCENT      The percentage of time series that must fail the predicate for the      condition to be triggered.
+    /// One of "absent", "&lt; THRESHOLD", "&gt; THRESHOLD" where "THRESHOLD" is an integer or float.
     /// </summary>
     [CliOption("--if", Format = OptionFormat.EqualsSeparated)]
     public string? If { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The absolute number of time series that must fail the predicate for the condition to be triggered.
+    /// </summary>
+    [CliOption("--trigger-count", Format = OptionFormat.EqualsSeparated)]
+    public int? TriggerCount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The percentage of time series that must fail the predicate for the condition to be triggered.
+    /// </summary>
+    [CliOption("--trigger-percent", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggerPercent { get; set; }
 
 }

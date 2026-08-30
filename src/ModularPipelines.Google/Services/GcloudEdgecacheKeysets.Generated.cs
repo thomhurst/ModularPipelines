@@ -33,6 +33,21 @@ public class GcloudEdgecacheKeysets
     #region Commands
 
     /// <summary>
+    /// interact with and manage EdgeCacheKeyset     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudEdgeCacheKeysetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCacheKeysetsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create an EdgeCacheKeyset resource
     /// </summary>
     /// <param name="options">The command options.</param>

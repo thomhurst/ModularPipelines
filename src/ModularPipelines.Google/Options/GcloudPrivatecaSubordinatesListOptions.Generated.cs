@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPrivatecaSubordinatesListOptions : GcloudOptions
 {
     /// <summary>
-    /// Location of the certificate authorities. If omitted, subordinate CAs     across all regions will be listed. Note that, if it is populated, the     privateca/location property will be used if this flag is not specified.     To ignore this property, specify "-" as the location.
+    /// Location of the certificate authorities. If omitted, subordinate CAs across all regions will be listed. Note that, if it is populated, the privateca/location property will be used if this flag is not specified. To ignore this property, specify "-" as the location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// ID of the CA Pool where the certificate authorities reside. If omitted,     subordinate CAs across all CA pools will be listed.
+    /// ID of the CA Pool where the certificate authorities reside. If omitted, subordinate CAs across all CA pools will be listed.
     /// </summary>
     [CliOption("--pool", Format = OptionFormat.EqualsSeparated)]
     public string? Pool { get; set; }

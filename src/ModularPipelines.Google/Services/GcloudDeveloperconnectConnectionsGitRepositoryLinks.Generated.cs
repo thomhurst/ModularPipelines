@@ -33,6 +33,21 @@ public class GcloudDeveloperconnectConnectionsGitRepositoryLinks
     #region Commands
 
     /// <summary>
+    /// manage git     repository link resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDeveloperConnectConnectionsGitRepositoryLinksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     git repository link
     /// </summary>
     /// <param name="options">The command options.</param>

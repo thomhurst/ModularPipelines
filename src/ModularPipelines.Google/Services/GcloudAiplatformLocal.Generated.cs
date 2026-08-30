@@ -33,6 +33,21 @@ public class GcloudAiplatformLocal
     #region Commands
 
     /// <summary>
+    /// AI Platform Local commands
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAiPlatformLocalOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiPlatformLocalOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// run prediction locally
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud recommender commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudRecommender
 {
     /// <summary>
     /// gcloud insights sub-commands.
     /// </summary>
-    GcloudRecommenderInsights Insights { get; }
+    GcloudRecommenderInsights Insights => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud insight-type-config sub-commands.
     /// </summary>
-    GcloudRecommenderInsightTypeConfig InsightTypeConfig { get; }
+    GcloudRecommenderInsightTypeConfig InsightTypeConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud recommendations sub-commands.
     /// </summary>
-    GcloudRecommenderRecommendations Recommendations { get; }
+    GcloudRecommenderRecommendations Recommendations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud recommender-config sub-commands.
     /// </summary>
-    GcloudRecommenderRecommenderConfig RecommenderConfig { get; }
+    GcloudRecommenderRecommenderConfig RecommenderConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud recommendations and recommendation rules
@@ -45,9 +48,7 @@ public interface IGcloudRecommender
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudRecommenderOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudRecommenderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

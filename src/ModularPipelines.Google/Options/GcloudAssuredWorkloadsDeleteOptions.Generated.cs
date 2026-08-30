@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAssuredWorkloadsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// The etag acquired by reading the Assured Workloads environment or AW     "resource".
+    /// The etag acquired by reading the Assured Workloads environment or AW "resource".
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }

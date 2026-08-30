@@ -24,7 +24,7 @@ public record GcloudTasksDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The location where we want to manage the queue or task. If not     specified, uses the location of the current project's App Engine app if     there is an associated app.
+    /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

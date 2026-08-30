@@ -49,6 +49,21 @@ public class GcloudRedisClusters
     #region Commands
 
     /// <summary>
+    /// manage Memorystore for Redis Cluster instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRedisClustersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRedisClustersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add more cluster endpoints
     /// </summary>
     /// <param name="options">The command options.</param>

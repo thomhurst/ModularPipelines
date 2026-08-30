@@ -17,35 +17,38 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudEnforceOnKey
 {
     [EnumValue("ip")]
-    Ip,
+    Ip = 0,
 
     [EnumValue("all")]
-    All,
+    All = 1,
 
     [EnumValue("http-header")]
-    HttpHeader,
+    HttpHeader = 2,
 
     [EnumValue("xff-ip")]
-    XffIp,
+    XffIp = 3,
 
     [EnumValue("http-cookie")]
-    HttpCookie,
+    HttpCookie = 4,
 
     [EnumValue("http-path")]
-    HttpPath,
+    HttpPath = 5,
 
     [EnumValue("sni")]
-    Sni,
+    Sni = 6,
 
     [EnumValue("region-code")]
-    RegionCode,
+    RegionCode = 7,
 
     [EnumValue("tls-ja3-fingerprint")]
-    TlsJa3Fingerprint,
+    TlsJa3Fingerprint = 8,
 
     [EnumValue("user-ip")]
-    UserIp,
+    UserIp = 9,
 
     [EnumValue("tls-ja4-fingerprint")]
-    TlsJa4Fingerprint
+    TlsJa4Fingerprint = 10,
+
+    [EnumValue("asn")]
+    Asn = 11
 }

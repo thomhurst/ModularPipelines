@@ -33,6 +33,21 @@ public class GcloudVmwareLocations
     #region Commands
 
     /// <summary>
+    /// list locations in Google Cloud VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwareLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwareLocationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Google Cloud VMware Engine locations
     /// </summary>
     /// <param name="options">The command options.</param>

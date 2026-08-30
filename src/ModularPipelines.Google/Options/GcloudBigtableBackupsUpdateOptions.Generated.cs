@@ -22,9 +22,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBigtableBackupsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Time at which a hot backup will be converted to a standard backup; must     be at least 24 hours from backup creation time. Only applies for hot     backups. See $ gcloud topic datetimes for information on date/time     formats. See $ gcloud bigtable backups describe for creation time.    At most one of these can be specified:     --expiration-date=EXPIRATION_DATE      Absolute expiration time of the backup; must be at least 6 hours and      at most 90 days from backup creation time. See $ gcloud topic      datetimes for information on date/time formats. See $ gcloud bigtable      backups describe for creation time.     --retention-period=RETENTION_PERIOD      Retention period of the backup relative from now; must be at least 6      hours and at most 90 days from backup creation time. See $ gcloud      topic datetimes for information on duration formats. See $ gcloud      bigtable backups describe for creation time.
+    /// Time at which a hot backup will be converted to a standard backup; must be at least 24 hours from backup creation time. Only applies for hot backups. See $ gcloud topic datetimes for information on date/time formats. See $ gcloud bigtable backups describe for creation time.
     /// </summary>
     [CliOption("--hot-to-standard-time", Format = OptionFormat.EqualsSeparated)]
     public string? HotToStandardTime { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Absolute expiration time of the backup; must be at least 6 hours and at most 90 days from backup creation time. See $ gcloud topic datetimes for information on date/time formats. See $ gcloud bigtable backups describe for creation time.
+    /// </summary>
+    [CliOption("--expiration-date", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpirationDate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Retention period of the backup relative from now; must be at least 6 hours and at most 90 days from backup creation time. See $ gcloud topic datetimes for information on duration formats. See $ gcloud bigtable backups describe for creation time.
+    /// </summary>
+    [CliOption("--retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionPeriod { get; set; }
 
 }

@@ -23,67 +23,79 @@ public record GcloudComputeHealthChecksCreateHttpsOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
-    [CliOption("--check-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? CheckInterval { get; set; }
-
     /// <summary>
-    /// An optional string description for the HTTPS health check.
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. --proxy-header=PROXY_HEADER; default="NONE" The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Adds the header "PROXY UNKNOWN\r\n". --request-path=REQUEST_PATH; default="/" The request path that this health check monitors. For example, /healthcheck. The default value is ``/''. These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. --port=PORT; default=80 The TCP port number that this health check monitors. An optional string description for the HTTPS health check.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Enable logging of health check probe results to Stackdriver. Logging is     disabled by default.     Use --no-enable-logging to disable logging.
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. --proxy-header=PROXY_HEADER; default="NONE" The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Adds the header "PROXY UNKNOWN\r\n". --request-path=REQUEST_PATH; default="/" The request path that this health check monitors. For example, /healthcheck. The default value is ``/''. These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. --port=PORT; default=80 The TCP port number that this health check monitors. Enable logging of health check probe results to Stackdriver. Logging is disabled by default. Use --no-enable-logging to disable logging.
     /// </summary>
     [CliFlag("--enable-logging")]
     public bool? EnableLogging { get; set; }
 
-    [CliOption("--healthy-threshold", Format = OptionFormat.EqualsSeparated)]
-    public string? HealthyThreshold { get; set; }
-
     /// <summary>
-    /// The value of the host header used for the health check. If unspecified,     Google Cloud sets the host header to the IP address of the load     balancer's forwarding rule.
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. --proxy-header=PROXY_HEADER; default="NONE" The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Adds the header "PROXY UNKNOWN\r\n". --request-path=REQUEST_PATH; default="/" The request path that this health check monitors. For example, /healthcheck. The default value is ``/''. These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. --port=PORT; default=80 The TCP port number that this health check monitors. The value of the host header used for the health check. If unspecified, Google Cloud sets the host header to the IP address of the load balancer's forwarding rule.
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }
 
-    [CliOption("--proxy-header", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyHeader { get; set; }
-
-    [CliOption("--request-path", Format = OptionFormat.EqualsSeparated)]
-    public string? RequestPath { get; set; }
-
     /// <summary>
-    /// When empty, status code of the response determines health. When not     empty, presence of specified string in first 1024 characters of     response body determines health. Only ASCII characters allowed.
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. --proxy-header=PROXY_HEADER; default="NONE" The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Adds the header "PROXY UNKNOWN\r\n". --request-path=REQUEST_PATH; default="/" The request path that this health check monitors. For example, /healthcheck. The default value is ``/''. These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. --port=PORT; default=80 The TCP port number that this health check monitors. When empty, status code of the response determines health. When not empty, presence of specified string in first 1024 characters of response body determines health. Only ASCII characters allowed.
     /// </summary>
     [CliOption("--response", Format = OptionFormat.EqualsSeparated)]
     public string? Response { get; set; }
 
     /// <summary>
-    /// Define the list of Google Cloud regions from which health checks are     performed. This option is supported only for global health checks that     will be referenced by DNS routing policies. If specified, the     --check-interval field should be at least 30 seconds. The     --proxy-header and --request fields (for TCP health checks) are not     supported with this option.     If --source-regions is specified for a health check, then that health     check cannot be used by a backend service or by a managed instance     group (for autohealing).
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. --proxy-header=PROXY_HEADER; default="NONE" The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Adds the header "PROXY UNKNOWN\r\n". --request-path=REQUEST_PATH; default="/" The request path that this health check monitors. For example, /healthcheck. The default value is ``/''. These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. --port=PORT; default=80 The TCP port number that this health check monitors. Define the list of Google Cloud regions from which health checks are performed. This option is supported only for global health checks that will be referenced by DNS routing policies. If specified, the --check-interval field should be at least 30 seconds. The --proxy-header and --request fields (for TCP health checks) are not supported with this option. If --source-regions is specified for a health check, then that health check cannot be used by a backend service or by a managed instance group (for autohealing).
     /// </summary>
     [CliOption("--source-regions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourceRegions { get; set; }
 
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
-
-    [CliOption("--unhealthy-threshold", Format = OptionFormat.EqualsSeparated)]
-    public string? UnhealthyThreshold { get; set; }
-
-    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
+    /// <summary>
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. --proxy-header=PROXY_HEADER; default="NONE" The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Adds the header "PROXY UNKNOWN\r\n". --request-path=REQUEST_PATH; default="/" The request path that this health check monitors. For example, /healthcheck. The default value is ``/''. These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. --port=PORT; default=80 The TCP port number that this health check monitors. --timeout=TIMEOUT; default="5s" If Google Compute Engine doesn't receive a healthy response from the instance by the time specified by the value of this flag, the health check request is considered a failure. For example, specifying 10s will cause the check to wait for 10 seconds before considering the request a failure. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --unhealthy-threshold=UNHEALTHY_THRESHOLD; default=2 The number of consecutive health check failures before a healthy instance is marked as unhealthy. The default is 2. At most one of these can be specified: If set, the HTTPS health check is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
 
     /// <summary>
-    /// The port name that this health check monitors. By default, this is     empty.
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. --proxy-header=PROXY_HEADER; default="NONE" The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Adds the header "PROXY UNKNOWN\r\n". --request-path=REQUEST_PATH; default="/" The request path that this health check monitors. For example, /healthcheck. The default value is ``/''. These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. --port=PORT; default=80 The TCP port number that this health check monitors. --timeout=TIMEOUT; default="5s" If Google Compute Engine doesn't receive a healthy response from the instance by the time specified by the value of this flag, the health check request is considered a failure. For example, specifying 10s will cause the check to wait for 10 seconds before considering the request a failure. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --unhealthy-threshold=UNHEALTHY_THRESHOLD; default=2 The number of consecutive health check failures before a healthy instance is marked as unhealthy. The default is 2. At most one of these can be specified: Region of the HTTPS health check to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. --proxy-header=PROXY_HEADER; default="NONE" The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Adds the header "PROXY UNKNOWN\r\n". --request-path=REQUEST_PATH; default="/" The request path that this health check monitors. For example, /healthcheck. The default value is ``/''. These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. --port=PORT; default=80 The TCP port number that this health check monitors. The port name that this health check monitors. By default, this is empty.
     /// </summary>
     [CliOption("--port-name", Format = OptionFormat.EqualsSeparated)]
     public string? PortName { get; set; }
 
     /// <summary>
-    /// If given, use the "serving port" for health checks:     ◆ When health checking network endpoints in a Network Endpoint Group,      use the port specified with each endpoint. --use-serving-port must be      used when using a Network Endpoint Group as a backend as this flag      specifies the portSpecification option for a Health Check object.     ◆ When health checking other backends, use the port or named port of      the backend service.
+    /// --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --check-interval=CHECK_INTERVAL; default="5s" How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats. --healthy-threshold=HEALTHY_THRESHOLD; default=2 The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2. --proxy-header=PROXY_HEADER; default="NONE" The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Adds the header "PROXY UNKNOWN\r\n". --request-path=REQUEST_PATH; default="/" The request path that this health check monitors. For example, /healthcheck. The default value is ``/''. These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. --port=PORT; default=80 The TCP port number that this health check monitors. If given, use the "serving port" for health checks: ◆ When health checking network endpoints in a Network Endpoint Group, use the port specified with each endpoint. --use-serving-port must be used when using a Network Endpoint Group as a backend as this flag specifies the portSpecification option for a Health Check object. ◆ When health checking other backends, use the port or named port of the backend service.
     /// </summary>
     [CliFlag("--use-serving-port")]
     public bool? UseServingPort { get; set; }
+
+    [Obsolete("CheckInterval is no longer supported by the installed CLI and has no effect.")]
+    public string? CheckInterval { get; set; }
+
+    [Obsolete("HealthyThreshold is no longer supported by the installed CLI and has no effect.")]
+    public string? HealthyThreshold { get; set; }
+
+    [Obsolete("ProxyHeader is no longer supported by the installed CLI and has no effect.")]
+    public string? ProxyHeader { get; set; }
+
+    [Obsolete("RequestPath is no longer supported by the installed CLI and has no effect.")]
+    public string? RequestPath { get; set; }
+
+    [Obsolete("Timeout is no longer supported by the installed CLI and has no effect.")]
+    public int? Timeout { get; set; }
+
+    [Obsolete("UnhealthyThreshold is no longer supported by the installed CLI and has no effect.")]
+    public string? UnhealthyThreshold { get; set; }
+
+    [Obsolete("Port is no longer supported by the installed CLI and has no effect.")]
+    public string? Port { get; set; }
 
 }
