@@ -195,7 +195,7 @@ public partial class AzCliScraper : CliScraperBase
         var description = ExtractDescription(helpText);
 
         // Parse options from the help text
-        var options = ParseOptions(helpText, commandParts);
+        var options = ParseOptions(helpText);
 
         // If no options, skip generating this command
         if (options.Count == 0)
@@ -249,7 +249,7 @@ public partial class AzCliScraper : CliScraperBase
     /// Parses options from Azure CLI help text.
     /// Azure CLI uses: --option VALUE, --flag, -s (short forms)
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -259,107 +259,96 @@ public partial class AzCliScraper : CliScraperBase
         foreach (Match sectionMatch in SectionHeaderPattern().Matches(helpText))
         {
             var sectionName = sectionMatch.Groups["name"].Value.TrimEnd(':').Trim();
-            if (!sectionName.EndsWith("Arguments", StringComparison.OrdinalIgnoreCase)
-                || sectionName.StartsWith("Global ", StringComparison.OrdinalIgnoreCase))
+            if (!IsCommandArgumentsSection(sectionName))
             {
                 continue;
             }
 
-            var sectionStart = sectionMatch.Index + sectionMatch.Length;
-
-            // Find where this section ends
-            var sectionEnd = helpText.Length;
-            var nextSectionMatch = SectionHeaderPattern().Match(helpText, sectionStart);
-            if (nextSectionMatch.Success)
-            {
-                sectionEnd = nextSectionMatch.Index;
-            }
-
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-            var lines = section.Split('\n');
-
+            var lines = GetSectionLines(helpText, sectionMatch);
             for (var i = 0; i < lines.Length; i++)
             {
-                var line = lines[i];
-
-                // Match Azure CLI option patterns:
-                // --option -o       : Description
-                // --option VALUE    : Description
-                // --flag            : Description
-                var match = AzOptionPattern().Match(line);
-                if (!match.Success)
+                var option = ParseOption(lines, ref i, sectionName, seenOptions);
+                if (option is not null)
                 {
-                    continue;
+                    options.Add(option);
                 }
-
-                var longFlag = match.Groups["long"].Value.Trim();
-                var alias = match.Groups["alias"].Value.Trim();
-                var valueHint = match.Groups["value"].Value.Trim();
-                var description = match.Groups["desc"].Value.Trim();
-
-                if (string.IsNullOrEmpty(longFlag))
-                {
-                    continue;
-                }
-
-                // Skip duplicates
-                if (seenOptions.Contains(longFlag))
-                {
-                    continue;
-                }
-
-                seenOptions.Add(longFlag);
-
-                // Skip common global options that are on base class
-                if (IsGlobalOption(longFlag))
-                {
-                    continue;
-                }
-
-                // Accumulate multi-line descriptions
-                i = AccumulateMultiLineDescription(lines, i, ref description);
-
-                var propertyName = NormalizePropertyName(longFlag);
-                if (propertyName is null)
-                {
-                    continue;
-                }
-
-                var isRequired = match.Groups["required"].Success ||
-                                 sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
-
-                // Determine type based on value hint
-                var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-                var isFlag = !isRequired && IsPresenceOnlyFlag(
-                    longFlag,
-                    valueHint,
-                    description,
-                    explicitBooleanValue);
-
-                var csharpType = DetermineType(valueHint, description, isFlag, explicitBooleanValue);
-
-                options.Add(new CliOptionDefinition
-                {
-                    SwitchName = $"--{longFlag}",
-                    ShortForm = string.IsNullOrEmpty(alias) ? null : alias,
-                    PropertyName = propertyName,
-                    CSharpType = csharpType,
-                    Description = description,
-                    IsFlag = isFlag,
-                    IsRequired = isRequired,
-                    AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
-                    GroupValues = HelpDeclaresSpaceSeparatedList(description),
-                    IsKeyValue = false,
-                    IsNumeric = csharpType == "int?",
-                    ValueSeparator = " ",
-                    ValueArity = GetValueArity(isFlag, description),
-                    EnumDefinition = null,
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-                });
             }
         }
 
         return options;
+    }
+
+    private static bool IsCommandArgumentsSection(string sectionName) =>
+        sectionName.EndsWith("Arguments", StringComparison.OrdinalIgnoreCase)
+        && !sectionName.StartsWith("Global ", StringComparison.OrdinalIgnoreCase);
+
+    private static string[] GetSectionLines(string helpText, Match sectionMatch)
+    {
+        var sectionStart = sectionMatch.Index + sectionMatch.Length;
+        var nextSectionMatch = SectionHeaderPattern().Match(helpText, sectionStart);
+        var sectionEnd = nextSectionMatch.Success ? nextSectionMatch.Index : helpText.Length;
+        return helpText[sectionStart..sectionEnd].Split('\n');
+    }
+
+    private static CliOptionDefinition? ParseOption(
+        string[] lines,
+        ref int lineIndex,
+        string sectionName,
+        ISet<string> seenOptions)
+    {
+        var match = AzOptionPattern().Match(lines[lineIndex]);
+        if (!match.Success)
+        {
+            return null;
+        }
+
+        var longFlag = match.Groups["long"].Value.Trim();
+        if (string.IsNullOrEmpty(longFlag)
+            || !seenOptions.Add(longFlag)
+            || IsGlobalOption(longFlag))
+        {
+            return null;
+        }
+
+        var alias = match.Groups["alias"].Value.Trim();
+        var valueHint = match.Groups["value"].Value.Trim();
+        var description = match.Groups["desc"].Value.Trim();
+        lineIndex = AccumulateMultiLineDescription(lines, lineIndex, ref description);
+
+        var propertyName = NormalizePropertyName(longFlag);
+        if (propertyName is null)
+        {
+            return null;
+        }
+
+        var isRequired = match.Groups["required"].Success
+                         || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
+        var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
+        var isFlag = !isRequired && IsPresenceOnlyFlag(
+            longFlag,
+            valueHint,
+            description,
+            explicitBooleanValue);
+        var csharpType = DetermineType(valueHint, description, isFlag, explicitBooleanValue);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = $"--{longFlag}",
+            ShortForm = string.IsNullOrEmpty(alias) ? null : alias,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = isRequired,
+            AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
+            GroupValues = HelpDeclaresSpaceSeparatedList(description),
+            IsKeyValue = false,
+            IsNumeric = csharpType == "int?",
+            ValueSeparator = " ",
+            ValueArity = GetValueArity(isFlag, description),
+            EnumDefinition = null,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+        };
     }
 
     /// <summary>
