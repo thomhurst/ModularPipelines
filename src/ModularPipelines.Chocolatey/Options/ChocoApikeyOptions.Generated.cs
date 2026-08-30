@@ -118,4 +118,10 @@ public record ChocoApikeyOptions : ChocoOptions
     [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
 
+    /// <summary>
+    /// The &lt;options Or switches&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? OptionsOrSwitches { get; set; }
+
 }

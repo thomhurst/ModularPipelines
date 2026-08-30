@@ -118,4 +118,16 @@ public record ChocoPushOptions : ChocoOptions
     [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
 
+    /// <summary>
+    /// The &lt;path to nupkg&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? PathToNupkg { get; set; }
+
+    /// <summary>
+    /// The &lt;options Or switches&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? OptionsOrSwitches { get; set; }
+
 }

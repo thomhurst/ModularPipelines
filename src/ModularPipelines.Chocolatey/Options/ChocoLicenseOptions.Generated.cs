@@ -112,4 +112,16 @@ public record ChocoLicenseOptions : ChocoOptions
     [CliFlag("--ignore-http-cache")]
     public bool? IgnoreHttpCache { get; set; }
 
+    /// <summary>
+    /// The info operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Info { get; set; }
+
+    /// <summary>
+    /// The &lt;options Or switches&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? OptionsOrSwitches { get; set; }
+
 }

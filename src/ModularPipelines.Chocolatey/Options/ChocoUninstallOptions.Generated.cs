@@ -19,8 +19,15 @@ namespace ModularPipelines.Chocolatey.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
-public record ChocoUninstallOptions : ChocoOptions
+public record ChocoUninstallOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pkg
+) : ChocoOptions
 {
+    public ChocoUninstallOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
     /// </summary>
@@ -123,5 +130,17 @@ public record ChocoUninstallOptions : ChocoOptions
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// The pkg2 pkgN operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Pkg2PkgN { get; set; }
+
+    /// <summary>
+    /// The options Or switches operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
+    public string? OptionsOrSwitches { get; set; }
 
 }

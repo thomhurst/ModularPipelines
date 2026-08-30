@@ -155,4 +155,10 @@ public record ChocoOutdatedOptions : ChocoOptions
     [CliFlag("--include-configured-sources")]
     public bool? IncludeConfiguredSources { get; set; }
 
+    /// <summary>
+    /// The &lt;options Or switches&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? OptionsOrSwitches { get; set; }
+
 }

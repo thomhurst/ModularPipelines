@@ -118,4 +118,22 @@ public record ChocoPackOptions : ChocoOptions
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
+    /// <summary>
+    /// The &lt;path to nuspec&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? PathToNuspec { get; set; }
+
+    /// <summary>
+    /// The &lt;options Or switches&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? OptionsOrSwitches { get; set; }
+
+    /// <summary>
+    /// The &lt;property=value&gt; operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
+    public string? PropertyValue { get; set; }
+
 }
