@@ -35,8 +35,8 @@ public record AzStackWhatifSubCreateOptions(
     /// <summary>
     /// DenySettings will be applied to child scopes.
     /// </summary>
-    [CliOption("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
-    public string? CsValue { get; set; }
+    [CliFlag("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
+    public bool? Cs { get; set; }
 
     /// <summary>
     /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.
@@ -127,13 +127,6 @@ public record AzStackWhatifSubCreateOptions(
     /// </summary>
     [CliOption("--validation-level", ShortForm = "--vl")]
     public string? ValidationLevelValue { get; set; }
-
-    [Obsolete("Use CsValue instead.")]
-    public bool? Cs
-    {
-        get => bool.TryParse(CsValue, out var value) ? value : null;
-        set => CsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
     [Obsolete("Use DenySettingsExcludedActionsValues instead.")]
     public bool? DenySettingsExcludedActions

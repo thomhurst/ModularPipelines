@@ -135,6 +135,33 @@ public class AzureCommandTests : TestBase
     }
 
     [Test]
+    public async Task Stack_Whatif_Child_Scope_Option_Is_A_Flag()
+    {
+        var arguments = BuildArguments(new AzStackWhatifGroupCreateOptions(
+            "deleteAll",
+            "none",
+            "stack",
+            "group",
+            "P7D",
+            "stack-id")
+        {
+            Cs = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            [
+                "--action-on-unmanage", "deleteAll",
+                "--deny-settings-mode", "none",
+                "--name", "stack",
+                "--resource-group", "group",
+                "--retention-interval", "P7D",
+                "--stack-id", "stack-id",
+                "--cs",
+            ],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
     public async Task Expanded_Boolean_Option_Renders_Its_Value()
     {
         var arguments = BuildArguments(new AzMonitorAccountIssueUpdateOptions

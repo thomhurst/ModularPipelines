@@ -9334,8 +9334,6 @@ ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.AzStackWhatifGrou
 ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.AzStackWhatifGroupCreateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Name, string! ResourceGroup, string! RetentionInterval, string! StackId) -> void
 ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Cs.get -> bool?
 ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Cs.set -> void
-ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.CsValue.get -> string?
-ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.CsValue.set -> void
 ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Name, out string! ResourceGroup, out string! RetentionInterval, out string! StackId) -> void
 ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedActions.get -> bool?
 ModularPipelines.Azure.Options.AzStackWhatifGroupCreateOptions.DenySettingsExcludedActions.set -> void
@@ -9393,8 +9391,6 @@ ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.AzStackWhatifMgCreat
 ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.AzStackWhatifMgCreateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Location, string! ManagementGroupId, string! Name, string! RetentionInterval, string! StackId) -> void
 ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Cs.get -> bool?
 ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Cs.set -> void
-ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.CsValue.get -> string?
-ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.CsValue.set -> void
 ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Location, out string! ManagementGroupId, out string! Name, out string! RetentionInterval, out string! StackId) -> void
 ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedActions.get -> bool?
 ModularPipelines.Azure.Options.AzStackWhatifMgCreateOptions.DenySettingsExcludedActions.set -> void
@@ -9458,8 +9454,6 @@ ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.AzStackWhatifSubCre
 ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.AzStackWhatifSubCreateOptions(string! ActionOnUnmanage, string! DenySettingsMode, string! Location, string! Name, string! RetentionInterval, string! StackId) -> void
 ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Cs.get -> bool?
 ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Cs.set -> void
-ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.CsValue.get -> string?
-ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.CsValue.set -> void
 ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.Deconstruct(out string! ActionOnUnmanage, out string! DenySettingsMode, out string! Location, out string! Name, out string! RetentionInterval, out string! StackId) -> void
 ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedActions.get -> bool?
 ModularPipelines.Azure.Options.AzStackWhatifSubCreateOptions.DenySettingsExcludedActions.set -> void
