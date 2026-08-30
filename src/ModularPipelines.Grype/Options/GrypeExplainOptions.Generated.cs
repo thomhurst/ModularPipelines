@@ -56,10 +56,7 @@ public record GrypeExplainOptions : GrypeOptions
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
-    /// <summary>
-    /// The VULNERABILITY ID operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    [Obsolete("VulnerabilityId is no longer supported by the installed CLI and has no effect.")]
     public string? VulnerabilityId { get; set; }
 
 }
