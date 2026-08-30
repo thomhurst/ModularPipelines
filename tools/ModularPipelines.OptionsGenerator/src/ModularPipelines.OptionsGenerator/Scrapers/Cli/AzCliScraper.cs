@@ -224,14 +224,13 @@ public partial class AzCliScraper : CliScraperBase
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find Arguments section (skip Global Arguments which are common to all commands)
-        var argumentsSections = new[] { "Arguments", "Required Arguments", "Optional Arguments" };
-
-        foreach (var sectionName in argumentsSections)
+        // Parse every command-specific Arguments section. Azure CLI uses both standard
+        // names and command-specific names such as "Network Arguments".
+        foreach (Match sectionMatch in SectionHeaderPattern().Matches(helpText))
         {
-            var sectionPattern = new Regex($@"^{sectionName}\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-            var sectionMatch = sectionPattern.Match(helpText);
-            if (!sectionMatch.Success)
+            var sectionName = sectionMatch.Groups["name"].Value.TrimEnd(':').Trim();
+            if (!sectionName.EndsWith("Arguments", StringComparison.OrdinalIgnoreCase)
+                || sectionName.StartsWith("Global ", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -264,7 +263,7 @@ public partial class AzCliScraper : CliScraperBase
                 }
 
                 var longFlag = match.Groups["long"].Value.Trim();
-                var shortFlag = match.Groups["short"].Value.Trim();
+                var alias = match.Groups["alias"].Value.Trim();
                 var valueHint = match.Groups["value"].Value.Trim();
                 var description = match.Groups["desc"].Value.Trim();
 
@@ -296,22 +295,23 @@ public partial class AzCliScraper : CliScraperBase
                     continue;
                 }
 
+                var isRequired = match.Groups["required"].Success ||
+                                 sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
+
                 // Determine type based on value hint
                 var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-                var isFlag = IsPresenceOnlyFlag(
+                var isFlag = !isRequired && IsPresenceOnlyFlag(
                     longFlag,
                     valueHint,
                     description,
                     explicitBooleanValue);
-
-                var isRequired = sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
 
                 var csharpType = DetermineType(valueHint, description, isFlag, explicitBooleanValue);
 
                 options.Add(new CliOptionDefinition
                 {
                     SwitchName = $"--{longFlag}",
-                    ShortForm = string.IsNullOrEmpty(shortFlag) ? null : $"-{shortFlag}",
+                    ShortForm = string.IsNullOrEmpty(alias) ? null : alias,
                     PropertyName = propertyName,
                     CSharpType = csharpType,
                     Description = description,
@@ -512,7 +512,7 @@ public partial class AzCliScraper : CliScraperBase
     /// <summary>
     /// Matches section headers like "Arguments", "Global Arguments", "Subgroups:", etc.
     /// </summary>
-    [GeneratedRegex(@"^[A-Z][\w\s]*:?\s*$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^(?<name>[A-Z][\w\s]*:?)[ \t]*$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
@@ -531,9 +531,10 @@ public partial class AzCliScraper : CliScraperBase
     /// <summary>
     /// Matches Azure CLI-style option lines:
     /// --option -o VALUE    : Description
+    /// --option --alias     : Description
     /// --flag               : Description
     /// </summary>
-    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+-(?<short>\w))?(?:\s+(?<value>[A-Z_]+))?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<required>Required)\])?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|batch|accepts?)\b", RegexOptions.IgnoreCase)]

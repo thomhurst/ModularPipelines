@@ -221,6 +221,59 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Inline_Required_And_Resource_Id_Arguments_Are_Parsed()
+    {
+        const string helpText = """
+            Command
+                az stack-whatif group create : Create a deployment stack what-if result.
+
+            Arguments
+                --name -n           [Required] : The name of the deployment stack what-if result.
+                --action-on-unmanage --aou [Required] : Action to take on resources that stop being managed.
+                --issue-name --name -i [Required] : The name of the issue resource.
+                --retention-interval --ri [Required] : The duration to retain deleted resources.
+                --stack-id          [Required] : The fully-qualified ID of the deployment stack.
+
+            Resource Id Arguments
+                --resource-group -g [Required] : The resource group where the result will be created.
+
+            Network Arguments
+                --subnet --subnet-id [Required] : The subnet resource ID.
+
+            Optional Arguments
+                --description : The description of deployment stack.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "stack-whatif", "group", "create"],
+            helpText);
+        var requiredOptions = command!.Options.Where(option => option.IsRequired).ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.Options).Contains(option => option.PropertyName == "Description");
+            await Assert.That(requiredOptions.Select(option => option.PropertyName))
+                .IsEquivalentTo([
+                    "ActionOnUnmanage",
+                    "IssueName",
+                    "Name",
+                    "ResourceGroup",
+                    "RetentionInterval",
+                    "StackId",
+                    "Subnet",
+                ]);
+            await Assert.That(requiredOptions
+                .All(option => !option.IsFlag && option.CSharpType == "string?")).IsTrue();
+            await Assert.That(command.Options.Single(option => option.PropertyName == "ActionOnUnmanage").ShortForm)
+                .IsEqualTo("--aou");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Name").ShortForm)
+                .IsEqualTo("-n");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "IssueName").ShortForm)
+                .IsEqualTo("-i");
+        }
+    }
+
+    [Test]
     public async Task Current_Description_Only_Values_Are_Not_Flags()
     {
         const string helpText = """
