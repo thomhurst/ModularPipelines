@@ -114,6 +114,7 @@ public class ArgoCdProj : IArgoCdProj
     }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> AddSignatureKeyAsync(
         ArgoCdProjAddSignatureKeyOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -333,6 +334,7 @@ public class ArgoCdProj : IArgoCdProj
     }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> RemoveSignatureKeyAsync(
         ArgoCdProjRemoveSignatureKeyOptions options,
         CommandExecutionOptions? executionOptions = null,
