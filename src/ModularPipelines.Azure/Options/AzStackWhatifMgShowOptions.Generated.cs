@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "mg", "show")]
-public record AzStackWhatifMgShowOptions : AzOptions
+public record AzStackWhatifMgShowOptions(
+    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
+) : AzOptions
 {
+    public AzStackWhatifMgShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The deployment stack what-if result resource ID.
     /// </summary>
@@ -43,5 +50,11 @@ public record AzStackWhatifMgShowOptions : AzOptions
     /// </summary>
     [CliFlag("--no-pretty-print")]
     public bool? NoPrettyPrint { get; set; }
+
+    /// <summary>
+    /// Flag to return the What-If results with resource property changes included.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--with-property-changes", ShortForm = "--wpc")]
+    public bool? WithPropertyChanges { get; set; }
 
 }

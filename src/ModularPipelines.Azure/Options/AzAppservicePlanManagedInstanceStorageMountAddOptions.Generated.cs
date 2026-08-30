@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "storage-mount", "add")]
-public record AzAppservicePlanManagedInstanceStorageMountAddOptions : AzOptions
+public record AzAppservicePlanManagedInstanceStorageMountAddOptions(
+    [property: CliOption("--destination-path")] string DestinationPath,
+    [property: CliOption("--mount-name")] string MountName,
+    [property: CliOption("--type")] string Type
+) : AzOptions
 {
+    public AzAppservicePlanManagedInstanceStorageMountAddOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Key Vault secret URI for credentials.
     /// </summary>
@@ -32,5 +42,23 @@ public record AzAppservicePlanManagedInstanceStorageMountAddOptions : AzOptions
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the app service plan.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

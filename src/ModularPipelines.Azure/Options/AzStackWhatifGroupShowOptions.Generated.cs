@@ -50,4 +50,10 @@ public record AzStackWhatifGroupShowOptions : AzOptions
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
 
+    /// <summary>
+    /// Flag to return the What-If results with resource property changes included.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--with-property-changes", ShortForm = "--wpc")]
+    public bool? WithPropertyChanges { get; set; }
+
 }

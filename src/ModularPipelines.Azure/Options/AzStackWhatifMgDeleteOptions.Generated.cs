@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "mg", "delete")]
-public record AzStackWhatifMgDeleteOptions : AzOptions
+public record AzStackWhatifMgDeleteOptions(
+    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
+) : AzOptions
 {
+    public AzStackWhatifMgDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The deployment stack what-if result resource ID.
     /// </summary>

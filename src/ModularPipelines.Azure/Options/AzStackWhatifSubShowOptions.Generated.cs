@@ -44,4 +44,10 @@ public record AzStackWhatifSubShowOptions : AzOptions
     [CliFlag("--no-pretty-print")]
     public bool? NoPrettyPrint { get; set; }
 
+    /// <summary>
+    /// Flag to return the What-If results with resource property changes included.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--with-property-changes", ShortForm = "--wpc")]
+    public bool? WithPropertyChanges { get; set; }
+
 }

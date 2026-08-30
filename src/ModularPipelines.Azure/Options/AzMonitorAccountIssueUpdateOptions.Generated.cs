@@ -26,4 +26,88 @@ public record AzMonitorAccountIssueUpdateOptions : AzOptions
     [CliOption("--related")]
     public string? Related { get; set; }
 
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add")]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliFlag("--remove")]
+    public bool? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliFlag("--set")]
+    public bool? Set { get; set; }
+
+    /// <summary>
+    /// The issue background information  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--background")]
+    public bool? Background { get; set; }
+
+    /// <summary>
+    /// The issue impact time (in UTC).
+    /// </summary>
+    [CliFlag("--impact-time")]
+    public bool? ImpactTime { get; set; }
+
+    /// <summary>
+    /// The issue notification settings  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--notifications")]
+    public bool? Notifications { get; set; }
+
+    /// <summary>
+    /// The issue severity.
+    /// </summary>
+    [CliFlag("--severity")]
+    public bool? Severity { get; set; }
+
+    /// <summary>
+    /// The issue status.  Allowed values: Canceled, Closed,
+    /// </summary>
+    [CliFlag("--status")]
+    public bool? Status { get; set; }
+
+    /// <summary>
+    /// The issue title.
+    /// </summary>
+    [CliFlag("--title")]
+    public bool? Title { get; set; }
+
+    /// <summary>
+    /// The name of the Azure Monitor Workspace. The name is case insensitive.
+    /// </summary>
+    [CliOption("--azure-monitor-workspace-name", ShortForm = "-w")]
+    public string? AzureMonitorWorkspaceName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the IssueResource.
+    /// </summary>
+    [CliOption("--issue-name", ShortForm = "-n")]
+    public string? IssueName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
 }

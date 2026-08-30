@@ -18,8 +18,38 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "group", "create")]
-public record AzStackWhatifGroupCreateOptions : AzOptions
+public record AzStackWhatifGroupCreateOptions(
+    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage,
+    [property: CliOption("--deny-settings-mode", ShortForm = "--dm")] string DenySettingsMode,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--retention-interval", ShortForm = "--ri")] string RetentionInterval,
+    [property: CliOption("--stack-id")] string StackId
+) : AzOptions
 {
+    public AzStackWhatifGroupCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// DenySettings will be applied to child scopes.
+    /// </summary>
+    [CliFlag("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
+    public bool? Cs { get; set; }
+
+    /// <summary>
+    /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.
+    /// </summary>
+    [CliFlag("--deny-settings-excluded-actions", ShortForm = "--ea")]
+    public bool? DenySettingsExcludedActions { get; set; }
+
+    /// <summary>
+    /// List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted.
+    /// </summary>
+    [CliFlag("--deny-settings-excluded-principals", ShortForm = "--ep")]
+    public bool? DenySettingsExcludedPrincipals { get; set; }
+
     /// <summary>
     /// The description of deployment stack.
     /// </summary>
@@ -57,7 +87,13 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     public string? QueryString { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
+    /// </summary>
+    [CliFlag("--resources-without-delete-support", ShortForm = "--rwd")]
+    public bool? ResourcesWithoutDeleteSupport { get; set; }
+
+    /// <summary>
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -79,5 +115,11 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     /// </summary>
     [CliOption("--template-uri", ShortForm = "-u")]
     public string? TemplateUri { get; set; }
+
+    /// <summary>
+    /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider,
+    /// </summary>
+    [CliFlag("--validation-level", ShortForm = "--vl")]
+    public bool? ValidationLevel { get; set; }
 
 }

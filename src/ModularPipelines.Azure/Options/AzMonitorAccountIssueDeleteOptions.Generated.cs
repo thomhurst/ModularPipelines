@@ -26,4 +26,28 @@ public record AzMonitorAccountIssueDeleteOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
+    /// <summary>
+    /// The name of the Azure Monitor Workspace. The name is case insensitive.
+    /// </summary>
+    [CliOption("--azure-monitor-workspace-name", ShortForm = "-w")]
+    public string? AzureMonitorWorkspaceName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the IssueResource.
+    /// </summary>
+    [CliOption("--issue-name", ShortForm = "-n")]
+    public string? IssueName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
 }

@@ -18,12 +18,57 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "issue", "create")]
-public record AzMonitorAccountIssueCreateOptions : AzOptions
+public record AzMonitorAccountIssueCreateOptions(
+    [property: CliOption("--azure-monitor-workspace-name", ShortForm = "-w")] string AzureMonitorWorkspaceName,
+    [property: CliOption("--issue-name", ShortForm = "-n")] string IssueName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzMonitorAccountIssueCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Related resource or alert that is to be added to the issue (default: empty - the issue will be created without any related resources or alerts).
     /// </summary>
     [CliOption("--related")]
     public string? Related { get; set; }
+
+    /// <summary>
+    /// The issue background information  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--background")]
+    public bool? Background { get; set; }
+
+    /// <summary>
+    /// The issue impact time (in UTC).
+    /// </summary>
+    [CliFlag("--impact-time")]
+    public bool? ImpactTime { get; set; }
+
+    /// <summary>
+    /// The issue notification settings  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--notifications")]
+    public bool? Notifications { get; set; }
+
+    /// <summary>
+    /// The issue severity.
+    /// </summary>
+    [CliFlag("--severity")]
+    public bool? Severity { get; set; }
+
+    /// <summary>
+    /// The issue status.  Allowed values: Canceled, Closed, InProgress, Mitigated, New.
+    /// </summary>
+    [CliFlag("--status")]
+    public bool? Status { get; set; }
+
+    /// <summary>
+    /// The issue title.
+    /// </summary>
+    [CliFlag("--title")]
+    public bool? Title { get; set; }
 
 }

@@ -18,12 +18,43 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "migration", "prepare")]
-public record AzNetworkVirtualApplianceMigrationPrepareOptions : AzOptions
+public record AzNetworkVirtualApplianceMigrationPrepareOptions(
+    [property: CliOption("--migration-type")] string MigrationType
+) : AzOptions
 {
+    public AzNetworkVirtualApplianceMigrationPrepareOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The marketplace version to migrate to. Only applicable when --migration-type is
+    /// </summary>
+    [CliFlag("--marketplace-version")]
+    public bool? MarketplaceVersion { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Network Virtual Appliance.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }
