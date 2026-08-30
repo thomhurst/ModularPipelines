@@ -188,7 +188,7 @@ internal sealed class SecretObfuscatedRenderable(
             return output.Length;
         }
 
-        var outputOffset = (int) ((long) sourceOffset * output.Length / sourceLength);
+        var outputOffset = (int)((long) sourceOffset * output.Length / sourceLength);
         return outputOffset > 0
                && outputOffset < output.Length
                && char.IsLowSurrogate(output[outputOffset])
