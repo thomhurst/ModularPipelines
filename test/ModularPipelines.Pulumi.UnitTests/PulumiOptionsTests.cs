@@ -21,4 +21,18 @@ public class PulumiOptionsTests : TestBase
         await Assert.That(commandLine.ToString())
             .IsEqualTo("pulumi package info --color=never aws -- param");
     }
+
+    [Test]
+    public async Task Legacy_Env_Run_Constructor_Uses_Manual_Command_Operand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new PulumiEnvRunOptions("development")
+        {
+            Arguments = ["echo", "hello"],
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("pulumi env run development -- echo hello");
+    }
 }
