@@ -279,7 +279,7 @@ internal static class OperatingSystemConditions
             return null;
         }
 
-        HashSet<string>? supportedOperatingSystems = attribute.Logic == ConditionLogic.All
+        var supportedOperatingSystems = attribute.Logic == ConditionLogic.All
             ? null
             : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -317,7 +317,7 @@ internal static class OperatingSystemConditions
         }
 
         var useUnion = typeof(RunIfAnyAttribute).IsAssignableFrom(attribute.AttributeType);
-        HashSet<string>? supportedOperatingSystems = useUnion
+        var supportedOperatingSystems = useUnion
             ? new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             : null;
         foreach (var conditionType in conditionTypes)

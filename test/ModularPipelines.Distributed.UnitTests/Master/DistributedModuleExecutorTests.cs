@@ -81,7 +81,7 @@ public class DistributedModuleExecutorTests
     private sealed class GroupedOperatingSystemModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult("grouped OS done");
     }
 
@@ -90,7 +90,7 @@ public class DistributedModuleExecutorTests
     private sealed class MixedGroupedOperatingSystemModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult("mixed grouped OS done");
     }
 
@@ -99,7 +99,7 @@ public class DistributedModuleExecutorTests
     private sealed class MixedWorkerGroupedOperatingSystemModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult("mixed worker grouped OS done");
     }
 
@@ -112,7 +112,7 @@ public class DistributedModuleExecutorTests
 
         public override string ConditionNames => typeof(TCondition).Name;
 
-        public override Task<bool> EvaluateAsync(Context.IPipelineContext context) =>
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
             new TCondition().EvaluateAsync(context);
     }
 
@@ -124,7 +124,7 @@ public class DistributedModuleExecutorTests
 
         public override string ConditionNames => nameof(GroupedNonPlatformConditionAttribute);
 
-        public override Task<bool> EvaluateAsync(Context.IPipelineContext context) =>
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
             Task.FromResult(false);
     }
 
@@ -135,7 +135,7 @@ public class DistributedModuleExecutorTests
 
         public override string ConditionNames => nameof(GroupedWorkerConditionAttribute);
 
-        public override Task<bool> EvaluateAsync(Context.IPipelineContext context) =>
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
             Task.FromResult(true);
     }
 

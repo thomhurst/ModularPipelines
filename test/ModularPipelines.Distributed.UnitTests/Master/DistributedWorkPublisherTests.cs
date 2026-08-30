@@ -1,6 +1,5 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
-using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
@@ -102,7 +101,7 @@ public class DistributedWorkPublisherTests
     private sealed class MixedGenericAlternativeModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
@@ -110,7 +109,7 @@ public class DistributedWorkPublisherTests
     private sealed class MixedWorkerOnlyAlternativeModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
@@ -118,7 +117,7 @@ public class DistributedWorkPublisherTests
     private sealed class CustomUnixConditionGroupModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
@@ -133,7 +132,7 @@ public class DistributedWorkPublisherTests
     private sealed class WorkerOnlyConditionGroupModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
@@ -152,7 +151,7 @@ public class DistributedWorkPublisherTests
     private sealed class ConflictingExplicitOperatingSystemModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
@@ -161,7 +160,7 @@ public class DistributedWorkPublisherTests
     private sealed class ConflictingMixedGenericAlternativeModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
@@ -170,7 +169,7 @@ public class DistributedWorkPublisherTests
     private sealed class ConflictingConditionalMixedAlternativeModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context,
+            IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
