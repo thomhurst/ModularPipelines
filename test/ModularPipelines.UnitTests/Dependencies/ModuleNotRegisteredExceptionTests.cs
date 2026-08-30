@@ -19,7 +19,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     }
 
     // Uses optional dependency - validation passes, but GetModule fails at runtime
-    [ModularPipelines.Attributes.DependsOn<Module1>(Optional = true)]
+    [ModularPipelines.DependsOn<Module1>(Optional = true)]
     private class Module2WithOptionalDep : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -31,7 +31,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     }
 
     // Uses required dependency (default) - Module1 will be auto-registered
-    [ModularPipelines.Attributes.DependsOn<Module1>]
+    [ModularPipelines.DependsOn<Module1>]
     private class Module2WithRequiredDep : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

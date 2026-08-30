@@ -68,7 +68,6 @@ ModularPipelines.Hadolint.Options.HadolintOptions
 ModularPipelines.Hadolint.Options.HadolintOptions.HadolintOptions() -> void
 ModularPipelines.Hadolint.Options.HadolintOptions.HadolintOptions(ModularPipelines.Hadolint.Options.HadolintOptions! original) -> void
 ModularPipelines.Hadolint.Services.IHadolint
-ModularPipelines.Hadolint.Services.IHadolint.ExecuteAsync(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override abstract ModularPipelines.Hadolint.Options.HadolintOptions.<Clone>$() -> ModularPipelines.Hadolint.Options.HadolintOptions!
 override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.<Clone>$() -> ModularPipelines.Hadolint.Options.HadolintExecuteOptions!
 override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.EqualityContract.get -> System.Type!
@@ -84,7 +83,6 @@ override ModularPipelines.Hadolint.Options.HadolintOptions.ToString() -> string!
 override sealed ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Equals(ModularPipelines.Hadolint.Options.HadolintOptions? other) -> bool
 override sealed ModularPipelines.Hadolint.Options.HadolintOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Hadolint_a7b9813b1c6440cdToolsExtensions.get_Hadolint(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Hadolint.Services.IHadolint!
-static ModularPipelines.Hadolint.Extensions.HadolintExtensions.Hadolint(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Hadolint.Services.IHadolint!
 static ModularPipelines.Hadolint.Extensions.HadolintExtensions.RegisterHadolintContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Hadolint.Options.HadolintExecuteOptions.operator !=(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? left, ModularPipelines.Hadolint.Options.HadolintExecuteOptions? right) -> bool
 static ModularPipelines.Hadolint.Options.HadolintExecuteOptions.operator ==(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? left, ModularPipelines.Hadolint.Options.HadolintExecuteOptions? right) -> bool

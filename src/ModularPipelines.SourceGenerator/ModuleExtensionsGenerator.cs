@@ -19,7 +19,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     /// <summary>
     /// The fully qualified name of the Module&lt;T&gt; base class.
     /// </summary>
-    internal const string ModuleBaseFullName = "ModularPipelines.Modules.Module`1";
+    internal const string ModuleBaseFullName = "ModularPipelines.Module`1";
 
     private const string GeneratorName = "ModularPipelines.SourceGenerator";
     private const string GeneratorVersion = "1.0.0";
@@ -197,9 +197,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         sb.AppendLine("#nullable enable");
         sb.AppendLine();
         sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using ModularPipelines.Context;");
-        sb.AppendLine("using ModularPipelines.Models;");
-        sb.AppendLine("using ModularPipelines.Modules;");
+        sb.AppendLine("using ModularPipelines;");
         sb.AppendLine();
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();

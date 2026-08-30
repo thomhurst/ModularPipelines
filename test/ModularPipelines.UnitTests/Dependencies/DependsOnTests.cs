@@ -14,19 +14,19 @@ public class DependsOnTests : TestBase
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>]  // Required by default
+    [ModularPipelines.DependsOn<Module1>]  // Required by default
     private class Module2 : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>(Optional = true)]  // Optional - won't auto-register
+    [ModularPipelines.DependsOn<Module1>(Optional = true)]  // Optional - won't auto-register
     private class Module3 : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>(Optional = true)]
+    [ModularPipelines.DependsOn<Module1>(Optional = true)]
     private class Module3WithGetIfRegistered : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -37,7 +37,7 @@ public class DependsOnTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>(Optional = true)]
+    [ModularPipelines.DependsOn<Module1>(Optional = true)]
     private class Module3WithGet : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ public class DependsOnTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependsOnSelfModule>]
+    [ModularPipelines.DependsOn<DependsOnSelfModule>]
     private class DependsOnSelfModule : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -60,7 +60,7 @@ public class DependsOnTests : TestBase
     }
 
 #pragma warning disable CS0618 // Intentionally verifies validation of the legacy non-generic attribute.
-    [ModularPipelines.Attributes.DependsOn(typeof(ModuleFailedException))]
+    [ModularPipelines.DependsOn(typeof(ModuleFailedException))]
 #pragma warning restore CS0618
     private class DependsOnNonModule : Module<bool>
     {
@@ -159,7 +159,7 @@ public class DependsOnTests : TestBase
             .And.HasMessageEqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module (does not implement IModule)");
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>(Optional = true)]
+    [ModularPipelines.DependsOn<Module1>(Optional = true)]
     private class ModuleWithOptionalDep : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -175,7 +175,7 @@ public class DependsOnTests : TestBase
         await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>]  // Required by default
+    [ModularPipelines.DependsOn<Module1>]  // Required by default
     private class ModuleWithRequiredDep : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -195,7 +195,7 @@ public class DependsOnTests : TestBase
         await Assert.That(module1).IsNotNull();
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>(Optional = true)]
+    [ModularPipelines.DependsOn<Module1>(Optional = true)]
     private class ModuleCheckingUnregisteredDep : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

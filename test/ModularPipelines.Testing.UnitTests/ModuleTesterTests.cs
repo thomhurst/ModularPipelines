@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
@@ -494,7 +495,7 @@ public class ModuleTesterTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     public sealed class AttributedDependentModule : Module<string>
     {
         protected override async Task<string> ExecuteAsync(
@@ -515,7 +516,7 @@ public class ModuleTesterTests
             => throw new InvalidOperationException("Seeded producer must not execute.");
     }
 
-    [ModularPipelines.Attributes.DependsOn<ArtifactProducerModule>]
+    [ModularPipelines.DependsOn<ArtifactProducerModule>]
     [ConsumesArtifact(
         typeof(ArtifactProducerModule),
         "application",
@@ -533,7 +534,7 @@ public class ModuleTesterTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<ArtifactProducerModule>]
+    [ModularPipelines.DependsOn<ArtifactProducerModule>]
     [ConsumesArtifact(
         typeof(ArtifactProducerModule),
         "application",

@@ -6,6 +6,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Reporting;
 using Spectre.Console;
 
 namespace ModularPipelines.Helpers;

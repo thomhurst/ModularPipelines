@@ -1,4 +1,5 @@
 using ModularPipelines.Models;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Engine;
 

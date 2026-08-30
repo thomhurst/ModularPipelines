@@ -1,4 +1,5 @@
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
 
@@ -12,7 +13,7 @@ namespace ModularPipelines.Logging;
 /// </para>
 /// <para>
 /// <b>Secret Obfuscation:</b> All logged content is automatically obfuscated using
-/// <see cref="ModularPipelines.Engine.ISecretObfuscator"/> before being written to the logger.
+/// <see cref="ModularPipelines.Secrets.ISecretObfuscator"/> before being written to the logger.
 /// </para>
 /// </remarks>
 internal interface ICommandLogger

@@ -206,22 +206,12 @@ ModularPipelines.Syft.Options.SyftScanOptions.Template.set -> void
 ModularPipelines.Syft.Options.SyftScanOptions.Verbose.get -> int?
 ModularPipelines.Syft.Options.SyftScanOptions.Verbose.set -> void
 ModularPipelines.Syft.Services.ISyft
-ModularPipelines.Syft.Services.ISyft.AttestAsync(ModularPipelines.Syft.Options.SyftAttestOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Syft.Services.ISyft.Cataloger.get -> ModularPipelines.Syft.Services.ISyftCataloger!
 ModularPipelines.Syft.Services.ISyft.Config.get -> ModularPipelines.Syft.Services.ISyftConfig!
-ModularPipelines.Syft.Services.ISyft.ConvertAsync(ModularPipelines.Syft.Options.SyftConvertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Syft.Services.ISyft.LoginAsync(ModularPipelines.Syft.Options.SyftLoginOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Syft.Services.ISyft.ScanAsync(ModularPipelines.Syft.Options.SyftScanOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Syft.Services.ISyftCataloger
-ModularPipelines.Syft.Services.ISyftCataloger.ExecuteAsync(ModularPipelines.Syft.Options.SyftCatalogerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Syft.Services.ISyftCataloger.ListAsync(ModularPipelines.Syft.Options.SyftCatalogerListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Syft.Services.ISyftConfig
-ModularPipelines.Syft.Services.ISyftConfig.ExecuteAsync(ModularPipelines.Syft.Options.SyftConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Syft.Services.ISyftConfig.LocationsAsync(ModularPipelines.Syft.Options.SyftConfigLocationsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Syft.Services.SyftCataloger
-ModularPipelines.Syft.Services.SyftCataloger.SyftCataloger(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Syft.Services.SyftConfig
-ModularPipelines.Syft.Services.SyftConfig.SyftConfig(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 override ModularPipelines.Syft.Options.SyftAttestOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftAttestOptions!
 override ModularPipelines.Syft.Options.SyftAttestOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Syft.Options.SyftAttestOptions.Equals(object? obj) -> bool
@@ -287,7 +277,6 @@ override sealed ModularPipelines.Syft.Options.SyftOptions.Equals(ModularPipeline
 override sealed ModularPipelines.Syft.Options.SyftScanOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Syft_45b7266d083cad58ToolsExtensions.get_Syft(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Syft.Services.ISyft!
 static ModularPipelines.Syft.Extensions.SyftExtensions.RegisterSyftContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
-static ModularPipelines.Syft.Extensions.SyftExtensions.Syft(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Syft.Services.ISyft!
 static ModularPipelines.Syft.Options.SyftAttestOptions.operator !=(ModularPipelines.Syft.Options.SyftAttestOptions? left, ModularPipelines.Syft.Options.SyftAttestOptions? right) -> bool
 static ModularPipelines.Syft.Options.SyftAttestOptions.operator ==(ModularPipelines.Syft.Options.SyftAttestOptions? left, ModularPipelines.Syft.Options.SyftAttestOptions? right) -> bool
 static ModularPipelines.Syft.Options.SyftCatalogerListOptions.operator !=(ModularPipelines.Syft.Options.SyftCatalogerListOptions? left, ModularPipelines.Syft.Options.SyftCatalogerListOptions? right) -> bool
@@ -315,7 +304,3 @@ virtual ModularPipelines.Syft.Options.SyftConvertOptions.Equals(ModularPipelines
 virtual ModularPipelines.Syft.Options.SyftLoginOptions.Equals(ModularPipelines.Syft.Options.SyftLoginOptions? other) -> bool
 virtual ModularPipelines.Syft.Options.SyftOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
 virtual ModularPipelines.Syft.Options.SyftScanOptions.Equals(ModularPipelines.Syft.Options.SyftScanOptions? other) -> bool
-virtual ModularPipelines.Syft.Services.SyftCataloger.ExecuteAsync(ModularPipelines.Syft.Options.SyftCatalogerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-virtual ModularPipelines.Syft.Services.SyftCataloger.ListAsync(ModularPipelines.Syft.Options.SyftCatalogerListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-virtual ModularPipelines.Syft.Services.SyftConfig.ExecuteAsync(ModularPipelines.Syft.Options.SyftConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-virtual ModularPipelines.Syft.Services.SyftConfig.LocationsAsync(ModularPipelines.Syft.Options.SyftConfigLocationsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!

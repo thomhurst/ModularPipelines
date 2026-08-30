@@ -1,3 +1,4 @@
+using ModularPipelines.Context;
 using Mediator;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;

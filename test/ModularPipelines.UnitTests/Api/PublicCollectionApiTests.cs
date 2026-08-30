@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;

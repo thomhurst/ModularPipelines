@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
@@ -189,7 +189,7 @@ public class NewRunConditionAttributeTests : TestBase
     {
         protected override bool Result => true;
 
-        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+        protected override void Configure(ModularPipelines.ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("Fluent condition"));
     }
 
@@ -237,7 +237,7 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     [SkipIf<DependencyCompletedCondition>]
-    [ModularPipelines.Attributes.DependsOn<ConditionDependencyModule>]
+    [ModularPipelines.DependsOn<ConditionDependencyModule>]
     private class ConditionAfterDependencyModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;

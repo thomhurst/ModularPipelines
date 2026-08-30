@@ -1,5 +1,5 @@
 using System.Text;
-using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context;
 using ModularPipelines.Slack.Options;
 using Slack.Webhooks;
 

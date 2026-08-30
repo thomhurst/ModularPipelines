@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Logging;
+using ModularPipelines.Secrets;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 

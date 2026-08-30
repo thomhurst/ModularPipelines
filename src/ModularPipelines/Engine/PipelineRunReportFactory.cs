@@ -5,6 +5,8 @@ using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Engine;
 

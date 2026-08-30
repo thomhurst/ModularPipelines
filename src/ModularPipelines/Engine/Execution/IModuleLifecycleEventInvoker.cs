@@ -23,7 +23,7 @@ internal interface IModuleLifecycleEventInvoker
     /// Invokes the OnModuleEnd lifecycle event.
     /// Called when a module completes successfully.
     /// </summary>
-    Task InvokeEndEventAsync(ModuleLifecycleContext context, Enums.ModuleStatus status, IModuleResult result);
+    Task InvokeEndEventAsync(ModuleLifecycleContext context, ModuleStatus status, IModuleResult result);
 
     /// <summary>
     /// Invokes the OnModuleFailed lifecycle event.
@@ -35,5 +35,5 @@ internal interface IModuleLifecycleEventInvoker
     /// Invokes the OnModuleSkipped lifecycle event.
     /// Called when a module is skipped.
     /// </summary>
-    Task InvokeSkippedEventAsync(ModuleLifecycleContext context, Enums.ModuleStatus status, SkipDecision skipReason);
+    Task InvokeSkippedEventAsync(ModuleLifecycleContext context, ModuleStatus status, SkipDecision skipReason);
 }

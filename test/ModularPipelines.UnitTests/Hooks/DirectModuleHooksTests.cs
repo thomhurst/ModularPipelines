@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -103,7 +103,7 @@ public class DirectModuleHooksTests : TestBase
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
-    [ModularPipelines.Attributes.SkipIf<AlwaysTrueCondition>]
+    [ModularPipelines.SkipIf<AlwaysTrueCondition>]
     private class AttributeSkippableHookTrackingModule : Module<string>
     {
         public List<string> HooksCalled { get; } = [];

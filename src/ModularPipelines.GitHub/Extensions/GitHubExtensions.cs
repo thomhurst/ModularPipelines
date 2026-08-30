@@ -8,6 +8,7 @@ using ModularPipelines.Events;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.GitHub.Extensions;
 

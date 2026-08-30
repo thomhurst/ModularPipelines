@@ -59,7 +59,7 @@ public class DependsOnAllInheritingFromTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>]
+    [ModularPipelines.DependsOn<Module1>]
     private class Module2 : BaseModule
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -69,7 +69,7 @@ public class DependsOnAllInheritingFromTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>(Optional = true)]
+    [ModularPipelines.DependsOn<Module1>(Optional = true)]
     private class Module3 : BaseModule
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -79,7 +79,7 @@ public class DependsOnAllInheritingFromTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<BaseModule>]
+    [ModularPipelines.DependsOnAllModulesInheritingFrom<BaseModule>]
     private class Module4 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

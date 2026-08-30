@@ -24,9 +24,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example
 
 ```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
+using ModularPipelines;
 using ModularPipelines.Kubernetes.Options;
 
 public class UseKubernetesModule : Module<CommandResult>

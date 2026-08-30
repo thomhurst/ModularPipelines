@@ -1,3 +1,4 @@
+using ModularPipelines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
     ModularPipelines.Analyzers.MissingDependsOnAttributeAnalyzer,
@@ -14,9 +15,8 @@ using System.CodeDom.Compiler;
 using System.Threading;
 using System.Threading.Tasks;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Generated;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 namespace ModularPipelines.Examples.Modules
 {
@@ -52,9 +52,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 namespace ModularPipelines.Examples.Modules;
 
@@ -82,10 +80,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
+using ModularPipelines;
 
 namespace ModularPipelines.Examples.Modules;
 
@@ -183,8 +178,7 @@ public class Module2 : Module<IDictionary<string, object>>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Context;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 namespace ModularPipelines.Examples.Modules;
 
@@ -217,8 +211,7 @@ public class Module2 : Module<string>
         const string source = """
             #nullable enable
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -258,8 +251,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -287,9 +279,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
-            using ModularPipelines.Attributes;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -339,8 +329,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -367,9 +356,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
-            using ModularPipelines.Attributes;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -407,8 +394,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
+            using ModularPipelines;
 
             namespace Example
             {
@@ -433,9 +419,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
-            using ModularPipelines.Attributes;
+            using ModularPipelines;
 
             namespace Example
             {
@@ -471,15 +455,15 @@ public class Module2 : Module<string>
             #nullable enable
             namespace Example;
 
-            public class Dependency : ModularPipelines.Modules.Module<string>
+            public class Dependency : ModularPipelines.Module<string>
             {
-                protected override System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                protected override System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, System.Threading.CancellationToken cancellationToken)
                     => System.Threading.Tasks.Task.FromResult<string>(null!);
             }
 
-            public class Consumer : ModularPipelines.Modules.Module<string>
+            public class Consumer : ModularPipelines.Module<string>
             {
-                protected override async System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                protected override async System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, System.Threading.CancellationToken cancellationToken)
                 {
                     var dependency = await {|#0:context.GetModule<Dependency>()|};
                     return null!;
@@ -487,20 +471,20 @@ public class Module2 : Module<string>
             }
             """.ReplaceLineEndings("\n");
         var fixedSource = """
-            using ModularPipelines.Attributes;
+            using ModularPipelines;
             #nullable enable
             namespace Example;
 
-            public class Dependency : ModularPipelines.Modules.Module<string>
+            public class Dependency : ModularPipelines.Module<string>
             {
-                protected override System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                protected override System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, System.Threading.CancellationToken cancellationToken)
                     => System.Threading.Tasks.Task.FromResult<string>(null!);
             }
 
             [DependsOn<Dependency>]
-            public class Consumer : ModularPipelines.Modules.Module<string>
+            public class Consumer : ModularPipelines.Module<string>
             {
-                protected override async System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                protected override async System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, System.Threading.CancellationToken cancellationToken)
                 {
                     var dependency = await context.GetModule<Dependency>();
                     return null!;

@@ -1,8 +1,8 @@
+using ModularPipelines.Events;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Events;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -93,7 +93,7 @@ public class LifecycleEventIntegrationTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.SkipIf<AlwaysTrueCondition>]
+    [ModularPipelines.SkipIf<AlwaysTrueCondition>]
     [LogStart]
     [LogSkipped]
     public class AttributeSkippingModule : Module<string>
@@ -119,7 +119,7 @@ public class LifecycleEventIntegrationTests : TestBase
             .AddModule<SuccessfulModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+        await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
         await Assert.That(EventLog).Contains("Start:SuccessfulModule");
         await Assert.That(EventLog).Contains("End:SuccessfulModule");
     }
@@ -154,7 +154,7 @@ public class LifecycleEventIntegrationTests : TestBase
             .AddModule<SkippingModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+        await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
         await Assert.That(EventLog).Contains("Start:SkippingModule");
         await Assert.That(EventLog.Any(e => e.Contains("Skipped:SkippingModule:Test skip reason"))).IsTrue();
     }
@@ -166,7 +166,7 @@ public class LifecycleEventIntegrationTests : TestBase
             .AddModule<AttributeSkippingModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+        await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
         await Assert.That(EventLog).Contains("Start:AttributeSkippingModule");
         await Assert.That(EventLog.Any(e => e.Contains("Skipped:AttributeSkippingModule:SkipIf<AlwaysTrueCondition> returned true"))).IsTrue();
     }

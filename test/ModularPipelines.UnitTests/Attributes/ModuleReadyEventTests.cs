@@ -1,7 +1,7 @@
+using ModularPipelines.Events;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
-using ModularPipelines.Events;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -83,7 +83,7 @@ public class ModuleReadyEventTests : TestBase
     }
 
     [LogReady]
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     public class DependentModuleWithReadyEvent : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

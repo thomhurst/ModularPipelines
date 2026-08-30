@@ -1,9 +1,10 @@
+using ModularPipelines.Secrets;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Http;

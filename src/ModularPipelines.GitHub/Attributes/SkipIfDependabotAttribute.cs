@@ -1,5 +1,5 @@
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.GitHub.Attributes;

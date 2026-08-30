@@ -1,3 +1,4 @@
+using ModularPipelines.Reporting;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Git;

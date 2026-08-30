@@ -89,7 +89,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
             .AddModule<MetadataModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+        await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
 
         // Verify the registration event set the metadata
         await Assert.That(EventLog).Contains("Registration:SetMetadata:config=value-from-registration");

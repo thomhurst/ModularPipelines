@@ -35,7 +35,6 @@ override ModularPipelines.Email.Options.EmailSendOptions.Equals(object? obj) -> 
 override ModularPipelines.Email.Options.EmailSendOptions.GetHashCode() -> int
 override ModularPipelines.Email.Options.EmailSendOptions.ToString() -> string!
 static ModularPipelines.Context.ModularPipelines_Email_d98d25541dc12cc2ToolsExtensions.get_Email(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Email.IEmail!
-static ModularPipelines.Email.Extensions.EmailExtensions.Email(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Email.IEmail!
 static ModularPipelines.Email.Extensions.EmailExtensions.RegisterEmailContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Email.Options.EmailSendOptions.operator !=(ModularPipelines.Email.Options.EmailSendOptions? left, ModularPipelines.Email.Options.EmailSendOptions? right) -> bool
 static ModularPipelines.Email.Options.EmailSendOptions.operator ==(ModularPipelines.Email.Options.EmailSendOptions? left, ModularPipelines.Email.Options.EmailSendOptions? right) -> bool

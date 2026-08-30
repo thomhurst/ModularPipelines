@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using System.Text;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;

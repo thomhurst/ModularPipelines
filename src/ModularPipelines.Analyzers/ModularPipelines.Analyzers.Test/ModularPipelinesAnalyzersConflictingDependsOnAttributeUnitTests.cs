@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ModularPipelines.Context;
+using ModularPipelines;
 using System.Text;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ConflictingDependsOnAttributeAnalyzer>;
 using VerifyCodeFixCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
@@ -166,7 +166,7 @@ public class Module2 : Module<List<string>>
 
     private const string AliasedCycleSource = $@"
 {TestSourceConstants.StandardUsingsWithLogging}
-using Dependency = ModularPipelines.Attributes.DependsOnAttribute;
+using Dependency = ModularPipelines.DependsOnAttribute;
 
 {TestSourceConstants.ExamplesNamespace}
 

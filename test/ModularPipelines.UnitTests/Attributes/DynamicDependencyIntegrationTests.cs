@@ -70,7 +70,7 @@ public class DynamicDependencyIntegrationTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.ModuleCategory("compile")]
+    [ModularPipelines.ModuleCategory("compile")]
     public class DynamicallySkippedDependency : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -79,7 +79,7 @@ public class DynamicDependencyIntegrationTests : TestBase
             throw new InvalidOperationException("A filtered dependency must not execute");
     }
 
-    [ModularPipelines.Attributes.ModuleCategory("test")]
+    [ModularPipelines.ModuleCategory("test")]
     [AddDependency(typeof(DynamicallySkippedDependency))]
     public class DynamicallySkippedDependent : Module<string>
     {
@@ -103,7 +103,7 @@ public class DynamicDependencyIntegrationTests : TestBase
             .AddModule<ModuleB>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+        await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
         await Assert.That(ExecutionOrder).IsEquivalentTo(new[] { "A", "B" });
     }
 
@@ -129,7 +129,7 @@ public class DynamicDependencyIntegrationTests : TestBase
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+        await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
 
         var dependentResult = await result.Modules
             .OfType<DynamicallySkippedDependent>()

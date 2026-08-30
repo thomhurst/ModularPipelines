@@ -1,3 +1,4 @@
+using ModularPipelines.Reporting;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
@@ -40,7 +41,7 @@ public class ResultsRepositoryTests : TestBase
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>]
+    [ModularPipelines.DependsOn<Module1>]
     private class Module2 : SimpleTestModule<bool>
     {
         protected override bool Result => true;

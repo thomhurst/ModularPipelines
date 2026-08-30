@@ -1,3 +1,4 @@
+using ModularPipelines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.EnumerableModuleResultAnalyzer>;
 using VerifyCodeFixCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
@@ -70,7 +71,7 @@ namespace AnalyzerExamples
     private const string QualifiedSyncModuleSource = $@"
 {TestSourceConstants.StandardModuleHeader}
 
-public class Module1 : {{|#0:global::ModularPipelines.Modules.SyncModule<System.Collections.Generic.IEnumerable<string>>|}}
+public class Module1 : {{|#0:global::ModularPipelines.SyncModule<System.Collections.Generic.IEnumerable<string>>|}}
 {{
     protected override List<string> Execute(
         IModuleContext context,
@@ -84,7 +85,7 @@ public class Module1 : {{|#0:global::ModularPipelines.Modules.SyncModule<System.
     private const string FixedQualifiedSyncModuleSource = $@"
 {TestSourceConstants.StandardModuleHeader}
 
-public class Module1 : global::ModularPipelines.Modules.SyncModule<global::System.Collections.Generic.List<string>>
+public class Module1 : global::ModularPipelines.SyncModule<global::System.Collections.Generic.List<string>>
 {{
     protected override List<string> Execute(
         IModuleContext context,
@@ -195,7 +196,6 @@ public class DerivedModule : BaseModule
 #nullable enable
 using System.Collections.Generic;
 using System.Threading;
-using ModularPipelines.Context;
 
 namespace ModularPipelines.Examples.Modules;
 
@@ -203,7 +203,7 @@ public class List<T>
 {
 }
 
-public class Module1 : {|#0:global::ModularPipelines.Modules.SyncModule<IEnumerable<string>>|}
+public class Module1 : {|#0:global::ModularPipelines.SyncModule<IEnumerable<string>>|}
 {
     protected override global::System.Collections.Generic.List<string> Execute(
         IModuleContext context,
@@ -218,7 +218,6 @@ public class Module1 : {|#0:global::ModularPipelines.Modules.SyncModule<IEnumera
 #nullable enable
 using System.Collections.Generic;
 using System.Threading;
-using ModularPipelines.Context;
 
 namespace ModularPipelines.Examples.Modules;
 
@@ -226,7 +225,7 @@ public class List<T>
 {
 }
 
-public class Module1 : global::ModularPipelines.Modules.SyncModule<global::System.Collections.Generic.List<string>>
+public class Module1 : global::ModularPipelines.SyncModule<global::System.Collections.Generic.List<string>>
 {
     protected override global::System.Collections.Generic.List<string> Execute(
         IModuleContext context,

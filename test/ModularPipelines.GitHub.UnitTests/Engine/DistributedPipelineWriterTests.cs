@@ -1,5 +1,5 @@
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.TestHelpers;

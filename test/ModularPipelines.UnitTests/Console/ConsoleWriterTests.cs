@@ -1,3 +1,4 @@
+using ModularPipelines.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;

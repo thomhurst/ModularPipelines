@@ -1,3 +1,5 @@
+using ModularPipelines.Reporting;
+using ModularPipelines.Events;
 using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -5,12 +7,11 @@ using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine;
-using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
@@ -134,7 +135,7 @@ public class ArtifactContractTests
             Task.FromResult<string?>("produced");
     }
 
-    [ModularPipelines.Attributes.DependsOn<AmbientArtifactLoggingProducerModule>]
+    [ModularPipelines.DependsOn<AmbientArtifactLoggingProducerModule>]
     [ConsumesArtifact(typeof(AmbientArtifactLoggingProducerModule), "ambient-logging-output")]
     private sealed class AmbientArtifactLoggingConsumerModule : Module<string>
     {
@@ -163,7 +164,7 @@ public class ArtifactContractTests
             Task.FromResult<string?>("produced");
     }
 
-    [ModularPipelines.Attributes.DependsOn<DuplicateArtifactProducerModule>]
+    [ModularPipelines.DependsOn<DuplicateArtifactProducerModule>]
     [ConsumesArtifact(typeof(DuplicateArtifactProducerModule), "duplicate-output")]
     private sealed class DuplicateArtifactConsumerModule : Module<string>
     {
@@ -179,7 +180,7 @@ public class ArtifactContractTests
     }
 
     [SkipIf<AlwaysSkipArtifactCondition>]
-    [ModularPipelines.Attributes.DependsOn<DeclaredProducerModule>]
+    [ModularPipelines.DependsOn<DeclaredProducerModule>]
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class AttributeSkippedInvalidArtifactConsumerModule : Module<string>
     {
@@ -210,8 +211,8 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Skipped dependency must not execute");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactValidationDependencyModule>]
-    [ModularPipelines.Attributes.DependsOn<DeclaredProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactValidationDependencyModule>]
+    [ModularPipelines.DependsOn<DeclaredProducerModule>]
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class DependencySkippedInvalidArtifactConsumerModule : Module<string>
     {
@@ -221,7 +222,7 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Dependency-skipped consumer must not execute");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "missing-output")]
     private sealed class InvalidSkippedArtifactConsumerModule : Module<string>
     {
@@ -265,7 +266,7 @@ public class ArtifactContractTests
             Task.FromResult<string?>("consumed");
     }
 
-    [ModularPipelines.Attributes.DependsOn<DeclaredProducerModule>(Optional = true)]
+    [ModularPipelines.DependsOn<DeclaredProducerModule>(Optional = true)]
     [ConsumesArtifact(typeof(DeclaredProducerModule), "declared-output")]
     private sealed class OptionalArtifactConsumerModule : Module<string>
     {
@@ -328,7 +329,7 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Invalid consumer must fail validation");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class MutableArtifactConsumerModule : Module<string>
     {
@@ -345,7 +346,7 @@ public class ArtifactContractTests
             Task.FromResult<string?>("consumed");
     }
 
-    [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
+    [ModularPipelines.DependsOn<LocalProducerModule>]
     [ConsumesArtifact(typeof(LocalProducerModule), "local-output", RestorePath = RestoreDirectory)]
     private sealed class LocalConsumerModule : Module<string>
     {
@@ -384,7 +385,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<AfterHookArtifactProducerModule>]
+    [ModularPipelines.DependsOn<AfterHookArtifactProducerModule>]
     [ConsumesArtifact(
         typeof(AfterHookArtifactProducerModule),
         "after-hook-output",
@@ -409,7 +410,7 @@ public class ArtifactContractTests
 
     private sealed class AwaitingEndHookHandler : IModuleEventHandler
     {
-        public static Enums.ModuleStatus? ObservedStatus { get; set; }
+        public static ModularPipelines.ModuleStatus? ObservedStatus { get; set; }
 
         public async Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
         {
@@ -423,7 +424,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
+    [ModularPipelines.DependsOn<LocalProducerModule>]
     [ConsumesArtifact(typeof(LocalProducerModule), "local-output", RestorePath = RestoreDirectory)]
     private sealed class ProducerStateConsumerModule : Module<string>
     {
@@ -443,7 +444,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
+    [ModularPipelines.DependsOn<LocalProducerModule>]
     private sealed class ProducerStateIntermediateModule : Module<string>
     {
         public static bool IsReady { get; set; }
@@ -457,7 +458,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<ProducerStateIntermediateModule>]
+    [ModularPipelines.DependsOn<ProducerStateIntermediateModule>]
     [ConsumesArtifact(typeof(LocalProducerModule), "local-output", RestorePath = RestoreDirectory)]
     private sealed class TransitiveProducerStateConsumerModule : Module<string>
     {
@@ -490,7 +491,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyStateSourceModule>]
+    [ModularPipelines.DependsOn<DependencyStateSourceModule>]
     private sealed class SharedDependencySiblingModule : Module<string>
     {
         public static bool Executed { get; set; }
@@ -509,7 +510,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyStateSourceModule>]
+    [ModularPipelines.DependsOn<DependencyStateSourceModule>]
     private sealed class StateDependentIntermediateModule : Module<string>
     {
         public static bool Executed { get; set; }
@@ -528,9 +529,9 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
-    [ModularPipelines.Attributes.DependsOn<SharedDependencySiblingModule>]
-    [ModularPipelines.Attributes.DependsOn<StateDependentIntermediateModule>]
+    [ModularPipelines.DependsOn<LocalProducerModule>]
+    [ModularPipelines.DependsOn<SharedDependencySiblingModule>]
+    [ModularPipelines.DependsOn<StateDependentIntermediateModule>]
     [ConsumesArtifact(typeof(LocalProducerModule), "local-output", RestorePath = RestoreDirectory)]
     private sealed class TransitiveDependencyStateConsumerModule : Module<string>
     {
@@ -547,9 +548,9 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
-    [ModularPipelines.Attributes.DependsOn<SharedDependencySiblingModule>]
-    [ModularPipelines.Attributes.DependsOn<StateDependentIntermediateModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SharedDependencySiblingModule>]
+    [ModularPipelines.DependsOn<StateDependentIntermediateModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class PrerequisiteStateArtifactConsumerModule : Module<string>
     {
@@ -594,7 +595,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MultipleDirectoryProducerModule>]
+    [ModularPipelines.DependsOn<MultipleDirectoryProducerModule>]
     [ConsumesArtifact(
         typeof(MultipleDirectoryProducerModule),
         "multiple-output",
@@ -669,8 +670,8 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<PendingSkipArtifactProducerModule>]
-    [ModularPipelines.Attributes.DependsOn<PendingSkipDependencyModule>]
+    [ModularPipelines.DependsOn<PendingSkipArtifactProducerModule>]
+    [ModularPipelines.DependsOn<PendingSkipDependencyModule>]
     [ConsumesArtifact(typeof(PendingSkipArtifactProducerModule), "pending-skip-runtime")]
     private sealed class PendingSkippedArtifactConsumerModule : Module<string>
     {
@@ -688,7 +689,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
+    [ModularPipelines.DependsOn<MissingRuntimeProducerModule>]
     [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
     private sealed class MissingRuntimeConsumerModule : Module<string>
     {
@@ -703,7 +704,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
+    [ModularPipelines.DependsOn<MissingRuntimeProducerModule>]
     private sealed class MissingRuntimeIntermediateModule : Module<string>
     {
         public static TaskCompletionSource Release { get; set; } = CreateSignal();
@@ -717,7 +718,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MissingRuntimeIntermediateModule>]
+    [ModularPipelines.DependsOn<MissingRuntimeIntermediateModule>]
     [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
     private sealed class TransitiveMissingRuntimeConsumerModule : Module<string>
     {
@@ -732,7 +733,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
+    [ModularPipelines.DependsOn<MissingRuntimeProducerModule>]
     [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
     private sealed class IgnoredMissingRuntimeConsumerModule : Module<string>
     {
@@ -762,7 +763,7 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Skipped producer must not execute");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class SkippedArtifactConsumerModule : Module<string>
     {
@@ -777,7 +778,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
+    [ModularPipelines.DependsOn<MissingRuntimeProducerModule>]
     [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
     private sealed class ConfiguredSkippedArtifactConsumerModule : Module<string>
     {
@@ -795,7 +796,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class ConfiguredSkippedHistoricalArtifactConsumerModule : Module<string>
     {
@@ -820,7 +821,7 @@ public class ArtifactContractTests
     }
 
     [SkipIf<AlwaysSkipArtifactCondition>]
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class AttributeSkippedHistoricalArtifactConsumerModule : Module<string>
     {
@@ -846,7 +847,7 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Skipped blocker must not execute");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactBlockerModule>(Optional = true)]
+    [ModularPipelines.DependsOn<SkippedArtifactBlockerModule>(Optional = true)]
     [ProducesArtifact("dependency-ordered", MissingRuntimeFile)]
     private sealed class DependencyOrderedSkippedArtifactProducerModule : Module<string>
     {
@@ -859,8 +860,8 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Skipped producer must not execute");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactBlockerModule>]
-    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactBlockerModule>]
+    [ModularPipelines.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
     [ConsumesArtifact(
         typeof(DependencyOrderedSkippedArtifactProducerModule),
         "dependency-ordered")]
@@ -877,8 +878,8 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactBlockerModule>]
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactBlockerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class IndependentDependencySkippedArtifactConsumerModule : Module<string>
     {
@@ -904,8 +905,8 @@ public class ArtifactContractTests
             throw new InvalidOperationException("History-backed dependency must not execute");
     }
 
-    [ModularPipelines.Attributes.DependsOn<HistoryBackedSkippedDependencyModule>]
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<HistoryBackedSkippedDependencyModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class HistoryBackedDependencyArtifactConsumerModule : Module<string>
     {
@@ -928,8 +929,8 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<ArtifactConsumerStateDependencyModule>]
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<ArtifactConsumerStateDependencyModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class DependencyStateArtifactConsumerModule : Module<string>
     {
@@ -949,8 +950,8 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<ArtifactConsumerStateDependencyModule>]
-    [ModularPipelines.Attributes.DependsOn<DeclaredProducerModule>]
+    [ModularPipelines.DependsOn<ArtifactConsumerStateDependencyModule>]
+    [ModularPipelines.DependsOn<DeclaredProducerModule>]
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class DependencyStateInvalidArtifactConsumerModule : Module<string>
     {
@@ -965,8 +966,8 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Invalid consumer must fail validation");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
-    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
     [ConsumesArtifact(
         typeof(DependencyOrderedSkippedArtifactProducerModule),
         "dependency-ordered")]
@@ -978,7 +979,7 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Fixed-point consumer must cascade-skip");
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
     private sealed class UnrelatedHistoryDependentModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -987,8 +988,8 @@ public class ArtifactContractTests
             Task.FromResult<string?>("used history dependency");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
-    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class OscillatingFirstArtifactConsumerModule : Module<string>
     {
@@ -998,8 +999,8 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Oscillating consumer must cascade-skip");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
-    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
     [ConsumesArtifact(
         typeof(DependencyOrderedSkippedArtifactProducerModule),
         "dependency-ordered")]
@@ -1011,7 +1012,7 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Oscillating consumer must cascade-skip");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     private sealed class UnrelatedFirstHistoryDependentModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -1020,7 +1021,7 @@ public class ArtifactContractTests
             Task.FromResult<string?>("used first history dependency");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class PreservedProducerInvalidArtifactConsumerModule : Module<string>
     {
@@ -1030,7 +1031,7 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Invalid consumer must fail validation");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedArtifactBlockerModule>]
+    [ModularPipelines.DependsOn<SkippedArtifactBlockerModule>]
     private sealed class TransitiveSkippedArtifactIntermediateModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -1039,8 +1040,8 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Dependency-skipped intermediate must not execute");
     }
 
-    [ModularPipelines.Attributes.DependsOn<TransitiveSkippedArtifactIntermediateModule>]
-    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    [ModularPipelines.DependsOn<TransitiveSkippedArtifactIntermediateModule>]
+    [ModularPipelines.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
     [ConsumesArtifact(
         typeof(DependencyOrderedSkippedArtifactProducerModule),
         "dependency-ordered")]
@@ -1069,7 +1070,7 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Producer failed");
     }
 
-    [ModularPipelines.Attributes.DependsOn<IgnoredFailureArtifactProducerModule>]
+    [ModularPipelines.DependsOn<IgnoredFailureArtifactProducerModule>]
     [ConsumesArtifact(
         typeof(IgnoredFailureArtifactProducerModule),
         "failed-runtime",
@@ -1196,7 +1197,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<WorkingDirectoryProducerModule>]
+    [ModularPipelines.DependsOn<WorkingDirectoryProducerModule>]
     [ConsumesArtifact(
         typeof(WorkingDirectoryProducerModule),
         "working-output",
@@ -1235,7 +1236,7 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<CacheKeyArtifactProducerModule>]
+    [ModularPipelines.DependsOn<CacheKeyArtifactProducerModule>]
     [ConsumesArtifact(
         typeof(CacheKeyArtifactProducerModule),
         "cache-key-input",
@@ -1609,8 +1610,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
                 await Assert.That(LocalProducerModule.IsReady).IsTrue();
                 await Assert.That(ProducerStateConsumerModule.Executed).IsTrue();
                 await Assert.That(File.Exists(Path.Combine(RestoreDirectory, "local-output"))).IsTrue();
@@ -1644,7 +1645,7 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
                 await Assert.That(ProducerStateIntermediateModule.IsReady).IsTrue();
                 await Assert.That(TransitiveProducerStateConsumerModule.Executed).IsTrue();
                 await Assert.That(File.Exists(Path.Combine(RestoreDirectory, "local-output"))).IsTrue();
@@ -1681,7 +1682,7 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
                 await Assert.That(DependencyStateSourceModule.IsReady).IsTrue();
                 await Assert.That(SharedDependencySiblingModule.Executed).IsTrue();
                 await Assert.That(StateDependentIntermediateModule.Executed).IsTrue();
@@ -1766,7 +1767,7 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(secondStatus).IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(secondStatus).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
                 await Assert.That(CacheKeyArtifactConsumerModule.ExecutionCount).IsEqualTo(2);
                 await Assert.That(CacheKeyArtifactConsumerModule.ConsumedContent).IsEqualTo("second");
             }
@@ -1935,7 +1936,7 @@ public class ArtifactContractTests
                 await Assert.That(exception.ToString()).Contains("missing-runtime");
                 await Assert.That(exception.ToString()).Contains(nameof(TransitiveMissingRuntimeConsumerModule));
                 await Assert.That(exception.ToString()).Contains("not found");
-                await Assert.That(producerResult!.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(producerResult!.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
                 await Assert.That(TransitiveMissingRuntimeConsumerModule.Executed).IsFalse();
             }
         }
@@ -2005,11 +2006,11 @@ public class ArtifactContractTests
             {
                 await Assert.That(exception!.ToString()).Contains("simulated artifact upload failure");
                 await Assert.That(producerResult).IsNotNull();
-                await Assert.That(producerResult!.Status).IsEqualTo(Enums.ModuleStatus.Failed);
-                await Assert.That(awaitedProducerResult.Status).IsEqualTo(Enums.ModuleStatus.Failed);
+                await Assert.That(producerResult!.Status).IsEqualTo(ModularPipelines.ModuleStatus.Failed);
+                await Assert.That(awaitedProducerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Failed);
                 await Assert.That(RecordingResultRepository.SaveCount).IsEqualTo(0);
                 await Assert.That(AwaitingEndHookHandler.ObservedStatus)
-                    .IsEqualTo(Enums.ModuleStatus.Succeeded);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
                 await Assert.That(LocalConsumerModule.ConsumedContent).IsNull();
             }
         }
@@ -2064,8 +2065,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(SkippedArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2096,7 +2097,7 @@ public class ArtifactContractTests
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
 
-            await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+            await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
         }
         finally
         {
@@ -2128,8 +2129,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(consumerResult.SkipDecisionOrDefault?.Reason)
                     .IsEqualTo("consumer skipped");
                 await Assert.That(ConfiguredSkippedHistoricalArtifactConsumerModule.Executed)
@@ -2171,8 +2172,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(ConfiguredSkippedHistoricalArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2207,8 +2208,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(DependencySkippedArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2242,8 +2243,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(IndependentDependencySkippedArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2286,9 +2287,9 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
-                await Assert.That(unrelatedResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
+                await Assert.That(unrelatedResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
                 await Assert.That(IndependentDependencySkippedArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2332,11 +2333,11 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(DependencyStateSourceModule.IsReady).IsTrue();
                 await Assert.That(SharedDependencySiblingModule.Executed).IsTrue();
                 await Assert.That(StateDependentIntermediateModule.Executed).IsTrue();
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(PrerequisiteStateArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2378,9 +2379,9 @@ public class ArtifactContractTests
                 await Assert.That(exception!.ToString())
                     .Contains("simulated artifact upload failure");
                 await Assert.That(registeredResult!.Status)
-                    .IsEqualTo(Enums.ModuleStatus.Failed);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Failed);
                 await Assert.That(awaitedResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.Failed);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Failed);
             }
         }
         finally
@@ -2415,9 +2416,9 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
-                await Assert.That(dependencyResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
+                await Assert.That(dependencyResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
             }
         }
         finally
@@ -2458,10 +2459,10 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(stateDependencyResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.Succeeded);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(ArtifactConsumerStateDependencyModule.IsReady).IsTrue();
                 await Assert.That(DependencyStateArtifactConsumerModule.Executed).IsFalse();
             }
@@ -2508,9 +2509,9 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(firstProducerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
-                await Assert.That(secondProducerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(unrelatedResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(firstProducerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
+                await Assert.That(secondProducerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(unrelatedResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
             }
         }
         finally
@@ -2560,13 +2561,13 @@ public class ArtifactContractTests
             using (Assert.Multiple())
             {
                 await Assert.That(firstProducerResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
                 await Assert.That(secondProducerResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.Skipped);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(firstUnrelatedResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.Succeeded);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
                 await Assert.That(secondUnrelatedResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.Skipped);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
             }
         }
         finally
@@ -2608,13 +2609,13 @@ public class ArtifactContractTests
             using (Assert.Multiple())
             {
                 await Assert.That(firstProducerResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
                 await Assert.That(secondProducerResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.Skipped);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(firstUnrelatedResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.Succeeded);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
                 await Assert.That(secondUnrelatedResult.Status)
-                    .IsEqualTo(Enums.ModuleStatus.Skipped);
+                    .IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
             }
         }
         finally
@@ -2655,8 +2656,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(DependencySkippedArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2699,8 +2700,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(TransitiveDependencySkippedArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2734,8 +2735,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(AttributeSkippedHistoricalArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2776,8 +2777,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
             }
         }
         finally
@@ -2812,8 +2813,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.RestoredFromHistory);
             }
         }
         finally
@@ -2904,8 +2905,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
-                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
+                await Assert.That(consumerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Skipped);
                 await Assert.That(PendingSkippedArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2968,7 +2969,7 @@ public class ArtifactContractTests
         }
     }
 
-    private static async Task<Enums.ModuleStatus> RunCacheKeyArtifactPipelineAsync(
+    private static async Task<ModularPipelines.ModuleStatus> RunCacheKeyArtifactPipelineAsync(
         string workingDirectory,
         string cacheDirectory)
     {

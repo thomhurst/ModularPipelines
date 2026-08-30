@@ -1,7 +1,5 @@
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains;
-using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Implementations;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;

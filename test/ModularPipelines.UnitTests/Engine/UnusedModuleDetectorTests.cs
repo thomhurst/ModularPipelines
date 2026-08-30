@@ -137,7 +137,7 @@ public class UnusedModuleDetectorTests
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module2>]
+    [ModularPipelines.DependsOn<Module2>]
     private class ModuleWithMissingDependency : SimpleTestModule<bool>
     {
         protected override bool Result => true;

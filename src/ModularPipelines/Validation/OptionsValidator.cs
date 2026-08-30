@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Validation;
 

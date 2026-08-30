@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using System.Net.Http.Headers;
 using System.Text;
 using ModularPipelines.Constants;

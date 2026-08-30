@@ -49,7 +49,7 @@ public class TimedDependencyTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<FiveSecondModule>]
+    [ModularPipelines.DependsOn<FiveSecondModule>]
     private class OneSecondModuleDependentOnFiveSecondModule : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

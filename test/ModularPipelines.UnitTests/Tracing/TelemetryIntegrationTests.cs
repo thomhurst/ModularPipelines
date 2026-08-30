@@ -1,3 +1,5 @@
+using ModularPipelines.Secrets;
+using ModularPipelines.Context;
 using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -5,7 +7,6 @@ using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Constants;
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -156,7 +157,7 @@ public class TelemetryIntegrationTests
     private sealed record InvalidCommandOptions : CommandLineToolOptions, IValidatableObject
     {
         [ModularPipelines.Attributes.CliOption("--token")]
-        [ModularPipelines.Attributes.SecretValue]
+        [ModularPipelines.Secrets.SecretValue]
         public string Token { get; init; } = string.Empty;
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

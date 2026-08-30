@@ -12,7 +12,7 @@ public class MatrixModuleExpanderTests
     private class CrossPlatformModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            ModularPipelines.Context.IModuleContext context,
+            ModularPipelines.IModuleContext context,
             CancellationToken cancellationToken)
         {
             return Task.FromResult<string>("result");
@@ -22,7 +22,7 @@ public class MatrixModuleExpanderTests
     private class RegularModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            ModularPipelines.Context.IModuleContext context,
+            ModularPipelines.IModuleContext context,
             CancellationToken cancellationToken)
         {
             return Task.FromResult<string>("result");

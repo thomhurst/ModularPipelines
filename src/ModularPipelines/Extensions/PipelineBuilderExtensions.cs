@@ -10,7 +10,9 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Reporting;
 using ModularPipelines.Requirements;
+using ModularPipelines.Secrets;
 using ModularPipelines.Validation;
 
 namespace ModularPipelines;
@@ -265,8 +267,8 @@ public static class PipelineBuilderExtensions
     /// <summary>
     /// Enables fingerprint-based incremental module caching with the specified storage backend.
     /// Modules opt in through <see cref="Attributes.CacheInputsAttribute"/>,
-    /// <see cref="Configuration.ModuleConfigurationBuilder.WithCacheKeyPart"/>, or
-    /// <see cref="Configuration.ModuleConfigurationBuilder.WithCacheEnvironmentVariable"/>.
+    /// <see cref="ModuleConfigurationBuilder.WithCacheKeyPart"/>, or
+    /// <see cref="ModuleConfigurationBuilder.WithCacheEnvironmentVariable"/>.
     /// </summary>
     /// <typeparam name="TStore">The cache storage backend.</typeparam>
     /// <param name="builder">The pipeline builder.</param>

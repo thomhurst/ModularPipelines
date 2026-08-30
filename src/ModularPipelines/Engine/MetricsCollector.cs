@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Engine;
 

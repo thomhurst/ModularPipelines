@@ -79,7 +79,6 @@ ModularPipelines.Newman.Options.NewmanRunOptions.Verbose.set -> void
 ModularPipelines.Newman.Options.NewmanRunOptions.WorkingDir.get -> string?
 ModularPipelines.Newman.Options.NewmanRunOptions.WorkingDir.set -> void
 ModularPipelines.Newman.Services.INewman
-ModularPipelines.Newman.Services.INewman.RunAsync(ModularPipelines.Newman.Options.NewmanRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override ModularPipelines.Newman.Options.NewmanOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Newman.Options.NewmanOptions.Equals(object? obj) -> bool
 override ModularPipelines.Newman.Options.NewmanOptions.GetHashCode() -> int
@@ -95,7 +94,6 @@ override abstract ModularPipelines.Newman.Options.NewmanOptions.<Clone>$() -> Mo
 override sealed ModularPipelines.Newman.Options.NewmanOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Newman.Options.NewmanRunOptions.Equals(ModularPipelines.Newman.Options.NewmanOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Newman_c68c1da57c5b2724ToolsExtensions.get_Newman(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Newman.Services.INewman!
-static ModularPipelines.Newman.Extensions.NewmanExtensions.Newman(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Newman.Services.INewman!
 static ModularPipelines.Newman.Extensions.NewmanExtensions.RegisterNewmanContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Newman.Options.NewmanOptions.operator !=(ModularPipelines.Newman.Options.NewmanOptions? left, ModularPipelines.Newman.Options.NewmanOptions? right) -> bool
 static ModularPipelines.Newman.Options.NewmanOptions.operator ==(ModularPipelines.Newman.Options.NewmanOptions? left, ModularPipelines.Newman.Options.NewmanOptions? right) -> bool

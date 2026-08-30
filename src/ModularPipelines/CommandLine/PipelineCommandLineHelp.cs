@@ -1,4 +1,5 @@
 using ModularPipelines.Interfaces;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.PipelineCli;

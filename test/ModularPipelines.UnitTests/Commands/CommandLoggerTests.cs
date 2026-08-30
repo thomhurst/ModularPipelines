@@ -1,8 +1,9 @@
+using ModularPipelines.Secrets;
+using ModularPipelines.Context;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;

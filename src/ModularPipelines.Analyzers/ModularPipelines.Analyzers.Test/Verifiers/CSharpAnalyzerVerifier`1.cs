@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
-using ModularPipelines.Context;
+using ModularPipelines;
 
 namespace ModularPipelines.Analyzers.Test.Verifiers;
 

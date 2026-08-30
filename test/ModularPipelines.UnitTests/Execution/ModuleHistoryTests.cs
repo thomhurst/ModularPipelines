@@ -1,6 +1,7 @@
+using ModularPipelines.Reporting;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -31,7 +32,7 @@ public class ModuleHistoryTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkipFromCategory>]
+    [ModularPipelines.DependsOn<SkipFromCategory>]
     private class UsesCategoryDependency : Module<ModuleStatus>
     {
         protected internal override async Task<ModuleStatus> ExecuteAsync(

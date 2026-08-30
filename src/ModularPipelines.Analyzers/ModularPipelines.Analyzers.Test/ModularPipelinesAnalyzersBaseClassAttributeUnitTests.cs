@@ -15,9 +15,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
+using ModularPipelines;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;";

@@ -11,7 +11,7 @@ public class GeneratedOptionsRegistrationAnalyzerTests
             public abstract class CommandLineToolOptions;
         }
 
-        namespace ModularPipelines.Attributes
+        namespace ModularPipelines.Secrets
         {
             [System.AttributeUsage(System.AttributeTargets.Property)]
             public class SecretValueAttribute : System.Attribute;

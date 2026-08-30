@@ -1,4 +1,4 @@
-using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Context.Domains.Implementations;
 

@@ -42,7 +42,7 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
         await using (host)
         {
             var result = await host.RunAsync();
-            await Assert.That(result.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
+            await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
         }
     }
 
@@ -61,7 +61,7 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
         await using (host)
         {
             var result = await host.RunAsync();
-            await Assert.That(result.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
+            await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
         }
     }
 }

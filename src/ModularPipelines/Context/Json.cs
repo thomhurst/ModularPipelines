@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
-using ModularPipelines.Context.Domains.Data;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Context;
 

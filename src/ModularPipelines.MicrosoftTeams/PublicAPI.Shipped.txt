@@ -25,7 +25,6 @@ override ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOption
 override ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.GetHashCode() -> int
 override ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.ToString() -> string!
 static ModularPipelines.Context.ModularPipelines_MicrosoftTeams_2e65ba67403b5e14ToolsExtensions.get_MicrosoftTeams(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.MicrosoftTeams.IMicrosoftTeams!
-static ModularPipelines.MicrosoftTeams.Extensions.MicrosoftTeamsExtensions.MicrosoftTeams(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.MicrosoftTeams.IMicrosoftTeams!
 static ModularPipelines.MicrosoftTeams.Extensions.MicrosoftTeamsExtensions.RegisterMicrosoftTeamsContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.operator !=(ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions? left, ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions? right) -> bool
 static ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.operator ==(ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions? left, ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions? right) -> bool

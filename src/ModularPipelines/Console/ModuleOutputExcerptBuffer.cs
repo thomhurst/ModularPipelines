@@ -2,6 +2,8 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Models;
+using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Console;
 

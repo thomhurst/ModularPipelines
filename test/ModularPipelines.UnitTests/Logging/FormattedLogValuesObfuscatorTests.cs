@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Logging;

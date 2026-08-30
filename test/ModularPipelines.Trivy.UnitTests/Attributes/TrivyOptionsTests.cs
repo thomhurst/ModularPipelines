@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using ModularPipelines.Attributes;
 using ModularPipelines.Trivy.Enums;
 using ModularPipelines.Trivy.Options;

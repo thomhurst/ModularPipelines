@@ -1,4 +1,4 @@
-using ModularPipelines.Context.Domains;
+using ModularPipelines.Context;
 using ModularPipelines.Enums;
 
 namespace ModularPipelines.Context;

@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using CliWrap;
-using CommandResult = ModularPipelines.Models.CommandResult;
+using CommandResult = ModularPipelines.CommandResult;
 
 namespace ModularPipelines.UnitTests.Models;
 

@@ -14,10 +14,10 @@ public class ModuleResultSerializerTests
         public int Count { get; set; }
     }
 
-    private class SimpleModule : ModularPipelines.Modules.Module<SimpleResult>
+    private class SimpleModule : ModularPipelines.Module<SimpleResult>
     {
         protected internal override Task<SimpleResult> ExecuteAsync(
-            ModularPipelines.Context.IModuleContext context,
+            ModularPipelines.IModuleContext context,
             CancellationToken cancellationToken)
         {
             return Task.FromResult<SimpleResult>(new SimpleResult());

@@ -10,7 +10,7 @@ internal static class SyntaxNodeExtensions
 {
     public static SyntaxNode AddUsings(this SyntaxNode documentRoot)
     {
-        return documentRoot.AddUsing("ModularPipelines.Attributes");
+        return documentRoot.AddUsing("ModularPipelines");
     }
 
     public static SyntaxNode AddUsing(this SyntaxNode documentRoot, string namespaceName)
@@ -67,7 +67,7 @@ internal static class SyntaxNodeExtensions
         CancellationToken cancellationToken)
     {
         var moduleContextType = semanticModel.Compilation.GetTypeByMetadataName(
-            "ModularPipelines.Context.IModuleContext");
+            "ModularPipelines.IModuleContext");
         var method = node.FirstAncestorOrSelf<MethodDeclarationSyntax>();
         if (moduleContextType is null
             || method is null

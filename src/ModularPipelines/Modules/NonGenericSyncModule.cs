@@ -1,8 +1,7 @@
 using System.ComponentModel;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
+using ModularPipelines.Modules;
 
-namespace ModularPipelines.Modules;
+namespace ModularPipelines;
 
 /// <summary>
 /// A synchronous pipeline module that performs work without returning a value.

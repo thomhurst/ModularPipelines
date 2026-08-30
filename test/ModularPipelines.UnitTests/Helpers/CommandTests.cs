@@ -1,10 +1,11 @@
+using ModularPipelines.Secrets;
+using ModularPipelines.Context;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;

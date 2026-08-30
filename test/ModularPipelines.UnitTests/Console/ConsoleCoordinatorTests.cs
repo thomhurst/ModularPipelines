@@ -1,3 +1,6 @@
+using ModularPipelines.Context;
+using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;

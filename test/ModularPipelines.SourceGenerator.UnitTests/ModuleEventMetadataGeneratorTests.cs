@@ -11,12 +11,12 @@ public class ModuleEventMetadataGeneratorTests
         namespace ModularPipelines.Modules
         {
             public interface IModule;
-
-            public abstract class Module<T> : IModule;
         }
 
         namespace ModularPipelines
         {
+            public abstract class Module<T> : Modules.IModule;
+
             public static class PipelineBuilderExtensions
             {
                 public static ModularPipelines.PipelineBuilder AddModule<TModule>(
@@ -35,7 +35,7 @@ public class ModuleEventMetadataGeneratorTests
             }
         }
 
-        namespace ModularPipelines.Attributes
+        namespace ModularPipelines
         {
             [System.AttributeUsage(
                 System.AttributeTargets.Class,
@@ -63,7 +63,7 @@ public class ModuleEventMetadataGeneratorTests
                 public sealed class MarkerAttribute : System.Attribute;
 
                 [Marker]
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
                 public static class Registration
                 {
@@ -97,7 +97,7 @@ public class ModuleEventMetadataGeneratorTests
             {
                 using ModularPipelines;
 
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
                 public static class Registration
                 {
@@ -137,10 +137,10 @@ public class ModuleEventMetadataGeneratorTests
                 public sealed class MarkerAttribute : System.Attribute;
 
                 [Marker]
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
-                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
-                public sealed class ParentModule : ModularPipelines.Modules.Module<bool>;
+                [ModularPipelines.DependsOn<GenericModule<int>>]
+                public sealed class ParentModule : ModularPipelines.Module<bool>;
             }
             """);
 
@@ -164,14 +164,14 @@ public class ModuleEventMetadataGeneratorTests
             """
             namespace Consumer
             {
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
                 public static class Container
                 {
                     private sealed class PrivatePayload;
 
-                    [ModularPipelines.Attributes.DependsOn<GenericModule<PrivatePayload>>]
-                    public sealed class ParentModule : ModularPipelines.Modules.Module<bool>;
+                    [ModularPipelines.DependsOn<GenericModule<PrivatePayload>>]
+                    public sealed class ParentModule : ModularPipelines.Module<bool>;
                 }
             }
             """);
@@ -203,7 +203,7 @@ public class ModuleEventMetadataGeneratorTests
                 public sealed class MarkerAttribute : System.Attribute;
 
                 [Marker]
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
                 public static class Registration
                 {
@@ -251,13 +251,13 @@ public class ModuleEventMetadataGeneratorTests
                 public sealed class MarkerAttribute : System.Attribute;
 
                 [Marker]
-                public sealed class LeafModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class LeafModule<T> : ModularPipelines.Module<T>;
 
-                [ModularPipelines.Attributes.DependsOn<LeafModule<string>>]
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                [ModularPipelines.DependsOn<LeafModule<string>>]
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
-                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
-                public sealed class ParentModule : ModularPipelines.Modules.Module<bool>;
+                [ModularPipelines.DependsOn<GenericModule<int>>]
+                public sealed class ParentModule : ModularPipelines.Module<bool>;
             }
             """);
 
@@ -283,14 +283,14 @@ public class ModuleEventMetadataGeneratorTests
             """
             namespace Consumer
             {
-                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
-                public sealed class LeafModule<T> : ModularPipelines.Modules.Module<T>;
+                [ModularPipelines.DependsOn<GenericModule<int>>]
+                public sealed class LeafModule<T> : ModularPipelines.Module<T>;
 
-                [ModularPipelines.Attributes.DependsOn<LeafModule<string>>]
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                [ModularPipelines.DependsOn<LeafModule<string>>]
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
-                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
-                public sealed class ParentModule : ModularPipelines.Modules.Module<bool>;
+                [ModularPipelines.DependsOn<GenericModule<int>>]
+                public sealed class ParentModule : ModularPipelines.Module<bool>;
             }
             """);
 

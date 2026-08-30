@@ -19,9 +19,7 @@ Projects using C# 13 or another .NET language can use `context.Tools.Get<Modular
 ## Module example
 
 ```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
+using ModularPipelines;
 using ModularPipelines.Azure.Options;
 
 public class RunCommandModule : Module<CommandResult>

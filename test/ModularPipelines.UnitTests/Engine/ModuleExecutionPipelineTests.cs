@@ -1,6 +1,6 @@
+using ModularPipelines.Reporting;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains;
 using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
 using ModularPipelines.Engine;
@@ -288,7 +288,7 @@ public class ModuleExecutionPipelineTests
 
     private sealed class CachedSuccessfulModule : SuccessfulModule
     {
-        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+        protected override void Configure(ModularPipelines.ModuleConfigurationBuilder module) => module
                 .WithCacheKeyPart("v1");
     }
 

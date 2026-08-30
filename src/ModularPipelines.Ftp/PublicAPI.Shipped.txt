@@ -19,7 +19,6 @@ override ModularPipelines.Ftp.Options.FtpOptions.Equals(object? obj) -> bool
 override ModularPipelines.Ftp.Options.FtpOptions.GetHashCode() -> int
 override ModularPipelines.Ftp.Options.FtpOptions.ToString() -> string!
 static ModularPipelines.Context.ModularPipelines_Ftp_13467ee4382b14b4ToolsExtensions.get_Ftp(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Ftp.IFtp!
-static ModularPipelines.Ftp.Extensions.FtpExtensions.Ftp(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Ftp.IFtp!
 static ModularPipelines.Ftp.Extensions.FtpExtensions.RegisterFtpContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Ftp.Options.FtpOptions.operator !=(ModularPipelines.Ftp.Options.FtpOptions? left, ModularPipelines.Ftp.Options.FtpOptions? right) -> bool
 static ModularPipelines.Ftp.Options.FtpOptions.operator ==(ModularPipelines.Ftp.Options.FtpOptions? left, ModularPipelines.Ftp.Options.FtpOptions? right) -> bool

@@ -132,6 +132,27 @@ and `FolderPath`. This avoids collisions with `System.IO.File` in projects that
 use implicit global usings. Method names such as `IFilesContext.GetFile` and
 `GetFolder` are unchanged; only their path types have changed.
 
+## Namespace organization
+
+The module authoring surface now lives in the root `ModularPipelines` namespace. A
+single `using ModularPipelines;` covers `Module<T>`, `IModuleContext`, module results,
+dependency and condition attributes, conditions, status and priority values, and
+`ModuleConfigurationBuilder`.
+
+Other public contracts now use feature namespaces:
+
+- `ModularPipelines.Context` contains all domain context interfaces.
+- `ModularPipelines.Events` contains module and pipeline event contracts.
+- `ModularPipelines.Secrets` contains masking options, attributes, and registries.
+- `ModularPipelines.Reporting` contains run reports, history, metrics, and repository
+  extension points.
+- `ModularPipelines.Logging.IConsoleWriter` replaces the root type.
+
+The package also ships a `buildTransitive` global using for `ModularPipelines`, so
+C# consumers do not need to declare the root using explicitly. Projects with a
+colliding root type can opt out with `<Using Remove="ModularPipelines" />` and add
+explicit or aliased usings instead.
+
 ## Module condition predicates
 
 `WithSkipWhen` now has boolean predicate overloads that accept a skip reason. Use

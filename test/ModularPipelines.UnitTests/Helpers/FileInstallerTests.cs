@@ -1,8 +1,5 @@
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Implementations;
-using ModularPipelines.Context.Domains.Network;
-using ModularPipelines.Context.Domains.Shell;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.UnitTests.Attributes;
 using Moq;

@@ -150,6 +150,7 @@
     <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.CodeFixes\ModularPipelines.Analyzers.CodeFixes.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" PackAsAnalyzer="true" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="buildTransitive\ModularPipelines.props" Pack="true" PackagePath="buildTransitive\ModularPipelines.props" />
     <None Include="buildTransitive\ModularPipelines.targets" Pack="true" PackagePath="buildTransitive\ModularPipelines.targets" />
   </ItemGroup>
   <!-- Include source generator and analyzers in NuGet package for consumers -->

@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ModularPipelines.Context;
+using ModularPipelines;
 
 namespace ModularPipelines.Analyzers.Test.Verifiers;
 

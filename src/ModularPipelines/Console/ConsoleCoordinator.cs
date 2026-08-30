@@ -3,11 +3,14 @@ using System.Diagnostics.CodeAnalysis;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 using Spectre.Console;
 
 namespace ModularPipelines.Console;

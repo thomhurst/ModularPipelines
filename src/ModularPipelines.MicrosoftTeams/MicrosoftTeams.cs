@@ -1,5 +1,5 @@
 using System.Text.Json;
-using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context;
 using ModularPipelines.Http;
 using ModularPipelines.MicrosoftTeams.Models;
 using ModularPipelines.MicrosoftTeams.Options;

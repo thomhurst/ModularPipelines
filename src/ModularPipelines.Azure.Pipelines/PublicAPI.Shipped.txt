@@ -54,7 +54,6 @@ static ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.operator !=(Mo
 static ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.operator ==(ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase? left, ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase? right) -> bool
 static ModularPipelines.Azure.Pipelines.AzurePipelineVariables.operator !=(ModularPipelines.Azure.Pipelines.AzurePipelineVariables? left, ModularPipelines.Azure.Pipelines.AzurePipelineVariables? right) -> bool
 static ModularPipelines.Azure.Pipelines.AzurePipelineVariables.operator ==(ModularPipelines.Azure.Pipelines.AzurePipelineVariables? left, ModularPipelines.Azure.Pipelines.AzurePipelineVariables? right) -> bool
-static ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions.AzurePipeline(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Azure.Pipelines.IAzurePipeline!
 static ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions.RegisterAzurePipelineContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Context.ModularPipelines_Azure_Pipelines_41b56bdfdb67da38ToolsExtensions.get_AzurePipeline(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Azure.Pipelines.IAzurePipeline!
 virtual ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.Equals(ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables? other) -> bool

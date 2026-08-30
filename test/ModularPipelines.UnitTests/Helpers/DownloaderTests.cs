@@ -1,8 +1,5 @@
 using System.Net;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Files;
-using ModularPipelines.Context.Domains.Network;
-using ModularPipelines.Context.Domains.Security;
 using ModularPipelines.Exceptions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;

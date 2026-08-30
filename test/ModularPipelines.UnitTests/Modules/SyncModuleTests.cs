@@ -296,7 +296,7 @@ public class SyncModuleTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<SyncDependencyModule>]
+    [ModularPipelines.DependsOn<SyncDependencyModule>]
     public class SyncDependentModule : SyncModule<string>
     {
         protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
@@ -327,7 +327,7 @@ public class SyncModuleTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<AsyncDependencyModule>]
+    [ModularPipelines.DependsOn<AsyncDependencyModule>]
     public class SyncDependsOnAsync : SyncModule<string>
     {
         protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
@@ -357,7 +357,7 @@ public class SyncModuleTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<SyncModuleForAsyncToDepend>]
+    [ModularPipelines.DependsOn<SyncModuleForAsyncToDepend>]
     public class AsyncDependsOnSync : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

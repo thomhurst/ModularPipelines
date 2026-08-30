@@ -2,11 +2,14 @@ using System.Collections;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Constants;
+using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 

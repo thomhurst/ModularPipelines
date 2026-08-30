@@ -1,4 +1,4 @@
-namespace ModularPipelines.Attributes;
+namespace ModularPipelines;
 
 /// <summary>
 /// Declares the category of a module. Categories identify what a module is.

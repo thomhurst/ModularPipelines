@@ -1,1 +1,5 @@
 #nullable enable
+*REMOVED*ModularPipelines.Hadolint.Services.IHadolint.ExecuteAsync(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*static ModularPipelines.Hadolint.Extensions.HadolintExtensions.Hadolint(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Hadolint.Services.IHadolint!
+ModularPipelines.Hadolint.Services.IHadolint.ExecuteAsync(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+static ModularPipelines.Hadolint.Extensions.HadolintExtensions.Hadolint(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Hadolint.Services.IHadolint!

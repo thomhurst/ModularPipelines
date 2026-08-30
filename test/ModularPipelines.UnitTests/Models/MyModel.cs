@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.UnitTests.Models;

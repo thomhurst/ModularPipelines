@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Events;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -90,7 +90,7 @@ internal class ModuleHookContext : IModuleHookContext
     public ILogger Logger => _pipelineContext.Logger;
 
     /// <inheritdoc />
-    public Domains.IShellContext Shell => _pipelineContext.Shell;
+    public IShellContext Shell => _pipelineContext.Shell;
 
     /// <inheritdoc />
     public IFilesContext Files => _pipelineContext.Files;

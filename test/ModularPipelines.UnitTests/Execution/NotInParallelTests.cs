@@ -26,7 +26,7 @@ public class NotInParallelTests : TestBase
     }
 
     [ModularPipelines.Attributes.NotInParallel]
-    [ModularPipelines.Attributes.DependsOn<ParallelDependency>]
+    [ModularPipelines.DependsOn<ParallelDependency>]
     public class NotParallelModuleWithParallelDependency : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTests.Tracker;
@@ -44,7 +44,7 @@ public class NotInParallelTests : TestBase
     }
 
     [ModularPipelines.Attributes.NotInParallel]
-    [ModularPipelines.Attributes.DependsOn<NotParallelModuleWithParallelDependency>]
+    [ModularPipelines.DependsOn<NotParallelModuleWithParallelDependency>]
     public class NotParallelModuleWithNonParallelDependency : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTests.Tracker;

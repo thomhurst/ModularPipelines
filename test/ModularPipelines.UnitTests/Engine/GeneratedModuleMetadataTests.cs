@@ -245,5 +245,5 @@ public class GeneratedModuleMetadataTests
 
 public sealed class GeneratedMetadataDependencyModule : TrueModule;
 
-[ModularPipelines.Attributes.DependsOn<GeneratedMetadataDependencyModule>]
+[ModularPipelines.DependsOn<GeneratedMetadataDependencyModule>]
 public sealed class GeneratedMetadataDependentModule : TrueModule;

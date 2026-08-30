@@ -52,7 +52,7 @@ public class Module2 : Module<List<string>>
 
     private const string AliasedBadModuleSource = $@"
 {TestSourceConstants.StandardUsingsWithLogging}
-using Dependency = ModularPipelines.Attributes.DependsOnAttribute;
+using Dependency = ModularPipelines.DependsOnAttribute;
 
 {TestSourceConstants.ExamplesNamespace}
 
@@ -63,7 +63,7 @@ public class Module1 : Module<List<string>>
 
     private const string SuffixElidedAliasBadModuleSource = $@"
 {TestSourceConstants.StandardUsingsWithLogging}
-using DependencyAttribute = ModularPipelines.Attributes.DependsOnAttribute;
+using DependencyAttribute = ModularPipelines.DependsOnAttribute;
 
 {TestSourceConstants.ExamplesNamespace}
 

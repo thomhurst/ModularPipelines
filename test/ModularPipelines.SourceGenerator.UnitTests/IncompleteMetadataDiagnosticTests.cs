@@ -29,14 +29,17 @@ public class IncompleteMetadataDiagnosticTests
 
             [System.AttributeUsage(System.AttributeTargets.Property)]
             public sealed class CliArgumentAttribute(int position) : System.Attribute;
+        }
 
+        namespace ModularPipelines.Secrets
+        {
             [System.AttributeUsage(System.AttributeTargets.Property)]
             public sealed class SecretValueAttribute(params string[] keys) : System.Attribute;
         }
         """;
 
     private const string ModuleInfrastructure = """
-        namespace ModularPipelines.Modules
+        namespace ModularPipelines
         {
             public abstract class Module<T>;
         }
@@ -379,7 +382,7 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class TestOptions
             {
                 [System.Obsolete("Removed", true)]
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string Legacy { get; } = "";
             }
             """);
@@ -512,7 +515,7 @@ public class IncompleteMetadataDiagnosticTests
                 [ModularPipelines.Attributes.CliOption("--value")]
                 internal string Value { get; } = "";
 
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 internal string Token { get; } = "";
             }
             """,
@@ -547,7 +550,7 @@ public class IncompleteMetadataDiagnosticTests
                 [ModularPipelines.Attributes.CliOption("--value")]
                 public string Value { get; } = "";
 
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string Token { get; } = "";
             }
             """,
@@ -654,7 +657,7 @@ public class IncompleteMetadataDiagnosticTests
                 public class LegacyOptions
                     : ModularPipelines.Options.CommandLineToolOptions
                 {
-                    [ModularPipelines.Attributes.SecretValue]
+                    [ModularPipelines.Secrets.SecretValue]
                     protected string Token { get; } = "";
                 }
             }
@@ -694,7 +697,7 @@ public class IncompleteMetadataDiagnosticTests
                 public class LegacyOptions
                     : ModularPipelines.Options.CommandLineToolOptions
                 {
-                    [ModularPipelines.Attributes.SecretValue]
+                    [ModularPipelines.Secrets.SecretValue]
                     protected string Token { get; } = "";
 
                     [ModularPipelines.Attributes.CliOption("--output")]
@@ -745,7 +748,7 @@ public class IncompleteMetadataDiagnosticTests
                 internal sealed class CurrentOptions
                     : ModularPipelines.Options.CommandLineToolOptions
                 {
-                    [ModularPipelines.Attributes.SecretValue]
+                    [ModularPipelines.Secrets.SecretValue]
                     internal string Token { get; } = "";
                 }
 
@@ -894,7 +897,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 public sealed class PeerGeneratedOptions
                 {
-                    [ModularPipelines.Attributes.SecretValue]
+                    [ModularPipelines.Secrets.SecretValue]
                     public string Token { get; } = "";
                 }
             }
@@ -948,7 +951,7 @@ public class IncompleteMetadataDiagnosticTests
 
                 public sealed class PeerGeneratedSecret
                 {
-                    [ModularPipelines.Attributes.SecretValue]
+                    [ModularPipelines.Secrets.SecretValue]
                     public string Password { get; } = "";
                 }
 
@@ -998,7 +1001,7 @@ public class IncompleteMetadataDiagnosticTests
 
             public class BaseOptions : ModularPipelines.Options.CommandLineToolOptions
             {
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string Token { get; } = "";
             }
             """,
@@ -1035,7 +1038,7 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class CollidingOptions
                 : ModularPipelines.Options.CommandLineToolOptions
             {
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string ExternalToken { get; } = "";
             }
             """,
@@ -1045,7 +1048,7 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class CollidingOptions
                 : ModularPipelines.Options.CommandLineToolOptions
             {
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string SourceToken { get; } = "";
             }
             """,
@@ -1433,7 +1436,7 @@ public class IncompleteMetadataDiagnosticTests
             """
             public sealed class Secrets
             {
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 private string Token { get; } = "";
             }
             """);
@@ -1456,7 +1459,7 @@ public class IncompleteMetadataDiagnosticTests
             """
             public sealed class Secrets
             {
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string Token { get; } = "";
             }
             """);
@@ -1477,7 +1480,7 @@ public class IncompleteMetadataDiagnosticTests
                 private sealed class HiddenAttribute : System.Attribute;
 
                 [Hidden]
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -1519,7 +1522,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 private sealed class HiddenSecrets
                 {
-                    [ModularPipelines.Attributes.SecretValue]
+                    [ModularPipelines.Secrets.SecretValue]
                     public string Token { get; } = "";
                 }
             }
@@ -1541,7 +1544,7 @@ public class IncompleteMetadataDiagnosticTests
             """
             public class SecretBase
             {
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string Token { get; } = "";
             }
 
@@ -1600,7 +1603,7 @@ public class IncompleteMetadataDiagnosticTests
             """
             public class SecretBase
             {
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string Token { get; } = "base";
             }
 
@@ -1630,7 +1633,7 @@ public class IncompleteMetadataDiagnosticTests
             """
             public partial class PartialSecrets
             {
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string Token { get; } = "";
             }
             """);
@@ -2246,7 +2249,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 public class SecretBase
                 {
-                    [ModularPipelines.Attributes.SecretValue]
+                    [ModularPipelines.Secrets.SecretValue]
                     private string Token { get; } = "";
                 }
 
@@ -2780,7 +2783,7 @@ public class IncompleteMetadataDiagnosticTests
                 [ModularPipelines.Attributes.CliOption("--value")]
                 public string Value { get; } = "";
 
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string Token { get; } = "";
             }
 
@@ -2832,7 +2835,7 @@ public class IncompleteMetadataDiagnosticTests
 
             public partial class PartialSecrets
             {
-                [ModularPipelines.Attributes.SecretValue]
+                [ModularPipelines.Secrets.SecretValue]
                 public string Token { get; } = "";
             }
             """);
@@ -2919,7 +2922,7 @@ public class IncompleteMetadataDiagnosticTests
             public class Container
             {
                 private sealed class HiddenModule
-                    : ModularPipelines.Modules.Module<string>;
+                    : ModularPipelines.Module<string>;
             }
             """);
 
@@ -2937,7 +2940,7 @@ public class IncompleteMetadataDiagnosticTests
             ModuleInfrastructure,
             """
             public sealed class GenericModule<T>
-                : ModularPipelines.Modules.Module<T>;
+                : ModularPipelines.Module<T>;
             """);
 
         await AssertSkippedDiagnostic(
@@ -2960,7 +2963,7 @@ public class IncompleteMetadataDiagnosticTests
                   private sealed class HiddenAttribute : System.Attribute;
 
                   [Hidden]
-                  public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                  public sealed class BuildModule : ModularPipelines.Module<string>;
               }
               """
             : """

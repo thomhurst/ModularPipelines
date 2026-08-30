@@ -1,7 +1,8 @@
+using ModularPipelines.Secrets;
 using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Enums;

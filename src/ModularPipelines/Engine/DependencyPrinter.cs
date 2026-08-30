@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Interfaces;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using Spectre.Console;
 

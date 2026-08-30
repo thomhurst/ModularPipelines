@@ -19,6 +19,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using ModularPipelines.Tracing;
 
 namespace ModularPipelines.Engine.Execution;
@@ -347,18 +348,18 @@ internal class ModuleRunner : IModuleRunner
             ? registeredException ?? _engineCancellationToken.OriginalException ?? exception
             : exception;
 
-    private static Enums.ModuleStatus? GetStatusOverride(
+    private static ModuleStatus? GetStatusOverride(
         bool isDependencyFailure,
         bool isPipelineCancellation,
-        Enums.ModuleStatus? registeredStatus)
+        ModuleStatus? registeredStatus)
     {
         if (isDependencyFailure)
         {
-            return Enums.ModuleStatus.DependencyFailed;
+            return ModuleStatus.DependencyFailed;
         }
 
         return isPipelineCancellation
-            ? registeredStatus ?? Enums.ModuleStatus.Cancelled
+            ? registeredStatus ?? ModuleStatus.Cancelled
             : null;
     }
 
@@ -676,7 +677,7 @@ internal class ModuleRunner : IModuleRunner
         IReadOnlySet<Type> requiredProducerTypes,
         Type? dependencyTypeBeingFinalized)
     {
-        if (_resultRegistry.GetResult(dependencyType)?.Status == Enums.ModuleStatus.Skipped)
+        if (_resultRegistry.GetResult(dependencyType)?.Status == ModuleStatus.Skipped)
         {
             return new RequiredDependencyDemand(IsUnrecoverable: true, HasPendingDependency: false);
         }
@@ -837,42 +838,42 @@ internal class ModuleRunner : IModuleRunner
                 .ConfigureAwait(false);
 
             // Record success, skip, or ignored failure status on the Activity
-            if (executionContext.Status == Enums.ModuleStatus.Skipped)
+            if (executionContext.Status == ModuleStatus.Skipped)
             {
                 telemetryStatus = "Skipped";
                 ModuleActivityTracing.RecordSkipped(activity);
             }
-            else if (executionContext.Status == Enums.ModuleStatus.FailureIgnored)
+            else if (executionContext.Status == ModuleStatus.FailureIgnored)
             {
-                telemetryStatus = Enums.ModuleStatus.FailureIgnored.ToString();
+                telemetryStatus = ModuleStatus.FailureIgnored.ToString();
                 activity?.SetTag(ModuleActivityTracing.ModuleStatusTag, telemetryStatus);
                 activity?.SetStatus(ActivityStatusCode.Ok, "Module failed but failure was ignored");
             }
-            else if (executionContext.Status == Enums.ModuleStatus.RestoredFromHistory)
+            else if (executionContext.Status == ModuleStatus.RestoredFromHistory)
             {
-                telemetryStatus = Enums.ModuleStatus.RestoredFromHistory.ToString();
+                telemetryStatus = ModuleStatus.RestoredFromHistory.ToString();
                 ModuleActivityTracing.RecordRestoredFromHistory(activity);
             }
-            else if (executionContext.Status == Enums.ModuleStatus.RestoredFromCache)
+            else if (executionContext.Status == ModuleStatus.RestoredFromCache)
             {
-                telemetryStatus = Enums.ModuleStatus.RestoredFromCache.ToString();
+                telemetryStatus = ModuleStatus.RestoredFromCache.ToString();
                 ModuleActivityTracing.RecordRestoredFromCache(activity);
             }
-            else if (executionContext.Status == Enums.ModuleStatus.Cancelled)
+            else if (executionContext.Status == ModuleStatus.Cancelled)
             {
-                telemetryStatus = Enums.ModuleStatus.Cancelled.ToString();
+                telemetryStatus = ModuleStatus.Cancelled.ToString();
                 ModuleActivityTracing.RecordCancelled(activity);
             }
             else
             {
-                telemetryStatus = Enums.ModuleStatus.Succeeded.ToString();
+                telemetryStatus = ModuleStatus.Succeeded.ToString();
                 ModuleActivityTracing.RecordSuccess(activity);
             }
         }
         catch (Exception ex)
         {
             var obfuscatedMessage = _secretObfuscator.Obfuscate(ex.Message, null);
-            if (executionContext.Status == Enums.ModuleStatus.TimedOut)
+            if (executionContext.Status == ModuleStatus.TimedOut)
             {
                 telemetryStatus = "TimedOut";
                 ModuleActivityTracing.RecordTimedOut(activity, ex, obfuscatedMessage);
@@ -982,7 +983,7 @@ internal class ModuleRunner : IModuleRunner
 
         PublishModuleResult(moduleState, executionContext, result);
 
-        if (executionContext.Status == Enums.ModuleStatus.Skipped)
+        if (executionContext.Status == ModuleStatus.Skipped)
         {
             await _mediator.Publish(
                     new ModuleSkippedNotification(moduleState, executionContext.SkipResult),
@@ -992,7 +993,7 @@ internal class ModuleRunner : IModuleRunner
         }
 
         var isSuccessful = executionContext.Status is
-            Enums.ModuleStatus.Succeeded or Enums.ModuleStatus.RestoredFromHistory or Enums.ModuleStatus.RestoredFromCache;
+            ModuleStatus.Succeeded or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache;
         await _mediator.Publish(
                 new ModuleCompletedNotification(moduleState, isSuccessful),
                 CancellationToken.None)
@@ -1026,13 +1027,13 @@ internal class ModuleRunner : IModuleRunner
         Exception exception)
     {
         executionContext.Exception = exception;
-        if (executionContext.Status is Enums.ModuleStatus.Succeeded
-            or Enums.ModuleStatus.RestoredFromHistory
-            or Enums.ModuleStatus.RestoredFromCache
-            or Enums.ModuleStatus.NotStarted
-            or Enums.ModuleStatus.Running)
+        if (executionContext.Status is ModuleStatus.Succeeded
+            or ModuleStatus.RestoredFromHistory
+            or ModuleStatus.RestoredFromCache
+            or ModuleStatus.NotStarted
+            or ModuleStatus.Running)
         {
-            executionContext.Status = Enums.ModuleStatus.Failed;
+            executionContext.Status = ModuleStatus.Failed;
         }
 
         var result = executionContext.ExecutionTask.IsCompletedSuccessfully
@@ -1061,18 +1062,18 @@ internal class ModuleRunner : IModuleRunner
     {
         moduleState.Result = result;
 
-        if (executionContext.Status == Enums.ModuleStatus.Skipped)
+        if (executionContext.Status == ModuleStatus.Skipped)
         {
             await _lifecycleEventInvoker.InvokeSkippedEventAsync(
                     lifecycleContext,
-                    Enums.ModuleStatus.Skipped,
+                    ModuleStatus.Skipped,
                     executionContext.SkipResult!)
                 .ConfigureAwait(false);
             await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState, executionContext.SkipResult!).ConfigureAwait(false);
             return;
         }
 
-        if (executionContext.Status is Enums.ModuleStatus.Succeeded or Enums.ModuleStatus.FailureIgnored)
+        if (executionContext.Status is ModuleStatus.Succeeded or ModuleStatus.FailureIgnored)
         {
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(
                     moduleState.ModuleType,
@@ -1085,7 +1086,7 @@ internal class ModuleRunner : IModuleRunner
 
         if (!_manageArtifactsLocally
             || executionContext.Status is not (
-                Enums.ModuleStatus.Succeeded or Enums.ModuleStatus.RestoredFromHistory or Enums.ModuleStatus.RestoredFromCache))
+                ModuleStatus.Succeeded or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache))
         {
             return;
         }
@@ -1149,7 +1150,7 @@ internal class ModuleRunner : IModuleRunner
             .Select(dependency => (
                 Type: dependency.Key,
                 Result: _resultRegistry.GetResult(dependency.Key)))
-            .Where(dependency => dependency.Result?.Status == Enums.ModuleStatus.Skipped)
+            .Where(dependency => dependency.Result?.Status == ModuleStatus.Skipped)
             .OrderBy(dependency => dependency.Type.FullName, StringComparer.Ordinal)
             .ToArray();
 

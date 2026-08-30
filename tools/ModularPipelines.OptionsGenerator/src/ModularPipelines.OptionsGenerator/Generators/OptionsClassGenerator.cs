@@ -65,33 +65,15 @@ public class OptionsClassGenerator : ICodeGenerator
                              && option.ValueArity != CliOptionValueArity.Optional
                              && !compatibilityPropertyNames.Contains(option.PropertyName))
             .ToArray();
-        var usesCompatibilityEnums = compatibilityProperties.Any(property =>
-            !property.AliasCSharpType.Equals(property.CanonicalCSharpType, StringComparison.Ordinal));
         var sb = new StringBuilder();
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
-        sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
-        if (requiredParameters.Any(static parameter =>
-                parameter.Option?.RequiresModelsNamespace == true)
-            || compatibilityProperties.Any(static property =>
-                CliOptionDefinition.TypeRequiresModelsNamespace(property.AliasCSharpType))
-            || compatibilityConstructors
-                .SelectMany(static constructor => constructor.Parameters)
-                .Any(static parameter => CliOptionDefinition.TypeRequiresModelsNamespace(parameter.CSharpType)))
-        {
-            sb.AppendLine("using ModularPipelines.Models;");
-        }
-
-        if (enumOptions.Length > 0 || usesCompatibilityEnums)
-        {
-            if (enumOptions.Length > 0)
-            {
-                sb.AppendLine("using ModularPipelines.Attributes;");
-            }
-
-            sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
-        }
-
+        GenerateCompatibilityAliasUsings(
+            sb,
+            tool,
+            requiredParameters,
+            compatibilityProperties,
+            compatibilityConstructors,
+            enumOptions);
         sb.AppendLine();
         sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
         sb.AppendLine();
@@ -141,6 +123,46 @@ public class OptionsClassGenerator : ICodeGenerator
                 $"{aliasClassName}.Generated.cs"),
             Content = sb.ToString(),
         };
+    }
+
+    private static void GenerateCompatibilityAliasUsings(
+        StringBuilder sb,
+        CliToolDefinition tool,
+        IReadOnlyList<GeneratorUtils.RequiredConstructorParameter> requiredParameters,
+        IReadOnlyList<CliAliasCompatibilityProperty> compatibilityProperties,
+        IReadOnlyList<CliCompatibilityConstructor> compatibilityConstructors,
+        IReadOnlyList<CliOptionDefinition> enumOptions)
+    {
+        if (requiredParameters.Any(static parameter => parameter.IsSecret))
+        {
+            sb.AppendLine("using ModularPipelines.Secrets;");
+        }
+
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+
+        if (requiredParameters.Any(static parameter =>
+                parameter.Option?.RequiresModelsNamespace == true)
+            || compatibilityProperties.Any(static property =>
+                CliOptionDefinition.TypeRequiresModelsNamespace(property.AliasCSharpType))
+            || compatibilityConstructors
+                .SelectMany(static constructor => constructor.Parameters)
+                .Any(static parameter => CliOptionDefinition.TypeRequiresModelsNamespace(parameter.CSharpType)))
+        {
+            sb.AppendLine("using ModularPipelines.Models;");
+        }
+
+        var usesCompatibilityEnums = compatibilityProperties.Any(property =>
+            !property.AliasCSharpType.Equals(property.CanonicalCSharpType, StringComparison.Ordinal));
+        if (enumOptions.Count > 0 || usesCompatibilityEnums)
+        {
+            if (enumOptions.Count > 0)
+            {
+                sb.AppendLine("using ModularPipelines.Attributes;");
+            }
+
+            sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
+        }
     }
 
     private static void GenerateCompatibilityConstructor(
@@ -386,6 +408,12 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static void GenerateUsings(StringBuilder sb, CliCommandDefinition command, CliToolDefinition tool)
     {
+        if (command.Options.Any(static option => option.IsSecret)
+            || command.PositionalArguments.Any(static argument => argument.IsSecret))
+        {
+            sb.AppendLine("using ModularPipelines.Secrets;");
+        }
+
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
         sb.AppendLine("using ModularPipelines.Attributes;");

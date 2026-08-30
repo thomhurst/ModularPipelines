@@ -4,8 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Cmd;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains;
-using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Implementations;
 using ModularPipelines.Enums;
 using ModularPipelines.Options;

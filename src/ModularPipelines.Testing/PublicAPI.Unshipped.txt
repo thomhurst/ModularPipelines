@@ -1,3 +1,21 @@
 #nullable enable
 ModularPipelines.Testing.PluginTestHelper
 static ModularPipelines.Testing.PluginTestHelper.IsolatedRegistry() -> System.IDisposable!
+*REMOVED*ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, ModularPipelines.Models.CommandResult!>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+*REMOVED*ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.Models.CommandResult!>>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+*REMOVED*ModularPipelines.Testing.ModuleTestBuilder<TModule>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, ModularPipelines.Models.CommandResult!>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+*REMOVED*ModularPipelines.Testing.ModuleTestBuilder<TModule>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.Models.CommandResult!>>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+*REMOVED*ModularPipelines.Testing.ModuleTestRun.SkipDecision.get -> ModularPipelines.Models.SkipDecision?
+*REMOVED*ModularPipelines.Testing.ModuleTestRun<T>.Result.get -> ModularPipelines.Models.ModuleResult<T>!
+*REMOVED*ModularPipelines.Testing.RecordedCommand.Deconstruct(out ModularPipelines.Context.Domains.Shell.CommandInvocation! Invocation, out ModularPipelines.Models.CommandResult! Result) -> void
+*REMOVED*ModularPipelines.Testing.RecordedCommand.RecordedCommand(ModularPipelines.Context.Domains.Shell.CommandInvocation! Invocation, ModularPipelines.Models.CommandResult! Result) -> void
+*REMOVED*ModularPipelines.Testing.RecordedCommand.Result.get -> ModularPipelines.Models.CommandResult!
+ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, ModularPipelines.CommandResult!>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, ModularPipelines.CommandResult!>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+ModularPipelines.Testing.ModuleTestRun.SkipDecision.get -> ModularPipelines.SkipDecision?
+ModularPipelines.Testing.ModuleTestRun<T>.Result.get -> ModularPipelines.ModuleResult<T>!
+ModularPipelines.Testing.RecordedCommand.Deconstruct(out ModularPipelines.Context.Domains.Shell.CommandInvocation! Invocation, out ModularPipelines.CommandResult! Result) -> void
+ModularPipelines.Testing.RecordedCommand.RecordedCommand(ModularPipelines.Context.Domains.Shell.CommandInvocation! Invocation, ModularPipelines.CommandResult! Result) -> void
+ModularPipelines.Testing.RecordedCommand.Result.get -> ModularPipelines.CommandResult!

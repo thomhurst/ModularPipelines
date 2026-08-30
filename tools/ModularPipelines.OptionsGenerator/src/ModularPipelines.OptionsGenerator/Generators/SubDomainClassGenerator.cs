@@ -243,6 +243,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         var sb = new StringBuilder();
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
         sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Context.Domains.Shell;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Options;");
@@ -500,6 +501,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Context.Domains.Shell;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Options;");

@@ -19,7 +19,7 @@ public class AlwaysRunTests : TestBase
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<MyModule1>]
+    [ModularPipelines.DependsOn<MyModule1>]
     public class MyModule2 : Module<bool>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -32,7 +32,7 @@ public class AlwaysRunTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MyModule2>]
+    [ModularPipelines.DependsOn<MyModule2>]
     public class MyModule3 : Module<bool>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -45,7 +45,7 @@ public class AlwaysRunTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MyModule3>]
+    [ModularPipelines.DependsOn<MyModule3>]
     public class MyModule4 : Module<bool>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -58,7 +58,7 @@ public class AlwaysRunTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MyModule1>]
+    [ModularPipelines.DependsOn<MyModule1>]
     public class SuccessfulAlwaysRunModule : Module<bool>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module

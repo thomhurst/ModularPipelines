@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
@@ -48,7 +48,7 @@ public class ValidationTests
     }
 
     // Module that depends on itself (invalid)
-    [ModularPipelines.Attributes.DependsOn<SelfReferencingModule>]
+    [ModularPipelines.DependsOn<SelfReferencingModule>]
     private class SelfReferencingModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -56,21 +56,21 @@ public class ValidationTests
     }
 
     // Modules for circular dependency test
-    [ModularPipelines.Attributes.DependsOn<ModuleB>]
+    [ModularPipelines.DependsOn<ModuleB>]
     private class ModuleA : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("A");
     }
 
-    [ModularPipelines.Attributes.DependsOn<ModuleC>]
+    [ModularPipelines.DependsOn<ModuleC>]
     private class ModuleB : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("B");
     }
 
-    [ModularPipelines.Attributes.DependsOn<ModuleA>]
+    [ModularPipelines.DependsOn<ModuleA>]
     private class ModuleC : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -78,7 +78,7 @@ public class ValidationTests
     }
 
     // Module with missing required dependency (not registered)
-    [ModularPipelines.Attributes.DependsOn<MissingModule>(Optional = false)]
+    [ModularPipelines.DependsOn<MissingModule>(Optional = false)]
     private class ModuleWithMissingDep : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -92,7 +92,7 @@ public class ValidationTests
     }
 
     // Module with optional dependency (missing but ignored)
-    [ModularPipelines.Attributes.DependsOn<MissingModule>(Optional = true)]
+    [ModularPipelines.DependsOn<MissingModule>(Optional = true)]
     private class ModuleWithOptionalDep : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

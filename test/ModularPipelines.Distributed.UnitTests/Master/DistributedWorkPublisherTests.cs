@@ -23,22 +23,22 @@ public class DistributedWorkPublisherTests
     private class DependencyModule : Module<DepResult>
     {
         protected internal override Task<DepResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<DepResult>(new DepResult { Value = "dep" });
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private class ConsumerModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("consumed");
     }
 
     private class IndependentModule : Module<int>
     {
         protected internal override Task<int> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(42);
     }
 
@@ -48,7 +48,7 @@ public class DistributedWorkPublisherTests
             .DependsOn<DependencyModule>();
 
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("consumed");
     }
 
@@ -57,15 +57,15 @@ public class DistributedWorkPublisherTests
     private class SelectorDependencyModule : SelectorDependencyBase
     {
         protected internal override Task<DepResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<DepResult>(new DepResult { Value = "selected" });
     }
 
-    [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<SelectorDependencyBase>]
+    [ModularPipelines.DependsOnAllModulesInheritingFrom<SelectorDependencyBase>]
     private class SelectorConsumerModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("consumed");
     }
 
@@ -75,7 +75,7 @@ public class DistributedWorkPublisherTests
             .WithTags("distributed");
 
         protected internal override Task<DepResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<DepResult>(new DepResult { Value = "tagged" });
     }
 
@@ -83,16 +83,16 @@ public class DistributedWorkPublisherTests
     private class TaggedConsumerModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("consumed");
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
-    [ModularPipelines.Attributes.DependsOn<IndependentModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<IndependentModule>]
     private class MultiDepModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("multi");
     }
 
@@ -294,15 +294,15 @@ public class DistributedWorkPublisherTests
     private class LargeResultModule : Module<LargeResult>
     {
         protected internal override Task<LargeResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<LargeResult>(new LargeResult());
     }
 
-    [ModularPipelines.Attributes.DependsOn<LargeResultModule>]
+    [ModularPipelines.DependsOn<LargeResultModule>]
     private class ConsumerOfLargeModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("ok");
     }
 

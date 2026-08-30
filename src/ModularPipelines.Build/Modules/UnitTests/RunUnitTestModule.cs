@@ -1,3 +1,4 @@
+using ModularPipelines.Logging;
 using System.Text.RegularExpressions;
 using Kevlar;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ namespace ModularPipelines.Build.Modules.UnitTests;
 /// </summary>
 [DependsOn<BuildSolutionsModule>]
 [ConsumesArtifact(typeof(BuildSolutionsModule), "build-output", RestorePath = "../../")]
-[RunIfAll<ModularPipelines.Conditions.OnLinux>]
+[RunIfAll<ModularPipelines.OnLinux>]
 [RequiresCapability("linux")]
 public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult>
 {

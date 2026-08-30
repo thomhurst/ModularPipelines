@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using ModularPipelines.Attributes;
 using ModularPipelines.Cosign.Enums;
 using ModularPipelines.Cosign.Options;

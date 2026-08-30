@@ -108,7 +108,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         out INamedTypeSymbol moduleType)
     {
         moduleType = null!;
-        var moduleContextType = compilation.GetTypeByMetadataName("ModularPipelines.Context.IModuleContext");
+        var moduleContextType = compilation.GetTypeByMetadataName("ModularPipelines.IModuleContext");
 
         if (moduleContextType is null)
         {

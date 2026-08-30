@@ -1,1 +1,3 @@
 #nullable enable
+*REMOVED*static ModularPipelines.MicrosoftTeams.Extensions.MicrosoftTeamsExtensions.MicrosoftTeams(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.MicrosoftTeams.IMicrosoftTeams!
+static ModularPipelines.MicrosoftTeams.Extensions.MicrosoftTeamsExtensions.MicrosoftTeams(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.MicrosoftTeams.IMicrosoftTeams!

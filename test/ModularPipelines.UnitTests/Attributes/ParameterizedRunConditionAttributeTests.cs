@@ -1,10 +1,8 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains;
-using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.TestHelpers;
 using Moq;
 

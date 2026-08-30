@@ -1,1 +1,5 @@
 #nullable enable
+*REMOVED*ModularPipelines.Newman.Services.INewman.RunAsync(ModularPipelines.Newman.Options.NewmanRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*static ModularPipelines.Newman.Extensions.NewmanExtensions.Newman(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Newman.Services.INewman!
+ModularPipelines.Newman.Services.INewman.RunAsync(ModularPipelines.Newman.Options.NewmanRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+static ModularPipelines.Newman.Extensions.NewmanExtensions.Newman(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Newman.Services.INewman!

@@ -86,7 +86,6 @@ ModularPipelines.Ansible.Options.AnsibleOptions
 ModularPipelines.Ansible.Options.AnsibleOptions.AnsibleOptions() -> void
 ModularPipelines.Ansible.Options.AnsibleOptions.AnsibleOptions(ModularPipelines.Ansible.Options.AnsibleOptions! original) -> void
 ModularPipelines.Ansible.Services.IAnsible
-ModularPipelines.Ansible.Services.IAnsible.ExecuteAsync(ModularPipelines.Ansible.Options.AnsibleExecuteOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Ansible.get -> ModularPipelines.Ansible.Services.IAnsible!
@@ -104,7 +103,6 @@ override ModularPipelines.Ansible.Options.AnsibleOptions.PrintMembers(System.Tex
 override ModularPipelines.Ansible.Options.AnsibleOptions.ToString() -> string!
 override sealed ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Equals(ModularPipelines.Ansible.Options.AnsibleOptions? other) -> bool
 override sealed ModularPipelines.Ansible.Options.AnsibleOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
-static ModularPipelines.Ansible.Extensions.AnsibleExtensions.Ansible(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Ansible.Services.IAnsible!
 static ModularPipelines.Ansible.Extensions.AnsibleExtensions.RegisterAnsibleContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Ansible.Options.AnsibleExecuteOptions.operator !=(ModularPipelines.Ansible.Options.AnsibleExecuteOptions? left, ModularPipelines.Ansible.Options.AnsibleExecuteOptions? right) -> bool
 static ModularPipelines.Ansible.Options.AnsibleExecuteOptions.operator ==(ModularPipelines.Ansible.Options.AnsibleExecuteOptions? left, ModularPipelines.Ansible.Options.AnsibleExecuteOptions? right) -> bool

@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 

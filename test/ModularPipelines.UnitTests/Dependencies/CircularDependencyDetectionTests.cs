@@ -13,7 +13,7 @@ public class CircularDependencyDetectionTests
 {
     #region Test Modules - Direct Circular Dependency (A -> B -> A)
 
-    [ModularPipelines.Attributes.DependsOn<DirectCycleModuleB>]
+    [ModularPipelines.DependsOn<DirectCycleModuleB>]
     private class DirectCycleModuleA : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -23,7 +23,7 @@ public class CircularDependencyDetectionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DirectCycleModuleA>]
+    [ModularPipelines.DependsOn<DirectCycleModuleA>]
     private class DirectCycleModuleB : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -37,7 +37,7 @@ public class CircularDependencyDetectionTests
 
     #region Test Modules - Triple Cycle (A -> B -> C -> A)
 
-    [ModularPipelines.Attributes.DependsOn<TripleCycleModuleB>]
+    [ModularPipelines.DependsOn<TripleCycleModuleB>]
     private class TripleCycleModuleA : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -47,7 +47,7 @@ public class CircularDependencyDetectionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<TripleCycleModuleC>]
+    [ModularPipelines.DependsOn<TripleCycleModuleC>]
     private class TripleCycleModuleB : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -57,7 +57,7 @@ public class CircularDependencyDetectionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<TripleCycleModuleA>]
+    [ModularPipelines.DependsOn<TripleCycleModuleA>]
     private class TripleCycleModuleC : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -71,7 +71,7 @@ public class CircularDependencyDetectionTests
 
     #region Test Modules - No Circular Dependency (Linear Chain)
 
-    [ModularPipelines.Attributes.DependsOn<LinearModuleB>]
+    [ModularPipelines.DependsOn<LinearModuleB>]
     private class LinearModuleA : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -81,7 +81,7 @@ public class CircularDependencyDetectionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<LinearModuleC>]
+    [ModularPipelines.DependsOn<LinearModuleC>]
     private class LinearModuleB : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -135,8 +135,8 @@ public class CircularDependencyDetectionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<ComplexGraphRoot>]
-    [ModularPipelines.Attributes.DependsOn<ComplexGraphCycleB>]
+    [ModularPipelines.DependsOn<ComplexGraphRoot>]
+    [ModularPipelines.DependsOn<ComplexGraphCycleB>]
     private class ComplexGraphCycleA : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -146,7 +146,7 @@ public class CircularDependencyDetectionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<ComplexGraphCycleA>]
+    [ModularPipelines.DependsOn<ComplexGraphCycleA>]
     private class ComplexGraphCycleB : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using ModularPipelines.Ansible.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;

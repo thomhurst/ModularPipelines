@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using CliWrap;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;

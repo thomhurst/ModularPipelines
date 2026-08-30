@@ -48,7 +48,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     /// <summary>
     /// A module that uses the new single-type-parameter GetModule API.
     /// </summary>
-    [ModularPipelines.Attributes.DependsOn<StringModule>]
+    [ModularPipelines.DependsOn<StringModule>]
     private class ConsumerModule : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -69,7 +69,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     /// <summary>
     /// A module that uses GetModule to access a complex result type.
     /// </summary>
-    [ModularPipelines.Attributes.DependsOn<ComplexResultModule>]
+    [ModularPipelines.DependsOn<ComplexResultModule>]
     private class ComplexConsumerModule : Module<int>
     {
         protected internal override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -89,7 +89,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     /// <summary>
     /// A module that uses GetModuleIfRegistered with single type parameter.
     /// </summary>
-    [ModularPipelines.Attributes.DependsOn<StringModule>(Optional = true)]
+    [ModularPipelines.DependsOn<StringModule>(Optional = true)]
     private class OptionalConsumerModule : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

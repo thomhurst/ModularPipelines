@@ -1,15 +1,16 @@
+using ModularPipelines.Reporting;
+using ModularPipelines.Events;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
-using ModularPipelines.Events;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -338,7 +339,7 @@ public class DependencyGraphExporterTests
             throw new InvalidOperationException("Graph export must not execute modules.");
     }
 
-    [ModularPipelines.Attributes.DependsOn<HistoricalArtifactProducerModule>]
+    [ModularPipelines.DependsOn<HistoricalArtifactProducerModule>]
     [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
     private sealed class HistoricalArtifactConsumerModule : Module<string>
     {
@@ -348,7 +349,7 @@ public class DependencyGraphExporterTests
             throw new InvalidOperationException("Graph export must not execute modules.");
     }
 
-    [ModularPipelines.Attributes.DependsOn<HistoricalArtifactProducerModule>]
+    [ModularPipelines.DependsOn<HistoricalArtifactProducerModule>]
     [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
     private sealed class AsyncHistoricalArtifactConsumerModule : Module<string>
     {
@@ -367,7 +368,7 @@ public class DependencyGraphExporterTests
     }
 
     [AsyncPlanningCondition]
-    [ModularPipelines.Attributes.DependsOn<HistoricalArtifactProducerModule>]
+    [ModularPipelines.DependsOn<HistoricalArtifactProducerModule>]
     [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
     private sealed class SynchronouslySkippedArtifactConsumerModule : Module<string>
     {
@@ -380,7 +381,7 @@ public class DependencyGraphExporterTests
             throw new InvalidOperationException("Graph export must not execute modules.");
     }
 
-    [ModularPipelines.Attributes.DependsOn<HistoricalDependencyModule>]
+    [ModularPipelines.DependsOn<HistoricalDependencyModule>]
     private sealed class HistoricalDependentModule : Module<string>
     {
         protected internal override async Task<string?> ExecuteAsync(
@@ -422,7 +423,7 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("markdown-fence");
     }
 
-    [ModularPipelines.Attributes.DependsOnAttribute<DependencyModule>]
+    [ModularPipelines.DependsOnAttribute<DependencyModule>]
     [ModuleCategory(@"build C:\new")]
     private sealed class TargetModule : Module<string>
     {
@@ -1884,7 +1885,7 @@ public class DependencyGraphExporterTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<ConditionSkippedModule>]
+    [ModularPipelines.DependsOn<ConditionSkippedModule>]
     private sealed class DependentOnConditionSkippedModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -1896,7 +1897,7 @@ public class DependencyGraphExporterTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependentOnConditionSkippedModule>]
+    [ModularPipelines.DependsOn<DependentOnConditionSkippedModule>]
     private sealed class DownstreamOfConditionSkippedModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -1916,7 +1917,7 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("configured-skipped");
     }
 
-    [ModularPipelines.Attributes.DependsOn<ConfiguredSkippedModule>]
+    [ModularPipelines.DependsOn<ConfiguredSkippedModule>]
     private sealed class DependentOnConfiguredSkippedModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -1925,7 +1926,7 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("dependent");
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private sealed class ResultDependentConfiguredSkipModule : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -1991,7 +1992,7 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("mixed-configured");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SynchronouslySkippedBeforeAsyncModule>]
+    [ModularPipelines.DependsOn<SynchronouslySkippedBeforeAsyncModule>]
     private sealed class DependentOnSynchronouslySkippedBeforeAsyncModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -2000,7 +2001,7 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("dependent");
     }
 
-    [ModularPipelines.Attributes.DependsOn<ResultDependentConfiguredSkipModule>]
+    [ModularPipelines.DependsOn<ResultDependentConfiguredSkipModule>]
     private sealed class DependentOnUnresolvedSkipModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(

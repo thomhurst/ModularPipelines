@@ -1,3 +1,4 @@
+using ModularPipelines.Reporting;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -22,7 +23,7 @@ public class GitHubMarkdownSummaryGeneratorTests
             Task.FromResult<string?>("dependency");
     }
 
-    [ModularPipelines.Attributes.DependsOnAttribute<DependencyModule>]
+    [ModularPipelines.DependsOnAttribute<DependencyModule>]
     private sealed class TargetModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
