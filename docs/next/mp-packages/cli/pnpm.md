@@ -2,7 +2,13 @@
 
 `ModularPipelines.Node` provides strongly typed access to the `pnpm` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `pnpm` executable. Install it separately and ensure `pnpm` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Node
@@ -33,7 +39,7 @@ public class RunCommandModule : Module<CommandResult>
 
         return await context.Tools.Pnpm.AuditAsync(
 
-            new PnpmAuditOptions
+            new PnpmAuditOptions()
 
             {
 
@@ -50,15 +56,22 @@ public class RunCommandModule : Module<CommandResult>
 
 ## Commands[​](#commands "Direct link to Commands")
 
-| CLI command    | Options record       |
-| -------------- | -------------------- |
-| `pnpm add`     | `PnpmAddOptions`     |
-| `pnpm audit`   | `PnpmAuditOptions`   |
-| `pnpm create`  | `PnpmCreateOptions`  |
-| `pnpm dlx`     | `PnpmDlxOptions`     |
-| `pnpm init`    | `PnpmInitOptions`    |
-| `pnpm publish` | `PnpmPublishOptions` |
-| `pnpm run`     | `PnpmRunOptions`     |
-| `pnpm stage`   | `PnpmStageOptions`   |
-| `pnpm unlink`  | `PnpmUnlinkOptions`  |
-| `pnpm why`     | `PnpmWhyOptions`     |
+| CLI command             | Options record               |
+| ----------------------- | ---------------------------- |
+| `pnpm add`              | `PnpmAddOptions`             |
+| `pnpm audit`            | `PnpmAuditOptions`           |
+| `pnpm audit signatures` | `PnpmAuditSignaturesOptions` |
+| `pnpm create`           | `PnpmCreateOptions`          |
+| `pnpm dlx`              | `PnpmDlxOptions`             |
+| `pnpm init`             | `PnpmInitOptions`            |
+| `pnpm publish`          | `PnpmPublishOptions`         |
+| `pnpm run`              | `PnpmRunOptions`             |
+| `pnpm stage`            | `PnpmStageOptions`           |
+| `pnpm stage approve`    | `PnpmStageApproveOptions`    |
+| `pnpm stage download`   | `PnpmStageDownloadOptions`   |
+| `pnpm stage list`       | `PnpmStageListOptions`       |
+| `pnpm stage publish`    | `PnpmStagePublishOptions`    |
+| `pnpm stage reject`     | `PnpmStageRejectOptions`     |
+| `pnpm stage view`       | `PnpmStageViewOptions`       |
+| `pnpm unlink`           | `PnpmUnlinkOptions`          |
+| `pnpm why`              | `PnpmWhyOptions`             |
