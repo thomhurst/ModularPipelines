@@ -113,5 +113,14 @@ internal partial class Packer : IPacker
         return await _command.ExecuteCommandLineToolAsync(options ?? new PackerValidateOptions(), executionOptions, cancellationToken);
     }
 
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VerifyAttestationAsync(
+        PackerVerifyAttestationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
     #endregion
 }

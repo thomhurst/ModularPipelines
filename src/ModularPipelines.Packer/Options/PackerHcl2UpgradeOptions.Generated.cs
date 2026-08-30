@@ -19,16 +19,23 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hcl2_upgrade")]
-public record PackerHcl2UpgradeOptions : PackerOptions
+public record PackerHcl2UpgradeOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
+) : PackerOptions
 {
+    public PackerHcl2UpgradeOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
-    /// Set output file name. By default this will be the
+    /// Set output file name. By default this will be the TEMPLATE name with ".pkr.hcl" appended to it. To be a valid Packer HCL template, it must have the suffix ".pkr.hcl"
     /// </summary>
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFile { get; set; }
 
     /// <summary>
-    /// Add helper annotation comments to the file to help new
+    /// Add helper annotation comments to the file to help new HCL2 users understand the template format.
     /// </summary>
     [CliFlag("--with-annotations")]
     public bool? WithAnnotations { get; set; }

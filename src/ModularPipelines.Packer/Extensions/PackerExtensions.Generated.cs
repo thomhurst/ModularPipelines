@@ -33,7 +33,7 @@ public static class PackerExtensions
     }
 
     /// <summary>
-    /// Gets the packer service from the pipeline context.
+    /// Gets the packer service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPacker"/> service for executing packer commands.</returns>
