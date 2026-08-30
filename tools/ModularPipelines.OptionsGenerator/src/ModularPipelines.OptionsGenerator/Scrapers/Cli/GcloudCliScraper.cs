@@ -291,19 +291,13 @@ public partial class GcloudCliScraper : CliScraperBase
         var description = argument.Documentation;
         var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
         var isCompositeValue = IsCompositeValueHint(valueHint);
-        var acceptsMultipleValues = !isFlag
-            && !isCompositeValue
-            && (valueHint.Contains("...")
-                || DescriptionDeclaresValueList(description)
-                || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
-        var isNumeric = !IsTextualIdentifierOption(longForm)
-                        && !IsFilePathHint(longForm, valueHint)
-                        && !isCompositeValue
-                        && !DescriptionDeclaresStructuredValue(description)
-                        && !DescriptionDeclaresTextualCategories(description)
-                        && IsNumericHint(valueHint);
-        var isKeyValue = !isCompositeValue
-                         && (valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,"));
+        var acceptsMultipleValues = AcceptsMultipleValues(
+            valueHint,
+            description,
+            isFlag,
+            isCompositeValue);
+        var isNumeric = IsNumericValue(longForm, valueHint, description, isCompositeValue);
+        var isKeyValue = IsKeyValue(valueHint, isCompositeValue);
         var enumDefinition = TryDetectEnum(propertyName, description);
 
         var option = new CliOptionDefinition
@@ -336,6 +330,33 @@ public partial class GcloudCliScraper : CliScraperBase
             yield return CreateNegatedOption(option, negativeSwitch);
         }
     }
+
+    private static bool AcceptsMultipleValues(
+        string valueHint,
+        string? description,
+        bool isFlag,
+        bool isCompositeValue) =>
+        !isFlag
+        && !isCompositeValue
+        && (valueHint.Contains("...")
+            || DescriptionDeclaresValueList(description)
+            || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
+
+    private static bool IsNumericValue(
+        string switchName,
+        string valueHint,
+        string? description,
+        bool isCompositeValue) =>
+        !IsTextualIdentifierOption(switchName)
+        && !IsFilePathHint(switchName, valueHint)
+        && !isCompositeValue
+        && !DescriptionDeclaresStructuredValue(description)
+        && !DescriptionDeclaresTextualCategories(description)
+        && IsNumericHint(valueHint);
+
+    private static bool IsKeyValue(string valueHint, bool isCompositeValue) =>
+        !isCompositeValue
+        && (valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,"));
 
     private static CliOptionDefinition CreateNegatedOption(
         CliOptionDefinition option,
