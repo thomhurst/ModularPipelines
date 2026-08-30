@@ -24,6 +24,18 @@ namespace ModularPipelines.Liquibase.Options;
 public record LiquibaseRollbackToDateOptions : LiquibaseOptions
 {
     /// <summary>
+    /// Fully-qualified class which specifies a ChangeExecListener
+    /// </summary>
+    [CliOption("--change-exec-listener-class", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangeExecListenerClass { get; set; }
+
+    /// <summary>
+    /// Path to a properties file for the ChangeExecListenerClass
+    /// </summary>
+    [CliOption("--change-exec-listener-properties-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangeExecListenerPropertiesFile { get; set; }
+
+    /// <summary>
     /// The root changelog file
     /// </summary>
     [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
@@ -48,6 +60,18 @@ public record LiquibaseRollbackToDateOptions : LiquibaseOptions
     public string? Date { get; set; }
 
     /// <summary>
+    /// The default catalog name to use for the database connection
+    /// </summary>
+    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultCatalogName { get; set; }
+
+    /// <summary>
+    /// The default schema name to use for the database connection
+    /// </summary>
+    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSchemaName { get; set; }
+
+    /// <summary>
     /// Label expression to use for filtering
     /// </summary>
     [CliOption("--label-filter", Format = OptionFormat.EqualsSeparated)]
@@ -61,6 +85,12 @@ public record LiquibaseRollbackToDateOptions : LiquibaseOptions
     public string? Password { get; set; }
 
     /// <summary>
+    /// Rollback script to execute
+    /// </summary>
+    [CliOption("--rollback-script", Format = OptionFormat.EqualsSeparated)]
+    public string? RollbackScript { get; set; }
+
+    /// <summary>
     /// The JDBC database connection URL
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
@@ -71,20 +101,5 @@ public record LiquibaseRollbackToDateOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
-
-    [Obsolete("ChangeExecListenerClass is no longer supported by the installed CLI and has no effect.")]
-    public string? ChangeExecListenerClass { get; set; }
-
-    [Obsolete("ChangeExecListenerPropertiesFile is no longer supported by the installed CLI and has no effect.")]
-    public string? ChangeExecListenerPropertiesFile { get; set; }
-
-    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultCatalogName { get; set; }
-
-    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultSchemaName { get; set; }
-
-    [Obsolete("RollbackScript is no longer supported by the installed CLI and has no effect.")]
-    public string? RollbackScript { get; set; }
 
 }

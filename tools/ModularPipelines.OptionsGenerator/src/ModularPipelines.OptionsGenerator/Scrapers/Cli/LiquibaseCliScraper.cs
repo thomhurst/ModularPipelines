@@ -436,20 +436,6 @@ public partial class LiquibaseCliScraper : CliScraperBase
             ValueSeparator = "=",
             IsSecret = GeneratorUtils.IsSecretOption("Format", isFlag: false),
         });
-
-        AddIfMissing(
-            options,
-            new CliOptionDefinition
-            {
-                SwitchName = "--reference-url",
-                PropertyName = "ReferenceUrl",
-                CSharpType = "string?",
-                Description = "The JDBC reference database connection URL",
-                IsFlag = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("ReferenceUrl", isFlag: false),
-            },
-            insertBeforeSwitchName: "--url");
     }
 
     private static string? NormalizeLiquibasePropertyName(string optionName) => optionName switch
@@ -461,8 +447,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
     private static void AddIfMissing(
         List<CliOptionDefinition> options,
-        CliOptionDefinition option,
-        string? insertBeforeSwitchName = null)
+        CliOptionDefinition option)
     {
         if (options.Any(existing =>
                 existing.SwitchName.Equals(option.SwitchName, StringComparison.OrdinalIgnoreCase)))
@@ -470,18 +455,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
             return;
         }
 
-        var insertionIndex = insertBeforeSwitchName is null
-            ? -1
-            : options.FindIndex(existing =>
-                existing.SwitchName.Equals(insertBeforeSwitchName, StringComparison.OrdinalIgnoreCase));
-
-        if (insertionIndex < 0)
-        {
-            options.Add(option);
-            return;
-        }
-
-        options.Insert(insertionIndex, option);
+        options.Add(option);
     }
 
     private static CliOptionDefinition CreateDefineOption(string? description)
@@ -635,7 +609,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
     ///   --changeLogFile=PARAM          The root changelog file
     ///   --verbose                      Enable verbose output
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-[A-Za-z]),\s*)?(?<long>--[\w-]+)(?:\[?=(?<value>PARAM)\]?)?\s+(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?:(?<short>-[A-Za-z]),\s*)?(?<long>--[\w-]+)(?:\[?=(?<value>PARAM)\]?)?(?:\s+(?<desc>.*))?$", RegexOptions.Multiline)]
     private static partial Regex LiquibaseOptionPattern();
 
     [GeneratedRegex(@"^\s+-D=PARAM\s+(?<desc>.*)$", RegexOptions.Multiline)]

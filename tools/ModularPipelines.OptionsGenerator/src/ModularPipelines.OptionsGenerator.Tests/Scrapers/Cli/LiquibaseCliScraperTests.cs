@@ -135,12 +135,18 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
-    public async Task ParseCommand_Adds_Documented_Diff_Options()
+    public async Task ParseCommand_Parses_Continuation_Descriptions_And_Adds_Documented_Diff_Format()
     {
         const string helpText = """
             Usage: liquibase diff [OPTIONS]
 
-                  --url=PARAM   The JDBC database connection URL
+                  --reference-password=PARAM
+                                 The reference database password
+                  --reference-url=PARAM
+                                 [REQUIRED] The JDBC reference database connection URL
+                  --reference-username=PARAM
+                                 The reference database username
+                  --url=PARAM    The JDBC database connection URL
             """;
 
         var command = await _scraper.ParseLiquibaseCommand(["liquibase", "diff"], helpText);
@@ -154,9 +160,61 @@ public class LiquibaseCliScraperTests
         await Assert.That(referenceUrl.PropertyName).IsEqualTo("ReferenceUrl");
         await Assert.That(referenceUrl.CSharpType).IsEqualTo("string?");
         await Assert.That(referenceUrl.ValueSeparator).IsEqualTo("=");
-        var switchNames = command.Options.Select(option => option.SwitchName).ToList();
-        await Assert.That(switchNames.IndexOf("--reference-url"))
-            .IsLessThan(switchNames.IndexOf("--url"));
+        await Assert.That(referenceUrl.Description)
+            .IsEqualTo("The JDBC reference database connection URL");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--reference-password").IsSecret)
+            .IsTrue();
+        await Assert.That(command.Options.Select(option => option.SwitchName))
+            .Contains("--reference-username");
+    }
+
+    [Test]
+    public async Task ParseCommand_Parses_Snapshot_Reference_Connection_Options()
+    {
+        const string helpText = """
+            Usage: liquibase snapshot-reference [OPTIONS]
+
+                  --reference-default-catalog-name=PARAM
+                                 The reference default catalog name
+                  --reference-default-schema-name=PARAM
+                                 The reference default schema name
+                  --reference-driver=PARAM
+                                 The JDBC driver class
+                  --reference-driver-properties-file=PARAM
+                                 The JDBC driver properties file
+                  --reference-liquibase-catalog-name=PARAM
+                                 Reference database catalog for Liquibase objects
+                  --reference-liquibase-schema-name=PARAM
+                                 Reference database schema for Liquibase objects
+                  --reference-password=PARAM
+                                 The reference database password
+                  --reference-url=PARAM
+                                 [REQUIRED] The JDBC reference database connection URL
+                  --reference-username=PARAM
+                                 The reference database username
+                  --snapshot-format=PARAM
+                                 Output format to use
+            """;
+
+        var command = await _scraper.ParseLiquibaseCommand(
+            ["liquibase", "snapshot-reference"],
+            helpText);
+
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo([
+                "--reference-default-catalog-name",
+                "--reference-default-schema-name",
+                "--reference-driver",
+                "--reference-driver-properties-file",
+                "--reference-liquibase-catalog-name",
+                "--reference-liquibase-schema-name",
+                "--reference-password",
+                "--reference-url",
+                "--reference-username",
+                "--snapshot-format",
+            ]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--reference-password").IsSecret)
+            .IsTrue();
     }
 
     [Test]

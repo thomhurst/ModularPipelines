@@ -48,10 +48,64 @@ public record LiquibaseDiffChangelogOptions : LiquibaseOptions
     public IReadOnlyList<KeyValue>? ChangelogProperty { get; set; }
 
     /// <summary>
+    /// Specifies a directory to send the loadData output of a diff-changelog/generate-changelog command as a CSV file.
+    /// </summary>
+    [CliOption("--data-output-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? DataOutputDirectory { get; set; }
+
+    /// <summary>
+    /// The default catalog name to use for the database connection
+    /// </summary>
+    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultCatalogName { get; set; }
+
+    /// <summary>
+    /// The default schema name to use for the database connection
+    /// </summary>
+    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSchemaName { get; set; }
+
+    /// <summary>
     /// Types of objects to compare
     /// </summary>
     [CliOption("--diff-types", Format = OptionFormat.EqualsSeparated)]
     public string? DiffTypes { get; set; }
+
+    /// <summary>
+    /// Objects to exclude from diff. Supports regular expressions. Defaults to null.
+    /// </summary>
+    [CliOption("--exclude-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? ExcludeObjects { get; set; }
+
+    /// <summary>
+    /// If true, diff operations will ignore referenced objects which are not found in a snapshot. DEFAULT: false
+    /// </summary>
+    [CliOption("--ignore-missing-references", Format = OptionFormat.EqualsSeparated)]
+    public bool? IgnoreMissingReferences { get; set; }
+
+    /// <summary>
+    /// If true, the catalog will be included in generated changeSets. Defaults to false. DEFAULT: false
+    /// </summary>
+    [CliOption("--include-catalog", Format = OptionFormat.EqualsSeparated)]
+    public bool? IncludeCatalog { get; set; }
+
+    /// <summary>
+    /// Objects to include in diff. Supports regular expressions. Defaults to null.
+    /// </summary>
+    [CliOption("--include-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeObjects { get; set; }
+
+    /// <summary>
+    /// If true, the schema will be included in generated changeSets. Defaults to false. DEFAULT: false
+    /// </summary>
+    [CliOption("--include-schema", Format = OptionFormat.EqualsSeparated)]
+    public bool? IncludeSchema { get; set; }
+
+    /// <summary>
+    /// Include the tablespace attribute in the changelog. Defaults to false. DEFAULT: false
+    /// </summary>
+    [CliOption("--include-tablespace", Format = OptionFormat.EqualsSeparated)]
+    public bool? IncludeTablespace { get; set; }
 
     /// <summary>
     /// Changeset labels to generate
@@ -73,10 +127,77 @@ public record LiquibaseDiffChangelogOptions : LiquibaseOptions
     public string? Password { get; set; }
 
     /// <summary>
+    /// The default catalog name to use for the reference database connection
+    /// </summary>
+    [CliOption("--reference-default-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceDefaultCatalogName { get; set; }
+
+    /// <summary>
+    /// The default schema name to use for the reference database connection
+    /// </summary>
+    [CliOption("--reference-default-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceDefaultSchemaName { get; set; }
+
+    /// <summary>
+    /// The JDBC driver class for the reference database
+    /// </summary>
+    [CliOption("--reference-driver", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceDriver { get; set; }
+
+    /// <summary>
+    /// The JDBC driver properties file for the reference database
+    /// </summary>
+    [CliOption("--reference-driver-properties-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceDriverPropertiesFile { get; set; }
+
+    /// <summary>
+    /// Reference catalog to use for Liquibase objects
+    /// </summary>
+    [CliOption("--reference-liquibase-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceLiquibaseCatalogName { get; set; }
+
+    /// <summary>
+    /// Reference schema to use for Liquibase objects
+    /// </summary>
+    [CliOption("--reference-liquibase-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceLiquibaseSchemaName { get; set; }
+
+    /// <summary>
+    /// The reference database password
+    /// </summary>
+    [SecretValue]
+    [CliOption("--reference-password", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferencePassword { get; set; }
+
+    /// <summary>
+    /// Schemas names on reference database to use in diff. This is a CSV list.
+    /// </summary>
+    [CliOption("--reference-schemas", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceSchemas { get; set; }
+
+    /// <summary>
     /// The JDBC reference database connection URL
     /// </summary>
     [CliOption("--reference-url", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceUrl { get; set; }
+
+    /// <summary>
+    /// The reference database username
+    /// </summary>
+    [CliOption("--reference-username", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceUsername { get; set; }
+
+    /// <summary>
+    /// Sets replaceIfExists="true" for changes of these types (supported types: createProcedure, createView) DEFAULT: none
+    /// </summary>
+    [CliOption("--replace-if-exists-types", Format = OptionFormat.EqualsSeparated)]
+    public string? ReplaceIfExistsTypes { get; set; }
+
+    /// <summary>
+    /// Sets runOnChange="true" for changesets containing solely changes of these types (e. g. createView, createProcedure, ...). DEFAULT: none
+    /// </summary>
+    [CliOption("--run-on-change-types", Format = OptionFormat.EqualsSeparated)]
+    public string? RunOnChangeTypes { get; set; }
 
     /// <summary>
     /// Schemas to include in diff
@@ -85,81 +206,27 @@ public record LiquibaseDiffChangelogOptions : LiquibaseOptions
     public string? Schemas { get; set; }
 
     /// <summary>
+    /// When true will skip object sorting. This can be useful on databases that have a lot of packages/procedures that are linked to each other DEFAULT: false
+    /// </summary>
+    [CliOption("--skip-object-sorting", Format = OptionFormat.EqualsSeparated)]
+    public bool? SkipObjectSorting { get; set; }
+
+    /// <summary>
     /// The JDBC database connection URL
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
     public string? Url { get; set; }
 
     /// <summary>
+    /// If true, will add 'OR REPLACE' option to the create view change object DEFAULT: false
+    /// </summary>
+    [CliOption("--use-or-replace-option", Format = OptionFormat.EqualsSeparated)]
+    public bool? UseOrReplaceOption { get; set; }
+
+    /// <summary>
     /// Username to use to connect to the database
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
-
-    [Obsolete("DataOutputDirectory is no longer supported by the installed CLI and has no effect.")]
-    public string? DataOutputDirectory { get; set; }
-
-    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultCatalogName { get; set; }
-
-    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultSchemaName { get; set; }
-
-    [Obsolete("ExcludeObjects is no longer supported by the installed CLI and has no effect.")]
-    public string? ExcludeObjects { get; set; }
-
-    [Obsolete("IgnoreMissingReferences is no longer supported by the installed CLI and has no effect.")]
-    public bool? IgnoreMissingReferences { get; set; }
-
-    [Obsolete("IncludeCatalog is no longer supported by the installed CLI and has no effect.")]
-    public bool? IncludeCatalog { get; set; }
-
-    [Obsolete("IncludeObjects is no longer supported by the installed CLI and has no effect.")]
-    public string? IncludeObjects { get; set; }
-
-    [Obsolete("IncludeSchema is no longer supported by the installed CLI and has no effect.")]
-    public bool? IncludeSchema { get; set; }
-
-    [Obsolete("IncludeTablespace is no longer supported by the installed CLI and has no effect.")]
-    public bool? IncludeTablespace { get; set; }
-
-    [Obsolete("ReferenceDefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceDefaultCatalogName { get; set; }
-
-    [Obsolete("ReferenceDefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceDefaultSchemaName { get; set; }
-
-    [Obsolete("ReferenceDriver is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceDriver { get; set; }
-
-    [Obsolete("ReferenceDriverPropertiesFile is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceDriverPropertiesFile { get; set; }
-
-    [Obsolete("ReferenceLiquibaseCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceLiquibaseCatalogName { get; set; }
-
-    [Obsolete("ReferenceLiquibaseSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceLiquibaseSchemaName { get; set; }
-
-    [Obsolete("ReferencePassword is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferencePassword { get; set; }
-
-    [Obsolete("ReferenceSchemas is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceSchemas { get; set; }
-
-    [Obsolete("ReferenceUsername is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceUsername { get; set; }
-
-    [Obsolete("ReplaceIfExistsTypes is no longer supported by the installed CLI and has no effect.")]
-    public string? ReplaceIfExistsTypes { get; set; }
-
-    [Obsolete("RunOnChangeTypes is no longer supported by the installed CLI and has no effect.")]
-    public string? RunOnChangeTypes { get; set; }
-
-    [Obsolete("SkipObjectSorting is no longer supported by the installed CLI and has no effect.")]
-    public bool? SkipObjectSorting { get; set; }
-
-    [Obsolete("UseOrReplaceOption is no longer supported by the installed CLI and has no effect.")]
-    public bool? UseOrReplaceOption { get; set; }
 
 }

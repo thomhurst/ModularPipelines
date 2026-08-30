@@ -23,10 +23,46 @@ namespace ModularPipelines.Liquibase.Options;
 public record LiquibaseDiffOptions : LiquibaseOptions
 {
     /// <summary>
+    /// The default catalog name to use for the database connection
+    /// </summary>
+    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultCatalogName { get; set; }
+
+    /// <summary>
+    /// The default schema name to use for the database connection
+    /// </summary>
+    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSchemaName { get; set; }
+
+    /// <summary>
     /// Types of objects to compare
     /// </summary>
     [CliOption("--diff-types", Format = OptionFormat.EqualsSeparated)]
     public string? DiffTypes { get; set; }
+
+    /// <summary>
+    /// Objects to exclude from diff
+    /// </summary>
+    [CliOption("--exclude-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? ExcludeObjects { get; set; }
+
+    /// <summary>
+    /// If true, diff operations will ignore referenced objects which are not found in a snapshot. DEFAULT: false
+    /// </summary>
+    [CliOption("--ignore-missing-references", Format = OptionFormat.EqualsSeparated)]
+    public bool? IgnoreMissingReferences { get; set; }
+
+    /// <summary>
+    /// Objects to include in diff
+    /// </summary>
+    [CliOption("--include-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeObjects { get; set; }
+
+    /// <summary>
+    /// Output schemas names. This is a CSV list.
+    /// </summary>
+    [CliOption("--output-schemas", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputSchemas { get; set; }
 
     /// <summary>
     /// Password to use to connect to the database
@@ -36,16 +72,71 @@ public record LiquibaseDiffOptions : LiquibaseOptions
     public string? Password { get; set; }
 
     /// <summary>
-    /// Schemas to include in diff
+    /// The default catalog name to use for the reference database connection
     /// </summary>
-    [CliOption("--schemas", Format = OptionFormat.EqualsSeparated)]
-    public string? Schemas { get; set; }
+    [CliOption("--reference-default-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceDefaultCatalogName { get; set; }
+
+    /// <summary>
+    /// The default schema name to use for the reference database connection
+    /// </summary>
+    [CliOption("--reference-default-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceDefaultSchemaName { get; set; }
+
+    /// <summary>
+    /// The JDBC driver class for the reference database
+    /// </summary>
+    [CliOption("--reference-driver", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceDriver { get; set; }
+
+    /// <summary>
+    /// The JDBC driver properties file for the reference database
+    /// </summary>
+    [CliOption("--reference-driver-properties-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceDriverPropertiesFile { get; set; }
+
+    /// <summary>
+    /// Reference catalog to use for Liquibase objects
+    /// </summary>
+    [CliOption("--reference-liquibase-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceLiquibaseCatalogName { get; set; }
+
+    /// <summary>
+    /// Reference schema to use for Liquibase objects
+    /// </summary>
+    [CliOption("--reference-liquibase-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceLiquibaseSchemaName { get; set; }
+
+    /// <summary>
+    /// The reference database password
+    /// </summary>
+    [SecretValue]
+    [CliOption("--reference-password", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferencePassword { get; set; }
+
+    /// <summary>
+    /// Schemas names on reference database to use in diff. This is a CSV list.
+    /// </summary>
+    [CliOption("--reference-schemas", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceSchemas { get; set; }
 
     /// <summary>
     /// The JDBC reference database connection URL
     /// </summary>
     [CliOption("--reference-url", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceUrl { get; set; }
+
+    /// <summary>
+    /// The reference database username
+    /// </summary>
+    [CliOption("--reference-username", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceUsername { get; set; }
+
+    /// <summary>
+    /// Schemas to include in diff
+    /// </summary>
+    [CliOption("--schemas", Format = OptionFormat.EqualsSeparated)]
+    public string? Schemas { get; set; }
 
     /// <summary>
     /// The JDBC database connection URL
@@ -64,50 +155,5 @@ public record LiquibaseDiffOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
-
-    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultCatalogName { get; set; }
-
-    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultSchemaName { get; set; }
-
-    [Obsolete("ExcludeObjects is no longer supported by the installed CLI and has no effect.")]
-    public string? ExcludeObjects { get; set; }
-
-    [Obsolete("IgnoreMissingReferences is no longer supported by the installed CLI and has no effect.")]
-    public bool? IgnoreMissingReferences { get; set; }
-
-    [Obsolete("IncludeObjects is no longer supported by the installed CLI and has no effect.")]
-    public string? IncludeObjects { get; set; }
-
-    [Obsolete("OutputSchemas is no longer supported by the installed CLI and has no effect.")]
-    public string? OutputSchemas { get; set; }
-
-    [Obsolete("ReferenceDefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceDefaultCatalogName { get; set; }
-
-    [Obsolete("ReferenceDefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceDefaultSchemaName { get; set; }
-
-    [Obsolete("ReferenceDriver is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceDriver { get; set; }
-
-    [Obsolete("ReferenceDriverPropertiesFile is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceDriverPropertiesFile { get; set; }
-
-    [Obsolete("ReferenceLiquibaseCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceLiquibaseCatalogName { get; set; }
-
-    [Obsolete("ReferenceLiquibaseSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceLiquibaseSchemaName { get; set; }
-
-    [Obsolete("ReferencePassword is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferencePassword { get; set; }
-
-    [Obsolete("ReferenceSchemas is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceSchemas { get; set; }
-
-    [Obsolete("ReferenceUsername is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceUsername { get; set; }
 
 }

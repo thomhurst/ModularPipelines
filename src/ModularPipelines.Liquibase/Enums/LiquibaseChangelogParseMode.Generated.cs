@@ -10,6 +10,9 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Liquibase.Enums;
 
+/// <summary>
+/// Allowed values for --changelog-parse-mode.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseChangelogParseMode
 {
