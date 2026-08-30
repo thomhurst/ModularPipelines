@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Engine;
+using ModularPipelines.Secrets;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 

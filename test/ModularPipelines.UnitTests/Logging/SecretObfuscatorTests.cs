@@ -1,5 +1,5 @@
 using ModularPipelines.Context;
-using ModularPipelines.Logging;
+using ModularPipelines.Secrets;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;

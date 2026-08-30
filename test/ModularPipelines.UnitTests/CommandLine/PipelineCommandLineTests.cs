@@ -1,4 +1,3 @@
-using ModularPipelines.Logging;
 using ModularPipelines.Reporting;
 using ModularPipelines.Events;
 using Microsoft.Extensions.DependencyInjection;

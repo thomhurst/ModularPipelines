@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using ModularPipelines.Engine;
+using ModularPipelines.Secrets;
 using Spectre.Console;
 
 namespace ModularPipelines.Logging;

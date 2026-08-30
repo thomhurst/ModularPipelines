@@ -278,7 +278,7 @@ internal class ModuleRunner : IModuleRunner
         readyLogger.SetStatus(
             moduleState.Result?.Status
             ?? _resultRegistry.GetResult(moduleType)?.Status
-            ?? Enums.ModuleStatus.Failed);
+            ?? ModuleStatus.Failed);
     }
 
     internal static Exception NormalizeLimiterCancellation(

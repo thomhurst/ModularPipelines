@@ -8,6 +8,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
 using Moq;
 using Spectre.Console;

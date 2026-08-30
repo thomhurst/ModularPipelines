@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using ModularPipelines.Engine;
+using ModularPipelines.Secrets;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
