@@ -19,7 +19,7 @@ namespace ModularPipelines.Syft.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attest")]
 public record SyftAttestOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
 ) : SyftOptions
 {
     /// <summary>
@@ -136,10 +136,7 @@ public record SyftAttestOptions(
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
-    /// <summary>
-    /// The FORMAT operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    [Obsolete("Format is no longer supported by the installed CLI and has no effect.")]
     public string? Format { get; set; }
 
 }

@@ -74,10 +74,7 @@ public record SyftConvertOptions : SyftOptions
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? SourceSbom { get; set; }
 
-    /// <summary>
-    /// The FORMAT operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    [Obsolete("Format is no longer supported by the installed CLI and has no effect.")]
     public string? Format { get; set; }
 
 }
