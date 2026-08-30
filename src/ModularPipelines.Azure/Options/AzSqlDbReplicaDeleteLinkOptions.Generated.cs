@@ -23,13 +23,20 @@ public record AzSqlDbReplicaDeleteLinkOptions : AzOptions
     /// <summary>
     /// Name of the resource group that the other replica is in. If unspecified, defaults to the first database's resource group.
     /// </summary>
-    [CliFlag("--partner-resource-group")]
-    public bool? PartnerResourceGroup { get; set; }
+    [CliOption("--partner-resource-group")]
+    public string? PartnerResourceGroupValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use PartnerResourceGroupValue instead.")]
+    public bool? PartnerResourceGroup
+    {
+        get => bool.TryParse(PartnerResourceGroupValue, out var value) ? value : null;
+        set => PartnerResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

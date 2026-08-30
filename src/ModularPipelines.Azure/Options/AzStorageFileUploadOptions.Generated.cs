@@ -59,7 +59,7 @@ public record AzStorageFileUploadOptions : AzOptions
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disallow-trailing-dot")]
+    [CliOption("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
     /// <summary>
@@ -107,8 +107,8 @@ public record AzStorageFileUploadOptions : AzOptions
     /// <summary>
     /// The path to the file within the file share. If the file name is omitted, the source file name will be used.
     /// </summary>
-    [CliFlag("--path", ShortForm = "-p")]
-    public bool? Path { get; set; }
+    [CliOption("--path", ShortForm = "-p")]
+    public string? PathValue { get; set; }
 
     /// <summary>
     /// The file share name.
@@ -127,5 +127,12 @@ public record AzStorageFileUploadOptions : AzOptions
     /// </summary>
     [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
+
+    [Obsolete("Use PathValue instead.")]
+    public bool? Path
+    {
+        get => bool.TryParse(PathValue, out var value) ? value : null;
+        set => PathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

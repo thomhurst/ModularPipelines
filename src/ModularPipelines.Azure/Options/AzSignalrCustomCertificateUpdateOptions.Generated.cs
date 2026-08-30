@@ -23,19 +23,42 @@ public record AzSignalrCustomCertificateUpdateOptions : AzOptions
     /// <summary>
     /// Key vault base URI. For example, `https://contoso.vault.azure.net`.
     /// </summary>
-    [CliFlag("--keyvault-base-uri")]
-    public bool? KeyvaultBaseUri { get; set; }
+    [CliOption("--keyvault-base-uri")]
+    public string? KeyvaultBaseUriValue { get; set; }
 
     /// <summary>
     /// Key vault secret name where certificate is stored.
     /// </summary>
-    [CliFlag("--keyvault-secret-name")]
-    public bool? KeyvaultSecretName { get; set; }
+    [SecretValue]
+    [CliOption("--keyvault-secret-name")]
+    public string? KeyvaultSecretNameValue { get; set; }
 
     /// <summary>
     /// Key vault secret version where certificate is stored. If empty, will use latest version.
     /// </summary>
-    [CliFlag("--keyvault-secret-version")]
-    public bool? KeyvaultSecretVersion { get; set; }
+    [SecretValue]
+    [CliOption("--keyvault-secret-version")]
+    public string? KeyvaultSecretVersionValue { get; set; }
+
+    [Obsolete("Use KeyvaultBaseUriValue instead.")]
+    public bool? KeyvaultBaseUri
+    {
+        get => bool.TryParse(KeyvaultBaseUriValue, out var value) ? value : null;
+        set => KeyvaultBaseUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyvaultSecretNameValue instead.")]
+    public bool? KeyvaultSecretName
+    {
+        get => bool.TryParse(KeyvaultSecretNameValue, out var value) ? value : null;
+        set => KeyvaultSecretNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyvaultSecretVersionValue instead.")]
+    public bool? KeyvaultSecretVersion
+    {
+        get => bool.TryParse(KeyvaultSecretVersionValue, out var value) ? value : null;
+        set => KeyvaultSecretVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

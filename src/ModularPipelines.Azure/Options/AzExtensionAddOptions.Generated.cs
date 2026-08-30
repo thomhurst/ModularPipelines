@@ -23,14 +23,14 @@ public record AzExtensionAddOptions : AzOptions
     /// <summary>
     /// Include preview packages for extension installation, if exists. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-preview")]
+    [CliOption("--allow-preview")]
     public bool? AllowPreview { get; set; }
 
     /// <summary>
     /// Name of extension.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Filepath or URL to an extension.
@@ -61,5 +61,12 @@ public record AzExtensionAddOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

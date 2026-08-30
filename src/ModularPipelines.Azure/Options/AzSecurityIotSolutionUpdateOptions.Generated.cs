@@ -23,13 +23,20 @@ public record AzSecurityIotSolutionUpdateOptions : AzOptions
     /// <summary>
     /// Resource display name.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayNameValue { get; set; }
 
     /// <summary>
     /// IoT Hub resource IDs.
     /// </summary>
     [CliFlag("--iot-hubs")]
     public bool? IotHubs { get; set; }
+
+    [Obsolete("Use DisplayNameValue instead.")]
+    public bool? DisplayName
+    {
+        get => bool.TryParse(DisplayNameValue, out var value) ? value : null;
+        set => DisplayNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

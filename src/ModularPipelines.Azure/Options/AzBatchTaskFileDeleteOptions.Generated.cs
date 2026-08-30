@@ -23,7 +23,7 @@ public record AzBatchTaskFileDeleteOptions : AzOptions
     /// <summary>
     /// Whether to delete children of a directory. If the filePath parameter represents a directory instead of a file, you can set recursive to true to delete the directory and all of the files and subdirectories in it. If recursive is false then the directory must be empty or deletion will fail. Default value is None.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--recursive")]
+    [CliOption("--recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>

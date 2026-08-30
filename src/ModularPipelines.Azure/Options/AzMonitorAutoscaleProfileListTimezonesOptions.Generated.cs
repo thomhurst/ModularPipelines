@@ -29,7 +29,14 @@ public record AzMonitorAutoscaleProfileListTimezonesOptions : AzOptions
     /// <summary>
     /// Query text to find.
     /// </summary>
-    [CliFlag("--search-query", ShortForm = "-q")]
-    public bool? SearchQuery { get; set; }
+    [CliOption("--search-query", ShortForm = "-q")]
+    public string? SearchQueryValue { get; set; }
+
+    [Obsolete("Use SearchQueryValue instead.")]
+    public bool? SearchQuery
+    {
+        get => bool.TryParse(SearchQueryValue, out var value) ? value : null;
+        set => SearchQueryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

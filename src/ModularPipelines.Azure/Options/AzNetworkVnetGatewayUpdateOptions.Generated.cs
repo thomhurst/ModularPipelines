@@ -41,8 +41,8 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Name or ID of a local network gateway representing a local network site with default routes.
     /// </summary>
-    [CliFlag("--gateway-default-site")]
-    public bool? GatewayDefaultSite { get; set; }
+    [CliOption("--gateway-default-site")]
+    public string? GatewayDefaultSiteValue { get; set; }
 
     /// <summary>
     /// The gateway type.  Allowed values: ExpressRoute,
@@ -89,8 +89,8 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Name or ID of an existing virtual network which has a subnet named 'GatewaySubnet'.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? VnetValue { get; set; }
 
     /// <summary>
     /// VPN authentication types enabled for the virtual network gateway.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
@@ -103,5 +103,19 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--vpn-type")]
     public bool? VpnType { get; set; }
+
+    [Obsolete("Use GatewayDefaultSiteValue instead.")]
+    public bool? GatewayDefaultSite
+    {
+        get => bool.TryParse(GatewayDefaultSiteValue, out var value) ? value : null;
+        set => GatewayDefaultSiteValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetValue instead.")]
+    public bool? Vnet
+    {
+        get => bool.TryParse(VnetValue, out var value) ? value : null;
+        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

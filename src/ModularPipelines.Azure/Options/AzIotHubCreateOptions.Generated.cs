@@ -29,7 +29,7 @@ public record AzIotHubCreateOptions : AzOptions
     /// <summary>
     /// Enable system-assigned managed identity for this hub.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--mi-system-assigned")]
+    [CliOption("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
     /// <summary>

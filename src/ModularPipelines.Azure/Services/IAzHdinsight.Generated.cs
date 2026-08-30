@@ -15,48 +15,51 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az hdinsight commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzHdinsight
 {
     /// <summary>
     /// az application sub-commands.
     /// </summary>
-    AzHdinsightApplication Application { get; }
+    AzHdinsightApplication Application => throw new System.NotSupportedException();
 
     /// <summary>
     /// az autoscale sub-commands.
     /// </summary>
-    AzHdinsightAutoscale Autoscale { get; }
+    AzHdinsightAutoscale Autoscale => throw new System.NotSupportedException();
 
     /// <summary>
     /// az azure-monitor sub-commands.
     /// </summary>
-    AzHdinsightAzureMonitor AzureMonitor { get; }
+    AzHdinsightAzureMonitor AzureMonitor => throw new System.NotSupportedException();
 
     /// <summary>
     /// az azure-monitor-agent sub-commands.
     /// </summary>
-    AzHdinsightAzureMonitorAgent AzureMonitorAgent { get; }
+    AzHdinsightAzureMonitorAgent AzureMonitorAgent => throw new System.NotSupportedException();
 
     /// <summary>
     /// az credentials sub-commands.
     /// </summary>
-    AzHdinsightCredentials Credentials { get; }
+    AzHdinsightCredentials Credentials => throw new System.NotSupportedException();
 
     /// <summary>
     /// az host sub-commands.
     /// </summary>
-    AzHdinsightHost Host { get; }
+    AzHdinsightHost Host => throw new System.NotSupportedException();
 
     /// <summary>
     /// az monitor sub-commands.
     /// </summary>
-    AzHdinsightMonitor Monitor { get; }
+    AzHdinsightMonitor Monitor => throw new System.NotSupportedException();
 
     /// <summary>
     /// az script-action sub-commands.
     /// </summary>
-    AzHdinsightScriptAction ScriptAction { get; }
+    AzHdinsightScriptAction ScriptAction => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a new cluster.
@@ -65,10 +68,8 @@ public interface IAzHdinsight
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(
-        AzHdinsightCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateAsync(AzHdinsightCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Deletes the specified HDInsight cluster.
@@ -77,10 +78,8 @@ public interface IAzHdinsight
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        AzHdinsightDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(AzHdinsightDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List HDInsight clusters in a resource group or subscription.
@@ -89,10 +88,8 @@ public interface IAzHdinsight
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzHdinsightListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzHdinsightListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Resize the specified HDInsight cluster to the specified size.
@@ -101,10 +98,8 @@ public interface IAzHdinsight
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ResizeAsync(
-        AzHdinsightResizeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ResizeAsync(AzHdinsightResizeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Rotate the disk encryption key of the specified
@@ -113,10 +108,8 @@ public interface IAzHdinsight
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RotateDiskEncryptionKeyAsync(
-        AzHdinsightRotateDiskEncryptionKeyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RotateDiskEncryptionKeyAsync(AzHdinsightRotateDiskEncryptionKeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update the tags or identity of the specified HDInsight cluster. Setting
@@ -125,9 +118,7 @@ public interface IAzHdinsight
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        AzHdinsightUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(AzHdinsightUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

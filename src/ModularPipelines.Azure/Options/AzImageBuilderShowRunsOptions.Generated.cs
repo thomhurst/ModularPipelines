@@ -23,7 +23,14 @@ public record AzImageBuilderShowRunsOptions : AzOptions
     /// <summary>
     /// Name of the image builder run output.
     /// </summary>
-    [CliFlag("--output-name")]
-    public bool? OutputName { get; set; }
+    [CliOption("--output-name")]
+    public string? OutputNameValue { get; set; }
+
+    [Obsolete("Use OutputNameValue instead.")]
+    public bool? OutputName
+    {
+        get => bool.TryParse(OutputNameValue, out var value) ? value : null;
+        set => OutputNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

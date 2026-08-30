@@ -29,13 +29,20 @@ public record AzResourceListOptions : AzOptions
     /// <summary>
     /// The resource name. (Ex: myC).
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// A single tag in 'key[=value]' format. Use '' to clear existing tags.
     /// </summary>
     [CliFlag("--tag")]
     public bool? Tag { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,19 +23,25 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the app service environment. If you want to create the app service plan in different subscription than the app service environment, please use the resource ID for --app- service-environment parameter.
     /// </summary>
-    [CliFlag("--app-service-environment", ShortForm = "-e")]
-    public bool? AppServiceEnvironment { get; set; }
+    [CliOption("--app-service-environment", ShortForm = "-e")]
+    public string? AppServiceEnvironmentValue { get; set; }
 
     /// <summary>
     /// Enables async scaling for the app service plan. Set to "true" to create an async operation if there are insufficient workers to scale synchronously. The SKU must be Dedicated.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--async-scaling-enabled")]
+    [CliOption("--async-scaling-enabled")]
     public bool? AsyncScalingEnabled { get; set; }
+
+    /// <summary>
+    /// Accept system or user assigned identity separated. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
+    /// </summary>
+    [CliOption("--default-identity")]
+    public string? DefaultIdentity { get; set; }
 
     /// <summary>
     /// If true, Linux App Service plan creation failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts. This flag only applies to Linux plans and has no effect on Windows or Hyper-V plans.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enriched-errors")]
+    [CliOption("--enriched-errors")]
     public bool? EnrichedErrors { get; set; }
 
     /// <summary>
@@ -45,16 +51,40 @@ public record AzAppservicePlanCreateOptions : AzOptions
     public bool? HyperV { get; set; }
 
     /// <summary>
-    /// Host web app on Linux worker. Defaults to true unless
+    /// Install script configurations. Provide key-value pairs for `name=&lt;name&gt; source-uri=&lt;uri&gt; type=&lt;type&gt;`.
     /// </summary>
-    [CliFlag("--is-linux")]
+    [CliOption("--install-script")]
+    public string? InstallScript { get; set; }
+
+    /// <summary>
+    /// Host web app on Linux worker. Defaults to true unless --hyper-v is specified. Use "--is-linux false" to create a Windows plan. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--is-linux")]
     public bool? IsLinux { get; set; }
+
+    /// <summary>
+    /// Host web app on managed instance.
+    /// </summary>
+    [CliFlag("--is-managed-instance")]
+    public bool? IsManagedInstance { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
+
+    /// <summary>
+    /// Enable system-assigned managed identity for this app service plan.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--mi-system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// Enable user-assigned managed identities for this app service plan. Accepts space-separated list of identity resource IDs.
+    /// </summary>
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -75,10 +105,34 @@ public record AzAppservicePlanCreateOptions : AzOptions
     public bool? PerSiteScaling { get; set; }
 
     /// <summary>
+    /// Enable RDP. Requires is-custom-mode to be true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--rdp-enabled")]
+    public bool? RdpEnabled { get; set; }
+
+    /// <summary>
+    /// Registry adapter configurations. Provide key-value pairs for `registry-key=&lt;key&gt; type=&lt;type&gt; secret-uri=&lt;uri&gt;`.
+    /// </summary>
+    [CliOption("--registry-adapter")]
+    public string? RegistryAdapter { get; set; }
+
+    /// <summary>
     /// The pricing tiers, e.g., F1(Free), D1(Shared), B1(Basic Small), B2(Basic Medium), B3(Basic Large), S1(Standard Small), P1V2(Premium V2 Small), P2V2(Premium V2 Medium), P3V2(Premium V2 Large), P0V3(Premium V3 Extra Small), P1V3(Premium V3 Small), P2V3(Premium V3 Medium), P3V3(Premium V3 Large), P1MV3(Premium Memory Optimized V3 Small), P2MV3(Premium Memory Optimized V3 Medium), P3MV3(Premium Memory Optimized V3 Large), P4MV3(Premium Memory Optimized V3 Extra Large), P5MV3(Premium Memory Optimized V3 Extra Extra Large), P0V4(Premium V4 Extra Small), P1V4(Premium V4 Small), P2V4(Premium V4 Medium), P3V4(Premium V4 Large), P1MV4(Premium Memory Optimized V4 Small), P2MV4(Premium Memory Optimized V4 Medium), P3MV4(Premium Memory Optimized V4 Large), P4MV4(Premium Memory Optimized V4 Extra Large), P5MV4(Premium Memory Optimized V4 Extra Extra Large), I1V2 (Isolated V2 I1V2), I2V2 (Isolated V2 I2V2), I3V2 (Isolated V2 I3V2), I4V2 (Isolated V2 I4V2), I5V2 (Isolated V2 I5V2), I6V2 (Isolated V2 I6V2), I1MV2 (Isolated Memory Optimized V2 I1MV2), I2MV2 (Isolated Memory Optimized V2 I2MV2), I3MV2 (Isolated Memory Optimized V2 I3MV2), I4MV2 (Isolated Memory Optimized V2 I4MV2), I5MV2 (Isolated Memory Optimized V2 I5MV2), WS1 (Logic Apps Workflow Standard 1), WS2 (Logic Apps Workflow Standard 2), WS3 (Logic Apps Workflow Standard 3).  Allowed values: B1, B2, B3, D1, F1, FREE, I1MV2, I1V2, I2MV2, I2V2, I3MV2, I3V2, I4MV2, I4V2, I5MV2, I5V2, I6V2, P0V3, P0V4, P1MV3, P1MV4, P1V2, P1V3, P1V4, P2MV3, P2MV4, P2V2, P2V3, P2V4, P3MV3, P3MV4, P3V2, P3V3, P3V4, P4MV3, P4MV4, P5MV3, P5MV4, S1, S2, S3, SHARED, WS1, WS2, WS3.
     /// </summary>
     [CliFlag("--sku")]
     public bool? Sku { get; set; }
+
+    /// <summary>
+    /// Storage mount configurations. Provide key-value pairs for `name=&lt;name&gt; source=&lt;source&gt; type=&lt;type&gt; destination- path=&lt;path&gt; credentials-secret-uri=&lt;uri&gt;`.
+    /// </summary>
+    [CliOption("--storage-mount")]
+    public string? StorageMount { get; set; }
+
+    /// <summary>
+    /// Name or resource ID of the pre-existing subnet to have the app service plan join. The --vnet is argument also needed if specifying subnet by name.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -87,9 +141,22 @@ public record AzAppservicePlanCreateOptions : AzOptions
     public bool? Tags { get; set; }
 
     /// <summary>
+    /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with --subnet argument.
+    /// </summary>
+    [CliOption("--vnet")]
+    public IEnumerable<string>? Vnet { get; set; }
+
+    /// <summary>
     /// Enable zone redundancy for high availability. Minimum instance count is 2.
     /// </summary>
     [CliFlag("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
+
+    [Obsolete("Use AppServiceEnvironmentValue instead.")]
+    public bool? AppServiceEnvironment
+    {
+        get => bool.TryParse(AppServiceEnvironmentValue, out var value) ? value : null;
+        set => AppServiceEnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

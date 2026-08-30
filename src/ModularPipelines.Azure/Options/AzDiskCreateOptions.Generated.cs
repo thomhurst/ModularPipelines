@@ -41,14 +41,14 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the disk access resource for using private endpoints on disks.
     /// </summary>
-    [CliFlag("--disk-access")]
-    public bool? DiskAccess { get; set; }
+    [CliOption("--disk-access")]
+    public string? DiskAccessValue { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set that is used to encrypt the disk.
     /// </summary>
-    [CliFlag("--disk-encryption-set")]
-    public bool? DiskEncryptionSet { get; set; }
+    [CliOption("--disk-encryption-set")]
+    public string? DiskEncryptionSetValue { get; set; }
 
     /// <summary>
     /// The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes.
@@ -77,13 +77,13 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// The name of edge zone.
     /// </summary>
-    [CliFlag("--edge-zone")]
-    public bool? EdgeZone { get; set; }
+    [CliOption("--edge-zone")]
+    public string? EdgeZoneValue { get; set; }
 
     /// <summary>
     /// Enable on-demand bursting beyond the provisioned performance target of the disk. On-demand bursting is disabled by default, and it does not apply to Ultra disks.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-bursting")]
+    [CliOption("--enable-bursting")]
     public bool? EnableBursting { get; set; }
 
     /// <summary>
@@ -95,8 +95,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// ID of the Compute, Shared or Community Gallery image version from which to create a disk. For details about valid format, please refer to the help sample.
     /// </summary>
-    [CliFlag("--gallery-image-reference")]
-    public bool? GalleryImageReference { get; set; }
+    [CliOption("--gallery-image-reference")]
+    public string? GalleryImageReferenceValue { get; set; }
 
     /// <summary>
     /// If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
@@ -113,8 +113,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// ID or URN (publisher:offer:sku:version) of the image from which to create a disk.
     /// </summary>
-    [CliFlag("--image-reference")]
-    public bool? ImageReference { get; set; }
+    [CliOption("--image-reference")]
+    public string? ImageReferenceValue { get; set; }
 
     /// <summary>
     /// If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
@@ -155,7 +155,7 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Setting this property to true improves reliability and performance of data disks that are frequently (more than 5 times a day) by detached from one virtual machine and attached to another. This property should not be set for disks that are not detached and attached frequently as it causes the disks to not align with the fault domain of the virtual machine. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--optimized-for-frequent-attach")]
+    [CliOption("--optimized-for-frequent-attach")]
     public bool? OptimizedForFrequentAttach { get; set; }
 
     /// <summary>
@@ -167,14 +167,14 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Set this flag to true to get a boost on the performance target of the disk deployed. This flag can only be set on disk creation time and cannot be disabled after enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--performance-plus")]
+    [CliOption("--performance-plus")]
     public bool? PerformancePlus { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set created with
     /// </summary>
-    [CliFlag("--secure-vm-disk-encryption-set")]
-    public bool? SecureVmDiskEncryptionSet { get; set; }
+    [CliOption("--secure-vm-disk-encryption-set")]
+    public string? SecureVmDiskEncryptionSetValue { get; set; }
 
     /// <summary>
     /// Please specify the blob URI of VHD to be imported into VM guest state.
@@ -209,8 +209,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Source to create the disk/snapshot from, including unmanaged blob uri, managed disk id or name, or snapshot id or name.
     /// </summary>
-    [CliFlag("--source")]
-    public bool? Source { get; set; }
+    [CliOption("--source")]
+    public string? SourceValue { get; set; }
 
     /// <summary>
     /// Used when source blob is in a different subscription.
@@ -221,7 +221,7 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Indicate the OS on a disk supports hibernation. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--support-hibernation")]
+    [CliOption("--support-hibernation")]
     public bool? SupportHibernation { get; set; }
 
     /// <summary>
@@ -253,5 +253,54 @@ public record AzDiskCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone")]
     public bool? Zone { get; set; }
+
+    [Obsolete("Use DiskAccessValue instead.")]
+    public bool? DiskAccess
+    {
+        get => bool.TryParse(DiskAccessValue, out var value) ? value : null;
+        set => DiskAccessValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DiskEncryptionSetValue instead.")]
+    public bool? DiskEncryptionSet
+    {
+        get => bool.TryParse(DiskEncryptionSetValue, out var value) ? value : null;
+        set => DiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EdgeZoneValue instead.")]
+    public bool? EdgeZone
+    {
+        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
+        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use GalleryImageReferenceValue instead.")]
+    public bool? GalleryImageReference
+    {
+        get => bool.TryParse(GalleryImageReferenceValue, out var value) ? value : null;
+        set => GalleryImageReferenceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ImageReferenceValue instead.")]
+    public bool? ImageReference
+    {
+        get => bool.TryParse(ImageReferenceValue, out var value) ? value : null;
+        set => ImageReferenceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SecureVmDiskEncryptionSetValue instead.")]
+    public bool? SecureVmDiskEncryptionSet
+    {
+        get => bool.TryParse(SecureVmDiskEncryptionSetValue, out var value) ? value : null;
+        set => SecureVmDiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceValue instead.")]
+    public bool? Source
+    {
+        get => bool.TryParse(SourceValue, out var value) ? value : null;
+        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

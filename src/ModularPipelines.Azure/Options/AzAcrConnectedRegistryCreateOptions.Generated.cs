@@ -29,7 +29,7 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// <summary>
     /// Indicate whether garbage collection is enabled. It is enabled by default.  Allowed values: false, true.  Default: true.
     /// </summary>
-    [CliFlag("--gc-enabled")]
+    [CliOption("--gc-enabled")]
     public bool? GcEnabled { get; set; }
 
     /// <summary>
@@ -59,8 +59,8 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// <summary>
     /// The name of the parent connected registry.
     /// </summary>
-    [CliFlag("--parent", ShortForm = "-p")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent", ShortForm = "-p")]
+    public string? ParentValue { get; set; }
 
     /// <summary>
     /// Specify the repositories that need to be sync to the connected registry. It can be in the format [REPO01] [REPO02]...
@@ -71,8 +71,8 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// Determine how long the sync messages will be kept in the cloud. Uses ISO 8601 duration format.  Default: P2D.
@@ -103,5 +103,19 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use ParentValue instead.")]
+    public bool? Parent
+    {
+        get => bool.TryParse(ParentValue, out var value) ? value : null;
+        set => ParentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

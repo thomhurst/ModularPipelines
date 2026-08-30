@@ -15,22 +15,25 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az mariadb commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzMariadb
 {
     /// <summary>
     /// az db sub-commands.
     /// </summary>
-    AzMariadbDb Db { get; }
+    AzMariadbDb Db => throw new System.NotSupportedException();
 
     /// <summary>
     /// az server sub-commands.
     /// </summary>
-    AzMariadbServer Server { get; }
+    AzMariadbServer Server => throw new System.NotSupportedException();
 
     /// <summary>
     /// az server-logs sub-commands.
     /// </summary>
-    AzMariadbServerLogs ServerLogs { get; }
+    AzMariadbServerLogs ServerLogs => throw new System.NotSupportedException();
 
 }

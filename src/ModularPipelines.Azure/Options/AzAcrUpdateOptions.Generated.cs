@@ -23,20 +23,20 @@ public record AzAcrUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether the admin user is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--admin-enabled")]
+    [CliOption("--admin-enabled")]
     public bool? AdminEnabled { get; set; }
 
     /// <summary>
     /// Enable registry-wide pull from unauthenticated clients. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--anonymous-pull-enabled")]
+    [CliOption("--anonymous-pull-enabled")]
     public bool? AnonymousPullEnabled { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// The SKU of the container registry.  Allowed values: Basic,
@@ -49,5 +49,12 @@ public record AzAcrUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

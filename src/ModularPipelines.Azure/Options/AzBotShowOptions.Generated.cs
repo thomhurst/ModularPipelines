@@ -23,7 +23,7 @@ public record AzBotShowOptions : AzOptions
     /// <summary>
     /// Show the output as JSON compatible with a .bot file.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--msbot")]
+    [CliOption("--msbot")]
     public bool? Msbot { get; set; }
 
 }

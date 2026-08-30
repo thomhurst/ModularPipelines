@@ -29,13 +29,27 @@ public record AzAcrConnectedRegistryListOptions : AzOptions
     /// <summary>
     /// The name of the parent connected registry.
     /// </summary>
-    [CliFlag("--parent", ShortForm = "-p")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent", ShortForm = "-p")]
+    public string? ParentValue { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use ParentValue instead.")]
+    public bool? Parent
+    {
+        get => bool.TryParse(ParentValue, out var value) ? value : null;
+        set => ParentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

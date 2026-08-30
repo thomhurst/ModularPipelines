@@ -23,14 +23,14 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     /// <summary>
     /// A custom prefix from which the public prefix derived. If you'd like to cross subscription, please use Resource ID instead.
     /// </summary>
-    [CliFlag("--custom-ip-prefix-name")]
-    public bool? CustomIpPrefixName { get; set; }
+    [CliOption("--custom-ip-prefix-name")]
+    public string? CustomIpPrefixNameValue { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
-    [CliFlag("--edge-zone")]
-    public bool? EdgeZone { get; set; }
+    [CliOption("--edge-zone")]
+    public string? EdgeZoneValue { get; set; }
 
     /// <summary>
     /// The list of tags associated with the public IP prefix in 'TYPE=VAL' format.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -79,5 +79,19 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    [Obsolete("Use CustomIpPrefixNameValue instead.")]
+    public bool? CustomIpPrefixName
+    {
+        get => bool.TryParse(CustomIpPrefixNameValue, out var value) ? value : null;
+        set => CustomIpPrefixNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EdgeZoneValue instead.")]
+    public bool? EdgeZone
+    {
+        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
+        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,7 +23,7 @@ public record AzSqlDbReplicaCreateOptions : AzOptions
     /// <summary>
     /// Assign identity for database.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--assign-identity", ShortForm = "-i")]
+    [CliOption("--assign-identity", ShortForm = "-i")]
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
@@ -65,14 +65,14 @@ public record AzSqlDbReplicaCreateOptions : AzOptions
     /// <summary>
     /// Name of the new replica. If unspecified, defaults to the source database name.
     /// </summary>
-    [CliFlag("--partner-database")]
-    public bool? PartnerDatabase { get; set; }
+    [CliOption("--partner-database")]
+    public string? PartnerDatabaseValue { get; set; }
 
     /// <summary>
     /// Name of the resource group to create the new replica in. If unspecified, defaults to the origin resource group.
     /// </summary>
-    [CliFlag("--partner-resource-group")]
-    public bool? PartnerResourceGroup { get; set; }
+    [CliOption("--partner-resource-group")]
+    public string? PartnerResourceGroupValue { get; set; }
 
     /// <summary>
     /// Subscription id to create the new replica in. If unspecified, defaults to the origin subscription id.
@@ -107,7 +107,21 @@ public record AzSqlDbReplicaCreateOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant", ShortForm = "-z")]
+    [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
+
+    [Obsolete("Use PartnerDatabaseValue instead.")]
+    public bool? PartnerDatabase
+    {
+        get => bool.TryParse(PartnerDatabaseValue, out var value) ? value : null;
+        set => PartnerDatabaseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PartnerResourceGroupValue instead.")]
+    public bool? PartnerResourceGroup
+    {
+        get => bool.TryParse(PartnerResourceGroupValue, out var value) ? value : null;
+        set => PartnerResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

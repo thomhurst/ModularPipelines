@@ -23,7 +23,7 @@ public record AzStorageContainerImmutabilityPolicyCreateOptions : AzOptions
     /// <summary>
     /// This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-protected-append-writes", ShortForm = "-w")]
+    [CliOption("--allow-protected-append-writes", ShortForm = "-w")]
     public bool? AllowProtectedAppendWrites { get; set; }
 
     /// <summary>
@@ -35,7 +35,14 @@ public record AzStorageContainerImmutabilityPolicyCreateOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -29,7 +29,7 @@ public record AzBackupPolicySetOptions : AzOptions
     /// <summary>
     /// Specify whether or not to retry Policy Update for failed items. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--fix-for-inconsistent-items")]
+    [CliOption("--fix-for-inconsistent-items")]
     public bool? FixForInconsistentItems { get; set; }
 
     /// <summary>
@@ -41,13 +41,20 @@ public record AzBackupPolicySetOptions : AzOptions
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantIdValue { get; set; }
 
     /// <summary>
     /// Skip confirmation when updating Standard to Enhanced Policies.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use TenantIdValue instead.")]
+    public bool? TenantId
+    {
+        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
+        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

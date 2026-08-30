@@ -29,8 +29,8 @@ public record AzConnectionCreateServicebusOptions : AzOptions
     /// <summary>
     /// Name of the connection.
     /// </summary>
-    [CliFlag("--connection")]
-    public bool? Connection { get; set; }
+    [CliOption("--connection")]
+    public string? ConnectionValue { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -47,8 +47,8 @@ public record AzConnectionCreateServicebusOptions : AzOptions
     /// <summary>
     /// Name of the servicebus namespace. Required if '--target-id' is not specified.
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? NamespaceValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -59,7 +59,28 @@ public record AzConnectionCreateServicebusOptions : AzOptions
     /// <summary>
     /// The resource id of target service. Required if ['--target- resource-group', '--namespace'] are not specified.
     /// </summary>
-    [CliFlag("--target-id")]
-    public bool? TargetId { get; set; }
+    [CliOption("--target-id")]
+    public string? TargetIdValue { get; set; }
+
+    [Obsolete("Use ConnectionValue instead.")]
+    public bool? Connection
+    {
+        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
+        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NamespaceValue instead.")]
+    public bool? Namespace
+    {
+        get => bool.TryParse(NamespaceValue, out var value) ? value : null;
+        set => NamespaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetIdValue instead.")]
+    public bool? TargetId
+    {
+        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
+        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

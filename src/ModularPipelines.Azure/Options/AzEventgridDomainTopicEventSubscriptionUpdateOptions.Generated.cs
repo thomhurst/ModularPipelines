@@ -23,8 +23,8 @@ public record AzEventgridDomainTopicEventSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination where
     /// </summary>
-    [CliFlag("--deadletter-endpoint")]
-    public bool? DeadletterEndpoint { get; set; }
+    [CliOption("--deadletter-endpoint")]
+    public string? DeadletterEndpointValue { get; set; }
 
     /// <summary>
     /// Add delivery attribute mapping to send additional information via HTTP headers when delivering events. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--delivery-attribute-mapping` argument.
@@ -49,5 +49,12 @@ public record AzEventgridDomainTopicEventSubscriptionUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--update-endpoint-type")]
     public bool? UpdateEndpointType { get; set; }
+
+    [Obsolete("Use DeadletterEndpointValue instead.")]
+    public bool? DeadletterEndpoint
+    {
+        get => bool.TryParse(DeadletterEndpointValue, out var value) ? value : null;
+        set => DeadletterEndpointValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

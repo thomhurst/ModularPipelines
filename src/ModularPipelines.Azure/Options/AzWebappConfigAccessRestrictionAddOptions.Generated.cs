@@ -29,8 +29,8 @@ public record AzWebappConfigAccessRestrictionAddOptions : AzOptions
     /// <summary>
     /// Description of the access restriction rule.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// Space-separated http headers in a format of `&lt;name&gt;=&lt;value&gt;`.
@@ -41,7 +41,7 @@ public record AzWebappConfigAccessRestrictionAddOptions : AzOptions
     /// <summary>
     /// Create access restriction rule with checking if the subnet has Microsoft.Web service endpoint enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--ignore-missing-endpoint", ShortForm = "-i")]
+    [CliOption("--ignore-missing-endpoint", ShortForm = "-i")]
     public bool? IgnoreMissingEndpoint { get; set; }
 
     /// <summary>
@@ -53,13 +53,13 @@ public record AzWebappConfigAccessRestrictionAddOptions : AzOptions
     /// <summary>
     /// Name of the access restriction rule to add.
     /// </summary>
-    [CliFlag("--rule-name", ShortForm = "-r")]
-    public bool? RuleName { get; set; }
+    [CliOption("--rule-name", ShortForm = "-r")]
+    public string? RuleNameValue { get; set; }
 
     /// <summary>
     /// True if access restrictions is added for scm site.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--scm-site")]
+    [CliOption("--scm-site")]
     public bool? ScmSite { get; set; }
 
     /// <summary>
@@ -71,20 +71,20 @@ public record AzWebappConfigAccessRestrictionAddOptions : AzOptions
     /// <summary>
     /// Skip validating public service tags.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-service-tag-validation", ShortForm = "-k")]
+    [CliOption("--skip-service-tag-validation", ShortForm = "-k")]
     public bool? SkipServiceTagValidation { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// Subnet name (requires vNet name) or subnet resource id.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// VNet name.
@@ -95,7 +95,42 @@ public record AzWebappConfigAccessRestrictionAddOptions : AzOptions
     /// <summary>
     /// Resource group of virtual network (default is web app resource group).
     /// </summary>
-    [CliFlag("--vnet-resource-group")]
-    public bool? VnetResourceGroup { get; set; }
+    [CliOption("--vnet-resource-group")]
+    public string? VnetResourceGroupValue { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use RuleNameValue instead.")]
+    public bool? RuleName
+    {
+        get => bool.TryParse(RuleNameValue, out var value) ? value : null;
+        set => RuleNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetResourceGroupValue instead.")]
+    public bool? VnetResourceGroup
+    {
+        get => bool.TryParse(VnetResourceGroupValue, out var value) ? value : null;
+        set => VnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

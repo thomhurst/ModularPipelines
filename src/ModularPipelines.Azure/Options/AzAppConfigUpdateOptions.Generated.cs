@@ -23,8 +23,8 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// Resource ID of the Application Insights resource to link with this App Configuration store.
     /// </summary>
-    [CliFlag("--appinsights-resource")]
-    public bool? AppinsightsResource { get; set; }
+    [CliOption("--appinsights-resource")]
+    public string? AppinsightsResourceValue { get; set; }
 
     /// <summary>
     /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass- through.
@@ -35,19 +35,19 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// Disable all authentication methods other than AAD authentication.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-local-auth")]
+    [CliOption("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// Enable access to the App Configuration store via ARM Private Link if resource is restricted to private network access. Requires Pass-through ARM authentication mode.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-arm-private-network-access")]
+    [CliOption("--enable-arm-private-network-access")]
     public bool? EnableArmPrivateNetworkAccess { get; set; }
 
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this App Configuration store. Setting this property to true activates protection against purge for this App Configuration store and its contents. Enabling this functionality is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-purge-protection", ShortForm = "-p")]
+    [CliOption("--enable-purge-protection", ShortForm = "-p")]
     public bool? EnablePurgeProtection { get; set; }
 
     /// <summary>
@@ -65,8 +65,8 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// The sku of the App Configuration store.  Allowed values: Developer, Free, Premium, Standard.
@@ -79,5 +79,19 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use AppinsightsResourceValue instead.")]
+    public bool? AppinsightsResource
+    {
+        get => bool.TryParse(AppinsightsResourceValue, out var value) ? value : null;
+        set => AppinsightsResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

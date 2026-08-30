@@ -23,25 +23,25 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Resource ID of Azure Monitor Private Link scope for
     /// </summary>
-    [CliFlag("--ampls-resource-id")]
-    public bool? AmplsResourceId { get; set; }
+    [CliOption("--ampls-resource-id")]
+    public string? AmplsResourceIdValue { get; set; }
 
     /// <summary>
     /// Path to JSON file containing data collection settings for
     /// </summary>
-    [CliFlag("--data-collection-settings")]
-    public bool? DataCollectionSettings { get; set; }
+    [CliOption("--data-collection-settings")]
+    public string? DataCollectionSettingsValue { get; set; }
 
     /// <summary>
     /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-high-log-scale-mode")]
+    [CliOption("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }
 
     /// <summary>
     /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliFlag("--enable-msi-auth-for-monitoring")]
+    [CliOption("--enable-msi-auth-for-monitoring")]
     public bool? EnableMsiAuthForMonitoring { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Enable syslog data collection for Monitoring addon.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-syslog")]
+    [CliOption("--enable-syslog")]
     public bool? EnableSyslog { get; set; }
 
     /// <summary>
@@ -77,13 +77,41 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Name of an existing subnet to use with the virtual-node add- on.
     /// </summary>
-    [CliFlag("--subnet-name", ShortForm = "-s")]
-    public bool? SubnetName { get; set; }
+    [CliOption("--subnet-name", ShortForm = "-s")]
+    public string? SubnetNameValue { get; set; }
 
     /// <summary>
     /// The resource ID of an existing Log Analytics Workspace to use for storing monitoring data.
     /// </summary>
-    [CliFlag("--workspace-resource-id")]
-    public bool? WorkspaceResourceId { get; set; }
+    [CliOption("--workspace-resource-id")]
+    public string? WorkspaceResourceIdValue { get; set; }
+
+    [Obsolete("Use AmplsResourceIdValue instead.")]
+    public bool? AmplsResourceId
+    {
+        get => bool.TryParse(AmplsResourceIdValue, out var value) ? value : null;
+        set => AmplsResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DataCollectionSettingsValue instead.")]
+    public bool? DataCollectionSettings
+    {
+        get => bool.TryParse(DataCollectionSettingsValue, out var value) ? value : null;
+        set => DataCollectionSettingsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetNameValue instead.")]
+    public bool? SubnetName
+    {
+        get => bool.TryParse(SubnetNameValue, out var value) ? value : null;
+        set => SubnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use WorkspaceResourceIdValue instead.")]
+    public bool? WorkspaceResourceId
+    {
+        get => bool.TryParse(WorkspaceResourceIdValue, out var value) ? value : null;
+        set => WorkspaceResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

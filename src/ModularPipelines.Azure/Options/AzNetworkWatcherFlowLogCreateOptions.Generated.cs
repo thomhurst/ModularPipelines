@@ -35,8 +35,8 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the Network Interface (NIC) Resource.
     /// </summary>
-    [CliFlag("--nic")]
-    public bool? Nic { get; set; }
+    [CliOption("--nic")]
+    public string? NicValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -47,14 +47,14 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the network security group.
     /// </summary>
-    [CliFlag("--nsg")]
-    public bool? Nsg { get; set; }
+    [CliOption("--nsg")]
+    public string? NsgValue { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// Number of days to retain logs.
@@ -65,14 +65,14 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the storage account in which to save the flow logs. Must be in the same region of flow log.
     /// </summary>
-    [CliFlag("--storage-account")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account")]
+    public string? StorageAccountValue { get; set; }
 
     /// <summary>
     /// Name or ID of Subnet.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -83,13 +83,62 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the ManagedIdentity Resource.
     /// </summary>
-    [CliFlag("--user-assigned-identity")]
-    public bool? UserAssignedIdentity { get; set; }
+    [CliOption("--user-assigned-identity")]
+    public string? UserAssignedIdentityValue { get; set; }
 
     /// <summary>
     /// Name or ID of the Virtual Network Resource.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? VnetValue { get; set; }
+
+    [Obsolete("Use NicValue instead.")]
+    public bool? Nic
+    {
+        get => bool.TryParse(NicValue, out var value) ? value : null;
+        set => NicValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NsgValue instead.")]
+    public bool? Nsg
+    {
+        get => bool.TryParse(NsgValue, out var value) ? value : null;
+        set => NsgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StorageAccountValue instead.")]
+    public bool? StorageAccount
+    {
+        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
+        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use UserAssignedIdentityValue instead.")]
+    public bool? UserAssignedIdentity
+    {
+        get => bool.TryParse(UserAssignedIdentityValue, out var value) ? value : null;
+        set => UserAssignedIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetValue instead.")]
+    public bool? Vnet
+    {
+        get => bool.TryParse(VnetValue, out var value) ? value : null;
+        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

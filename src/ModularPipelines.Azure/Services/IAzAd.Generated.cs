@@ -15,32 +15,35 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ad commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzAd
 {
     /// <summary>
     /// az app sub-commands.
     /// </summary>
-    AzAdApp App { get; }
+    AzAdApp App => throw new System.NotSupportedException();
 
     /// <summary>
     /// az group sub-commands.
     /// </summary>
-    AzAdGroup Group { get; }
+    AzAdGroup Group => throw new System.NotSupportedException();
 
     /// <summary>
     /// az signed-in-user sub-commands.
     /// </summary>
-    AzAdSignedInUser SignedInUser { get; }
+    AzAdSignedInUser SignedInUser => throw new System.NotSupportedException();
 
     /// <summary>
     /// az sp sub-commands.
     /// </summary>
-    AzAdSp Sp { get; }
+    AzAdSp Sp => throw new System.NotSupportedException();
 
     /// <summary>
     /// az user sub-commands.
     /// </summary>
-    AzAdUser User { get; }
+    AzAdUser User => throw new System.NotSupportedException();
 
 }

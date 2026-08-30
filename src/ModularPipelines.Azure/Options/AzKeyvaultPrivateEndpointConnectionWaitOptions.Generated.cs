@@ -23,31 +23,66 @@ public record AzKeyvaultPrivateEndpointConnectionWaitOptions : AzOptions
     /// <summary>
     /// Name of the HSM. Required if --id is not specified.(--hsm-name and
     /// </summary>
-    [CliFlag("--hsm-name")]
-    public bool? HsmName { get; set; }
+    [CliOption("--hsm-name")]
+    public string? HsmNameValue { get; set; }
 
     /// <summary>
     /// The ID of the private endpoint connection associated with the Key Vault/HSM. If specified --vault-name/--hsm-name and --name/-n, this should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? IdValue { get; set; }
 
     /// <summary>
     /// The name of the private endpoint connection associated with the Key Vault/HSM. Required if --id is not specified.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Name of resource group.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// Name of the Key Vault. Required if --id is not specified.
     /// </summary>
-    [CliFlag("--vault-name")]
-    public bool? VaultName { get; set; }
+    [CliOption("--vault-name")]
+    public string? VaultNameValue { get; set; }
+
+    [Obsolete("Use HsmNameValue instead.")]
+    public bool? HsmName
+    {
+        get => bool.TryParse(HsmNameValue, out var value) ? value : null;
+        set => HsmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IdValue instead.")]
+    public bool? Id
+    {
+        get => bool.TryParse(IdValue, out var value) ? value : null;
+        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VaultNameValue instead.")]
+    public bool? VaultName
+    {
+        get => bool.TryParse(VaultNameValue, out var value) ? value : null;
+        set => VaultNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

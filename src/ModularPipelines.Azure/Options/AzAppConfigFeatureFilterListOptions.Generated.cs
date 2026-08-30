@@ -47,8 +47,8 @@ public record AzAppConfigFeatureFilterListOptions : AzOptions
     /// <summary>
     /// Name of the feature whose filters you want to be displayed. If the feature flag key is different from the default key, provide the `--key` argument instead.
     /// </summary>
-    [CliFlag("--feature")]
-    public bool? Feature { get; set; }
+    [CliOption("--feature")]
+    public string? FeatureValue { get; set; }
 
     /// <summary>
     /// Key of the feature flag. Key must start with the ".appconfig.featureflag/" prefix. Key cannot contain the "%" character. If both key and feature arguments are provided, only key will be used. Default key is the reserved prefix ".appconfig.featureflag/" + feature name.
@@ -65,13 +65,27 @@ public record AzAppConfigFeatureFilterListOptions : AzOptions
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Maximum number of items to return. Must be a positive integer. Default to 100.
     /// </summary>
     [CliFlag("--top", ShortForm = "-t")]
     public bool? Top { get; set; }
+
+    [Obsolete("Use FeatureValue instead.")]
+    public bool? Feature
+    {
+        get => bool.TryParse(FeatureValue, out var value) ? value : null;
+        set => FeatureValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

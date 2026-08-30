@@ -23,13 +23,27 @@ public record AzLogicappUpdateOptions : AzOptions
     /// <summary>
     /// The name or resource id of the plan to update the logicapp with.
     /// </summary>
-    [CliFlag("--plan")]
-    public bool? Plan { get; set; }
+    [CliOption("--plan")]
+    public string? PlanValue { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
+
+    [Obsolete("Use PlanValue instead.")]
+    public bool? Plan
+    {
+        get => bool.TryParse(PlanValue, out var value) ? value : null;
+        set => PlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

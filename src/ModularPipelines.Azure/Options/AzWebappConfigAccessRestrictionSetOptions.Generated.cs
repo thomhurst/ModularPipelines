@@ -35,13 +35,20 @@ public record AzWebappConfigAccessRestrictionSetOptions : AzOptions
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// Use same access restrictions for scm site.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--use-same-restrictions-for-scm-site")]
+    [CliOption("--use-same-restrictions-for-scm-site")]
     public bool? UseSameRestrictionsForScmSite { get; set; }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

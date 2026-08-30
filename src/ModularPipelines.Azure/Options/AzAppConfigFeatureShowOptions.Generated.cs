@@ -41,8 +41,8 @@ public record AzAppConfigFeatureShowOptions : AzOptions
     /// <summary>
     /// Name of the feature flag to be retrieved. If the feature flag key is different from the default key, provide the `--key` argument instead.
     /// </summary>
-    [CliFlag("--feature")]
-    public bool? Feature { get; set; }
+    [CliOption("--feature")]
+    public string? FeatureValue { get; set; }
 
     /// <summary>
     /// Customize output fields for Feature Flags.  Allowed values: conditions, description, key, label, last_modified, locked, name, state.
@@ -65,7 +65,21 @@ public record AzAppConfigFeatureShowOptions : AzOptions
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
+
+    [Obsolete("Use FeatureValue instead.")]
+    public bool? Feature
+    {
+        get => bool.TryParse(FeatureValue, out var value) ? value : null;
+        set => FeatureValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

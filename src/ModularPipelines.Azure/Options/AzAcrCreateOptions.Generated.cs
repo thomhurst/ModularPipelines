@@ -23,7 +23,7 @@ public record AzAcrCreateOptions : AzOptions
     /// <summary>
     /// Indicates whether the admin user is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--admin-enabled")]
+    [CliOption("--admin-enabled")]
     public bool? AdminEnabled { get; set; }
 
     /// <summary>

@@ -41,7 +41,7 @@ public record AzSfManagedNodeTypeCreateOptions : AzOptions
     /// <summary>
     /// Indicates if the node type can only host Stateless workloads.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-stateless")]
+    [CliOption("--is-stateless")]
     public bool? IsStateless { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AzSfManagedNodeTypeCreateOptions : AzOptions
     /// <summary>
     /// Specify if the node type is primary. On this node type will run system services. Only one node type should be marked as primary. Primary node type cannot be deleted or changed for existing clusters.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--primary")]
+    [CliOption("--primary")]
     public bool? Primary { get; set; }
 
     /// <summary>

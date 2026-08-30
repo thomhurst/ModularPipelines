@@ -65,8 +65,8 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// This prefix will be appended to the front of imported keys. Prefix will be ignored for feature flags.
@@ -77,7 +77,7 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Import only key values and exclude all feature flags. By default, all feature flags will be imported from file or appconfig. Not applicable for appservice.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-features")]
+    [CliOption("--skip-features")]
     public bool? SkipFeatures { get; set; }
 
     /// <summary>
@@ -91,5 +91,12 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

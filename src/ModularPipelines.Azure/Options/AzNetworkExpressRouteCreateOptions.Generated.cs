@@ -23,7 +23,7 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Allow classic operations. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-classic-operations")]
+    [CliOption("--allow-classic-operations")]
     public bool? AllowClassicOperations { get; set; }
 
     /// <summary>
@@ -41,8 +41,8 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of an ExpressRoute port.
     /// </summary>
-    [CliFlag("--express-route-port")]
-    public bool? ExpressRoutePort { get; set; }
+    [CliOption("--express-route-port")]
+    public string? ExpressRoutePortValue { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -59,14 +59,14 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Name of the peering location.  Values from: az network express- route list-service-providers.
     /// </summary>
-    [CliFlag("--peering-location")]
-    public bool? PeeringLocation { get; set; }
+    [CliOption("--peering-location")]
+    public string? PeeringLocationValue { get; set; }
 
     /// <summary>
     /// Name of the ExpressRoute Service Provider.  Values from: az network express-route list-service-providers.
     /// </summary>
-    [CliFlag("--provider")]
-    public bool? Provider { get; set; }
+    [CliOption("--provider")]
+    public string? ProviderValue { get; set; }
 
     /// <summary>
     /// Chosen SKU family of ExpressRoute circuit.  Allowed values: MeteredData, UnlimitedData.  Default: MeteredData.  Allowed values: MeteredData, UnlimitedData.  Default: MeteredData.
@@ -85,5 +85,26 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use ExpressRoutePortValue instead.")]
+    public bool? ExpressRoutePort
+    {
+        get => bool.TryParse(ExpressRoutePortValue, out var value) ? value : null;
+        set => ExpressRoutePortValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PeeringLocationValue instead.")]
+    public bool? PeeringLocation
+    {
+        get => bool.TryParse(PeeringLocationValue, out var value) ? value : null;
+        set => PeeringLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ProviderValue instead.")]
+    public bool? Provider
+    {
+        get => bool.TryParse(ProviderValue, out var value) ? value : null;
+        set => ProviderValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

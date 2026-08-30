@@ -29,8 +29,8 @@ public record AzDiskEncryptionSetUpdateOptions : AzOptions
     /// <summary>
     /// URL pointing to a key or secret in KeyVault.
     /// </summary>
-    [CliFlag("--key-url")]
-    public bool? KeyUrl { get; set; }
+    [CliOption("--key-url")]
+    public string? KeyUrlValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -41,7 +41,21 @@ public record AzDiskEncryptionSetUpdateOptions : AzOptions
     /// <summary>
     /// Name or ID of the KeyVault containing the key or secret.
     /// </summary>
-    [CliFlag("--source-vault")]
-    public bool? SourceVault { get; set; }
+    [CliOption("--source-vault")]
+    public string? SourceVaultValue { get; set; }
+
+    [Obsolete("Use KeyUrlValue instead.")]
+    public bool? KeyUrl
+    {
+        get => bool.TryParse(KeyUrlValue, out var value) ? value : null;
+        set => KeyUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceVaultValue instead.")]
+    public bool? SourceVault
+    {
+        get => bool.TryParse(SourceVaultValue, out var value) ? value : null;
+        set => SourceVaultValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

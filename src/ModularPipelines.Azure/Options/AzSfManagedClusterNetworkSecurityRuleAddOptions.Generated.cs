@@ -95,13 +95,20 @@ public record AzSfManagedClusterNetworkSecurityRuleAddOptions : AzOptions
     /// <summary>
     /// The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
     /// </summary>
-    [CliFlag("--source-port-range")]
-    public bool? SourcePortRange { get; set; }
+    [CliOption("--source-port-range")]
+    public string? SourcePortRangeValue { get; set; }
 
     /// <summary>
     /// A single or space separated list of source port ranges.
     /// </summary>
     [CliFlag("--source-port-ranges")]
     public bool? SourcePortRanges { get; set; }
+
+    [Obsolete("Use SourcePortRangeValue instead.")]
+    public bool? SourcePortRange
+    {
+        get => bool.TryParse(SourcePortRangeValue, out var value) ? value : null;
+        set => SourcePortRangeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

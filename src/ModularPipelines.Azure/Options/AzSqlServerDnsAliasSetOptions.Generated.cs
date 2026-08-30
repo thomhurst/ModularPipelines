@@ -23,13 +23,27 @@ public record AzSqlServerDnsAliasSetOptions : AzOptions
     /// <summary>
     /// Name of the original resource group.
     /// </summary>
-    [CliFlag("--original-resource-group")]
-    public bool? OriginalResourceGroup { get; set; }
+    [CliOption("--original-resource-group")]
+    public string? OriginalResourceGroupValue { get; set; }
 
     /// <summary>
     /// ID of the original subscription.
     /// </summary>
-    [CliFlag("--original-subscription-id")]
-    public bool? OriginalSubscriptionId { get; set; }
+    [CliOption("--original-subscription-id")]
+    public string? OriginalSubscriptionIdValue { get; set; }
+
+    [Obsolete("Use OriginalResourceGroupValue instead.")]
+    public bool? OriginalResourceGroup
+    {
+        get => bool.TryParse(OriginalResourceGroupValue, out var value) ? value : null;
+        set => OriginalResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use OriginalSubscriptionIdValue instead.")]
+    public bool? OriginalSubscriptionId
+    {
+        get => bool.TryParse(OriginalSubscriptionIdValue, out var value) ? value : null;
+        set => OriginalSubscriptionIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

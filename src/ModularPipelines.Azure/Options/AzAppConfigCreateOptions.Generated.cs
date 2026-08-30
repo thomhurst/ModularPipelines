@@ -23,8 +23,8 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// Resource ID of the Application Insights resource to link with this App Configuration store.
     /// </summary>
-    [CliFlag("--appinsights-resource")]
-    public bool? AppinsightsResource { get; set; }
+    [CliOption("--appinsights-resource")]
+    public string? AppinsightsResourceValue { get; set; }
 
     /// <summary>
     /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass- through.
@@ -41,19 +41,19 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// Disable all authentication methods other than AAD authentication.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-local-auth")]
+    [CliOption("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// Enable access to the App Configuration store via ARM Private Link if resource is restricted to private network access. Requires Pass-through ARM authentication mode.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-arm-private-network-access")]
+    [CliOption("--enable-arm-private-network-access")]
     public bool? EnableArmPrivateNetworkAccess { get; set; }
 
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this App Configuration store. Setting this property to true activates protection against purge for this App Configuration store and its contents. Enabling this functionality is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-purge-protection", ShortForm = "-p")]
+    [CliOption("--enable-purge-protection", ShortForm = "-p")]
     public bool? EnablePurgeProtection { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// Proceed without replica creation for premium tier store.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-replica")]
+    [CliOption("--no-replica")]
     public bool? NoReplica { get; set; }
 
     /// <summary>
@@ -83,8 +83,8 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// Name of the replica of the App Configuration store.
     /// </summary>
-    [CliFlag("--replica-name")]
-    public bool? ReplicaName { get; set; }
+    [CliOption("--replica-name")]
+    public string? ReplicaNameValue { get; set; }
 
     /// <summary>
     /// Number of days to retain the soft delete enabled App Configuration store after deleting. Must be a positive integer between 0 and 7.
@@ -103,5 +103,19 @@ public record AzAppConfigCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use AppinsightsResourceValue instead.")]
+    public bool? AppinsightsResource
+    {
+        get => bool.TryParse(AppinsightsResourceValue, out var value) ? value : null;
+        set => AppinsightsResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ReplicaNameValue instead.")]
+    public bool? ReplicaName
+    {
+        get => bool.TryParse(ReplicaNameValue, out var value) ? value : null;
+        set => ReplicaNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

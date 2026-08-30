@@ -35,8 +35,8 @@ public record AzAroValidateOptions : AzOptions
     /// <summary>
     /// Resource group of cluster.
     /// </summary>
-    [CliFlag("--cluster-resource-group")]
-    public bool? ClusterResourceGroup { get; set; }
+    [CliOption("--cluster-resource-group")]
+    public string? ClusterResourceGroupValue { get; set; }
 
     /// <summary>
     /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
@@ -71,13 +71,34 @@ public record AzAroValidateOptions : AzOptions
     /// <summary>
     /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? VnetValue { get; set; }
 
     /// <summary>
     /// Name of vnet resource group.
     /// </summary>
-    [CliFlag("--vnet-resource-group")]
-    public bool? VnetResourceGroup { get; set; }
+    [CliOption("--vnet-resource-group")]
+    public string? VnetResourceGroupValue { get; set; }
+
+    [Obsolete("Use ClusterResourceGroupValue instead.")]
+    public bool? ClusterResourceGroup
+    {
+        get => bool.TryParse(ClusterResourceGroupValue, out var value) ? value : null;
+        set => ClusterResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetValue instead.")]
+    public bool? Vnet
+    {
+        get => bool.TryParse(VnetValue, out var value) ? value : null;
+        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetResourceGroupValue instead.")]
+    public bool? VnetResourceGroup
+    {
+        get => bool.TryParse(VnetResourceGroupValue, out var value) ? value : null;
+        set => VnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

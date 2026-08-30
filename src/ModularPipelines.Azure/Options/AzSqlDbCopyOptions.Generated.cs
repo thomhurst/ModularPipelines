@@ -23,7 +23,7 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// Assign identity for database.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--assign-identity", ShortForm = "-i")]
+    [CliOption("--assign-identity", ShortForm = "-i")]
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
@@ -35,14 +35,14 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// Name of the resource group to create the copy in. If unspecified, defaults to the origin resource group.
     /// </summary>
-    [CliFlag("--dest-resource-group")]
-    public bool? DestResourceGroup { get; set; }
+    [CliOption("--dest-resource-group")]
+    public string? DestResourceGroupValue { get; set; }
 
     /// <summary>
     /// Name of the server to create the copy in. If unspecified, defaults to the origin server.
     /// </summary>
-    [CliFlag("--dest-server")]
-    public bool? DestServer { get; set; }
+    [CliOption("--dest-server")]
+    public string? DestServerValue { get; set; }
 
     /// <summary>
     /// Specifies the Azure key vault key to be used as database encryption protector key.
@@ -95,7 +95,21 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant", ShortForm = "-z")]
+    [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
+
+    [Obsolete("Use DestResourceGroupValue instead.")]
+    public bool? DestResourceGroup
+    {
+        get => bool.TryParse(DestResourceGroupValue, out var value) ? value : null;
+        set => DestResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DestServerValue instead.")]
+    public bool? DestServer
+    {
+        get => bool.TryParse(DestServerValue, out var value) ? value : null;
+        set => DestServerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -41,13 +41,20 @@ public record AzBatchAccountSetOptions : AzOptions
     /// <summary>
     /// The storage account name or resource ID to be used for auto storage.
     /// </summary>
-    [CliFlag("--storage-account")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account")]
+    public string? StorageAccountValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use StorageAccountValue instead.")]
+    public bool? StorageAccount
+    {
+        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
+        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -29,13 +29,13 @@ public record AzStorageFileDownloadOptions : AzOptions
     /// <summary>
     /// Path of the file to write to. The source filename will be used if not specified.
     /// </summary>
-    [CliFlag("--dest")]
-    public bool? Dest { get; set; }
+    [CliOption("--dest")]
+    public string? DestValue { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disallow-trailing-dot")]
+    [CliOption("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
     /// <summary>
@@ -65,8 +65,8 @@ public record AzStorageFileDownloadOptions : AzOptions
     /// <summary>
     /// A string that represents the snapshot version, if applicable.
     /// </summary>
-    [CliFlag("--snapshot")]
-    public bool? Snapshot { get; set; }
+    [CliOption("--snapshot")]
+    public string? SnapshotValue { get; set; }
 
     /// <summary>
     /// Start of byte range to use for downloading a section of the file. If no --end-range is given, all bytes after the --start- range will be downloaded. The --start- range and --end-range params are inclusive. Ex: --start-range=0, --end- range=511 will download first 512 bytes of file.
@@ -85,5 +85,19 @@ public record AzStorageFileDownloadOptions : AzOptions
     /// </summary>
     [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
+
+    [Obsolete("Use DestValue instead.")]
+    public bool? Dest
+    {
+        get => bool.TryParse(DestValue, out var value) ? value : null;
+        set => DestValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SnapshotValue instead.")]
+    public bool? Snapshot
+    {
+        get => bool.TryParse(SnapshotValue, out var value) ? value : null;
+        set => SnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

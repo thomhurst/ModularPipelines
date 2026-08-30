@@ -29,8 +29,8 @@ public record AzBotCreateOptions : AzOptions
     /// <summary>
     /// Microsoft App Managed Identity Resource Id for the bot.
     /// </summary>
-    [CliFlag("--msi-resource-id")]
-    public bool? MsiResourceId { get; set; }
+    [CliOption("--msi-resource-id")]
+    public string? MsiResourceIdValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -43,5 +43,12 @@ public record AzBotCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tenant-id")]
     public bool? TenantId { get; set; }
+
+    [Obsolete("Use MsiResourceIdValue instead.")]
+    public bool? MsiResourceId
+    {
+        get => bool.TryParse(MsiResourceIdValue, out var value) ? value : null;
+        set => MsiResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

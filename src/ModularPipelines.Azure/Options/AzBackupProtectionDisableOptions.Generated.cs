@@ -29,14 +29,14 @@ public record AzBackupProtectionDisableOptions : AzOptions
     /// <summary>
     /// Option to delete existing backed up data in the Recovery services vault.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--delete-backup-data")]
+    [CliOption("--delete-backup-data")]
     public bool? DeleteBackupData { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantIdValue { get; set; }
 
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values:
@@ -49,5 +49,12 @@ public record AzBackupProtectionDisableOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use TenantIdValue instead.")]
+    public bool? TenantId
+    {
+        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
+        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

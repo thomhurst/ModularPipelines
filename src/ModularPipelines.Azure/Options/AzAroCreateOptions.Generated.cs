@@ -24,7 +24,7 @@ public record AzAroCreateOptions : AzOptions
     /// API server visibility. [Default: Public].  Allowed values: Private,
     /// </summary>
     [CliFlag("--apiserver-visibility")]
-    public bool? ApiserverVisibility { get; set; }
+    public bool? ApiServerVisibility { get; set; }
 
     /// <summary>
     /// Client ID of cluster service principal.
@@ -41,8 +41,8 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// Resource group of cluster.
     /// </summary>
-    [CliFlag("--cluster-resource-group")]
-    public bool? ClusterResourceGroup { get; set; }
+    [CliOption("--cluster-resource-group")]
+    public string? ClusterResourceGroupValue { get; set; }
 
     /// <summary>
     /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
@@ -59,7 +59,7 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// Use Preconfigured NSGs. Allowed values: false, true. [Default: false].  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-preconfigured-nsg")]
+    [CliOption("--enable-preconfigured-nsg")]
     public bool? EnablePreconfiguredNsg { get; set; }
 
     /// <summary>
@@ -125,14 +125,14 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? VnetValue { get; set; }
 
     /// <summary>
     /// Name of vnet resource group.
     /// </summary>
-    [CliFlag("--vnet-resource-group")]
-    public bool? VnetResourceGroup { get; set; }
+    [CliOption("--vnet-resource-group")]
+    public string? VnetResourceGroupValue { get; set; }
 
     /// <summary>
     /// Count of worker VMs. [Default: 3].
@@ -151,5 +151,33 @@ public record AzAroCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--worker-vm-size")]
     public bool? WorkerVmSize { get; set; }
+
+    [Obsolete("Use ClusterResourceGroupValue instead.")]
+    public bool? ClusterResourceGroup
+    {
+        get => bool.TryParse(ClusterResourceGroupValue, out var value) ? value : null;
+        set => ClusterResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetValue instead.")]
+    public bool? Vnet
+    {
+        get => bool.TryParse(VnetValue, out var value) ? value : null;
+        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetResourceGroupValue instead.")]
+    public bool? VnetResourceGroup
+    {
+        get => bool.TryParse(VnetResourceGroupValue, out var value) ? value : null;
+        set => VnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ApiServerVisibility instead.")]
+    public bool? ApiserverVisibility
+    {
+        get => ApiServerVisibility;
+        set => ApiServerVisibility = value;
+    }
 
 }

@@ -23,13 +23,20 @@ public record AzSqlServerVnetRuleCreateOptions : AzOptions
     /// <summary>
     /// Create firewall rule before the virtual network has vnet service endpoint enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--ignore-missing-endpoint", ShortForm = "-i")]
+    [CliOption("--ignore-missing-endpoint", ShortForm = "-i")]
     public bool? IgnoreMissingEndpoint { get; set; }
 
     /// <summary>
     /// The virtual network name.
     /// </summary>
-    [CliFlag("--vnet-name")]
-    public bool? VnetName { get; set; }
+    [CliOption("--vnet-name")]
+    public string? VnetNameValue { get; set; }
+
+    [Obsolete("Use VnetNameValue instead.")]
+    public bool? VnetName
+    {
+        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
+        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,19 +23,33 @@ public record AzSynapseKqlScriptCreateOptions : AzOptions
     /// <summary>
     /// The name of the Kusto database.
     /// </summary>
-    [CliFlag("--kusto-database-name")]
-    public bool? KustoDatabaseName { get; set; }
+    [CliOption("--kusto-database-name")]
+    public string? KustoDatabaseNameValue { get; set; }
 
     /// <summary>
     /// The name of the Kusto pool.
     /// </summary>
-    [CliFlag("--kusto-pool-name")]
-    public bool? KustoPoolName { get; set; }
+    [CliOption("--kusto-pool-name")]
+    public string? KustoPoolNameValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [Obsolete("Use KustoDatabaseNameValue instead.")]
+    public bool? KustoDatabaseName
+    {
+        get => bool.TryParse(KustoDatabaseNameValue, out var value) ? value : null;
+        set => KustoDatabaseNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KustoPoolNameValue instead.")]
+    public bool? KustoPoolName
+    {
+        get => bool.TryParse(KustoPoolNameValue, out var value) ? value : null;
+        set => KustoPoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

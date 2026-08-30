@@ -35,20 +35,20 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The name or resource ID of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
-    [CliFlag("--backup-identity")]
-    public bool? BackupIdentity { get; set; }
+    [CliOption("--backup-identity")]
+    public string? BackupIdentityValue { get; set; }
 
     /// <summary>
     /// The interval between backups in hours. Accepted values are 24, 12 and 6. The default value is 24.
     /// </summary>
-    [CliFlag("--backup-interval")]
-    public bool? BackupInterval { get; set; }
+    [CliOption("--backup-interval")]
+    public string? BackupIntervalValue { get; set; }
 
     /// <summary>
     /// The resource ID of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
     /// </summary>
-    [CliFlag("--backup-key")]
-    public bool? BackupKey { get; set; }
+    [CliOption("--backup-key")]
+    public string? BackupKeyValue { get; set; }
 
     /// <summary>
     /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days.
@@ -59,7 +59,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Disable data encryption by removing key(s).  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-data-encryption")]
+    [CliOption("--disable-data-encryption")]
     public bool? DisableDataEncryption { get; set; }
 
     /// <summary>
@@ -77,8 +77,8 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The name or resource ID of the user assigned identity for data encryption.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity")]
+    public string? IdentityValue { get; set; }
 
     /// <summary>
     /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible
@@ -89,8 +89,14 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The resource ID of the primary keyvault key for data encryption.
     /// </summary>
-    [CliFlag("--key")]
-    public bool? Key { get; set; }
+    [CliOption("--key")]
+    public string? KeyValue { get; set; }
+
+    /// <summary>
+    /// The batch of the custom-managed maintenance window. Accepted values: Default, Batch1, Batch2. Only valid with an enabled --maintenance-window; if omitted, the existing batch is preserved. Allowed values: Batch1, Batch2, Default.
+    /// </summary>
+    [CliOption("--maintenance-batch")]
+    public string? MaintenanceBatch { get; set; }
 
     /// <summary>
     /// Period of time (UTC) designated for maintenance. Examples: "Sun:23:30" to schedule on Sunday, 11:30pm UTC. To set back to default pass in "Disabled".
@@ -113,8 +119,8 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples:
     /// </summary>
-    [CliFlag("--sku-name")]
-    public bool? SkuName { get; set; }
+    [CliOption("--sku-name")]
+    public string? SkuNameValue { get; set; }
 
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
@@ -143,7 +149,56 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose,
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? TierValue { get; set; }
+
+    [Obsolete("Use BackupIdentityValue instead.")]
+    public bool? BackupIdentity
+    {
+        get => bool.TryParse(BackupIdentityValue, out var value) ? value : null;
+        set => BackupIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use BackupIntervalValue instead.")]
+    public bool? BackupInterval
+    {
+        get => bool.TryParse(BackupIntervalValue, out var value) ? value : null;
+        set => BackupIntervalValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use BackupKeyValue instead.")]
+    public bool? BackupKey
+    {
+        get => bool.TryParse(BackupKeyValue, out var value) ? value : null;
+        set => BackupKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IdentityValue instead.")]
+    public bool? Identity
+    {
+        get => bool.TryParse(IdentityValue, out var value) ? value : null;
+        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyValue instead.")]
+    public bool? Key
+    {
+        get => bool.TryParse(KeyValue, out var value) ? value : null;
+        set => KeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SkuNameValue instead.")]
+    public bool? SkuName
+    {
+        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
+        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TierValue instead.")]
+    public bool? Tier
+    {
+        get => bool.TryParse(TierValue, out var value) ? value : null;
+        set => TierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

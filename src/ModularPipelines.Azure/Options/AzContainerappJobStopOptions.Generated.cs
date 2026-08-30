@@ -23,13 +23,20 @@ public record AzContainerappJobStopOptions : AzOptions
     /// <summary>
     /// Name of the specific job execution which needs to be stopped.
     /// </summary>
-    [CliFlag("--job-execution-name")]
-    public bool? JobExecutionName { get; set; }
+    [CliOption("--job-execution-name")]
+    public string? JobExecutionNameValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [Obsolete("Use JobExecutionNameValue instead.")]
+    public bool? JobExecutionName
+    {
+        get => bool.TryParse(JobExecutionNameValue, out var value) ? value : null;
+        set => JobExecutionNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

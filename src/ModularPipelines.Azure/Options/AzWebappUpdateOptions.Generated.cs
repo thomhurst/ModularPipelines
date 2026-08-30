@@ -29,19 +29,19 @@ public record AzWebappUpdateOptions : AzOptions
     /// <summary>
     /// Enables sending session affinity cookies. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--client-affinity-enabled")]
+    [CliOption("--client-affinity-enabled")]
     public bool? ClientAffinityEnabled { get; set; }
 
     /// <summary>
     /// Enable or disable end-to-end encryption between the Front End and the Workers.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--end-to-end-encryption-enabled", ShortForm = "-e")]
+    [CliOption("--end-to-end-encryption-enabled", ShortForm = "-e")]
     public bool? EndToEndEncryptionEnabled { get; set; }
 
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--https-only")]
+    [CliOption("--https-only")]
     public bool? HttpsOnly { get; set; }
 
     /// <summary>
@@ -65,13 +65,20 @@ public record AzWebappUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable site-scoped certificates. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--site-scoped-certs")]
+    [CliOption("--site-scoped-certs")]
     public bool? SiteScopedCerts { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

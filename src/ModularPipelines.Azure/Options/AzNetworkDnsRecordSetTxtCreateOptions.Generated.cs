@@ -35,7 +35,14 @@ public record AzNetworkDnsRecordSetTxtCreateOptions : AzOptions
     /// <summary>
     /// ID of an Azure resource from which the DNS resource value is taken.
     /// </summary>
-    [CliFlag("--target-resource")]
-    public bool? TargetResource { get; set; }
+    [CliOption("--target-resource")]
+    public string? TargetResourceValue { get; set; }
+
+    [Obsolete("Use TargetResourceValue instead.")]
+    public bool? TargetResource
+    {
+        get => bool.TryParse(TargetResourceValue, out var value) ? value : null;
+        set => TargetResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

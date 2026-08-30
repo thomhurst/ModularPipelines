@@ -53,7 +53,7 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// Enforce that the service will not return a response until the copy is complete.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--requires-sync")]
+    [CliOption("--requires-sync")]
     public bool? RequiresSync { get; set; }
 
     /// <summary>

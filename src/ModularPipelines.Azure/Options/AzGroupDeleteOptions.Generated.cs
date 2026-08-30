@@ -23,8 +23,8 @@ public record AzGroupDeleteOptions : AzOptions
     /// <summary>
     /// The resource types you want to force delete.  Allowed values: Microsoft.Compute/virtualMachineScaleSets,
     /// </summary>
-    [CliFlag("--force-deletion-types", ShortForm = "-f")]
-    public bool? ForceDeletionTypes { get; set; }
+    [CliOption("--force-deletion-types", ShortForm = "-f")]
+    public string? ForceDeletionTypesValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -37,5 +37,12 @@ public record AzGroupDeleteOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use ForceDeletionTypesValue instead.")]
+    public bool? ForceDeletionTypes
+    {
+        get => bool.TryParse(ForceDeletionTypesValue, out var value) ? value : null;
+        set => ForceDeletionTypesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

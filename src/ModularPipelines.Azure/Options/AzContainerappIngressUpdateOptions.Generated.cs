@@ -23,7 +23,7 @@ public record AzContainerappIngressUpdateOptions : AzOptions
     /// <summary>
     /// Allow insecure connections for ingress traffic.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-insecure")]
+    [CliOption("--allow-insecure")]
     public bool? AllowInsecure { get; set; }
 
     /// <summary>

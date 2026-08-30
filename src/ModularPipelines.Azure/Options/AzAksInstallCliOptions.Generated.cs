@@ -41,8 +41,8 @@ public record AzAksInstallCliOptions : AzOptions
     /// <summary>
     /// Path at which to install kubectl. Note: the path should contain the binary filename.  Default: /usr/local/bin/kubectl.
     /// </summary>
-    [CliFlag("--install-location")]
-    public bool? InstallLocation { get; set; }
+    [CliOption("--install-location")]
+    public string? InstallLocationValue { get; set; }
 
     /// <summary>
     /// Base download source URL for kubelogin releases.
@@ -53,13 +53,27 @@ public record AzAksInstallCliOptions : AzOptions
     /// <summary>
     /// Path at which to install kubelogin. Note: the path should contain the binary filename.  Default: /usr/local/bin/kubelogin.
     /// </summary>
-    [CliFlag("--kubelogin-install-location")]
-    public bool? KubeloginInstallLocation { get; set; }
+    [CliOption("--kubelogin-install-location")]
+    public string? KubeloginInstallLocationValue { get; set; }
 
     /// <summary>
     /// Version of kubelogin to install.  Default: latest.
     /// </summary>
     [CliFlag("--kubelogin-version")]
     public bool? KubeloginVersion { get; set; }
+
+    [Obsolete("Use InstallLocationValue instead.")]
+    public bool? InstallLocation
+    {
+        get => bool.TryParse(InstallLocationValue, out var value) ? value : null;
+        set => InstallLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KubeloginInstallLocationValue instead.")]
+    public bool? KubeloginInstallLocation
+    {
+        get => bool.TryParse(KubeloginInstallLocationValue, out var value) ? value : null;
+        set => KubeloginInstallLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

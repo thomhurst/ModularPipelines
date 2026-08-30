@@ -23,8 +23,8 @@ public record AzVmssEncryptionEnableOptions : AzOptions
     /// <summary>
     /// Resource Id of the user managed identity which can be used for Azure disk encryption.
     /// </summary>
-    [CliFlag("--encryption-identity")]
-    public bool? EncryptionIdentity { get; set; }
+    [CliOption("--encryption-identity")]
+    public string? EncryptionIdentityValue { get; set; }
 
     /// <summary>
     /// Continue by ignoring client side validation errors.
@@ -41,19 +41,40 @@ public record AzVmssEncryptionEnableOptions : AzOptions
     /// <summary>
     /// Key vault key name or URL used to encrypt the disk encryption key.
     /// </summary>
-    [CliFlag("--key-encryption-key")]
-    public bool? KeyEncryptionKey { get; set; }
+    [CliOption("--key-encryption-key")]
+    public string? KeyEncryptionKeyValue { get; set; }
 
     /// <summary>
     /// Name or ID of the key vault containing the key encryption key used to encrypt the disk encryption key. If missing, CLI will use `--disk-encryption-keyvault`.
     /// </summary>
-    [CliFlag("--key-encryption-keyvault")]
-    public bool? KeyEncryptionKeyvault { get; set; }
+    [CliOption("--key-encryption-keyvault")]
+    public string? KeyEncryptionKeyvaultValue { get; set; }
 
     /// <summary>
     /// Type of volume that the encryption operation is performed on.  Allowed values: ALL, DATA, OS.
     /// </summary>
     [CliFlag("--volume-type")]
     public bool? VolumeType { get; set; }
+
+    [Obsolete("Use EncryptionIdentityValue instead.")]
+    public bool? EncryptionIdentity
+    {
+        get => bool.TryParse(EncryptionIdentityValue, out var value) ? value : null;
+        set => EncryptionIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyEncryptionKeyValue instead.")]
+    public bool? KeyEncryptionKey
+    {
+        get => bool.TryParse(KeyEncryptionKeyValue, out var value) ? value : null;
+        set => KeyEncryptionKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyEncryptionKeyvaultValue instead.")]
+    public bool? KeyEncryptionKeyvault
+    {
+        get => bool.TryParse(KeyEncryptionKeyvaultValue, out var value) ? value : null;
+        set => KeyEncryptionKeyvaultValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

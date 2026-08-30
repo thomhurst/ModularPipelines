@@ -29,7 +29,14 @@ public record AzAdAppPermissionGrantOptions : AzOptions
     /// <summary>
     /// The id of the user on behalf of whom the client is authorized to access the resource, when consentType is 'Principal'. If consentType is 'AllPrincipals' this value is null. Required when consentType is 'Principal'.
     /// </summary>
-    [CliFlag("--principal-id")]
-    public bool? PrincipalId { get; set; }
+    [CliOption("--principal-id")]
+    public string? PrincipalIdValue { get; set; }
+
+    [Obsolete("Use PrincipalIdValue instead.")]
+    public bool? PrincipalId
+    {
+        get => bool.TryParse(PrincipalIdValue, out var value) ? value : null;
+        set => PrincipalIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,8 +23,8 @@ public record AzAmsTransformCreateOptions : AzOptions
     /// <summary>
     /// The description of the transform.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// A Transform can define more than one output. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The overall Job state will not reflect failures of outputs that are specified with 'ContinueJob'. The default is 'StopProcessingJob'.  Allowed values: ContinueJob,
@@ -49,5 +49,12 @@ public record AzAmsTransformCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--audio-language")]
     public bool? AudioLanguage { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,8 +23,8 @@ public record AzStackGroupCreateOptions : AzOptions
     /// <summary>
     /// The description of deployment stack.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -35,14 +35,14 @@ public record AzStackGroupCreateOptions : AzOptions
     /// <summary>
     /// Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
-    [CliFlag("--parameters", ShortForm = "-p")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters", ShortForm = "-p")]
+    public string? ParametersValue { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
     /// </summary>
-    [CliFlag("--query-string", ShortForm = "-q")]
-    public bool? QueryString { get; set; }
+    [CliOption("--query-string", ShortForm = "-q")]
+    public string? QueryStringValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -53,25 +53,67 @@ public record AzStackGroupCreateOptions : AzOptions
     /// <summary>
     /// A path to a template file or Bicep file in the file system.
     /// </summary>
-    [CliFlag("--template-file", ShortForm = "-f")]
-    public bool? TemplateFile { get; set; }
+    [CliOption("--template-file", ShortForm = "-f")]
+    public string? TemplateFileValue { get; set; }
 
     /// <summary>
     /// The template spec resource id.
     /// </summary>
-    [CliFlag("--template-spec", ShortForm = "-s")]
-    public bool? TemplateSpec { get; set; }
+    [CliOption("--template-spec", ShortForm = "-s")]
+    public string? TemplateSpecValue { get; set; }
 
     /// <summary>
     /// A uri to a remote template file.
     /// </summary>
-    [CliFlag("--template-uri", ShortForm = "-u")]
-    public bool? TemplateUri { get; set; }
+    [CliOption("--template-uri", ShortForm = "-u")]
+    public string? TemplateUriValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ParametersValue instead.")]
+    public bool? Parameters
+    {
+        get => bool.TryParse(ParametersValue, out var value) ? value : null;
+        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use QueryStringValue instead.")]
+    public bool? QueryString
+    {
+        get => bool.TryParse(QueryStringValue, out var value) ? value : null;
+        set => QueryStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TemplateFileValue instead.")]
+    public bool? TemplateFile
+    {
+        get => bool.TryParse(TemplateFileValue, out var value) ? value : null;
+        set => TemplateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TemplateSpecValue instead.")]
+    public bool? TemplateSpec
+    {
+        get => bool.TryParse(TemplateSpecValue, out var value) ? value : null;
+        set => TemplateSpecValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TemplateUriValue instead.")]
+    public bool? TemplateUri
+    {
+        get => bool.TryParse(TemplateUriValue, out var value) ? value : null;
+        set => TemplateUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

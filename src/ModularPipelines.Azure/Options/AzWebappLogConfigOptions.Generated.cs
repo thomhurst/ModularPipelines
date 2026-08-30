@@ -29,7 +29,7 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Configure detailed error messages.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--detailed-error-messages")]
+    [CliOption("--detailed-error-messages")]
     public bool? DetailedErrorMessages { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Configure failed request tracing.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--failed-request-tracing")]
+    [CliOption("--failed-request-tracing")]
     public bool? FailedRequestTracing { get; set; }
 
     /// <summary>
@@ -53,13 +53,20 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// Configure Web server logging.  Allowed values: filesystem, off.
     /// </summary>
     [CliFlag("--web-server-logging")]
     public bool? WebServerLogging { get; set; }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

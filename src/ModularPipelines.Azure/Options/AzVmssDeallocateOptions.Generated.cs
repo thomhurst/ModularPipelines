@@ -23,7 +23,7 @@ public record AzVmssDeallocateOptions : AzOptions
     /// <summary>
     /// Hibernate a virtual machine from the VM scale set. Available for VMSS with Flexible OrchestrationMode only.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--hibernate")]
+    [CliOption("--hibernate")]
     public bool? Hibernate { get; set; }
 
     /// <summary>

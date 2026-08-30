@@ -23,8 +23,8 @@ public record AzRestorePointCreateOptions : AzOptions
     /// <summary>
     /// Customer managed data disk encryption set resource id.
     /// </summary>
-    [CliFlag("--data-disk-restore-point-encryption-set")]
-    public bool? DataDiskRestorePointEncryptionSet { get; set; }
+    [CliOption("--data-disk-restore-point-encryption-set")]
+    public string? DataDiskRestorePointEncryptionSetValue { get; set; }
 
     /// <summary>
     /// The type of key used to encrypt the data of the data disk restore point.
@@ -47,8 +47,8 @@ public record AzRestorePointCreateOptions : AzOptions
     /// <summary>
     /// Customer managed OS disk encryption set resource id.
     /// </summary>
-    [CliFlag("--os-restore-point-encryption-set")]
-    public bool? OsRestorePointEncryptionSet { get; set; }
+    [CliOption("--os-restore-point-encryption-set")]
+    public string? OsRestorePointEncryptionSetValue { get; set; }
 
     /// <summary>
     /// The type of key used to encrypt the data of the OS disk restore point.
@@ -59,19 +59,54 @@ public record AzRestorePointCreateOptions : AzOptions
     /// <summary>
     /// Resource Id of the source data disk.
     /// </summary>
-    [CliFlag("--source-data-disk-resource")]
-    public bool? SourceDataDiskResource { get; set; }
+    [CliOption("--source-data-disk-resource")]
+    public string? SourceDataDiskResourceValue { get; set; }
 
     /// <summary>
     /// Resource Id of the source OS disk.
     /// </summary>
-    [CliFlag("--source-os-resource")]
-    public bool? SourceOsResource { get; set; }
+    [CliOption("--source-os-resource")]
+    public string? SourceOsResourceValue { get; set; }
 
     /// <summary>
     /// Resource Id of the source restore point from which a copy needs to be created.
     /// </summary>
-    [CliFlag("--source-restore-point")]
-    public bool? SourceRestorePoint { get; set; }
+    [CliOption("--source-restore-point")]
+    public string? SourceRestorePointValue { get; set; }
+
+    [Obsolete("Use DataDiskRestorePointEncryptionSetValue instead.")]
+    public bool? DataDiskRestorePointEncryptionSet
+    {
+        get => bool.TryParse(DataDiskRestorePointEncryptionSetValue, out var value) ? value : null;
+        set => DataDiskRestorePointEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use OsRestorePointEncryptionSetValue instead.")]
+    public bool? OsRestorePointEncryptionSet
+    {
+        get => bool.TryParse(OsRestorePointEncryptionSetValue, out var value) ? value : null;
+        set => OsRestorePointEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceDataDiskResourceValue instead.")]
+    public bool? SourceDataDiskResource
+    {
+        get => bool.TryParse(SourceDataDiskResourceValue, out var value) ? value : null;
+        set => SourceDataDiskResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceOsResourceValue instead.")]
+    public bool? SourceOsResource
+    {
+        get => bool.TryParse(SourceOsResourceValue, out var value) ? value : null;
+        set => SourceOsResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceRestorePointValue instead.")]
+    public bool? SourceRestorePoint
+    {
+        get => bool.TryParse(SourceRestorePointValue, out var value) ? value : null;
+        set => SourceRestorePointValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

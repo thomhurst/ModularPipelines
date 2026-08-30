@@ -23,7 +23,7 @@ public record AzVmListSkusOptions : AzOptions
     /// <summary>
     /// Show all information including vm sizes not available under the current subscription.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--all")]
+    [CliOption("--all")]
     public bool? All { get; set; }
 
     /// <summary>
@@ -35,8 +35,8 @@ public record AzVmListSkusOptions : AzOptions
     /// <summary>
     /// Resource types e.g. "availabilitySets", "snapshots", "disks", etc.
     /// </summary>
-    [CliFlag("--resource-type", ShortForm = "-r")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type", ShortForm = "-r")]
+    public string? ResourceTypeValue { get; set; }
 
     /// <summary>
     /// Size name, partial name is accepted.
@@ -47,7 +47,14 @@ public record AzVmListSkusOptions : AzOptions
     /// <summary>
     /// Show skus supporting availability zones.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
+    [CliOption("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    [Obsolete("Use ResourceTypeValue instead.")]
+    public bool? ResourceType
+    {
+        get => bool.TryParse(ResourceTypeValue, out var value) ? value : null;
+        set => ResourceTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

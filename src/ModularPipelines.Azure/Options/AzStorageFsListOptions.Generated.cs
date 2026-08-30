@@ -29,7 +29,7 @@ public record AzStorageFsListOptions : AzOptions
     /// <summary>
     /// Specify that file system metadata be returned in the response. The default value is "False".  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--include-metadata")]
+    [CliOption("--include-metadata")]
     public bool? IncludeMetadata { get; set; }
 
     /// <summary>

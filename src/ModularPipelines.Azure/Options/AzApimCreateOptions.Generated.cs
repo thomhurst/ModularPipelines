@@ -23,19 +23,19 @@ public record AzApimCreateOptions : AzOptions
     /// <summary>
     /// Disable gateway in the master region. Only valid for an Api Management service deployed in multiple locations.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-gateway")]
+    [CliOption("--disable-gateway")]
     public bool? DisableGateway { get; set; }
 
     /// <summary>
     /// Enforces a client certificate to be presented on each request to the gateway and also enables the ability to authenticate the certificate in the policy on the gateway.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-client-certificate")]
+    [CliOption("--enable-client-certificate")]
     public bool? EnableClientCertificate { get; set; }
 
     /// <summary>
     /// Create a managed identity for the API Management service to access other Azure resources. Only meant to be used for Consumption SKU Service.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-managed-identity")]
+    [CliOption("--enable-managed-identity")]
     public bool? EnableManagedIdentity { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AzApimCreateOptions : AzOptions
     /// <summary>
     /// Whether or not public endpoint access is allowed for this API Management service. If set to true, private endpoints are the exclusive access method.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--public-network-access")]
+    [CliOption("--public-network-access")]
     public bool? PublicNetworkAccess { get; set; }
 
     /// <summary>
@@ -77,7 +77,14 @@ public record AzApimCreateOptions : AzOptions
     /// <summary>
     /// The virtual network type.  Allowed values: External, Internal, None.  Default: None.
     /// </summary>
-    [CliFlag("--virtual-network", ShortForm = "-v")]
-    public bool? VirtualNetwork { get; set; }
+    [CliOption("--virtual-network", ShortForm = "-v")]
+    public string? VirtualNetworkValue { get; set; }
+
+    [Obsolete("Use VirtualNetworkValue instead.")]
+    public bool? VirtualNetwork
+    {
+        get => bool.TryParse(VirtualNetworkValue, out var value) ? value : null;
+        set => VirtualNetworkValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

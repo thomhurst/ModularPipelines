@@ -23,7 +23,7 @@ public record AzKeyvaultKeyListOptions : AzOptions
     /// <summary>
     /// Include managed keys.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--include-managed")]
+    [CliOption("--include-managed")]
     public bool? IncludeManaged { get; set; }
 
     /// <summary>

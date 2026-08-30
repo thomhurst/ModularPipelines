@@ -29,8 +29,8 @@ public record AzNetworkNsgRuleCreateOptions : AzOptions
     /// <summary>
     /// Description for this rule. Restricted to 140 chars.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// Direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.  Allowed values: Inbound, Outbound.  Default: Inbound.
@@ -49,5 +49,12 @@ public record AzNetworkNsgRuleCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--protocol")]
     public bool? Protocol { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

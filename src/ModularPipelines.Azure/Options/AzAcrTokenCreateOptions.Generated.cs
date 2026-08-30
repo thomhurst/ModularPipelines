@@ -41,7 +41,7 @@ public record AzAcrTokenCreateOptions : AzOptions
     /// <summary>
     /// Do not generate passwords during token creation. You can generate the passwords after the token is created by using `az acr token credentials generate` command.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-passwords")]
+    [CliOption("--no-passwords")]
     public bool? NoPasswords { get; set; }
 
     /// <summary>
@@ -53,19 +53,33 @@ public record AzAcrTokenCreateOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// The name of the scope map with pre-configured repository permissions. Use "--repository" and/or "--gateway" if you would like CLI to configure one for you.
     /// </summary>
-    [CliFlag("--scope-map")]
-    public bool? ScopeMap { get; set; }
+    [CliOption("--scope-map")]
+    public string? ScopeMapValue { get; set; }
 
     /// <summary>
     /// The status of the token.  Allowed values: disabled, enabled.
     /// </summary>
     [CliFlag("--status")]
     public bool? Status { get; set; }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ScopeMapValue instead.")]
+    public bool? ScopeMap
+    {
+        get => bool.TryParse(ScopeMapValue, out var value) ? value : null;
+        set => ScopeMapValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

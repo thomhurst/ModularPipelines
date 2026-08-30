@@ -15,38 +15,41 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az netappfiles commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzNetappfiles
 {
     /// <summary>
     /// az account sub-commands.
     /// </summary>
-    AzNetappfilesAccount Account { get; }
+    AzNetappfilesAccount Account => throw new System.NotSupportedException();
 
     /// <summary>
     /// az cache sub-commands.
     /// </summary>
-    AzNetappfilesCache Cache { get; }
+    AzNetappfilesCache Cache => throw new System.NotSupportedException();
 
     /// <summary>
     /// az pool sub-commands.
     /// </summary>
-    AzNetappfilesPool Pool { get; }
+    AzNetappfilesPool Pool => throw new System.NotSupportedException();
 
     /// <summary>
     /// az snapshot sub-commands.
     /// </summary>
-    AzNetappfilesSnapshot Snapshot { get; }
+    AzNetappfilesSnapshot Snapshot => throw new System.NotSupportedException();
 
     /// <summary>
     /// az volume sub-commands.
     /// </summary>
-    AzNetappfilesVolume Volume { get; }
+    AzNetappfilesVolume Volume => throw new System.NotSupportedException();
 
     /// <summary>
     /// az volume-group sub-commands.
     /// </summary>
-    AzNetappfilesVolumeGroup VolumeGroup { get; }
+    AzNetappfilesVolumeGroup VolumeGroup => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update the network features of a network sibling
@@ -55,9 +58,7 @@ public interface IAzNetappfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateNetworkSiblingSetAsync(
-        AzNetappfilesUpdateNetworkSiblingSetOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateNetworkSiblingSetAsync(AzNetappfilesUpdateNetworkSiblingSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

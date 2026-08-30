@@ -23,7 +23,15 @@ public record AzSignalrCustomCertificateCreateOptions : AzOptions
     /// <summary>
     /// Key vault secret version where certificate is stored. If empty, will use latest version.
     /// </summary>
-    [CliFlag("--keyvault-secret-version")]
-    public bool? KeyvaultSecretVersion { get; set; }
+    [SecretValue]
+    [CliOption("--keyvault-secret-version")]
+    public string? KeyvaultSecretVersionValue { get; set; }
+
+    [Obsolete("Use KeyvaultSecretVersionValue instead.")]
+    public bool? KeyvaultSecretVersion
+    {
+        get => bool.TryParse(KeyvaultSecretVersionValue, out var value) ? value : null;
+        set => KeyvaultSecretVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

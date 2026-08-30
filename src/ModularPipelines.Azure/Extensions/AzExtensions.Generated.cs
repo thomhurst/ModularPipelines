@@ -102,6 +102,7 @@ public static class AzExtensions
         services.TryAddScoped<IAzSql, AzSql>();
         services.TryAddScoped<IAzSshkey, AzSshkey>();
         services.TryAddScoped<IAzStack, AzStack>();
+        services.TryAddScoped<IAzStackWhatif, AzStackWhatif>();
         services.TryAddScoped<IAzStaticwebapp, AzStaticwebapp>();
         services.TryAddScoped<IAzStorage, AzStorage>();
         services.TryAddScoped<IAzSynapse, AzSynapse>();
@@ -114,7 +115,7 @@ public static class AzExtensions
     }
 
     /// <summary>
-    /// Gets the az service from the pipeline context.
+    /// Gets the az service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IAz"/> service for executing az commands.</returns>

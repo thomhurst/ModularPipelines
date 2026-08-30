@@ -23,7 +23,7 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// Authentication to Redis through access keys is disabled when set as true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-access-keys")]
+    [CliOption("--disable-access-keys")]
     public bool? DisableAccessKeys { get; set; }
 
     /// <summary>
@@ -83,8 +83,8 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// The full resource ID of a subnet in a virtual network to deploy the redis cache in. Example format /subscriptions/{subid}/resourceGroups/{res ourceGroupName}/providers/Microsoft.{Network|Clas sicNetwork}/virtualNetworks/vnet1/subnets/subnet1 .
     /// </summary>
-    [CliFlag("--subnet-id")]
-    public bool? SubnetId { get; set; }
+    [CliOption("--subnet-id")]
+    public string? SubnetIdValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -109,5 +109,12 @@ public record AzRedisCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
+
+    [Obsolete("Use SubnetIdValue instead.")]
+    public bool? SubnetId
+    {
+        get => bool.TryParse(SubnetIdValue, out var value) ? value : null;
+        set => SubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

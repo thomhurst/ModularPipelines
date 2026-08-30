@@ -29,13 +29,20 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// <summary>
     /// Name of the autoscale profile.  Default: default.
     /// </summary>
-    [CliFlag("--profile-name")]
-    public bool? ProfileName { get; set; }
+    [CliOption("--profile-name")]
+    public string? ProfileNameValue { get; set; }
 
     /// <summary>
     /// The way metrics are polled across instances.  Default: avg 1m.
     /// </summary>
     [CliFlag("--timegrain")]
     public bool? Timegrain { get; set; }
+
+    [Obsolete("Use ProfileNameValue instead.")]
+    public bool? ProfileName
+    {
+        get => bool.TryParse(ProfileNameValue, out var value) ? value : null;
+        set => ProfileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

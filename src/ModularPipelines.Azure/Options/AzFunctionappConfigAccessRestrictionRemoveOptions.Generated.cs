@@ -35,13 +35,13 @@ public record AzFunctionappConfigAccessRestrictionRemoveOptions : AzOptions
     /// <summary>
     /// Name of the access restriction to remove.
     /// </summary>
-    [CliFlag("--rule-name", ShortForm = "-r")]
-    public bool? RuleName { get; set; }
+    [CliOption("--rule-name", ShortForm = "-r")]
+    public string? RuleNameValue { get; set; }
 
     /// <summary>
     /// True if access restriction should be removed from scm site. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--scm-site")]
+    [CliOption("--scm-site")]
     public bool? ScmSite { get; set; }
 
     /// <summary>
@@ -53,25 +53,46 @@ public record AzFunctionappConfigAccessRestrictionRemoveOptions : AzOptions
     /// <summary>
     /// Skip validating public service tags.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-service-tag-validation", ShortForm = "-k")]
+    [CliOption("--skip-service-tag-validation", ShortForm = "-k")]
     public bool? SkipServiceTagValidation { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// Subnet name (requires vNet name) or subnet resource id.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// VNet name.
     /// </summary>
     [CliFlag("--vnet-name")]
     public bool? VnetName { get; set; }
+
+    [Obsolete("Use RuleNameValue instead.")]
+    public bool? RuleName
+    {
+        get => bool.TryParse(RuleNameValue, out var value) ? value : null;
+        set => RuleNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

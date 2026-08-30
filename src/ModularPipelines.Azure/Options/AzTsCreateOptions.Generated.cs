@@ -23,8 +23,8 @@ public record AzTsCreateOptions : AzOptions
     /// <summary>
     /// The description of the parent template spec.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// The display name of the template spec.
@@ -47,8 +47,8 @@ public record AzTsCreateOptions : AzOptions
     /// <summary>
     /// A path to a template file or Bicep file in the file system.
     /// </summary>
-    [CliFlag("--template-file", ShortForm = "-f")]
-    public bool? TemplateFile { get; set; }
+    [CliOption("--template-file", ShortForm = "-f")]
+    public string? TemplateFileValue { get; set; }
 
     /// <summary>
     /// The uiFormDefinition file path in the file system for the template spec version.
@@ -59,19 +59,47 @@ public record AzTsCreateOptions : AzOptions
     /// <summary>
     /// The template spec version.
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? VersionValue { get; set; }
 
     /// <summary>
     /// The description of the template spec version.
     /// </summary>
-    [CliFlag("--version-description")]
-    public bool? VersionDescription { get; set; }
+    [CliOption("--version-description")]
+    public string? VersionDescriptionValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TemplateFileValue instead.")]
+    public bool? TemplateFile
+    {
+        get => bool.TryParse(TemplateFileValue, out var value) ? value : null;
+        set => TemplateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VersionValue instead.")]
+    public bool? Version
+    {
+        get => bool.TryParse(VersionValue, out var value) ? value : null;
+        set => VersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VersionDescriptionValue instead.")]
+    public bool? VersionDescription
+    {
+        get => bool.TryParse(VersionDescriptionValue, out var value) ? value : null;
+        set => VersionDescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

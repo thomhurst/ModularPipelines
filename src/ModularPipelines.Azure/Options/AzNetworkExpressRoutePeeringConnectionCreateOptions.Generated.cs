@@ -41,7 +41,14 @@ public record AzNetworkExpressRoutePeeringConnectionCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the peer ExpressRoute circuit.
     /// </summary>
-    [CliFlag("--peer-circuit")]
-    public bool? PeerCircuit { get; set; }
+    [CliOption("--peer-circuit")]
+    public string? PeerCircuitValue { get; set; }
+
+    [Obsolete("Use PeerCircuitValue instead.")]
+    public bool? PeerCircuit
+    {
+        get => bool.TryParse(PeerCircuitValue, out var value) ? value : null;
+        set => PeerCircuitValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

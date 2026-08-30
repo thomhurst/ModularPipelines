@@ -29,7 +29,7 @@ public record AzSignalrCreateOptions : AzOptions
     /// <summary>
     /// The switch for messaging logs which signalr service will generate or not.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-message-logs")]
+    [CliOption("--enable-message-logs")]
     public bool? EnableMessageLogs { get; set; }
 
     /// <summary>

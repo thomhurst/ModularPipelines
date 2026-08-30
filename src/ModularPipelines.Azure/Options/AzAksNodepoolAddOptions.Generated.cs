@@ -23,8 +23,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Comma-separated key-value pairs to specify custom headers.
     /// </summary>
-    [CliFlag("--aks-custom-headers")]
-    public bool? AksCustomHeaders { get; set; }
+    [CliOption("--aks-custom-headers")]
+    public string? AksCustomHeadersValue { get; set; }
 
     /// <summary>
     /// Expose host ports on the node pool. When specified, format should be a space-separated list of ranges with protocol, eg. `80/TCP 443/TCP 4000-5000/TCP`.
@@ -137,8 +137,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The value provided will be compared to the ETag of the agentpool, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new agentpool.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatchValue { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new agentpool to be created, but to prevent updating an existing agentpool. Other values will be ignored.
@@ -149,8 +149,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
-    [CliFlag("--kubelet-config")]
-    public bool? KubeletConfig { get; set; }
+    [CliOption("--kubelet-config")]
+    public string? KubeletConfigValue { get; set; }
 
     /// <summary>
     /// Version of Kubernetes to use for creating the cluster, such as "1.16.9".  Values from: `az aks get-versions`.
@@ -167,8 +167,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Path to JSON file containing OS configurations for Linux agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
-    [CliFlag("--linux-os-config")]
-    public bool? LinuxOsConfig { get; set; }
+    [CliOption("--linux-os-config")]
+    public string? LinuxOsConfigValue { get; set; }
 
     /// <summary>
     /// Set the localDNS Profile for a nodepool with a JSON config file.
@@ -203,8 +203,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Path to a file containing the desired message of the day. Only valid for linux nodes. Will be written to /etc/motd.
     /// </summary>
-    [CliFlag("--message-of-the-day")]
-    public bool? MessageOfTheDay { get; set; }
+    [CliOption("--message-of-the-day")]
+    public string? MessageOfTheDayValue { get; set; }
 
     /// <summary>
     /// Minimum nodes count used for autoscaler, when "--enable- cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
@@ -287,20 +287,20 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".  Allowed values: DynamicIndividual, StaticBlock.
     /// </summary>
-    [CliFlag("--pod-ip-allocation-mode")]
-    public bool? PodIpAllocationMode { get; set; }
+    [CliOption("--pod-ip-allocation-mode")]
+    public string? PodIpAllocationModeValue { get; set; }
 
     /// <summary>
     /// The Resource Id of a subnet in an existing VNet into which to assign pods in the cluster (requires azure network-plugin).
     /// </summary>
-    [CliFlag("--pod-subnet-id")]
-    public bool? PodSubnetId { get; set; }
+    [CliOption("--pod-subnet-id")]
+    public string? PodSubnetIdValue { get; set; }
 
     /// <summary>
     /// The ID of a PPG.
     /// </summary>
-    [CliFlag("--ppg")]
-    public bool? Ppg { get; set; }
+    [CliOption("--ppg")]
+    public string? PpgValue { get; set; }
 
     /// <summary>
     /// The priority of the node pool.  Allowed values: Regular, Spot.  Default: Regular.
@@ -317,8 +317,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The source snapshot id used to create this nodepool.
     /// </summary>
-    [CliFlag("--snapshot-id")]
-    public bool? SnapshotId { get; set; }
+    [CliOption("--snapshot-id")]
+    public string? SnapshotIdValue { get; set; }
 
     /// <summary>
     /// It can only be set when --priority is Spot. Specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on- demand. It can only include up to 5 decimal places.
@@ -353,8 +353,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The Resource Id of a subnet in an existing VNet into which to deploy the cluster.
     /// </summary>
-    [CliFlag("--vnet-subnet-id")]
-    public bool? VnetSubnetId { get; set; }
+    [CliOption("--vnet-subnet-id")]
+    public string? VnetSubnetIdValue { get; set; }
 
     /// <summary>
     /// Set the workload runtime.  Allowed values:
@@ -367,5 +367,75 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// </summary>
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
+
+    [Obsolete("Use AksCustomHeadersValue instead.")]
+    public bool? AksCustomHeaders
+    {
+        get => bool.TryParse(AksCustomHeadersValue, out var value) ? value : null;
+        set => AksCustomHeadersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IfMatchValue instead.")]
+    public bool? IfMatch
+    {
+        get => bool.TryParse(IfMatchValue, out var value) ? value : null;
+        set => IfMatchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KubeletConfigValue instead.")]
+    public bool? KubeletConfig
+    {
+        get => bool.TryParse(KubeletConfigValue, out var value) ? value : null;
+        set => KubeletConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use LinuxOsConfigValue instead.")]
+    public bool? LinuxOsConfig
+    {
+        get => bool.TryParse(LinuxOsConfigValue, out var value) ? value : null;
+        set => LinuxOsConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use MessageOfTheDayValue instead.")]
+    public bool? MessageOfTheDay
+    {
+        get => bool.TryParse(MessageOfTheDayValue, out var value) ? value : null;
+        set => MessageOfTheDayValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PodIpAllocationModeValue instead.")]
+    public bool? PodIpAllocationMode
+    {
+        get => bool.TryParse(PodIpAllocationModeValue, out var value) ? value : null;
+        set => PodIpAllocationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PodSubnetIdValue instead.")]
+    public bool? PodSubnetId
+    {
+        get => bool.TryParse(PodSubnetIdValue, out var value) ? value : null;
+        set => PodSubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PpgValue instead.")]
+    public bool? Ppg
+    {
+        get => bool.TryParse(PpgValue, out var value) ? value : null;
+        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SnapshotIdValue instead.")]
+    public bool? SnapshotId
+    {
+        get => bool.TryParse(SnapshotIdValue, out var value) ? value : null;
+        set => SnapshotIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetSubnetIdValue instead.")]
+    public bool? VnetSubnetId
+    {
+        get => bool.TryParse(VnetSubnetIdValue, out var value) ? value : null;
+        set => VnetSubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

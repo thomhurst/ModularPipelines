@@ -29,8 +29,8 @@ public record AzBackupPolicyListOptions : AzOptions
     /// <summary>
     /// Parameter that specifies whether to only list policies where archive tier move is enabled/disabled.  Allowed values: All, Disabled, Enabled.  Default: All.
     /// </summary>
-    [CliFlag("--move-to-archive-tier")]
-    public bool? MoveToArchiveTier { get; set; }
+    [CliOption("--move-to-archive-tier")]
+    public string? MoveToArchiveTierValue { get; set; }
 
     /// <summary>
     /// Sub type of policies to be retrieved. To list standard backup policies, specify ‘Standard’ as the value of this parameter. To list enhanced backup policies for Azure VMs, specify ‘Enhanced’ as the value of this parameter.  Allowed values: Enhanced,
@@ -43,5 +43,12 @@ public record AzBackupPolicyListOptions : AzOptions
     /// </summary>
     [CliFlag("--workload-type")]
     public bool? WorkloadType { get; set; }
+
+    [Obsolete("Use MoveToArchiveTierValue instead.")]
+    public bool? MoveToArchiveTier
+    {
+        get => bool.TryParse(MoveToArchiveTierValue, out var value) ? value : null;
+        set => MoveToArchiveTierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

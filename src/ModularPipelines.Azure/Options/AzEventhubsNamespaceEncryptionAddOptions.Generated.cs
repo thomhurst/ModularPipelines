@@ -23,7 +23,7 @@ public record AzEventhubsNamespaceEncryptionAddOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates whether Infrastructure Encryption (Double Encryption) is enabled/disabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--infra-encryption")]
+    [CliOption("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 
 }

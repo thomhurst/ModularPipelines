@@ -23,19 +23,26 @@ public record AzBackupProtectionReconfigureOptions : AzOptions
     /// <summary>
     /// Retain existing recovery points as per current backup policy when stopping protection in the source vault (the source vault is always the one specified by --vault-name/--resource- group).  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--retain-as-per-policy")]
+    [CliOption("--retain-as-per-policy")]
     public bool? RetainAsPerPolicy { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the source vault exists in a different tenant.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantIdValue { get; set; }
 
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM. Allowed values: AzureFileShare, MSSQL, SAPASE,
     /// </summary>
     [CliFlag("--workload-type")]
     public bool? WorkloadType { get; set; }
+
+    [Obsolete("Use TenantIdValue instead.")]
+    public bool? TenantId
+    {
+        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
+        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

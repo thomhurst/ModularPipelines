@@ -29,7 +29,7 @@ public record AzSfManagedClusterClientCertificateAddOptions : AzOptions
     /// <summary>
     /// Client authentication type.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-admin")]
+    [CliOption("--is-admin")]
     public bool? IsAdmin { get; set; }
 
     /// <summary>

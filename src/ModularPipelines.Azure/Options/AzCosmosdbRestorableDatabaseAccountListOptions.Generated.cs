@@ -23,13 +23,20 @@ public record AzCosmosdbRestorableDatabaseAccountListOptions : AzOptions
     /// <summary>
     /// Name of the Account.
     /// </summary>
-    [CliFlag("--account-name", ShortForm = "-n")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string? AccountNameValue { get; set; }
 
     /// <summary>
     /// Location.
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
+
+    [Obsolete("Use AccountNameValue instead.")]
+    public bool? AccountName
+    {
+        get => bool.TryParse(AccountNameValue, out var value) ? value : null;
+        set => AccountNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -29,7 +29,14 @@ public record AzSecuritySubAssessmentListOptions : AzOptions
     /// <summary>
     /// Name of the assessment resource.
     /// </summary>
-    [CliFlag("--assessment-name")]
-    public bool? AssessmentName { get; set; }
+    [CliOption("--assessment-name")]
+    public string? AssessmentNameValue { get; set; }
+
+    [Obsolete("Use AssessmentNameValue instead.")]
+    public bool? AssessmentName
+    {
+        get => bool.TryParse(AssessmentNameValue, out var value) ? value : null;
+        set => AssessmentNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

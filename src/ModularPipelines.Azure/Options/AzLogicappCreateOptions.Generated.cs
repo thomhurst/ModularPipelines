@@ -23,8 +23,8 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// Name of the existing App Insights project to be added to the logic app. Must be in the same resource group.
     /// </summary>
-    [CliFlag("--app-insights")]
-    public bool? AppInsights { get; set; }
+    [CliOption("--app-insights")]
+    public string? AppInsightsValue { get; set; }
 
     /// <summary>
     /// Instrumentation key of App Insights to be added.
@@ -59,7 +59,7 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// Disable creating application insights resource during logicapp create. No logs will be available.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-app-insights")]
+    [CliOption("--disable-app-insights")]
     public bool? DisableAppInsights { get; set; }
 
     /// <summary>
@@ -89,14 +89,14 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--https-only")]
+    [CliOption("--https-only")]
     public bool? HttpsOnly { get; set; }
 
     /// <summary>
     /// Name or resource id of the logicapp app service plan. Use 'appservice plan create' to get one. If using an App Service plan from a different resource group, the full resource id must be used and not the plan name.
     /// </summary>
-    [CliFlag("--plan", ShortForm = "-p")]
-    public bool? Plan { get; set; }
+    [CliOption("--plan", ShortForm = "-p")]
+    public string? PlanValue { get; set; }
 
     /// <summary>
     /// The runtime version for logic app.  Allowed values: ~14, ~16, ~18.
@@ -109,5 +109,19 @@ public record AzLogicappCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use AppInsightsValue instead.")]
+    public bool? AppInsights
+    {
+        get => bool.TryParse(AppInsightsValue, out var value) ? value : null;
+        set => AppInsightsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PlanValue instead.")]
+    public bool? Plan
+    {
+        get => bool.TryParse(PlanValue, out var value) ? value : null;
+        set => PlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

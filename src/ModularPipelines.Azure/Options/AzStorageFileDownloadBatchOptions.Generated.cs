@@ -29,7 +29,7 @@ public record AzStorageFileDownloadBatchOptions : AzOptions
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disallow-trailing-dot")]
+    [CliOption("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
     /// <summary>
@@ -53,13 +53,20 @@ public record AzStorageFileDownloadBatchOptions : AzOptions
     /// <summary>
     /// A string that represents the snapshot version, if applicable.
     /// </summary>
-    [CliFlag("--snapshot")]
-    public bool? Snapshot { get; set; }
+    [CliOption("--snapshot")]
+    public string? SnapshotValue { get; set; }
 
     /// <summary>
     /// If set, calculates an MD5 hash for each range of the file for validation.
     /// </summary>
     [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
+
+    [Obsolete("Use SnapshotValue instead.")]
+    public bool? Snapshot
+    {
+        get => bool.TryParse(SnapshotValue, out var value) ? value : null;
+        set => SnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

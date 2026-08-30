@@ -23,13 +23,20 @@ public record AzStaticwebappFunctionsLinkOptions : AzOptions
     /// <summary>
     /// Name of the environment of static site.
     /// </summary>
-    [CliFlag("--environment-name")]
-    public bool? EnvironmentName { get; set; }
+    [CliOption("--environment-name")]
+    public string? EnvironmentNameValue { get; set; }
 
     /// <summary>
     /// Force the function link even if the function is already linked to a static webapp. May be needed if the function was previously linked to a static webapp.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    [Obsolete("Use EnvironmentNameValue instead.")]
+    public bool? EnvironmentName
+    {
+        get => bool.TryParse(EnvironmentNameValue, out var value) ? value : null;
+        set => EnvironmentNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

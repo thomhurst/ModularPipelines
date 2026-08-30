@@ -47,14 +47,14 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the target resource. If `--target-type` is AzureVMSS, then `--target` is mandatory.
     /// </summary>
-    [CliFlag("--target")]
-    public bool? Target { get; set; }
+    [CliOption("--target")]
+    public string? TargetValue { get; set; }
 
     /// <summary>
     /// Resource type of target.  Allowed values: AzureVM, AzureVMSS.
     /// </summary>
-    [CliFlag("--target-type")]
-    public bool? TargetType { get; set; }
+    [CliOption("--target-type")]
+    public string? TargetTypeValue { get; set; }
 
     /// <summary>
     /// Maximum duration of the capture session in seconds.  Default: 18000.
@@ -65,7 +65,28 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the VM to target.
     /// </summary>
-    [CliFlag("--vm")]
-    public bool? Vm { get; set; }
+    [CliOption("--vm")]
+    public string? VmValue { get; set; }
+
+    [Obsolete("Use TargetValue instead.")]
+    public bool? Target
+    {
+        get => bool.TryParse(TargetValue, out var value) ? value : null;
+        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetTypeValue instead.")]
+    public bool? TargetType
+    {
+        get => bool.TryParse(TargetTypeValue, out var value) ? value : null;
+        set => TargetTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VmValue instead.")]
+    public bool? Vm
+    {
+        get => bool.TryParse(VmValue, out var value) ? value : null;
+        set => VmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

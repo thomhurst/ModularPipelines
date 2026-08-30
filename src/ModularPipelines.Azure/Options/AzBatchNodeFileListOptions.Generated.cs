@@ -23,7 +23,7 @@ public record AzBatchNodeFileListOptions : AzOptions
     /// <summary>
     /// Whether to list children of a directory.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--recursive")]
+    [CliOption("--recursive")]
     public bool? Recursive { get; set; }
 
 }

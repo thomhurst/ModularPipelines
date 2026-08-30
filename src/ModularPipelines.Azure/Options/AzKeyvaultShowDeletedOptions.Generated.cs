@@ -23,8 +23,8 @@ public record AzKeyvaultShowDeletedOptions : AzOptions
     /// <summary>
     /// Name of the deleted HSM. (--hsm-name and --name/-n are mutually exclusive, please specify just one of them).
     /// </summary>
-    [CliFlag("--hsm-name")]
-    public bool? HsmName { get; set; }
+    [CliOption("--hsm-name")]
+    public string? HsmNameValue { get; set; }
 
     /// <summary>
     /// Location of the deleted Vault or HSM.
@@ -35,7 +35,21 @@ public record AzKeyvaultShowDeletedOptions : AzOptions
     /// <summary>
     /// Name of the deleted Vault.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
+
+    [Obsolete("Use HsmNameValue instead.")]
+    public bool? HsmName
+    {
+        get => bool.TryParse(HsmNameValue, out var value) ? value : null;
+        set => HsmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

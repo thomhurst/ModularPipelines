@@ -23,19 +23,26 @@ public record AzSynapsePipelineCreateRunOptions : AzOptions
     /// <summary>
     /// Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-recovery")]
+    [CliOption("--is-recovery")]
     public bool? IsRecovery { get; set; }
 
     /// <summary>
     /// Parameters for pipeline run. Can be supplied from a JSON file using the `@{path}` syntax or a JSON string.
     /// </summary>
-    [CliFlag("--parameters")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters")]
+    public string? ParametersValue { get; set; }
 
     /// <summary>
     /// In recovery mode, the rerun will start from this activity. If not specified, all activities will run.
     /// </summary>
     [CliFlag("--start-activity-name")]
     public bool? StartActivityName { get; set; }
+
+    [Obsolete("Use ParametersValue instead.")]
+    public bool? Parameters
+    {
+        get => bool.TryParse(ParametersValue, out var value) ? value : null;
+        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,14 +23,14 @@ public record AzSigGalleryApplicationCreateOptions : AzOptions
     /// <summary>
     /// The description of this gallery Application
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// Resource location  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? LocationValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -41,7 +41,28 @@ public record AzSigGalleryApplicationCreateOptions : AzOptions
     /// <summary>
     /// Resource tags  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags")]
+    public string? TagsValue { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use LocationValue instead.")]
+    public bool? Location
+    {
+        get => bool.TryParse(LocationValue, out var value) ? value : null;
+        set => LocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TagsValue instead.")]
+    public bool? Tags
+    {
+        get => bool.TryParse(TagsValue, out var value) ? value : null;
+        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

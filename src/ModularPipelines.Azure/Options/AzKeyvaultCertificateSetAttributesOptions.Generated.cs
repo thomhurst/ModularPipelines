@@ -23,7 +23,7 @@ public record AzKeyvaultCertificateSetAttributesOptions : AzOptions
     /// <summary>
     /// Enable the certificate.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

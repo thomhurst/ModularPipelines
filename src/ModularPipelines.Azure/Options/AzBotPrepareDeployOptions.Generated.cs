@@ -29,7 +29,14 @@ public record AzBotPrepareDeployOptions : AzOptions
     /// <summary>
     /// The path to the .csproj file relative to --code-dir.
     /// </summary>
-    [CliFlag("--proj-file-path")]
-    public bool? ProjFilePath { get; set; }
+    [CliOption("--proj-file-path")]
+    public string? ProjFilePathValue { get; set; }
+
+    [Obsolete("Use ProjFilePathValue instead.")]
+    public bool? ProjFilePath
+    {
+        get => bool.TryParse(ProjFilePathValue, out var value) ? value : null;
+        set => ProjFilePathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

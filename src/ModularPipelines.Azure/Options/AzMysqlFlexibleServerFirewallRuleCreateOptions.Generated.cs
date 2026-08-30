@@ -29,13 +29,20 @@ public record AzMysqlFlexibleServerFirewallRuleCreateOptions : AzOptions
     /// <summary>
     /// The name of the firewall rule. If name is omitted, default name will be chosen for firewall name. The firewall rule name can only contain 0-9, a-z, A-Z, '-' and '_'. Additionally, the name of the firewall rule must be at least 1 character and no more than 80 characters in length.
     /// </summary>
-    [CliFlag("--rule-name", ShortForm = "-r")]
-    public bool? RuleName { get; set; }
+    [CliOption("--rule-name", ShortForm = "-r")]
+    public string? RuleNameValue { get; set; }
 
     /// <summary>
     /// The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.
     /// </summary>
     [CliFlag("--start-ip-address")]
     public bool? StartIpAddress { get; set; }
+
+    [Obsolete("Use RuleNameValue instead.")]
+    public bool? RuleName
+    {
+        get => bool.TryParse(RuleNameValue, out var value) ? value : null;
+        set => RuleNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

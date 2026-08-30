@@ -29,8 +29,8 @@ public record AzConnectionCreateSqlOptions : AzOptions
     /// <summary>
     /// Name of the connection.
     /// </summary>
-    [CliFlag("--connection")]
-    public bool? Connection { get; set; }
+    [CliOption("--connection")]
+    public string? ConnectionValue { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -41,8 +41,8 @@ public record AzConnectionCreateSqlOptions : AzOptions
     /// <summary>
     /// Name of the sql database. Required if '--target-id' is not specified.
     /// </summary>
-    [CliFlag("--database")]
-    public bool? Database { get; set; }
+    [CliOption("--database")]
+    public string? DatabaseValue { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -59,13 +59,41 @@ public record AzConnectionCreateSqlOptions : AzOptions
     /// <summary>
     /// Name of the sql server. Required if '--target-id' is not specified.
     /// </summary>
-    [CliFlag("--server")]
-    public bool? Server { get; set; }
+    [CliOption("--server")]
+    public string? ServerValue { get; set; }
 
     /// <summary>
     /// The resource id of target service. Required if ['--target- resource-group', '--server', '--database'] are not specified.
     /// </summary>
-    [CliFlag("--target-id")]
-    public bool? TargetId { get; set; }
+    [CliOption("--target-id")]
+    public string? TargetIdValue { get; set; }
+
+    [Obsolete("Use ConnectionValue instead.")]
+    public bool? Connection
+    {
+        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
+        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DatabaseValue instead.")]
+    public bool? Database
+    {
+        get => bool.TryParse(DatabaseValue, out var value) ? value : null;
+        set => DatabaseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ServerValue instead.")]
+    public bool? Server
+    {
+        get => bool.TryParse(ServerValue, out var value) ? value : null;
+        set => ServerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetIdValue instead.")]
+    public bool? TargetId
+    {
+        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
+        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

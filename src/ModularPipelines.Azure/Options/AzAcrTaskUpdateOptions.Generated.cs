@@ -65,13 +65,13 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether the image cache is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-cache")]
+    [CliOption("--no-cache")]
     public bool? NoCache { get; set; }
 
     /// <summary>
     /// Indicates whether the image built should be pushed to the registry.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-push")]
+    [CliOption("--no-push")]
     public bool? NoPush { get; set; }
 
     /// <summary>
@@ -83,8 +83,8 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// Secret build argument in '--secret-arg name[=value]' format. Multiples are supported by passing '--secret- arg name[=value]' multiple times. This parameter value is not surfaced to the ACR team and is more suitable for sensitive information.
@@ -107,8 +107,8 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// <summary>
     /// Assign the managed identity used for source registry login. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned managed identity.
     /// </summary>
-    [CliFlag("--source-acr-auth-id")]
-    public bool? SourceAcrAuthId { get; set; }
+    [CliOption("--source-acr-auth-id")]
+    public string? SourceAcrAuthIdValue { get; set; }
 
     /// <summary>
     /// The current status of task.  Allowed values: Disabled,
@@ -119,8 +119,8 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// <summary>
     /// The name of the target build stage.
     /// </summary>
-    [CliFlag("--target")]
-    public bool? Target { get; set; }
+    [CliOption("--target")]
+    public string? TargetValue { get; set; }
 
     /// <summary>
     /// The timeout in seconds.
@@ -133,5 +133,26 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--values")]
     public bool? Values { get; set; }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceAcrAuthIdValue instead.")]
+    public bool? SourceAcrAuthId
+    {
+        get => bool.TryParse(SourceAcrAuthIdValue, out var value) ? value : null;
+        set => SourceAcrAuthIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetValue instead.")]
+    public bool? Target
+    {
+        get => bool.TryParse(TargetValue, out var value) ? value : null;
+        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

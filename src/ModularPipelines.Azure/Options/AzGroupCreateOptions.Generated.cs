@@ -23,13 +23,20 @@ public record AzGroupCreateOptions : AzOptions
     /// <summary>
     /// The ID of the resource that manages this resource group.
     /// </summary>
-    [CliFlag("--managed-by")]
-    public bool? ManagedBy { get; set; }
+    [CliOption("--managed-by")]
+    public string? ManagedByValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use ManagedByValue instead.")]
+    public bool? ManagedBy
+    {
+        get => bool.TryParse(ManagedByValue, out var value) ? value : null;
+        set => ManagedByValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

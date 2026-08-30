@@ -71,7 +71,7 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Use this flag to specify to restore as unmanaged disks. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--restore-as-unmanaged-disks")]
+    [CliOption("--restore-as-unmanaged-disks")]
     public bool? RestoreAsUnmanagedDisks { get; set; }
 
     /// <summary>
@@ -83,26 +83,26 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Use this flag to restore only OS disks of a backed up VM. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--restore-only-osdisk")]
+    [CliOption("--restore-only-osdisk")]
     public bool? RestoreOnlyOsdisk { get; set; }
 
     /// <summary>
     /// Switch parameter to indicate edge zone VM restore. This parameter can't be used in cross region and cross subscription restore scenarios.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--restore-to-edge-zone")]
+    [CliOption("--restore-to-edge-zone")]
     public bool? RestoreToEdgeZone { get; set; }
 
     /// <summary>
     /// Use this flag when you want disks to be restored to the staging storage account using the --storage-account parameter. When not specified, disks will be restored to their original storage accounts. Default: false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--restore-to-staging-storage-account")]
+    [CliOption("--restore-to-staging-storage-account")]
     public bool? RestoreToStagingStorageAccount { get; set; }
 
     /// <summary>
     /// Name of the resource group which contains the storage account. Default value will be same as --resource-group if not specified.
     /// </summary>
-    [CliFlag("--storage-account-resource-group")]
-    public bool? StorageAccountResourceGroup { get; set; }
+    [CliOption("--storage-account-resource-group")]
+    public string? StorageAccountResourceGroupValue { get; set; }
 
     /// <summary>
     /// Specify the target disk access ID when --disk-access- option is set to EnablePrivateAccessForAllDisks.
@@ -119,32 +119,32 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Name of the subnet in which the target VM should be created, in the case of Alternate Location restore a new
     /// </summary>
-    [CliFlag("--target-subnet-name")]
-    public bool? TargetSubnetName { get; set; }
+    [CliOption("--target-subnet-name")]
+    public string? TargetSubnetNameValue { get; set; }
 
     /// <summary>
     /// ID of the subscription to which the resource should be restored.
     /// </summary>
-    [CliFlag("--target-subscription-id")]
-    public bool? TargetSubscriptionId { get; set; }
+    [CliOption("--target-subscription-id")]
+    public string? TargetSubscriptionIdValue { get; set; }
 
     /// <summary>
     /// Name of the VM to which the data should be restored, in the case of Alternate Location restore to a new VM.
     /// </summary>
-    [CliFlag("--target-vm-name")]
-    public bool? TargetVmName { get; set; }
+    [CliOption("--target-vm-name")]
+    public string? TargetVmNameValue { get; set; }
 
     /// <summary>
     /// Name of the VNet in which the target VM should be created, in the case of Alternate Location restore to a new VM.
     /// </summary>
-    [CliFlag("--target-vnet-name")]
-    public bool? TargetVnetName { get; set; }
+    [CliOption("--target-vnet-name")]
+    public string? TargetVnetNameValue { get; set; }
 
     /// <summary>
     /// Name of the resource group which contains the target VNet, in the case of Alternate Location restore to a new
     /// </summary>
-    [CliFlag("--target-vnet-resource-group")]
-    public bool? TargetVnetResourceGroup { get; set; }
+    [CliOption("--target-vnet-resource-group")]
+    public string? TargetVnetResourceGroupValue { get; set; }
 
     /// <summary>
     /// A primary region currently can have three Azure availability zones. Use this argument to specify the target zone number while doing Cross Zonal Restore. Allowed values: 1, 2, 3, NoZone.
@@ -155,13 +155,62 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantIdValue { get; set; }
 
     /// <summary>
     /// Use this flag to restore from a recoverypoint in secondary region.
     /// </summary>
     [CliFlag("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }
+
+    [Obsolete("Use StorageAccountResourceGroupValue instead.")]
+    public bool? StorageAccountResourceGroup
+    {
+        get => bool.TryParse(StorageAccountResourceGroupValue, out var value) ? value : null;
+        set => StorageAccountResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetSubnetNameValue instead.")]
+    public bool? TargetSubnetName
+    {
+        get => bool.TryParse(TargetSubnetNameValue, out var value) ? value : null;
+        set => TargetSubnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetSubscriptionIdValue instead.")]
+    public bool? TargetSubscriptionId
+    {
+        get => bool.TryParse(TargetSubscriptionIdValue, out var value) ? value : null;
+        set => TargetSubscriptionIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetVmNameValue instead.")]
+    public bool? TargetVmName
+    {
+        get => bool.TryParse(TargetVmNameValue, out var value) ? value : null;
+        set => TargetVmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetVnetNameValue instead.")]
+    public bool? TargetVnetName
+    {
+        get => bool.TryParse(TargetVnetNameValue, out var value) ? value : null;
+        set => TargetVnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetVnetResourceGroupValue instead.")]
+    public bool? TargetVnetResourceGroup
+    {
+        get => bool.TryParse(TargetVnetResourceGroupValue, out var value) ? value : null;
+        set => TargetVnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TenantIdValue instead.")]
+    public bool? TenantId
+    {
+        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
+        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

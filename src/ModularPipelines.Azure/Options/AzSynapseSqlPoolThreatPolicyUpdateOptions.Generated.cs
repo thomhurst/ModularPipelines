@@ -23,7 +23,14 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Name of the security alert policy.
     /// </summary>
-    [CliFlag("--security-alert-policy-name", ShortForm = "-s")]
-    public bool? SecurityAlertPolicyName { get; set; }
+    [CliOption("--security-alert-policy-name", ShortForm = "-s")]
+    public string? SecurityAlertPolicyNameValue { get; set; }
+
+    [Obsolete("Use SecurityAlertPolicyNameValue instead.")]
+    public bool? SecurityAlertPolicyName
+    {
+        get => bool.TryParse(SecurityAlertPolicyNameValue, out var value) ? value : null;
+        set => SecurityAlertPolicyNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

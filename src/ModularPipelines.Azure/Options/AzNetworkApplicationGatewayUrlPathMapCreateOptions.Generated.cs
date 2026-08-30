@@ -23,31 +23,59 @@ public record AzNetworkApplicationGatewayUrlPathMapCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the default backend address pool. It is mandatory unless target type is redirection.
     /// </summary>
-    [CliFlag("--default-address-pool")]
-    public bool? DefaultAddressPool { get; set; }
+    [CliOption("--default-address-pool")]
+    public string? DefaultAddressPoolValue { get; set; }
 
     /// <summary>
     /// Name or ID of the default HTTP settings. It is mandatory unless target type is redirection.
     /// </summary>
-    [CliFlag("--default-http-settings")]
-    public bool? DefaultHttpSettings { get; set; }
+    [CliOption("--default-http-settings")]
+    public string? DefaultHttpSettingsValue { get; set; }
 
     /// <summary>
     /// Name or ID of the default redirect configuration.
     /// </summary>
-    [CliFlag("--default-redirect-config")]
-    public bool? DefaultRedirectConfig { get; set; }
+    [CliOption("--default-redirect-config")]
+    public string? DefaultRedirectConfigValue { get; set; }
 
     /// <summary>
     /// Name or ID of the default rewrite rule set.
     /// </summary>
-    [CliFlag("--default-rewrite-rule-set")]
-    public bool? DefaultRewriteRuleSet { get; set; }
+    [CliOption("--default-rewrite-rule-set")]
+    public string? DefaultRewriteRuleSetValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [Obsolete("Use DefaultAddressPoolValue instead.")]
+    public bool? DefaultAddressPool
+    {
+        get => bool.TryParse(DefaultAddressPoolValue, out var value) ? value : null;
+        set => DefaultAddressPoolValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DefaultHttpSettingsValue instead.")]
+    public bool? DefaultHttpSettings
+    {
+        get => bool.TryParse(DefaultHttpSettingsValue, out var value) ? value : null;
+        set => DefaultHttpSettingsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DefaultRedirectConfigValue instead.")]
+    public bool? DefaultRedirectConfig
+    {
+        get => bool.TryParse(DefaultRedirectConfigValue, out var value) ? value : null;
+        set => DefaultRedirectConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DefaultRewriteRuleSetValue instead.")]
+    public bool? DefaultRewriteRuleSet
+    {
+        get => bool.TryParse(DefaultRewriteRuleSetValue, out var value) ? value : null;
+        set => DefaultRewriteRuleSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

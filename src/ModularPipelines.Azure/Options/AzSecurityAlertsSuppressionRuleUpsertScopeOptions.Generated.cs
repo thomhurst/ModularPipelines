@@ -29,7 +29,14 @@ public record AzSecurityAlertsSuppressionRuleUpsertScopeOptions : AzOptions
     /// <summary>
     /// The string to scope the suppression rule by.
     /// </summary>
-    [CliFlag("--contains-substring")]
-    public bool? ContainsSubstring { get; set; }
+    [CliOption("--contains-substring")]
+    public string? ContainsSubstringValue { get; set; }
+
+    [Obsolete("Use ContainsSubstringValue instead.")]
+    public bool? ContainsSubstring
+    {
+        get => bool.TryParse(ContainsSubstringValue, out var value) ? value : null;
+        set => ContainsSubstringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

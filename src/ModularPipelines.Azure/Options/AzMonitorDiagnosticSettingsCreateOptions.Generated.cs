@@ -23,19 +23,19 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// <summary>
     /// Name or ID an event hub. If none is specified, the default event hub will be selected.
     /// </summary>
-    [CliFlag("--event-hub")]
-    public bool? EventHub { get; set; }
+    [CliOption("--event-hub")]
+    public string? EventHubValue { get; set; }
 
     /// <summary>
     /// Name or ID of the event hub authorization rule.
     /// </summary>
-    [CliFlag("--event-hub-rule")]
-    public bool? EventHubRule { get; set; }
+    [CliOption("--event-hub-rule")]
+    public string? EventHubRuleValue { get; set; }
 
     /// <summary>
     /// Indicate that the export to LA must be done to a resource specific table, a.k.a. dedicated or fixed schema table, as opposed to the default dynamic schema table called AzureDiagnostics. This argument is effective only when the argument --workspace is also given. Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--export-to-resource-specific")]
+    [CliOption("--export-to-resource-specific")]
     public bool? ExportToResourceSpecific { get; set; }
 
     /// <summary>
@@ -47,8 +47,8 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// <summary>
     /// The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.
     /// </summary>
-    [CliFlag("--marketplace-partner-id")]
-    public bool? MarketplacePartnerId { get; set; }
+    [CliOption("--marketplace-partner-id")]
+    public string? MarketplacePartnerIdValue { get; set; }
 
     /// <summary>
     /// The list of metric settings.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
@@ -59,13 +59,48 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the storage account to send diagnostic logs to.
     /// </summary>
-    [CliFlag("--storage-account")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account")]
+    public string? StorageAccountValue { get; set; }
 
     /// <summary>
     /// Name or ID of the Log Analytics workspace to send diagnostic logs to.
     /// </summary>
-    [CliFlag("--workspace")]
-    public bool? Workspace { get; set; }
+    [CliOption("--workspace")]
+    public string? WorkspaceValue { get; set; }
+
+    [Obsolete("Use EventHubValue instead.")]
+    public bool? EventHub
+    {
+        get => bool.TryParse(EventHubValue, out var value) ? value : null;
+        set => EventHubValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EventHubRuleValue instead.")]
+    public bool? EventHubRule
+    {
+        get => bool.TryParse(EventHubRuleValue, out var value) ? value : null;
+        set => EventHubRuleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use MarketplacePartnerIdValue instead.")]
+    public bool? MarketplacePartnerId
+    {
+        get => bool.TryParse(MarketplacePartnerIdValue, out var value) ? value : null;
+        set => MarketplacePartnerIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StorageAccountValue instead.")]
+    public bool? StorageAccount
+    {
+        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
+        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use WorkspaceValue instead.")]
+    public bool? Workspace
+    {
+        get => bool.TryParse(WorkspaceValue, out var value) ? value : null;
+        set => WorkspaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

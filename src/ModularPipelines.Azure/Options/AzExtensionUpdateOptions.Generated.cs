@@ -23,7 +23,7 @@ public record AzExtensionUpdateOptions : AzOptions
     /// <summary>
     /// Include preview packages for extension installation, if exists. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-preview")]
+    [CliOption("--allow-preview")]
     public bool? AllowPreview { get; set; }
 
 }

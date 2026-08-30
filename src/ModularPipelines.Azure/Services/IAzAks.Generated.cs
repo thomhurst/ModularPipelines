@@ -15,53 +15,61 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az aks commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzAks
 {
     /// <summary>
     /// az approuting sub-commands.
     /// </summary>
-    AzAksApprouting Approuting { get; }
+    AzAksApprouting Approuting => throw new System.NotSupportedException();
 
     /// <summary>
     /// az command sub-commands.
     /// </summary>
-    AzAksCommand Command { get; }
+    AzAksCommand Command => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az identity-binding sub-commands.
+    /// </summary>
+    AzAksIdentityBinding IdentityBinding => throw new System.NotSupportedException();
 
     /// <summary>
     /// az maintenanceconfiguration sub-commands.
     /// </summary>
-    AzAksMaintenanceconfiguration Maintenanceconfiguration { get; }
+    AzAksMaintenanceconfiguration Maintenanceconfiguration => throw new System.NotSupportedException();
 
     /// <summary>
     /// az mesh sub-commands.
     /// </summary>
-    AzAksMesh Mesh { get; }
+    AzAksMesh Mesh => throw new System.NotSupportedException();
 
     /// <summary>
     /// az namespace sub-commands.
     /// </summary>
-    AzAksNamespace Namespace { get; }
+    AzAksNamespace Namespace => throw new System.NotSupportedException();
 
     /// <summary>
     /// az nodepool sub-commands.
     /// </summary>
-    AzAksNodepool Nodepool { get; }
+    AzAksNodepool Nodepool => throw new System.NotSupportedException();
 
     /// <summary>
     /// az oidc-issuer sub-commands.
     /// </summary>
-    AzAksOidcIssuer OidcIssuer { get; }
+    AzAksOidcIssuer OidcIssuer => throw new System.NotSupportedException();
 
     /// <summary>
     /// az safeguards sub-commands.
     /// </summary>
-    AzAksSafeguards Safeguards { get; }
+    AzAksSafeguards Safeguards => throw new System.NotSupportedException();
 
     /// <summary>
     /// az trustedaccess sub-commands.
     /// </summary>
-    AzAksTrustedaccess Trustedaccess { get; }
+    AzAksTrustedaccess Trustedaccess => throw new System.NotSupportedException();
 
     /// <summary>
     /// Show the dashboard for a Kubernetes cluster in a web browser.
@@ -70,10 +78,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BrowseAsync(
-        AzAksBrowseOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> BrowseAsync(AzAksBrowseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Validate an ACR is accessible from an AKS cluster.
@@ -82,10 +88,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CheckAcrAsync(
-        AzAksCheckAcrOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CheckAcrAsync(AzAksCheckAcrOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a new managed Kubernetes cluster.
@@ -94,10 +98,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(
-        AzAksCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateAsync(AzAksCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Delete a managed Kubernetes cluster.
@@ -106,10 +108,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        AzAksDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(AzAksDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Disable Kubernetes addons.
@@ -118,10 +118,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DisableAddonsAsync(
-        AzAksDisableAddonsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DisableAddonsAsync(AzAksDisableAddonsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Enable Kubernetes addons.
@@ -130,10 +128,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> EnableAddonsAsync(
-        AzAksEnableAddonsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> EnableAddonsAsync(AzAksEnableAddonsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get access credentials for a managed Kubernetes cluster.
@@ -142,10 +138,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetCredentialsAsync(
-        AzAksGetCredentialsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> GetCredentialsAsync(AzAksGetCredentialsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Download and install kubectl, the Kubernetes command-line tool. Download
@@ -154,10 +148,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InstallCliAsync(
-        AzAksInstallCliOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> InstallCliAsync(AzAksInstallCliOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List managed Kubernetes clusters.
@@ -166,10 +158,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzAksListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzAksListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Abort last running operation on managed cluster.
@@ -178,10 +168,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperationAbortAsync(
-        AzAksOperationAbortOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> OperationAbortAsync(AzAksOperationAbortOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Rotate certificates and keys on a managed Kubernetes cluster.
@@ -190,10 +178,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RotateCertsAsync(
-        AzAksRotateCertsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RotateCertsAsync(AzAksRotateCertsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Scale the node pool in a managed Kubernetes cluster.
@@ -202,10 +188,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ScaleAsync(
-        AzAksScaleOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ScaleAsync(AzAksScaleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Starts a previously stopped Managed Cluster.
@@ -214,10 +198,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> StartAsync(
-        AzAksStartOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> StartAsync(AzAksStartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Stop a managed cluster.
@@ -226,10 +208,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> StopAsync(
-        AzAksStopOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> StopAsync(AzAksStopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update credentials for a managed Kubernetes cluster, like service
@@ -238,10 +218,8 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateCredentialsAsync(
-        AzAksUpdateCredentialsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateCredentialsAsync(AzAksUpdateCredentialsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update a managed Kubernetes cluster. When called with no optional arguments this
@@ -250,9 +228,7 @@ public interface IAzAks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        AzAksUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(AzAksUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

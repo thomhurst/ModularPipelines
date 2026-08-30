@@ -15,13 +15,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az identity commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzIdentity
 {
     /// <summary>
     /// az federated-credential sub-commands.
     /// </summary>
-    AzIdentityFederatedCredential FederatedCredential { get; }
+    AzIdentityFederatedCredential FederatedCredential => throw new System.NotSupportedException();
 
     /// <summary>
     /// List all the userAssignedIdentities available under the subscription or
@@ -30,9 +33,7 @@ public interface IAzIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzIdentityListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzIdentityListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

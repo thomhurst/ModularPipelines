@@ -23,7 +23,7 @@ public record AzSignalrReplicaUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable region endpoint for a SignalR Service. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--region-endpoint-enabled")]
+    [CliOption("--region-endpoint-enabled")]
     public bool? RegionEndpointEnabled { get; set; }
 
     /// <summary>

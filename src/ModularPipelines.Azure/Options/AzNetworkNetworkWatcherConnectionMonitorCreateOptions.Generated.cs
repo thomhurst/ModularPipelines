@@ -23,13 +23,20 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Value indicating whether connection monitor V1 should be migrated to V2 format.
     /// </summary>
-    [CliFlag("--migrate")]
-    public bool? Migrate { get; set; }
+    [CliOption("--migrate")]
+    public string? MigrateValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [Obsolete("Use MigrateValue instead.")]
+    public bool? Migrate
+    {
+        get => bool.TryParse(MigrateValue, out var value) ? value : null;
+        set => MigrateValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

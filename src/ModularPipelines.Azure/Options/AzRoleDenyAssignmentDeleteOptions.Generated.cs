@@ -29,8 +29,8 @@ public record AzRoleDenyAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// The name (GUID) of the deny assignment to delete.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Scope at which the deny assignment applies. For example, /subscriptions/00000000-0000-0000-0000-000000000000 or /subscriptions/0 0000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
@@ -43,5 +43,12 @@ public record AzRoleDenyAssignmentDeleteOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

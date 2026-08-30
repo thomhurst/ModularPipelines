@@ -23,7 +23,7 @@ public record AzSqlMiTdeKeySetOptions : AzOptions
     /// <summary>
     /// The key auto rotation opt in status. Can be either true or false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--auto-rotation-enabled")]
+    [CliOption("--auto-rotation-enabled")]
     public bool? AutoRotationEnabled { get; set; }
 
     /// <summary>

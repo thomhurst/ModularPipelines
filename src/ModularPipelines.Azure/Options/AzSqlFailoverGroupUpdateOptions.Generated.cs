@@ -53,8 +53,8 @@ public record AzSqlFailoverGroupUpdateOptions : AzOptions
     /// <summary>
     /// The resource id of the read only endpoint target server.
     /// </summary>
-    [CliFlag("--ro-endpoint-target")]
-    public bool? RoEndpointTarget { get; set; }
+    [CliOption("--ro-endpoint-target")]
+    public string? RoEndpointTargetValue { get; set; }
 
     /// <summary>
     /// The policy of the read only endpoint of the Failover Group.  Allowed values: Disabled, Enabled.
@@ -67,5 +67,12 @@ public record AzSqlFailoverGroupUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--secondary-type")]
     public bool? SecondaryType { get; set; }
+
+    [Obsolete("Use RoEndpointTargetValue instead.")]
+    public bool? RoEndpointTarget
+    {
+        get => bool.TryParse(RoEndpointTargetValue, out var value) ? value : null;
+        set => RoEndpointTargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,7 +23,14 @@ public record AzMonitorAutoscaleRuleDeleteOptions : AzOptions
     /// <summary>
     /// Name of the autoscale profile.  Default: default.
     /// </summary>
-    [CliFlag("--profile-name")]
-    public bool? ProfileName { get; set; }
+    [CliOption("--profile-name")]
+    public string? ProfileNameValue { get; set; }
+
+    [Obsolete("Use ProfileNameValue instead.")]
+    public bool? ProfileName
+    {
+        get => bool.TryParse(ProfileNameValue, out var value) ? value : null;
+        set => ProfileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

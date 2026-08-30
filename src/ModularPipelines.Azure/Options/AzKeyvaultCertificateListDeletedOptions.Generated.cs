@@ -23,7 +23,7 @@ public record AzKeyvaultCertificateListDeletedOptions : AzOptions
     /// <summary>
     /// Specifies whether to include certificates which are not completely provisioned.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--include-pending")]
+    [CliOption("--include-pending")]
     public bool? IncludePending { get; set; }
 
     /// <summary>

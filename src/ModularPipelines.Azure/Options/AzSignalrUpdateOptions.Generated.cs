@@ -29,25 +29,25 @@ public record AzSignalrUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable client certificate authentication for a SignalR Service.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--client-cert-enabled")]
+    [CliOption("--client-cert-enabled")]
     public bool? ClientCertEnabled { get; set; }
 
     /// <summary>
     /// Enable or disable local auth for a SignalR Service.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-local-auth")]
+    [CliOption("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// The switch for messaging logs which signalr service will generate or not.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-message-logs")]
+    [CliOption("--enable-message-logs")]
     public bool? EnableMessageLogs { get; set; }
 
     /// <summary>
     /// Enable or disable region endpoint for a SignalR Service.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--region-endpoint-enabled")]
+    [CliOption("--region-endpoint-enabled")]
     public bool? RegionEndpointEnabled { get; set; }
 
     /// <summary>

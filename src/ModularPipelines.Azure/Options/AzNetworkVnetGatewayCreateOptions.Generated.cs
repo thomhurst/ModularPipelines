@@ -35,14 +35,14 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     /// <summary>
     /// The name of edge zone.
     /// </summary>
-    [CliFlag("--edge-zone")]
-    public bool? EdgeZone { get; set; }
+    [CliOption("--edge-zone")]
+    public string? EdgeZoneValue { get; set; }
 
     /// <summary>
     /// The Extended vnet resource id of the local gateway.
     /// </summary>
-    [CliFlag("--edge-zone-vnet-id")]
-    public bool? EdgeZoneVnetId { get; set; }
+    [CliOption("--edge-zone-vnet-id")]
+    public string? EdgeZoneVnetIdValue { get; set; }
 
     /// <summary>
     /// Whether private IP needs to be enabled on this gateway for connections or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -53,8 +53,8 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of a local network gateway representing a local network site with default routes.
     /// </summary>
-    [CliFlag("--gateway-default-site")]
-    public bool? GatewayDefaultSite { get; set; }
+    [CliOption("--gateway-default-site")]
+    public string? GatewayDefaultSiteValue { get; set; }
 
     /// <summary>
     /// The gateway type.  Allowed values:
@@ -121,5 +121,26 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--vpn-type")]
     public bool? VpnType { get; set; }
+
+    [Obsolete("Use EdgeZoneValue instead.")]
+    public bool? EdgeZone
+    {
+        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
+        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EdgeZoneVnetIdValue instead.")]
+    public bool? EdgeZoneVnetId
+    {
+        get => bool.TryParse(EdgeZoneVnetIdValue, out var value) ? value : null;
+        set => EdgeZoneVnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use GatewayDefaultSiteValue instead.")]
+    public bool? GatewayDefaultSite
+    {
+        get => bool.TryParse(GatewayDefaultSiteValue, out var value) ? value : null;
+        set => GatewayDefaultSiteValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

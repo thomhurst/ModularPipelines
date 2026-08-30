@@ -23,7 +23,7 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this vault/managed HSM pool. Setting this property to true activates protection against purge for this vault/managed HSM pool and its content - only the Key Vault/Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-purge-protection", ShortForm = "-e")]
+    [CliOption("--enable-purge-protection", ShortForm = "-e")]
     public bool? EnablePurgeProtection { get; set; }
 
     /// <summary>
@@ -47,13 +47,20 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// <summary>
     /// Name of resource group.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// --secondary-locations extends/contracts an HSM pool to listed regions. The primary location where the resource was originally created CANNOT be removed.
     /// </summary>
     [CliFlag("--secondary-locations")]
     public bool? SecondaryLocations { get; set; }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

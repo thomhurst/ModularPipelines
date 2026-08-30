@@ -23,14 +23,14 @@ public record AzDiskUpdateOptions : AzOptions
     /// <summary>
     /// Name or ID of the disk access resource for using private endpoints on disks.
     /// </summary>
-    [CliFlag("--disk-access")]
-    public bool? DiskAccess { get; set; }
+    [CliOption("--disk-access")]
+    public string? DiskAccessValue { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set that is used to encrypt the disk.
     /// </summary>
-    [CliFlag("--disk-encryption-set")]
-    public bool? DiskEncryptionSet { get; set; }
+    [CliOption("--disk-encryption-set")]
+    public string? DiskEncryptionSetValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -43,5 +43,19 @@ public record AzDiskUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--sku")]
     public bool? Sku { get; set; }
+
+    [Obsolete("Use DiskAccessValue instead.")]
+    public bool? DiskAccess
+    {
+        get => bool.TryParse(DiskAccessValue, out var value) ? value : null;
+        set => DiskAccessValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DiskEncryptionSetValue instead.")]
+    public bool? DiskEncryptionSet
+    {
+        get => bool.TryParse(DiskEncryptionSetValue, out var value) ? value : null;
+        set => DiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

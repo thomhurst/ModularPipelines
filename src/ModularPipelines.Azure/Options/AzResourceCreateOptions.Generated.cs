@@ -23,8 +23,8 @@ public record AzResourceCreateOptions : AzOptions
     /// <summary>
     /// Resource ID.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? IdValue { get; set; }
 
     /// <summary>
     /// Indicate that the properties object includes other options such as location, tags, sku, and/or plan.
@@ -37,5 +37,12 @@ public record AzResourceCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
+
+    [Obsolete("Use IdValue instead.")]
+    public bool? Id
+    {
+        get => bool.TryParse(IdValue, out var value) ? value : null;
+        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

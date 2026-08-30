@@ -23,19 +23,33 @@ public record AzTagDeleteOptions : AzOptions
     /// <summary>
     /// The name of the tag to be deleted.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// The resource identifier for the entity being tagged. A resource, a resource group or a subscription may be tagged.
     /// </summary>
-    [CliFlag("--resource-id")]
-    public bool? ResourceId { get; set; }
+    [CliOption("--resource-id")]
+    public string? ResourceIdValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceIdValue instead.")]
+    public bool? ResourceId
+    {
+        get => bool.TryParse(ResourceIdValue, out var value) ? value : null;
+        set => ResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

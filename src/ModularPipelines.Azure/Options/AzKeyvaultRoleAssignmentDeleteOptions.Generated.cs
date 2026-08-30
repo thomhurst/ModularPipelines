@@ -41,8 +41,8 @@ public record AzKeyvaultRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Name of the role assignment.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Role name or id.
@@ -55,5 +55,12 @@ public record AzKeyvaultRoleAssignmentDeleteOptions : AzOptions
     /// </summary>
     [CliFlag("--scope")]
     public bool? Scope { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

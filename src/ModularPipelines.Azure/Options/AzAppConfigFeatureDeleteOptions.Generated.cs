@@ -41,8 +41,8 @@ public record AzAppConfigFeatureDeleteOptions : AzOptions
     /// <summary>
     /// Name of the feature to be deleted. If the feature flag key is different from the default key, provide the `--key` argument instead. Support star sign as filters, for instance * means all features and abc* means features with abc as prefix. Comma separated features are not supported. Please provide escaped string if your feature name contains comma.
     /// </summary>
-    [CliFlag("--feature")]
-    public bool? Feature { get; set; }
+    [CliOption("--feature")]
+    public string? FeatureValue { get; set; }
 
     /// <summary>
     /// Key of the feature flag. Key must start with the ".appconfig.featureflag/" prefix. Key cannot contain the "%" character. If both key and feature arguments are provided, only key will be used. Support star sign as filters, for instance ".appconfig.featureflag/*" means all features and ".appconfig.featureflag/abc*" means features with abc as prefix. Comma separated features are not supported. Please provide escaped string if your feature name contains comma.
@@ -59,8 +59,8 @@ public record AzAppConfigFeatureDeleteOptions : AzOptions
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// If no tags are specified, delete all feature flags with any tags. Support space-separated tags: key[=value] [key[=value] ...].
@@ -73,5 +73,19 @@ public record AzAppConfigFeatureDeleteOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use FeatureValue instead.")]
+    public bool? Feature
+    {
+        get => bool.TryParse(FeatureValue, out var value) ? value : null;
+        set => FeatureValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

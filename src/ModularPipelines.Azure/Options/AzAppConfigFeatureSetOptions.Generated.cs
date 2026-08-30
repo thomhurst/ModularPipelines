@@ -35,8 +35,8 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     /// <summary>
     /// Description of the feature flag to be set.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
@@ -47,8 +47,8 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     /// <summary>
     /// Name of the feature flag to be set. Feature name cannot contain the '%' or ':' characters.
     /// </summary>
-    [CliFlag("--feature")]
-    public bool? Feature { get; set; }
+    [CliOption("--feature")]
+    public string? FeatureValue { get; set; }
 
     /// <summary>
     /// Key of the feature flag. Key must start with the ".appconfig.featureflag/" prefix. Key cannot contain the "%" character. Default key is the reserved prefix ".appconfig.featureflag/" + feature name.
@@ -65,8 +65,8 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Requirement type determines if filters should use "Any" or "All" logic when evaluating the state of a feature.  Allowed values: All, Any.
@@ -83,7 +83,7 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     /// <summary>
     /// Enable or disable telemetry for the feature flag.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--telemetry-enabled")]
+    [CliOption("--telemetry-enabled")]
     public bool? TelemetryEnabled { get; set; }
 
     /// <summary>
@@ -91,5 +91,26 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use FeatureValue instead.")]
+    public bool? Feature
+    {
+        get => bool.TryParse(FeatureValue, out var value) ? value : null;
+        set => FeatureValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

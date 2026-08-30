@@ -83,19 +83,26 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     /// <summary>
     /// Enables automatic repair.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--repair-enabled")]
+    [CliOption("--repair-enabled")]
     public bool? RepairEnabled { get; set; }
 
     /// <summary>
     /// The resource id of a backup. If provided on create, the backup will be used to prepopulate the cluster. The cluster data center count and node counts must match the backup.
     /// </summary>
-    [CliFlag("--restore-from-backup-id")]
-    public bool? RestoreFromBackupId { get; set; }
+    [CliOption("--restore-from-backup-id")]
+    public string? RestoreFromBackupIdValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use RestoreFromBackupIdValue instead.")]
+    public bool? RestoreFromBackupId
+    {
+        get => bool.TryParse(RestoreFromBackupIdValue, out var value) ? value : null;
+        set => RestoreFromBackupIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

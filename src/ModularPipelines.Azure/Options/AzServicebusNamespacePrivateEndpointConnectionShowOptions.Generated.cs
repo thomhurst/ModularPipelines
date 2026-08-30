@@ -23,7 +23,14 @@ public record AzServicebusNamespacePrivateEndpointConnectionShowOptions : AzOpti
     /// <summary>
     /// The ID of the private endpoint connection associated with the Service Bus Namespace. You can get it using `az servicebus namespace show`.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? IdValue { get; set; }
+
+    [Obsolete("Use IdValue instead.")]
+    public bool? Id
+    {
+        get => bool.TryParse(IdValue, out var value) ? value : null;
+        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

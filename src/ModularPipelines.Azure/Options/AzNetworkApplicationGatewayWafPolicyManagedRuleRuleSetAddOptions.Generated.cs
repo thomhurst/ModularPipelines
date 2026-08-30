@@ -23,13 +23,20 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetAddOptions :
     /// <summary>
     /// The name of the web application firewall rule set group.
     /// </summary>
-    [CliFlag("--group-name")]
-    public bool? GroupName { get; set; }
+    [CliOption("--group-name")]
+    public string? GroupNameValue { get; set; }
 
     /// <summary>
     /// The rule that will be disabled. If none specified, all rules in the group will be disabled. If provided, --group-name must be provided too.
     /// </summary>
     [CliFlag("--rule")]
     public bool? Rule { get; set; }
+
+    [Obsolete("Use GroupNameValue instead.")]
+    public bool? GroupName
+    {
+        get => bool.TryParse(GroupNameValue, out var value) ? value : null;
+        set => GroupNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

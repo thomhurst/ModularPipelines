@@ -29,14 +29,14 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// The ID of an Azure Active Directory tenant.
     /// </summary>
-    [CliFlag("--aad-tenant-id")]
-    public bool? AadTenantId { get; set; }
+    [CliOption("--aad-tenant-id")]
+    public string? AadTenantIdValue { get; set; }
 
     /// <summary>
     /// The name of a subnet in an existing VNet into which to deploy the virtual nodes.
     /// </summary>
-    [CliFlag("--aci-subnet-name")]
-    public bool? AciSubnetName { get; set; }
+    [CliOption("--aci-subnet-name")]
+    public string? AciSubnetNameValue { get; set; }
 
     /// <summary>
     /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "-- enable-acns".  Allowed values: FQDN, L7,
@@ -65,14 +65,14 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Comma-separated key-value pairs to specify custom headers.
     /// </summary>
-    [CliFlag("--aks-custom-headers")]
-    public bool? AksCustomHeaders { get; set; }
+    [CliOption("--aks-custom-headers")]
+    public string? AksCustomHeadersValue { get; set; }
 
     /// <summary>
     /// Resource ID of Azure Monitor Private Link scope for Monitoring Addon.
     /// </summary>
-    [CliFlag("--ampls-resource-id")]
-    public bool? AmplsResourceId { get; set; }
+    [CliOption("--ampls-resource-id")]
+    public string? AmplsResourceIdValue { get; set; }
 
     /// <summary>
     /// Comma-separated list of authorized apiserver IP ranges. Set to 0.0.0.0/32 to restrict apiserver traffic to node pools.
@@ -83,8 +83,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// The ID of a subnet in an existing VNet into which to assign control plane apiserver pods(requires --enable-apiserver-vnet- integration).
     /// </summary>
-    [CliFlag("--apiserver-subnet-id")]
-    public bool? ApiserverSubnetId { get; set; }
+    [CliOption("--apiserver-subnet-id")]
+    public string? ApiServerSubnetId { get; set; }
 
     /// <summary>
     /// Specify an existing user assigned identity for control plane's usage in order to manage cluster resource group.
@@ -101,8 +101,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Grant the 'acrpull' role assignment to the ACR specified by name or resource ID.
     /// </summary>
-    [CliFlag("--attach-acr")]
-    public bool? AttachAcr { get; set; }
+    [CliOption("--attach-acr")]
+    public string? AttachAcrValue { get; set; }
 
     /// <summary>
     /// Specify the upgrade channel for autoupgrade.  Allowed values: node-image, none, patch, rapid, stable.
@@ -113,8 +113,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Identifier of Azure Key Vault key.
     /// </summary>
-    [CliFlag("--azure-keyvault-kms-key-id")]
-    public bool? AzureKeyvaultKmsKeyId { get; set; }
+    [CliOption("--azure-keyvault-kms-key-id")]
+    public string? AzureKeyvaultKmsKeyIdValue { get; set; }
 
     /// <summary>
     /// Network Access of Azure Key Vault.  Allowed values: Private, Public.
@@ -125,14 +125,14 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Resource ID of Azure Key Vault.
     /// </summary>
-    [CliFlag("--azure-keyvault-kms-key-vault-resource-id")]
-    public bool? AzureKeyvaultKmsKeyVaultResourceId { get; set; }
+    [CliOption("--azure-keyvault-kms-key-vault-resource-id")]
+    public string? AzureKeyvaultKmsKeyVaultResourceIdValue { get; set; }
 
     /// <summary>
     /// Resource ID of the Azure Monitor Workspace.
     /// </summary>
-    [CliFlag("--azure-monitor-workspace-resource-id")]
-    public bool? AzureMonitorWorkspaceResourceId { get; set; }
+    [CliOption("--azure-monitor-workspace-resource-id")]
+    public string? AzureMonitorWorkspaceResourceIdValue { get; set; }
 
     /// <summary>
     /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.  Default: Direct.
@@ -143,8 +143,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Configure container registry resource ID. Must use "Cache" as bootstrap artifact source.
     /// </summary>
-    [CliFlag("--bootstrap-container-registry-resource-id")]
-    public bool? BootstrapContainerRegistryResourceId { get; set; }
+    [CliOption("--bootstrap-container-registry-resource-id")]
+    public string? BootstrapContainerRegistryResourceIdValue { get; set; }
 
     /// <summary>
     /// Secret associated with the service principal. This argument is required if `--service-principal` is specified.
@@ -167,14 +167,14 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Path to JSON file containing data collection settings for Monitoring addon.
     /// </summary>
-    [CliFlag("--data-collection-settings")]
-    public bool? DataCollectionSettings { get; set; }
+    [CliOption("--data-collection-settings")]
+    public string? DataCollectionSettingsValue { get; set; }
 
     /// <summary>
     /// Path to JSON file containing Microsoft
     /// </summary>
-    [CliFlag("--defender-config")]
-    public bool? DefenderConfig { get; set; }
+    [CliOption("--defender-config")]
+    public string? DefenderConfigValue { get; set; }
 
     /// <summary>
     /// Used to disable advanced networking observability features on a clusters when enabling advanced networking features with "--enable-acns".
@@ -245,8 +245,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// The name of the Edge Zone.
     /// </summary>
-    [CliFlag("--edge-zone")]
-    public bool? EdgeZone { get; set; }
+    [CliOption("--edge-zone")]
+    public string? EdgeZoneValue { get; set; }
 
     /// <summary>
     /// Enable managed AAD feature for cluster.
@@ -282,7 +282,7 @@ public record AzAksCreateOptions : AzOptions
     /// Enable integration of user vnet with control plane apiserver pods.
     /// </summary>
     [CliFlag("--enable-apiserver-vnet-integration")]
-    public bool? EnableApiserverVnetIntegration { get; set; }
+    public bool? EnableApiServerVnetIntegration { get; set; }
 
     /// <summary>
     /// Enable Application Routing addon.
@@ -371,7 +371,7 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container- network-logs is specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-high-log-scale-mode")]
+    [CliOption("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }
 
     /// <summary>
@@ -401,7 +401,7 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-msi-auth-for-monitoring")]
+    [CliOption("--enable-msi-auth-for-monitoring")]
     public bool? EnableMsiAuthForMonitoring { get; set; }
 
     /// <summary>
@@ -449,7 +449,7 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Enable syslog data collection for Monitoring addon.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-syslog")]
+    [CliOption("--enable-syslog")]
     public bool? EnableSyslog { get; set; }
 
     /// <summary>
@@ -533,8 +533,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Resource ID of the Azure Managed Grafana
     /// </summary>
-    [CliFlag("--grafana-resource-id")]
-    public bool? GrafanaResourceId { get; set; }
+    [CliOption("--grafana-resource-id")]
+    public string? GrafanaResourceIdValue { get; set; }
 
     /// <summary>
     /// The fully qualified dedicated host group id used to provision agent node pool.
@@ -551,8 +551,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// The value provided will be compared to the ETag of the managed cluster, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new cluster.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatchValue { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster. Other values will be ignored.
@@ -593,8 +593,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
-    [CliFlag("--kubelet-config")]
-    public bool? KubeletConfig { get; set; }
+    [CliOption("--kubelet-config")]
+    public string? KubeletConfigValue { get; set; }
 
     /// <summary>
     /// Version of Kubernetes to use for creating the cluster, such as "1.16.9".  Values from: `az aks get-versions`.
@@ -605,8 +605,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Path to JSON file containing OS configurations for Linux agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
-    [CliFlag("--linux-os-config")]
-    public bool? LinuxOsConfig { get; set; }
+    [CliOption("--linux-os-config")]
+    public string? LinuxOsConfigValue { get; set; }
 
     /// <summary>
     /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration.
@@ -677,8 +677,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Path to a file containing the desired message of the day. Only valid for linux nodes. Will be written to /etc/motd.
     /// </summary>
-    [CliFlag("--message-of-the-day")]
-    public bool? MessageOfTheDay { get; set; }
+    [CliOption("--message-of-the-day")]
+    public string? MessageOfTheDayValue { get; set; }
 
     /// <summary>
     /// Minimum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [1, 1000].
@@ -875,20 +875,20 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".
     /// </summary>
-    [CliFlag("--pod-ip-allocation-mode")]
-    public bool? PodIpAllocationMode { get; set; }
+    [CliOption("--pod-ip-allocation-mode")]
+    public string? PodIpAllocationModeValue { get; set; }
 
     /// <summary>
     /// The ID of a subnet in an existing VNet into which to assign pods in the cluster (requires azure network-plugin).
     /// </summary>
-    [CliFlag("--pod-subnet-id")]
-    public bool? PodSubnetId { get; set; }
+    [CliOption("--pod-subnet-id")]
+    public string? PodSubnetIdValue { get; set; }
 
     /// <summary>
     /// The ID of a PPG.
     /// </summary>
-    [CliFlag("--ppg")]
-    public bool? Ppg { get; set; }
+    [CliOption("--ppg")]
+    public string? PpgValue { get; set; }
 
     /// <summary>
     /// Private dns zone mode for private cluster.
@@ -941,8 +941,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// The source snapshot id used to create this cluster.
     /// </summary>
-    [CliFlag("--snapshot-id")]
-    public bool? SnapshotId { get; set; }
+    [CliOption("--snapshot-id")]
+    public string? SnapshotIdValue { get; set; }
 
     /// <summary>
     /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa AAAAB...snip...UcyupgH
@@ -1007,8 +1007,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// The ID of a subnet in an existing VNet into which to deploy the cluster.
     /// </summary>
-    [CliFlag("--vnet-subnet-id")]
-    public bool? VnetSubnetId { get; set; }
+    [CliOption("--vnet-subnet-id")]
+    public string? VnetSubnetIdValue { get; set; }
 
     /// <summary>
     /// User account password to use on windows node VMs.
@@ -1031,8 +1031,8 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// The resource ID of an existing Log Analytics Workspace to use for storing monitoring data. If not specified, uses the default Log Analytics Workspace if it exists, otherwise creates one.
     /// </summary>
-    [CliFlag("--workspace-resource-id")]
-    public bool? WorkspaceResourceId { get; set; }
+    [CliOption("--workspace-resource-id")]
+    public string? WorkspaceResourceIdValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -1045,5 +1045,180 @@ public record AzAksCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
+
+    [Obsolete("Use AadTenantIdValue instead.")]
+    public bool? AadTenantId
+    {
+        get => bool.TryParse(AadTenantIdValue, out var value) ? value : null;
+        set => AadTenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use AciSubnetNameValue instead.")]
+    public bool? AciSubnetName
+    {
+        get => bool.TryParse(AciSubnetNameValue, out var value) ? value : null;
+        set => AciSubnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use AksCustomHeadersValue instead.")]
+    public bool? AksCustomHeaders
+    {
+        get => bool.TryParse(AksCustomHeadersValue, out var value) ? value : null;
+        set => AksCustomHeadersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use AmplsResourceIdValue instead.")]
+    public bool? AmplsResourceId
+    {
+        get => bool.TryParse(AmplsResourceIdValue, out var value) ? value : null;
+        set => AmplsResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use AttachAcrValue instead.")]
+    public bool? AttachAcr
+    {
+        get => bool.TryParse(AttachAcrValue, out var value) ? value : null;
+        set => AttachAcrValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use AzureKeyvaultKmsKeyIdValue instead.")]
+    public bool? AzureKeyvaultKmsKeyId
+    {
+        get => bool.TryParse(AzureKeyvaultKmsKeyIdValue, out var value) ? value : null;
+        set => AzureKeyvaultKmsKeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use AzureKeyvaultKmsKeyVaultResourceIdValue instead.")]
+    public bool? AzureKeyvaultKmsKeyVaultResourceId
+    {
+        get => bool.TryParse(AzureKeyvaultKmsKeyVaultResourceIdValue, out var value) ? value : null;
+        set => AzureKeyvaultKmsKeyVaultResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use AzureMonitorWorkspaceResourceIdValue instead.")]
+    public bool? AzureMonitorWorkspaceResourceId
+    {
+        get => bool.TryParse(AzureMonitorWorkspaceResourceIdValue, out var value) ? value : null;
+        set => AzureMonitorWorkspaceResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use BootstrapContainerRegistryResourceIdValue instead.")]
+    public bool? BootstrapContainerRegistryResourceId
+    {
+        get => bool.TryParse(BootstrapContainerRegistryResourceIdValue, out var value) ? value : null;
+        set => BootstrapContainerRegistryResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DataCollectionSettingsValue instead.")]
+    public bool? DataCollectionSettings
+    {
+        get => bool.TryParse(DataCollectionSettingsValue, out var value) ? value : null;
+        set => DataCollectionSettingsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DefenderConfigValue instead.")]
+    public bool? DefenderConfig
+    {
+        get => bool.TryParse(DefenderConfigValue, out var value) ? value : null;
+        set => DefenderConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EdgeZoneValue instead.")]
+    public bool? EdgeZone
+    {
+        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
+        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use GrafanaResourceIdValue instead.")]
+    public bool? GrafanaResourceId
+    {
+        get => bool.TryParse(GrafanaResourceIdValue, out var value) ? value : null;
+        set => GrafanaResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IfMatchValue instead.")]
+    public bool? IfMatch
+    {
+        get => bool.TryParse(IfMatchValue, out var value) ? value : null;
+        set => IfMatchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KubeletConfigValue instead.")]
+    public bool? KubeletConfig
+    {
+        get => bool.TryParse(KubeletConfigValue, out var value) ? value : null;
+        set => KubeletConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use LinuxOsConfigValue instead.")]
+    public bool? LinuxOsConfig
+    {
+        get => bool.TryParse(LinuxOsConfigValue, out var value) ? value : null;
+        set => LinuxOsConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use MessageOfTheDayValue instead.")]
+    public bool? MessageOfTheDay
+    {
+        get => bool.TryParse(MessageOfTheDayValue, out var value) ? value : null;
+        set => MessageOfTheDayValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PodIpAllocationModeValue instead.")]
+    public bool? PodIpAllocationMode
+    {
+        get => bool.TryParse(PodIpAllocationModeValue, out var value) ? value : null;
+        set => PodIpAllocationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PodSubnetIdValue instead.")]
+    public bool? PodSubnetId
+    {
+        get => bool.TryParse(PodSubnetIdValue, out var value) ? value : null;
+        set => PodSubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PpgValue instead.")]
+    public bool? Ppg
+    {
+        get => bool.TryParse(PpgValue, out var value) ? value : null;
+        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SnapshotIdValue instead.")]
+    public bool? SnapshotId
+    {
+        get => bool.TryParse(SnapshotIdValue, out var value) ? value : null;
+        set => SnapshotIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetSubnetIdValue instead.")]
+    public bool? VnetSubnetId
+    {
+        get => bool.TryParse(VnetSubnetIdValue, out var value) ? value : null;
+        set => VnetSubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use WorkspaceResourceIdValue instead.")]
+    public bool? WorkspaceResourceId
+    {
+        get => bool.TryParse(WorkspaceResourceIdValue, out var value) ? value : null;
+        set => WorkspaceResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ApiServerSubnetId instead.")]
+    public bool? ApiserverSubnetId
+    {
+        get => bool.TryParse(ApiServerSubnetId, out var value) ? value : null;
+        set => ApiServerSubnetId = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EnableApiServerVnetIntegration instead.")]
+    public bool? EnableApiserverVnetIntegration
+    {
+        get => EnableApiServerVnetIntegration;
+        set => EnableApiServerVnetIntegration = value;
+    }
 
 }

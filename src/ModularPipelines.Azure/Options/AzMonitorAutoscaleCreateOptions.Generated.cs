@@ -23,7 +23,7 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// Create the autoscale settings in a disabled state.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliOption("--disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>
@@ -35,13 +35,20 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// Name of the autoscale settings.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

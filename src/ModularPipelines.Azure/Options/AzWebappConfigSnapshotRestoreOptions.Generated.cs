@@ -29,25 +29,53 @@ public record AzWebappConfigSnapshotRestoreOptions : AzOptions
     /// <summary>
     /// The name of the slot.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// Name of the web app to retrieve snapshot from.
     /// </summary>
-    [CliFlag("--source-name")]
-    public bool? SourceName { get; set; }
+    [CliOption("--source-name")]
+    public string? SourceNameValue { get; set; }
 
     /// <summary>
     /// Name of the resource group to retrieve snapshot from.
     /// </summary>
-    [CliFlag("--source-resource-group")]
-    public bool? SourceResourceGroup { get; set; }
+    [CliOption("--source-resource-group")]
+    public string? SourceResourceGroupValue { get; set; }
 
     /// <summary>
     /// Name of the web app slot to retrieve snapshot from.
     /// </summary>
-    [CliFlag("--source-slot")]
-    public bool? SourceSlot { get; set; }
+    [CliOption("--source-slot")]
+    public string? SourceSlotValue { get; set; }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceNameValue instead.")]
+    public bool? SourceName
+    {
+        get => bool.TryParse(SourceNameValue, out var value) ? value : null;
+        set => SourceNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceResourceGroupValue instead.")]
+    public bool? SourceResourceGroup
+    {
+        get => bool.TryParse(SourceResourceGroupValue, out var value) ? value : null;
+        set => SourceResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceSlotValue instead.")]
+    public bool? SourceSlot
+    {
+        get => bool.TryParse(SourceSlotValue, out var value) ? value : null;
+        set => SourceSlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

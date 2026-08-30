@@ -23,8 +23,8 @@ public record AzApimApiVersionsetCreateOptions : AzOptions
     /// <summary>
     /// Description of API Version Set.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
@@ -35,19 +35,47 @@ public record AzApimApiVersionsetCreateOptions : AzOptions
     /// <summary>
     /// Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
     /// </summary>
-    [CliFlag("--version-header-name")]
-    public bool? VersionHeaderName { get; set; }
+    [CliOption("--version-header-name")]
+    public string? VersionHeaderNameValue { get; set; }
 
     /// <summary>
     /// Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
     /// </summary>
-    [CliFlag("--version-query-name")]
-    public bool? VersionQueryName { get; set; }
+    [CliOption("--version-query-name")]
+    public string? VersionQueryNameValue { get; set; }
 
     /// <summary>
     /// A resource identifier for the related ApiVersionSet.
     /// </summary>
-    [CliFlag("--version-set-id")]
-    public bool? VersionSetId { get; set; }
+    [CliOption("--version-set-id")]
+    public string? VersionSetIdValue { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VersionHeaderNameValue instead.")]
+    public bool? VersionHeaderName
+    {
+        get => bool.TryParse(VersionHeaderNameValue, out var value) ? value : null;
+        set => VersionHeaderNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VersionQueryNameValue instead.")]
+    public bool? VersionQueryName
+    {
+        get => bool.TryParse(VersionQueryNameValue, out var value) ? value : null;
+        set => VersionQueryNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VersionSetIdValue instead.")]
+    public bool? VersionSetId
+    {
+        get => bool.TryParse(VersionSetIdValue, out var value) ? value : null;
+        set => VersionSetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }
