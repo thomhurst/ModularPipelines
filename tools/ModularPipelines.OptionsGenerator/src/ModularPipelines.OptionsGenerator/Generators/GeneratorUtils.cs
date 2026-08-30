@@ -96,6 +96,10 @@ public static partial class GeneratorUtils
                 sb.AppendLine($"        get => bool.TryParse({property.ForwardToPropertyName}?.FirstOrDefault(), out var value) ? value : null;");
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];");
                 break;
+            case CliCompatibilityForwardingKind.NullableBooleanToLocalBackendString:
+                sb.AppendLine($"        get => {property.ForwardToPropertyName} is null ? null : global::System.String.Equals({property.ForwardToPropertyName}, \"file://~\", global::System.StringComparison.Ordinal);");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value == true ? \"file://~\" : null;");
+                break;
             case CliCompatibilityForwardingKind.NullableStringToRequiredString:
                 sb.AppendLine($"        get => {property.ForwardToPropertyName};");
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value ?? string.Empty;");

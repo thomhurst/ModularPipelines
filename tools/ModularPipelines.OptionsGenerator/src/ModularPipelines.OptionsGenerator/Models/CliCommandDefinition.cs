@@ -263,6 +263,7 @@ public enum CliCompatibilityForwardingKind
     ScalarToCollection,
     NullableInt32ToString,
     NullableBooleanToString,
+    NullableBooleanToLocalBackendString,
     NullableStringToRequiredString,
     NullableInt32ToRequiredString,
     NullableInt32ToStringCollection,

@@ -1695,6 +1695,39 @@ public class GeneratorHardeningTests
             CliCompatibilityForwardingKind.NullableBooleanToStringCollection);
     }
 
+    [Test]
+    public async Task ApiCompatibilityPreserver_Maps_Pulumi_Local_Flag_To_Local_Backend()
+    {
+        var command = Command("PulumiLogoutOptions", "PulumiOptions", ["logout"]) with
+        {
+            FullCommand = "pulumi logout",
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--local",
+                    PropertyName = "Local",
+                    CSharpType = "string?",
+                    IsFlag = false,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Local", "bool?", switchName: "--local")]);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var alias = preserved.CompatibilityProperties.Single();
+
+        await Assert.That(alias.ForwardingKind)
+            .IsEqualTo(CliCompatibilityForwardingKind.NullableBooleanToLocalBackendString);
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "Local",
+            "LocalValue",
+            CliCompatibilityForwardingKind.NullableBooleanToLocalBackendString);
+    }
+
     private static async Task AssertCompatibilityForwardingRoundTrips(
         CliCommandDefinition generatedCommand,
         string compatibilityPropertyName,

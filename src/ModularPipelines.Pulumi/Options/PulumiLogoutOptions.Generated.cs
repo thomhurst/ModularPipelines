@@ -131,8 +131,8 @@ public record PulumiLogoutOptions : PulumiOptions
     [Obsolete("Use LocalValue instead.")]
     public bool? Local
     {
-        get => bool.TryParse(LocalValue, out var value) ? value : null;
-        set => LocalValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => LocalValue is null ? null : global::System.String.Equals(LocalValue, "file://~", global::System.StringComparison.Ordinal);
+        set => LocalValue = value == true ? "file://~" : null;
     }
 
 }

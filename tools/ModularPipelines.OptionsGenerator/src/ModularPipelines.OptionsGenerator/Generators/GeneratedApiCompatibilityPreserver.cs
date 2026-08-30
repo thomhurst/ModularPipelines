@@ -1725,7 +1725,9 @@ internal static class GeneratedApiCompatibilityPreserver
                     ForwardToPropertyName = replacementName,
                     ForwardingKind = forwardsToCollection
                         ? CliCompatibilityForwardingKind.NullableBooleanToStringCollection
-                        : CliCompatibilityForwardingKind.NullableBooleanToString,
+                        : IsPulumiLocalLogoutOption(command, baseline, options[optionIndex])
+                            ? CliCompatibilityForwardingKind.NullableBooleanToLocalBackendString
+                            : CliCompatibilityForwardingKind.NullableBooleanToString,
                     ObsoleteMessage = $"Use {replacementName} instead.",
                 },
                 compatibilityProperties,
@@ -1736,6 +1738,14 @@ internal static class GeneratedApiCompatibilityPreserver
 
         return preserved;
     }
+
+    private static bool IsPulumiLocalLogoutOption(
+        CliCommandDefinition command,
+        GeneratedApiProperty baseline,
+        CliOptionDefinition option) =>
+        command.FullCommand.Equals("pulumi logout", StringComparison.OrdinalIgnoreCase)
+        && baseline.PropertyName.Equals("Local", StringComparison.Ordinal)
+        && option.SwitchName.Equals("--local", StringComparison.OrdinalIgnoreCase);
 
     private static string NormalizeCliSwitchIdentity(string switchName)
     {
@@ -3689,7 +3699,8 @@ internal static class GeneratedApiCompatibilityPreserver
             return forwarding;
         }
 
-        if (TryGetNullableBooleanForwarding(expression, out forwarding))
+        if (TryGetNullableBooleanToLocalBackendForwarding(setterExpression, out forwarding)
+            || TryGetNullableBooleanForwarding(expression, out forwarding))
         {
             return forwarding;
         }
@@ -3810,6 +3821,38 @@ internal static class GeneratedApiCompatibilityPreserver
             forwarding = (
                 collectionTarget.Identifier.ValueText,
                 CliCompatibilityForwardingKind.NullableBooleanToStringCollection);
+            return true;
+        }
+
+        forwarding = default;
+        return false;
+    }
+
+    private static bool TryGetNullableBooleanToLocalBackendForwarding(
+        ExpressionSyntax? setterExpression,
+        out (string? TargetPropertyName, CliCompatibilityForwardingKind Kind) forwarding)
+    {
+        if (setterExpression is AssignmentExpressionSyntax
+            {
+                Left: IdentifierNameSyntax target,
+                Right: ConditionalExpressionSyntax
+                {
+                    Condition: BinaryExpressionSyntax
+                    {
+                        Left: IdentifierNameSyntax value,
+                        Right: LiteralExpressionSyntax { RawKind: (int) SyntaxKind.TrueLiteralExpression },
+                        RawKind: (int) SyntaxKind.EqualsExpression,
+                    },
+                    WhenTrue: LiteralExpressionSyntax localBackend,
+                    WhenFalse: LiteralExpressionSyntax { RawKind: (int) SyntaxKind.NullLiteralExpression },
+                },
+            }
+            && value.Identifier.ValueText.Equals("value", StringComparison.Ordinal)
+            && localBackend.Token.ValueText.Equals("file://~", StringComparison.Ordinal))
+        {
+            forwarding = (
+                target.Identifier.ValueText,
+                CliCompatibilityForwardingKind.NullableBooleanToLocalBackendString);
             return true;
         }
 

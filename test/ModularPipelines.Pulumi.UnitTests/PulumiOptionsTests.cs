@@ -35,4 +35,21 @@ public class PulumiOptionsTests : TestBase
         await Assert.That(commandLine.ToString())
             .IsEqualTo("pulumi env run development -- echo hello");
     }
+
+    [Test]
+    public async Task Legacy_Logout_Local_Flag_Uses_Local_Backend_Url()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+#pragma warning disable CS0618
+        var enabled = builder.Build(new PulumiLogoutOptions { Local = true });
+        var disabled = builder.Build(new PulumiLogoutOptions { Local = false });
+#pragma warning restore CS0618
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(enabled.ToString()).IsEqualTo("pulumi logout --local=file://~");
+            await Assert.That(disabled.ToString()).IsEqualTo("pulumi logout");
+        }
+    }
 }
