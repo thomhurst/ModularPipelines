@@ -116,6 +116,89 @@ public class AwsCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Value_Taking_Global_Command_Options_Are_Not_Flags()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsValueOptionHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var options = commands.Single().Options;
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.Single(option => option.SwitchName == "--cli-input-json").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(options.Single(option => option.SwitchName == "--cli-input-json").IsFlag)
+                .IsFalse();
+            await Assert.That(options.Single(option => option.SwitchName == "--generate-cli-skeleton").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(options.Single(option => option.SwitchName == "--generate-cli-skeleton").IsFlag)
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Enum_Detection_Rejects_Free_Form_Character_Descriptions()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "MessageGroupId",
+            "AwsSqsSendMessageOptions",
+            "Valid values: alphanumeric characters and punctuation.");
+
+        await Assert.That(definition).IsNull();
+    }
+
+    [Test]
+    public async Task High_Level_S3_Commands_Expose_Their_Path_Operands()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsS3HelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var argumentsByCommand = commands.ToDictionary(
+            command => command.CommandParts[^1],
+            command => command.PositionalArguments);
+
+        using (Assert.Multiple())
+        {
+            foreach (var command in new[] { "cp", "mv", "sync" })
+            {
+                await Assert.That(argumentsByCommand[command].Select(argument => argument.PropertyName))
+                    .IsEquivalentTo(["Source", "Destination"]);
+                await Assert.That(argumentsByCommand[command].All(argument => argument.IsRequired)).IsTrue();
+            }
+
+            foreach (var command in new[] { "mb", "presign", "rb", "rm", "website" })
+            {
+                await Assert.That(argumentsByCommand[command].Single().PropertyName).IsEqualTo("S3Uri");
+                await Assert.That(argumentsByCommand[command].Single().IsRequired).IsTrue();
+            }
+
+            await Assert.That(argumentsByCommand["ls"].Single().PropertyName).IsEqualTo("S3Uri");
+            await Assert.That(argumentsByCommand["ls"].Single().IsRequired).IsFalse();
+
+            var futureArguments = argumentsByCommand["future-command"];
+            await Assert.That(futureArguments.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["Source", "Destination"]);
+            await Assert.That(futureArguments[0].IsRequired).IsTrue();
+            await Assert.That(futureArguments[1].IsRequired).IsFalse();
+        }
+    }
+
     private sealed class AwsHelpExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
@@ -243,4 +326,78 @@ public class AwsCliScraperTests
             CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
     }
+
+    private sealed class AwsValueOptionHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o ec2",
+                "ec2 help" => "AVAILABLE COMMANDS\n       o run-instances",
+                "ec2 run-instances help" => """
+                    OPTIONS
+                           --cli-input-json
+                           JSON request document.
+
+                           --generate-cli-skeleton
+                           Skeleton output mode.
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class AwsS3HelpExecutor : ICliCommandExecutor
+    {
+        private static readonly string[] Commands =
+            ["cp", "future-command", "ls", "mb", "mv", "presign", "rb", "rm", "sync", "website"];
+
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o s3",
+                "s3 help" => $"AVAILABLE COMMANDS\n{string.Join('\n', Commands.Select(name => $"       o {name}"))}",
+                "s3 future-command help" => """
+                    SYNOPSIS
+                           aws s3 future-command <source> [destination]
+
+                    OPTIONS
+                           --quiet (boolean)
+                    """,
+                _ when arguments.StartsWith("s3 ", StringComparison.Ordinal) => "OPTIONS\n       --quiet (boolean)\n",
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private static CliCommandResult Result(string output) => new()
+    {
+        StandardOutput = output,
+        StandardError = string.Empty,
+        ExitCode = string.IsNullOrEmpty(output) ? 1 : 0,
+    };
 }

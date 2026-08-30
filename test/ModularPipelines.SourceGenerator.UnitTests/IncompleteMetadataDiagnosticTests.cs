@@ -201,7 +201,9 @@ public class IncompleteMetadataDiagnosticTests
         var registrationSource = generatedSources.Single(static generatedSource =>
             generatedSource.Contains("internal static void Register()", StringComparison.Ordinal));
         var chunkSources = generatedSources.Where(static generatedSource =>
-            generatedSource.Contains("private static void RegisterChunk", StringComparison.Ordinal)).ToArray();
+            generatedSource.Contains(
+                "internal static class RuntimeMetadataRegistrationChunk",
+                StringComparison.Ordinal)).ToArray();
 
         using (Assert.Multiple())
         {
@@ -209,8 +211,14 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(generatedDiagnostics).IsEmpty();
             await Assert.That(generatedSources).Count().IsEqualTo(3);
             await Assert.That(chunkSources).Count().IsEqualTo(2);
-            await Assert.That(registrationSource).Contains("RegisterChunk0000(assembly);");
-            await Assert.That(registrationSource).Contains("RegisterChunk0001(assembly);");
+            await Assert.That(registrationSource)
+                .Contains("RuntimeMetadataRegistrationChunk0000.Register(assembly);");
+            await Assert.That(registrationSource)
+                .Contains("RuntimeMetadataRegistrationChunk0001.Register(assembly);");
+            await Assert.That(chunkSources[0])
+                .Contains("internal static class RuntimeMetadataRegistrationChunk0000");
+            await Assert.That(chunkSources[1])
+                .Contains("internal static class RuntimeMetadataRegistrationChunk0001");
             await Assert.That(string.Join(Environment.NewLine, chunkSources))
                 .Contains("typeof(global::Options32)");
         }

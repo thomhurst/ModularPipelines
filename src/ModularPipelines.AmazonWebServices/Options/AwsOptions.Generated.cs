@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
@@ -15,6 +16,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 /// Base options class for aws CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("aws")]
 [CliGlobalOptions]

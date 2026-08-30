@@ -9,6 +9,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public static class UsageSynopsisParser
 {
+    private static readonly string[] UsageHeadings = ["usage", "synopsis"];
+
     private static readonly HashSet<string> ControlTokens = new(StringComparer.OrdinalIgnoreCase)
     {
         "arg",
@@ -338,7 +340,7 @@ public static class UsageSynopsisParser
         for (var index = 0; index < lines.Length; index++)
         {
             var trimmed = lines[index].Trim();
-            if (!TryReadUsageHeading(trimmed, out var inlineSynopsis))
+            if (!TryReadSynopsisHeading(trimmed, out var inlineSynopsis))
             {
                 continue;
             }
@@ -420,23 +422,25 @@ public static class UsageSynopsisParser
     internal static bool IsSynopsisContinuation(string line) =>
         IsSynopsisContinuationCore(line.Trim());
 
-    private static bool TryReadUsageHeading(string line, out string synopsis)
+    private static bool TryReadSynopsisHeading(string line, out string synopsis)
     {
         synopsis = "";
-        if (line.Trim(' ', '\t', '━', '─').Equals(
-                "Usage",
-                StringComparison.OrdinalIgnoreCase))
-        {
-            return true;
-        }
-
-        if (!line.StartsWith("usage", StringComparison.OrdinalIgnoreCase))
+        var normalizedLine = line.Trim(' ', '\t', '━', '─');
+        var heading = UsageHeadings.FirstOrDefault(candidate =>
+            normalizedLine.Equals(candidate, StringComparison.OrdinalIgnoreCase)
+            || normalizedLine.StartsWith(candidate, StringComparison.OrdinalIgnoreCase));
+        if (heading is null)
         {
             return false;
         }
 
-        var remainder = line["usage".Length..];
-        if (remainder.Length > 0 && remainder[0] != ':' && !char.IsWhiteSpace(remainder[0]))
+        var remainder = normalizedLine[heading.Length..];
+        if (remainder.Length == 0)
+        {
+            return true;
+        }
+
+        if (remainder[0] != ':' && !char.IsWhiteSpace(remainder[0]))
         {
             return false;
         }

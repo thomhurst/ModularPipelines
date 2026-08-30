@@ -32,6 +32,27 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Parses_Indented_Synopsis_Sections()
+    {
+        const string helpText = """
+            SYNOPSIS
+                   aws s3 future-command <source> [destination]
+            """;
+
+        var result = UsageSynopsisParser.Parse(
+            helpText,
+            ["aws", "s3", "future-command"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["Source", "Destination"]);
+            await Assert.That(result.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(result.PositionalArguments[1].IsRequired).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Ignores_Comma_Separated_Command_Alias()
     {
         var result = UsageSynopsisParser.Parse(
