@@ -82,6 +82,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
             : StringComparison.Ordinal;
 
         using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Create);
+        var resolvedArchivePath = ResolveSymbolicLinks(fullArchivePath);
         foreach (var directory in Directory.EnumerateDirectories(
                      sourceDirectory,
                      "*",
@@ -98,7 +99,8 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
                      "*",
                      SearchOption.AllDirectories))
         {
-            if (string.Equals(Path.GetFullPath(file), fullArchivePath, pathComparison))
+            if (string.Equals(Path.GetFullPath(file), fullArchivePath, pathComparison)
+                || string.Equals(ResolveSymbolicLinks(file), resolvedArchivePath, pathComparison))
             {
                 continue;
             }
@@ -107,6 +109,28 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
                 .Replace(Path.DirectorySeparatorChar, '/');
             archive.CreateEntryFromFile(file, entryName, compressionLevel);
         }
+    }
+
+    private static string ResolveSymbolicLinks(string path)
+    {
+        var fullPath = Path.GetFullPath(path);
+        var root = Path.GetPathRoot(fullPath)
+                   ?? throw new ArgumentException("Path must have a root.", nameof(path));
+        var resolvedPath = root;
+
+        foreach (var segment in fullPath[root.Length..].Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            resolvedPath = Path.Combine(resolvedPath, segment);
+            FileSystemInfo entry = Directory.Exists(resolvedPath)
+                ? new DirectoryInfo(resolvedPath)
+                : new FileInfo(resolvedPath);
+            resolvedPath = entry.ResolveLinkTarget(returnFinalTarget: true)?.FullName
+                           ?? resolvedPath;
+        }
+
+        return Path.GetFullPath(resolvedPath);
     }
 
     public async Task<string> DownloadAsync(string producerModuleTypeName, string artifactName, string destinationPath, CancellationToken cancellationToken)

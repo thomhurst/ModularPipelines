@@ -250,6 +250,35 @@ public class ArtifactContextApiTests
         }
     }
 
+    [Test]
+    public async Task Directory_Archive_Excludes_Destination_Through_Source_Link()
+    {
+        var sourceDirectory = Directory.CreateTempSubdirectory("artifact-archive-source-");
+        var linkDirectory = Directory.CreateTempSubdirectory("artifact-archive-link-");
+        var sourceLink = Path.Combine(linkDirectory.FullName, "source");
+        var archivePath = Path.Combine(sourceDirectory.FullName, "artifact.zip");
+        Directory.CreateSymbolicLink(sourceLink, sourceDirectory.FullName);
+        await File.WriteAllTextAsync(Path.Combine(sourceDirectory.FullName, "payload.txt"), "payload");
+
+        try
+        {
+            ArtifactContextImpl.CreateDirectoryArchive(
+                sourceLink,
+                archivePath,
+                CompressionLevel.Fastest);
+
+            using var archive = ZipFile.OpenRead(archivePath);
+            await Assert.That(archive.Entries.Select(static entry => entry.FullName))
+                .IsEquivalentTo(["payload.txt"]);
+        }
+        finally
+        {
+            Directory.Delete(sourceLink);
+            linkDirectory.Delete();
+            sourceDirectory.Delete(recursive: true);
+        }
+    }
+
     private sealed class ArtifactTestModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
