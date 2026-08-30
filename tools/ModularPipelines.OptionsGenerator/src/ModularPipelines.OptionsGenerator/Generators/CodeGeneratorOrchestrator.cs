@@ -886,15 +886,7 @@ public class CodeGeneratorOrchestrator
         IReadOnlyList<GeneratedFile> generatedFiles = toolDefinition.GenerateCode
             ? await GenerateFilesAsync(toolDefinition, cancellationToken).ConfigureAwait(false)
             : [];
-        generatedFiles =
-        [
-            .. generatedFiles.Select(static file => file with
-            {
-                Content = file.RelativePath.EndsWith(".cs", StringComparison.OrdinalIgnoreCase)
-                    ? GeneratorUtils.EnsureRequiredUsings(file.Content)
-                    : file.Content,
-            }),
-        ];
+        generatedFiles = AddRequiredUsings(generatedFiles);
 
         GeneratorUtils.EnsureNoDuplicateFilePaths(generatedFiles, emittedPaths);
 
@@ -978,6 +970,17 @@ public class CodeGeneratorOrchestrator
                 Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
         }
     }
+
+    private static IReadOnlyList<GeneratedFile> AddRequiredUsings(
+        IReadOnlyList<GeneratedFile> generatedFiles) =>
+    [
+        .. generatedFiles.Select(static file => file with
+        {
+            Content = file.RelativePath.EndsWith(".cs", StringComparison.OrdinalIgnoreCase)
+                ? GeneratorUtils.EnsureRequiredUsings(file.Content)
+                : file.Content,
+        }),
+    ];
 
     private static void ValidateToolOutputContainment(
         CliToolDefinition toolDefinition,
