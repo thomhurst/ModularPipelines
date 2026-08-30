@@ -9,6 +9,7 @@ using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
 using ModularPipelines.Enums;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using Moq;
@@ -82,6 +83,54 @@ public class ModuleOutputBufferTests
 
         await Assert.That(writer.ToString()).Contains("**********");
         await Assert.That(writer.ToString()).DoesNotContain(secret);
+    }
+
+    [Test]
+    public async Task Flush_RelayoutsCompositeWhenLateSecretMaskExpands()
+    {
+        const string secret = "tiny";
+        long version = 0;
+        IReadOnlyList<string> secrets = [];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator,
+            renderableSecretProvider: secretProvider.Object);
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+
+        logger.Write(new Table().AddColumn("Value").AddRow(secret));
+        logger.WriteMarkupLine($"[green]{secret}[/]");
+        secrets = [secret];
+        version++;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("│ ********** │");
+        await Assert.That(output).DoesNotContain(secret);
     }
 
     [Test]

@@ -20,6 +20,8 @@ internal sealed class SecretObfuscatedRenderable(
         ? Prepared(inner)
         : PrepareRenderable(inner, secretObfuscator);
 
+    internal bool RequiresPostRenderObfuscation => isObfuscatedBeforeRender;
+
     internal static SecretObfuscatedRenderable FromPreObfuscated(
         IRenderable renderable,
         ISecretObfuscator secretObfuscator) =>
@@ -186,7 +188,7 @@ internal sealed class SecretObfuscatedRenderable(
             return output.Length;
         }
 
-        var outputOffset = (int)((long) sourceOffset * output.Length / sourceLength);
+        var outputOffset = (int) ((long) sourceOffset * output.Length / sourceLength);
         return outputOffset > 0
                && outputOffset < output.Length
                && char.IsLowSurrogate(output[outputOffset])

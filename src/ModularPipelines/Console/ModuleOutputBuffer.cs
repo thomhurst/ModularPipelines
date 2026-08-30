@@ -787,7 +787,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return;
         }
 
-        var remasked = new SecretObfuscatedRenderable(renderable, concreteObfuscator);
+        var remasked = renderable is SecretObfuscatedRenderable
+        {
+            RequiresPostRenderObfuscation: false,
+        }
+            ? renderable
+            : new SecretObfuscatedRenderable(renderable, concreteObfuscator);
         if (_renderableSecretProvider is ISecretEmissionGuard emissionGuard)
         {
             emissionGuard.ExecuteWithStableSecrets(

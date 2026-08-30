@@ -317,6 +317,6 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             rendered = _renderWriter.ToString();
         }
 
-        _buffer.WriteRenderable(snapshot, rendered, appendNewLine);
+        _buffer.WriteRenderable(obfuscatedRenderable, rendered, appendNewLine);
     }
 }
