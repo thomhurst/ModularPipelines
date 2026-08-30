@@ -45,6 +45,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly bool _showSuccessMarker;
     private readonly ISecretObfuscator? _renderableSecretObfuscator;
     private readonly ISecretProvider? _renderableSecretProvider;
+    private readonly IAnsiConsole? _renderableConsole;
     private readonly ModuleOutputExcerptBuffer? _outputExcerptBuffer;
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
@@ -74,6 +75,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="outputExcerptSecretProvider">Provider used to validate late-registered secret boundaries.</param>
     /// <param name="renderableSecretObfuscator">Obfuscator used to mask rich output again immediately before emission.</param>
     /// <param name="renderableSecretProvider">Provider used to stabilize secrets while rich output is emitted.</param>
+    /// <param name="renderableConsole">Console whose profile controls rich output layout.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
@@ -85,7 +87,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ISecretObfuscator? outputExcerptSecretObfuscator = null,
         ISecretProvider? outputExcerptSecretProvider = null,
         ISecretObfuscator? renderableSecretObfuscator = null,
-        ISecretProvider? renderableSecretProvider = null)
+        ISecretProvider? renderableSecretProvider = null,
+        IAnsiConsole? renderableConsole = null)
         : this(
             moduleType.Name,
             moduleType,
@@ -98,7 +101,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             outputExcerptSecretObfuscator: outputExcerptSecretObfuscator,
             outputExcerptSecretProvider: outputExcerptSecretProvider,
             renderableSecretObfuscator: renderableSecretObfuscator,
-            renderableSecretProvider: renderableSecretProvider)
+            renderableSecretProvider: renderableSecretProvider,
+            renderableConsole: renderableConsole)
     {
     }
 
@@ -120,6 +124,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="outputExcerptLogger">Logger for fail-closed excerpt diagnostics.</param>
     /// <param name="renderableSecretObfuscator">Obfuscator used to mask rich output again immediately before emission.</param>
     /// <param name="renderableSecretProvider">Provider used to stabilize secrets while rich output is emitted.</param>
+    /// <param name="renderableConsole">Console whose profile controls rich output layout.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
@@ -134,7 +139,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ISecretProvider? outputExcerptSecretProvider = null,
         ILogger? outputExcerptLogger = null,
         ISecretObfuscator? renderableSecretObfuscator = null,
-        ISecretProvider? renderableSecretProvider = null)
+        ISecretProvider? renderableSecretProvider = null,
+        IAnsiConsole? renderableConsole = null)
     {
         ModuleType = moduleType;
         _moduleName = name;
@@ -147,6 +153,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         _showSuccessMarker = showSuccessMarker;
         _renderableSecretObfuscator = renderableSecretObfuscator;
         _renderableSecretProvider = renderableSecretProvider;
+        _renderableConsole = renderableConsole;
         _outputExcerptBuffer = outputExcerptMaximumBytes > 0
             ? new ModuleOutputExcerptBuffer(
                 outputExcerptMaximumBytes,
@@ -432,7 +439,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
     internal IAnsiConsole GetDirectConsole(TextWriter writer)
     {
-        return _directConsoles.GetValue(writer, static value => CreateDirectConsole(value));
+        return _directConsoles.GetValue(writer, CreateDirectConsole);
     }
 
     private void AddOutput(BufferedOutput output, bool allowAfterCompletion)
@@ -986,14 +993,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return !foundBufferedConsoleLogger && isStructuredLogEnabled(logEvent.Level);
     }
 
-    private static IAnsiConsole CreateDirectConsole(TextWriter writer)
+    private IAnsiConsole CreateDirectConsole(TextWriter writer)
     {
+        var sourceProfile = _renderableConsole?.Profile ?? AnsiConsole.Profile;
         var console = AnsiConsole.Create(new AnsiConsoleSettings
         {
             Out = new AnsiConsoleOutput(writer),
         });
-        console.Profile.Width = AnsiConsole.Profile.Width;
-        console.Profile.Capabilities = AnsiConsole.Profile.Capabilities;
+        console.Profile.Width = sourceProfile.Width;
+        console.Profile.Capabilities = sourceProfile.Capabilities;
         return console;
     }
 

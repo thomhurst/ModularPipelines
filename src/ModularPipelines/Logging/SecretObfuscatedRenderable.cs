@@ -218,7 +218,9 @@ internal sealed class SecretObfuscatedRenderable(
                 secretObfuscator,
                 snapshot)),
             Tree tree => Prepared(PrepareTree(tree, secretObfuscator, snapshot)),
-            _ => new PreparedRenderable(renderable, IsObfuscatedBeforeRender: false),
+            _ => new PreparedRenderable(
+                snapshot ? new DeferredSegmentSnapshotRenderable(renderable) : renderable,
+                IsObfuscatedBeforeRender: false),
         };
 
     private static IRenderable SnapshotRenderable(
@@ -805,6 +807,34 @@ internal sealed class SecretObfuscatedRenderable(
             structuralMinimumWidth + transformedTextMinimumWidth,
             0,
             transformedMaximumWidth);
+    }
+
+    private sealed class DeferredSegmentSnapshotRenderable(IRenderable inner) : IRenderable
+    {
+        private readonly object _snapshotLock = new();
+        private RawSnapshot? _snapshot;
+
+        public Measurement Measure(RenderOptions options, int maxWidth)
+        {
+            var measurement = GetSnapshot(options, maxWidth).Measurement;
+            var maximumWidth = Math.Min(measurement.Max, maxWidth);
+            return new Measurement(Math.Min(measurement.Min, maximumWidth), maximumWidth);
+        }
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) =>
+            GetSnapshot(options, maxWidth).Segments;
+
+        private RawSnapshot GetSnapshot(RenderOptions options, int maxWidth)
+        {
+            lock (_snapshotLock)
+            {
+                return _snapshot ??= new RawSnapshot(
+                    inner.Measure(options, maxWidth),
+                    inner.Render(options, maxWidth).ToArray());
+            }
+        }
+
+        private sealed record RawSnapshot(Measurement Measurement, Segment[] Segments);
     }
 
     private sealed class SegmentSnapshotRenderable(

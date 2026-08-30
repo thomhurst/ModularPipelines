@@ -14,11 +14,31 @@ using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using Moq;
 using Spectre.Console;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines.UnitTests.Console;
 
 public class ModuleOutputBufferTests
 {
+    [Test]
+    public async Task DirectConsole_UsesConfiguredRenderableWidth()
+    {
+        using var profileWriter = new StringWriter();
+        var configuredConsole = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(profileWriter),
+        });
+        configuredConsole.Profile.Width = 24;
+        using var outputWriter = new StringWriter();
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableConsole: configuredConsole);
+
+        var directConsole = buffer.GetDirectConsole(outputWriter);
+
+        await Assert.That(directConsole.Profile.Width).IsEqualTo(24);
+    }
+
     [Test]
     public async Task OutputExcerptSurvivesConsoleFlush()
     {
@@ -131,6 +151,46 @@ public class ModuleOutputBufferTests
         var output = writer.ToString();
         await Assert.That(output).Contains("**********");
         await Assert.That(output).DoesNotContain(secret[..20]);
+    }
+
+    [Test]
+    public async Task Flush_SnapshotsUnhandledRenderableAtWriteTime()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) => value ?? string.Empty);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+        var renderable = new MutableRenderable("first");
+
+        logger.Write(renderable);
+        renderable.Value = "second";
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("first");
+            await Assert.That(writer.ToString()).DoesNotContain("second");
+            await Assert.That(renderable.RenderCount).IsEqualTo(1);
+        }
     }
 
     [Test]
@@ -1677,6 +1737,22 @@ public class ModuleOutputBufferTests
             var message = formatter(state, exception);
             Entries.Add(message);
             writer.WriteLine(message);
+        }
+    }
+
+    private sealed class MutableRenderable(string value) : IRenderable
+    {
+        public string Value { get; set; } = value;
+
+        public int RenderCount { get; private set; }
+
+        public Measurement Measure(RenderOptions options, int maxWidth) =>
+            new(Math.Min(Value.Length, maxWidth), Math.Min(Value.Length, maxWidth));
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
+        {
+            RenderCount++;
+            yield return new Segment(Value);
         }
     }
 

@@ -105,7 +105,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             // Unattributed logs do not represent pipeline completion status.
             showSuccessMarker: false,
             renderableSecretObfuscator: _secretObfuscator,
-            renderableSecretProvider: _secretProvider);
+            renderableSecretProvider: _secretProvider,
+            renderableConsole: _ansiConsole);
     }
 
     /// <inheritdoc />
@@ -323,7 +324,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 outputExcerptSecretProvider: _secretProvider,
                 outputExcerptLogger: _outputExcerptLogger,
                 renderableSecretObfuscator: _secretObfuscator,
-                renderableSecretProvider: _secretProvider));
+                renderableSecretProvider: _secretProvider,
+                renderableConsole: _ansiConsole));
     }
 
     /// <inheritdoc />
