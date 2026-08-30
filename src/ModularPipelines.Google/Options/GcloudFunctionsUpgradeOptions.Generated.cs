@@ -73,6 +73,6 @@ public record GcloudFunctionsUpgradeOptions : GcloudOptions
     /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: The email address of the IAM service account associated with the Eventarc trigger for the function. This is used for authenticated invocation. If not provided, the function will use the project's default service account for Compute Engine.
     /// </summary>
     [CliOption("--trigger-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? TriggerServiceAccount { get; set; }
+    public string? TriggerServiceAccount { get; set; }
 
 }

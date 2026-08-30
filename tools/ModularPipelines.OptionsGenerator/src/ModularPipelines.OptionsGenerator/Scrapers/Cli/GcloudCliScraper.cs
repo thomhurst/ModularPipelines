@@ -401,11 +401,7 @@ public partial class GcloudCliScraper : CliScraperBase
     }
 
     private static bool IsNumericHint(string hint)
-    {
-        var lower = hint.ToLowerInvariant();
-        return lower.Contains("count") || lower.Contains("number") || lower.Contains("size") ||
-               lower.Contains("timeout") || lower.Contains("seconds") || lower.Contains("iops");
-    }
+        => NumericHintPattern().IsMatch(hint);
 
     private static CliEnumDefinition? TryDetectEnum(string propertyName, string? description)
     {
@@ -507,6 +503,11 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(
         @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s;]+))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
     private static partial Regex GcloudFlagPattern();
+
+    [GeneratedRegex(
+        @"(?<![A-Za-z0-9])(?:count|number|size|timeout|seconds|iops)(?![A-Za-z0-9])",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex NumericHintPattern();
 
     #endregion
 }

@@ -153,7 +153,7 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     /// The email address of the IAM service account associated with the Eventarc trigger for the function. This is used for authenticated invocation. If not provided, the function will use the project's default service account for Compute Engine.
     /// </summary>
     [CliOption("--trigger-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? TriggerServiceAccount { get; set; }
+    public string? TriggerServiceAccount { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Label keys starting with deployment are reserved for use by deployment tools and cannot be specified manually.

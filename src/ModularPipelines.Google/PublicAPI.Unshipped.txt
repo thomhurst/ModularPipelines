@@ -1,4 +1,5 @@
 #nullable enable
+*REMOVED*ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.TriggerServiceAccount.get -> int?
 *REMOVED*ModularPipelines.Google.Services.GcloudAccessapproval.GcloudAccessapproval(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Google.Services.GcloudAccessapprovalRequests.GcloudAccessapprovalRequests(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Google.Services.GcloudAccessapprovalServiceAccount.GcloudAccessapprovalServiceAccount(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
@@ -13761,6 +13762,7 @@ ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.TriggerHttp.get -> 
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.TriggerHttp.set -> void
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.TriggerResource.get -> string?
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.TriggerResource.set -> void
+ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.TriggerServiceAccount.get -> string?
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.TriggerTopic.get -> string?
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.TriggerTopic.set -> void
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.UpdateBuildEnvVars.get -> string?
@@ -13796,7 +13798,7 @@ ModularPipelines.Google.Options.GcloudFunctionsUpgradeOptions.SetupConfig.get ->
 ModularPipelines.Google.Options.GcloudFunctionsUpgradeOptions.SetupConfig.set -> void
 ModularPipelines.Google.Options.GcloudFunctionsUpgradeOptions.SkipDetach.get -> bool?
 ModularPipelines.Google.Options.GcloudFunctionsUpgradeOptions.SkipDetach.set -> void
-ModularPipelines.Google.Options.GcloudFunctionsUpgradeOptions.TriggerServiceAccount.get -> int?
+ModularPipelines.Google.Options.GcloudFunctionsUpgradeOptions.TriggerServiceAccount.get -> string?
 ModularPipelines.Google.Options.GcloudFunctionsUpgradeOptions.TriggerServiceAccount.set -> void
 ModularPipelines.Google.Options.GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions.AddRepositories.get -> string?
 ModularPipelines.Google.Options.GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions.AddRepositories.set -> void

@@ -214,6 +214,46 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Numeric_Hints_Require_Whole_Tokens()
+    {
+        const string helpText = """
+            NAME
+                gcloud functions upgrade - upgrade a function
+
+            SYNOPSIS
+                gcloud functions upgrade
+
+            FLAGS
+                 --trigger-service-account=TRIGGER_SERVICE_ACCOUNT
+                    IAM service-account email address.
+                 --retry-count=RETRY_COUNT
+                    Number of retries.
+                 --disk-size=DISK_SIZE
+                    Disk size.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "functions", "upgrade"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option =>
+                option.SwitchName == "--trigger-service-account").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--retry-count").CSharpType)
+                .IsEqualTo("int?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--disk-size").CSharpType)
+                .IsEqualTo("int?");
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Models_Repeatable_Options_As_Collections()
     {
         const string helpText = """
