@@ -36,7 +36,10 @@ internal static class GeneratedApiCompatibilityPreserver
             return tool;
         }
 
-        var baseline = ReadBaseline(optionsDirectory);
+        var baseline = FilterToShippedTypes(
+            ReadBaseline(optionsDirectory),
+            outputDirectory,
+            tool);
         var enumBaseline = ReadEnumBaseline(Path.Combine(
                 outputDirectory,
                 tool.OutputDirectory,
@@ -3043,6 +3046,27 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return baseline;
+    }
+
+    private static Dictionary<string, GeneratedApiBaseline> FilterToShippedTypes(
+        Dictionary<string, GeneratedApiBaseline> baseline,
+        string outputDirectory,
+        CliToolDefinition tool)
+    {
+        var shippedApiPath = Path.Combine(
+            outputDirectory,
+            tool.OutputDirectory,
+            "PublicAPI.Shipped.txt");
+        if (!File.Exists(shippedApiPath))
+        {
+            return baseline;
+        }
+
+        var shippedApi = File.ReadLines(shippedApiPath).ToHashSet(StringComparer.Ordinal);
+        var optionsNamespace = $"{tool.TargetNamespace}.Options.";
+        return baseline
+            .Where(pair => shippedApi.Contains(optionsNamespace + pair.Key))
+            .ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal);
     }
 
     private static GeneratedApiBaseline? ReadBaseline(
