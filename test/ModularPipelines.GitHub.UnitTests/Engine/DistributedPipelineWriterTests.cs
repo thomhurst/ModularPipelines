@@ -101,6 +101,22 @@ public class DistributedPipelineWriterTests : TestBase
     }
 
     [Test]
+    public async Task RejectsUnsupportedOperatingSystemConditions()
+    {
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            TestPipelineBuilder.Create()
+                .AddModule<FreeBsdConditionModule>()
+                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                {
+                    OutputPath = FilePath.GetNewTemporaryFilePath(),
+                    ExtraWorkers = 0,
+                })
+                .RunAsync());
+
+        await Assert.That(exception!.Message).Contains("freebsd");
+    }
+
+    [Test]
     public async Task QuotesPortablePipelineProjectPath()
     {
         var outputPath = new FilePath(Path.Combine(
@@ -154,6 +170,12 @@ public class DistributedPipelineWriterTests : TestBase
 
     [RunIf<OnMacOS>]
     private sealed class MacConditionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIf<OnFreeBSD>]
+    private sealed class FreeBsdConditionModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }

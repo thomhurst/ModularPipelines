@@ -12,7 +12,6 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     private const string Linux = "linux";
     private const string Windows = "windows";
     private const string MacOS = "macos";
-    private const string AlternativeOperatingSystemPrefix = "operating-system:";
     private const string ValidateRetryScopeCommand = """
         if [ "${{ needs.initialize.outputs.run-identifier }}" != "${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" ]; then
           echo "::error::Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix."
@@ -182,19 +181,21 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
 
     private static IEnumerable<string> ParseOperatingSystems(string capability)
     {
-        if (RunnerByOperatingSystem.ContainsKey(capability))
-        {
-            return [capability];
-        }
-
-        if (!capability.StartsWith(AlternativeOperatingSystemPrefix, StringComparison.OrdinalIgnoreCase))
+        if (!OperatingSystemConditions.TryGetCapabilityRoute(capability, out var route))
         {
             return [];
         }
 
-        return capability[AlternativeOperatingSystemPrefix.Length..]
-            .Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Where(RunnerByOperatingSystem.ContainsKey);
+        var supportedOperatingSystems = route.OperatingSystems
+            .Where(RunnerByOperatingSystem.ContainsKey)
+            .ToArray();
+        if (supportedOperatingSystems.Length == 0)
+        {
+            throw new InvalidOperationException(
+                $"Distributed GitHub workflows do not support the required operating-system capability '{capability}'.");
+        }
+
+        return supportedOperatingSystems;
     }
 
     private string BuildRunCommand()
