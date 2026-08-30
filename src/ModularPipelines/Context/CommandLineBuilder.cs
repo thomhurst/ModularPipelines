@@ -68,6 +68,9 @@ internal sealed class CommandLineBuilder(
         // properties retain their normal position after it.
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
         var additionalArguments = options.AdditionalArguments?.ToList() ?? [];
+        var manualArgs = options.Arguments?.ToList() ?? [];
+        var manualArgumentsSupplyRequiredOperands = manualArgs.Count > 0
+                                                     && !options.ArgumentsContainToolOptions;
         ValidateAdditionalArguments(additionalArguments);
 
         var terminalCommandModel = commandModel
@@ -84,6 +87,7 @@ internal sealed class CommandLineBuilder(
             additionalArguments,
             options,
             isGlobalOption: true,
+            manualArgumentsSupplyRequiredOperands: false,
             ref emittedOptionTerminator,
             out var globalOptionTerminatorIndex);
         var terminatorEmittedBeforeProperties = emittedOptionTerminator;
@@ -92,9 +96,9 @@ internal sealed class CommandLineBuilder(
             additionalArguments,
             options,
             isGlobalOption: false,
+            manualArgumentsSupplyRequiredOperands,
             ref emittedOptionTerminator,
             out var commandOptionTerminatorIndex);
-        var manualArgs = options.Arguments?.ToList() ?? [];
         ValidateManualOptionsAfterGlobalTerminator(
             options,
             manualArgs,
@@ -108,7 +112,8 @@ internal sealed class CommandLineBuilder(
             [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
             options,
             ref terminalArgumentTerminatorState,
-            out var terminalArgumentOptionTerminatorIndex);
+            out var terminalArgumentOptionTerminatorIndex,
+            manualArgumentsSupplyRequiredOperands);
         modelEmittedOptionTerminator |= terminalArgumentOptionTerminatorIndex is not null;
 
         // Keep recognized manual options ahead of a marker emitted by a structured argument
@@ -206,6 +211,7 @@ internal sealed class CommandLineBuilder(
         IReadOnlyList<AdditionalCommandLineArgument> additionalArguments,
         CommandLineToolOptions options,
         bool isGlobalOption,
+        bool manualArgumentsSupplyRequiredOperands,
         ref bool emittedOptionTerminator,
         out int? emittedOptionTerminatorIndex)
     {
@@ -240,7 +246,8 @@ internal sealed class CommandLineBuilder(
                 phaseModel,
                 options,
                 ref emittedOptionTerminator,
-                out var phaseOptionTerminatorIndex);
+                out var phaseOptionTerminatorIndex,
+                manualArgumentsSupplyRequiredOperands);
             if (emittedOptionTerminatorIndex is null
                 && phaseOptionTerminatorIndex is { } phaseIndex)
             {

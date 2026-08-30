@@ -118,10 +118,4 @@ public record ChocoExportOptions : ChocoOptions
     [CliOption("--output-file-path", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFilePath { get; set; }
 
-    /// <summary>
-    /// The &lt;options Or switches&gt; operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? OptionsOrSwitches { get; set; }
-
 }

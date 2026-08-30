@@ -8,6 +8,126 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class ChocolateyCliScraperTests
 {
     [Test]
+    [Arguments("[<options/switches>]")]
+    [Arguments("[<options or switches>]")]
+    public async Task Options_Section_Markers_Are_Not_Operands(string marker)
+    {
+        var helpText = $"""
+            Chocolatey v2.5.1
+            Info Command
+
+            Usage
+
+                choco info <pkg> {marker}
+
+            Options and Switches
+            ====================
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(
+            ["choco", "info"],
+            helpText);
+
+        await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["Pkg"]);
+    }
+
+    [Test]
+    [Arguments("install", "<pkg> [<pkg2> <pkgN>]", "Pkg2PkgN")]
+    [Arguments("uninstall", "<pkg> [<pkg2> <pkgN>]", "Pkg2PkgN")]
+    [Arguments("upgrade", "<pkg> [<pkg2> <pkgN>]", "Pkg2PkgN")]
+    [Arguments("new", "<name> [<property=value> <propertyN=valueN>]", "PropertyValuePropertyNValueN")]
+    public async Task Repeatable_Operand_Groups_Become_Collections(
+        string commandName,
+        string operands,
+        string expectedPropertyName)
+    {
+        var helpText = $"""
+            Chocolatey v2.5.1
+            {commandName} Command
+
+            Usage
+
+                choco {commandName} {operands} [<options/switches>]
+
+            Options and Switches
+            ====================
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(
+            ["choco", commandName],
+            helpText);
+
+        var argument = command!.PositionalArguments.Single(candidate =>
+            candidate.PropertyName == expectedPropertyName);
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(argument.IsRequired).IsFalse();
+            await Assert.That(argument.IsVariadic).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("list", "<filter>", "Filter")]
+    [Arguments("feature", "[list]|disable|enable", "List")]
+    [Arguments("pin", "[list]|add|remove", "List")]
+    [Arguments("source", "[list]|add|remove|enable|disable", "List")]
+    public async Task Default_Action_Operands_Remain_Optional(
+        string commandName,
+        string operand,
+        string expectedPropertyName)
+    {
+        var helpText = $"""
+            Chocolatey v2.5.1
+            {commandName} Command
+
+            Usage
+
+                choco {commandName} {operand} [<options/switches>]
+
+            Options and Switches
+            ====================
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(
+            ["choco", commandName],
+            helpText);
+
+        var argument = command!.PositionalArguments.Single(candidate =>
+            candidate.PropertyName == expectedPropertyName);
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.CSharpType).IsEqualTo("string?");
+            await Assert.That(argument.IsRequired).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Commands_Without_Default_Actions_Keep_Required_Operands()
+    {
+        const string helpText = """
+            Chocolatey v2.5.1
+            Install Command
+
+            Usage
+
+                choco install <pkg> [<options/switches>]
+
+            Options and Switches
+            ====================
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(
+            ["choco", "install"],
+            helpText);
+
+        var argument = command!.PositionalArguments.Single(candidate =>
+            candidate.PropertyName == "Pkg");
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.CSharpType).IsEqualTo("string");
+            await Assert.That(argument.IsRequired).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Config_Alternatives_Become_An_Optional_Action()
     {
         const string helpText = """

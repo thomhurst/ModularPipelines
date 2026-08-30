@@ -138,15 +138,9 @@ public record ChocoNewOptions(
     public string? Maintainer { get; set; }
 
     /// <summary>
-    /// The &lt;options Or switches&gt; operand.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
-    public string? OptionsOrSwitches { get; set; }
-
-    /// <summary>
     /// The &lt;property=value&gt; &lt;propertyN=valueN&gt; operand.
     /// </summary>
-    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
-    public string? PropertyValuePropertyNValueN { get; set; }
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? PropertyValuePropertyNValueN { get; set; }
 
 }

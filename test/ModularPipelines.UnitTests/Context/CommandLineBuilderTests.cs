@@ -474,6 +474,29 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Allows_Manual_Arguments_To_Supply_New_Required_Operand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestRequiredOperandCompatibilityOptions
+        {
+            Arguments = ["legacy-operand"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("tool run legacy-operand");
+    }
+
+    [Test]
+    public async Task Build_Still_Rejects_Missing_Required_Operand_Without_Manual_Arguments()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        await Assert.That(() => builder.Build(new TestRequiredOperandCompatibilityOptions()))
+            .Throws<ArgumentException>()
+            .And.HasMessageContaining("TestRequiredOperandCompatibilityOptions.Operand");
+    }
+
+    [Test]
     public async Task Build_Rejects_Terminal_Options_With_RunSettings()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1950,6 +1973,18 @@ public class CommandLineBuilderTests : TestBase
 
         [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
         public IReadOnlyList<string>? Parameters { get; init; }
+    }
+
+    [CliTool("tool")]
+    [CliSubCommand("run")]
+    private sealed record TestRequiredOperandCompatibilityOptions(
+        [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operand)
+        : CommandLineToolOptions
+    {
+        public TestRequiredOperandCompatibilityOptions()
+            : this(default(string)!)
+        {
+        }
     }
 
     [CliTool("dotnet")]

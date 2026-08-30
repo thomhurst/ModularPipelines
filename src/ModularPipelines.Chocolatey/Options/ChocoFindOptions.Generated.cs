@@ -19,15 +19,8 @@ namespace ModularPipelines.Chocolatey.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("find")]
-public record ChocoFindOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Filter
-) : ChocoOptions
+public record ChocoFindOptions : ChocoOptions
 {
-    public ChocoFindOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
     /// </summary>
@@ -209,11 +202,5 @@ public record ChocoFindOptions(
     /// </summary>
     [CliFlag("--include-configured-sources")]
     public bool? IncludeConfiguredSources { get; set; }
-
-    /// <summary>
-    /// The &lt;options Or switches&gt; operand.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
-    public string? OptionsOrSwitches { get; set; }
 
 }

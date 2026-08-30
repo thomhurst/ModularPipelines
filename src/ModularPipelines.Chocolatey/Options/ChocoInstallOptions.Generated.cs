@@ -160,12 +160,6 @@ public record ChocoInstallOptions(
     /// The &lt;pkg2&gt; &lt;pkgN&gt; operand.
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Pkg2PkgN { get; set; }
-
-    /// <summary>
-    /// The &lt;options Or switches&gt; operand.
-    /// </summary>
-    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
-    public string? OptionsOrSwitches { get; set; }
+    public IEnumerable<string>? Pkg2PkgN { get; set; }
 
 }
