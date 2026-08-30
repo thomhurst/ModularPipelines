@@ -60,6 +60,7 @@ public class GlobalOptionsBaseGeneratorTests
         var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
 
         await Assert.That(generated).DoesNotContain("[CliGlobalOptions]");
+        await Assert.That(generated).Contains("// Global options intentionally follow subcommands.");
         await Assert.That(generated).Contains("public virtual string? ChangeReference { get; set; }");
     }
 

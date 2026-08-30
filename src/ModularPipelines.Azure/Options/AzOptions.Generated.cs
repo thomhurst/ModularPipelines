@@ -19,6 +19,7 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("az")]
+// Global options intentionally follow subcommands.
 public abstract record AzOptions : CommandLineToolOptions
 {
     /// <summary>

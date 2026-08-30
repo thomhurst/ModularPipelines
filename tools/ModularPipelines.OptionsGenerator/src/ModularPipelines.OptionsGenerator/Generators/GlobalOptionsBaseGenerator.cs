@@ -88,6 +88,10 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         {
             sb.AppendLine("[CliGlobalOptions]");
         }
+        else
+        {
+            sb.AppendLine("// Global options intentionally follow subcommands.");
+        }
 
         // Class declaration
         var className = $"{tool.NamespacePrefix}Options";
