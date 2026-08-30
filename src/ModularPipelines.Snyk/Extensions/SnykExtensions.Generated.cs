@@ -33,7 +33,7 @@ public static class SnykExtensions
     }
 
     /// <summary>
-    /// Gets the snyk service from the pipeline context.
+    /// Gets the snyk service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISnyk"/> service for executing snyk commands.</returns>
