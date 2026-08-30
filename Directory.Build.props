@@ -40,13 +40,13 @@
     <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" Condition="$(MSBuildProjectFile.Contains('Test')) == false and ('$(GITHUB_ACTIONS)' != 'true' or '$(EnableCiAnalyzers)' == 'true')" />
   </ItemGroup>
 
-  <!-- CLI regeneration validates generated API compatibility separately before it can update baselines. -->
-  <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
+  <!-- Generated integrations do not follow semantic versioning; enforce API baselines only for the core library. -->
+  <ItemGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
     <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="All" />
   </ItemGroup>
 
-  <PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
-    <!-- Public API baselines must stay enforced in ordinary CI tool builds. -->
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
+    <!-- Keep the core public API baseline enforced in ordinary CI builds. -->
     <EnableNETAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">false</EnableNETAnalyzers>
     <RunAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzers>
     <RunAnalyzersDuringBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzersDuringBuild>
