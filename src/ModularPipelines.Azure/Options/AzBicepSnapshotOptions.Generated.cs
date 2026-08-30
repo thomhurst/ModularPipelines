@@ -48,7 +48,7 @@ public record AzBicepSnapshotOptions : AzOptions
     /// Resource group name forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Subscription ID forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot. This does not affect Azure CLI authentication; use the global `--subscription` argument to switch the active subscription.
@@ -62,11 +62,11 @@ public record AzBicepSnapshotOptions : AzOptions
     [CliFlag("--tenant-id")]
     public bool? TenantId { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

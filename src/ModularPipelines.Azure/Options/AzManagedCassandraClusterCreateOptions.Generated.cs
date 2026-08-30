@@ -90,7 +90,7 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     /// The resource id of a backup. If provided on create, the backup will be used to prepopulate the cluster. The cluster data center count and node counts must match the backup.
     /// </summary>
     [CliOption("--restore-from-backup-id")]
-    public string? RestoreFromBackupIdValue { get; set; }
+    public string? RestoreFromBackupId { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -98,11 +98,11 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use RestoreFromBackupIdValue instead.")]
-    public bool? RestoreFromBackupId
+    [Obsolete("Use RestoreFromBackupId instead.")]
+    public string? RestoreFromBackupIdValue
     {
-        get => bool.TryParse(RestoreFromBackupIdValue, out var value) ? value : null;
-        set => RestoreFromBackupIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => RestoreFromBackupId;
+        set => RestoreFromBackupId = value;
     }
 
 }

@@ -24,13 +24,13 @@ public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
     /// Name of an existing schedule from which to copy the scaling rules for the new schedule.
     /// </summary>
     [CliOption("--copy-rules")]
-    public string? CopyRulesValue { get; set; }
+    public string? CopyRules { get; set; }
 
-    [Obsolete("Use CopyRulesValue instead.")]
-    public bool? CopyRules
+    [Obsolete("Use CopyRules instead.")]
+    public string? CopyRulesValue
     {
-        get => bool.TryParse(CopyRulesValue, out var value) ? value : null;
-        set => CopyRulesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => CopyRules;
+        set => CopyRules = value;
     }
 
 }

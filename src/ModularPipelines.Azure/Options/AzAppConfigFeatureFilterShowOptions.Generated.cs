@@ -42,7 +42,7 @@ public record AzAppConfigFeatureFilterShowOptions : AzOptions
     /// Name of the feature which contains the filter. If the feature flag key is different from the default key, provide the `--key` argument instead.
     /// </summary>
     [CliOption("--feature")]
-    public string? FeatureValue { get; set; }
+    public string? Feature { get; set; }
 
     /// <summary>
     /// Zero-based index of the filter to be displayed in case there are multiple instances with same filter name.
@@ -66,20 +66,20 @@ public record AzAppConfigFeatureFilterShowOptions : AzOptions
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
-    [Obsolete("Use FeatureValue instead.")]
-    public bool? Feature
+    [Obsolete("Use Feature instead.")]
+    public string? FeatureValue
     {
-        get => bool.TryParse(FeatureValue, out var value) ? value : null;
-        set => FeatureValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Feature;
+        set => Feature = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
 }

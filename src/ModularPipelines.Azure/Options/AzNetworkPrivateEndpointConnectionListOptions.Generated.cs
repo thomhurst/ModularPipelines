@@ -24,19 +24,19 @@ public record AzNetworkPrivateEndpointConnectionListOptions : AzOptions
     /// ID of the resource.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the resource. If provided, --type and --resource-group must be provided too.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. If provided, --name and --type must be provided too.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Type of the resource. If provided, --name and --resource-group must be provided too.  Allowed values: Microsoft.AgFoodPlatform/farmBeats, Microsoft.ApiManagement/service, Microsoft.App/managedEnvironments,
@@ -44,25 +44,25 @@ public record AzNetworkPrivateEndpointConnectionListOptions : AzOptions
     [CliFlag("--type")]
     public bool? Type { get; set; }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
+    [Obsolete("Use Id instead.")]
+    public string? IdValue
     {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Id;
+        set => Id = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

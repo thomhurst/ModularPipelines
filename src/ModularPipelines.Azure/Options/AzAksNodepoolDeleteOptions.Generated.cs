@@ -24,7 +24,7 @@ public record AzAksNodepoolDeleteOptions : AzOptions
     /// The value provided will be compared to the ETag of the node pool, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new agentpool.
     /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatchValue { get; set; }
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Delete an existing nodepool without considering Pod
@@ -38,11 +38,11 @@ public record AzAksNodepoolDeleteOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use IfMatchValue instead.")]
-    public bool? IfMatch
+    [Obsolete("Use IfMatch instead.")]
+    public string? IfMatchValue
     {
-        get => bool.TryParse(IfMatchValue, out var value) ? value : null;
-        set => IfMatchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => IfMatch;
+        set => IfMatch = value;
     }
 
 }

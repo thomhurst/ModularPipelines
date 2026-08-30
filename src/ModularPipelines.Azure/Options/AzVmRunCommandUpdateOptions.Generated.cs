@@ -60,13 +60,13 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
+    public string? Parameters { get; set; }
 
     /// <summary>
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--protected-parameters")]
-    public string? ProtectedParametersValue { get; set; }
+    public string? ProtectedParameters { get; set; }
 
     /// <summary>
     /// Password if needed for using run-as-user parameter. It will be encrypted and not logged.
@@ -104,18 +104,18 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     [CliFlag("--timeout-in-seconds")]
     public bool? TimeoutInSeconds { get; set; }
 
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
+    [Obsolete("Use Parameters instead.")]
+    public string? ParametersValue
     {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Parameters;
+        set => Parameters = value;
     }
 
-    [Obsolete("Use ProtectedParametersValue instead.")]
-    public bool? ProtectedParameters
+    [Obsolete("Use ProtectedParameters instead.")]
+    public string? ProtectedParametersValue
     {
-        get => bool.TryParse(ProtectedParametersValue, out var value) ? value : null;
-        set => ProtectedParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ProtectedParameters;
+        set => ProtectedParameters = value;
     }
 
 }

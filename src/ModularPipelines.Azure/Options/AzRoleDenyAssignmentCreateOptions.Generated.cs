@@ -36,7 +36,7 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// Description of the deny assignment.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Space-separated list of principal object IDs to exclude from the deny. Required when no --principal-object-id is specified (Everyone mode). Optional when --principal-object-id is specified.
@@ -72,7 +72,7 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// The type of the principal specified by --principal-object-id. Required when --principal-object-id is provided. Accepted values: User, ServicePrincipal.  Allowed values: ServicePrincipal, User.
     /// </summary>
     [CliOption("--principal-type")]
-    public string? PrincipalTypeValue { get; set; }
+    public string? PrincipalType { get; set; }
 
     /// <summary>
     /// Scope at which the deny assignment applies. For example, /subscriptions/00000000-0000-0000-0000-000000000000 or /subscription s/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
@@ -80,18 +80,18 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     [CliFlag("--scope")]
     public bool? Scope { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
-    [Obsolete("Use PrincipalTypeValue instead.")]
-    public bool? PrincipalType
+    [Obsolete("Use PrincipalType instead.")]
+    public string? PrincipalTypeValue
     {
-        get => bool.TryParse(PrincipalTypeValue, out var value) ? value : null;
-        set => PrincipalTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PrincipalType;
+        set => PrincipalType = value;
     }
 
 }

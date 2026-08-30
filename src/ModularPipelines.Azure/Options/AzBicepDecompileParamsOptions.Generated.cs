@@ -24,7 +24,7 @@ public record AzBicepDecompileParamsOptions : AzOptions
     /// Path to the bicep template file (relative to the .bicepparam file) that will be referenced in the using declaration.
     /// </summary>
     [CliOption("--bicep-file")]
-    public string? BicepFileValue { get; set; }
+    public string? BicepFile { get; set; }
 
     /// <summary>
     /// Allows overwriting the output file if it exists.
@@ -50,11 +50,11 @@ public record AzBicepDecompileParamsOptions : AzOptions
     [CliFlag("--stdout")]
     public bool? Stdout { get; set; }
 
-    [Obsolete("Use BicepFileValue instead.")]
-    public bool? BicepFile
+    [Obsolete("Use BicepFile instead.")]
+    public string? BicepFileValue
     {
-        get => bool.TryParse(BicepFileValue, out var value) ? value : null;
-        set => BicepFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BicepFile;
+        set => BicepFile = value;
     }
 
 }

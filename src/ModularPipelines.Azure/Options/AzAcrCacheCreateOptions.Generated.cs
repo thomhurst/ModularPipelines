@@ -24,39 +24,39 @@ public record AzAcrCacheCreateOptions : AzOptions
     /// The name of the credential set.
     /// </summary>
     [CliOption("--cred-set", ShortForm = "-c")]
-    public string? CredSetValue { get; set; }
+    public string? CredSet { get; set; }
 
     /// <summary>
     /// User-assigned managed identity resource ID for ACR to authenticate with the upstream registry. Format: /subscriptions/{subscriptionId }/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedId entity/userAssignedIdentities/{identityName}.
     /// </summary>
     [CliOption("--identity")]
-    public string? IdentityValue { get; set; }
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use CredSetValue instead.")]
-    public bool? CredSet
+    [Obsolete("Use CredSet instead.")]
+    public string? CredSetValue
     {
-        get => bool.TryParse(CredSetValue, out var value) ? value : null;
-        set => CredSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => CredSet;
+        set => CredSet = value;
     }
 
-    [Obsolete("Use IdentityValue instead.")]
-    public bool? Identity
+    [Obsolete("Use Identity instead.")]
+    public string? IdentityValue
     {
-        get => bool.TryParse(IdentityValue, out var value) ? value : null;
-        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Identity;
+        set => Identity = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

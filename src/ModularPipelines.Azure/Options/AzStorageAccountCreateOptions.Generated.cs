@@ -66,7 +66,7 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// Enable the capability to support large file shares with more than 5 TiB capacity for storage account.Once the property is enabled, the feature cannot be disabled. Currently only supported for LRS and ZRS replication types, hence account conversions to geo-redundant accounts would not be possible. For more information, please refer to https://go.microsoft. com/fwlink/?linkid=2086047.
@@ -170,11 +170,11 @@ public record AzStorageAccountCreateOptions : AzOptions
     [CliFlag("--zones")]
     public bool? Zones { get; set; }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
 }

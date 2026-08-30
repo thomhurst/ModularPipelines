@@ -24,26 +24,26 @@ public record TerraformStacksDeploymentStepArtifactsOptions : TerraformOptions
     /// The ID of the deployment step. (required)
     /// </summary>
     [CliOption("-deployment-step-id", Format = OptionFormat.EqualsSeparated)]
-    public string? DeploymentStepIdValue { get; set; }
+    public string? DeploymentStepId { get; set; }
 
     /// <summary>
     /// The artifact type to retrieve. (required)
     /// </summary>
     [CliOption("-artifact-name", Format = OptionFormat.EqualsSeparated)]
-    public string? ArtifactNameValue { get; set; }
+    public string? ArtifactName { get; set; }
 
-    [Obsolete("Use DeploymentStepIdValue instead.")]
-    public bool? DeploymentStepId
+    [Obsolete("Use DeploymentStepId instead.")]
+    public string? DeploymentStepIdValue
     {
-        get => bool.TryParse(DeploymentStepIdValue, out var value) ? value : null;
-        set => DeploymentStepIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DeploymentStepId;
+        set => DeploymentStepId = value;
     }
 
-    [Obsolete("Use ArtifactNameValue instead.")]
-    public bool? ArtifactName
+    [Obsolete("Use ArtifactName instead.")]
+    public string? ArtifactNameValue
     {
-        get => bool.TryParse(ArtifactNameValue, out var value) ? value : null;
-        set => ArtifactNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ArtifactName;
+        set => ArtifactName = value;
     }
 
 }

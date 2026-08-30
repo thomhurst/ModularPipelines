@@ -39,78 +39,78 @@ public record AzMonitorAccountIssueCreateOptions(
     /// The issue background information  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--background")]
-    public string? BackgroundValue { get; set; }
+    public string? Background { get; set; }
 
     /// <summary>
     /// The issue impact time (in UTC).
     /// </summary>
     [CliOption("--impact-time")]
-    public string? ImpactTimeValue { get; set; }
+    public string? ImpactTime { get; set; }
 
     /// <summary>
     /// The issue notification settings  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--notifications")]
-    public string? NotificationsValue { get; set; }
+    public string? Notifications { get; set; }
 
     /// <summary>
     /// The issue severity.
     /// </summary>
     [CliOption("--severity")]
-    public string? SeverityValue { get; set; }
+    public string? Severity { get; set; }
 
     /// <summary>
     /// The issue status.  Allowed values: Canceled, Closed, InProgress, Mitigated, New.
     /// </summary>
     [CliOption("--status")]
-    public string? StatusValue { get; set; }
+    public string? Status { get; set; }
 
     /// <summary>
     /// The issue title.
     /// </summary>
     [CliOption("--title")]
-    public string? TitleValue { get; set; }
+    public string? Title { get; set; }
 
-    [Obsolete("Use BackgroundValue instead.")]
-    public bool? Background
+    [Obsolete("Use Background instead.")]
+    public string? BackgroundValue
     {
-        get => bool.TryParse(BackgroundValue, out var value) ? value : null;
-        set => BackgroundValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Background;
+        set => Background = value;
     }
 
-    [Obsolete("Use ImpactTimeValue instead.")]
-    public bool? ImpactTime
+    [Obsolete("Use ImpactTime instead.")]
+    public string? ImpactTimeValue
     {
-        get => bool.TryParse(ImpactTimeValue, out var value) ? value : null;
-        set => ImpactTimeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ImpactTime;
+        set => ImpactTime = value;
     }
 
-    [Obsolete("Use NotificationsValue instead.")]
-    public bool? Notifications
+    [Obsolete("Use Notifications instead.")]
+    public string? NotificationsValue
     {
-        get => bool.TryParse(NotificationsValue, out var value) ? value : null;
-        set => NotificationsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Notifications;
+        set => Notifications = value;
     }
 
-    [Obsolete("Use SeverityValue instead.")]
-    public bool? Severity
+    [Obsolete("Use Severity instead.")]
+    public string? SeverityValue
     {
-        get => bool.TryParse(SeverityValue, out var value) ? value : null;
-        set => SeverityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Severity;
+        set => Severity = value;
     }
 
-    [Obsolete("Use StatusValue instead.")]
-    public bool? Status
+    [Obsolete("Use Status instead.")]
+    public string? StatusValue
     {
-        get => bool.TryParse(StatusValue, out var value) ? value : null;
-        set => StatusValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Status;
+        set => Status = value;
     }
 
-    [Obsolete("Use TitleValue instead.")]
-    public bool? Title
+    [Obsolete("Use Title instead.")]
+    public string? TitleValue
     {
-        get => bool.TryParse(TitleValue, out var value) ? value : null;
-        set => TitleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Title;
+        set => Title = value;
     }
 
 }

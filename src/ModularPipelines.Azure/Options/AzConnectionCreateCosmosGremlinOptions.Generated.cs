@@ -24,7 +24,7 @@ public record AzConnectionCreateCosmosGremlinOptions : AzOptions
     /// Name of the cosmos database account. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--account")]
-    public string? AccountValue { get; set; }
+    public string? Account { get; set; }
 
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, php, python.
@@ -36,7 +36,7 @@ public record AzConnectionCreateCosmosGremlinOptions : AzOptions
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -48,13 +48,13 @@ public record AzConnectionCreateCosmosGremlinOptions : AzOptions
     /// Name of the database. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--database")]
-    public string? DatabaseValue { get; set; }
+    public string? Database { get; set; }
 
     /// <summary>
     /// Name of the graph. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--graph")]
-    public string? GraphValue { get; set; }
+    public string? Graph { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -72,41 +72,41 @@ public record AzConnectionCreateCosmosGremlinOptions : AzOptions
     /// The resource id of target service. Required if ['--target- resource-group', '--account', '--database', '--graph'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
-    public string? TargetIdValue { get; set; }
+    public string? TargetId { get; set; }
 
-    [Obsolete("Use AccountValue instead.")]
-    public bool? Account
+    [Obsolete("Use Account instead.")]
+    public string? AccountValue
     {
-        get => bool.TryParse(AccountValue, out var value) ? value : null;
-        set => AccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Account;
+        set => Account = value;
     }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
+    [Obsolete("Use Connection instead.")]
+    public string? ConnectionValue
     {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Connection;
+        set => Connection = value;
     }
 
-    [Obsolete("Use DatabaseValue instead.")]
-    public bool? Database
+    [Obsolete("Use Database instead.")]
+    public string? DatabaseValue
     {
-        get => bool.TryParse(DatabaseValue, out var value) ? value : null;
-        set => DatabaseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Database;
+        set => Database = value;
     }
 
-    [Obsolete("Use GraphValue instead.")]
-    public bool? Graph
+    [Obsolete("Use Graph instead.")]
+    public string? GraphValue
     {
-        get => bool.TryParse(GraphValue, out var value) ? value : null;
-        set => GraphValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Graph;
+        set => Graph = value;
     }
 
-    [Obsolete("Use TargetIdValue instead.")]
-    public bool? TargetId
+    [Obsolete("Use TargetId instead.")]
+    public string? TargetIdValue
     {
-        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
-        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetId;
+        set => TargetId = value;
     }
 
 }

@@ -60,13 +60,13 @@ public record BrewStyleOptions : BrewOptions
     /// Specify a comma-separated cops list to check for violations of only the listed RuboCop cops.
     /// </summary>
     [CliOption("--only-cops", Format = OptionFormat.EqualsSeparated)]
-    public string? OnlyCopsValue { get; set; }
+    public string? OnlyCops { get; set; }
 
     /// <summary>
     /// Specify a comma-separated cops list to skip checking for violations of the listed RuboCop cops.
     /// </summary>
     [CliOption("--except-cops", Format = OptionFormat.EqualsSeparated)]
-    public string? ExceptCopsValue { get; set; }
+    public string? ExceptCops { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -98,18 +98,18 @@ public record BrewStyleOptions : BrewOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? File { get; set; }
 
-    [Obsolete("Use OnlyCopsValue instead.")]
-    public bool? OnlyCops
+    [Obsolete("Use OnlyCops instead.")]
+    public string? OnlyCopsValue
     {
-        get => bool.TryParse(OnlyCopsValue, out var value) ? value : null;
-        set => OnlyCopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OnlyCops;
+        set => OnlyCops = value;
     }
 
-    [Obsolete("Use ExceptCopsValue instead.")]
-    public bool? ExceptCops
+    [Obsolete("Use ExceptCops instead.")]
+    public string? ExceptCopsValue
     {
-        get => bool.TryParse(ExceptCopsValue, out var value) ? value : null;
-        set => ExceptCopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ExceptCops;
+        set => ExceptCops = value;
     }
 
 }

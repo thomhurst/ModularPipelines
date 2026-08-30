@@ -24,13 +24,13 @@ public record AzBotAuthsettingCreateOptions : AzOptions
     /// Parameter values for service provider parameters. Usage:
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
+    public string? Parameters { get; set; }
 
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
+    [Obsolete("Use Parameters instead.")]
+    public string? ParametersValue
     {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Parameters;
+        set => Parameters = value;
     }
 
 }

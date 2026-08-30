@@ -30,7 +30,7 @@ public record AzConnectionCreateWebpubsubOptions : AzOptions
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -54,33 +54,33 @@ public record AzConnectionCreateWebpubsubOptions : AzOptions
     /// The resource id of target service. Required if ['--target- resource-group', '--webpubsub'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
-    public string? TargetIdValue { get; set; }
+    public string? TargetId { get; set; }
 
     /// <summary>
     /// Name of the webpubsub service. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--webpubsub")]
-    public string? WebpubsubValue { get; set; }
+    public string? Webpubsub { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
+    [Obsolete("Use Connection instead.")]
+    public string? ConnectionValue
     {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Connection;
+        set => Connection = value;
     }
 
-    [Obsolete("Use TargetIdValue instead.")]
-    public bool? TargetId
+    [Obsolete("Use TargetId instead.")]
+    public string? TargetIdValue
     {
-        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
-        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetId;
+        set => TargetId = value;
     }
 
-    [Obsolete("Use WebpubsubValue instead.")]
-    public bool? Webpubsub
+    [Obsolete("Use Webpubsub instead.")]
+    public string? WebpubsubValue
     {
-        get => bool.TryParse(WebpubsubValue, out var value) ? value : null;
-        set => WebpubsubValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Webpubsub;
+        set => Webpubsub = value;
     }
 
 }

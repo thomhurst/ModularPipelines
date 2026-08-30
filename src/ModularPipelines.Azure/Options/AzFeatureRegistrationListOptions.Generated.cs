@@ -24,13 +24,13 @@ public record AzFeatureRegistrationListOptions : AzOptions
     /// The resource namespace, aka 'provider'.
     /// </summary>
     [CliOption("--namespace")]
-    public string? NamespaceValue { get; set; }
+    public string? Namespace { get; set; }
 
-    [Obsolete("Use NamespaceValue instead.")]
-    public bool? Namespace
+    [Obsolete("Use Namespace instead.")]
+    public string? NamespaceValue
     {
-        get => bool.TryParse(NamespaceValue, out var value) ? value : null;
-        set => NamespaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Namespace;
+        set => Namespace = value;
     }
 
 }

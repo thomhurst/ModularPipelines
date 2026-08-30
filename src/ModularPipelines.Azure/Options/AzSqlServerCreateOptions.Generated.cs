@@ -72,7 +72,7 @@ public record AzSqlServerCreateOptions : AzOptions
     /// The key vault URI for encryption.
     /// </summary>
     [CliOption("--key-id", ShortForm = "-k")]
-    public string? KeyIdValue { get; set; }
+    public string? KeyId { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -104,11 +104,11 @@ public record AzSqlServerCreateOptions : AzOptions
     [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
     public bool? UserAssignedIdentityId { get; set; }
 
-    [Obsolete("Use KeyIdValue instead.")]
-    public bool? KeyId
+    [Obsolete("Use KeyId instead.")]
+    public string? KeyIdValue
     {
-        get => bool.TryParse(KeyIdValue, out var value) ? value : null;
-        set => KeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyId;
+        set => KeyId = value;
     }
 
 }

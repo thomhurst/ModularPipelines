@@ -30,25 +30,25 @@ public record AzNetworkPrivateEndpointConnectionApproveOptions : AzOptions
     /// ID of the private endpoint connection.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the private endpoint connection.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the resource.
     /// </summary>
     [CliOption("--resource-name")]
-    public string? ResourceNameValue { get; set; }
+    public string? ResourceName { get; set; }
 
     /// <summary>
     /// Type of the resource.  Allowed values: Microsoft.AgFoodPlatform/farmBeats, Microsoft.ApiManagement/service,
@@ -56,32 +56,32 @@ public record AzNetworkPrivateEndpointConnectionApproveOptions : AzOptions
     [CliFlag("--type")]
     public bool? Type { get; set; }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
+    [Obsolete("Use Id instead.")]
+    public string? IdValue
     {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Id;
+        set => Id = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use ResourceNameValue instead.")]
-    public bool? ResourceName
+    [Obsolete("Use ResourceName instead.")]
+    public string? ResourceNameValue
     {
-        get => bool.TryParse(ResourceNameValue, out var value) ? value : null;
-        set => ResourceNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceName;
+        set => ResourceName = value;
     }
 
 }

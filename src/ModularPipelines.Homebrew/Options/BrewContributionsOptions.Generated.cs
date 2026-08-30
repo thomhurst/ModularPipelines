@@ -24,43 +24,43 @@ public record BrewContributionsOptions : BrewOptions
     /// Specify a comma-separated list of GitHub usernames or email addresses to find contributions from. Omitting this flag searches Homebrew maintainers and requires access to the Homebrew/maintainers team. With --maintainer-report-csv, only matching quarter-end Maintainers are included.
     /// </summary>
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
-    public string? UserValue { get; set; }
+    public string? User { get; set; }
 
     /// <summary>
     /// Specify a comma-separated list of repositories to search. All repositories must be under the same user or organisation. Omitting this flag, or specifying --repositories=primary, searches only the main repositories: Homebrew/brew, Homebrew/homebrew-core, Homebrew/homebrew-cask.
     /// </summary>
     [CliOption("--repositories", Format = OptionFormat.EqualsSeparated)]
-    public string? RepositoriesValue { get; set; }
+    public string? Repositories { get; set; }
 
     /// <summary>
     /// Specify the organisation to populate sources repositories from. Omitting this flag searches the Homebrew primary repositories.
     /// </summary>
     [CliOption("--organisation", Format = OptionFormat.EqualsSeparated)]
-    public string? OrganisationValue { get; set; }
+    public string? Organisation { get; set; }
 
     /// <summary>
     /// Specify the team to populate users from. The first part of the team name will be used as the organisation.
     /// </summary>
     [CliOption("--team", Format = OptionFormat.EqualsSeparated)]
-    public string? TeamValue { get; set; }
+    public string? Team { get; set; }
 
     /// <summary>
     /// Homebrew contributions quarter to search (1-4). Omitting this flag searches the past year. If --from or --to are set, they take precedence.
     /// </summary>
     [CliOption("--quarter", Format = OptionFormat.EqualsSeparated)]
-    public string? QuarterValue { get; set; }
+    public string? Quarter { get; set; }
 
     /// <summary>
     /// Date (ISO 8601 format) to start searching contributions. Omitting this flag searches the past year.
     /// </summary>
     [CliOption("--from", Format = OptionFormat.EqualsSeparated)]
-    public string? FromValue { get; set; }
+    public string? From { get; set; }
 
     /// <summary>
     /// Date (ISO 8601 format) to stop searching contributions.
     /// </summary>
     [CliOption("--to", Format = OptionFormat.EqualsSeparated)]
-    public string? ToValue { get; set; }
+    public string? To { get; set; }
 
     /// <summary>
     /// Print a CSV of contributions across repositories over the time period.
@@ -98,53 +98,53 @@ public record BrewContributionsOptions : BrewOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use UserValue instead.")]
-    public bool? User
+    [Obsolete("Use User instead.")]
+    public string? UserValue
     {
-        get => bool.TryParse(UserValue, out var value) ? value : null;
-        set => UserValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => User;
+        set => User = value;
     }
 
-    [Obsolete("Use RepositoriesValue instead.")]
-    public bool? Repositories
+    [Obsolete("Use Repositories instead.")]
+    public string? RepositoriesValue
     {
-        get => bool.TryParse(RepositoriesValue, out var value) ? value : null;
-        set => RepositoriesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Repositories;
+        set => Repositories = value;
     }
 
-    [Obsolete("Use OrganisationValue instead.")]
-    public bool? Organisation
+    [Obsolete("Use Organisation instead.")]
+    public string? OrganisationValue
     {
-        get => bool.TryParse(OrganisationValue, out var value) ? value : null;
-        set => OrganisationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Organisation;
+        set => Organisation = value;
     }
 
-    [Obsolete("Use TeamValue instead.")]
-    public bool? Team
+    [Obsolete("Use Team instead.")]
+    public string? TeamValue
     {
-        get => bool.TryParse(TeamValue, out var value) ? value : null;
-        set => TeamValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Team;
+        set => Team = value;
     }
 
-    [Obsolete("Use QuarterValue instead.")]
-    public bool? Quarter
+    [Obsolete("Use Quarter instead.")]
+    public string? QuarterValue
     {
-        get => bool.TryParse(QuarterValue, out var value) ? value : null;
-        set => QuarterValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Quarter;
+        set => Quarter = value;
     }
 
-    [Obsolete("Use FromValue instead.")]
-    public bool? From
+    [Obsolete("Use From instead.")]
+    public string? FromValue
     {
-        get => bool.TryParse(FromValue, out var value) ? value : null;
-        set => FromValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => From;
+        set => From = value;
     }
 
-    [Obsolete("Use ToValue instead.")]
-    public bool? To
+    [Obsolete("Use To instead.")]
+    public string? ToValue
     {
-        get => bool.TryParse(ToValue, out var value) ? value : null;
-        set => ToValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => To;
+        set => To = value;
     }
 
 }

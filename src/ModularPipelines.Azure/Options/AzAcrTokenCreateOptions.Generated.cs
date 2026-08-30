@@ -54,13 +54,13 @@ public record AzAcrTokenCreateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The name of the scope map with pre-configured repository permissions. Use "--repository" and/or "--gateway" if you would like CLI to configure one for you.
     /// </summary>
     [CliOption("--scope-map")]
-    public string? ScopeMapValue { get; set; }
+    public string? ScopeMap { get; set; }
 
     /// <summary>
     /// The status of the token.  Allowed values: disabled, enabled.
@@ -68,18 +68,18 @@ public record AzAcrTokenCreateOptions : AzOptions
     [CliFlag("--status")]
     public bool? Status { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use ScopeMapValue instead.")]
-    public bool? ScopeMap
+    [Obsolete("Use ScopeMap instead.")]
+    public string? ScopeMapValue
     {
-        get => bool.TryParse(ScopeMapValue, out var value) ? value : null;
-        set => ScopeMapValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ScopeMap;
+        set => ScopeMap = value;
     }
 
 }

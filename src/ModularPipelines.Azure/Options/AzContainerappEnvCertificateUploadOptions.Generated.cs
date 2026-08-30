@@ -24,7 +24,7 @@ public record AzContainerappEnvCertificateUploadOptions : AzOptions
     /// Name of the certificate which should be unique within the
     /// </summary>
     [CliOption("--certificate-name", ShortForm = "-c")]
-    public string? CertificateNameValue { get; set; }
+    public string? CertificateName { get; set; }
 
     /// <summary>
     /// Location of resource. Examples: eastus2, northeurope.
@@ -38,11 +38,11 @@ public record AzContainerappEnvCertificateUploadOptions : AzOptions
     [CliFlag("--show-prompt")]
     public bool? ShowPrompt { get; set; }
 
-    [Obsolete("Use CertificateNameValue instead.")]
-    public bool? CertificateName
+    [Obsolete("Use CertificateName instead.")]
+    public string? CertificateNameValue
     {
-        get => bool.TryParse(CertificateNameValue, out var value) ? value : null;
-        set => CertificateNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => CertificateName;
+        set => CertificateName = value;
     }
 
 }

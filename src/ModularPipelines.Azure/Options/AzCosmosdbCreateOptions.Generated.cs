@@ -42,7 +42,7 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// The primary identity to access key vault in CMK related features. e.g. 'FirstPartyIdentity', 'SystemAssignedIdentity' and more. User-assigned identities are specified in format `UserAssignedIdentity=&lt;resource ID of the user- assigned identity&gt;`.
     /// </summary>
     [CliOption("--default-identity")]
-    public string? DefaultIdentityValue { get; set; }
+    public string? DefaultIdentity { get; set; }
 
     /// <summary>
     /// Default Priority Level of Request if not specified.  Allowed values: High, Low.
@@ -120,7 +120,7 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// The URI of the key vault.
     /// </summary>
     [CliOption("--key-uri")]
-    public string? KeyUriValue { get; set; }
+    public string? KeyUri { get; set; }
 
     /// <summary>
     /// The type of Cosmos DB database account to create. Allowed values: GlobalDocumentDB, MongoDB, Parse.
@@ -188,18 +188,18 @@ public record AzCosmosdbCreateOptions : AzOptions
     [CliFlag("--virtual-network-rules")]
     public bool? VirtualNetworkRules { get; set; }
 
-    [Obsolete("Use DefaultIdentityValue instead.")]
-    public bool? DefaultIdentity
+    [Obsolete("Use DefaultIdentity instead.")]
+    public string? DefaultIdentityValue
     {
-        get => bool.TryParse(DefaultIdentityValue, out var value) ? value : null;
-        set => DefaultIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DefaultIdentity;
+        set => DefaultIdentity = value;
     }
 
-    [Obsolete("Use KeyUriValue instead.")]
-    public bool? KeyUri
+    [Obsolete("Use KeyUri instead.")]
+    public string? KeyUriValue
     {
-        get => bool.TryParse(KeyUriValue, out var value) ? value : null;
-        set => KeyUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyUri;
+        set => KeyUri = value;
     }
 
 }

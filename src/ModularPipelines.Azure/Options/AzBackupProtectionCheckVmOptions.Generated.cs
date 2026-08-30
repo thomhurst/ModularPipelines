@@ -24,26 +24,26 @@ public record AzBackupProtectionCheckVmOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name or ID of the Virtual Machine to be protected.
     /// </summary>
     [CliOption("--vm")]
-    public string? VmValue { get; set; }
+    public string? Vm { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use VmValue instead.")]
-    public bool? Vm
+    [Obsolete("Use Vm instead.")]
+    public string? VmValue
     {
-        get => bool.TryParse(VmValue, out var value) ? value : null;
-        set => VmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Vm;
+        set => Vm = value;
     }
 
 }

@@ -24,7 +24,7 @@ public record AzCognitiveservicesAccountProjectUpdateOptions : AzOptions
     /// Description of the project.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Display name of the project.
@@ -32,11 +32,11 @@ public record AzCognitiveservicesAccountProjectUpdateOptions : AzOptions
     [CliFlag("--display-name")]
     public bool? DisplayName { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
 }

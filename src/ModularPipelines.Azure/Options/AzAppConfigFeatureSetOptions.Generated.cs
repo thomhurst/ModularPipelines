@@ -36,7 +36,7 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     /// Description of the feature flag to be set.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
@@ -48,7 +48,7 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     /// Name of the feature flag to be set. Feature name cannot contain the '%' or ':' characters.
     /// </summary>
     [CliOption("--feature")]
-    public string? FeatureValue { get; set; }
+    public string? Feature { get; set; }
 
     /// <summary>
     /// Key of the feature flag. Key must start with the ".appconfig.featureflag/" prefix. Key cannot contain the "%" character. Default key is the reserved prefix ".appconfig.featureflag/" + feature name.
@@ -66,7 +66,7 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Requirement type determines if filters should use "Any" or "All" logic when evaluating the state of a feature.  Allowed values: All, Any.
@@ -92,25 +92,25 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
-    [Obsolete("Use FeatureValue instead.")]
-    public bool? Feature
+    [Obsolete("Use Feature instead.")]
+    public string? FeatureValue
     {
-        get => bool.TryParse(FeatureValue, out var value) ? value : null;
-        set => FeatureValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Feature;
+        set => Feature = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
 }

@@ -36,7 +36,7 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// Enable proxy protocol for private link service.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -60,7 +60,7 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// Name of the load balancer to retrieve frontend IP configs from. Ignored if a frontend IP configuration ID is supplied.
     /// </summary>
     [CliOption("--lb-name")]
-    public string? LbNameValue { get; set; }
+    public string? LbName { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -78,7 +78,7 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// Resource tags.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
-    public string? TagsValue { get; set; }
+    public string? Tags { get; set; }
 
     /// <summary>
     /// Space-separated list of subscription IDs for which the private link service is visible.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -86,25 +86,25 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     [CliFlag("--visibility")]
     public bool? Visibility { get; set; }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
-    [Obsolete("Use LbNameValue instead.")]
-    public bool? LbName
+    [Obsolete("Use LbName instead.")]
+    public string? LbNameValue
     {
-        get => bool.TryParse(LbNameValue, out var value) ? value : null;
-        set => LbNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => LbName;
+        set => LbName = value;
     }
 
-    [Obsolete("Use TagsValue instead.")]
-    public bool? Tags
+    [Obsolete("Use Tags instead.")]
+    public string? TagsValue
     {
-        get => bool.TryParse(TagsValue, out var value) ? value : null;
-        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tags;
+        set => Tags = value;
     }
 
 }

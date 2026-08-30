@@ -24,13 +24,13 @@ public record AzEventhubsNamespacePrivateEndpointConnectionShowOptions : AzOptio
     /// The ID of the private endpoint connection associated with the EventHubs Namespace. You can get it using `az eventhubs namespace show`.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
+    [Obsolete("Use Id instead.")]
+    public string? IdValue
     {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Id;
+        set => Id = value;
     }
 
 }

@@ -42,7 +42,7 @@ public record AzApimApiImportOptions : AzOptions
     /// Url specified to import the API.
     /// </summary>
     [CliOption("--specification-url")]
-    public string? SpecificationUrlValue { get; set; }
+    public string? SpecificationUrl { get; set; }
 
     /// <summary>
     /// Local name of WSDL Endpoint (port) to be imported.
@@ -56,11 +56,11 @@ public record AzApimApiImportOptions : AzOptions
     [CliFlag("--wsdl-service-name")]
     public bool? WsdlServiceName { get; set; }
 
-    [Obsolete("Use SpecificationUrlValue instead.")]
-    public bool? SpecificationUrl
+    [Obsolete("Use SpecificationUrl instead.")]
+    public string? SpecificationUrlValue
     {
-        get => bool.TryParse(SpecificationUrlValue, out var value) ? value : null;
-        set => SpecificationUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SpecificationUrl;
+        set => SpecificationUrl = value;
     }
 
 }

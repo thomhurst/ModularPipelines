@@ -30,26 +30,26 @@ public record AzStorageAccountOrPolicyRuleUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The source storage container name.
     /// </summary>
     [CliOption("--source-container", ShortForm = "-s")]
-    public string? SourceContainerValue { get; set; }
+    public string? SourceContainer { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use SourceContainerValue instead.")]
-    public bool? SourceContainer
+    [Obsolete("Use SourceContainer instead.")]
+    public string? SourceContainerValue
     {
-        get => bool.TryParse(SourceContainerValue, out var value) ? value : null;
-        set => SourceContainerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceContainer;
+        set => SourceContainer = value;
     }
 
 }

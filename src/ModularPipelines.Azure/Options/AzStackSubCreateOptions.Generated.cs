@@ -64,7 +64,7 @@ public record AzStackSubCreateOptions(
     /// The description of deployment stack.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -82,7 +82,7 @@ public record AzStackSubCreateOptions(
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
     /// </summary>
     [CliOption("--query-string", ShortForm = "-q")]
-    public string? QueryStringValue { get; set; }
+    public string? QueryString { get; set; }
 
     /// <summary>
     /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
@@ -100,19 +100,19 @@ public record AzStackSubCreateOptions(
     /// A path to a template file or Bicep file in the file system.
     /// </summary>
     [CliOption("--template-file", ShortForm = "-f")]
-    public string? TemplateFileValue { get; set; }
+    public string? TemplateFile { get; set; }
 
     /// <summary>
     /// The template spec resource id.
     /// </summary>
     [CliOption("--template-spec", ShortForm = "-s")]
-    public string? TemplateSpecValue { get; set; }
+    public string? TemplateSpec { get; set; }
 
     /// <summary>
     /// A uri to a remote template file.
     /// </summary>
     [CliOption("--template-uri", ShortForm = "-u")]
-    public string? TemplateUriValue { get; set; }
+    public string? TemplateUri { get; set; }
 
     /// <summary>
     /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider,
@@ -126,11 +126,11 @@ public record AzStackSubCreateOptions(
     [CliFlag("--yes")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
     [Obsolete("Use ParametersValue instead.")]
@@ -140,32 +140,32 @@ public record AzStackSubCreateOptions(
         set => ParametersValueValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
-    [Obsolete("Use QueryStringValue instead.")]
-    public bool? QueryString
+    [Obsolete("Use QueryString instead.")]
+    public string? QueryStringValue
     {
-        get => bool.TryParse(QueryStringValue, out var value) ? value : null;
-        set => QueryStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => QueryString;
+        set => QueryString = value;
     }
 
-    [Obsolete("Use TemplateFileValue instead.")]
-    public bool? TemplateFile
+    [Obsolete("Use TemplateFile instead.")]
+    public string? TemplateFileValue
     {
-        get => bool.TryParse(TemplateFileValue, out var value) ? value : null;
-        set => TemplateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TemplateFile;
+        set => TemplateFile = value;
     }
 
-    [Obsolete("Use TemplateSpecValue instead.")]
-    public bool? TemplateSpec
+    [Obsolete("Use TemplateSpec instead.")]
+    public string? TemplateSpecValue
     {
-        get => bool.TryParse(TemplateSpecValue, out var value) ? value : null;
-        set => TemplateSpecValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TemplateSpec;
+        set => TemplateSpec = value;
     }
 
-    [Obsolete("Use TemplateUriValue instead.")]
-    public bool? TemplateUri
+    [Obsolete("Use TemplateUri instead.")]
+    public string? TemplateUriValue
     {
-        get => bool.TryParse(TemplateUriValue, out var value) ? value : null;
-        set => TemplateUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TemplateUri;
+        set => TemplateUri = value;
     }
 
     [Obsolete("Use ParametersValueValues instead.")]

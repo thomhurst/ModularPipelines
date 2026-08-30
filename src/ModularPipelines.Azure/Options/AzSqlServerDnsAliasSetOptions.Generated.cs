@@ -24,26 +24,26 @@ public record AzSqlServerDnsAliasSetOptions : AzOptions
     /// Name of the original resource group.
     /// </summary>
     [CliOption("--original-resource-group")]
-    public string? OriginalResourceGroupValue { get; set; }
+    public string? OriginalResourceGroup { get; set; }
 
     /// <summary>
     /// ID of the original subscription.
     /// </summary>
     [CliOption("--original-subscription-id")]
-    public string? OriginalSubscriptionIdValue { get; set; }
+    public string? OriginalSubscriptionId { get; set; }
 
-    [Obsolete("Use OriginalResourceGroupValue instead.")]
-    public bool? OriginalResourceGroup
+    [Obsolete("Use OriginalResourceGroup instead.")]
+    public string? OriginalResourceGroupValue
     {
-        get => bool.TryParse(OriginalResourceGroupValue, out var value) ? value : null;
-        set => OriginalResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OriginalResourceGroup;
+        set => OriginalResourceGroup = value;
     }
 
-    [Obsolete("Use OriginalSubscriptionIdValue instead.")]
-    public bool? OriginalSubscriptionId
+    [Obsolete("Use OriginalSubscriptionId instead.")]
+    public string? OriginalSubscriptionIdValue
     {
-        get => bool.TryParse(OriginalSubscriptionIdValue, out var value) ? value : null;
-        set => OriginalSubscriptionIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OriginalSubscriptionId;
+        set => OriginalSubscriptionId = value;
     }
 
 }

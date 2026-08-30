@@ -30,7 +30,7 @@ public record AzSynapsePipelineCreateRunOptions : AzOptions
     /// Parameters for pipeline run. Can be supplied from a JSON file using the `@{path}` syntax or a JSON string.
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
+    public string? Parameters { get; set; }
 
     /// <summary>
     /// In recovery mode, the rerun will start from this activity. If not specified, all activities will run.
@@ -38,11 +38,11 @@ public record AzSynapsePipelineCreateRunOptions : AzOptions
     [CliFlag("--start-activity-name")]
     public bool? StartActivityName { get; set; }
 
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
+    [Obsolete("Use Parameters instead.")]
+    public string? ParametersValue
     {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Parameters;
+        set => Parameters = value;
     }
 
 }

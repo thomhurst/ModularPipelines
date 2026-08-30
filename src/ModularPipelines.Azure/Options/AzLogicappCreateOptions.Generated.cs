@@ -24,7 +24,7 @@ public record AzLogicappCreateOptions : AzOptions
     /// Name of the existing App Insights project to be added to the logic app. Must be in the same resource group.
     /// </summary>
     [CliOption("--app-insights")]
-    public string? AppInsightsValue { get; set; }
+    public string? AppInsights { get; set; }
 
     /// <summary>
     /// Instrumentation key of App Insights to be added.
@@ -96,7 +96,7 @@ public record AzLogicappCreateOptions : AzOptions
     /// Name or resource id of the logicapp app service plan. Use 'appservice plan create' to get one. If using an App Service plan from a different resource group, the full resource id must be used and not the plan name.
     /// </summary>
     [CliOption("--plan", ShortForm = "-p")]
-    public string? PlanValue { get; set; }
+    public string? Plan { get; set; }
 
     /// <summary>
     /// The runtime version for logic app.  Allowed values: ~14, ~16, ~18.
@@ -110,18 +110,18 @@ public record AzLogicappCreateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use AppInsightsValue instead.")]
-    public bool? AppInsights
+    [Obsolete("Use AppInsights instead.")]
+    public string? AppInsightsValue
     {
-        get => bool.TryParse(AppInsightsValue, out var value) ? value : null;
-        set => AppInsightsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AppInsights;
+        set => AppInsights = value;
     }
 
-    [Obsolete("Use PlanValue instead.")]
-    public bool? Plan
+    [Obsolete("Use Plan instead.")]
+    public string? PlanValue
     {
-        get => bool.TryParse(PlanValue, out var value) ? value : null;
-        set => PlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Plan;
+        set => Plan = value;
     }
 
 }

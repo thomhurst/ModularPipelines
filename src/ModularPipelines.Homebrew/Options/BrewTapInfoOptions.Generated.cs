@@ -30,7 +30,7 @@ public record BrewTapInfoOptions : BrewOptions
     /// Print a JSON representation of tap. Currently the default and only accepted value for version is v1. See the docs for examples of using the JSON output: https://docs.brew.sh/Querying-Brew
     /// </summary>
     [CliOption("--json", Format = OptionFormat.EqualsSeparated)]
-    public string? JsonValue { get; set; }
+    public string? Json { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -56,11 +56,11 @@ public record BrewTapInfoOptions : BrewOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use JsonValue instead.")]
-    public bool? Json
+    [Obsolete("Use Json instead.")]
+    public string? JsonValue
     {
-        get => bool.TryParse(JsonValue, out var value) ? value : null;
-        set => JsonValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Json;
+        set => Json = value;
     }
 
 }

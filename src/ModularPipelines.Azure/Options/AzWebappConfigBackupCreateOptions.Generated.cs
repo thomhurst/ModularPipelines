@@ -24,26 +24,26 @@ public record AzWebappConfigBackupCreateOptions : AzOptions
     /// Name of the backup. If unspecified, the backup will be named with the web app name and a timestamp.
     /// </summary>
     [CliOption("--backup-name")]
-    public string? BackupNameValue { get; set; }
+    public string? BackupName { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
-    [Obsolete("Use BackupNameValue instead.")]
-    public bool? BackupName
+    [Obsolete("Use BackupName instead.")]
+    public string? BackupNameValue
     {
-        get => bool.TryParse(BackupNameValue, out var value) ? value : null;
-        set => BackupNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BackupName;
+        set => BackupName = value;
     }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

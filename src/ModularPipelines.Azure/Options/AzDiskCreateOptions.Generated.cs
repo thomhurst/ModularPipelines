@@ -42,13 +42,13 @@ public record AzDiskCreateOptions : AzOptions
     /// Name or ID of the disk access resource for using private endpoints on disks.
     /// </summary>
     [CliOption("--disk-access")]
-    public string? DiskAccessValue { get; set; }
+    public string? DiskAccess { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set that is used to encrypt the disk.
     /// </summary>
     [CliOption("--disk-encryption-set")]
-    public string? DiskEncryptionSetValue { get; set; }
+    public string? DiskEncryptionSet { get; set; }
 
     /// <summary>
     /// The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes.
@@ -78,7 +78,7 @@ public record AzDiskCreateOptions : AzOptions
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// Enable on-demand bursting beyond the provisioned performance target of the disk. On-demand bursting is disabled by default, and it does not apply to Ultra disks.  Allowed values: false, true.
@@ -96,7 +96,7 @@ public record AzDiskCreateOptions : AzOptions
     /// ID of the Compute, Shared or Community Gallery image version from which to create a disk. For details about valid format, please refer to the help sample.
     /// </summary>
     [CliOption("--gallery-image-reference")]
-    public string? GalleryImageReferenceValue { get; set; }
+    public string? GalleryImageReference { get; set; }
 
     /// <summary>
     /// If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
@@ -114,7 +114,7 @@ public record AzDiskCreateOptions : AzOptions
     /// ID or URN (publisher:offer:sku:version) of the image from which to create a disk.
     /// </summary>
     [CliOption("--image-reference")]
-    public string? ImageReferenceValue { get; set; }
+    public string? ImageReference { get; set; }
 
     /// <summary>
     /// If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
@@ -174,7 +174,7 @@ public record AzDiskCreateOptions : AzOptions
     /// Name or ID of disk encryption set created with
     /// </summary>
     [CliOption("--secure-vm-disk-encryption-set")]
-    public string? SecureVmDiskEncryptionSetValue { get; set; }
+    public string? SecureVmDiskEncryptionSet { get; set; }
 
     /// <summary>
     /// Please specify the blob URI of VHD to be imported into VM guest state.
@@ -210,7 +210,7 @@ public record AzDiskCreateOptions : AzOptions
     /// Source to create the disk/snapshot from, including unmanaged blob uri, managed disk id or name, or snapshot id or name.
     /// </summary>
     [CliOption("--source")]
-    public string? SourceValue { get; set; }
+    public string? Source { get; set; }
 
     /// <summary>
     /// Used when source blob is in a different subscription.
@@ -254,53 +254,53 @@ public record AzDiskCreateOptions : AzOptions
     [CliFlag("--zone")]
     public bool? Zone { get; set; }
 
-    [Obsolete("Use DiskAccessValue instead.")]
-    public bool? DiskAccess
+    [Obsolete("Use DiskAccess instead.")]
+    public string? DiskAccessValue
     {
-        get => bool.TryParse(DiskAccessValue, out var value) ? value : null;
-        set => DiskAccessValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DiskAccess;
+        set => DiskAccess = value;
     }
 
-    [Obsolete("Use DiskEncryptionSetValue instead.")]
-    public bool? DiskEncryptionSet
+    [Obsolete("Use DiskEncryptionSet instead.")]
+    public string? DiskEncryptionSetValue
     {
-        get => bool.TryParse(DiskEncryptionSetValue, out var value) ? value : null;
-        set => DiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DiskEncryptionSet;
+        set => DiskEncryptionSet = value;
     }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
-    [Obsolete("Use GalleryImageReferenceValue instead.")]
-    public bool? GalleryImageReference
+    [Obsolete("Use GalleryImageReference instead.")]
+    public string? GalleryImageReferenceValue
     {
-        get => bool.TryParse(GalleryImageReferenceValue, out var value) ? value : null;
-        set => GalleryImageReferenceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => GalleryImageReference;
+        set => GalleryImageReference = value;
     }
 
-    [Obsolete("Use ImageReferenceValue instead.")]
-    public bool? ImageReference
+    [Obsolete("Use ImageReference instead.")]
+    public string? ImageReferenceValue
     {
-        get => bool.TryParse(ImageReferenceValue, out var value) ? value : null;
-        set => ImageReferenceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ImageReference;
+        set => ImageReference = value;
     }
 
-    [Obsolete("Use SecureVmDiskEncryptionSetValue instead.")]
-    public bool? SecureVmDiskEncryptionSet
+    [Obsolete("Use SecureVmDiskEncryptionSet instead.")]
+    public string? SecureVmDiskEncryptionSetValue
     {
-        get => bool.TryParse(SecureVmDiskEncryptionSetValue, out var value) ? value : null;
-        set => SecureVmDiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SecureVmDiskEncryptionSet;
+        set => SecureVmDiskEncryptionSet = value;
     }
 
-    [Obsolete("Use SourceValue instead.")]
-    public bool? Source
+    [Obsolete("Use Source instead.")]
+    public string? SourceValue
     {
-        get => bool.TryParse(SourceValue, out var value) ? value : null;
-        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Source;
+        set => Source = value;
     }
 
 }

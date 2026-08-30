@@ -24,7 +24,7 @@ public record AzApimBackendCreateOptions : AzOptions
     /// Description of the Backend. May include HTML formatting tags.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
@@ -32,11 +32,11 @@ public record AzApimBackendCreateOptions : AzOptions
     [CliFlag("--if-match")]
     public bool? IfMatch { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
 }

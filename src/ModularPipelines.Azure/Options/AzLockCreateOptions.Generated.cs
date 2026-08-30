@@ -42,26 +42,26 @@ public record AzLockCreateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').
     /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceTypeValue { get; set; }
+    public string? ResourceType { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use ResourceTypeValue instead.")]
-    public bool? ResourceType
+    [Obsolete("Use ResourceType instead.")]
+    public string? ResourceTypeValue
     {
-        get => bool.TryParse(ResourceTypeValue, out var value) ? value : null;
-        set => ResourceTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceType;
+        set => ResourceType = value;
     }
 
 }

@@ -36,13 +36,13 @@ public record AzContainerappUpdateOptions : AzOptions
     /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https:/ /learn.microsoft.com/ azure/container- apps/azure-resource- manager-api- spec#examples.
     /// </summary>
     [CliOption("--yaml")]
-    public string? YamlValue { get; set; }
+    public string? Yaml { get; set; }
 
-    [Obsolete("Use YamlValue instead.")]
-    public bool? Yaml
+    [Obsolete("Use Yaml instead.")]
+    public string? YamlValue
     {
-        get => bool.TryParse(YamlValue, out var value) ? value : null;
-        set => YamlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Yaml;
+        set => Yaml = value;
     }
 
 }

@@ -24,7 +24,7 @@ public record BrewCleanupOptions : BrewOptions
     /// Remove all cache files older than specified days. If you want to remove everything, use
     /// </summary>
     [CliOption("--prune", Format = OptionFormat.EqualsSeparated)]
-    public string? PruneValue { get; set; }
+    public string? Prune { get; set; }
 
     /// <summary>
     /// Show what would be removed, but do not actually remove anything.
@@ -74,11 +74,11 @@ public record BrewCleanupOptions : BrewOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Formula { get; set; }
 
-    [Obsolete("Use PruneValue instead.")]
-    public bool? Prune
+    [Obsolete("Use Prune instead.")]
+    public string? PruneValue
     {
-        get => bool.TryParse(PruneValue, out var value) ? value : null;
-        set => PruneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Prune;
+        set => Prune = value;
     }
 
 }

@@ -30,26 +30,26 @@ public record AzVmSecretFormatOptions : AzOptions
     /// Name or ID of the key vault.
     /// </summary>
     [CliOption("--keyvault")]
-    public string? KeyvaultValue { get; set; }
+    public string? Keyvault { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use KeyvaultValue instead.")]
-    public bool? Keyvault
+    [Obsolete("Use Keyvault instead.")]
+    public string? KeyvaultValue
     {
-        get => bool.TryParse(KeyvaultValue, out var value) ? value : null;
-        set => KeyvaultValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Keyvault;
+        set => Keyvault = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

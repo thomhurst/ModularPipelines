@@ -42,7 +42,7 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// Name or ID of an ExpressRoute port.
     /// </summary>
     [CliOption("--express-route-port")]
-    public string? ExpressRoutePortValue { get; set; }
+    public string? ExpressRoutePort { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -60,13 +60,13 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// Name of the peering location.  Values from: az network express- route list-service-providers.
     /// </summary>
     [CliOption("--peering-location")]
-    public string? PeeringLocationValue { get; set; }
+    public string? PeeringLocation { get; set; }
 
     /// <summary>
     /// Name of the ExpressRoute Service Provider.  Values from: az network express-route list-service-providers.
     /// </summary>
     [CliOption("--provider")]
-    public string? ProviderValue { get; set; }
+    public string? Provider { get; set; }
 
     /// <summary>
     /// Chosen SKU family of ExpressRoute circuit.  Allowed values: MeteredData, UnlimitedData.  Default: MeteredData.  Allowed values: MeteredData, UnlimitedData.  Default: MeteredData.
@@ -86,25 +86,25 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use ExpressRoutePortValue instead.")]
-    public bool? ExpressRoutePort
+    [Obsolete("Use ExpressRoutePort instead.")]
+    public string? ExpressRoutePortValue
     {
-        get => bool.TryParse(ExpressRoutePortValue, out var value) ? value : null;
-        set => ExpressRoutePortValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ExpressRoutePort;
+        set => ExpressRoutePort = value;
     }
 
-    [Obsolete("Use PeeringLocationValue instead.")]
-    public bool? PeeringLocation
+    [Obsolete("Use PeeringLocation instead.")]
+    public string? PeeringLocationValue
     {
-        get => bool.TryParse(PeeringLocationValue, out var value) ? value : null;
-        set => PeeringLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PeeringLocation;
+        set => PeeringLocation = value;
     }
 
-    [Obsolete("Use ProviderValue instead.")]
-    public bool? Provider
+    [Obsolete("Use Provider instead.")]
+    public string? ProviderValue
     {
-        get => bool.TryParse(ProviderValue, out var value) ? value : null;
-        set => ProviderValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Provider;
+        set => Provider = value;
     }
 
 }

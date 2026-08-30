@@ -54,7 +54,7 @@ public record AzAppConfigKvSetOptions : AzOptions
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -66,7 +66,7 @@ public record AzAppConfigKvSetOptions : AzOptions
     /// Value of the key-value to be set.
     /// </summary>
     [CliOption("--value")]
-    public string? ValueValue { get; set; }
+    public string? Value { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -74,18 +74,18 @@ public record AzAppConfigKvSetOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ValueValue instead.")]
-    public bool? Value
+    [Obsolete("Use Value instead.")]
+    public string? ValueValue
     {
-        get => bool.TryParse(ValueValue, out var value) ? value : null;
-        set => ValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Value;
+        set => Value = value;
     }
 
 }

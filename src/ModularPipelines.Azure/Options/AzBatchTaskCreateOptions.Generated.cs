@@ -78,13 +78,13 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// The ID of the task.
     /// </summary>
     [CliOption("--task-id")]
-    public string? TaskIdValue { get; set; }
+    public string? TaskId { get; set; }
 
-    [Obsolete("Use TaskIdValue instead.")]
-    public bool? TaskId
+    [Obsolete("Use TaskId instead.")]
+    public string? TaskIdValue
     {
-        get => bool.TryParse(TaskIdValue, out var value) ? value : null;
-        set => TaskIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TaskId;
+        set => TaskId = value;
     }
 
 }

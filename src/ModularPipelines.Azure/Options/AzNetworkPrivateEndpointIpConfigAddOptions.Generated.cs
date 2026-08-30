@@ -24,7 +24,7 @@ public record AzNetworkPrivateEndpointIpConfigAddOptions : AzOptions
     /// The ID of a group obtained from the remote resource that this private endpoint should connect to.
     /// </summary>
     [CliOption("--group-id")]
-    public string? GroupIdValue { get; set; }
+    public string? GroupId { get; set; }
 
     /// <summary>
     /// The member name of a group obtained from the remote resource that this private endpoint should connect to.
@@ -44,11 +44,11 @@ public record AzNetworkPrivateEndpointIpConfigAddOptions : AzOptions
     [CliFlag("--private-ip-address")]
     public bool? PrivateIpAddress { get; set; }
 
-    [Obsolete("Use GroupIdValue instead.")]
-    public bool? GroupId
+    [Obsolete("Use GroupId instead.")]
+    public string? GroupIdValue
     {
-        get => bool.TryParse(GroupIdValue, out var value) ? value : null;
-        set => GroupIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => GroupId;
+        set => GroupId = value;
     }
 
 }

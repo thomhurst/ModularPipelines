@@ -72,13 +72,13 @@ public record AzNetworkVnetPeeringUpdateOptions : AzOptions
     /// Name or ID of the remote VNet.
     /// </summary>
     [CliOption("--remote-vnet")]
-    public string? RemoteVnetValue { get; set; }
+    public string? RemoteVnet { get; set; }
 
     /// <summary>
     /// Parameter indicates the intention to sync the peering with the current address space on the remote vNet after it's updated.
     /// </summary>
     [CliOption("--sync-remote")]
-    public string? SyncRemoteValue { get; set; }
+    public string? SyncRemote { get; set; }
 
     /// <summary>
     /// Allows VNet to use the remote VNet's gateway. Remote VNet gateway must have --allow-gateway-transit enabled for remote peering. Only 1 peering can have this flag enabled. Cannot be set if the VNet already has a gateway.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -86,18 +86,18 @@ public record AzNetworkVnetPeeringUpdateOptions : AzOptions
     [CliFlag("--use-remote-gateways")]
     public bool? UseRemoteGateways { get; set; }
 
-    [Obsolete("Use RemoteVnetValue instead.")]
-    public bool? RemoteVnet
+    [Obsolete("Use RemoteVnet instead.")]
+    public string? RemoteVnetValue
     {
-        get => bool.TryParse(RemoteVnetValue, out var value) ? value : null;
-        set => RemoteVnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => RemoteVnet;
+        set => RemoteVnet = value;
     }
 
-    [Obsolete("Use SyncRemoteValue instead.")]
-    public bool? SyncRemote
+    [Obsolete("Use SyncRemote instead.")]
+    public string? SyncRemoteValue
     {
-        get => bool.TryParse(SyncRemoteValue, out var value) ? value : null;
-        set => SyncRemoteValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SyncRemote;
+        set => SyncRemote = value;
     }
 
 }

@@ -36,7 +36,7 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// Resource location  When not specified, the location of the resource group will be used.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
-    public string? LocationValue { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -48,33 +48,33 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// Name or ID of the KeyVault containing the key or secret.
     /// </summary>
     [CliOption("--source-vault")]
-    public string? SourceVaultValue { get; set; }
+    public string? SourceVault { get; set; }
 
     /// <summary>
     /// Resource tags  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
-    public string? TagsValue { get; set; }
+    public string? Tags { get; set; }
 
-    [Obsolete("Use LocationValue instead.")]
-    public bool? Location
+    [Obsolete("Use Location instead.")]
+    public string? LocationValue
     {
-        get => bool.TryParse(LocationValue, out var value) ? value : null;
-        set => LocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Location;
+        set => Location = value;
     }
 
-    [Obsolete("Use SourceVaultValue instead.")]
-    public bool? SourceVault
+    [Obsolete("Use SourceVault instead.")]
+    public string? SourceVaultValue
     {
-        get => bool.TryParse(SourceVaultValue, out var value) ? value : null;
-        set => SourceVaultValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceVault;
+        set => SourceVault = value;
     }
 
-    [Obsolete("Use TagsValue instead.")]
-    public bool? Tags
+    [Obsolete("Use Tags instead.")]
+    public string? TagsValue
     {
-        get => bool.TryParse(TagsValue, out var value) ? value : null;
-        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tags;
+        set => Tags = value;
     }
 
 }

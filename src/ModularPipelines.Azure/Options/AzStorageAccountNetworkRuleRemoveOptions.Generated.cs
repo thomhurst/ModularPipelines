@@ -30,39 +30,39 @@ public record AzStorageAccountNetworkRuleRemoveOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name or ID of subnet. If name is supplied, `--vnet-name` must be supplied.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Name of a virtual network.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
+    public string? VnetName { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
+    [Obsolete("Use Subnet instead.")]
+    public string? SubnetValue
     {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Subnet;
+        set => Subnet = value;
     }
 
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
+    [Obsolete("Use VnetName instead.")]
+    public string? VnetNameValue
     {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VnetName;
+        set => VnetName = value;
     }
 
 }

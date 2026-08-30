@@ -42,26 +42,26 @@ public record AzNetworkApplicationGatewayRedirectConfigCreateOptions : AzOptions
     /// Name or ID of the HTTP listener to redirect the request to.
     /// </summary>
     [CliOption("--target-listener")]
-    public string? TargetListenerValue { get; set; }
+    public string? TargetListener { get; set; }
 
     /// <summary>
     /// URL to redirect the request to.
     /// </summary>
     [CliOption("--target-url")]
-    public string? TargetUrlValue { get; set; }
+    public string? TargetUrl { get; set; }
 
-    [Obsolete("Use TargetListenerValue instead.")]
-    public bool? TargetListener
+    [Obsolete("Use TargetListener instead.")]
+    public string? TargetListenerValue
     {
-        get => bool.TryParse(TargetListenerValue, out var value) ? value : null;
-        set => TargetListenerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetListener;
+        set => TargetListener = value;
     }
 
-    [Obsolete("Use TargetUrlValue instead.")]
-    public bool? TargetUrl
+    [Obsolete("Use TargetUrl instead.")]
+    public string? TargetUrlValue
     {
-        get => bool.TryParse(TargetUrlValue, out var value) ? value : null;
-        set => TargetUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetUrl;
+        set => TargetUrl = value;
     }
 
 }

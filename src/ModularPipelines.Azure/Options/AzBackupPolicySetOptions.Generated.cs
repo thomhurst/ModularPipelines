@@ -42,7 +42,7 @@ public record AzBackupPolicySetOptions : AzOptions
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantIdValue { get; set; }
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// Skip confirmation when updating Standard to Enhanced Policies.
@@ -50,11 +50,11 @@ public record AzBackupPolicySetOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use TenantIdValue instead.")]
-    public bool? TenantId
+    [Obsolete("Use TenantId instead.")]
+    public string? TenantIdValue
     {
-        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
-        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TenantId;
+        set => TenantId = value;
     }
 
 }

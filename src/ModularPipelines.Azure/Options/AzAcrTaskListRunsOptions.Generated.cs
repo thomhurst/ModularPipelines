@@ -24,19 +24,19 @@ public record AzAcrTaskListRunsOptions : AzOptions
     /// The name of the image. May include a tag in the format 'name:tag' or digest in the format 'name@digest'.
     /// </summary>
     [CliOption("--image", ShortForm = "-t")]
-    public string? ImageValue { get; set; }
+    public string? Image { get; set; }
 
     /// <summary>
     /// The name of the task.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The current status of run.  Allowed values: Canceled, Error, Failed, Queued, Running, Started, Succeeded, Timeout.
@@ -50,25 +50,25 @@ public record AzAcrTaskListRunsOptions : AzOptions
     [CliFlag("--top")]
     public bool? Top { get; set; }
 
-    [Obsolete("Use ImageValue instead.")]
-    public bool? Image
+    [Obsolete("Use Image instead.")]
+    public string? ImageValue
     {
-        get => bool.TryParse(ImageValue, out var value) ? value : null;
-        set => ImageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Image;
+        set => Image = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

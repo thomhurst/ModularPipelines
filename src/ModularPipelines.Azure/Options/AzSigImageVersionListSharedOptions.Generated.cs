@@ -24,13 +24,13 @@ public record AzSigImageVersionListSharedOptions : AzOptions
     /// The query parameter to decide what shared galleries to fetch when doing listing operations. If not specified, list by subscription id.  Allowed values: tenant.
     /// </summary>
     [CliOption("--shared-to")]
-    public string? SharedToValue { get; set; }
+    public string? SharedTo { get; set; }
 
-    [Obsolete("Use SharedToValue instead.")]
-    public bool? SharedTo
+    [Obsolete("Use SharedTo instead.")]
+    public string? SharedToValue
     {
-        get => bool.TryParse(SharedToValue, out var value) ? value : null;
-        set => SharedToValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SharedTo;
+        set => SharedTo = value;
     }
 
 }

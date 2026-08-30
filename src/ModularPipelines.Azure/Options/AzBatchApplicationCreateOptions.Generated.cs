@@ -24,13 +24,13 @@ public record AzBatchApplicationCreateOptions : AzOptions
     /// The parameters for the request. Is either a Application type or a IO type. Default value is None.
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
+    public string? Parameters { get; set; }
 
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
+    [Obsolete("Use Parameters instead.")]
+    public string? ParametersValue
     {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Parameters;
+        set => Parameters = value;
     }
 
 }

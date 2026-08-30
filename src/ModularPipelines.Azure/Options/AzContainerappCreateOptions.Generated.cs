@@ -30,7 +30,7 @@ public record AzContainerappCreateOptions : AzOptions
     /// Name or resource ID of the container app's environment.
     /// </summary>
     [CliOption("--environment")]
-    public string? EnvironmentValue { get; set; }
+    public string? Environment { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -42,7 +42,7 @@ public record AzContainerappCreateOptions : AzOptions
     /// Path to mount all secrets e.g. mnt/secrets.
     /// </summary>
     [CliOption("--secret-volume-mount")]
-    public string? SecretVolumeMountValue { get; set; }
+    public string? SecretVolumeMount { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -54,40 +54,40 @@ public record AzContainerappCreateOptions : AzOptions
     /// Name of the workload profile to run the app on.
     /// </summary>
     [CliOption("--workload-profile-name", ShortForm = "-w")]
-    public string? WorkloadProfileNameValue { get; set; }
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https:/ /learn.microsoft.com/ azure/container- apps/azure-resource- manager-api- spec#examples.
     /// </summary>
     [CliOption("--yaml")]
-    public string? YamlValue { get; set; }
+    public string? Yaml { get; set; }
 
-    [Obsolete("Use EnvironmentValue instead.")]
-    public bool? Environment
+    [Obsolete("Use Environment instead.")]
+    public string? EnvironmentValue
     {
-        get => bool.TryParse(EnvironmentValue, out var value) ? value : null;
-        set => EnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Environment;
+        set => Environment = value;
     }
 
-    [Obsolete("Use SecretVolumeMountValue instead.")]
-    public bool? SecretVolumeMount
+    [Obsolete("Use SecretVolumeMount instead.")]
+    public string? SecretVolumeMountValue
     {
-        get => bool.TryParse(SecretVolumeMountValue, out var value) ? value : null;
-        set => SecretVolumeMountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SecretVolumeMount;
+        set => SecretVolumeMount = value;
     }
 
-    [Obsolete("Use WorkloadProfileNameValue instead.")]
-    public bool? WorkloadProfileName
+    [Obsolete("Use WorkloadProfileName instead.")]
+    public string? WorkloadProfileNameValue
     {
-        get => bool.TryParse(WorkloadProfileNameValue, out var value) ? value : null;
-        set => WorkloadProfileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => WorkloadProfileName;
+        set => WorkloadProfileName = value;
     }
 
-    [Obsolete("Use YamlValue instead.")]
-    public bool? Yaml
+    [Obsolete("Use Yaml instead.")]
+    public string? YamlValue
     {
-        get => bool.TryParse(YamlValue, out var value) ? value : null;
-        set => YamlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Yaml;
+        set => Yaml = value;
     }
 
 }

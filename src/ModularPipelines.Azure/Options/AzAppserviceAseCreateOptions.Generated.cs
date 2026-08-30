@@ -54,7 +54,7 @@ public record AzAppserviceAseCreateOptions : AzOptions
     /// Name of the vNet. Mandatory if only subnet name is specified.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
+    public string? VnetName { get; set; }
 
     /// <summary>
     /// Configure App Service Environment as Zone Redundant.  Allowed values: false, true.
@@ -62,11 +62,11 @@ public record AzAppserviceAseCreateOptions : AzOptions
     [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
+    [Obsolete("Use VnetName instead.")]
+    public string? VnetNameValue
     {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VnetName;
+        set => VnetName = value;
     }
 
 }

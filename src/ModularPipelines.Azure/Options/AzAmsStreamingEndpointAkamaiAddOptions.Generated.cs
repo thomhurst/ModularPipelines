@@ -36,13 +36,13 @@ public record AzAmsStreamingEndpointAkamaiAddOptions : AzOptions
     /// The identifier for the authentication key. This is the nonce provided by Akamai.
     /// </summary>
     [CliOption("--identifier")]
-    public string? IdentifierValue { get; set; }
+    public string? Identifier { get; set; }
 
-    [Obsolete("Use IdentifierValue instead.")]
-    public bool? Identifier
+    [Obsolete("Use Identifier instead.")]
+    public string? IdentifierValue
     {
-        get => bool.TryParse(IdentifierValue, out var value) ? value : null;
-        set => IdentifierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Identifier;
+        set => Identifier = value;
     }
 
 }

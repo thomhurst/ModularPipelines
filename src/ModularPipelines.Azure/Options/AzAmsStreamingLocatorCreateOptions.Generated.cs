@@ -60,13 +60,13 @@ public record AzAmsStreamingLocatorCreateOptions : AzOptions
     /// The identifier of the streaming locator.
     /// </summary>
     [CliOption("--streaming-locator-id")]
-    public string? StreamingLocatorIdValue { get; set; }
+    public string? StreamingLocatorId { get; set; }
 
-    [Obsolete("Use StreamingLocatorIdValue instead.")]
-    public bool? StreamingLocatorId
+    [Obsolete("Use StreamingLocatorId instead.")]
+    public string? StreamingLocatorIdValue
     {
-        get => bool.TryParse(StreamingLocatorIdValue, out var value) ? value : null;
-        set => StreamingLocatorIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => StreamingLocatorId;
+        set => StreamingLocatorId = value;
     }
 
 }

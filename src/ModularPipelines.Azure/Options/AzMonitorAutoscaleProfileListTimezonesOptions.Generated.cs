@@ -30,13 +30,13 @@ public record AzMonitorAutoscaleProfileListTimezonesOptions : AzOptions
     /// Query text to find.
     /// </summary>
     [CliOption("--search-query", ShortForm = "-q")]
-    public string? SearchQueryValue { get; set; }
+    public string? SearchQuery { get; set; }
 
-    [Obsolete("Use SearchQueryValue instead.")]
-    public bool? SearchQuery
+    [Obsolete("Use SearchQuery instead.")]
+    public string? SearchQueryValue
     {
-        get => bool.TryParse(SearchQueryValue, out var value) ? value : null;
-        set => SearchQueryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SearchQuery;
+        set => SearchQuery = value;
     }
 
 }

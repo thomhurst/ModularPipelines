@@ -36,26 +36,26 @@ public record AzNetworkApplicationGatewayFrontendIpUpdateOptions : AzOptions
     /// Name or ID of the subnet. If using Name, you need to provide `--vnet-name` as well.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Name of the virtual network corresponding to the subnet.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
+    public string? VnetName { get; set; }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
+    [Obsolete("Use Subnet instead.")]
+    public string? SubnetValue
     {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Subnet;
+        set => Subnet = value;
     }
 
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
+    [Obsolete("Use VnetName instead.")]
+    public string? VnetNameValue
     {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VnetName;
+        set => VnetName = value;
     }
 
 }

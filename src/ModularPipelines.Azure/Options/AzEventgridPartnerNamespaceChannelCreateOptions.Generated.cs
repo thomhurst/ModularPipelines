@@ -24,7 +24,7 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
     /// The URL that represents the endpoint of the partner destination.
     /// </summary>
     [CliOption("--endpoint-url")]
-    public string? EndpointUrlValue { get; set; }
+    public string? EndpointUrl { get; set; }
 
     /// <summary>
     /// The kind of event type used.
@@ -48,33 +48,33 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
     /// Name of the partner topic.
     /// </summary>
     [CliOption("--partner-topic-name")]
-    public string? PartnerTopicNameValue { get; set; }
+    public string? PartnerTopicName { get; set; }
 
     /// <summary>
     /// The identifier of the resource that forms the partner source of the events. This represents a unique resource in the partner's resource model.
     /// </summary>
     [CliOption("--partner-topic-source")]
-    public string? PartnerTopicSourceValue { get; set; }
+    public string? PartnerTopicSource { get; set; }
 
-    [Obsolete("Use EndpointUrlValue instead.")]
-    public bool? EndpointUrl
+    [Obsolete("Use EndpointUrl instead.")]
+    public string? EndpointUrlValue
     {
-        get => bool.TryParse(EndpointUrlValue, out var value) ? value : null;
-        set => EndpointUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EndpointUrl;
+        set => EndpointUrl = value;
     }
 
-    [Obsolete("Use PartnerTopicNameValue instead.")]
-    public bool? PartnerTopicName
+    [Obsolete("Use PartnerTopicName instead.")]
+    public string? PartnerTopicNameValue
     {
-        get => bool.TryParse(PartnerTopicNameValue, out var value) ? value : null;
-        set => PartnerTopicNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PartnerTopicName;
+        set => PartnerTopicName = value;
     }
 
-    [Obsolete("Use PartnerTopicSourceValue instead.")]
-    public bool? PartnerTopicSource
+    [Obsolete("Use PartnerTopicSource instead.")]
+    public string? PartnerTopicSourceValue
     {
-        get => bool.TryParse(PartnerTopicSourceValue, out var value) ? value : null;
-        set => PartnerTopicSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PartnerTopicSource;
+        set => PartnerTopicSource = value;
     }
 
 }

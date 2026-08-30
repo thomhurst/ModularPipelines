@@ -24,7 +24,7 @@ public record AzStaticwebappBackendsUnlinkOptions : AzOptions
     /// Name of the environment of static site.  Default: default.
     /// </summary>
     [CliOption("--environment-name")]
-    public string? EnvironmentNameValue { get; set; }
+    public string? EnvironmentName { get; set; }
 
     /// <summary>
     /// If set to true, removes the identity provider configured on the backend during the linking process.
@@ -32,11 +32,11 @@ public record AzStaticwebappBackendsUnlinkOptions : AzOptions
     [CliFlag("--remove-backend-auth")]
     public bool? RemoveBackendAuth { get; set; }
 
-    [Obsolete("Use EnvironmentNameValue instead.")]
-    public bool? EnvironmentName
+    [Obsolete("Use EnvironmentName instead.")]
+    public string? EnvironmentNameValue
     {
-        get => bool.TryParse(EnvironmentNameValue, out var value) ? value : null;
-        set => EnvironmentNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EnvironmentName;
+        set => EnvironmentName = value;
     }
 
 }

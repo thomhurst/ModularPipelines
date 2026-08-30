@@ -24,13 +24,13 @@ public record AzContainerappReplicaShowOptions : AzOptions
     /// The name of the container app revision. Defaults to the latest revision.
     /// </summary>
     [CliOption("--revision")]
-    public string? RevisionValue { get; set; }
+    public string? Revision { get; set; }
 
-    [Obsolete("Use RevisionValue instead.")]
-    public bool? Revision
+    [Obsolete("Use Revision instead.")]
+    public string? RevisionValue
     {
-        get => bool.TryParse(RevisionValue, out var value) ? value : null;
-        set => RevisionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Revision;
+        set => Revision = value;
     }
 
 }

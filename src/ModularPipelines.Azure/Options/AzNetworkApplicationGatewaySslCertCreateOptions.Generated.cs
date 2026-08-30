@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewaySslCertCreateOptions : AzOptions
     /// Path to the pfx certificate file.
     /// </summary>
     [CliOption("--cert-file")]
-    public string? CertFileValue { get; set; }
+    public string? CertFile { get; set; }
 
     /// <summary>
     /// Certificate password.
@@ -44,11 +44,11 @@ public record AzNetworkApplicationGatewaySslCertCreateOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use CertFileValue instead.")]
-    public bool? CertFile
+    [Obsolete("Use CertFile instead.")]
+    public string? CertFileValue
     {
-        get => bool.TryParse(CertFileValue, out var value) ? value : null;
-        set => CertFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => CertFile;
+        set => CertFile = value;
     }
 
 }

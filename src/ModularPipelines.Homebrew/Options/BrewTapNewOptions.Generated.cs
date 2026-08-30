@@ -37,7 +37,7 @@ public record BrewTapNewOptions(
     /// Initialise a Git repository and set up GitHub Actions workflows with the specified branch name (default: main).
     /// </summary>
     [CliOption("--branch", Format = OptionFormat.EqualsSeparated)]
-    public string? BranchValue { get; set; }
+    public string? Branch { get; set; }
 
     /// <summary>
     /// Upload bottles to GitHub Packages.
@@ -69,11 +69,11 @@ public record BrewTapNewOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use BranchValue instead.")]
-    public bool? Branch
+    [Obsolete("Use Branch instead.")]
+    public string? BranchValue
     {
-        get => bool.TryParse(BranchValue, out var value) ? value : null;
-        set => BranchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Branch;
+        set => Branch = value;
     }
 
     [Obsolete("PullLabel is no longer supported by the installed CLI and has no effect.")]

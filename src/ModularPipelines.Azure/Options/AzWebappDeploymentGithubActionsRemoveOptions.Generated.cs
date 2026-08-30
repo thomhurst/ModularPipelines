@@ -36,7 +36,7 @@ public record AzWebappDeploymentGithubActionsRemoveOptions : AzOptions
     /// The name of the slot. Default to the production slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating- to-github/creating-a-personal-access-token-for-the-command-line.
@@ -44,11 +44,11 @@ public record AzWebappDeploymentGithubActionsRemoveOptions : AzOptions
     [CliFlag("--token")]
     public bool? Token { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

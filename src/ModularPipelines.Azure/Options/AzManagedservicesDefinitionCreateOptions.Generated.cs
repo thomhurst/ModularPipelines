@@ -30,7 +30,7 @@ public record AzManagedservicesDefinitionCreateOptions : AzOptions
     /// Description of the registration definition.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -62,11 +62,11 @@ public record AzManagedservicesDefinitionCreateOptions : AzOptions
     [CliFlag("--plan-version")]
     public bool? PlanVersion { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
 }

@@ -30,7 +30,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// Name of the existing App Insights project to be added to the function app. Must be in the same resource group.
     /// </summary>
     [CliOption("--app-insights")]
-    public string? AppInsightsValue { get; set; }
+    public string? AppInsights { get; set; }
 
     /// <summary>
     /// Instrumentation key of App Insights to be added.
@@ -150,7 +150,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// Name or resource id of the functionapp app service plan. Use 'appservice plan create' to get one. If using an App Service plan from a different resource group, the full resource id must be used and not the plan name.
     /// </summary>
     [CliOption("--plan", ShortForm = "-p")]
-    public string? PlanValue { get; set; }
+    public string? Plan { get; set; }
 
     /// <summary>
     /// The container registry server password. Required for private registries.
@@ -192,7 +192,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// Name or resource ID of the pre-existing subnet to have the webapp join. The --vnet is argument also needed if specifying subnet by name.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -210,7 +210,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// Name of an existing log analytics workspace to be used for the application insights component.
     /// </summary>
     [CliOption("--workspace")]
-    public string? WorkspaceValue { get; set; }
+    public string? Workspace { get; set; }
 
     /// <summary>
     /// Enable zone redundancy for high availability. Applies to Flex Consumption SKU only.  Allowed values: false, true.
@@ -218,32 +218,32 @@ public record AzFunctionappCreateOptions : AzOptions
     [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 
-    [Obsolete("Use AppInsightsValue instead.")]
-    public bool? AppInsights
+    [Obsolete("Use AppInsights instead.")]
+    public string? AppInsightsValue
     {
-        get => bool.TryParse(AppInsightsValue, out var value) ? value : null;
-        set => AppInsightsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AppInsights;
+        set => AppInsights = value;
     }
 
-    [Obsolete("Use PlanValue instead.")]
-    public bool? Plan
+    [Obsolete("Use Plan instead.")]
+    public string? PlanValue
     {
-        get => bool.TryParse(PlanValue, out var value) ? value : null;
-        set => PlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Plan;
+        set => Plan = value;
     }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
+    [Obsolete("Use Subnet instead.")]
+    public string? SubnetValue
     {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Subnet;
+        set => Subnet = value;
     }
 
-    [Obsolete("Use WorkspaceValue instead.")]
-    public bool? Workspace
+    [Obsolete("Use Workspace instead.")]
+    public string? WorkspaceValue
     {
-        get => bool.TryParse(WorkspaceValue, out var value) ? value : null;
-        set => WorkspaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Workspace;
+        set => Workspace = value;
     }
 
 }

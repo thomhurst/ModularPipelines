@@ -24,13 +24,13 @@ public record AzBackupVaultResourceGuardMappingUpdateOptions : AzOptions
     /// ID of the tenant where the Resource Guard exists in Cross-
     /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantIdValue { get; set; }
+    public string? TenantId { get; set; }
 
-    [Obsolete("Use TenantIdValue instead.")]
-    public bool? TenantId
+    [Obsolete("Use TenantId instead.")]
+    public string? TenantIdValue
     {
-        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
-        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TenantId;
+        set => TenantId = value;
     }
 
 }

@@ -30,7 +30,7 @@ public record AzBatchAccountNetworkProfileNetworkRuleDeleteOptions : AzOptions
     /// Name of the batch account to show. If not specified will display currently set account.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Network profile to set.  Allowed values: BatchAccount,
@@ -44,11 +44,11 @@ public record AzBatchAccountNetworkProfileNetworkRuleDeleteOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
 }

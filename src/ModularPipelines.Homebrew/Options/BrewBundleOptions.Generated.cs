@@ -48,7 +48,7 @@ public record BrewBundleOptions : BrewOptions
     /// Read from or write to the Brewfile from this location. Use --file=- to pipe to stdin/stdout.
     /// </summary>
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? FileValue { get; set; }
+    public string? File { get; set; }
 
     /// <summary>
     /// Read from or write to the Brewfile from $HOMEBREW_BUNDLE_FILE_GLOBAL (if set), ${XDG_CONFIG_HOME}/homebrew/Brewfile (if $XDG_CONFIG_HOME is set), ~/.homebrew/Brewfile or ~/.Brewfile otherwise.
@@ -56,11 +56,11 @@ public record BrewBundleOptions : BrewOptions
     [CliFlag("--global", ShortForm = "-g")]
     public bool? Global { get; set; }
 
-    [Obsolete("Use FileValue instead.")]
-    public bool? File
+    [Obsolete("Use File instead.")]
+    public string? FileValue
     {
-        get => bool.TryParse(FileValue, out var value) ? value : null;
-        set => FileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => File;
+        set => File = value;
     }
 
     [Obsolete("Cask is no longer supported by the installed CLI and has no effect.")]

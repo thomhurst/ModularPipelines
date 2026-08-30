@@ -42,13 +42,13 @@ public record AzNetworkDnsRecordSetPtrUpdateOptions : AzOptions
     /// ID of an Azure resource from which the DNS resource value is taken.
     /// </summary>
     [CliOption("--target-resource")]
-    public string? TargetResourceValue { get; set; }
+    public string? TargetResource { get; set; }
 
-    [Obsolete("Use TargetResourceValue instead.")]
-    public bool? TargetResource
+    [Obsolete("Use TargetResource instead.")]
+    public string? TargetResourceValue
     {
-        get => bool.TryParse(TargetResourceValue, out var value) ? value : null;
-        set => TargetResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetResource;
+        set => TargetResource = value;
     }
 
 }

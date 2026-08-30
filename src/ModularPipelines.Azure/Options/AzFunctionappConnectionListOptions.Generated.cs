@@ -24,39 +24,39 @@ public record AzFunctionappConnectionListOptions : AzOptions
     /// Name of the function app. Required if '--source-id' is not specified.None.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The resource group which contains the function app. Required if '--source- id' is not specified.None.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The resource id of a functionapp. Required if ['--resource-group', '-- name'] are not specified.
     /// </summary>
     [CliOption("--source-id")]
-    public string? SourceIdValue { get; set; }
+    public string? SourceId { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use SourceIdValue instead.")]
-    public bool? SourceId
+    [Obsolete("Use SourceId instead.")]
+    public string? SourceIdValue
     {
-        get => bool.TryParse(SourceIdValue, out var value) ? value : null;
-        set => SourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceId;
+        set => SourceId = value;
     }
 
 }

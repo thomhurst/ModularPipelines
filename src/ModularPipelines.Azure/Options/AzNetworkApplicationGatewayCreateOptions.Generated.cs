@@ -72,7 +72,7 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// Name or ID of a web application firewall (WAF) policy.
     /// </summary>
     [CliOption("--waf-policy")]
-    public string? WafPolicyValue { get; set; }
+    public string? WafPolicy { get; set; }
 
     /// <summary>
     /// Space-separated list of availability zones into which to provision the resource.
@@ -80,11 +80,11 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
 
-    [Obsolete("Use WafPolicyValue instead.")]
-    public bool? WafPolicy
+    [Obsolete("Use WafPolicy instead.")]
+    public string? WafPolicyValue
     {
-        get => bool.TryParse(WafPolicyValue, out var value) ? value : null;
-        set => WafPolicyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => WafPolicy;
+        set => WafPolicy = value;
     }
 
 }

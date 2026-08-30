@@ -36,13 +36,13 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// The name or resource identifier of the user assigned identity for data encryption.
     /// </summary>
     [CliOption("--identity")]
-    public string? IdentityValue { get; set; }
+    public string? Identity { get; set; }
 
     /// <summary>
     /// The resource identifier of the primary keyvault key for data encryption.
     /// </summary>
     [CliOption("--key")]
-    public string? KeyValue { get; set; }
+    public string? Key { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -72,7 +72,7 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
     /// </summary>
     [CliOption("--sku-name")]
-    public string? SkuNameValue { get; set; }
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
@@ -90,7 +90,7 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// Name or identifier of an existing subnet. If you want to use a subnet from a different resource group or subscription, please provide its resource identifier instead of name.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -102,13 +102,13 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// Compute tier of the server. Accepted values: Burstable,
     /// </summary>
     [CliOption("--tier")]
-    public string? TierValue { get; set; }
+    public string? Tier { get; set; }
 
     /// <summary>
     /// Name or identifier of an existing virtual network. If you want to use a vnet from a different resource group or subscription, please provide a resource identifier. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -122,46 +122,46 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
 
-    [Obsolete("Use IdentityValue instead.")]
-    public bool? Identity
+    [Obsolete("Use Identity instead.")]
+    public string? IdentityValue
     {
-        get => bool.TryParse(IdentityValue, out var value) ? value : null;
-        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Identity;
+        set => Identity = value;
     }
 
-    [Obsolete("Use KeyValue instead.")]
-    public bool? Key
+    [Obsolete("Use Key instead.")]
+    public string? KeyValue
     {
-        get => bool.TryParse(KeyValue, out var value) ? value : null;
-        set => KeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Key;
+        set => Key = value;
     }
 
-    [Obsolete("Use SkuNameValue instead.")]
-    public bool? SkuName
+    [Obsolete("Use SkuName instead.")]
+    public string? SkuNameValue
     {
-        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
-        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SkuName;
+        set => SkuName = value;
     }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
+    [Obsolete("Use Subnet instead.")]
+    public string? SubnetValue
     {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Subnet;
+        set => Subnet = value;
     }
 
-    [Obsolete("Use TierValue instead.")]
-    public bool? Tier
+    [Obsolete("Use Tier instead.")]
+    public string? TierValue
     {
-        get => bool.TryParse(TierValue, out var value) ? value : null;
-        set => TierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tier;
+        set => Tier = value;
     }
 
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
+    [Obsolete("Use Vnet instead.")]
+    public string? VnetValue
     {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Vnet;
+        set => Vnet = value;
     }
 
 }

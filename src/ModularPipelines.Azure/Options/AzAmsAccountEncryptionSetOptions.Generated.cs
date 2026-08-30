@@ -30,7 +30,7 @@ public record AzAmsAccountEncryptionSetOptions : AzOptions
     /// The URL of the Key Vault key used to encrypt the account. The key may either be versioned (for example https://vault/keys/mykey/version1) or reference a key without a version (for example https://vault/keys/mykey).
     /// </summary>
     [CliOption("--key-identifier")]
-    public string? KeyIdentifierValue { get; set; }
+    public string? KeyIdentifier { get; set; }
 
     /// <summary>
     /// Set the system managed identity for account encryption.  Allowed values: false, true.
@@ -44,11 +44,11 @@ public record AzAmsAccountEncryptionSetOptions : AzOptions
     [CliFlag("--user-assigned")]
     public bool? UserAssigned { get; set; }
 
-    [Obsolete("Use KeyIdentifierValue instead.")]
-    public bool? KeyIdentifier
+    [Obsolete("Use KeyIdentifier instead.")]
+    public string? KeyIdentifierValue
     {
-        get => bool.TryParse(KeyIdentifierValue, out var value) ? value : null;
-        set => KeyIdentifierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyIdentifier;
+        set => KeyIdentifier = value;
     }
 
 }

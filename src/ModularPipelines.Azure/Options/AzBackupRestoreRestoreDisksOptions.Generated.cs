@@ -102,7 +102,7 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// Name of the resource group which contains the storage account. Default value will be same as --resource-group if not specified.
     /// </summary>
     [CliOption("--storage-account-resource-group")]
-    public string? StorageAccountResourceGroupValue { get; set; }
+    public string? StorageAccountResourceGroup { get; set; }
 
     /// <summary>
     /// Specify the target disk access ID when --disk-access- option is set to EnablePrivateAccessForAllDisks.
@@ -120,31 +120,31 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// Name of the subnet in which the target VM should be created, in the case of Alternate Location restore a new
     /// </summary>
     [CliOption("--target-subnet-name")]
-    public string? TargetSubnetNameValue { get; set; }
+    public string? TargetSubnetName { get; set; }
 
     /// <summary>
     /// ID of the subscription to which the resource should be restored.
     /// </summary>
     [CliOption("--target-subscription-id")]
-    public string? TargetSubscriptionIdValue { get; set; }
+    public string? TargetSubscriptionId { get; set; }
 
     /// <summary>
     /// Name of the VM to which the data should be restored, in the case of Alternate Location restore to a new VM.
     /// </summary>
     [CliOption("--target-vm-name")]
-    public string? TargetVmNameValue { get; set; }
+    public string? TargetVmName { get; set; }
 
     /// <summary>
     /// Name of the VNet in which the target VM should be created, in the case of Alternate Location restore to a new VM.
     /// </summary>
     [CliOption("--target-vnet-name")]
-    public string? TargetVnetNameValue { get; set; }
+    public string? TargetVnetName { get; set; }
 
     /// <summary>
     /// Name of the resource group which contains the target VNet, in the case of Alternate Location restore to a new
     /// </summary>
     [CliOption("--target-vnet-resource-group")]
-    public string? TargetVnetResourceGroupValue { get; set; }
+    public string? TargetVnetResourceGroup { get; set; }
 
     /// <summary>
     /// A primary region currently can have three Azure availability zones. Use this argument to specify the target zone number while doing Cross Zonal Restore. Allowed values: 1, 2, 3, NoZone.
@@ -156,7 +156,7 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantIdValue { get; set; }
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// Use this flag to restore from a recoverypoint in secondary region.
@@ -164,53 +164,53 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     [CliFlag("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }
 
-    [Obsolete("Use StorageAccountResourceGroupValue instead.")]
-    public bool? StorageAccountResourceGroup
+    [Obsolete("Use StorageAccountResourceGroup instead.")]
+    public string? StorageAccountResourceGroupValue
     {
-        get => bool.TryParse(StorageAccountResourceGroupValue, out var value) ? value : null;
-        set => StorageAccountResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => StorageAccountResourceGroup;
+        set => StorageAccountResourceGroup = value;
     }
 
-    [Obsolete("Use TargetSubnetNameValue instead.")]
-    public bool? TargetSubnetName
+    [Obsolete("Use TargetSubnetName instead.")]
+    public string? TargetSubnetNameValue
     {
-        get => bool.TryParse(TargetSubnetNameValue, out var value) ? value : null;
-        set => TargetSubnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetSubnetName;
+        set => TargetSubnetName = value;
     }
 
-    [Obsolete("Use TargetSubscriptionIdValue instead.")]
-    public bool? TargetSubscriptionId
+    [Obsolete("Use TargetSubscriptionId instead.")]
+    public string? TargetSubscriptionIdValue
     {
-        get => bool.TryParse(TargetSubscriptionIdValue, out var value) ? value : null;
-        set => TargetSubscriptionIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetSubscriptionId;
+        set => TargetSubscriptionId = value;
     }
 
-    [Obsolete("Use TargetVmNameValue instead.")]
-    public bool? TargetVmName
+    [Obsolete("Use TargetVmName instead.")]
+    public string? TargetVmNameValue
     {
-        get => bool.TryParse(TargetVmNameValue, out var value) ? value : null;
-        set => TargetVmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetVmName;
+        set => TargetVmName = value;
     }
 
-    [Obsolete("Use TargetVnetNameValue instead.")]
-    public bool? TargetVnetName
+    [Obsolete("Use TargetVnetName instead.")]
+    public string? TargetVnetNameValue
     {
-        get => bool.TryParse(TargetVnetNameValue, out var value) ? value : null;
-        set => TargetVnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetVnetName;
+        set => TargetVnetName = value;
     }
 
-    [Obsolete("Use TargetVnetResourceGroupValue instead.")]
-    public bool? TargetVnetResourceGroup
+    [Obsolete("Use TargetVnetResourceGroup instead.")]
+    public string? TargetVnetResourceGroupValue
     {
-        get => bool.TryParse(TargetVnetResourceGroupValue, out var value) ? value : null;
-        set => TargetVnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetVnetResourceGroup;
+        set => TargetVnetResourceGroup = value;
     }
 
-    [Obsolete("Use TenantIdValue instead.")]
-    public bool? TenantId
+    [Obsolete("Use TenantId instead.")]
+    public string? TenantIdValue
     {
-        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
-        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TenantId;
+        set => TenantId = value;
     }
 
 }

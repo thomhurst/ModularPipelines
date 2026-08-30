@@ -30,7 +30,7 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// Resource ID.
     /// </summary>
     [CliOption("--ids")]
-    public string? IdsValue { get; set; }
+    public string? Ids { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -38,11 +38,11 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use IdsValue instead.")]
-    public bool? Ids
+    [Obsolete("Use Ids instead.")]
+    public string? IdsValue
     {
-        get => bool.TryParse(IdsValue, out var value) ? value : null;
-        set => IdsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Ids;
+        set => Ids = value;
     }
 
 }

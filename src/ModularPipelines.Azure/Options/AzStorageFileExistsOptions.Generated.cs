@@ -36,7 +36,7 @@ public record AzStorageFileExistsOptions : AzOptions
     /// A string that represents the snapshot version, if applicable.
     /// </summary>
     [CliOption("--snapshot")]
-    public string? SnapshotValue { get; set; }
+    public string? Snapshot { get; set; }
 
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
@@ -44,11 +44,11 @@ public record AzStorageFileExistsOptions : AzOptions
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
 
-    [Obsolete("Use SnapshotValue instead.")]
-    public bool? Snapshot
+    [Obsolete("Use Snapshot instead.")]
+    public string? SnapshotValue
     {
-        get => bool.TryParse(SnapshotValue, out var value) ? value : null;
-        set => SnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Snapshot;
+        set => Snapshot = value;
     }
 
 }

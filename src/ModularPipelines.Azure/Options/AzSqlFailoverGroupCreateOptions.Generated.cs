@@ -42,7 +42,7 @@ public record AzSqlFailoverGroupCreateOptions : AzOptions
     /// The name of the resource group of the partner server.
     /// </summary>
     [CliOption("--partner-resource-group")]
-    public string? PartnerResourceGroupValue { get; set; }
+    public string? PartnerResourceGroup { get; set; }
 
     /// <summary>
     /// The list of partner server resource id's of the Failover Group.
@@ -54,7 +54,7 @@ public record AzSqlFailoverGroupCreateOptions : AzOptions
     /// The resource id of the read only endpoint target server.
     /// </summary>
     [CliOption("--ro-endpoint-target")]
-    public string? RoEndpointTargetValue { get; set; }
+    public string? RoEndpointTarget { get; set; }
 
     /// <summary>
     /// The policy of the read only endpoint of the Failover Group. Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -68,18 +68,18 @@ public record AzSqlFailoverGroupCreateOptions : AzOptions
     [CliFlag("--secondary-type")]
     public bool? SecondaryType { get; set; }
 
-    [Obsolete("Use PartnerResourceGroupValue instead.")]
-    public bool? PartnerResourceGroup
+    [Obsolete("Use PartnerResourceGroup instead.")]
+    public string? PartnerResourceGroupValue
     {
-        get => bool.TryParse(PartnerResourceGroupValue, out var value) ? value : null;
-        set => PartnerResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PartnerResourceGroup;
+        set => PartnerResourceGroup = value;
     }
 
-    [Obsolete("Use RoEndpointTargetValue instead.")]
-    public bool? RoEndpointTarget
+    [Obsolete("Use RoEndpointTarget instead.")]
+    public string? RoEndpointTargetValue
     {
-        get => bool.TryParse(RoEndpointTargetValue, out var value) ? value : null;
-        set => RoEndpointTargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => RoEndpointTarget;
+        set => RoEndpointTarget = value;
     }
 
 }

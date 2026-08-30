@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOption
     /// The name of the web application firewall rule set group.
     /// </summary>
     [CliOption("--group-name")]
-    public string? GroupNameValue { get; set; }
+    public string? GroupName { get; set; }
 
     /// <summary>
     /// The rule that will be disabled. If none specified, all rules in the group will be disabled. If provided, --group-name must be provided too.
@@ -32,11 +32,11 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOption
     [CliFlag("--rule")]
     public bool? Rule { get; set; }
 
-    [Obsolete("Use GroupNameValue instead.")]
-    public bool? GroupName
+    [Obsolete("Use GroupName instead.")]
+    public string? GroupNameValue
     {
-        get => bool.TryParse(GroupNameValue, out var value) ? value : null;
-        set => GroupNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => GroupName;
+        set => GroupName = value;
     }
 
 }

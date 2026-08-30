@@ -24,7 +24,7 @@ public record AzSfClusterSettingRemoveOptions : AzOptions
     /// Parameter name.
     /// </summary>
     [CliOption("--parameter")]
-    public string? ParameterValue { get; set; }
+    public string? Parameter { get; set; }
 
     /// <summary>
     /// Section name.
@@ -32,11 +32,11 @@ public record AzSfClusterSettingRemoveOptions : AzOptions
     [CliFlag("--section")]
     public bool? Section { get; set; }
 
-    [Obsolete("Use ParameterValue instead.")]
-    public bool? Parameter
+    [Obsolete("Use Parameter instead.")]
+    public string? ParameterValue
     {
-        get => bool.TryParse(ParameterValue, out var value) ? value : null;
-        set => ParameterValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Parameter;
+        set => Parameter = value;
     }
 
 }

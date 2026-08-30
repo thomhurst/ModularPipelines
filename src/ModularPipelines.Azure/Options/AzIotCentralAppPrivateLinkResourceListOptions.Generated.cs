@@ -24,7 +24,7 @@ public record AzIotCentralAppPrivateLinkResourceListOptions : AzOptions
     /// ID of the resource.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// IoT Central application name.
@@ -36,7 +36,7 @@ public record AzIotCentralAppPrivateLinkResourceListOptions : AzOptions
     /// Name of resource group. If provided, --name and --type must be provided too.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Type of the resource. If provided, --name and --resource-group must be provided too.
@@ -44,18 +44,18 @@ public record AzIotCentralAppPrivateLinkResourceListOptions : AzOptions
     [CliFlag("--type")]
     public bool? Type { get; set; }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
+    [Obsolete("Use Id instead.")]
+    public string? IdValue
     {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Id;
+        set => Id = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

@@ -24,39 +24,39 @@ public record AzSqlDbLtrBackupListOptions : AzOptions
     /// Name of the Azure SQL Database. If specified (along with server name), retrieves all requested backups under this database.
     /// </summary>
     [CliOption("--database", ShortForm = "-d")]
-    public string? DatabaseValue { get; set; }
+    public string? Database { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the Azure SQL Server. If specified, retrieves all requested backups under this server.
     /// </summary>
     [CliOption("--server", ShortForm = "-s")]
-    public string? ServerValue { get; set; }
+    public string? Server { get; set; }
 
-    [Obsolete("Use DatabaseValue instead.")]
-    public bool? Database
+    [Obsolete("Use Database instead.")]
+    public string? DatabaseValue
     {
-        get => bool.TryParse(DatabaseValue, out var value) ? value : null;
-        set => DatabaseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Database;
+        set => Database = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use ServerValue instead.")]
-    public bool? Server
+    [Obsolete("Use Server instead.")]
+    public string? ServerValue
     {
-        get => bool.TryParse(ServerValue, out var value) ? value : null;
-        set => ServerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Server;
+        set => Server = value;
     }
 
 }

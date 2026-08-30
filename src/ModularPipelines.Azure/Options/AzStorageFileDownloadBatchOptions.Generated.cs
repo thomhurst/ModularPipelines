@@ -54,7 +54,7 @@ public record AzStorageFileDownloadBatchOptions : AzOptions
     /// A string that represents the snapshot version, if applicable.
     /// </summary>
     [CliOption("--snapshot")]
-    public string? SnapshotValue { get; set; }
+    public string? Snapshot { get; set; }
 
     /// <summary>
     /// If set, calculates an MD5 hash for each range of the file for validation.
@@ -62,11 +62,11 @@ public record AzStorageFileDownloadBatchOptions : AzOptions
     [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
 
-    [Obsolete("Use SnapshotValue instead.")]
-    public bool? Snapshot
+    [Obsolete("Use Snapshot instead.")]
+    public string? SnapshotValue
     {
-        get => bool.TryParse(SnapshotValue, out var value) ? value : null;
-        set => SnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Snapshot;
+        set => Snapshot = value;
     }
 
 }

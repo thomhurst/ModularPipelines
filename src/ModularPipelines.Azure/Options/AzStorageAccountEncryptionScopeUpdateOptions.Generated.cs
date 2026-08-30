@@ -36,7 +36,7 @@ public record AzStorageAccountEncryptionScopeUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Change the state the encryption scope. When disabled, all blob read/write operations using this encryption scope will fail. Allowed values: Disabled, Enabled.
@@ -44,11 +44,11 @@ public record AzStorageAccountEncryptionScopeUpdateOptions : AzOptions
     [CliFlag("--state")]
     public bool? State { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

@@ -24,39 +24,39 @@ public record AzIotCentralAppPrivateEndpointConnectionListOptions : AzOptions
     /// Name of the IoT Central application. Required if --id is not specified.
     /// </summary>
     [CliOption("--account-name")]
-    public string? AccountNameValue { get; set; }
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// ID of the resource.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of resource group. If provided, --name must be provided too.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use AccountNameValue instead.")]
-    public bool? AccountName
+    [Obsolete("Use AccountName instead.")]
+    public string? AccountNameValue
     {
-        get => bool.TryParse(AccountNameValue, out var value) ? value : null;
-        set => AccountNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AccountName;
+        set => AccountName = value;
     }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
+    [Obsolete("Use Id instead.")]
+    public string? IdValue
     {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Id;
+        set => Id = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

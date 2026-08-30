@@ -30,7 +30,7 @@ public record AzConnectionCreateSignalrOptions : AzOptions
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -54,33 +54,33 @@ public record AzConnectionCreateSignalrOptions : AzOptions
     /// Name of the signalr service. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--signalr")]
-    public string? SignalrValue { get; set; }
+    public string? Signalr { get; set; }
 
     /// <summary>
     /// The resource id of target service. Required if ['--target- resource-group', '--signalr'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
-    public string? TargetIdValue { get; set; }
+    public string? TargetId { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
+    [Obsolete("Use Connection instead.")]
+    public string? ConnectionValue
     {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Connection;
+        set => Connection = value;
     }
 
-    [Obsolete("Use SignalrValue instead.")]
-    public bool? Signalr
+    [Obsolete("Use Signalr instead.")]
+    public string? SignalrValue
     {
-        get => bool.TryParse(SignalrValue, out var value) ? value : null;
-        set => SignalrValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Signalr;
+        set => Signalr = value;
     }
 
-    [Obsolete("Use TargetIdValue instead.")]
-    public bool? TargetId
+    [Obsolete("Use TargetId instead.")]
+    public string? TargetIdValue
     {
-        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
-        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetId;
+        set => TargetId = value;
     }
 
 }

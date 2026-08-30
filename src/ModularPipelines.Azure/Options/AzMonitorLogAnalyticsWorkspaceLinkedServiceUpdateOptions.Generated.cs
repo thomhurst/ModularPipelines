@@ -30,13 +30,13 @@ public record AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions : AzOptio
     /// Resource tags.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
-    public string? TagsValue { get; set; }
+    public string? Tags { get; set; }
 
-    [Obsolete("Use TagsValue instead.")]
-    public bool? Tags
+    [Obsolete("Use Tags instead.")]
+    public string? TagsValue
     {
-        get => bool.TryParse(TagsValue, out var value) ? value : null;
-        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tags;
+        set => Tags = value;
     }
 
 }

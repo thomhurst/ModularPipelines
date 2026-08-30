@@ -24,13 +24,13 @@ public record AzSigGalleryApplicationUpdateOptions : AzOptions
     /// The description of this gallery Application Definition resource. This property is updatable.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Resource location.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
-    public string? LocationValue { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -42,27 +42,27 @@ public record AzSigGalleryApplicationUpdateOptions : AzOptions
     /// Resource tags  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
-    public string? TagsValue { get; set; }
+    public string? Tags { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
-    [Obsolete("Use LocationValue instead.")]
-    public bool? Location
+    [Obsolete("Use Location instead.")]
+    public string? LocationValue
     {
-        get => bool.TryParse(LocationValue, out var value) ? value : null;
-        set => LocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Location;
+        set => Location = value;
     }
 
-    [Obsolete("Use TagsValue instead.")]
-    public bool? Tags
+    [Obsolete("Use Tags instead.")]
+    public string? TagsValue
     {
-        get => bool.TryParse(TagsValue, out var value) ? value : null;
-        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tags;
+        set => Tags = value;
     }
 
 }

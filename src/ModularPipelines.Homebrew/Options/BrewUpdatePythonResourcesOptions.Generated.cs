@@ -61,25 +61,25 @@ public record BrewUpdatePythonResourcesOptions(
     /// Use the specified version when finding resources for formula. If no version is specified, the current version for formula will be used.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? VersionValue { get; set; }
+    public string? Version { get; set; }
 
     /// <summary>
     /// Use the specified package-name when finding resources for formula. If no package name is specified, it will be inferred from the formula's stable URL.
     /// </summary>
     [CliOption("--package-name", Format = OptionFormat.EqualsSeparated)]
-    public string? PackageNameValue { get; set; }
+    public string? PackageName { get; set; }
 
     /// <summary>
     /// Include these additional packages when finding resources.
     /// </summary>
     [CliOption("--extra-packages", Format = OptionFormat.EqualsSeparated)]
-    public string? ExtraPackagesValue { get; set; }
+    public string? ExtraPackages { get; set; }
 
     /// <summary>
     /// Exclude these packages when finding resources.
     /// </summary>
     [CliOption("--exclude-packages", Format = OptionFormat.EqualsSeparated)]
-    public string? ExcludePackagesValue { get; set; }
+    public string? ExcludePackages { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -105,32 +105,32 @@ public record BrewUpdatePythonResourcesOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use VersionValue instead.")]
-    public bool? Version
+    [Obsolete("Use Version instead.")]
+    public string? VersionValue
     {
-        get => bool.TryParse(VersionValue, out var value) ? value : null;
-        set => VersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Version;
+        set => Version = value;
     }
 
-    [Obsolete("Use PackageNameValue instead.")]
-    public bool? PackageName
+    [Obsolete("Use PackageName instead.")]
+    public string? PackageNameValue
     {
-        get => bool.TryParse(PackageNameValue, out var value) ? value : null;
-        set => PackageNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PackageName;
+        set => PackageName = value;
     }
 
-    [Obsolete("Use ExtraPackagesValue instead.")]
-    public bool? ExtraPackages
+    [Obsolete("Use ExtraPackages instead.")]
+    public string? ExtraPackagesValue
     {
-        get => bool.TryParse(ExtraPackagesValue, out var value) ? value : null;
-        set => ExtraPackagesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ExtraPackages;
+        set => ExtraPackages = value;
     }
 
-    [Obsolete("Use ExcludePackagesValue instead.")]
-    public bool? ExcludePackages
+    [Obsolete("Use ExcludePackages instead.")]
+    public string? ExcludePackagesValue
     {
-        get => bool.TryParse(ExcludePackagesValue, out var value) ? value : null;
-        set => ExcludePackagesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ExcludePackages;
+        set => ExcludePackages = value;
     }
 
     [Obsolete("Silent is no longer supported by the installed CLI and has no effect.")]

@@ -24,13 +24,13 @@ public record AzSynapseIntegrationRuntimeRegenerateAuthKeyOptions : AzOptions
     /// The name of the authentication key to regenerate.  Allowed values: authKey1, authKey2.  Default: default.
     /// </summary>
     [CliOption("--key-name")]
-    public string? KeyNameValue { get; set; }
+    public string? KeyName { get; set; }
 
-    [Obsolete("Use KeyNameValue instead.")]
-    public bool? KeyName
+    [Obsolete("Use KeyName instead.")]
+    public string? KeyNameValue
     {
-        get => bool.TryParse(KeyNameValue, out var value) ? value : null;
-        set => KeyNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyName;
+        set => KeyName = value;
     }
 
 }

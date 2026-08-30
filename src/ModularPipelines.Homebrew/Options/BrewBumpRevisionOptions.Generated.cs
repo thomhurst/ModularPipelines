@@ -49,7 +49,7 @@ public record BrewBumpRevisionOptions(
     /// Append message to the default commit message.
     /// </summary>
     [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
-    public string? MessageValue { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -75,11 +75,11 @@ public record BrewBumpRevisionOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use MessageValue instead.")]
-    public bool? Message
+    [Obsolete("Use Message instead.")]
+    public string? MessageValue
     {
-        get => bool.TryParse(MessageValue, out var value) ? value : null;
-        set => MessageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Message;
+        set => Message = value;
     }
 
 }

@@ -24,13 +24,13 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// Resource ID of Azure Monitor Private Link scope for
     /// </summary>
     [CliOption("--ampls-resource-id")]
-    public string? AmplsResourceIdValue { get; set; }
+    public string? AmplsResourceId { get; set; }
 
     /// <summary>
     /// Path to JSON file containing data collection settings for
     /// </summary>
     [CliOption("--data-collection-settings")]
-    public string? DataCollectionSettingsValue { get; set; }
+    public string? DataCollectionSettings { get; set; }
 
     /// <summary>
     /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified.  Allowed values: false, true.
@@ -78,40 +78,40 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// Name of an existing subnet to use with the virtual-node add- on.
     /// </summary>
     [CliOption("--subnet-name", ShortForm = "-s")]
-    public string? SubnetNameValue { get; set; }
+    public string? SubnetName { get; set; }
 
     /// <summary>
     /// The resource ID of an existing Log Analytics Workspace to use for storing monitoring data.
     /// </summary>
     [CliOption("--workspace-resource-id")]
-    public string? WorkspaceResourceIdValue { get; set; }
+    public string? WorkspaceResourceId { get; set; }
 
-    [Obsolete("Use AmplsResourceIdValue instead.")]
-    public bool? AmplsResourceId
+    [Obsolete("Use AmplsResourceId instead.")]
+    public string? AmplsResourceIdValue
     {
-        get => bool.TryParse(AmplsResourceIdValue, out var value) ? value : null;
-        set => AmplsResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AmplsResourceId;
+        set => AmplsResourceId = value;
     }
 
-    [Obsolete("Use DataCollectionSettingsValue instead.")]
-    public bool? DataCollectionSettings
+    [Obsolete("Use DataCollectionSettings instead.")]
+    public string? DataCollectionSettingsValue
     {
-        get => bool.TryParse(DataCollectionSettingsValue, out var value) ? value : null;
-        set => DataCollectionSettingsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DataCollectionSettings;
+        set => DataCollectionSettings = value;
     }
 
-    [Obsolete("Use SubnetNameValue instead.")]
-    public bool? SubnetName
+    [Obsolete("Use SubnetName instead.")]
+    public string? SubnetNameValue
     {
-        get => bool.TryParse(SubnetNameValue, out var value) ? value : null;
-        set => SubnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SubnetName;
+        set => SubnetName = value;
     }
 
-    [Obsolete("Use WorkspaceResourceIdValue instead.")]
-    public bool? WorkspaceResourceId
+    [Obsolete("Use WorkspaceResourceId instead.")]
+    public string? WorkspaceResourceIdValue
     {
-        get => bool.TryParse(WorkspaceResourceIdValue, out var value) ? value : null;
-        set => WorkspaceResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => WorkspaceResourceId;
+        set => WorkspaceResourceId = value;
     }
 
 }

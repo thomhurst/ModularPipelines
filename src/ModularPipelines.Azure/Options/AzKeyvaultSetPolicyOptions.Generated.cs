@@ -42,39 +42,39 @@ public record AzKeyvaultSetPolicyOptions : AzOptions
     /// Name of resource group.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name of a service principal that will receive permissions.
     /// </summary>
     [CliOption("--spn")]
-    public string? SpnValue { get; set; }
+    public string? Spn { get; set; }
 
     /// <summary>
     /// Name of a user principal that will receive permissions.
     /// </summary>
     [CliOption("--upn")]
-    public string? UpnValue { get; set; }
+    public string? Upn { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use SpnValue instead.")]
-    public bool? Spn
+    [Obsolete("Use Spn instead.")]
+    public string? SpnValue
     {
-        get => bool.TryParse(SpnValue, out var value) ? value : null;
-        set => SpnValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Spn;
+        set => Spn = value;
     }
 
-    [Obsolete("Use UpnValue instead.")]
-    public bool? Upn
+    [Obsolete("Use Upn instead.")]
+    public string? UpnValue
     {
-        get => bool.TryParse(UpnValue, out var value) ? value : null;
-        set => UpnValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Upn;
+        set => Upn = value;
     }
 
 }

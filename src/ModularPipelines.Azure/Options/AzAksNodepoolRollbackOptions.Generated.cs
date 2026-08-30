@@ -24,13 +24,13 @@ public record AzAksNodepoolRollbackOptions : AzOptions
     /// Comma-separated key-value pairs to specify custom headers.
     /// </summary>
     [CliOption("--aks-custom-headers")]
-    public string? AksCustomHeadersValue { get; set; }
+    public string? AksCustomHeaders { get; set; }
 
     /// <summary>
     /// The value provided will be compared to the ETag of the node pool, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new agentpool.
     /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatchValue { get; set; }
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new node pool to be created, but to prevent updating an existing node pool. Other values will be ignored.
@@ -44,18 +44,18 @@ public record AzAksNodepoolRollbackOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use AksCustomHeadersValue instead.")]
-    public bool? AksCustomHeaders
+    [Obsolete("Use AksCustomHeaders instead.")]
+    public string? AksCustomHeadersValue
     {
-        get => bool.TryParse(AksCustomHeadersValue, out var value) ? value : null;
-        set => AksCustomHeadersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AksCustomHeaders;
+        set => AksCustomHeaders = value;
     }
 
-    [Obsolete("Use IfMatchValue instead.")]
-    public bool? IfMatch
+    [Obsolete("Use IfMatch instead.")]
+    public string? IfMatchValue
     {
-        get => bool.TryParse(IfMatchValue, out var value) ? value : null;
-        set => IfMatchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => IfMatch;
+        set => IfMatch = value;
     }
 
 }

@@ -30,7 +30,7 @@ public record AzResourceListOptions : AzOptions
     /// The resource name. (Ex: myC).
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// A single tag in 'key[=value]' format. Use '' to clear existing tags.
@@ -38,11 +38,11 @@ public record AzResourceListOptions : AzOptions
     [CliFlag("--tag")]
     public bool? Tag { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
 }

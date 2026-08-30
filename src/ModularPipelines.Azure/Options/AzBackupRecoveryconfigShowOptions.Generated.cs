@@ -36,13 +36,13 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// The path to which the DB should be restored as files.
     /// </summary>
     [CliOption("--filepath")]
-    public string? FilepathValue { get; set; }
+    public string? Filepath { get; set; }
 
     /// <summary>
     /// Name of the starting Recovery point.
     /// </summary>
     [CliOption("--from-full-rp-name")]
-    public string? FromFullRpNameValue { get; set; }
+    public string? FromFullRpName { get; set; }
 
     /// <summary>
     /// Set Identity ARM ID for HANA Snapshot restores.
@@ -60,7 +60,7 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// Name of the recovery point.
     /// </summary>
     [CliOption("--rp-name", ShortForm = "-r")]
-    public string? RpNameValue { get; set; }
+    public string? RpName { get; set; }
 
     /// <summary>
     /// Specify the resource group for HANA Snapshot Instance restores. If not provided, the default value will be fetched from the target container details.
@@ -122,25 +122,25 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     [CliFlag("--workload-type")]
     public bool? WorkloadType { get; set; }
 
-    [Obsolete("Use FilepathValue instead.")]
-    public bool? Filepath
+    [Obsolete("Use Filepath instead.")]
+    public string? FilepathValue
     {
-        get => bool.TryParse(FilepathValue, out var value) ? value : null;
-        set => FilepathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Filepath;
+        set => Filepath = value;
     }
 
-    [Obsolete("Use FromFullRpNameValue instead.")]
-    public bool? FromFullRpName
+    [Obsolete("Use FromFullRpName instead.")]
+    public string? FromFullRpNameValue
     {
-        get => bool.TryParse(FromFullRpNameValue, out var value) ? value : null;
-        set => FromFullRpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => FromFullRpName;
+        set => FromFullRpName = value;
     }
 
-    [Obsolete("Use RpNameValue instead.")]
-    public bool? RpName
+    [Obsolete("Use RpName instead.")]
+    public string? RpNameValue
     {
-        get => bool.TryParse(RpNameValue, out var value) ? value : null;
-        set => RpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => RpName;
+        set => RpName = value;
     }
 
 }

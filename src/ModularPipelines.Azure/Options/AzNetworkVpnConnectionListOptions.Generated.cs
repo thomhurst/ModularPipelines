@@ -24,13 +24,13 @@ public record AzNetworkVpnConnectionListOptions : AzOptions
     /// Name of the VNet gateway.
     /// </summary>
     [CliOption("--vnet-gateway")]
-    public string? VnetGatewayValue { get; set; }
+    public string? VnetGateway { get; set; }
 
-    [Obsolete("Use VnetGatewayValue instead.")]
-    public bool? VnetGateway
+    [Obsolete("Use VnetGateway instead.")]
+    public string? VnetGatewayValue
     {
-        get => bool.TryParse(VnetGatewayValue, out var value) ? value : null;
-        set => VnetGatewayValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VnetGateway;
+        set => VnetGateway = value;
     }
 
 }

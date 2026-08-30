@@ -54,7 +54,7 @@ public record AzNetworkPrivateLinkServiceUpdateOptions : AzOptions
     /// Name of the load balancer to retrieve frontend IP configs from. Ignored if a frontend IP configuration ID is supplied.
     /// </summary>
     [CliOption("--lb-name")]
-    public string? LbNameValue { get; set; }
+    public string? LbName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -74,11 +74,11 @@ public record AzNetworkPrivateLinkServiceUpdateOptions : AzOptions
     [CliFlag("--visibility")]
     public bool? Visibility { get; set; }
 
-    [Obsolete("Use LbNameValue instead.")]
-    public bool? LbName
+    [Obsolete("Use LbName instead.")]
+    public string? LbNameValue
     {
-        get => bool.TryParse(LbNameValue, out var value) ? value : null;
-        set => LbNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => LbName;
+        set => LbName = value;
     }
 
 }

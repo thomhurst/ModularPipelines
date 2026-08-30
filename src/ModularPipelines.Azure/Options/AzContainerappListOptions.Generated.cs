@@ -24,26 +24,26 @@ public record AzContainerappListOptions : AzOptions
     /// Name or resource ID of the container app's environment.
     /// </summary>
     [CliOption("--environment")]
-    public string? EnvironmentValue { get; set; }
+    public string? Environment { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use EnvironmentValue instead.")]
-    public bool? Environment
+    [Obsolete("Use Environment instead.")]
+    public string? EnvironmentValue
     {
-        get => bool.TryParse(EnvironmentValue, out var value) ? value : null;
-        set => EnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Environment;
+        set => Environment = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

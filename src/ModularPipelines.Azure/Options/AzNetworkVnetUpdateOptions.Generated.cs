@@ -42,7 +42,7 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     /// Name or ID of a DDoS protection plan to associate with the VNet.
     /// </summary>
     [CliOption("--ddos-protection-plan")]
-    public string? DdosProtectionPlanValue { get; set; }
+    public string? DdosProtectionPlan { get; set; }
 
     /// <summary>
     /// Space-separated list of DNS server IP addresses.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -74,11 +74,11 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     [CliFlag("--vm-protection")]
     public bool? VmProtection { get; set; }
 
-    [Obsolete("Use DdosProtectionPlanValue instead.")]
-    public bool? DdosProtectionPlan
+    [Obsolete("Use DdosProtectionPlan instead.")]
+    public string? DdosProtectionPlanValue
     {
-        get => bool.TryParse(DdosProtectionPlanValue, out var value) ? value : null;
-        set => DdosProtectionPlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DdosProtectionPlan;
+        set => DdosProtectionPlan = value;
     }
 
 }

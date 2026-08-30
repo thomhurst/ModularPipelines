@@ -25,14 +25,14 @@ public record AzNetworkApplicationGatewayRootCertCreateOptions : AzOptions
     /// Path to the certificate file.
     /// </summary>
     [CliOption("--cert-file")]
-    public string? CertFileValue { get; set; }
+    public string? CertFile { get; set; }
 
     /// <summary>
     /// ID of keyvault secret.
     /// </summary>
     [SecretValue]
     [CliOption("--keyvault-secret")]
-    public string? KeyvaultSecretValue { get; set; }
+    public string? KeyvaultSecret { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -40,18 +40,18 @@ public record AzNetworkApplicationGatewayRootCertCreateOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use CertFileValue instead.")]
-    public bool? CertFile
+    [Obsolete("Use CertFile instead.")]
+    public string? CertFileValue
     {
-        get => bool.TryParse(CertFileValue, out var value) ? value : null;
-        set => CertFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => CertFile;
+        set => CertFile = value;
     }
 
-    [Obsolete("Use KeyvaultSecretValue instead.")]
-    public bool? KeyvaultSecret
+    [Obsolete("Use KeyvaultSecret instead.")]
+    public string? KeyvaultSecretValue
     {
-        get => bool.TryParse(KeyvaultSecretValue, out var value) ? value : null;
-        set => KeyvaultSecretValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyvaultSecret;
+        set => KeyvaultSecret = value;
     }
 
 }

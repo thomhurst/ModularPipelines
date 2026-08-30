@@ -48,13 +48,13 @@ public record AzSfApplicationCertificateAddOptions : AzOptions
     /// Key vault resource group name, if not given it will be cluster resource group name.
     /// </summary>
     [CliOption("--vault-rg")]
-    public string? VaultRgValue { get; set; }
+    public string? VaultRg { get; set; }
 
-    [Obsolete("Use VaultRgValue instead.")]
-    public bool? VaultRg
+    [Obsolete("Use VaultRg instead.")]
+    public string? VaultRgValue
     {
-        get => bool.TryParse(VaultRgValue, out var value) ? value : null;
-        set => VaultRgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VaultRg;
+        set => VaultRg = value;
     }
 
 }

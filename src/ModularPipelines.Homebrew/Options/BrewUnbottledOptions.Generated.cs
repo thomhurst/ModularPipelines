@@ -24,7 +24,7 @@ public record BrewUnbottledOptions : BrewOptions
     /// Use the specified bottle tag (e.g. big_sur) instead of the current OS.
     /// </summary>
     [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
-    public string? TagValue { get; set; }
+    public string? Tag { get; set; }
 
     /// <summary>
     /// Skip getting analytics data and sort by number of dependents instead.
@@ -74,11 +74,11 @@ public record BrewUnbottledOptions : BrewOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Formula { get; set; }
 
-    [Obsolete("Use TagValue instead.")]
-    public bool? Tag
+    [Obsolete("Use Tag instead.")]
+    public string? TagValue
     {
-        get => bool.TryParse(TagValue, out var value) ? value : null;
-        set => TagValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tag;
+        set => Tag = value;
     }
 
     [Obsolete("EvalAll is no longer supported by the installed CLI and has no effect.")]

@@ -84,7 +84,7 @@ public record AzRedisCreateOptions : AzOptions
     /// The full resource ID of a subnet in a virtual network to deploy the redis cache in. Example format /subscriptions/{subid}/resourceGroups/{res ourceGroupName}/providers/Microsoft.{Network|Clas sicNetwork}/virtualNetworks/vnet1/subnets/subnet1 .
     /// </summary>
     [CliOption("--subnet-id")]
-    public string? SubnetIdValue { get; set; }
+    public string? SubnetId { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -110,11 +110,11 @@ public record AzRedisCreateOptions : AzOptions
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
 
-    [Obsolete("Use SubnetIdValue instead.")]
-    public bool? SubnetId
+    [Obsolete("Use SubnetId instead.")]
+    public string? SubnetIdValue
     {
-        get => bool.TryParse(SubnetIdValue, out var value) ? value : null;
-        set => SubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SubnetId;
+        set => SubnetId = value;
     }
 
 }

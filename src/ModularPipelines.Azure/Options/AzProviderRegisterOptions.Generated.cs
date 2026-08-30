@@ -24,7 +24,7 @@ public record AzProviderRegisterOptions : AzOptions
     /// A value indicating whether authorization is consented or not.
     /// </summary>
     [CliOption("--consent-to-permissions", ShortForm = "-c")]
-    public string? ConsentToPermissionsValue { get; set; }
+    public string? ConsentToPermissions { get; set; }
 
     /// <summary>
     /// The management group id to register.
@@ -38,11 +38,11 @@ public record AzProviderRegisterOptions : AzOptions
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
 
-    [Obsolete("Use ConsentToPermissionsValue instead.")]
-    public bool? ConsentToPermissions
+    [Obsolete("Use ConsentToPermissions instead.")]
+    public string? ConsentToPermissionsValue
     {
-        get => bool.TryParse(ConsentToPermissionsValue, out var value) ? value : null;
-        set => ConsentToPermissionsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ConsentToPermissions;
+        set => ConsentToPermissions = value;
     }
 
 }

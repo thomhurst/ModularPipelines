@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewayProbeUpdateOptions : AzOptions
     /// Name of the host to send the probe.
     /// </summary>
     [CliOption("--host")]
-    public string? HostValue { get; set; }
+    public string? Host { get; set; }
 
     /// <summary>
     /// Time interval in seconds between consecutive probes.
@@ -86,11 +86,11 @@ public record AzNetworkApplicationGatewayProbeUpdateOptions : AzOptions
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
 
-    [Obsolete("Use HostValue instead.")]
-    public bool? Host
+    [Obsolete("Use Host instead.")]
+    public string? HostValue
     {
-        get => bool.TryParse(HostValue, out var value) ? value : null;
-        set => HostValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Host;
+        set => Host = value;
     }
 
 }

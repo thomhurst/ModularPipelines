@@ -30,7 +30,7 @@ public record AzStaticwebappHostnameSetOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Validation method for the custom domain.  Allowed values: cname- delegation, dns-txt-token.  Default: cname-delegation.
@@ -38,11 +38,11 @@ public record AzStaticwebappHostnameSetOptions : AzOptions
     [CliFlag("--validation-method", ShortForm = "-m")]
     public bool? ValidationMethod { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

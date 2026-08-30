@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewayHttpSettingsCreateOptions : AzOptions
     /// Name used for the affinity cookie.
     /// </summary>
     [CliOption("--affinity-cookie-name")]
-    public string? AffinityCookieNameValue { get; set; }
+    public string? AffinityCookieName { get; set; }
 
     /// <summary>
     /// Space-separated list of authentication certificates (Names and IDs) to associate with the HTTP settings. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -72,13 +72,13 @@ public record AzNetworkApplicationGatewayHttpSettingsCreateOptions : AzOptions
     /// Path that will prefix all HTTP requests.
     /// </summary>
     [CliOption("--path")]
-    public string? PathValue { get; set; }
+    public string? Path { get; set; }
 
     /// <summary>
     /// Name or ID of the probe to associate with the HTTP settings.
     /// </summary>
     [CliOption("--probe")]
-    public string? ProbeValue { get; set; }
+    public string? Probe { get; set; }
 
     /// <summary>
     /// Protocol used to communicate with the backend.  Allowed values: Http, Https, Tcp, Tls.  Default: Http.
@@ -98,25 +98,25 @@ public record AzNetworkApplicationGatewayHttpSettingsCreateOptions : AzOptions
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
 
-    [Obsolete("Use AffinityCookieNameValue instead.")]
-    public bool? AffinityCookieName
+    [Obsolete("Use AffinityCookieName instead.")]
+    public string? AffinityCookieNameValue
     {
-        get => bool.TryParse(AffinityCookieNameValue, out var value) ? value : null;
-        set => AffinityCookieNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AffinityCookieName;
+        set => AffinityCookieName = value;
     }
 
-    [Obsolete("Use PathValue instead.")]
-    public bool? Path
+    [Obsolete("Use Path instead.")]
+    public string? PathValue
     {
-        get => bool.TryParse(PathValue, out var value) ? value : null;
-        set => PathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Path;
+        set => Path = value;
     }
 
-    [Obsolete("Use ProbeValue instead.")]
-    public bool? Probe
+    [Obsolete("Use Probe instead.")]
+    public string? ProbeValue
     {
-        get => bool.TryParse(ProbeValue, out var value) ? value : null;
-        set => ProbeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Probe;
+        set => Probe = value;
     }
 
 }

@@ -30,7 +30,7 @@ public record AzAksUpdateOptions : AzOptions
     /// The ID of an Azure Active Directory tenant.
     /// </summary>
     [CliOption("--aad-tenant-id")]
-    public string? AadTenantIdValue { get; set; }
+    public string? AadTenantId { get; set; }
 
     /// <summary>
     /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "-- enable-acns".  Allowed values: FQDN, L7,
@@ -54,7 +54,7 @@ public record AzAksUpdateOptions : AzOptions
     /// Comma-separated key-value pairs to specify custom headers.
     /// </summary>
     [CliOption("--aks-custom-headers")]
-    public string? AksCustomHeadersValue { get; set; }
+    public string? AksCustomHeaders { get; set; }
 
     /// <summary>
     /// Comma-separated list of authorized apiserver IP ranges. Set to "" to allow all traffic on a previously restricted cluster. Set to 0.0.0.0/32 to restrict apiserver traffic to node pools.
@@ -90,7 +90,7 @@ public record AzAksUpdateOptions : AzOptions
     /// Grant the 'acrpull' role assignment to the ACR specified by name or resource ID.
     /// </summary>
     [CliOption("--attach-acr")]
-    public string? AttachAcrValue { get; set; }
+    public string? AttachAcr { get; set; }
 
     /// <summary>
     /// Specify the upgrade channel for autoupgrade.  Allowed values: node-image, none, patch, rapid, stable.
@@ -108,7 +108,7 @@ public record AzAksUpdateOptions : AzOptions
     /// Identifier of Azure Key Vault key.
     /// </summary>
     [CliOption("--azure-keyvault-kms-key-id")]
-    public string? AzureKeyvaultKmsKeyIdValue { get; set; }
+    public string? AzureKeyvaultKmsKeyId { get; set; }
 
     /// <summary>
     /// Network Access of Azure Key Vault. Allowed values: Private, Public.
@@ -120,13 +120,13 @@ public record AzAksUpdateOptions : AzOptions
     /// Resource ID of Azure Key Vault.
     /// </summary>
     [CliOption("--azure-keyvault-kms-key-vault-resource-id")]
-    public string? AzureKeyvaultKmsKeyVaultResourceIdValue { get; set; }
+    public string? AzureKeyvaultKmsKeyVaultResourceId { get; set; }
 
     /// <summary>
     /// Resource ID of the Azure Monitor
     /// </summary>
     [CliOption("--azure-monitor-workspace-resource-id")]
-    public string? AzureMonitorWorkspaceResourceIdValue { get; set; }
+    public string? AzureMonitorWorkspaceResourceId { get; set; }
 
     /// <summary>
     /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.
@@ -138,7 +138,7 @@ public record AzAksUpdateOptions : AzOptions
     /// Configure container registry resource ID. Must use "Cache" as bootstrap artifact source.
     /// </summary>
     [CliOption("--bootstrap-container-registry-resource-id")]
-    public string? BootstrapContainerRegistryResourceIdValue { get; set; }
+    public string? BootstrapContainerRegistryResourceId { get; set; }
 
     /// <summary>
     /// Set azure container storage version, the latest version will be installed by default.  Allowed values: 1, 2.
@@ -150,13 +150,13 @@ public record AzAksUpdateOptions : AzOptions
     /// Path to JSON file containing Microsoft
     /// </summary>
     [CliOption("--defender-config")]
-    public string? DefenderConfigValue { get; set; }
+    public string? DefenderConfig { get; set; }
 
     /// <summary>
     /// Disable the 'acrpull' role assignment to the ACR specified by name or resource ID.
     /// </summary>
     [CliOption("--detach-acr")]
-    public string? DetachAcrValue { get; set; }
+    public string? DetachAcr { get; set; }
 
     /// <summary>
     /// Disable all advanced networking functionalities on a cluster.
@@ -594,7 +594,7 @@ public record AzAksUpdateOptions : AzOptions
     /// Resource ID of the Azure Managed Grafana
     /// </summary>
     [CliOption("--grafana-resource-id")]
-    public string? GrafanaResourceIdValue { get; set; }
+    public string? GrafanaResourceId { get; set; }
 
     /// <summary>
     /// HTTP Proxy configuration for this cluster.
@@ -606,7 +606,7 @@ public record AzAksUpdateOptions : AzOptions
     /// The value provided will be compared to the ETag of the managed cluster, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new cluster.
     /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatchValue { get; set; }
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster. Other values will be ignored.
@@ -866,89 +866,84 @@ public record AzAksUpdateOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use AadTenantIdValue instead.")]
-    public bool? AadTenantId
+    [Obsolete("Use AadTenantId instead.")]
+    public string? AadTenantIdValue
     {
-        get => bool.TryParse(AadTenantIdValue, out var value) ? value : null;
-        set => AadTenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AadTenantId;
+        set => AadTenantId = value;
     }
 
-    [Obsolete("Use AksCustomHeadersValue instead.")]
-    public bool? AksCustomHeaders
+    [Obsolete("Use AksCustomHeaders instead.")]
+    public string? AksCustomHeadersValue
     {
-        get => bool.TryParse(AksCustomHeadersValue, out var value) ? value : null;
-        set => AksCustomHeadersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AksCustomHeaders;
+        set => AksCustomHeaders = value;
     }
 
-    [Obsolete("Use AttachAcrValue instead.")]
-    public bool? AttachAcr
+    [Obsolete("Use AttachAcr instead.")]
+    public string? AttachAcrValue
     {
-        get => bool.TryParse(AttachAcrValue, out var value) ? value : null;
-        set => AttachAcrValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AttachAcr;
+        set => AttachAcr = value;
     }
 
-    [Obsolete("Use AzureKeyvaultKmsKeyIdValue instead.")]
-    public bool? AzureKeyvaultKmsKeyId
+    [Obsolete("Use AzureKeyvaultKmsKeyId instead.")]
+    public string? AzureKeyvaultKmsKeyIdValue
     {
-        get => bool.TryParse(AzureKeyvaultKmsKeyIdValue, out var value) ? value : null;
-        set => AzureKeyvaultKmsKeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AzureKeyvaultKmsKeyId;
+        set => AzureKeyvaultKmsKeyId = value;
     }
 
-    [Obsolete("Use AzureKeyvaultKmsKeyVaultResourceIdValue instead.")]
-    public bool? AzureKeyvaultKmsKeyVaultResourceId
+    [Obsolete("Use AzureKeyvaultKmsKeyVaultResourceId instead.")]
+    public string? AzureKeyvaultKmsKeyVaultResourceIdValue
     {
-        get => bool.TryParse(AzureKeyvaultKmsKeyVaultResourceIdValue, out var value) ? value : null;
-        set => AzureKeyvaultKmsKeyVaultResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AzureKeyvaultKmsKeyVaultResourceId;
+        set => AzureKeyvaultKmsKeyVaultResourceId = value;
     }
 
-    [Obsolete("Use AzureMonitorWorkspaceResourceIdValue instead.")]
-    public bool? AzureMonitorWorkspaceResourceId
+    [Obsolete("Use AzureMonitorWorkspaceResourceId instead.")]
+    public string? AzureMonitorWorkspaceResourceIdValue
     {
-        get => bool.TryParse(AzureMonitorWorkspaceResourceIdValue, out var value) ? value : null;
-        set => AzureMonitorWorkspaceResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AzureMonitorWorkspaceResourceId;
+        set => AzureMonitorWorkspaceResourceId = value;
     }
 
-    [Obsolete("Use BootstrapContainerRegistryResourceIdValue instead.")]
-    public bool? BootstrapContainerRegistryResourceId
+    [Obsolete("Use BootstrapContainerRegistryResourceId instead.")]
+    public string? BootstrapContainerRegistryResourceIdValue
     {
-        get => bool.TryParse(BootstrapContainerRegistryResourceIdValue, out var value) ? value : null;
-        set => BootstrapContainerRegistryResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BootstrapContainerRegistryResourceId;
+        set => BootstrapContainerRegistryResourceId = value;
     }
 
-    [Obsolete("Use DefenderConfigValue instead.")]
-    public bool? DefenderConfig
+    [Obsolete("Use DefenderConfig instead.")]
+    public string? DefenderConfigValue
     {
-        get => bool.TryParse(DefenderConfigValue, out var value) ? value : null;
-        set => DefenderConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DefenderConfig;
+        set => DefenderConfig = value;
     }
 
-    [Obsolete("Use DetachAcrValue instead.")]
-    public bool? DetachAcr
+    [Obsolete("Use DetachAcr instead.")]
+    public string? DetachAcrValue
     {
-        get => bool.TryParse(DetachAcrValue, out var value) ? value : null;
-        set => DetachAcrValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DetachAcr;
+        set => DetachAcr = value;
     }
 
-    [Obsolete("Use GrafanaResourceIdValue instead.")]
-    public bool? GrafanaResourceId
+    [Obsolete("Use GrafanaResourceId instead.")]
+    public string? GrafanaResourceIdValue
     {
-        get => bool.TryParse(GrafanaResourceIdValue, out var value) ? value : null;
-        set => GrafanaResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => GrafanaResourceId;
+        set => GrafanaResourceId = value;
     }
 
-    [Obsolete("Use IfMatchValue instead.")]
-    public bool? IfMatch
+    [Obsolete("Use IfMatch instead.")]
+    public string? IfMatchValue
     {
-        get => bool.TryParse(IfMatchValue, out var value) ? value : null;
-        set => IfMatchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => IfMatch;
+        set => IfMatch = value;
     }
 
-    [Obsolete("Use ApiServerSubnetId instead.")]
-    public bool? ApiserverSubnetId
-    {
-        get => bool.TryParse(ApiServerSubnetId, out var value) ? value : null;
-        set => ApiServerSubnetId = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+
 
     [Obsolete("Use EnableApiServerVnetIntegration instead.")]
     public bool? EnableApiserverVnetIntegration

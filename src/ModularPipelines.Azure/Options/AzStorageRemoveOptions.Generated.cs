@@ -42,7 +42,7 @@ public record AzStorageRemoveOptions : AzOptions
     /// The path to the file within the file share.
     /// </summary>
     [CliOption("--path", ShortForm = "-p")]
-    public string? PathValue { get; set; }
+    public string? Path { get; set; }
 
     /// <summary>
     /// Look into sub-directories recursively.
@@ -56,11 +56,11 @@ public record AzStorageRemoveOptions : AzOptions
     [CliFlag("--share-name", ShortForm = "-s")]
     public bool? ShareName { get; set; }
 
-    [Obsolete("Use PathValue instead.")]
-    public bool? Path
+    [Obsolete("Use Path instead.")]
+    public string? PathValue
     {
-        get => bool.TryParse(PathValue, out var value) ? value : null;
-        set => PathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Path;
+        set => Path = value;
     }
 
 }

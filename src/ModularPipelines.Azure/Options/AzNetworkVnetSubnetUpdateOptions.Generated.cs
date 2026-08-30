@@ -54,7 +54,7 @@ public record AzNetworkVnetSubnetUpdateOptions : AzOptions
     /// Name or ID of a NAT gateway to attach. Use null to detach it.
     /// </summary>
     [CliOption("--nat-gateway")]
-    public string? NatGatewayValue { get; set; }
+    public string? NatGateway { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -66,7 +66,7 @@ public record AzNetworkVnetSubnetUpdateOptions : AzOptions
     /// Name or ID of a route table to associate with the subnet. Use null to detach it.
     /// </summary>
     [CliOption("--route-table")]
-    public string? RouteTableValue { get; set; }
+    public string? RouteTable { get; set; }
 
     /// <summary>
     /// Space-separated list of names or IDs of service endpoint policies to apply.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -86,18 +86,18 @@ public record AzNetworkVnetSubnetUpdateOptions : AzOptions
     [CliFlag("--sharing-scope")]
     public bool? SharingScope { get; set; }
 
-    [Obsolete("Use NatGatewayValue instead.")]
-    public bool? NatGateway
+    [Obsolete("Use NatGateway instead.")]
+    public string? NatGatewayValue
     {
-        get => bool.TryParse(NatGatewayValue, out var value) ? value : null;
-        set => NatGatewayValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => NatGateway;
+        set => NatGateway = value;
     }
 
-    [Obsolete("Use RouteTableValue instead.")]
-    public bool? RouteTable
+    [Obsolete("Use RouteTable instead.")]
+    public string? RouteTableValue
     {
-        get => bool.TryParse(RouteTableValue, out var value) ? value : null;
-        set => RouteTableValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => RouteTable;
+        set => RouteTable = value;
     }
 
 }

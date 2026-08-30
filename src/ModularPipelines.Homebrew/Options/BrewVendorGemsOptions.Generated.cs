@@ -24,7 +24,7 @@ public record BrewVendorGemsOptions : BrewOptions
     /// Update the specified list of vendored gems to the latest version.
     /// </summary>
     [CliOption("--update", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateValue { get; set; }
+    public string? Update { get; set; }
 
     /// <summary>
     /// Do not generate a new commit upon completion.
@@ -56,11 +56,11 @@ public record BrewVendorGemsOptions : BrewOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use UpdateValue instead.")]
-    public bool? Update
+    [Obsolete("Use Update instead.")]
+    public string? UpdateValue
     {
-        get => bool.TryParse(UpdateValue, out var value) ? value : null;
-        set => UpdateValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Update;
+        set => Update = value;
     }
 
 }

@@ -24,7 +24,7 @@ public record AzNetworkVnetGatewayResetOptions : AzOptions
     /// Virtual network gateway vip address supplied to the begin reset of the active-active feature enabled gateway.  Default: None.
     /// </summary>
     [CliOption("--gateway-vip")]
-    public string? GatewayVipValue { get; set; }
+    public string? GatewayVip { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -32,11 +32,11 @@ public record AzNetworkVnetGatewayResetOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use GatewayVipValue instead.")]
-    public bool? GatewayVip
+    [Obsolete("Use GatewayVip instead.")]
+    public string? GatewayVipValue
     {
-        get => bool.TryParse(GatewayVipValue, out var value) ? value : null;
-        set => GatewayVipValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => GatewayVip;
+        set => GatewayVip = value;
     }
 
 }

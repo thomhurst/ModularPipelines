@@ -30,19 +30,19 @@ public record AzKeyvaultPrivateEndpointConnectionApproveOptions : AzOptions
     /// Name of the HSM. Required if --id is not specified.(--hsm-name and
     /// </summary>
     [CliOption("--hsm-name")]
-    public string? HsmNameValue { get; set; }
+    public string? HsmName { get; set; }
 
     /// <summary>
     /// The ID of the private endpoint connection associated with the Key Vault/HSM. If specified --vault-name/--hsm-name and --name/-n, this should be omitted.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// The name of the private endpoint connection associated with the Key Vault/HSM. Required if --id is not specified.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -54,47 +54,47 @@ public record AzKeyvaultPrivateEndpointConnectionApproveOptions : AzOptions
     /// Name of resource group.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the Key Vault. Required if --id is not specified.
     /// </summary>
     [CliOption("--vault-name")]
-    public string? VaultNameValue { get; set; }
+    public string? VaultName { get; set; }
 
-    [Obsolete("Use HsmNameValue instead.")]
-    public bool? HsmName
+    [Obsolete("Use HsmName instead.")]
+    public string? HsmNameValue
     {
-        get => bool.TryParse(HsmNameValue, out var value) ? value : null;
-        set => HsmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => HsmName;
+        set => HsmName = value;
     }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
+    [Obsolete("Use Id instead.")]
+    public string? IdValue
     {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Id;
+        set => Id = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use VaultNameValue instead.")]
-    public bool? VaultName
+    [Obsolete("Use VaultName instead.")]
+    public string? VaultNameValue
     {
-        get => bool.TryParse(VaultNameValue, out var value) ? value : null;
-        set => VaultNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VaultName;
+        set => VaultName = value;
     }
 
 }

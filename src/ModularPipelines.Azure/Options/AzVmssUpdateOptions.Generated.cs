@@ -162,7 +162,7 @@ public record AzVmssUpdateOptions : AzOptions
     /// The name or ID of the proximity placement group the
     /// </summary>
     [CliOption("--ppg")]
-    public string? PpgValue { get; set; }
+    public string? Ppg { get; set; }
 
     /// <summary>
     /// Set this Boolean property will lead to all unhealthy instances in a scale set getting upgraded before any healthy instances.
@@ -266,11 +266,11 @@ public record AzVmssUpdateOptions : AzOptions
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
 
-    [Obsolete("Use PpgValue instead.")]
-    public bool? Ppg
+    [Obsolete("Use Ppg instead.")]
+    public string? PpgValue
     {
-        get => bool.TryParse(PpgValue, out var value) ? value : null;
-        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Ppg;
+        set => Ppg = value;
     }
 
 }

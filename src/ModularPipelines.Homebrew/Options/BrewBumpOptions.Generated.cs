@@ -60,7 +60,7 @@ public record BrewBumpOptions : BrewOptions
     /// Check formulae and casks within the given tap, specified as user/repo.
     /// </summary>
     [CliOption("--tap", Format = OptionFormat.EqualsSeparated)]
-    public string? TapValue { get; set; }
+    public string? Tap { get; set; }
 
     /// <summary>
     /// Check formulae and casks that are currently installed.
@@ -84,7 +84,7 @@ public record BrewBumpOptions : BrewOptions
     /// Letter or word that the list of package results should alphabetically follow.
     /// </summary>
     [CliOption("--start-with", Format = OptionFormat.EqualsSeparated)]
-    public string? StartWithValue { get; set; }
+    public string? StartWith { get; set; }
 
     /// <summary>
     /// Bump additional formulae marked as synced with the given formulae.
@@ -122,18 +122,18 @@ public record BrewBumpOptions : BrewOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? FormulaOperand { get; set; }
 
-    [Obsolete("Use TapValue instead.")]
-    public bool? Tap
+    [Obsolete("Use Tap instead.")]
+    public string? TapValue
     {
-        get => bool.TryParse(TapValue, out var value) ? value : null;
-        set => TapValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tap;
+        set => Tap = value;
     }
 
-    [Obsolete("Use StartWithValue instead.")]
-    public bool? StartWith
+    [Obsolete("Use StartWith instead.")]
+    public string? StartWithValue
     {
-        get => bool.TryParse(StartWithValue, out var value) ? value : null;
-        set => StartWithValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => StartWith;
+        set => StartWith = value;
     }
 
     [Obsolete("EvalAll is no longer supported by the installed CLI and has no effect.")]
