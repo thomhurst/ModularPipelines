@@ -119,8 +119,8 @@ public record WingetUninstallOptions : WingetOptions
     /// <summary>
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
-    [CliFlag("--authentication-mode")]
-    public bool? AuthenticationMode { get; set; }
+    [CliOption("--authentication-mode")]
+    public string? AuthenticationModeValue { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication
@@ -163,5 +163,12 @@ public record WingetUninstallOptions : WingetOptions
     /// </summary>
     [CliOption("--query", ShortForm = "-q")]
     public string? Query { get; set; }
+
+    [Obsolete("Use AuthenticationModeValue instead.")]
+    public bool? AuthenticationMode
+    {
+        get => bool.TryParse(AuthenticationModeValue, out var value) ? value : null;
+        set => AuthenticationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

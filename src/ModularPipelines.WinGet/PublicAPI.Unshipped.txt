@@ -85,3 +85,19 @@ ModularPipelines.WinGet.Services.IWinget.UninstallAsync(ModularPipelines.WinGet.
 ModularPipelines.WinGet.Services.IWinget.UpgradeAsync(ModularPipelines.WinGet.Options.WingetUpgradeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.WinGet.Services.IWinget.ValidateAsync(ModularPipelines.WinGet.Options.WingetValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 static ModularPipelines.WinGet.Extensions.WingetExtensions.Winget(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.WinGet.Services.IWinget!
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationModeValue.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationModeValue.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationModeValue.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationModeValue.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationModeValue.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationModeValue.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationModeValue.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationModeValue.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationModeValue.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationModeValue.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationModeValue.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationModeValue.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationModeValue.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationModeValue.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationModeValue.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationModeValue.set -> void
