@@ -23,18 +23,6 @@ namespace ModularPipelines.Liquibase.Options;
 public record LiquibaseExecuteSqlOptions : LiquibaseOptions
 {
     /// <summary>
-    /// The default catalog name to use for the database connection
-    /// </summary>
-    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultCatalogName { get; set; }
-
-    /// <summary>
-    /// The default schema name to use for the database connection
-    /// </summary>
-    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultSchemaName { get; set; }
-
-    /// <summary>
     /// Delimiter to use when executing SQL script
     /// </summary>
     [CliOption("--delimiter", Format = OptionFormat.EqualsSeparated)]
@@ -70,5 +58,11 @@ public record LiquibaseExecuteSqlOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultCatalogName { get; set; }
+
+    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultSchemaName { get; set; }
 
 }

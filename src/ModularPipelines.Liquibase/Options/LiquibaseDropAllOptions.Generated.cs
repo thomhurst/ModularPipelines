@@ -23,18 +23,6 @@ namespace ModularPipelines.Liquibase.Options;
 public record LiquibaseDropAllOptions : LiquibaseOptions
 {
     /// <summary>
-    /// The default catalog name to use for the database connection
-    /// </summary>
-    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultCatalogName { get; set; }
-
-    /// <summary>
-    /// The default schema name to use for the database connection
-    /// </summary>
-    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultSchemaName { get; set; }
-
-    /// <summary>
     /// Argument to allow use of dropAll with values of 'true' or 'false'. The default is 'false'. DEFAULT: false
     /// </summary>
     [CliOption("--force", Format = OptionFormat.EqualsSeparated)]
@@ -46,12 +34,6 @@ public record LiquibaseDropAllOptions : LiquibaseOptions
     [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
-
-    /// <summary>
-    /// Argument to require user of dropAll to supply a 'force' argument, with values of 'true' or 'false'. The default is 'false'. DEFAULT: false
-    /// </summary>
-    [CliOption("--require-force", Format = OptionFormat.EqualsSeparated)]
-    public bool? RequireForce { get; set; }
 
     /// <summary>
     /// Schemas to include in drop
@@ -70,5 +52,14 @@ public record LiquibaseDropAllOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultCatalogName { get; set; }
+
+    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultSchemaName { get; set; }
+
+    [Obsolete("RequireForce is no longer supported by the installed CLI and has no effect.")]
+    public bool? RequireForce { get; set; }
 
 }
