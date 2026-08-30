@@ -69,8 +69,10 @@ internal sealed class CommandLineBuilder(
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
         var additionalArguments = options.AdditionalArguments?.ToList() ?? [];
         var manualArgs = options.Arguments?.ToList() ?? [];
-        var manualArgumentsSupplyRequiredOperands = manualArgs.Count > 0
-                                                     && !options.ArgumentsContainToolOptions;
+        var manualRequiredOperands = MatchManualRequiredOperands(
+            commandModel,
+            options,
+            manualArgs);
         ValidateAdditionalArguments(additionalArguments);
 
         var terminalCommandModel = commandModel
@@ -87,7 +89,7 @@ internal sealed class CommandLineBuilder(
             additionalArguments,
             options,
             isGlobalOption: true,
-            manualArgumentsSupplyRequiredOperands: false,
+            manualRequiredOperands: null,
             ref emittedOptionTerminator,
             out var globalOptionTerminatorIndex);
         var terminatorEmittedBeforeProperties = emittedOptionTerminator;
@@ -96,7 +98,7 @@ internal sealed class CommandLineBuilder(
             additionalArguments,
             options,
             isGlobalOption: false,
-            manualArgumentsSupplyRequiredOperands,
+            manualRequiredOperands,
             ref emittedOptionTerminator,
             out var commandOptionTerminatorIndex);
         ValidateManualOptionsAfterGlobalTerminator(
@@ -113,7 +115,7 @@ internal sealed class CommandLineBuilder(
             options,
             ref terminalArgumentTerminatorState,
             out var terminalArgumentOptionTerminatorIndex,
-            manualArgumentsSupplyRequiredOperands);
+            manualRequiredOperands);
         modelEmittedOptionTerminator |= terminalArgumentOptionTerminatorIndex is not null;
 
         // Keep recognized manual options ahead of a marker emitted by a structured argument
@@ -211,7 +213,7 @@ internal sealed class CommandLineBuilder(
         IReadOnlyList<AdditionalCommandLineArgument> additionalArguments,
         CommandLineToolOptions options,
         bool isGlobalOption,
-        bool manualArgumentsSupplyRequiredOperands,
+        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands,
         ref bool emittedOptionTerminator,
         out int? emittedOptionTerminatorIndex)
     {
@@ -247,7 +249,7 @@ internal sealed class CommandLineBuilder(
                 options,
                 ref emittedOptionTerminator,
                 out var phaseOptionTerminatorIndex,
-                manualArgumentsSupplyRequiredOperands);
+                manualRequiredOperands);
             if (emittedOptionTerminatorIndex is null
                 && phaseOptionTerminatorIndex is { } phaseIndex)
             {
@@ -416,12 +418,67 @@ internal sealed class CommandLineBuilder(
         return [.. extracted.Global, .. extracted.Command];
     }
 
+    private static IReadOnlyDictionary<ArgumentPart, string> MatchManualRequiredOperands(
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        CommandLineToolOptions options,
+        List<string> manualArgs)
+    {
+        var missingRequiredOperands = commandModel
+            .OfType<ArgumentPart>()
+            .Where(part => !part.IsGlobalOption
+                           && part.Attribute.Required
+                           && CommandArgumentBuilder.GetValues(part.Getter(options)).Count == 0)
+            .OrderBy(static part => part.Phase)
+            .ThenBy(static part => part.Attribute.Position)
+            .ToList();
+        if (missingRequiredOperands.Count == 0 || manualArgs.Count == 0)
+        {
+            return new Dictionary<ArgumentPart, string>();
+        }
+
+        IReadOnlyList<int> operandIndices;
+        if (options.ArgumentsContainToolOptions)
+        {
+            var classifiedArguments = manualArgs.ToList();
+            var classifiedOperandIndices = new List<int>();
+            _ = ExtractRecognizedManualOptionsByScope(
+                classifiedArguments,
+                commandModel.Where(static part => part.IsGlobalOption).ToList(),
+                commandModel.Where(static part => !part.IsGlobalOption).ToList(),
+                options,
+                preserveTerminalOptions: false,
+                positionalArgumentIndices: classifiedOperandIndices);
+            operandIndices = classifiedOperandIndices;
+        }
+        else
+        {
+            operandIndices = Enumerable.Range(0, manualArgs.Count)
+                .Where(index => manualArgs[index] != "--")
+                .ToList();
+        }
+
+        var matchedOperandCount = Math.Min(missingRequiredOperands.Count, operandIndices.Count);
+        var result = new Dictionary<ArgumentPart, string>(matchedOperandCount);
+        for (var index = 0; index < matchedOperandCount; index++)
+        {
+            result.Add(missingRequiredOperands[index], manualArgs[operandIndices[index]]);
+        }
+
+        foreach (var index in operandIndices.Take(matchedOperandCount).OrderDescending())
+        {
+            manualArgs.RemoveAt(index);
+        }
+
+        return result;
+    }
+
     private static ExtractedManualOptions ExtractRecognizedManualOptionsByScope(
         List<string> manualArgs,
         IReadOnlyList<PropertyCommandLinePart> globalCommandModel,
         IReadOnlyList<PropertyCommandLinePart> commandSpecificModel,
         CommandLineToolOptions options,
-        bool preserveTerminalOptions)
+        bool preserveTerminalOptions,
+        ICollection<int>? positionalArgumentIndices = null)
     {
         var commandModel = globalCommandModel.Concat(commandSpecificModel).ToList();
         var flagsByName = commandModel
@@ -459,6 +516,11 @@ internal sealed class CommandLineBuilder(
             if (match is null)
             {
                 remainingArguments.Add(manualArgs[index]);
+                if (manualArgs[index] != "--")
+                {
+                    positionalArgumentIndices?.Add(index);
+                }
+
                 index++;
                 continue;
             }

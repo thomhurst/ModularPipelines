@@ -487,6 +487,46 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Classifies_Manual_Option_And_Required_Operand_Separately()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestRequiredOperandCompatibilityOptions
+        {
+            Arguments = ["legacy-operand", "--yes"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("tool run legacy-operand --yes");
+    }
+
+    [Test]
+    public async Task Build_Inserts_Manual_Operand_At_Its_Structured_Position()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTwoRequiredOperandCompatibilityOptions(default!, "id")
+        {
+            Arguments = ["address"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("tool import address id");
+    }
+
+    [Test]
+    public async Task Build_Rejects_One_Manual_Value_For_Two_Required_Operands()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        await Assert.That(() => builder.Build(new TestTwoRequiredOperandCompatibilityOptions
+            {
+                Arguments = ["address"],
+            }))
+            .Throws<ArgumentException>()
+            .And.HasMessageContaining("TestTwoRequiredOperandCompatibilityOptions.Id");
+    }
+
+    [Test]
     public async Task Build_Still_Rejects_Missing_Required_Operand_Without_Manual_Arguments()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1983,6 +2023,22 @@ public class CommandLineBuilderTests : TestBase
     {
         public TestRequiredOperandCompatibilityOptions()
             : this(default(string)!)
+        {
+        }
+
+        [CliFlag("--yes")]
+        public bool? Yes { get; init; }
+    }
+
+    [CliTool("tool")]
+    [CliSubCommand("import")]
+    private sealed record TestTwoRequiredOperandCompatibilityOptions(
+        [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Address,
+        [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id)
+        : CommandLineToolOptions
+    {
+        public TestTwoRequiredOperandCompatibilityOptions()
+            : this(default(string)!, default(string)!)
         {
         }
     }
