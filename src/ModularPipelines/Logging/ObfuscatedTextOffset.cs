@@ -9,7 +9,8 @@ internal static class ObfuscatedTextOffset
             return output.Length;
         }
 
-        var outputOffset = (int) ((long) sourceOffset * output.Length / sourceLength);
+        var scaledOffset = (long) sourceOffset * output.Length / sourceLength;
+        var outputOffset = (int) scaledOffset;
         return outputOffset > 0
                && outputOffset < output.Length
                && char.IsLowSurrogate(output[outputOffset])
