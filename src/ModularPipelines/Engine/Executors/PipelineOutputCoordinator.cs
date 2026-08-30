@@ -33,6 +33,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     private readonly IOutputCoordinator _outputCoordinator;
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<PipelineOutputCoordinator> _logger;
+    private readonly TimeProvider _timeProvider;
 
     public PipelineOutputCoordinator(
         IPrintProgressExecutor printProgressExecutor,
@@ -42,7 +43,8 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         IConsoleCoordinator consoleCoordinator,
         IOutputCoordinator outputCoordinator,
         IOptions<PipelineOptions> options,
-        ILogger<PipelineOutputCoordinator> logger)
+        ILogger<PipelineOutputCoordinator> logger,
+        TimeProvider timeProvider)
     {
         _printProgressExecutor = printProgressExecutor;
         _consolePrinter = consolePrinter;
@@ -52,6 +54,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         _outputCoordinator = outputCoordinator;
         _options = options;
         _logger = logger;
+        _timeProvider = timeProvider;
     }
 
     /// <inheritdoc />
@@ -76,7 +79,8 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             _consoleCoordinator,
             _outputCoordinator,
             liveFlushInterval,
-            _logger);
+            _logger,
+            _timeProvider);
     }
 
     /// <inheritdoc />
@@ -164,6 +168,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         private readonly IConsoleCoordinator _consoleCoordinator;
         private readonly IOutputCoordinator _outputCoordinator;
         private readonly ILogger _logger;
+        private readonly TimeProvider _timeProvider;
         private readonly CancellationTokenSource _liveFlushCancellation = new();
         private readonly Task _liveFlushTask;
 
@@ -172,12 +177,14 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             IConsoleCoordinator consoleCoordinator,
             IOutputCoordinator outputCoordinator,
             TimeSpan liveFlushInterval,
-            ILogger logger)
+            ILogger logger,
+            TimeProvider timeProvider)
         {
             _printProgressExecutor = printProgressExecutor;
             _consoleCoordinator = consoleCoordinator;
             _outputCoordinator = outputCoordinator;
             _logger = logger;
+            _timeProvider = timeProvider;
 
             _liveFlushTask = liveFlushInterval > TimeSpan.Zero
                 ? FlushPeriodicallyAsync(liveFlushInterval)
@@ -259,7 +266,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
 
         private async Task FlushPeriodicallyAsync(TimeSpan interval)
         {
-            using var timer = new PeriodicTimer(interval);
+            using var timer = new PeriodicTimer(interval, _timeProvider);
 
             try
             {

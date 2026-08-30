@@ -288,22 +288,28 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    [Timeout(30_000)]
     public async Task Completion_IsQueuedWhileIncrementalFlushOwnsOutput()
     {
-        var buffer = new BlockingIncrementalOutputBuffer();
-        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+        for (var iteration = 0; iteration < 25; iteration++)
+        {
+            var buffer = new BlockingIncrementalOutputBuffer();
+            var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
 
-        var incrementalFlush = coordinator.EnqueueAndFlushAsync(buffer, OutputFlushKind.Incremental);
-        await buffer.IncrementalFlushStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
+            var incrementalFlush = coordinator.EnqueueAndFlushAsync(
+                buffer,
+                OutputFlushKind.Incremental);
+            await buffer.IncrementalFlushStarted.Task;
 
-        buffer.MarkComplete();
-        var completionFlush = coordinator.OnModuleCompletedAsync(buffer, buffer.ModuleType);
+            buffer.MarkComplete();
+            var completionFlush = coordinator.OnModuleCompletedAsync(buffer, buffer.ModuleType);
 
-        buffer.ReleaseIncrementalFlush.TrySetResult();
-        await incrementalFlush;
-        await completionFlush;
+            buffer.ReleaseIncrementalFlush.TrySetResult();
+            await incrementalFlush;
+            await completionFlush;
 
-        await Assert.That(buffer.CompleteFlushCount).IsEqualTo(1);
+            await Assert.That(buffer.CompleteFlushCount).IsEqualTo(1);
+        }
     }
 
     [Test]
