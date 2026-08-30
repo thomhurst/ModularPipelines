@@ -1241,7 +1241,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
-        sb.AppendLine("internal static partial class RuntimeMetadataRegistration");
+        sb.AppendLine("internal static class RuntimeMetadataRegistration");
         sb.AppendLine("{");
         sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
         sb.AppendLine($"    public const int CommandSchemaVersion = {CommandMetadataSchemaVersion};");
@@ -1267,7 +1267,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         AppendCoverageRegistrations(sb, uniqueItems);
         for (var index = 0; index < chunkCount; index++)
         {
-            sb.AppendLine($"        RegisterChunk{index:D4}(assembly);");
+            sb.AppendLine(
+                $"        RuntimeMetadataRegistrationChunk{index:D4}.Register(assembly);");
         }
 
         sb.AppendLine("    }");
@@ -1281,10 +1282,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
-        sb.AppendLine("internal static partial class RuntimeMetadataRegistration");
+        sb.AppendLine($"internal static class RuntimeMetadataRegistrationChunk{index:D4}");
         sb.AppendLine("{");
         AppendCommandMetadataDependencies(sb, items);
-        sb.AppendLine($"    private static void RegisterChunk{index:D4}(global::System.Reflection.Assembly assembly)");
+        sb.AppendLine("    internal static void Register(global::System.Reflection.Assembly assembly)");
         sb.AppendLine("    {");
         AppendRuntimeTypeRegistrations(sb, items);
         sb.AppendLine("    }");
