@@ -42,6 +42,12 @@ public record LiquibaseDiffOptions : LiquibaseOptions
     public string? Schemas { get; set; }
 
     /// <summary>
+    /// The JDBC reference database connection URL
+    /// </summary>
+    [CliOption("--reference-url", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceUrl { get; set; }
+
+    /// <summary>
     /// The JDBC database connection URL
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
@@ -100,9 +106,6 @@ public record LiquibaseDiffOptions : LiquibaseOptions
 
     [Obsolete("ReferenceSchemas is no longer supported by the installed CLI and has no effect.")]
     public string? ReferenceSchemas { get; set; }
-
-    [Obsolete("ReferenceUrl is no longer supported by the installed CLI and has no effect.")]
-    public string? ReferenceUrl { get; set; }
 
     [Obsolete("ReferenceUsername is no longer supported by the installed CLI and has no effect.")]
     public string? ReferenceUsername { get; set; }

@@ -135,9 +135,13 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
-    public async Task ParseCommand_Adds_Documented_Diff_Format_Option()
+    public async Task ParseCommand_Adds_Documented_Diff_Options()
     {
-        const string helpText = "Usage: liquibase diff [OPTIONS]";
+        const string helpText = """
+            Usage: liquibase diff [OPTIONS]
+
+                  --url=PARAM   The JDBC database connection URL
+            """;
 
         var command = await _scraper.ParseLiquibaseCommand(["liquibase", "diff"], helpText);
 
@@ -145,6 +149,14 @@ public class LiquibaseCliScraperTests
         await Assert.That(format.PropertyName).IsEqualTo("Format");
         await Assert.That(format.CSharpType).IsEqualTo("string?");
         await Assert.That(format.ValueSeparator).IsEqualTo("=");
+
+        var referenceUrl = command.Options.Single(option => option.SwitchName == "--reference-url");
+        await Assert.That(referenceUrl.PropertyName).IsEqualTo("ReferenceUrl");
+        await Assert.That(referenceUrl.CSharpType).IsEqualTo("string?");
+        await Assert.That(referenceUrl.ValueSeparator).IsEqualTo("=");
+        var switchNames = command.Options.Select(option => option.SwitchName).ToList();
+        await Assert.That(switchNames.IndexOf("--reference-url"))
+            .IsLessThan(switchNames.IndexOf("--url"));
     }
 
     [Test]
@@ -206,9 +218,11 @@ public class LiquibaseCliScraperTests
             [
                 "--search-path",
                 "--log-level",
+                "--allow-duplicated-changeset-identifiers",
                 "--databricks-diff-tblproperties-exclude-patterns",
                 "--databricks-diff-tblproperties-ignore-all",
                 "--license-key",
+                "--monitor-performance",
             ]);
         await Assert.That(commands.Count).IsEqualTo(1);
         await Assert.That(commands[0].Options.Select(option => option.SwitchName))
@@ -218,6 +232,21 @@ public class LiquibaseCliScraperTests
         await Assert.That(licenseKey.IsSecret).IsTrue();
         await Assert.That(licenseKey.ValueSeparator).IsEqualTo("=");
         await Assert.That(licenseKey.Availability).IsEqualTo("Liquibase Secure");
+
+        var duplicatedIdentifiers = tool.GetGlobalOptions().Single(
+            option => option.SwitchName == "--allow-duplicated-changeset-identifiers");
+        await Assert.That(duplicatedIdentifiers.PropertyName).IsEqualTo("AllowDuplicatedChangeSetIdentifiers");
+        await Assert.That(duplicatedIdentifiers.CSharpType).IsEqualTo("bool?");
+
+        var legacyDuplicatedIdentifiers = tool.GlobalCompatibilityProperties.Single(
+            property => property.PropertyName == "AllowDuplicatedChangesetIdentifiers");
+        await Assert.That(legacyDuplicatedIdentifiers.ForwardToPropertyName)
+            .IsEqualTo("AllowDuplicatedChangeSetIdentifiers");
+
+        var monitorPerformance = tool.GetGlobalOptions().Single(
+            option => option.SwitchName == "--monitor-performance");
+        await Assert.That(monitorPerformance.PropertyName).IsEqualTo("MonitorPerformance");
+        await Assert.That(monitorPerformance.CSharpType).IsEqualTo("string?");
     }
 
     [Test]

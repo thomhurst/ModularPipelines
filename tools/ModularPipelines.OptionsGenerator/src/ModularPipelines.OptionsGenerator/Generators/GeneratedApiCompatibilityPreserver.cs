@@ -2379,7 +2379,8 @@ internal static class GeneratedApiCompatibilityPreserver
         else if (!string.Equals(
                      supplied.ForwardToPropertyName,
                      expected.ForwardToPropertyName,
-                     StringComparison.Ordinal))
+                     StringComparison.Ordinal)
+                 && !CanActivateVirtualDispatchAlias(command, expected, supplied))
         {
             violations.Add(
                 $"{command.ClassName}.{expected.PropertyName} compatibility property changed forwarding target from "
@@ -2398,6 +2399,18 @@ internal static class GeneratedApiCompatibilityPreserver
                 + $"{expected.ForwardingKind} to {supplied.ForwardingKind}");
         }
     }
+
+    private static bool CanActivateVirtualDispatchAlias(
+        CliCommandDefinition command,
+        CliCompatibilityProperty expected,
+        CliCompatibilityProperty supplied) =>
+        expected.ForwardToPropertyName is null
+        && supplied.ForwardToPropertyName is { } targetName
+        && supplied.ForwardingKind == CliCompatibilityForwardingKind.Direct
+        && !supplied.UseInitAccessor
+        && command.Options.Any(option =>
+            option.PropertyName.Equals(targetName, StringComparison.Ordinal)
+            && option.PropertyType.Equals(supplied.CSharpType, StringComparison.Ordinal));
 
     private static void ValidateMatchingProperty(
         CliCommandDefinition command,

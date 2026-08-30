@@ -2019,6 +2019,40 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Allows_Compatibility_Property_To_Back_Restored_Option()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--current-flag",
+                    PropertyName = "CurrentFlag",
+                    CSharpType = "bool?",
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "bool?",
+                    ForwardToPropertyName = "CurrentFlag",
+                    ObsoleteMessage = "Use CurrentFlag.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]);
+
+        await Assert.That(preserved.CompatibilityProperties.Single().ForwardToPropertyName)
+            .IsEqualTo("CurrentFlag");
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Rejects_Conflicting_Supplied_Compatibility_Property_Type()
     {
         var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with

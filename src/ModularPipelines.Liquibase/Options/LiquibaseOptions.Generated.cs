@@ -25,6 +25,18 @@ namespace ModularPipelines.Liquibase.Options;
 public abstract record LiquibaseOptions : CommandLineToolOptions
 {
     /// <summary>
+    /// Allows duplicated changeset identifiers without failing Liquibase execution. DEFAULT: false
+    /// </summary>
+    [CliOption("--allow-duplicated-changeset-identifiers", Format = OptionFormat.EqualsSeparated)]
+#pragma warning disable CS0618
+    public virtual bool? AllowDuplicatedChangeSetIdentifiers
+    {
+        get => AllowDuplicatedChangesetIdentifiers;
+        set => AllowDuplicatedChangesetIdentifiers = value;
+    }
+#pragma warning restore CS0618
+
+    /// <summary>
     /// Should Liquibase automatically include REORG TABLE commands when needed? DEFAULT: true
     /// </summary>
     [CliOption("--auto-reorg", Format = OptionFormat.EqualsSeparated)]
@@ -115,6 +127,12 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
     public virtual LiquibaseLogLevel? LogLevel { get; set; }
 
+    /// <summary>
+    /// Enable performance tracking. Set to 'false' to disable. If set to 'true', data is stored to a `liquibase-TIMESTAMP.jfr` file in your working directory. Any other value will enable tracking and be used as the name of the file to write the data to. DEFAULT: false
+    /// </summary>
+    [CliOption("--monitor-performance", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? MonitorPerformance { get; set; }
+
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public virtual string? OutputFile { get; set; }
 
@@ -165,9 +183,6 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public virtual bool? Version { get; set; }
-
-    [Obsolete("AllowDuplicatedChangeSetIdentifiers is no longer supported by the installed CLI and has no effect.")]
-    public virtual bool? AllowDuplicatedChangeSetIdentifiers { get; set; }
 
     [Obsolete("AllowInheritLogicalFilePath is no longer supported by the installed CLI and has no effect.")]
     public virtual bool? AllowInheritLogicalFilePath { get; set; }
@@ -255,9 +270,6 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
 
     [Obsolete("MissingPropertyMode is no longer supported by the installed CLI and has no effect.")]
     public virtual LiquibaseMissingPropertyMode? MissingPropertyMode { get; set; }
-
-    [Obsolete("MonitorPerformance is no longer supported by the installed CLI and has no effect.")]
-    public virtual string? MonitorPerformance { get; set; }
 
     [Obsolete("MssqlBytesPerChar is no longer supported by the installed CLI and has no effect.")]
     public virtual int? MssqlBytesPerChar { get; set; }

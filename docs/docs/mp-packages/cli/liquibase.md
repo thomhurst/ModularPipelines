@@ -36,6 +36,7 @@ Global options are rendered before the selected subcommand.
 
 | CLI option | Property | Availability | Description |
 | --- | --- | --- | --- |
+| `--allow-duplicated-changeset-identifiers` | `AllowDuplicatedChangeSetIdentifiers` | All editions | Allows duplicated changeset identifiers without failing Liquibase execution. DEFAULT: false |
 | `--auto-reorg` | `AutoReorg` | All editions | Should Liquibase automatically include REORG TABLE commands when needed? DEFAULT: true |
 | `--classpath` | `Classpath` | All editions | Additional classpath entries to use |
 | `--database-class` | `DatabaseClass` | All editions | Class to use for Database implementation |
@@ -51,6 +52,7 @@ Global options are rendered before the selected subcommand.
 | `--log-file` | `LogFile` | All editions | Users can use .gz file extension to enable log files compression. |
 | `--log-format` | `LogFormat` | All editions | Sets the format of log output to console or log files. Community users default to unstructured "TEXT" logs to the console or output log files. Pro users have the option to set value as "JSON" or "JSON_PRETTY" to enable json-structured log files to the console or output log files. DEFAULT: TEXT |
 | `--log-level` | `LogLevel` | All editions | DEFAULT: Controls which logs get set to stderr AND to any log file. The CLI defaults, if log file set, to SEVERE. Others vary by integration. The official log levels are: OFF, SEVERE, WARNING, INFO, FINE |
+| `--monitor-performance` | `MonitorPerformance` | All editions | Enable performance tracking. Set to 'false' to disable. If set to 'true', data is stored to a `liquibase-TIMESTAMP.jfr` file in your working directory. Any other value will enable tracking and be used as the name of the file to write the data to. DEFAULT: false |
 | `--output-file` | `OutputFile` | All editions |  |
 | `--search-path` | `SearchPath` | All editions | Complete list of Location(s) to search for files such as changelog files in. Multiple paths can be specified by separating them with commas. |
 | `--secure-parsing` | `SecureParsing` | All editions | If true, remove functionality from file parsers which could be used insecurely. Examples include (but not limited to) disabling remote XML entity support. DEFAULT: true |
