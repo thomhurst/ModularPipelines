@@ -154,8 +154,14 @@ internal sealed class SecretObfuscatedRenderable(
             }
 
             var segmentEnd = sourceOffset + segment.Text.Length;
-            var outputStart = ScaleOffset(sourceOffset, sourceLength, obfuscatedText);
-            var outputEnd = ScaleOffset(segmentEnd, sourceLength, obfuscatedText);
+            var outputStart = ObfuscatedTextOffset.Scale(
+                sourceOffset,
+                sourceLength,
+                obfuscatedText);
+            var outputEnd = ObfuscatedTextOffset.Scale(
+                segmentEnd,
+                sourceLength,
+                obfuscatedText);
             sourceOffset = segmentEnd;
 
             if (outputEnd > outputStart)
@@ -168,21 +174,6 @@ internal sealed class SecretObfuscatedRenderable(
         }
 
         return [.. output];
-    }
-
-    private static int ScaleOffset(int sourceOffset, int sourceLength, string output)
-    {
-        if (sourceOffset >= sourceLength)
-        {
-            return output.Length;
-        }
-
-        var outputOffset = (int)((long) sourceOffset * output.Length / sourceLength);
-        return outputOffset > 0
-               && outputOffset < output.Length
-               && char.IsLowSurrogate(output[outputOffset])
-            ? outputOffset + 1
-            : outputOffset;
     }
 
     private static PreparedRenderable PrepareRenderable(
@@ -516,22 +507,22 @@ internal sealed class SecretObfuscatedRenderable(
         bool snapshot) => new(
         GetRowChildren(rows).Select(
             child => PrepareChild(child, secretObfuscator, snapshot)))
-    {
-        Expand = rows.Expand,
-    };
+        {
+            Expand = rows.Expand,
+        };
 
     private static Rule PrepareRule(
         Rule rule,
         ISecretObfuscator secretObfuscator,
         bool snapshot) => new()
-    {
-        Border = rule.Border,
-        Justification = rule.Justification,
-        Style = rule.Style,
-        Title = rule.Title is null
+        {
+            Border = rule.Border,
+            Justification = rule.Justification,
+            Style = rule.Style,
+            Title = rule.Title is null
             ? null
             : PrepareMarkup(rule.Title, secretObfuscator, snapshot),
-    };
+        };
 
     private static IRenderable PrepareTable(
         Table table,
@@ -689,13 +680,16 @@ internal sealed class SecretObfuscatedRenderable(
     private static extern IRenderable GetTreeNodeRenderable(TreeNode node);
 
     private static object GetLayoutSplitter(Layout layout) =>
-        LayoutSplitterField.GetValue(layout)
+        LayoutReflection.SplitterField.GetValue(layout)
         ?? throw new InvalidOperationException("Spectre layout has no splitter.");
 
-    private static readonly FieldInfo LayoutSplitterField = typeof(Layout).GetField(
-        "_splitter",
-        BindingFlags.Instance | BindingFlags.NonPublic)
-        ?? throw new MissingFieldException(typeof(Layout).FullName, "_splitter");
+    private static class LayoutReflection
+    {
+        internal static readonly FieldInfo SplitterField = typeof(Layout).GetField(
+            "_splitter",
+            BindingFlags.Instance | BindingFlags.NonPublic)
+            ?? throw new MissingFieldException(typeof(Layout).FullName, "_splitter");
+    }
 
     private static Segment[] ObfuscateLinks(
         Segment[] segments,
@@ -812,7 +806,7 @@ internal sealed class SecretObfuscatedRenderable(
     private sealed class DeferredSegmentSnapshotRenderable(IRenderable inner) : IRenderable
     {
         private readonly object _snapshotLock = new();
-        private RawSnapshot? _snapshot;
+        private readonly Dictionary<int, RawSnapshot> _snapshots = [];
 
         public Measurement Measure(RenderOptions options, int maxWidth)
         {
@@ -828,9 +822,16 @@ internal sealed class SecretObfuscatedRenderable(
         {
             lock (_snapshotLock)
             {
-                return _snapshot ??= new RawSnapshot(
+                if (_snapshots.TryGetValue(maxWidth, out var snapshot))
+                {
+                    return snapshot;
+                }
+
+                snapshot = new RawSnapshot(
                     inner.Measure(options, maxWidth),
                     inner.Render(options, maxWidth).ToArray());
+                _snapshots.Add(maxWidth, snapshot);
+                return snapshot;
             }
         }
 

@@ -32,6 +32,19 @@ public class ConsoleWriterTests
         }
     }
 
+    private sealed class WidthSensitiveRenderable : IRenderable
+    {
+        public List<int> RenderWidths { get; } = [];
+
+        public Measurement Measure(RenderOptions options, int maxWidth) => new(1, maxWidth);
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
+        {
+            RenderWidths.Add(maxWidth);
+            yield return new Segment(maxWidth.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        }
+    }
+
     private sealed class WriteMarkupLineModule(IConsoleWriter consoleWriter) : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
@@ -206,6 +219,32 @@ public class ConsoleWriterTests
         var output = CaptureFallbackOutput(writer => writer.WriteLine("a secret value"));
 
         await AssertFallbackOutputIsObfuscated(output);
+    }
+
+    [Test]
+    public async Task WriteLine_UsesInjectedConsoleWithoutAmbientModule()
+    {
+        var originalConsole = AnsiConsole.Console;
+        using var globalOutput = new StringWriter();
+        using var injectedOutput = new StringWriter();
+        try
+        {
+            AnsiConsole.Console = CreateConsole(globalOutput);
+            var injectedConsole = CreateConsole(injectedOutput);
+
+            new ConsoleWriter(CreateMockSecretObfuscator(), injectedConsole)
+                .WriteLine("injected output");
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(injectedOutput.ToString()).Contains("injected output");
+                await Assert.That(globalOutput.ToString()).DoesNotContain("injected output");
+            }
+        }
+        finally
+        {
+            AnsiConsole.Console = originalConsole;
+        }
     }
 
     [Test]
@@ -642,6 +681,57 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_PreparesEveryUnsafeAccessorBackedRenderable()
+    {
+        var tree = new Tree("secret");
+        tree.AddNode("secret");
+        IRenderable[] renderables =
+        [
+            new Align(new Text("secret"), HorizontalAlignment.Left, VerticalAlignment.Top),
+            new Columns(new Text("secret")),
+            new Padder(new Text("secret"), new Padding(1)),
+            new Rows(new Text("secret")),
+            tree,
+        ];
+        var options = RenderOptions.Create(AnsiConsole.Console);
+        var obfuscator = CreateSecretObfuscator("secret");
+
+        foreach (var source in renderables)
+        {
+            var output = string.Concat(new SecretObfuscatedRenderable(source, obfuscator)
+                .Render(options, 80)
+                .Where(static segment => !segment.IsControlCode)
+                .Select(static segment => segment.Text));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(output).Contains("**********");
+                await Assert.That(output).DoesNotContain("secret");
+            }
+        }
+    }
+
+    [Test]
+    public async Task Write_SnapshotsUnhandledRenderablePerWidth()
+    {
+        var source = new WidthSensitiveRenderable();
+        var renderable = new SecretObfuscatedRenderable(
+            source,
+            CreateMockSecretObfuscator());
+        var options = RenderOptions.Create(AnsiConsole.Console);
+
+        _ = renderable.Measure(options, 20);
+        var output = string.Concat(renderable.Render(options, 5)
+            .Select(static segment => segment.Text));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).IsEqualTo("5");
+            await Assert.That(source.RenderWidths).IsEquivalentTo([20, 5]);
+        }
+    }
+
+    [Test]
     public async Task Write_PreparesLayoutChildrenBeforeSizingRegions()
     {
         var layout = new Layout("root")
@@ -704,9 +794,9 @@ public class ConsoleWriterTests
 
         var actual = string.Concat(renderable.Render(options, 120)
             .Select(static segment => segment.Text));
-        var expected = string.Concat(((IRenderable)new FigletText("**********")).Render(options, 120)
+        var expected = string.Concat(((IRenderable) new FigletText("**********")).Render(options, 120)
             .Select(static segment => segment.Text));
-        var unmasked = string.Concat(((IRenderable)new FigletText("secret")).Render(options, 120)
+        var unmasked = string.Concat(((IRenderable) new FigletText("secret")).Render(options, 120)
             .Select(static segment => segment.Text));
 
         using (Assert.Multiple())
@@ -736,7 +826,7 @@ public class ConsoleWriterTests
 
         var actual = string.Concat(renderable.Render(options, 24)
             .Select(static segment => segment.Text));
-        var expected = string.Concat(((IRenderable)expectedChart).Render(options, 24)
+        var expected = string.Concat(((IRenderable) expectedChart).Render(options, 24)
             .Select(static segment => segment.Text));
 
         await Assert.That(actual).IsEqualTo(expected);
@@ -762,7 +852,7 @@ public class ConsoleWriterTests
 
         var actual = string.Concat(renderable.Render(options, 24)
             .Select(static segment => segment.Text));
-        var expected = string.Concat(((IRenderable)expectedChart).Render(options, 24)
+        var expected = string.Concat(((IRenderable) expectedChart).Render(options, 24)
             .Select(static segment => segment.Text));
 
         await Assert.That(actual).IsEqualTo(expected);
@@ -1025,7 +1115,7 @@ public class ConsoleWriterTests
 
             secretObfuscator ??= CreateMockSecretObfuscator();
 
-            write(new ConsoleWriter(secretObfuscator));
+            write(new ConsoleWriter(secretObfuscator, AnsiConsole.Console));
             return output.ToString();
         }
         finally
@@ -1033,6 +1123,14 @@ public class ConsoleWriterTests
             AnsiConsole.Console = originalConsole;
         }
     }
+
+    private static IAnsiConsole CreateConsole(TextWriter output) =>
+        AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(output),
+            Ansi = AnsiSupport.No,
+            ColorSystem = ColorSystemSupport.NoColors,
+        });
 
     private static ISecretObfuscator CreateMockSecretObfuscator()
     {

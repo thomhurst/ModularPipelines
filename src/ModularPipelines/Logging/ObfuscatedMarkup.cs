@@ -65,8 +65,7 @@ internal static partial class ObfuscatedMarkup
         {
             obfuscatedText = secretObfuscator.Obfuscate(visibleText, null);
             getObfuscatedSlice = (start, end) => obfuscatedText[
-                ScaleOffset(start, visibleText.Length, obfuscatedText)..
-                ScaleOffset(end, visibleText.Length, obfuscatedText)];
+                ObfuscatedTextOffset.Scale(start, visibleText.Length, obfuscatedText)..ObfuscatedTextOffset.Scale(end, visibleText.Length, obfuscatedText)];
         }
 
         var wasChanged = !string.Equals(visibleText, obfuscatedText, StringComparison.Ordinal);
@@ -107,21 +106,6 @@ internal static partial class ObfuscatedMarkup
     private static string DecodeEscapedBrackets(string value) => value
         .Replace("[[", "[", StringComparison.Ordinal)
         .Replace("]]", "]", StringComparison.Ordinal);
-
-    private static int ScaleOffset(int sourceOffset, int sourceLength, string output)
-    {
-        if (sourceOffset >= sourceLength)
-        {
-            return output.Length;
-        }
-
-        var outputOffset = (int)((long) sourceOffset * output.Length / sourceLength);
-        return outputOffset > 0
-               && outputOffset < output.Length
-               && char.IsLowSurrogate(output[outputOffset])
-            ? outputOffset + 1
-            : outputOffset;
-    }
 
     private readonly record struct SafeSource(string Value, bool WasChanged);
 

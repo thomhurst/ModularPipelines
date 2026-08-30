@@ -10,10 +10,12 @@ namespace ModularPipelines.Logging;
 internal class ConsoleWriter : IConsoleWriter
 {
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly IAnsiConsole _ansiConsole;
 
-    public ConsoleWriter(ISecretObfuscator secretObfuscator)
+    public ConsoleWriter(ISecretObfuscator secretObfuscator, IAnsiConsole ansiConsole)
     {
         _secretObfuscator = secretObfuscator;
+        _ansiConsole = ansiConsole;
     }
 
     public void WriteLine(string value)
@@ -24,7 +26,7 @@ internal class ConsoleWriter : IConsoleWriter
             return;
         }
 
-        AnsiConsole.WriteLine(_secretObfuscator.Obfuscate(value, null));
+        _ansiConsole.WriteLine(_secretObfuscator.Obfuscate(value, null));
     }
 
     public void WriteMarkupLine(string value)
@@ -37,14 +39,14 @@ internal class ConsoleWriter : IConsoleWriter
 
         try
         {
-            AnsiConsole.Write(ObfuscatedMarkup.Create(value, _secretObfuscator));
-            AnsiConsole.WriteLine();
+            _ansiConsole.Write(ObfuscatedMarkup.Create(value, _secretObfuscator));
+            _ansiConsole.WriteLine();
         }
         catch (InvalidOperationException)
         {
             // Fall back to plain console output if markup parsing fails
             // (e.g., unbalanced or invalid markup characters)
-            AnsiConsole.WriteLine(_secretObfuscator.Obfuscate(value, null));
+            _ansiConsole.WriteLine(_secretObfuscator.Obfuscate(value, null));
         }
     }
 
@@ -56,7 +58,7 @@ internal class ConsoleWriter : IConsoleWriter
             return;
         }
 
-        AnsiConsole.Write(new SecretObfuscatedRenderable(renderable, _secretObfuscator));
+        _ansiConsole.Write(new SecretObfuscatedRenderable(renderable, _secretObfuscator));
     }
 
     private static bool TryGetModuleConsoleWriter(

@@ -130,8 +130,7 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
 
     internal MappedObfuscatedOutput ObfuscateWithSourceMap(
         string input,
-        bool preserveExistingMasks,
-        Func<string, string, string>? transformMask = null)
+        bool preserveExistingMasks)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -151,9 +150,7 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         var comparison = caseInsensitive
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
-        if (!preserveExistingMasks
-            && secretCache.Secrets.Any(secret =>
-                !string.IsNullOrEmpty(secret) && maskValue.Contains(secret, comparison)))
+        if (!preserveExistingMasks && !CanSafelyPreserveMasks(secretCache.Secrets))
         {
             const string safeMask = "[MASKED]";
             maskValue = secretCache.Secrets.Any(secret =>
@@ -168,8 +165,7 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             secretCache.SearchValues,
             maskValue,
             comparison,
-            preserveExistingMasks,
-            transformMask);
+            preserveExistingMasks);
     }
 
     internal SecretRegistrationState GetRegistrationState()
@@ -367,8 +363,7 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         SearchValues<string> searchValues,
         string maskValue,
         StringComparison comparison,
-        bool preserveExistingMasks,
-        Func<string, string, string>? transformMask)
+        bool preserveExistingMasks)
     {
         var existingMaskRanges = preserveExistingMasks
             ? GetMaskRanges(input, maskValue)
@@ -422,9 +417,8 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
                     sourceToOutputByteOffsets[index] = outputByteCount;
                 }
 
-                var transformedMask = transformMask?.Invoke(matchedSecret, maskValue) ?? maskValue;
-                result.Append(transformedMask);
-                outputByteCount += Encoding.UTF8.GetByteCount(transformedMask);
+                result.Append(maskValue);
+                outputByteCount += Encoding.UTF8.GetByteCount(maskValue);
                 sourceToOutputByteOffsets[matchEnd] = outputByteCount;
             }
 
