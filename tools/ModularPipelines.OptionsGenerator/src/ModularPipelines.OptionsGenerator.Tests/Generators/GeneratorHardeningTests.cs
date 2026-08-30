@@ -1685,6 +1685,39 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Case_Variant_Alias_Forwarding()
+    {
+        var command = Command("ToolChecksumOptions", "ToolOptions", ["checksum"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--changeset-author",
+                    PropertyName = "ChangeSetAuthor",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [
+                BaselineProperty("ChangeSetAuthor", "string?", isCompatibility: true),
+                BaselineProperty("ChangesetAuthor", "string?", isCompatibility: true),
+            ]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.CompatibilityProperties.Single().ForwardToPropertyName)
+                .IsEqualTo("ChangeSetAuthor");
+            await Assert.That(generated).Contains("get => ChangeSetAuthor;");
+            await Assert.That(generated).Contains("set => ChangeSetAuthor = value;");
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Renames_Live_Property_Shadowing_Forwarded_Alias()
     {
         var command = Command("ToolPushOptions", "ToolOptions", ["push"]) with
@@ -5518,6 +5551,41 @@ public class GeneratorHardeningTests
         {
             await Assert.That(progress.CSharpType).IsEqualTo("CliOptionValue?");
             await Assert.That(preserved.SupplementalGlobalOptions).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Global_Case_Variant_Alias_Dispatch()
+    {
+        var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"])) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--generate-changeset-created-values",
+                    PropertyName = "GenerateChangeSetCreatedValues",
+                    CSharpType = "bool?",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
+            tool,
+            [
+                BaselineProperty("GenerateChangeSetCreatedValues", "bool?", isCompatibility: true),
+                BaselineProperty("GenerateChangesetCreatedValues", "bool?", isCompatibility: true),
+            ]);
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(preserved)).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.GlobalCompatibilityProperties.Single().ForwardToPropertyName)
+                .IsEqualTo("GenerateChangeSetCreatedValues");
+            await Assert.That(generated).Contains("get => GenerateChangesetCreatedValues;");
+            await Assert.That(generated).Contains("set => GenerateChangesetCreatedValues = value;");
+            await Assert.That(generated)
+                .Contains("public virtual bool? GenerateChangesetCreatedValues { get; set; }");
         }
     }
 

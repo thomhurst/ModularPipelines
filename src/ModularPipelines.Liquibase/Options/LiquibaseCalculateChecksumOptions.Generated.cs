@@ -90,8 +90,12 @@ public record LiquibaseCalculateChecksumOptions : LiquibaseOptions
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
-    [Obsolete("ChangesetAuthor is no longer supported by the installed CLI and has no effect.")]
-    public string? ChangesetAuthor { get; set; }
+    [Obsolete("Use ChangeSetAuthor instead.")]
+    public string? ChangesetAuthor
+    {
+        get => ChangeSetAuthor;
+        set => ChangeSetAuthor = value;
+    }
 
     [Obsolete("Use ChangeSetId instead.")]
     public string? ChangesetId
@@ -100,8 +104,12 @@ public record LiquibaseCalculateChecksumOptions : LiquibaseOptions
         set => ChangeSetId = value;
     }
 
-    [Obsolete("ChangesetIdentifier is no longer supported by the installed CLI and has no effect.")]
-    public string? ChangesetIdentifier { get; set; }
+    [Obsolete("Use ChangeSetIdentifier instead.")]
+    public string? ChangesetIdentifier
+    {
+        get => ChangeSetIdentifier;
+        set => ChangeSetIdentifier = value;
+    }
 
     [Obsolete("Use ChangeSetPath instead.")]
     public string? ChangesetPath

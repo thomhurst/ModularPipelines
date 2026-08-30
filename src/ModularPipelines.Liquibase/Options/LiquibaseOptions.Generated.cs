@@ -196,13 +196,25 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     /// Should Liquibase include a 'created' attribute in diff/generateChangelog changesets with the current datetime DEFAULT: false
     /// </summary>
     [CliOption("--generate-changeset-created-values", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? GenerateChangeSetCreatedValues { get; set; }
+#pragma warning disable CS0618
+    public virtual bool? GenerateChangeSetCreatedValues
+    {
+        get => GenerateChangesetCreatedValues;
+        set => GenerateChangesetCreatedValues = value;
+    }
+#pragma warning restore CS0618
 
     /// <summary>
     /// Should Liquibase include the change description in the id when generating changesets? DEFAULT: false
     /// </summary>
     [CliOption("--generated-changeset-ids-contains-description", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? GeneratedChangeSetIdsContainsDescription { get; set; }
+#pragma warning disable CS0618
+    public virtual bool? GeneratedChangeSetIdsContainsDescription
+    {
+        get => GeneratedChangesetIdsContainsDescription;
+        set => GeneratedChangesetIdsContainsDescription = value;
+    }
+#pragma warning restore CS0618
 
     /// <summary>
     /// Force Liquibase to think it has no access to a keyboard DEFAULT: false
