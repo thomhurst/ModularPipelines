@@ -299,7 +299,7 @@ public class PipelineOptionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(builder.Logging.Services).IsTypeOf<ServiceCollection>();
+            await Assert.That(builder.Logging.Services).Contains(descriptor);
             await Assert.That(pipeline.Services.GetServices<ILoggerProvider>())
                 .Contains(loggerProvider);
         }
@@ -354,6 +354,21 @@ public class PipelineOptionsTests
             await Assert.That(pipeline.Services.GetServices<ILoggerProvider>())
                 .Contains(loggerProvider);
         }
+    }
+
+    [Test]
+    public async Task PipelineBuilderLoggingTryAddHonorsApplicationServiceReplacement()
+    {
+        var replacement = new Uri("https://replacement.example");
+        var builder = Pipeline.CreateBuilder()
+            .AddModule<OptionsTestModule>();
+        builder.Services.AddSingleton(replacement);
+        builder.Logging.Services.TryAddSingleton(new Uri("https://default.example"));
+
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline.Services.GetRequiredService<Uri>())
+            .IsSameReferenceAs(replacement);
     }
 
     [Test]

@@ -75,7 +75,9 @@ public sealed class PipelineBuilder
             .Select(static descriptor => descriptor.ImplementationType)
             .OfType<Type>()
             .ToHashSet();
-        Logging = new PipelineLoggingBuilder(_loggingServices);
+        Logging = new PipelineLoggingBuilder(new PipelineLoggingServiceCollection(
+            _loggingServices,
+            _services));
         _configuration = new ConfigurationManager();
         _options = new PipelineOptions
         {
@@ -678,6 +680,93 @@ public sealed class PipelineBuilder
     private sealed class PipelineLoggingBuilder(IServiceCollection services) : ILoggingBuilder
     {
         public IServiceCollection Services { get; } = services;
+    }
+
+    private sealed class PipelineLoggingServiceCollection(
+        ServiceCollection loggingServices,
+        ServiceCollection applicationServices) : IServiceCollection
+    {
+        public ServiceDescriptor this[int index]
+        {
+            get => index < loggingServices.Count
+                ? loggingServices[index]
+                : applicationServices[index - loggingServices.Count];
+            set
+            {
+                if (index < loggingServices.Count)
+                {
+                    loggingServices[index] = value;
+                }
+                else
+                {
+                    applicationServices[index - loggingServices.Count] = value;
+                }
+            }
+        }
+
+        public int Count => loggingServices.Count + applicationServices.Count;
+
+        public bool IsReadOnly => false;
+
+        public void Add(ServiceDescriptor item) => loggingServices.Add(item);
+
+        public void Clear() => loggingServices.Clear();
+
+        public bool Contains(ServiceDescriptor item) =>
+            loggingServices.Contains(item) || applicationServices.Contains(item);
+
+        public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
+        {
+            foreach (var descriptor in this)
+            {
+                array[arrayIndex++] = descriptor;
+            }
+        }
+
+        public IEnumerator<ServiceDescriptor> GetEnumerator() =>
+            loggingServices.Concat(applicationServices).GetEnumerator();
+
+        public int IndexOf(ServiceDescriptor item)
+        {
+            var loggingIndex = loggingServices.IndexOf(item);
+            if (loggingIndex >= 0)
+            {
+                return loggingIndex;
+            }
+
+            var applicationIndex = applicationServices.IndexOf(item);
+            return applicationIndex < 0 ? -1 : loggingServices.Count + applicationIndex;
+        }
+
+        public void Insert(int index, ServiceDescriptor item)
+        {
+            if (index <= loggingServices.Count)
+            {
+                loggingServices.Insert(index, item);
+            }
+            else
+            {
+                applicationServices.Insert(index - loggingServices.Count, item);
+            }
+        }
+
+        public bool Remove(ServiceDescriptor item) =>
+            loggingServices.Remove(item) || applicationServices.Remove(item);
+
+        public void RemoveAt(int index)
+        {
+            if (index < loggingServices.Count)
+            {
+                loggingServices.RemoveAt(index);
+            }
+            else
+            {
+                applicationServices.RemoveAt(index - loggingServices.Count);
+            }
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
+            GetEnumerator();
     }
 
     private bool HasDefaultLoggingProvider(IServiceCollection services)
