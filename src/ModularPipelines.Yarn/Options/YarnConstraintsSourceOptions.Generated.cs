@@ -12,9 +12,18 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will print the Prolog source code used by the constraints engine.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("constraints source")]
 public record YarnConstraintsSourceOptions : YarnOptions
 {
+    /// <summary>
+    /// Also print the fact database automatically compiled from the workspace manifests
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public bool? Verbose { get; set; }
+
 }

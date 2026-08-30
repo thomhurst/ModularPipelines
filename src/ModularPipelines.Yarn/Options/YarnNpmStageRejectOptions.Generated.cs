@@ -8,13 +8,24 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Secrets;
 using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will reject a staged package version, permanently removing it from
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("npm stage reject")]
 public record YarnNpmStageRejectOptions : YarnOptions
 {
+    /// <summary>
+    /// The OTP token to use with the command
+    /// </summary>
+    [SecretValue]
+    [CliOption("--otp")]
+    public string? Otp { get; set; }
+
 }

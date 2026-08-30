@@ -12,9 +12,18 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will list all tags of a package from the npm registry.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("npm tag list")]
 public record YarnNpmTagListOptions : YarnOptions
 {
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

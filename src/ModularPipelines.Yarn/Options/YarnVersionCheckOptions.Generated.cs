@@ -12,9 +12,18 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// **Warning:** This command currently requires Git.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("version check")]
 public record YarnVersionCheckOptions : YarnOptions
 {
+    /// <summary>
+    /// Open an interactive interface used to set version bumps
+    /// </summary>
+    [CliFlag("--interactive", ShortForm = "-i")]
+    public bool? Interactive { get; set; }
+
 }

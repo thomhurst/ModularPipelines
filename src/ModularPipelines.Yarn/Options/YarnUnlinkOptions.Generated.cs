@@ -12,9 +12,18 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will remove any resolutions in the project-level manifest that
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unlink")]
 public record YarnUnlinkOptions : YarnOptions
 {
+    /// <summary>
+    /// Unlink all workspaces belonging to the target project from the current one
+    /// </summary>
+    [CliFlag("--all", ShortForm = "-A")]
+    public bool? All { get; set; }
+
 }

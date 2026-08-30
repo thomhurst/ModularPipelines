@@ -12,9 +12,18 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command prints the plugins available directly from the Yarn repository.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin list")]
 public record YarnPluginListOptions : YarnOptions
 {
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

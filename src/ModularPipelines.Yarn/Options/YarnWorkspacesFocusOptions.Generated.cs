@@ -12,9 +12,30 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will run an install as if the specified workspaces (and all other
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces focus")]
 public record YarnWorkspacesFocusOptions : YarnOptions
 {
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Only install regular dependencies by omitting dev dependencies
+    /// </summary>
+    [CliFlag("--production")]
+    public bool? Production { get; set; }
+
+    /// <summary>
+    /// Install the entire project
+    /// </summary>
+    [CliFlag("--all", ShortForm = "-A")]
+    public bool? All { get; set; }
+
 }

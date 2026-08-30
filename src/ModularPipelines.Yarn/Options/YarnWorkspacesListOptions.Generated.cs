@@ -9,12 +9,46 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Yarn.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will print the list of all workspaces in the project.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces list")]
 public record YarnWorkspacesListOptions : YarnOptions
 {
+    /// <summary>
+    /// Only include workspaces that have been changed since the specified ref.
+    /// </summary>
+    [CliOption("--since", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Since { get; set; }
+
+    /// <summary>
+    /// Find packages via dependencies/devDependencies instead of using the workspaces field
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-R")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// Exclude workspaces that have the private field set to true
+    /// </summary>
+    [CliFlag("--no-private")]
+    public bool? NoPrivate { get; set; }
+
+    /// <summary>
+    /// Also return the cross-dependencies between workspaces
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }
