@@ -322,9 +322,7 @@ internal static class OperatingSystemConditions
             : null;
         foreach (var conditionType in conditionTypes)
         {
-            var conditionOperatingSystems = GetSupportedOperatingSystems(
-                conditionType,
-                requirePlanningSafeGroup: true);
+            var conditionOperatingSystems = GetSupportedOperatingSystems(conditionType);
             if (conditionOperatingSystems is null)
             {
                 return null;
@@ -437,8 +435,7 @@ internal static class OperatingSystemConditions
         "IL2067",
         Justification = "Condition types come from RunIf<T>, RunIfAll<T...>, or RunIfAny<T...> generic arguments, whose new() constraints preserve a public parameterless constructor.")]
     private static HashSet<string>? GetSupportedOperatingSystems(
-        Type conditionType,
-        bool requirePlanningSafeGroup = false)
+        Type conditionType)
     {
         var operatingSystem = GetOperatingSystem(conditionType);
         if (operatingSystem is not null)
@@ -447,8 +444,7 @@ internal static class OperatingSystemConditions
         }
 
         if (!typeof(ConditionGroup).IsAssignableFrom(conditionType)
-            || (requirePlanningSafeGroup
-                && !typeof(IPlanningRunCondition).IsAssignableFrom(conditionType))
+            || !typeof(IPlanningRunCondition).IsAssignableFrom(conditionType)
             || Activator.CreateInstance(conditionType) is not ConditionGroup group)
         {
             return null;

@@ -122,11 +122,29 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
-    private sealed class CustomUnixConditionGroup : ConditionGroup
+    private sealed class CustomUnixConditionGroup : ConditionGroup, IPlanningRunCondition
     {
         public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnMacOS()];
 
         public override ConditionLogic Logic => ConditionLogic.Any;
+    }
+
+    [RunIf<WorkerOnlyConditionGroup>]
+    private sealed class WorkerOnlyConditionGroupModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            Context.IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class WorkerOnlyConditionGroup : ConditionGroup
+    {
+        public WorkerOnlyConditionGroup() =>
+            throw new InvalidOperationException("Worker-only group was constructed by publisher");
+
+        public override IReadOnlyList<IRunCondition> Conditions => [];
+
+        public override ConditionLogic Logic => ConditionLogic.All;
     }
 
     [RequiresCapability("linux")]
@@ -376,6 +394,21 @@ public class DistributedWorkPublisherTests
             await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
                 .DoesNotContain(requiredCapability);
         }
+    }
+
+    [Test]
+    public async Task CreateAssignment_Does_Not_Construct_Worker_Only_Condition_Group()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(WorkerOnlyConditionGroupModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new WorkerOnlyConditionGroupModule());
+
+        await Assert.That(assignment.RequiredCapabilities).IsEmpty();
     }
 
     [Test]

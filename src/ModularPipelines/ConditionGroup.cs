@@ -14,7 +14,7 @@ namespace ModularPipelines;
 /// <para>
 /// <b>Example - Unix platforms group:</b>
 /// <code>
-/// public sealed class OnUnixPlatforms : ConditionGroup
+/// public sealed class OnUnixPlatforms : ConditionGroup, IPlanningRunCondition
 /// {
 ///     public override IReadOnlyList&lt;IRunCondition&gt; Conditions =&gt; [new OnLinux(), new OnMacOS()];
 ///     public override ConditionLogic Logic =&gt; ConditionLogic.Any;
