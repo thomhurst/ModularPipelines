@@ -18,6 +18,7 @@ ModularPipelines.Packer.Services.IPacker.InitAsync(ModularPipelines.Packer.Optio
 ModularPipelines.Packer.Services.IPacker.InspectAsync(ModularPipelines.Packer.Options.PackerInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Packer.Services.IPacker.PluginsAsync(ModularPipelines.Packer.Options.PackerPluginsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Packer.Services.IPacker.ValidateAsync(ModularPipelines.Packer.Options.PackerValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.VerifyAttestationAsync(ModularPipelines.Packer.Options.PackerVerifyAttestationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 static ModularPipelines.Packer.Extensions.PackerExtensions.Packer(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Packer.Services.IPacker!
 ModularPipelines.Packer.Options.PackerBuildOptions.Deconstruct(out string! Template) -> void
 ModularPipelines.Packer.Options.PackerBuildOptions.PackerBuildOptions(string! Template) -> void
@@ -89,7 +90,6 @@ ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.TrustedRootPath.g
 ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.TrustedRootPath.set -> void
 ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Verifier.get -> string?
 ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Verifier.set -> void
-ModularPipelines.Packer.Services.IPacker.VerifyAttestationAsync(ModularPipelines.Packer.Options.PackerVerifyAttestationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerVerifyAttestationOptions!
 override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Equals(object? obj) -> bool
