@@ -10,9 +10,6 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Enums;
 
-/// <summary>
-/// Allowed values for the --progress option.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum DockerBuilderDialStdioProgress
 {

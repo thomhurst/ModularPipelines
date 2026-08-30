@@ -411,6 +411,18 @@
 *REMOVED*virtual ModularPipelines.Docker.Services.DockerVolume.LsAsync(ModularPipelines.Docker.Options.DockerVolumeLsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Docker.Services.DockerVolume.PruneAsync(ModularPipelines.Docker.Options.DockerVolumePruneOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Docker.Services.DockerVolume.RmAsync(ModularPipelines.Docker.Options.DockerVolumeRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Docker.Options.DockerBuilderBuildOptions.Path.get -> string!
+ModularPipelines.Docker.Options.DockerBuilderBuildOptions.Path.init -> void
+ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.Path.get -> string!
+ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.Path.init -> void
+ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.Name.get -> string!
+ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.Name.init -> void
+ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.Source.get -> string!
+ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.Source.init -> void
+ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.Path.get -> string!
+ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.Path.init -> void
+ModularPipelines.Docker.Options.DockerBuilderUseOptions.Name.get -> string!
+ModularPipelines.Docker.Options.DockerBuilderUseOptions.Name.init -> void
 ModularPipelines.Docker.Services.DockerBuilder.DockerBuilder(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Docker.Services.DockerBuilderDap.DockerBuilderDap(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Docker.Services.DockerBuilderHistory.DockerBuilderHistory(ModularPipelines.Context.ICommandContext! command) -> void

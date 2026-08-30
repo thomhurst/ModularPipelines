@@ -135,12 +135,6 @@ public record DockerComposeUpOptions : DockerOptions
     public string? Pull { get; set; }
 
     /// <summary>
-    /// Suppress the build output
-    /// </summary>
-    [CliFlag("--quiet-build")]
-    public bool? QuietBuild { get; set; }
-
-    /// <summary>
     /// Pull without printing progress information
     /// </summary>
     [CliFlag("--quiet-pull")]
@@ -205,5 +199,8 @@ public record DockerComposeUpOptions : DockerOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
+
+    [Obsolete("QuietBuild is no longer supported by the installed CLI and has no effect.")]
+    public bool? QuietBuild { get; set; }
 
 }

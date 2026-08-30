@@ -21,4 +21,10 @@ public record DockerBuilderPolicyEvalOptions : DockerBuildxPolicyEvalOptions
     {
     }
 
+    [Obsolete("Source is retained for compatibility.")]
+    public new string Source
+    {
+        get => base.Source;
+        init => base.Source = value;
+    }
 }
