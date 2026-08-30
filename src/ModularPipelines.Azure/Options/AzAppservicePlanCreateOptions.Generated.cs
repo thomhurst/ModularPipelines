@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "create")]
-public record AzAppservicePlanCreateOptions : AzOptions
+public record AzAppservicePlanCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAppservicePlanCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name or ID of the app service environment. If you want to create the app service plan in different subscription than the app service environment, please use the resource ID for --app- service-environment parameter.
     /// </summary>
@@ -119,8 +127,8 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// The pricing tiers, e.g., F1(Free), D1(Shared), B1(Basic Small), B2(Basic Medium), B3(Basic Large), S1(Standard Small), P1V2(Premium V2 Small), P2V2(Premium V2 Medium), P3V2(Premium V2 Large), P0V3(Premium V3 Extra Small), P1V3(Premium V3 Small), P2V3(Premium V3 Medium), P3V3(Premium V3 Large), P1MV3(Premium Memory Optimized V3 Small), P2MV3(Premium Memory Optimized V3 Medium), P3MV3(Premium Memory Optimized V3 Large), P4MV3(Premium Memory Optimized V3 Extra Large), P5MV3(Premium Memory Optimized V3 Extra Extra Large), P0V4(Premium V4 Extra Small), P1V4(Premium V4 Small), P2V4(Premium V4 Medium), P3V4(Premium V4 Large), P1MV4(Premium Memory Optimized V4 Small), P2MV4(Premium Memory Optimized V4 Medium), P3MV4(Premium Memory Optimized V4 Large), P4MV4(Premium Memory Optimized V4 Extra Large), P5MV4(Premium Memory Optimized V4 Extra Extra Large), I1V2 (Isolated V2 I1V2), I2V2 (Isolated V2 I2V2), I3V2 (Isolated V2 I3V2), I4V2 (Isolated V2 I4V2), I5V2 (Isolated V2 I5V2), I6V2 (Isolated V2 I6V2), I1MV2 (Isolated Memory Optimized V2 I1MV2), I2MV2 (Isolated Memory Optimized V2 I2MV2), I3MV2 (Isolated Memory Optimized V2 I3MV2), I4MV2 (Isolated Memory Optimized V2 I4MV2), I5MV2 (Isolated Memory Optimized V2 I5MV2), WS1 (Logic Apps Workflow Standard 1), WS2 (Logic Apps Workflow Standard 2), WS3 (Logic Apps Workflow Standard 3).  Allowed values: B1, B2, B3, D1, F1, FREE, I1MV2, I1V2, I2MV2, I2V2, I3MV2, I3V2, I4MV2, I4V2, I5MV2, I5V2, I6V2, P0V3, P0V4, P1MV3, P1MV4, P1V2, P1V3, P1V4, P2MV3, P2MV4, P2V2, P2V3, P2V4, P3MV3, P3MV4, P3V2, P3V3, P3V4, P4MV3, P4MV4, P5MV3, P5MV4, S1, S2, S3, SHARED, WS1, WS2, WS3.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? SkuValue { get; set; }
 
     /// <summary>
     /// Storage mount configurations. Provide key-value pairs for `name=&lt;name&gt; source=&lt;source&gt; type=&lt;type&gt; destination- path=&lt;path&gt; credentials-secret-uri=&lt;uri&gt;`.
@@ -135,16 +143,16 @@ public record AzAppservicePlanCreateOptions : AzOptions
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? TagsValues { get; set; }
 
     /// <summary>
     /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with --subnet argument.
     /// </summary>
     [CliOption("--vnet")]
-    public IEnumerable<string>? Vnet { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Enable zone redundancy for high availability. Minimum instance count is 2.
@@ -157,6 +165,20 @@ public record AzAppservicePlanCreateOptions : AzOptions
     {
         get => bool.TryParse(AppServiceEnvironmentValue, out var value) ? value : null;
         set => AppServiceEnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SkuValue instead.")]
+    public bool? Sku
+    {
+        get => bool.TryParse(SkuValue, out var value) ? value : null;
+        set => SkuValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TagsValues instead.")]
+    public bool? Tags
+    {
+        get => bool.TryParse(TagsValues?.FirstOrDefault(), out var value) ? value : null;
+        set => TagsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
 }

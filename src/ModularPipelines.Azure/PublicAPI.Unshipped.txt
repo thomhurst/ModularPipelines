@@ -8799,3 +8799,284 @@ virtual ModularPipelines.Azure.Services.AzWebappWebjobTriggered.ListAsync(Modula
 virtual ModularPipelines.Azure.Services.AzWebappWebjobTriggered.LogAsync(ModularPipelines.Azure.Options.AzWebappWebjobTriggeredLogOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Azure.Services.AzWebappWebjobTriggered.RemoveAsync(ModularPipelines.Azure.Options.AzWebappWebjobTriggeredRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Azure.Services.AzWebappWebjobTriggered.RunAsync(ModularPipelines.Azure.Options.AzWebappWebjobTriggeredRunOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.AddValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.AddValues.set -> void
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.AzAcrConnectedRegistryPermissionsUpdateOptions(string! Name, string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.Deconstruct(out string! Name, out string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.Registry.get -> string!
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.Registry.init -> void
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.RemoveValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.RemoveValues.set -> void
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.ResourceGroupValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrConnectedRegistryPermissionsUpdateOptions.ResourceGroupValue.set -> void
+ModularPipelines.Azure.Options.AzAcrRunOptions.AuthModeValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrRunOptions.AuthModeValue.set -> void
+ModularPipelines.Azure.Options.AzAcrRunOptions.AzAcrRunOptions(string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrRunOptions.Deconstruct(out string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrRunOptions.Registry.get -> string!
+ModularPipelines.Azure.Options.AzAcrRunOptions.Registry.init -> void
+ModularPipelines.Azure.Options.AzAcrRunOptions.ResourceGroupValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrRunOptions.ResourceGroupValue.set -> void
+ModularPipelines.Azure.Options.AzAcrRunOptions.SetValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAcrRunOptions.SetValues.set -> void
+ModularPipelines.Azure.Options.AzAcrRunOptions.SourceAcrAuthIdValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrRunOptions.SourceAcrAuthIdValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.AssignIdentityValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.AssignIdentityValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.AuthModeValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.AuthModeValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.AzAcrTaskCreateOptions(string! Name, string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.BaseImageTriggerEnabled.get -> bool?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.BaseImageTriggerEnabled.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.BaseImageTriggerName.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.BaseImageTriggerName.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.BaseImageTriggerType.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.BaseImageTriggerType.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.CommitTriggerEnabled.get -> bool?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.CommitTriggerEnabled.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Deconstruct(out string! Name, out string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.GitAccessToken.get -> bool?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.GitAccessToken.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.ImageValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.ImageValues.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.PullRequestTriggerEnabled.get -> bool?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.PullRequestTriggerEnabled.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Registry.get -> string!
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Registry.init -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.ResourceGroupValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.ResourceGroupValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Schedule.get -> bool?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Schedule.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SetValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SetValues.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SourceAcrAuthIdValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SourceAcrAuthIdValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SourceTriggerName.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SourceTriggerName.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.StatusValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.StatusValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.TargetValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.TargetValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.AzAcrTaskRunOptions(string! Name, string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Deconstruct(out string! Name, out string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Registry.get -> string!
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Registry.init -> void
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.ResourceGroupValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.ResourceGroupValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.SetValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.SetValues.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.TargetValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.TargetValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.AuthModeValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.AuthModeValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.AzAcrTaskUpdateOptions(string! Name, string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.BaseImageTriggerEnabled.get -> bool?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.BaseImageTriggerEnabled.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.BaseImageTriggerType.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.BaseImageTriggerType.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.CommitTriggerEnabled.get -> bool?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.CommitTriggerEnabled.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Deconstruct(out string! Name, out string! Registry) -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.GitAccessToken.get -> bool?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.GitAccessToken.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.ImageValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.ImageValues.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.PullRequestTriggerEnabled.get -> bool?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.PullRequestTriggerEnabled.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Registry.get -> string!
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Registry.init -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.ResourceGroupValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.ResourceGroupValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.SetValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.SetValues.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.SourceAcrAuthIdValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.SourceAcrAuthIdValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.StatusValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.StatusValue.set -> void
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.TargetValue.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.TargetValue.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.AppServiceEnvironmentValue.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.AppServiceEnvironmentValue.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.AzAppservicePlanCreateOptions(string! Name, string! ResourceGroup) -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.Deconstruct(out string! Name, out string! ResourceGroup) -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.DefaultIdentity.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.DefaultIdentity.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.InstallScript.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.InstallScript.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.IsManagedInstance.get -> bool?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.IsManagedInstance.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.MiSystemAssigned.get -> bool?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.MiSystemAssigned.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.MiUserAssigned.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.MiUserAssigned.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.Name.get -> string!
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.RdpEnabled.get -> bool?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.RdpEnabled.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.RegistryAdapter.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.RegistryAdapter.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.ResourceGroup.get -> string!
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.SkuValue.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.SkuValue.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.StorageMount.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.StorageMount.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.Subnet.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.Subnet.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.TagsValues.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.TagsValues.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.Vnet.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanCreateOptions.Vnet.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.AzAppservicePlanIdentityRemoveOptions() -> void
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.AzAppservicePlanIdentityRemoveOptions(ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions! original) -> void
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.Ids.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.Name.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.Name.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.ResourceGroup.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.ResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.SystemAssigned.get -> bool?
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.SystemAssigned.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.UserAssigned.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Models.CliOptionValue!>?
+ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.UserAssigned.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.AzAppservicePlanManagedInstanceNetworkAddOptions() -> void
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.AzAppservicePlanManagedInstanceNetworkAddOptions(ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions! original) -> void
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Ids.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Name.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Name.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.ResourceGroup.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.ResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Subnet.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Subnet.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Vnet.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Vnet.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Add.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Add.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.DefaultIdentity.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.DefaultIdentity.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.ForceString.get -> bool?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.ForceString.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Ids.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.InstallScript.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.InstallScript.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Name.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Name.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.RdpEnabled.get -> bool?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.RdpEnabled.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.RegistryAdapter.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.RegistryAdapter.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Remove.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Remove.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.ResourceGroup.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.ResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Set.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Set.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.SkuValue.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.SkuValue.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.StorageMount.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.StorageMount.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Subnet.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Subnet.set -> void
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Vnet.get -> string?
+ModularPipelines.Azure.Options.AzAppservicePlanUpdateOptions.Vnet.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Add.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Add.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.AzMonitorAccountIssueUpdateOptions() -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.AzMonitorAccountIssueUpdateOptions(ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions! original) -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.AzureMonitorWorkspaceName.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.AzureMonitorWorkspaceName.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Background.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Background.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.ForceString.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.ForceString.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Ids.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.ImpactTime.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.ImpactTime.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.IssueName.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.IssueName.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Notifications.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Notifications.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Related.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Related.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Remove.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Remove.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.ResourceGroup.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.ResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Set.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Set.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Severity.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Severity.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Status.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Status.set -> void
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Title.get -> string?
+ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Title.set -> void
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.AzNetworkVirtualApplianceMigrationPrepareOptions(ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions! original) -> void
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.AzNetworkVirtualApplianceMigrationPrepareOptions(string! MigrationType) -> void
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.Deconstruct(out string! MigrationType) -> void
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.Ids.set -> void
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.MarketplaceVersion.get -> string?
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.MarketplaceVersion.set -> void
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.MigrationType.get -> string!
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.MigrationType.init -> void
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.Name.get -> string?
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.Name.set -> void
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.NoWait.get -> string?
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.NoWait.set -> void
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.ResourceGroup.get -> string?
+ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.ResourceGroup.set -> void
+override ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.<Clone>$() -> ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions!
+override ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.GetHashCode() -> int
+override ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.ToString() -> string!
+override ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.<Clone>$() -> ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions!
+override ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.GetHashCode() -> int
+override ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.ToString() -> string!
+override ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.<Clone>$() -> ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions!
+override ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.GetHashCode() -> int
+override ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.ToString() -> string!
+override ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.<Clone>$() -> ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions!
+override ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.GetHashCode() -> int
+override ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.ToString() -> string!
+override sealed ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.Equals(ModularPipelines.Azure.Options.AzOptions? other) -> bool
+override sealed ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Equals(ModularPipelines.Azure.Options.AzOptions? other) -> bool
+override sealed ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Equals(ModularPipelines.Azure.Options.AzOptions? other) -> bool
+override sealed ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.Equals(ModularPipelines.Azure.Options.AzOptions? other) -> bool
+static ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.operator !=(ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions? left, ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.operator ==(ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions? left, ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.operator !=(ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions? left, ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.operator ==(ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions? left, ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.operator !=(ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions? left, ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.operator ==(ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions? left, ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.operator !=(ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions? left, ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions? right) -> bool
+static ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.operator ==(ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions? left, ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions? right) -> bool
+virtual ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions.Equals(ModularPipelines.Azure.Options.AzAppservicePlanIdentityRemoveOptions? other) -> bool
+virtual ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions.Equals(ModularPipelines.Azure.Options.AzAppservicePlanManagedInstanceNetworkAddOptions? other) -> bool
+virtual ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions.Equals(ModularPipelines.Azure.Options.AzMonitorAccountIssueUpdateOptions? other) -> bool
+virtual ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions.Equals(ModularPipelines.Azure.Options.AzNetworkVirtualApplianceMigrationPrepareOptions? other) -> bool

@@ -443,41 +443,139 @@ public class AzCliScraperTests
     }
 
     [Test]
-    public async Task Current_Azure_Help_Infers_Operand_Cardinality()
+    public async Task Identity_Resource_Id_List_Allows_A_Bare_Option()
     {
         const string helpText = """
             Command
-                az service update : Update a service.
+                az appservice plan identity remove : Remove managed identities.
 
             Optional Arguments
-                --all                 : List all subscriptions from all clouds.
-                --marketplace-version : The marketplace version to migrate to.
-                --remove              : Remove a property or an element from a list. Example: `--remove property.list <indexToRemove>`.
-                --set                 : Update an object by specifying a property path and value to set. Example: `--set property=value`.
-                --user-assigned       : Accepts space-separated list of identity resource IDs. If --user-assigned is specified without any resource IDs, all identities are removed.
-                --vnet                : Name or resource ID of the regional virtual network. If there are multiple vnets of the same name, use the resource ID.
+                --user-assigned : Remove user-assigned managed identities. Accepts space-separated list of identity resource IDs. If --user-assigned is specified without any resource IDs, all user-assigned managed identities are removed.
             """;
 
         var command = await new TestAzCliScraper().Parse(
-            ["az", "service", "update"],
+            ["az", "appservice", "plan", "identity", "remove"],
             helpText);
-        var options = command!.Options.ToDictionary(option => option.SwitchName);
+        var option = command!.Options.Single();
 
         using (Assert.Multiple())
         {
-            await Assert.That(options["--all"].IsFlag).IsTrue();
-            await Assert.That(options["--all"].CSharpType).IsEqualTo("bool?");
-            await Assert.That(options["--marketplace-version"].IsFlag).IsFalse();
-            await Assert.That(options["--marketplace-version"].CSharpType).IsEqualTo("string?");
-            await Assert.That(options["--remove"].CSharpType).IsEqualTo("IEnumerable<string>?");
-            await Assert.That(options["--remove"].GroupValues).IsTrue();
-            await Assert.That(options["--set"].CSharpType).IsEqualTo("IEnumerable<string>?");
-            await Assert.That(options["--set"].GroupValues).IsTrue();
-            await Assert.That(options["--user-assigned"].ValueArity)
-                .IsEqualTo(CliOptionValueArity.Optional);
-            await Assert.That(options["--user-assigned"].PropertyType)
-                .IsEqualTo("IEnumerable<CliOptionValue>?");
-            await Assert.That(options["--vnet"].CSharpType).IsEqualTo("string?");
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
+            await Assert.That(option.GroupValues).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Resource_Count_Wording_Does_Not_Make_A_Value_A_Collection()
+    {
+        const string helpText = """
+            Command
+                az appservice plan managed-instance network add : Add VNet integration.
+
+            Optional Arguments
+                --vnet : Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "appservice", "plan", "managed-instance", "network", "add"],
+            helpText);
+        var option = command!.Options.Single();
+
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
+    public async Task List_Verb_Remains_A_Presence_Only_Flag()
+    {
+        const string helpText = """
+            Command
+                az account list : List subscriptions.
+
+            Optional Arguments
+                --all : List all subscriptions from all clouds, including disabled subscriptions.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "account", "list"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsTrue();
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
+    public async Task Version_Description_Requires_A_Value()
+    {
+        const string helpText = """
+            Command
+                az network virtual-appliance migration prepare : Prepare a migration.
+
+            Optional Arguments
+                --marketplace-version : The marketplace version to migrate to.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "network", "virtual-appliance", "migration", "prepare"],
+            helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Generic_Update_Options_Are_Grouped_Value_Collections()
+    {
+        const string helpText = """
+            Command
+                az monitor account issue update : Update an issue.
+
+            Generic Update Arguments
+                --add    : Add an object to a list by specifying a path and key value pairs.
+                --remove : Remove a property or an element from a list.
+                --set    : Update an object by specifying a property path and value to set.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "monitor", "account", "issue", "update"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            foreach (var option in command!.Options)
+            {
+                await Assert.That(option.IsFlag).IsFalse();
+                await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+                await Assert.That(option.GroupValues).IsTrue();
+            }
+        }
+    }
+
+    [Test]
+    public async Task Repeatable_Set_Option_Is_Not_Grouped()
+    {
+        const string helpText = """
+            Command
+                az acr run : Run an ACR task.
+
+            Optional Arguments
+                --set : Value in 'name[=value]' format. Multiples supported by passing --set multiple times.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "acr", "run"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.GroupValues).IsFalse();
         }
     }
 

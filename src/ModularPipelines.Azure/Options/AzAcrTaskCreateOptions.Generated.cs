@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "create")]
-public record AzAcrTaskCreateOptions : AzOptions
+public record AzAcrTaskCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrTaskCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
@@ -35,8 +43,8 @@ public record AzAcrTaskCreateOptions : AzOptions
     /// <summary>
     /// Auth mode of the source registry.  Allowed values:
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthModeValue { get; set; }
 
     /// <summary>
     /// Commands to execute. This also supports additional docker run parameters (https://docs.docker.com/engine/ reference/commandline/run/) or even other docker commands (https://docs.docker.com/engine/reference/com mandline/docker/).
@@ -65,8 +73,8 @@ public record AzAcrTaskCreateOptions : AzOptions
     /// <summary>
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-t")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-t")]
+    public IEnumerable<string>? ImageValues { get; set; }
 
     /// <summary>
     /// Indicates whether the image cache is enabled.  Allowed values: false, true.
@@ -101,8 +109,8 @@ public record AzAcrTaskCreateOptions : AzOptions
     /// <summary>
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
-    [CliFlag("--set")]
-    public bool? Set { get; set; }
+    [CliOption("--set")]
+    public IEnumerable<string>? SetValues { get; set; }
 
     /// <summary>
     /// Secret task value in '--set-secret name[=value]' format. Multiples supported by passing --set-secret multiple times.
@@ -119,8 +127,8 @@ public record AzAcrTaskCreateOptions : AzOptions
     /// <summary>
     /// The current status of task.  Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? StatusValue { get; set; }
 
     /// <summary>
     /// The name of the target build stage.
@@ -140,11 +148,73 @@ public record AzAcrTaskCreateOptions : AzOptions
     [CliFlag("--values")]
     public bool? Values { get; set; }
 
+    /// <summary>
+    /// Indicates whether the base image trigger is enabled. Allowed values: false, true.  Default: True.
+    /// </summary>
+    [CliOption("--base-image-trigger-enabled")]
+    public bool? BaseImageTriggerEnabled { get; set; }
+
+    /// <summary>
+    /// The name of the base image trigger.  Default: defaultBaseimageTriggerName.
+    /// </summary>
+    [CliOption("--base-image-trigger-name")]
+    public string? BaseImageTriggerName { get; set; }
+
+    /// <summary>
+    /// The type of the auto trigger for base image dependency updates.  Allowed values: All, Runtime.  Default:
+    /// </summary>
+    [CliOption("--base-image-trigger-type")]
+    public string? BaseImageTriggerType { get; set; }
+
+    /// <summary>
+    /// Indicates whether the source control commit trigger is enabled.  Allowed values: false, true.  Default: True.
+    /// </summary>
+    [CliOption("--commit-trigger-enabled")]
+    public bool? CommitTriggerEnabled { get; set; }
+
+    /// <summary>
+    /// The access token used to access the source control provider.
+    /// </summary>
+    [CliFlag("--git-access-token")]
+    public bool? GitAccessToken { get; set; }
+
+    /// <summary>
+    /// Indicates whether the source control pull request trigger is enabled. The trigger is disabled by default.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--pull-request-trigger-enabled")]
+    public bool? PullRequestTriggerEnabled { get; set; }
+
+    /// <summary>
+    /// Schedule for a timer trigger represented as a cron expression. An optional trigger name can be specified using `--schedule name:schedule` format. Multiples supported by passing --schedule multiple times.
+    /// </summary>
+    [CliFlag("--schedule")]
+    public bool? Schedule { get; set; }
+
+    /// <summary>
+    /// The name of the source trigger.  Default: defaultSourceTriggerName.
+    /// </summary>
+    [CliOption("--source-trigger-name")]
+    public string? SourceTriggerName { get; set; }
+
     [Obsolete("Use AssignIdentityValue instead.")]
     public bool? AssignIdentity
     {
         get => bool.TryParse(AssignIdentityValue, out var value) ? value : null;
         set => AssignIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use AuthModeValue instead.")]
+    public bool? AuthMode
+    {
+        get => bool.TryParse(AuthModeValue, out var value) ? value : null;
+        set => AuthModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ImageValues instead.")]
+    public bool? Image
+    {
+        get => bool.TryParse(ImageValues?.FirstOrDefault(), out var value) ? value : null;
+        set => ImageValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
     [Obsolete("Use ResourceGroupValue instead.")]
@@ -154,11 +224,25 @@ public record AzAcrTaskCreateOptions : AzOptions
         set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
     }
 
+    [Obsolete("Use SetValues instead.")]
+    public bool? Set
+    {
+        get => bool.TryParse(SetValues?.FirstOrDefault(), out var value) ? value : null;
+        set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
+    }
+
     [Obsolete("Use SourceAcrAuthIdValue instead.")]
     public bool? SourceAcrAuthId
     {
         get => bool.TryParse(SourceAcrAuthIdValue, out var value) ? value : null;
         set => SourceAcrAuthIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StatusValue instead.")]
+    public bool? Status
+    {
+        get => bool.TryParse(StatusValue, out var value) ? value : null;
+        set => StatusValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
     }
 
     [Obsolete("Use TargetValue instead.")]

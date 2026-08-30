@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "run")]
-public record AzAcrTaskRunOptions : AzOptions
+public record AzAcrTaskRunOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrTaskRunOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
@@ -71,8 +79,8 @@ public record AzAcrTaskRunOptions : AzOptions
     /// <summary>
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
-    [CliFlag("--set")]
-    public bool? Set { get; set; }
+    [CliOption("--set")]
+    public IEnumerable<string>? SetValues { get; set; }
 
     /// <summary>
     /// Secret task value in '--set-secret name[=value]' format. Multiples supported by passing --set-secret multiple times.
@@ -91,6 +99,13 @@ public record AzAcrTaskRunOptions : AzOptions
     {
         get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
         set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SetValues instead.")]
+    public bool? Set
+    {
+        get => bool.TryParse(SetValues?.FirstOrDefault(), out var value) ? value : null;
+        set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
     [Obsolete("Use TargetValue instead.")]

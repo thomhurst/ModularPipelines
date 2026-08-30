@@ -18,25 +18,47 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "connected-registry", "permissions", "update")]
-public record AzAcrConnectedRegistryPermissionsUpdateOptions : AzOptions
+public record AzAcrConnectedRegistryPermissionsUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrConnectedRegistryPermissionsUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Repository permissions to be added to the targeted connected registry and it's ancestors sync scope maps. Use the format "--add [REPO1 REPO2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
-    [CliFlag("--add")]
-    public bool? Add { get; set; }
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? AddValues { get; set; }
 
     /// <summary>
     /// Repository permissions to be removed from the targeted connected registry and it's succesors sync scope maps. Use the format "--remove [REPO1 REPO2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
-    [CliFlag("--remove")]
-    public bool? Remove { get; set; }
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? RemoveValues { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use AddValues instead.")]
+    public bool? Add
+    {
+        get => bool.TryParse(AddValues?.FirstOrDefault(), out var value) ? value : null;
+        set => AddValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
+    }
+
+    [Obsolete("Use RemoveValues instead.")]
+    public bool? Remove
+    {
+        get => bool.TryParse(RemoveValues?.FirstOrDefault(), out var value) ? value : null;
+        set => RemoveValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
+    }
 
     [Obsolete("Use ResourceGroupValue instead.")]
     public bool? ResourceGroup
