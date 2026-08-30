@@ -28,6 +28,7 @@ var podman = context.Tools.Podman;
 
 | CLI command                                    | Options record                                    |
 | ---------------------------------------------- | ------------------------------------------------- |
+| `podman artifact`                              | `PodmanArtifactOptions`                           |
 | `podman artifact add`                          | `PodmanArtifactAddOptions`                        |
 | `podman artifact extract`                      | `PodmanArtifactExtractOptions`                    |
 | `podman artifact inspect`                      | `PodmanArtifactInspectOptions`                    |
@@ -78,6 +79,7 @@ var podman = context.Tools.Podman;
 | `podman compose volumes`                       | `PodmanComposeVolumesOptions`                     |
 | `podman compose wait`                          | `PodmanComposeWaitOptions`                        |
 | `podman compose watch`                         | `PodmanComposeWatchOptions`                       |
+| `podman container`                             | `PodmanContainerOptions`                          |
 | `podman container attach`                      | `PodmanContainerAttachOptions`                    |
 | `podman container checkpoint`                  | `PodmanContainerCheckpointOptions`                |
 | `podman container cleanup`                     | `PodmanContainerCleanupOptions`                   |
@@ -119,16 +121,20 @@ var podman = context.Tools.Podman;
 | `podman events`                                | `PodmanEventsOptions`                             |
 | `podman exec`                                  | `PodmanExecOptions`                               |
 | `podman export`                                | `PodmanExportOptions`                             |
+| `podman farm`                                  | `PodmanFarmOptions`                               |
 | `podman farm build`                            | `PodmanFarmBuildOptions`                          |
 | `podman farm create`                           | `PodmanFarmCreateOptions`                         |
 | `podman farm list`                             | `PodmanFarmListOptions`                           |
 | `podman farm remove`                           | `PodmanFarmRemoveOptions`                         |
 | `podman farm update`                           | `PodmanFarmUpdateOptions`                         |
+| `podman generate`                              | `PodmanGenerateOptions`                           |
 | `podman generate kube`                         | `PodmanGenerateKubeOptions`                       |
 | `podman generate spec`                         | `PodmanGenerateSpecOptions`                       |
 | `podman generate systemd`                      | `PodmanGenerateSystemdOptions`                    |
+| `podman healthcheck`                           | `PodmanHealthcheckOptions`                        |
 | `podman healthcheck run`                       | `PodmanHealthcheckRunOptions`                     |
 | `podman history`                               | `PodmanHistoryOptions`                            |
+| `podman image`                                 | `PodmanImageOptions`                              |
 | `podman image build`                           | `PodmanImageBuildOptions`                         |
 | `podman image diff`                            | `PodmanImageDiffOptions`                          |
 | `podman image exists`                          | `PodmanImageExistsOptions`                        |
@@ -148,6 +154,7 @@ var podman = context.Tools.Podman;
 | `podman image sign`                            | `PodmanImageSignOptions`                          |
 | `podman image tag`                             | `PodmanImageTagOptions`                           |
 | `podman image tree`                            | `PodmanImageTreeOptions`                          |
+| `podman image trust`                           | `PodmanImageTrustOptions`                         |
 | `podman image trust set`                       | `PodmanImageTrustSetOptions`                      |
 | `podman image trust show`                      | `PodmanImageTrustShowOptions`                     |
 | `podman image unmount`                         | `PodmanImageUnmountOptions`                       |
@@ -157,6 +164,7 @@ var podman = context.Tools.Podman;
 | `podman init`                                  | `PodmanInitOptions`                               |
 | `podman inspect`                               | `PodmanInspectOptions`                            |
 | `podman kill`                                  | `PodmanKillOptions`                               |
+| `podman kube`                                  | `PodmanKubeOptions`                               |
 | `podman kube apply`                            | `PodmanKubeApplyOptions`                          |
 | `podman kube down`                             | `PodmanKubeDownOptions`                           |
 | `podman kube generate`                         | `PodmanKubeGenerateOptions`                       |
@@ -165,10 +173,12 @@ var podman = context.Tools.Podman;
 | `podman login`                                 | `PodmanLoginOptions`                              |
 | `podman logout`                                | `PodmanLogoutOptions`                             |
 | `podman logs`                                  | `PodmanLogsOptions`                               |
+| `podman machine`                               | `PodmanMachineOptions`                            |
 | `podman machine cp`                            | `PodmanMachineCpOptions`                          |
 | `podman machine init`                          | `PodmanMachineInitOptions`                        |
 | `podman machine inspect`                       | `PodmanMachineInspectOptions`                     |
 | `podman machine list`                          | `PodmanMachineListOptions`                        |
+| `podman machine os`                            | `PodmanMachineOsOptions`                          |
 | `podman machine os apply`                      | `PodmanMachineOsApplyOptions`                     |
 | `podman machine reset`                         | `PodmanMachineResetOptions`                       |
 | `podman machine rm`                            | `PodmanMachineRmOptions`                          |
@@ -186,6 +196,7 @@ var podman = context.Tools.Podman;
 | `podman manifest remove`                       | `PodmanManifestRemoveOptions`                     |
 | `podman manifest rm`                           | `PodmanManifestRmOptions`                         |
 | `podman mount`                                 | `PodmanMountOptions`                              |
+| `podman network`                               | `PodmanNetworkOptions`                            |
 | `podman network connect`                       | `PodmanNetworkConnectOptions`                     |
 | `podman network create`                        | `PodmanNetworkCreateOptions`                      |
 | `podman network disconnect`                    | `PodmanNetworkDisconnectOptions`                  |
@@ -197,6 +208,7 @@ var podman = context.Tools.Podman;
 | `podman network rm`                            | `PodmanNetworkRmOptions`                          |
 | `podman network update`                        | `PodmanNetworkUpdateOptions`                      |
 | `podman pause`                                 | `PodmanPauseOptions`                              |
+| `podman pod`                                   | `PodmanPodOptions`                                |
 | `podman pod clone`                             | `PodmanPodCloneOptions`                           |
 | `podman pod create`                            | `PodmanPodCreateOptions`                          |
 | `podman pod exists`                            | `PodmanPodExistsOptions`                          |
@@ -217,6 +229,7 @@ var podman = context.Tools.Podman;
 | `podman ps`                                    | `PodmanPsOptions`                                 |
 | `podman pull`                                  | `PodmanPullOptions`                               |
 | `podman push`                                  | `PodmanPushOptions`                               |
+| `podman quadlet`                               | `PodmanQuadletOptions`                            |
 | `podman quadlet install`                       | `PodmanQuadletInstallOptions`                     |
 | `podman quadlet list`                          | `PodmanQuadletListOptions`                        |
 | `podman quadlet print`                         | `PodmanQuadletPrintOptions`                       |
@@ -228,6 +241,7 @@ var podman = context.Tools.Podman;
 | `podman run`                                   | `PodmanRunOptions`                                |
 | `podman save`                                  | `PodmanSaveOptions`                               |
 | `podman search`                                | `PodmanSearchOptions`                             |
+| `podman secret`                                | `PodmanSecretOptions`                             |
 | `podman secret create`                         | `PodmanSecretCreateOptions`                       |
 | `podman secret exists`                         | `PodmanSecretExistsOptions`                       |
 | `podman secret inspect`                        | `PodmanSecretInspectOptions`                      |
@@ -236,7 +250,9 @@ var podman = context.Tools.Podman;
 | `podman start`                                 | `PodmanStartOptions`                              |
 | `podman stats`                                 | `PodmanStatsOptions`                              |
 | `podman stop`                                  | `PodmanStopOptions`                               |
+| `podman system`                                | `PodmanSystemOptions`                             |
 | `podman system check`                          | `PodmanSystemCheckOptions`                        |
+| `podman system connection`                     | `PodmanSystemConnectionOptions`                   |
 | `podman system connection add`                 | `PodmanSystemConnectionAddOptions`                |
 | `podman system connection default`             | `PodmanSystemConnectionDefaultOptions`            |
 | `podman system connection list`                | `PodmanSystemConnectionListOptions`               |
@@ -255,6 +271,7 @@ var podman = context.Tools.Podman;
 | `podman unshare`                               | `PodmanUnshareOptions`                            |
 | `podman untag`                                 | `PodmanUntagOptions`                              |
 | `podman update`                                | `PodmanUpdateOptions`                             |
+| `podman volume`                                | `PodmanVolumeOptions`                             |
 | `podman volume create`                         | `PodmanVolumeCreateOptions`                       |
 | `podman volume exists`                         | `PodmanVolumeExistsOptions`                       |
 | `podman volume export`                         | `PodmanVolumeExportOptions`                       |
