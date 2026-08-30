@@ -23,102 +23,132 @@ public partial interface IGh
     /// <summary>
     /// Gets the agenttask sub-domain service.
     /// </summary>
-    IGhAgenttask Agenttask { get; }
+    IGhAgenttask Agenttask => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the attestation sub-domain service.
     /// </summary>
-    IGhAttestation Attestation { get; }
+    IGhAttestation Attestation => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the auth sub-domain service.
     /// </summary>
-    IGhAuth Auth { get; }
+    IGhAuth Auth => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the cache sub-domain service.
     /// </summary>
-    IGhCache Cache { get; }
+    IGhCache Cache => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the codespace sub-domain service.
     /// </summary>
-    IGhCodespace Codespace { get; }
+    IGhCodespace Codespace => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    IGhConfig Config { get; }
+    IGhConfig Config => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the discussion sub-domain service.
+    /// </summary>
+    IGhDiscussion Discussion => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the extension sub-domain service.
     /// </summary>
-    IGhExtension Extension { get; }
+    IGhExtension Extension => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the gist sub-domain service.
     /// </summary>
-    IGhGist Gist { get; }
+    IGhGist Gist => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the gpgkey sub-domain service.
     /// </summary>
-    IGhGpgkey Gpgkey { get; }
+    IGhGpgkey Gpgkey => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the issue sub-domain service.
+    /// </summary>
+    IGhIssue Issue => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the label sub-domain service.
     /// </summary>
-    IGhLabel Label { get; }
+    IGhLabel Label => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the org sub-domain service.
+    /// </summary>
+    IGhOrg Org => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the pr sub-domain service.
+    /// </summary>
+    IGhPr Pr => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the preview sub-domain service.
     /// </summary>
-    IGhPreview Preview { get; }
+    IGhPreview Preview => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the project sub-domain service.
     /// </summary>
-    IGhProject Project { get; }
+    IGhProject Project => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the release sub-domain service.
+    /// </summary>
+    IGhRelease Release => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the repo sub-domain service.
+    /// </summary>
+    IGhRepo Repo => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the ruleset sub-domain service.
     /// </summary>
-    IGhRuleset Ruleset { get; }
+    IGhRuleset Ruleset => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the run sub-domain service.
     /// </summary>
-    IGhRun Run { get; }
+    IGhRun Run => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the search sub-domain service.
     /// </summary>
-    IGhSearch Search { get; }
+    IGhSearch Search => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the secret sub-domain service.
     /// </summary>
-    IGhSecret Secret { get; }
+    IGhSecret Secret => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the skill sub-domain service.
     /// </summary>
-    IGhSkill Skill { get; }
+    IGhSkill Skill => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the sshkey sub-domain service.
     /// </summary>
-    IGhSshkey Sshkey { get; }
+    IGhSshkey Sshkey => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the variable sub-domain service.
     /// </summary>
-    IGhVariable Variable { get; }
+    IGhVariable Variable => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the workflow sub-domain service.
     /// </summary>
-    IGhWorkflow Workflow { get; }
+    IGhWorkflow Workflow => throw new System.NotSupportedException();
 
     #endregion
 
@@ -131,7 +161,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ApiAsync(GhApiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ApiAsync(GhApiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// - Pull requests
@@ -140,7 +171,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BrowseAsync(GhBrowseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> BrowseAsync(GhBrowseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Runs the GitHub Copilot CLI.
@@ -149,7 +181,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CopilotAsync(GhCopilotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> CopilotAsync(GhCopilotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Working with discussions in the GitHub CLI is in preview and subject to change without notice.
@@ -158,7 +191,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DiscussionAsync(GhDiscussionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> DiscussionAsync(GhDiscussionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Work with GitHub issues.
@@ -167,7 +201,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> IssueAsync(GhIssueOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> IssueAsync(GhIssueOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// View license information for third-party libraries used in this build of the GitHub CLI.
@@ -176,7 +211,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LicensesAsync(GhLicensesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> LicensesAsync(GhLicensesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Work with GitHub organizations.
@@ -185,7 +221,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OrgAsync(GhOrgOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> OrgAsync(GhOrgOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Work with GitHub pull requests.
@@ -194,7 +231,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PrAsync(GhPrOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> PrAsync(GhPrOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Manage releases
@@ -203,7 +241,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ReleaseAsync(GhReleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ReleaseAsync(GhReleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Work with GitHub repositories.
@@ -212,7 +251,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RepoAsync(GhRepoOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> RepoAsync(GhRepoOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// - Assigned Issues
@@ -221,7 +261,8 @@ public partial interface IGh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> StatusAsync(GhStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> StatusAsync(GhStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     #endregion
 }

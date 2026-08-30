@@ -20,4 +20,22 @@ namespace ModularPipelines.GitHub.Options;
 [CliSubCommand("workflow", "enable")]
 public record GhWorkflowEnableOptions : GhOptions
 {
+    /// <summary>
+    /// Show help for command
+    /// </summary>
+    [CliFlag("--help")]
+    public bool? Help { get; set; }
+
+    /// <summary>
+    /// Select another repository using the [HOST/]OWNER/REPO format
+    /// </summary>
+    [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
+    public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;workflow-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? WorkflowIdOrWorkflowName { get; set; }
+
 }
