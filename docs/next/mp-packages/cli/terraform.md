@@ -94,6 +94,10 @@ public class RunCommandModule : Module<CommandResult>
 | `terraform stacks deployment-run list`                | `TerraformStacksDeploymentRunListOptions`              |
 | `terraform stacks deployment-run show`                | `TerraformStacksDeploymentRunShowOptions`              |
 | `terraform stacks deployment-run watch`               | `TerraformStacksDeploymentRunWatchOptions`             |
+| `terraform stacks deployment-step`                    | `TerraformStacksDeploymentStepOptions`                 |
+| `terraform stacks deployment-step artifacts`          | `TerraformStacksDeploymentStepArtifactsOptions`        |
+| `terraform stacks deployment-step show`               | `TerraformStacksDeploymentStepShowOptions`             |
+| `terraform stacks diagnostics`                        | `TerraformStacksDiagnosticsOptions`                    |
 | `terraform stacks fmt`                                | `TerraformStacksFmtOptions`                            |
 | `terraform stacks init`                               | `TerraformStacksInitOptions`                           |
 | `terraform stacks list`                               | `TerraformStacksListOptions`                           |
@@ -113,5 +117,6 @@ public class RunCommandModule : Module<CommandResult>
 | `terraform untaint`                                   | `TerraformUntaintOptions`                              |
 | `terraform validate`                                  | `TerraformValidateOptions`                             |
 | `terraform workspace delete`                          | `TerraformWorkspaceDeleteOptions`                      |
+| `terraform workspace list`                            | `TerraformWorkspaceListOptions`                        |
 | `terraform workspace new`                             | `TerraformWorkspaceNewOptions`                         |
 | `terraform workspace select`                          | `TerraformWorkspaceSelectOptions`                      |
