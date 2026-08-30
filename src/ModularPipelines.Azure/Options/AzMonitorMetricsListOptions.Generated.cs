@@ -36,7 +36,7 @@ public record AzMonitorMetricsListOptions : AzOptions
     /// A string used to reduce the set of metric data returned. eg. "BlobType eq '*'".
     /// </summary>
     [CliOption("--filter")]
-    public string? FilterValue { get; set; }
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Returns the metadata values instead of metric data.
@@ -68,11 +68,11 @@ public record AzMonitorMetricsListOptions : AzOptions
     [CliFlag("--top")]
     public bool? Top { get; set; }
 
-    [Obsolete("Use FilterValue instead.")]
-    public bool? Filter
+    [Obsolete("Use Filter instead.")]
+    public string? FilterValue
     {
-        get => bool.TryParse(FilterValue, out var value) ? value : null;
-        set => FilterValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Filter;
+        set => Filter = value;
     }
 
 }

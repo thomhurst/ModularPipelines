@@ -24,13 +24,13 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// Name or ID an event hub. If none is specified, the default event hub will be selected.
     /// </summary>
     [CliOption("--event-hub")]
-    public string? EventHubValue { get; set; }
+    public string? EventHub { get; set; }
 
     /// <summary>
     /// Name or ID of the event hub authorization rule.
     /// </summary>
     [CliOption("--event-hub-rule")]
-    public string? EventHubRuleValue { get; set; }
+    public string? EventHubRule { get; set; }
 
     /// <summary>
     /// Indicate that the export to LA must be done to a resource specific table, a.k.a. dedicated or fixed schema table, as opposed to the default dynamic schema table called AzureDiagnostics. This argument is effective only when the argument --workspace is also given. Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -48,7 +48,7 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.
     /// </summary>
     [CliOption("--marketplace-partner-id")]
-    public string? MarketplacePartnerIdValue { get; set; }
+    public string? MarketplacePartnerId { get; set; }
 
     /// <summary>
     /// The list of metric settings.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
@@ -60,47 +60,47 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// Name or ID of the storage account to send diagnostic logs to.
     /// </summary>
     [CliOption("--storage-account")]
-    public string? StorageAccountValue { get; set; }
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// Name or ID of the Log Analytics workspace to send diagnostic logs to.
     /// </summary>
     [CliOption("--workspace")]
-    public string? WorkspaceValue { get; set; }
+    public string? Workspace { get; set; }
 
-    [Obsolete("Use EventHubValue instead.")]
-    public bool? EventHub
+    [Obsolete("Use EventHub instead.")]
+    public string? EventHubValue
     {
-        get => bool.TryParse(EventHubValue, out var value) ? value : null;
-        set => EventHubValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EventHub;
+        set => EventHub = value;
     }
 
-    [Obsolete("Use EventHubRuleValue instead.")]
-    public bool? EventHubRule
+    [Obsolete("Use EventHubRule instead.")]
+    public string? EventHubRuleValue
     {
-        get => bool.TryParse(EventHubRuleValue, out var value) ? value : null;
-        set => EventHubRuleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EventHubRule;
+        set => EventHubRule = value;
     }
 
-    [Obsolete("Use MarketplacePartnerIdValue instead.")]
-    public bool? MarketplacePartnerId
+    [Obsolete("Use MarketplacePartnerId instead.")]
+    public string? MarketplacePartnerIdValue
     {
-        get => bool.TryParse(MarketplacePartnerIdValue, out var value) ? value : null;
-        set => MarketplacePartnerIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => MarketplacePartnerId;
+        set => MarketplacePartnerId = value;
     }
 
-    [Obsolete("Use StorageAccountValue instead.")]
-    public bool? StorageAccount
+    [Obsolete("Use StorageAccount instead.")]
+    public string? StorageAccountValue
     {
-        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
-        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => StorageAccount;
+        set => StorageAccount = value;
     }
 
-    [Obsolete("Use WorkspaceValue instead.")]
-    public bool? Workspace
+    [Obsolete("Use Workspace instead.")]
+    public string? WorkspaceValue
     {
-        get => bool.TryParse(WorkspaceValue, out var value) ? value : null;
-        set => WorkspaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Workspace;
+        set => Workspace = value;
     }
 
 }

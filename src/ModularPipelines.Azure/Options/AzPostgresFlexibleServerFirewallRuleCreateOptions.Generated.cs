@@ -30,7 +30,7 @@ public record AzPostgresFlexibleServerFirewallRuleCreateOptions : AzOptions
     /// The name of the firewall rule. If name is omitted, default name will be chosen for firewall rule name. The firewall rule name can only contain 0-9, a-z, A-Z, '-' and '_'. Additionally, the name of the firewall rule must be at least 3 characters and no more than 128 characters in length.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.
@@ -38,11 +38,11 @@ public record AzPostgresFlexibleServerFirewallRuleCreateOptions : AzOptions
     [CliFlag("--start-ip-address")]
     public bool? StartIpAddress { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
 }

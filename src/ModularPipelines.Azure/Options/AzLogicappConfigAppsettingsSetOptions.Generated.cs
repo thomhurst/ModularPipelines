@@ -30,7 +30,7 @@ public record AzLogicappConfigAppsettingsSetOptions : AzOptions
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Space-separated slot app settings in a format of `&lt;name&gt;=&lt;value&gt;`.
@@ -38,11 +38,11 @@ public record AzLogicappConfigAppsettingsSetOptions : AzOptions
     [CliFlag("--slot-settings")]
     public bool? SlotSettings { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

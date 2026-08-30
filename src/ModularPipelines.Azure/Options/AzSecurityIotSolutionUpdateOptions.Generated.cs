@@ -24,7 +24,7 @@ public record AzSecurityIotSolutionUpdateOptions : AzOptions
     /// Resource display name.
     /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayNameValue { get; set; }
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// IoT Hub resource IDs.
@@ -32,11 +32,11 @@ public record AzSecurityIotSolutionUpdateOptions : AzOptions
     [CliFlag("--iot-hubs")]
     public bool? IotHubs { get; set; }
 
-    [Obsolete("Use DisplayNameValue instead.")]
-    public bool? DisplayName
+    [Obsolete("Use DisplayName instead.")]
+    public string? DisplayNameValue
     {
-        get => bool.TryParse(DisplayNameValue, out var value) ? value : null;
-        set => DisplayNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DisplayName;
+        set => DisplayName = value;
     }
 
 }

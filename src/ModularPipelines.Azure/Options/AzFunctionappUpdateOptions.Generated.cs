@@ -30,26 +30,26 @@ public record AzFunctionappUpdateOptions : AzOptions
     /// The name or resource id of the plan to update the functionapp with.
     /// </summary>
     [CliOption("--plan")]
-    public string? PlanValue { get; set; }
+    public string? Plan { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
-    [Obsolete("Use PlanValue instead.")]
-    public bool? Plan
+    [Obsolete("Use Plan instead.")]
+    public string? PlanValue
     {
-        get => bool.TryParse(PlanValue, out var value) ? value : null;
-        set => PlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Plan;
+        set => Plan = value;
     }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

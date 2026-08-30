@@ -24,7 +24,7 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     /// The destination storage account name or resource Id. Apply
     /// </summary>
     [CliOption("--destination-account", ShortForm = "-d")]
-    public string? DestinationAccountValue { get; set; }
+    public string? DestinationAccount { get; set; }
 
     /// <summary>
     /// Indicates whether object replication metrics feature is enabled for the policy.  Allowed values: false, true.
@@ -42,7 +42,7 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     /// The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.
     /// </summary>
     [CliOption("--policy-id")]
-    public string? PolicyIdValue { get; set; }
+    public string? PolicyId { get; set; }
 
     /// <summary>
     /// Indicates whether object replication priority replication feature is enabled for the policy.  Allowed values: false, true.
@@ -54,13 +54,13 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The source storage account name or resource Id. Required when no
     /// </summary>
     [CliOption("--source-account", ShortForm = "-s")]
-    public string? SourceAccountValue { get; set; }
+    public string? SourceAccount { get; set; }
 
     /// <summary>
     /// Indicates whether object replication tags replication feature is enabled for the policy.  Allowed values: false, true.
@@ -68,32 +68,32 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     [CliOption("--tags-replication")]
     public bool? TagsReplication { get; set; }
 
-    [Obsolete("Use DestinationAccountValue instead.")]
-    public bool? DestinationAccount
+    [Obsolete("Use DestinationAccount instead.")]
+    public string? DestinationAccountValue
     {
-        get => bool.TryParse(DestinationAccountValue, out var value) ? value : null;
-        set => DestinationAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DestinationAccount;
+        set => DestinationAccount = value;
     }
 
-    [Obsolete("Use PolicyIdValue instead.")]
-    public bool? PolicyId
+    [Obsolete("Use PolicyId instead.")]
+    public string? PolicyIdValue
     {
-        get => bool.TryParse(PolicyIdValue, out var value) ? value : null;
-        set => PolicyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PolicyId;
+        set => PolicyId = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use SourceAccountValue instead.")]
-    public bool? SourceAccount
+    [Obsolete("Use SourceAccount instead.")]
+    public string? SourceAccountValue
     {
-        get => bool.TryParse(SourceAccountValue, out var value) ? value : null;
-        set => SourceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceAccount;
+        set => SourceAccount = value;
     }
 
 }

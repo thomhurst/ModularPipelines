@@ -54,7 +54,7 @@ public record AzSfClusterCreateOptions : AzOptions
     /// The path to the template parameter file.
     /// </summary>
     [CliOption("--parameter-file")]
-    public string? ParameterFileValue { get; set; }
+    public string? ParameterFile { get; set; }
 
     /// <summary>
     /// The existing Azure key vault secret URL.
@@ -66,7 +66,7 @@ public record AzSfClusterCreateOptions : AzOptions
     /// The path to the template file.
     /// </summary>
     [CliOption("--template-file")]
-    public string? TemplateFileValue { get; set; }
+    public string? TemplateFile { get; set; }
 
     /// <summary>
     /// Azure key vault name, if not given it will be the cluster resource group name.
@@ -78,7 +78,7 @@ public record AzSfClusterCreateOptions : AzOptions
     /// Key vault resource group name, if not given it will be cluster resource group name.
     /// </summary>
     [CliOption("--vault-rg")]
-    public string? VaultRgValue { get; set; }
+    public string? VaultRg { get; set; }
 
     /// <summary>
     /// The password of the Vm.
@@ -98,25 +98,25 @@ public record AzSfClusterCreateOptions : AzOptions
     [CliFlag("--vm-user-name")]
     public bool? VmUserName { get; set; }
 
-    [Obsolete("Use ParameterFileValue instead.")]
-    public bool? ParameterFile
+    [Obsolete("Use ParameterFile instead.")]
+    public string? ParameterFileValue
     {
-        get => bool.TryParse(ParameterFileValue, out var value) ? value : null;
-        set => ParameterFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ParameterFile;
+        set => ParameterFile = value;
     }
 
-    [Obsolete("Use TemplateFileValue instead.")]
-    public bool? TemplateFile
+    [Obsolete("Use TemplateFile instead.")]
+    public string? TemplateFileValue
     {
-        get => bool.TryParse(TemplateFileValue, out var value) ? value : null;
-        set => TemplateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TemplateFile;
+        set => TemplateFile = value;
     }
 
-    [Obsolete("Use VaultRgValue instead.")]
-    public bool? VaultRg
+    [Obsolete("Use VaultRg instead.")]
+    public string? VaultRgValue
     {
-        get => bool.TryParse(VaultRgValue, out var value) ? value : null;
-        set => VaultRgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VaultRg;
+        set => VaultRg = value;
     }
 
 }

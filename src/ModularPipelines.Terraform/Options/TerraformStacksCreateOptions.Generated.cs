@@ -24,25 +24,25 @@ public record TerraformStacksCreateOptions : TerraformOptions
     /// The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)
     /// </summary>
     [CliOption("-organization-name", Format = OptionFormat.EqualsSeparated)]
-    public string? OrganizationNameValue { get; set; }
+    public string? OrganizationName { get; set; }
 
     /// <summary>
     /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided. (required)
     /// </summary>
     [CliOption("-project-name", Format = OptionFormat.EqualsSeparated)]
-    public string? ProjectNameValue { get; set; }
+    public string? ProjectName { get; set; }
 
     /// <summary>
     /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided. (required)
     /// </summary>
     [CliOption("-stack-name", Format = OptionFormat.EqualsSeparated)]
-    public string? StackNameValue { get; set; }
+    public string? StackName { get; set; }
 
     /// <summary>
     /// The directory within the configuration that contains the stack to be deployed. Defaults to the root of the configuration.
     /// </summary>
     [CliOption("-working-directory", Format = OptionFormat.EqualsSeparated)]
-    public string? WorkingDirectoryValue { get; set; }
+    public string? WorkingDirectory { get; set; }
 
     /// <summary>
     /// Generate boilerplate configuration
@@ -56,32 +56,32 @@ public record TerraformStacksCreateOptions : TerraformOptions
     [CliFlag("-json")]
     public bool? Json { get; set; }
 
-    [Obsolete("Use OrganizationNameValue instead.")]
-    public bool? OrganizationName
+    [Obsolete("Use OrganizationName instead.")]
+    public string? OrganizationNameValue
     {
-        get => bool.TryParse(OrganizationNameValue, out var value) ? value : null;
-        set => OrganizationNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OrganizationName;
+        set => OrganizationName = value;
     }
 
-    [Obsolete("Use ProjectNameValue instead.")]
-    public bool? ProjectName
+    [Obsolete("Use ProjectName instead.")]
+    public string? ProjectNameValue
     {
-        get => bool.TryParse(ProjectNameValue, out var value) ? value : null;
-        set => ProjectNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ProjectName;
+        set => ProjectName = value;
     }
 
-    [Obsolete("Use StackNameValue instead.")]
-    public bool? StackName
+    [Obsolete("Use StackName instead.")]
+    public string? StackNameValue
     {
-        get => bool.TryParse(StackNameValue, out var value) ? value : null;
-        set => StackNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => StackName;
+        set => StackName = value;
     }
 
-    [Obsolete("Use WorkingDirectoryValue instead.")]
-    public bool? WorkingDirectory
+    [Obsolete("Use WorkingDirectory instead.")]
+    public string? WorkingDirectoryValue
     {
-        get => bool.TryParse(WorkingDirectoryValue, out var value) ? value : null;
-        set => WorkingDirectoryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => WorkingDirectory;
+        set => WorkingDirectory = value;
     }
 
 }

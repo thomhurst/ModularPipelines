@@ -30,7 +30,7 @@ public record AzFunctionappDeploymentGithubActionsAddOptions : AzOptions
     /// Path to the build requirements. Ex: package path, POM XML directory.
     /// </summary>
     [CliOption("--build-path")]
-    public string? BuildPathValue { get; set; }
+    public string? BuildPath { get; set; }
 
     /// <summary>
     /// When true, the command will overwrite any workflow file with a conflicting name.
@@ -54,20 +54,20 @@ public record AzFunctionappDeploymentGithubActionsAddOptions : AzOptions
     /// The name of the slot. Default to the production slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
-    [Obsolete("Use BuildPathValue instead.")]
-    public bool? BuildPath
+    [Obsolete("Use BuildPath instead.")]
+    public string? BuildPathValue
     {
-        get => bool.TryParse(BuildPathValue, out var value) ? value : null;
-        set => BuildPathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BuildPath;
+        set => BuildPath = value;
     }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

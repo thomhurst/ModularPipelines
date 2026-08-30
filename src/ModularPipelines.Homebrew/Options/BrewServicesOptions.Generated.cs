@@ -56,13 +56,13 @@ public record BrewServicesOptions(
     /// When run as root on macOS, run the service(s) as this user.
     /// </summary>
     [CliOption("--sudo-service-user", Format = OptionFormat.EqualsSeparated)]
-    public string? SudoServiceUserValue { get; set; }
+    public string? SudoServiceUser { get; set; }
 
-    [Obsolete("Use SudoServiceUserValue instead.")]
-    public bool? SudoServiceUser
+    [Obsolete("Use SudoServiceUser instead.")]
+    public string? SudoServiceUserValue
     {
-        get => bool.TryParse(SudoServiceUserValue, out var value) ? value : null;
-        set => SudoServiceUserValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SudoServiceUser;
+        set => SudoServiceUser = value;
     }
 
     [Obsolete("Json is no longer supported by the installed CLI and has no effect.")]

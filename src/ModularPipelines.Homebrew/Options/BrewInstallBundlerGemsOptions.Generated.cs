@@ -24,13 +24,13 @@ public record BrewInstallBundlerGemsOptions : BrewOptions
     /// Installs the specified comma-separated list of gem groups (default: last used). Replaces any previously installed groups.
     /// </summary>
     [CliOption("--groups", Format = OptionFormat.EqualsSeparated)]
-    public string? GroupsValue { get; set; }
+    public string? Groups { get; set; }
 
     /// <summary>
     /// Installs the specified comma-separated list of gem groups, in addition to those already installed.
     /// </summary>
     [CliOption("--add-groups", Format = OptionFormat.EqualsSeparated)]
-    public string? AddGroupsValue { get; set; }
+    public string? AddGroups { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -56,18 +56,18 @@ public record BrewInstallBundlerGemsOptions : BrewOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use GroupsValue instead.")]
-    public bool? Groups
+    [Obsolete("Use Groups instead.")]
+    public string? GroupsValue
     {
-        get => bool.TryParse(GroupsValue, out var value) ? value : null;
-        set => GroupsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Groups;
+        set => Groups = value;
     }
 
-    [Obsolete("Use AddGroupsValue instead.")]
-    public bool? AddGroups
+    [Obsolete("Use AddGroups instead.")]
+    public string? AddGroupsValue
     {
-        get => bool.TryParse(AddGroupsValue, out var value) ? value : null;
-        set => AddGroupsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AddGroups;
+        set => AddGroups = value;
     }
 
 }

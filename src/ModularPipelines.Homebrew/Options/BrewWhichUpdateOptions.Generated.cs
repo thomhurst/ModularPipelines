@@ -55,7 +55,7 @@ public record BrewWhichUpdateOptions(
     /// Output a summary of the changes to a file.
     /// </summary>
     [CliOption("--summary-file", Format = OptionFormat.EqualsSeparated)]
-    public string? SummaryFileValue { get; set; }
+    public string? SummaryFile { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -81,11 +81,11 @@ public record BrewWhichUpdateOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use SummaryFileValue instead.")]
-    public bool? SummaryFile
+    [Obsolete("Use SummaryFile instead.")]
+    public string? SummaryFileValue
     {
-        get => bool.TryParse(SummaryFileValue, out var value) ? value : null;
-        set => SummaryFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SummaryFile;
+        set => SummaryFile = value;
     }
 
     [Obsolete("Stats is no longer supported by the installed CLI and has no effect.")]

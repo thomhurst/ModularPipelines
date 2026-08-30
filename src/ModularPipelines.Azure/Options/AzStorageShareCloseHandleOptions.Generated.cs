@@ -48,7 +48,7 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     /// The path to the file/directory within the file share.
     /// </summary>
     [CliOption("--path", ShortForm = "-p")]
-    public string? PathValue { get; set; }
+    public string? Path { get; set; }
 
     /// <summary>
     /// Boolean that specifies if operation should apply to the directory specified in the URI, its files, with its subdirectories and their files.  Allowed values: false, true.
@@ -60,7 +60,7 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     /// A string that represents the snapshot version, if applicable.
     /// </summary>
     [CliOption("--snapshot")]
-    public string? SnapshotValue { get; set; }
+    public string? Snapshot { get; set; }
 
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
@@ -68,18 +68,18 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
 
-    [Obsolete("Use PathValue instead.")]
-    public bool? Path
+    [Obsolete("Use Path instead.")]
+    public string? PathValue
     {
-        get => bool.TryParse(PathValue, out var value) ? value : null;
-        set => PathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Path;
+        set => Path = value;
     }
 
-    [Obsolete("Use SnapshotValue instead.")]
-    public bool? Snapshot
+    [Obsolete("Use Snapshot instead.")]
+    public string? SnapshotValue
     {
-        get => bool.TryParse(SnapshotValue, out var value) ? value : null;
-        set => SnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Snapshot;
+        set => Snapshot = value;
     }
 
 }

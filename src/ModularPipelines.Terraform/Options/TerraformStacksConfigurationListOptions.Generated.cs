@@ -24,19 +24,19 @@ public record TerraformStacksConfigurationListOptions : TerraformOptions
     /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided.
     /// </summary>
     [CliOption("-project-name", Format = OptionFormat.EqualsSeparated)]
-    public string? ProjectNameValue { get; set; }
+    public string? ProjectName { get; set; }
 
     /// <summary>
     /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided.
     /// </summary>
     [CliOption("-stack-name", Format = OptionFormat.EqualsSeparated)]
-    public string? StackNameValue { get; set; }
+    public string? StackName { get; set; }
 
     /// <summary>
     /// The ID of the stack to list configurations for. Has precedence over the -stack-name.
     /// </summary>
     [CliOption("-stack-id", Format = OptionFormat.EqualsSeparated)]
-    public string? StackIdValue { get; set; }
+    public string? StackId { get; set; }
 
     /// <summary>
     /// Output results in JSON format instead of the default human-readable text format.
@@ -44,25 +44,25 @@ public record TerraformStacksConfigurationListOptions : TerraformOptions
     [CliFlag("-json")]
     public bool? Json { get; set; }
 
-    [Obsolete("Use ProjectNameValue instead.")]
-    public bool? ProjectName
+    [Obsolete("Use ProjectName instead.")]
+    public string? ProjectNameValue
     {
-        get => bool.TryParse(ProjectNameValue, out var value) ? value : null;
-        set => ProjectNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ProjectName;
+        set => ProjectName = value;
     }
 
-    [Obsolete("Use StackNameValue instead.")]
-    public bool? StackName
+    [Obsolete("Use StackName instead.")]
+    public string? StackNameValue
     {
-        get => bool.TryParse(StackNameValue, out var value) ? value : null;
-        set => StackNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => StackName;
+        set => StackName = value;
     }
 
-    [Obsolete("Use StackIdValue instead.")]
-    public bool? StackId
+    [Obsolete("Use StackId instead.")]
+    public string? StackIdValue
     {
-        get => bool.TryParse(StackIdValue, out var value) ? value : null;
-        set => StackIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => StackId;
+        set => StackId = value;
     }
 
 }

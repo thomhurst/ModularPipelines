@@ -68,7 +68,7 @@ public record AzAcrTaskRunOptions(
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Secret build argument in '--secret-arg name[=value]' format. Multiples are supported by passing '--secret-arg name[=value]' multiple times. This parameter value is not surfaced to the ACR team and is more suitable for sensitive information.
@@ -92,13 +92,13 @@ public record AzAcrTaskRunOptions(
     /// The name of the target build stage.
     /// </summary>
     [CliOption("--target")]
-    public string? TargetValue { get; set; }
+    public string? Target { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
     [Obsolete("Use SetValues instead.")]
@@ -108,11 +108,11 @@ public record AzAcrTaskRunOptions(
         set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
-    [Obsolete("Use TargetValue instead.")]
-    public bool? Target
+    [Obsolete("Use Target instead.")]
+    public string? TargetValue
     {
-        get => bool.TryParse(TargetValue, out var value) ? value : null;
-        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Target;
+        set => Target = value;
     }
 
 }

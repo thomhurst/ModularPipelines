@@ -30,13 +30,13 @@ public record AzHdinsightScriptActionExecuteOptions : AzOptions
     /// The parameters for the script.
     /// </summary>
     [CliOption("--script-parameters")]
-    public string? ScriptParametersValue { get; set; }
+    public string? ScriptParameters { get; set; }
 
-    [Obsolete("Use ScriptParametersValue instead.")]
-    public bool? ScriptParameters
+    [Obsolete("Use ScriptParameters instead.")]
+    public string? ScriptParametersValue
     {
-        get => bool.TryParse(ScriptParametersValue, out var value) ? value : null;
-        set => ScriptParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ScriptParameters;
+        set => ScriptParameters = value;
     }
 
 }

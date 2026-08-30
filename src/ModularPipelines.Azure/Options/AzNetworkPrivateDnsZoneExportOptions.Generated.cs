@@ -24,13 +24,13 @@ public record AzNetworkPrivateDnsZoneExportOptions : AzOptions
     /// Path to the Private DNS zone file to save.
     /// </summary>
     [CliOption("--file-name", ShortForm = "-f")]
-    public string? FileNameValue { get; set; }
+    public string? FileName { get; set; }
 
-    [Obsolete("Use FileNameValue instead.")]
-    public bool? FileName
+    [Obsolete("Use FileName instead.")]
+    public string? FileNameValue
     {
-        get => bool.TryParse(FileNameValue, out var value) ? value : null;
-        set => FileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => FileName;
+        set => FileName = value;
     }
 
 }

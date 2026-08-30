@@ -30,7 +30,7 @@ public record AzVmssExtensionSetOptions : AzOptions
     /// Name of extension instance, which can be customized. Default: name of the extension.
     /// </summary>
     [CliOption("--extension-instance-name")]
-    public string? ExtensionInstanceNameValue { get; set; }
+    public string? ExtensionInstanceName { get; set; }
 
     /// <summary>
     /// Force to update even if the extension configuration has not changed.
@@ -74,11 +74,11 @@ public record AzVmssExtensionSetOptions : AzOptions
     [CliFlag("--version")]
     public bool? Version { get; set; }
 
-    [Obsolete("Use ExtensionInstanceNameValue instead.")]
-    public bool? ExtensionInstanceName
+    [Obsolete("Use ExtensionInstanceName instead.")]
+    public string? ExtensionInstanceNameValue
     {
-        get => bool.TryParse(ExtensionInstanceNameValue, out var value) ? value : null;
-        set => ExtensionInstanceNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ExtensionInstanceName;
+        set => ExtensionInstanceName = value;
     }
 
 }

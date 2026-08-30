@@ -24,7 +24,7 @@ public record AzNetworkPrivateEndpointAsgAddOptions : AzOptions
     /// ID of application security group in which the private endpoint IP configuration is included.
     /// </summary>
     [CliOption("--asg-id")]
-    public string? AsgIdValue { get; set; }
+    public string? AsgId { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -32,11 +32,11 @@ public record AzNetworkPrivateEndpointAsgAddOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use AsgIdValue instead.")]
-    public bool? AsgId
+    [Obsolete("Use AsgId instead.")]
+    public string? AsgIdValue
     {
-        get => bool.TryParse(AsgIdValue, out var value) ? value : null;
-        set => AsgIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AsgId;
+        set => AsgId = value;
     }
 
 }

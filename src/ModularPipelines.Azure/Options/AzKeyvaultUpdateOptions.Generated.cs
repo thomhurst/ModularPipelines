@@ -66,7 +66,7 @@ public record AzKeyvaultUpdateOptions : AzOptions
     /// Name of resource group.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Soft delete data retention days. It accepts &gt;=7 and &lt;=90.
@@ -74,11 +74,11 @@ public record AzKeyvaultUpdateOptions : AzOptions
     [CliFlag("--retention-days")]
     public bool? RetentionDays { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

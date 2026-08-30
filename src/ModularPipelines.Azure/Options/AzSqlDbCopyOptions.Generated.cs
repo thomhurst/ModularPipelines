@@ -36,13 +36,13 @@ public record AzSqlDbCopyOptions : AzOptions
     /// Name of the resource group to create the copy in. If unspecified, defaults to the origin resource group.
     /// </summary>
     [CliOption("--dest-resource-group")]
-    public string? DestResourceGroupValue { get; set; }
+    public string? DestResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the server to create the copy in. If unspecified, defaults to the origin server.
     /// </summary>
     [CliOption("--dest-server")]
-    public string? DestServerValue { get; set; }
+    public string? DestServer { get; set; }
 
     /// <summary>
     /// Specifies the Azure key vault key to be used as database encryption protector key.
@@ -98,18 +98,18 @@ public record AzSqlDbCopyOptions : AzOptions
     [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
 
-    [Obsolete("Use DestResourceGroupValue instead.")]
-    public bool? DestResourceGroup
+    [Obsolete("Use DestResourceGroup instead.")]
+    public string? DestResourceGroupValue
     {
-        get => bool.TryParse(DestResourceGroupValue, out var value) ? value : null;
-        set => DestResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DestResourceGroup;
+        set => DestResourceGroup = value;
     }
 
-    [Obsolete("Use DestServerValue instead.")]
-    public bool? DestServer
+    [Obsolete("Use DestServer instead.")]
+    public string? DestServerValue
     {
-        get => bool.TryParse(DestServerValue, out var value) ? value : null;
-        set => DestServerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DestServer;
+        set => DestServer = value;
     }
 
 }

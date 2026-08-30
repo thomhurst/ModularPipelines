@@ -24,26 +24,26 @@ public record AzBillingInvoiceListOptions : AzOptions
     /// The ID that uniquely identifies a billing account.
     /// </summary>
     [CliOption("--account-name")]
-    public string? AccountNameValue { get; set; }
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// The ID that uniquely identifies a billing profile.
     /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileNameValue { get; set; }
+    public string? ProfileName { get; set; }
 
-    [Obsolete("Use AccountNameValue instead.")]
-    public bool? AccountName
+    [Obsolete("Use AccountName instead.")]
+    public string? AccountNameValue
     {
-        get => bool.TryParse(AccountNameValue, out var value) ? value : null;
-        set => AccountNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AccountName;
+        set => AccountName = value;
     }
 
-    [Obsolete("Use ProfileNameValue instead.")]
-    public bool? ProfileName
+    [Obsolete("Use ProfileName instead.")]
+    public string? ProfileNameValue
     {
-        get => bool.TryParse(ProfileNameValue, out var value) ? value : null;
-        set => ProfileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ProfileName;
+        set => ProfileName = value;
     }
 
 }

@@ -111,7 +111,7 @@ public record GcloudPreviewComputeHealthChecksUpdateHttpOptions(
     /// The TCP port number that this health check monitors.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? PortValue { get; set; }
+    public string? Port { get; set; }
 
     /// <summary>
     /// The port name that this health check monitors. By default, this is empty. Setting this to an empty string will clear any existing port-name value.
@@ -125,11 +125,11 @@ public record GcloudPreviewComputeHealthChecksUpdateHttpOptions(
     [CliFlag("--use-serving-port")]
     public bool? UseServingPort { get; set; }
 
-    [Obsolete("Use PortValue instead.")]
-    public bool? Port
+    [Obsolete("Use Port instead.")]
+    public string? PortValue
     {
-        get => bool.TryParse(PortValue, out var value) ? value : null;
-        set => PortValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Port;
+        set => Port = value;
     }
 
 }

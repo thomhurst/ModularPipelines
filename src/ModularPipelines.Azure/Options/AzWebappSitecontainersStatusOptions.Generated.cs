@@ -24,26 +24,26 @@ public record AzWebappSitecontainersStatusOptions : AzOptions
     /// Name of the SiteContainer.
     /// </summary>
     [CliOption("--container-name")]
-    public string? ContainerNameValue { get; set; }
+    public string? ContainerName { get; set; }
 
     /// <summary>
     /// Name of the web app slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
-    [Obsolete("Use ContainerNameValue instead.")]
-    public bool? ContainerName
+    [Obsolete("Use ContainerName instead.")]
+    public string? ContainerNameValue
     {
-        get => bool.TryParse(ContainerNameValue, out var value) ? value : null;
-        set => ContainerNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ContainerName;
+        set => ContainerName = value;
     }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

@@ -24,13 +24,13 @@ public record AzVmNicSetOptions : AzOptions
     /// Name or ID of the primary NIC. If missing, the first NIC in the list will be the primary.
     /// </summary>
     [CliOption("--primary-nic")]
-    public string? PrimaryNicValue { get; set; }
+    public string? PrimaryNic { get; set; }
 
-    [Obsolete("Use PrimaryNicValue instead.")]
-    public bool? PrimaryNic
+    [Obsolete("Use PrimaryNic instead.")]
+    public string? PrimaryNicValue
     {
-        get => bool.TryParse(PrimaryNicValue, out var value) ? value : null;
-        set => PrimaryNicValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PrimaryNic;
+        set => PrimaryNic = value;
     }
 
 }

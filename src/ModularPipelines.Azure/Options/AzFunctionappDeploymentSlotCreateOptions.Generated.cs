@@ -24,7 +24,7 @@ public record AzFunctionappDeploymentSlotCreateOptions : AzOptions
     /// Source slot to clone configurations from. Use function app's name to refer to the production slot.
     /// </summary>
     [CliOption("--configuration-source")]
-    public string? ConfigurationSourceValue { get; set; }
+    public string? ConfigurationSource { get; set; }
 
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
@@ -50,11 +50,11 @@ public record AzFunctionappDeploymentSlotCreateOptions : AzOptions
     [CliFlag("--registry-username", ShortForm = "-u")]
     public bool? RegistryUsername { get; set; }
 
-    [Obsolete("Use ConfigurationSourceValue instead.")]
-    public bool? ConfigurationSource
+    [Obsolete("Use ConfigurationSource instead.")]
+    public string? ConfigurationSourceValue
     {
-        get => bool.TryParse(ConfigurationSourceValue, out var value) ? value : null;
-        set => ConfigurationSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ConfigurationSource;
+        set => ConfigurationSource = value;
     }
 
 }

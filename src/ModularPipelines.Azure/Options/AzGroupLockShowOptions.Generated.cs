@@ -30,26 +30,26 @@ public record AzGroupLockShowOptions : AzOptions
     /// Name of the lock.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

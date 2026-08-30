@@ -42,13 +42,13 @@ public record AzMysqlServerGeorestoreOptions : AzOptions
     /// The name of the sku. Defaults to sku of the source server. Follows the convention {pricing tier}_{compute generation}_{vCores} in shorthand. Examples: B_Gen5_1,
     /// </summary>
     [CliOption("--sku-name")]
-    public string? SkuNameValue { get; set; }
+    public string? SkuName { get; set; }
 
-    [Obsolete("Use SkuNameValue instead.")]
-    public bool? SkuName
+    [Obsolete("Use SkuName instead.")]
+    public string? SkuNameValue
     {
-        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
-        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SkuName;
+        set => SkuName = value;
     }
 
 }

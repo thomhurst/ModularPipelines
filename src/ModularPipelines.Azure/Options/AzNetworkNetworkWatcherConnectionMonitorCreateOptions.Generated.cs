@@ -24,7 +24,7 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// Value indicating whether connection monitor V1 should be migrated to V2 format.
     /// </summary>
     [CliOption("--migrate")]
-    public string? MigrateValue { get; set; }
+    public string? Migrate { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -32,11 +32,11 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use MigrateValue instead.")]
-    public bool? Migrate
+    [Obsolete("Use Migrate instead.")]
+    public string? MigrateValue
     {
-        get => bool.TryParse(MigrateValue, out var value) ? value : null;
-        set => MigrateValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Migrate;
+        set => Migrate = value;
     }
 
 }

@@ -24,13 +24,13 @@ public record AzMysqlServerConfigurationSetOptions : AzOptions
     /// Value of the configuration. If not provided, configuration value will be set to default.
     /// </summary>
     [CliOption("--value")]
-    public string? ValueValue { get; set; }
+    public string? Value { get; set; }
 
-    [Obsolete("Use ValueValue instead.")]
-    public bool? Value
+    [Obsolete("Use Value instead.")]
+    public string? ValueValue
     {
-        get => bool.TryParse(ValueValue, out var value) ? value : null;
-        set => ValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Value;
+        set => Value = value;
     }
 
 }

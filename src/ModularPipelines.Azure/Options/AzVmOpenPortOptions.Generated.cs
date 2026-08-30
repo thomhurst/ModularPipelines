@@ -30,7 +30,7 @@ public record AzVmOpenPortOptions : AzOptions
     /// The name of the network security group to create if one does not exist. Ignored if an NSG already exists.
     /// </summary>
     [CliOption("--nsg-name")]
-    public string? NsgNameValue { get; set; }
+    public string? NsgName { get; set; }
 
     /// <summary>
     /// Rule priority, between 100 (highest priority) and 4096 (lowest priority). Must be unique for each rule in the collection.  Default: 900.
@@ -38,11 +38,11 @@ public record AzVmOpenPortOptions : AzOptions
     [CliFlag("--priority")]
     public bool? Priority { get; set; }
 
-    [Obsolete("Use NsgNameValue instead.")]
-    public bool? NsgName
+    [Obsolete("Use NsgName instead.")]
+    public string? NsgNameValue
     {
-        get => bool.TryParse(NsgNameValue, out var value) ? value : null;
-        set => NsgNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => NsgName;
+        set => NsgName = value;
     }
 
 }

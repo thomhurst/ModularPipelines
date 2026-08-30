@@ -36,7 +36,7 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions : AzOptions
     /// The query expression for the saved search.
     /// </summary>
     [CliOption("--saved-query", ShortForm = "-q")]
-    public string? SavedQueryValue { get; set; }
+    public string? SavedQuery { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -44,11 +44,11 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use SavedQueryValue instead.")]
-    public bool? SavedQuery
+    [Obsolete("Use SavedQuery instead.")]
+    public string? SavedQueryValue
     {
-        get => bool.TryParse(SavedQueryValue, out var value) ? value : null;
-        set => SavedQueryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SavedQuery;
+        set => SavedQuery = value;
     }
 
 }

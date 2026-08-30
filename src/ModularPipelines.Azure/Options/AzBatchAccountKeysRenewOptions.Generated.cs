@@ -24,39 +24,39 @@ public record AzBatchAccountKeysRenewOptions : AzOptions
     /// Name of the batch account key.  Allowed values: Primary, Secondary.
     /// </summary>
     [CliOption("--key-name")]
-    public string? KeyNameValue { get; set; }
+    public string? KeyName { get; set; }
 
     /// <summary>
     /// Name of the batch account to show. If not specified will display currently set account.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of the resource group. If not specified will display currently set account.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use KeyNameValue instead.")]
-    public bool? KeyName
+    [Obsolete("Use KeyName instead.")]
+    public string? KeyNameValue
     {
-        get => bool.TryParse(KeyNameValue, out var value) ? value : null;
-        set => KeyNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyName;
+        set => KeyName = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

@@ -48,13 +48,13 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// Name or ID of the target resource. If `--target-type` is AzureVMSS, then `--target` is mandatory.
     /// </summary>
     [CliOption("--target")]
-    public string? TargetValue { get; set; }
+    public string? Target { get; set; }
 
     /// <summary>
     /// Resource type of target.  Allowed values: AzureVM, AzureVMSS.
     /// </summary>
     [CliOption("--target-type")]
-    public string? TargetTypeValue { get; set; }
+    public string? TargetType { get; set; }
 
     /// <summary>
     /// Maximum duration of the capture session in seconds.  Default: 18000.
@@ -66,27 +66,27 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// Name or ID of the VM to target.
     /// </summary>
     [CliOption("--vm")]
-    public string? VmValue { get; set; }
+    public string? Vm { get; set; }
 
-    [Obsolete("Use TargetValue instead.")]
-    public bool? Target
+    [Obsolete("Use Target instead.")]
+    public string? TargetValue
     {
-        get => bool.TryParse(TargetValue, out var value) ? value : null;
-        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Target;
+        set => Target = value;
     }
 
-    [Obsolete("Use TargetTypeValue instead.")]
-    public bool? TargetType
+    [Obsolete("Use TargetType instead.")]
+    public string? TargetTypeValue
     {
-        get => bool.TryParse(TargetTypeValue, out var value) ? value : null;
-        set => TargetTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetType;
+        set => TargetType = value;
     }
 
-    [Obsolete("Use VmValue instead.")]
-    public bool? Vm
+    [Obsolete("Use Vm instead.")]
+    public string? VmValue
     {
-        get => bool.TryParse(VmValue, out var value) ? value : null;
-        set => VmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Vm;
+        set => Vm = value;
     }
 
 }

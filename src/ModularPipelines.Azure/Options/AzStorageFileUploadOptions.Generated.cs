@@ -108,7 +108,7 @@ public record AzStorageFileUploadOptions : AzOptions
     /// The path to the file within the file share. If the file name is omitted, the source file name will be used.
     /// </summary>
     [CliOption("--path", ShortForm = "-p")]
-    public string? PathValue { get; set; }
+    public string? Path { get; set; }
 
     /// <summary>
     /// The file share name.
@@ -128,11 +128,11 @@ public record AzStorageFileUploadOptions : AzOptions
     [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
 
-    [Obsolete("Use PathValue instead.")]
-    public bool? Path
+    [Obsolete("Use Path instead.")]
+    public string? PathValue
     {
-        get => bool.TryParse(PathValue, out var value) ? value : null;
-        set => PathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Path;
+        set => Path = value;
     }
 
 }

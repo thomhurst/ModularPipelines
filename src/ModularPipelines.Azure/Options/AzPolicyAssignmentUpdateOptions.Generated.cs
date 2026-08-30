@@ -24,13 +24,13 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     /// The name or resource ID of the policy definition or policy set definition to be assigned.
     /// </summary>
     [CliOption("--policy")]
-    public string? PolicyValue { get; set; }
+    public string? Policy { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The scope of the policy assignment.
@@ -38,18 +38,18 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     [CliFlag("--scope")]
     public bool? Scope { get; set; }
 
-    [Obsolete("Use PolicyValue instead.")]
-    public bool? Policy
+    [Obsolete("Use Policy instead.")]
+    public string? PolicyValue
     {
-        get => bool.TryParse(PolicyValue, out var value) ? value : null;
-        set => PolicyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Policy;
+        set => Policy = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

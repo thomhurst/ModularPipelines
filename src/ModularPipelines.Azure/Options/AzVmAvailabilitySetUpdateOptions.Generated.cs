@@ -24,13 +24,13 @@ public record AzVmAvailabilitySetUpdateOptions : AzOptions
     /// Name or ID of the proximity placement group that the availability set should be associated with.
     /// </summary>
     [CliOption("--ppg")]
-    public string? PpgValue { get; set; }
+    public string? Ppg { get; set; }
 
-    [Obsolete("Use PpgValue instead.")]
-    public bool? Ppg
+    [Obsolete("Use Ppg instead.")]
+    public string? PpgValue
     {
-        get => bool.TryParse(PpgValue, out var value) ? value : null;
-        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Ppg;
+        set => Ppg = value;
     }
 
 }

@@ -36,13 +36,13 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// The Extended vnet resource id of the local gateway.
     /// </summary>
     [CliOption("--edge-zone-vnet-id")]
-    public string? EdgeZoneVnetIdValue { get; set; }
+    public string? EdgeZoneVnetId { get; set; }
 
     /// <summary>
     /// Whether private IP needs to be enabled on this gateway for connections or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -54,7 +54,7 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     /// Name or ID of a local network gateway representing a local network site with default routes.
     /// </summary>
     [CliOption("--gateway-default-site")]
-    public string? GatewayDefaultSiteValue { get; set; }
+    public string? GatewayDefaultSite { get; set; }
 
     /// <summary>
     /// The gateway type.  Allowed values:
@@ -122,25 +122,25 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     [CliFlag("--vpn-type")]
     public bool? VpnType { get; set; }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
-    [Obsolete("Use EdgeZoneVnetIdValue instead.")]
-    public bool? EdgeZoneVnetId
+    [Obsolete("Use EdgeZoneVnetId instead.")]
+    public string? EdgeZoneVnetIdValue
     {
-        get => bool.TryParse(EdgeZoneVnetIdValue, out var value) ? value : null;
-        set => EdgeZoneVnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZoneVnetId;
+        set => EdgeZoneVnetId = value;
     }
 
-    [Obsolete("Use GatewayDefaultSiteValue instead.")]
-    public bool? GatewayDefaultSite
+    [Obsolete("Use GatewayDefaultSite instead.")]
+    public string? GatewayDefaultSiteValue
     {
-        get => bool.TryParse(GatewayDefaultSiteValue, out var value) ? value : null;
-        set => GatewayDefaultSiteValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => GatewayDefaultSite;
+        set => GatewayDefaultSite = value;
     }
 
 }

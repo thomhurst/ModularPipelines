@@ -24,13 +24,13 @@ public record AzGroupLockListOptions : AzOptions
     /// A query filter to use to restrict the results.
     /// </summary>
     [CliOption("--filter-string")]
-    public string? FilterStringValue { get; set; }
+    public string? FilterString { get; set; }
 
-    [Obsolete("Use FilterStringValue instead.")]
-    public bool? FilterString
+    [Obsolete("Use FilterString instead.")]
+    public string? FilterStringValue
     {
-        get => bool.TryParse(FilterStringValue, out var value) ? value : null;
-        set => FilterStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => FilterString;
+        set => FilterString = value;
     }
 
 }

@@ -30,7 +30,7 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// Name of the autoscale profile.  Default: default.
     /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileNameValue { get; set; }
+    public string? ProfileName { get; set; }
 
     /// <summary>
     /// The way metrics are polled across instances.  Default: avg 1m.
@@ -38,11 +38,11 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     [CliFlag("--timegrain")]
     public bool? Timegrain { get; set; }
 
-    [Obsolete("Use ProfileNameValue instead.")]
-    public bool? ProfileName
+    [Obsolete("Use ProfileName instead.")]
+    public string? ProfileNameValue
     {
-        get => bool.TryParse(ProfileNameValue, out var value) ? value : null;
-        set => ProfileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ProfileName;
+        set => ProfileName = value;
     }
 
 }

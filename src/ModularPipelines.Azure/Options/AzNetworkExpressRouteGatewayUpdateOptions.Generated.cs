@@ -48,13 +48,13 @@ public record AzNetworkExpressRouteGatewayUpdateOptions : AzOptions
     /// Name or ID of the virtual hub to associate with the gateway.
     /// </summary>
     [CliOption("--virtual-hub")]
-    public string? VirtualHubValue { get; set; }
+    public string? VirtualHub { get; set; }
 
-    [Obsolete("Use VirtualHubValue instead.")]
-    public bool? VirtualHub
+    [Obsolete("Use VirtualHub instead.")]
+    public string? VirtualHubValue
     {
-        get => bool.TryParse(VirtualHubValue, out var value) ? value : null;
-        set => VirtualHubValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VirtualHub;
+        set => VirtualHub = value;
     }
 
 }

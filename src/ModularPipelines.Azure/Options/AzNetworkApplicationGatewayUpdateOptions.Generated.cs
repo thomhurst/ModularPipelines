@@ -72,7 +72,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     /// Name of an application gateway SKU.  Allowed values: Basic, Standard_Large, Standard_Medium, Standard_Small, Standard_v2,
     /// </summary>
     [CliOption("--sku")]
-    public string? SkuValue { get; set; }
+    public string? Sku { get; set; }
 
     /// <summary>
     /// SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://learn.microsoft.com/azure/azure-subscription-service- limits#application-gateway-limits).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
@@ -86,11 +86,11 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use SkuValue instead.")]
-    public bool? Sku
+    [Obsolete("Use Sku instead.")]
+    public string? SkuValue
     {
-        get => bool.TryParse(SkuValue, out var value) ? value : null;
-        set => SkuValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Sku;
+        set => Sku = value;
     }
 
 }

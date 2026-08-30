@@ -37,13 +37,13 @@ public record BrewBumpUnversionedCasksOptions(
     /// Maximum runtime in minutes.
     /// </summary>
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
-    public string? LimitValue { get; set; }
+    public string? Limit { get; set; }
 
     /// <summary>
     /// File for caching state.
     /// </summary>
     [CliOption("--state-file", Format = OptionFormat.EqualsSeparated)]
-    public string? StateFileValue { get; set; }
+    public string? StateFile { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -69,18 +69,18 @@ public record BrewBumpUnversionedCasksOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use LimitValue instead.")]
-    public bool? Limit
+    [Obsolete("Use Limit instead.")]
+    public string? LimitValue
     {
-        get => bool.TryParse(LimitValue, out var value) ? value : null;
-        set => LimitValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Limit;
+        set => Limit = value;
     }
 
-    [Obsolete("Use StateFileValue instead.")]
-    public bool? StateFile
+    [Obsolete("Use StateFile instead.")]
+    public string? StateFileValue
     {
-        get => bool.TryParse(StateFileValue, out var value) ? value : null;
-        set => StateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => StateFile;
+        set => StateFile = value;
     }
 
 }

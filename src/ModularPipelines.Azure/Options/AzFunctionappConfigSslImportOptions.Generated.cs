@@ -24,7 +24,7 @@ public record AzFunctionappConfigSslImportOptions : AzOptions
     /// The name of the certificate.
     /// </summary>
     [CliOption("--certificate-name")]
-    public string? CertificateNameValue { get; set; }
+    public string? CertificateName { get; set; }
 
     /// <summary>
     /// For Flex Consumption apps only. Enable Key Vault access using Managed Service Identity. When set to true, the app will use its managed identity to access Key Vault instead of service principal.  Allowed values: false, true.
@@ -38,11 +38,11 @@ public record AzFunctionappConfigSslImportOptions : AzOptions
     [CliOption("--load-to-code")]
     public bool? LoadToCode { get; set; }
 
-    [Obsolete("Use CertificateNameValue instead.")]
-    public bool? CertificateName
+    [Obsolete("Use CertificateName instead.")]
+    public string? CertificateNameValue
     {
-        get => bool.TryParse(CertificateNameValue, out var value) ? value : null;
-        set => CertificateNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => CertificateName;
+        set => CertificateName = value;
     }
 
 }

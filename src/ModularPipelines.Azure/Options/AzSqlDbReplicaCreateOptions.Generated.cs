@@ -66,13 +66,13 @@ public record AzSqlDbReplicaCreateOptions : AzOptions
     /// Name of the new replica. If unspecified, defaults to the source database name.
     /// </summary>
     [CliOption("--partner-database")]
-    public string? PartnerDatabaseValue { get; set; }
+    public string? PartnerDatabase { get; set; }
 
     /// <summary>
     /// Name of the resource group to create the new replica in. If unspecified, defaults to the origin resource group.
     /// </summary>
     [CliOption("--partner-resource-group")]
-    public string? PartnerResourceGroupValue { get; set; }
+    public string? PartnerResourceGroup { get; set; }
 
     /// <summary>
     /// Subscription id to create the new replica in. If unspecified, defaults to the origin subscription id.
@@ -110,18 +110,18 @@ public record AzSqlDbReplicaCreateOptions : AzOptions
     [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
 
-    [Obsolete("Use PartnerDatabaseValue instead.")]
-    public bool? PartnerDatabase
+    [Obsolete("Use PartnerDatabase instead.")]
+    public string? PartnerDatabaseValue
     {
-        get => bool.TryParse(PartnerDatabaseValue, out var value) ? value : null;
-        set => PartnerDatabaseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PartnerDatabase;
+        set => PartnerDatabase = value;
     }
 
-    [Obsolete("Use PartnerResourceGroupValue instead.")]
-    public bool? PartnerResourceGroup
+    [Obsolete("Use PartnerResourceGroup instead.")]
+    public string? PartnerResourceGroupValue
     {
-        get => bool.TryParse(PartnerResourceGroupValue, out var value) ? value : null;
-        set => PartnerResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PartnerResourceGroup;
+        set => PartnerResourceGroup = value;
     }
 
 }

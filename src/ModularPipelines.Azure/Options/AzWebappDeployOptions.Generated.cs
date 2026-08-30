@@ -60,19 +60,19 @@ public record AzWebappDeployOptions : AzOptions
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Path of the artifact to be deployed. Ex: "myapp.zip" or "/myworkspace/apps/myapp.war".
     /// </summary>
     [CliOption("--src-path")]
-    public string? SrcPathValue { get; set; }
+    public string? SrcPath { get; set; }
 
     /// <summary>
     /// URL of the artifact. The webapp will pull the artifact from this URL.
     /// </summary>
     [CliOption("--src-url")]
-    public string? SrcUrlValue { get; set; }
+    public string? SrcUrl { get; set; }
 
     /// <summary>
     /// Absolute path that the artifact should be deployed to. Defaults to "home/site/wwwroot/" Ex: "/home/site/deployments/tools/", "/home/site/scripts/startup-script.sh".
@@ -98,25 +98,25 @@ public record AzWebappDeployOptions : AzOptions
     [CliFlag("--type")]
     public bool? Type { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
-    [Obsolete("Use SrcPathValue instead.")]
-    public bool? SrcPath
+    [Obsolete("Use SrcPath instead.")]
+    public string? SrcPathValue
     {
-        get => bool.TryParse(SrcPathValue, out var value) ? value : null;
-        set => SrcPathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SrcPath;
+        set => SrcPath = value;
     }
 
-    [Obsolete("Use SrcUrlValue instead.")]
-    public bool? SrcUrl
+    [Obsolete("Use SrcUrl instead.")]
+    public string? SrcUrlValue
     {
-        get => bool.TryParse(SrcUrlValue, out var value) ? value : null;
-        set => SrcUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SrcUrl;
+        set => SrcUrl = value;
     }
 
 }

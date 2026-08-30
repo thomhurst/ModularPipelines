@@ -24,7 +24,7 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// The path of the config file containing auth settings if they come from a file.
     /// </summary>
     [CliOption("--config-file-path")]
-    public string? ConfigFilePathValue { get; set; }
+    public string? ConfigFilePath { get; set; }
 
     /// <summary>
     /// True if the Authentication / Authorization feature is enabled for the current app; otherwise, false.  Allowed values: false, true.
@@ -78,7 +78,7 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// Value of a specific field within the configuration settings for the Azure App Service Authentication / Authorization feature.
     /// </summary>
     [CliOption("--set")]
-    public string? SetValue { get; set; }
+    public string? Set { get; set; }
 
     /// <summary>
     /// Boolean indicating if token store is enabled for the app.  Allowed values: false, true.
@@ -92,18 +92,18 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use ConfigFilePathValue instead.")]
-    public bool? ConfigFilePath
+    [Obsolete("Use ConfigFilePath instead.")]
+    public string? ConfigFilePathValue
     {
-        get => bool.TryParse(ConfigFilePathValue, out var value) ? value : null;
-        set => ConfigFilePathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ConfigFilePath;
+        set => ConfigFilePath = value;
     }
 
-    [Obsolete("Use SetValue instead.")]
-    public bool? Set
+    [Obsolete("Use Set instead.")]
+    public string? SetValue
     {
-        get => bool.TryParse(SetValue, out var value) ? value : null;
-        set => SetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Set;
+        set => Set = value;
     }
 
 }

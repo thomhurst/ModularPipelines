@@ -24,7 +24,7 @@ public record AzApimBackendUpdateOptions : AzOptions
     /// Description of the Backend. May include HTML formatting tags.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// ETag of the Entity. Not required when creating an entity, but required when updating an entity. Default value is None.
@@ -44,11 +44,11 @@ public record AzApimBackendUpdateOptions : AzOptions
     [CliFlag("--url")]
     public bool? Url { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
 }

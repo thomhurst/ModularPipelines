@@ -54,13 +54,13 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
     [CliOption("--backup-identity")]
-    public string? BackupIdentityValue { get; set; }
+    public string? BackupIdentity { get; set; }
 
     /// <summary>
     /// The resource identifier of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
     /// </summary>
     [CliOption("--backup-key")]
-    public string? BackupKeyValue { get; set; }
+    public string? BackupKey { get; set; }
 
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.  Default: 7.
@@ -90,19 +90,19 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// The name or resource identifier of the user assigned identity for data encryption.
     /// </summary>
     [CliOption("--identity")]
-    public string? IdentityValue { get; set; }
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Value of IOPS in (operations/sec) to be allocated for this server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
     [CliOption("--iops")]
-    public string? IopsValue { get; set; }
+    public string? Iops { get; set; }
 
     /// <summary>
     /// The resource identifier of the primary keyvault key for data encryption.
     /// </summary>
     [CliOption("--key")]
-    public string? KeyValue { get; set; }
+    public string? Key { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -120,7 +120,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The number of nodes for elastic cluster.
@@ -156,13 +156,13 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
     /// </summary>
     [CliOption("--sku-name")]
-    public string? SkuNameValue { get; set; }
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
@@ -192,7 +192,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// Name or identifier of an existing subnet. If you want to use a subnet from a different resource group or subscription, please provide its resource identifier instead of name.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -210,7 +210,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.  Default: GeneralPurpose.
     /// </summary>
     [CliOption("--tier")]
-    public string? TierValue { get; set; }
+    public string? Tier { get; set; }
 
     /// <summary>
     /// Server major version.
@@ -222,7 +222,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// Name or identifier of an existing virtual network. If you want to use a vnet from a different resource group or subscription, please provide a resource identifier. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -242,81 +242,81 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
 
-    [Obsolete("Use BackupIdentityValue instead.")]
-    public bool? BackupIdentity
+    [Obsolete("Use BackupIdentity instead.")]
+    public string? BackupIdentityValue
     {
-        get => bool.TryParse(BackupIdentityValue, out var value) ? value : null;
-        set => BackupIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BackupIdentity;
+        set => BackupIdentity = value;
     }
 
-    [Obsolete("Use BackupKeyValue instead.")]
-    public bool? BackupKey
+    [Obsolete("Use BackupKey instead.")]
+    public string? BackupKeyValue
     {
-        get => bool.TryParse(BackupKeyValue, out var value) ? value : null;
-        set => BackupKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BackupKey;
+        set => BackupKey = value;
     }
 
-    [Obsolete("Use IdentityValue instead.")]
-    public bool? Identity
+    [Obsolete("Use Identity instead.")]
+    public string? IdentityValue
     {
-        get => bool.TryParse(IdentityValue, out var value) ? value : null;
-        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Identity;
+        set => Identity = value;
     }
 
-    [Obsolete("Use IopsValue instead.")]
-    public bool? Iops
+    [Obsolete("Use Iops instead.")]
+    public string? IopsValue
     {
-        get => bool.TryParse(IopsValue, out var value) ? value : null;
-        set => IopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Iops;
+        set => Iops = value;
     }
 
-    [Obsolete("Use KeyValue instead.")]
-    public bool? Key
+    [Obsolete("Use Key instead.")]
+    public string? KeyValue
     {
-        get => bool.TryParse(KeyValue, out var value) ? value : null;
-        set => KeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Key;
+        set => Key = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use SkuNameValue instead.")]
-    public bool? SkuName
+    [Obsolete("Use SkuName instead.")]
+    public string? SkuNameValue
     {
-        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
-        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SkuName;
+        set => SkuName = value;
     }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
+    [Obsolete("Use Subnet instead.")]
+    public string? SubnetValue
     {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Subnet;
+        set => Subnet = value;
     }
 
-    [Obsolete("Use TierValue instead.")]
-    public bool? Tier
+    [Obsolete("Use Tier instead.")]
+    public string? TierValue
     {
-        get => bool.TryParse(TierValue, out var value) ? value : null;
-        set => TierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tier;
+        set => Tier = value;
     }
 
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
+    [Obsolete("Use Vnet instead.")]
+    public string? VnetValue
     {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Vnet;
+        set => Vnet = value;
     }
 
 }

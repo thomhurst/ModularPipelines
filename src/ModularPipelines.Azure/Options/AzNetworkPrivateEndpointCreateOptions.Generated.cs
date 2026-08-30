@@ -24,7 +24,7 @@ public record AzNetworkPrivateEndpointCreateOptions : AzOptions
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
@@ -66,20 +66,20 @@ public record AzNetworkPrivateEndpointCreateOptions : AzOptions
     /// The virtual network (VNet) associated with the subnet (Omit if supplying a subnet id).
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
+    public string? VnetName { get; set; }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
+    [Obsolete("Use VnetName instead.")]
+    public string? VnetNameValue
     {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VnetName;
+        set => VnetName = value;
     }
 
 }

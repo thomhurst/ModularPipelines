@@ -30,13 +30,13 @@ public record AzResourceLinkUpdateOptions : AzOptions
     /// Fully-qualified resource ID of the resource link target.
     /// </summary>
     [CliOption("--target")]
-    public string? TargetValue { get; set; }
+    public string? Target { get; set; }
 
-    [Obsolete("Use TargetValue instead.")]
-    public bool? Target
+    [Obsolete("Use Target instead.")]
+    public string? TargetValue
     {
-        get => bool.TryParse(TargetValue, out var value) ? value : null;
-        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Target;
+        set => Target = value;
     }
 
 }

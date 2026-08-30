@@ -42,7 +42,7 @@ public record AzAksInstallCliOptions : AzOptions
     /// Path at which to install kubectl. Note: the path should contain the binary filename.  Default: /usr/local/bin/kubectl.
     /// </summary>
     [CliOption("--install-location")]
-    public string? InstallLocationValue { get; set; }
+    public string? InstallLocation { get; set; }
 
     /// <summary>
     /// Base download source URL for kubelogin releases.
@@ -54,7 +54,7 @@ public record AzAksInstallCliOptions : AzOptions
     /// Path at which to install kubelogin. Note: the path should contain the binary filename.  Default: /usr/local/bin/kubelogin.
     /// </summary>
     [CliOption("--kubelogin-install-location")]
-    public string? KubeloginInstallLocationValue { get; set; }
+    public string? KubeloginInstallLocation { get; set; }
 
     /// <summary>
     /// Version of kubelogin to install.  Default: latest.
@@ -62,18 +62,18 @@ public record AzAksInstallCliOptions : AzOptions
     [CliFlag("--kubelogin-version")]
     public bool? KubeloginVersion { get; set; }
 
-    [Obsolete("Use InstallLocationValue instead.")]
-    public bool? InstallLocation
+    [Obsolete("Use InstallLocation instead.")]
+    public string? InstallLocationValue
     {
-        get => bool.TryParse(InstallLocationValue, out var value) ? value : null;
-        set => InstallLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => InstallLocation;
+        set => InstallLocation = value;
     }
 
-    [Obsolete("Use KubeloginInstallLocationValue instead.")]
-    public bool? KubeloginInstallLocation
+    [Obsolete("Use KubeloginInstallLocation instead.")]
+    public string? KubeloginInstallLocationValue
     {
-        get => bool.TryParse(KubeloginInstallLocationValue, out var value) ? value : null;
-        set => KubeloginInstallLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KubeloginInstallLocation;
+        set => KubeloginInstallLocation = value;
     }
 
 }

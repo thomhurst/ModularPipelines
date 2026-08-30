@@ -30,7 +30,7 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     /// Path in the repo from which to run the docker build.
     /// </summary>
     [CliOption("--context-path")]
-    public string? ContextPathValue { get; set; }
+    public string? ContextPath { get; set; }
 
     /// <summary>
     /// Container image name that the Github Action should use. Defaults to the Container App name.
@@ -86,11 +86,11 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     [CliFlag("--token")]
     public bool? Token { get; set; }
 
-    [Obsolete("Use ContextPathValue instead.")]
-    public bool? ContextPath
+    [Obsolete("Use ContextPath instead.")]
+    public string? ContextPathValue
     {
-        get => bool.TryParse(ContextPathValue, out var value) ? value : null;
-        set => ContextPathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ContextPath;
+        set => ContextPath = value;
     }
 
 }

@@ -36,7 +36,7 @@ public record AzImageCreateOptions : AzOptions
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// The hypervisor generation of the Virtual Machine created from the image.  Allowed values: V1, V2.  Default: V1.
@@ -80,11 +80,11 @@ public record AzImageCreateOptions : AzOptions
     [CliOption("--zone-resilient")]
     public bool? ZoneResilient { get; set; }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
 }

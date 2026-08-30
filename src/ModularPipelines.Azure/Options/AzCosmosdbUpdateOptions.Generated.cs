@@ -36,7 +36,7 @@ public record AzCosmosdbUpdateOptions : AzOptions
     /// The primary identity to access key vault in CMK related features. e.g. 'FirstPartyIdentity', 'SystemAssignedIdentity' and more. User-assigned identities are specified in format `UserAssignedIdentity=&lt;resource ID of the user- assigned identity&gt;`.
     /// </summary>
     [CliOption("--default-identity")]
-    public string? DefaultIdentityValue { get; set; }
+    public string? DefaultIdentity { get; set; }
 
     /// <summary>
     /// Default Priority Level of Request if not specified.  Allowed values: High, Low.
@@ -170,11 +170,11 @@ public record AzCosmosdbUpdateOptions : AzOptions
     [CliFlag("--virtual-network-rules")]
     public bool? VirtualNetworkRules { get; set; }
 
-    [Obsolete("Use DefaultIdentityValue instead.")]
-    public bool? DefaultIdentity
+    [Obsolete("Use DefaultIdentity instead.")]
+    public string? DefaultIdentityValue
     {
-        get => bool.TryParse(DefaultIdentityValue, out var value) ? value : null;
-        set => DefaultIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DefaultIdentity;
+        set => DefaultIdentity = value;
     }
 
 }

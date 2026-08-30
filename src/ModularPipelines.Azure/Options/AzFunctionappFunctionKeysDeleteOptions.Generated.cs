@@ -24,26 +24,26 @@ public record AzFunctionappFunctionKeysDeleteOptions : AzOptions
     /// Name of the Function.
     /// </summary>
     [CliOption("--function-name")]
-    public string? FunctionNameValue { get; set; }
+    public string? FunctionName { get; set; }
 
     /// <summary>
     /// The name of the slot. Defaults to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
-    [Obsolete("Use FunctionNameValue instead.")]
-    public bool? FunctionName
+    [Obsolete("Use FunctionName instead.")]
+    public string? FunctionNameValue
     {
-        get => bool.TryParse(FunctionNameValue, out var value) ? value : null;
-        set => FunctionNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => FunctionName;
+        set => FunctionName = value;
     }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

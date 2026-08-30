@@ -30,26 +30,26 @@ public record AzAcrEncryptionRotateKeyOptions : AzOptions
     /// Key vault key uri. To enable automated rotation, provide a version-less key uri. For manual rotation, provide a versioned key uri.
     /// </summary>
     [CliOption("--key-encryption-key")]
-    public string? KeyEncryptionKeyValue { get; set; }
+    public string? KeyEncryptionKey { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use KeyEncryptionKeyValue instead.")]
-    public bool? KeyEncryptionKey
+    [Obsolete("Use KeyEncryptionKey instead.")]
+    public string? KeyEncryptionKeyValue
     {
-        get => bool.TryParse(KeyEncryptionKeyValue, out var value) ? value : null;
-        set => KeyEncryptionKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyEncryptionKey;
+        set => KeyEncryptionKey = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

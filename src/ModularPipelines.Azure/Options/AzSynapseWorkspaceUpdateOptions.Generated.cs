@@ -66,7 +66,7 @@ public record AzSynapseWorkspaceUpdateOptions : AzOptions
     /// User assigned identity resource Id used in Workspace Encryption.
     /// </summary>
     [CliOption("--uami-id-in-encrypt")]
-    public string? UamiIdInEncryptValue { get; set; }
+    public string? UamiIdInEncrypt { get; set; }
 
     /// <summary>
     /// Whether use System assigned identity in Workspace Encryption. If use uami, please set True.If not, set False.
@@ -74,11 +74,11 @@ public record AzSynapseWorkspaceUpdateOptions : AzOptions
     [CliFlag("--use-sami-in-encrypt")]
     public bool? UseSamiInEncrypt { get; set; }
 
-    [Obsolete("Use UamiIdInEncryptValue instead.")]
-    public bool? UamiIdInEncrypt
+    [Obsolete("Use UamiIdInEncrypt instead.")]
+    public string? UamiIdInEncryptValue
     {
-        get => bool.TryParse(UamiIdInEncryptValue, out var value) ? value : null;
-        set => UamiIdInEncryptValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => UamiIdInEncrypt;
+        set => UamiIdInEncrypt = value;
     }
 
 }

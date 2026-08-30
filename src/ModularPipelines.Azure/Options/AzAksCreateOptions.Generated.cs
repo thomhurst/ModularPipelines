@@ -30,13 +30,13 @@ public record AzAksCreateOptions : AzOptions
     /// The ID of an Azure Active Directory tenant.
     /// </summary>
     [CliOption("--aad-tenant-id")]
-    public string? AadTenantIdValue { get; set; }
+    public string? AadTenantId { get; set; }
 
     /// <summary>
     /// The name of a subnet in an existing VNet into which to deploy the virtual nodes.
     /// </summary>
     [CliOption("--aci-subnet-name")]
-    public string? AciSubnetNameValue { get; set; }
+    public string? AciSubnetName { get; set; }
 
     /// <summary>
     /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "-- enable-acns".  Allowed values: FQDN, L7,
@@ -66,13 +66,13 @@ public record AzAksCreateOptions : AzOptions
     /// Comma-separated key-value pairs to specify custom headers.
     /// </summary>
     [CliOption("--aks-custom-headers")]
-    public string? AksCustomHeadersValue { get; set; }
+    public string? AksCustomHeaders { get; set; }
 
     /// <summary>
     /// Resource ID of Azure Monitor Private Link scope for Monitoring Addon.
     /// </summary>
     [CliOption("--ampls-resource-id")]
-    public string? AmplsResourceIdValue { get; set; }
+    public string? AmplsResourceId { get; set; }
 
     /// <summary>
     /// Comma-separated list of authorized apiserver IP ranges. Set to 0.0.0.0/32 to restrict apiserver traffic to node pools.
@@ -102,7 +102,7 @@ public record AzAksCreateOptions : AzOptions
     /// Grant the 'acrpull' role assignment to the ACR specified by name or resource ID.
     /// </summary>
     [CliOption("--attach-acr")]
-    public string? AttachAcrValue { get; set; }
+    public string? AttachAcr { get; set; }
 
     /// <summary>
     /// Specify the upgrade channel for autoupgrade.  Allowed values: node-image, none, patch, rapid, stable.
@@ -114,7 +114,7 @@ public record AzAksCreateOptions : AzOptions
     /// Identifier of Azure Key Vault key.
     /// </summary>
     [CliOption("--azure-keyvault-kms-key-id")]
-    public string? AzureKeyvaultKmsKeyIdValue { get; set; }
+    public string? AzureKeyvaultKmsKeyId { get; set; }
 
     /// <summary>
     /// Network Access of Azure Key Vault.  Allowed values: Private, Public.
@@ -126,13 +126,13 @@ public record AzAksCreateOptions : AzOptions
     /// Resource ID of Azure Key Vault.
     /// </summary>
     [CliOption("--azure-keyvault-kms-key-vault-resource-id")]
-    public string? AzureKeyvaultKmsKeyVaultResourceIdValue { get; set; }
+    public string? AzureKeyvaultKmsKeyVaultResourceId { get; set; }
 
     /// <summary>
     /// Resource ID of the Azure Monitor Workspace.
     /// </summary>
     [CliOption("--azure-monitor-workspace-resource-id")]
-    public string? AzureMonitorWorkspaceResourceIdValue { get; set; }
+    public string? AzureMonitorWorkspaceResourceId { get; set; }
 
     /// <summary>
     /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.  Default: Direct.
@@ -144,7 +144,7 @@ public record AzAksCreateOptions : AzOptions
     /// Configure container registry resource ID. Must use "Cache" as bootstrap artifact source.
     /// </summary>
     [CliOption("--bootstrap-container-registry-resource-id")]
-    public string? BootstrapContainerRegistryResourceIdValue { get; set; }
+    public string? BootstrapContainerRegistryResourceId { get; set; }
 
     /// <summary>
     /// Secret associated with the service principal. This argument is required if `--service-principal` is specified.
@@ -168,13 +168,13 @@ public record AzAksCreateOptions : AzOptions
     /// Path to JSON file containing data collection settings for Monitoring addon.
     /// </summary>
     [CliOption("--data-collection-settings")]
-    public string? DataCollectionSettingsValue { get; set; }
+    public string? DataCollectionSettings { get; set; }
 
     /// <summary>
     /// Path to JSON file containing Microsoft
     /// </summary>
     [CliOption("--defender-config")]
-    public string? DefenderConfigValue { get; set; }
+    public string? DefenderConfig { get; set; }
 
     /// <summary>
     /// Used to disable advanced networking observability features on a clusters when enabling advanced networking features with "--enable-acns".
@@ -246,7 +246,7 @@ public record AzAksCreateOptions : AzOptions
     /// The name of the Edge Zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// Enable managed AAD feature for cluster.
@@ -534,7 +534,7 @@ public record AzAksCreateOptions : AzOptions
     /// Resource ID of the Azure Managed Grafana
     /// </summary>
     [CliOption("--grafana-resource-id")]
-    public string? GrafanaResourceIdValue { get; set; }
+    public string? GrafanaResourceId { get; set; }
 
     /// <summary>
     /// The fully qualified dedicated host group id used to provision agent node pool.
@@ -552,7 +552,7 @@ public record AzAksCreateOptions : AzOptions
     /// The value provided will be compared to the ETag of the managed cluster, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new cluster.
     /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatchValue { get; set; }
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster. Other values will be ignored.
@@ -594,7 +594,7 @@ public record AzAksCreateOptions : AzOptions
     /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
     [CliOption("--kubelet-config")]
-    public string? KubeletConfigValue { get; set; }
+    public string? KubeletConfig { get; set; }
 
     /// <summary>
     /// Version of Kubernetes to use for creating the cluster, such as "1.16.9".  Values from: `az aks get-versions`.
@@ -606,7 +606,7 @@ public record AzAksCreateOptions : AzOptions
     /// Path to JSON file containing OS configurations for Linux agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
     [CliOption("--linux-os-config")]
-    public string? LinuxOsConfigValue { get; set; }
+    public string? LinuxOsConfig { get; set; }
 
     /// <summary>
     /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration.
@@ -678,7 +678,7 @@ public record AzAksCreateOptions : AzOptions
     /// Path to a file containing the desired message of the day. Only valid for linux nodes. Will be written to /etc/motd.
     /// </summary>
     [CliOption("--message-of-the-day")]
-    public string? MessageOfTheDayValue { get; set; }
+    public string? MessageOfTheDay { get; set; }
 
     /// <summary>
     /// Minimum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [1, 1000].
@@ -876,19 +876,19 @@ public record AzAksCreateOptions : AzOptions
     /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".
     /// </summary>
     [CliOption("--pod-ip-allocation-mode")]
-    public string? PodIpAllocationModeValue { get; set; }
+    public string? PodIpAllocationMode { get; set; }
 
     /// <summary>
     /// The ID of a subnet in an existing VNet into which to assign pods in the cluster (requires azure network-plugin).
     /// </summary>
     [CliOption("--pod-subnet-id")]
-    public string? PodSubnetIdValue { get; set; }
+    public string? PodSubnetId { get; set; }
 
     /// <summary>
     /// The ID of a PPG.
     /// </summary>
     [CliOption("--ppg")]
-    public string? PpgValue { get; set; }
+    public string? Ppg { get; set; }
 
     /// <summary>
     /// Private dns zone mode for private cluster.
@@ -942,7 +942,7 @@ public record AzAksCreateOptions : AzOptions
     /// The source snapshot id used to create this cluster.
     /// </summary>
     [CliOption("--snapshot-id")]
-    public string? SnapshotIdValue { get; set; }
+    public string? SnapshotId { get; set; }
 
     /// <summary>
     /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa AAAAB...snip...UcyupgH
@@ -1008,7 +1008,7 @@ public record AzAksCreateOptions : AzOptions
     /// The ID of a subnet in an existing VNet into which to deploy the cluster.
     /// </summary>
     [CliOption("--vnet-subnet-id")]
-    public string? VnetSubnetIdValue { get; set; }
+    public string? VnetSubnetId { get; set; }
 
     /// <summary>
     /// User account password to use on windows node VMs.
@@ -1032,7 +1032,7 @@ public record AzAksCreateOptions : AzOptions
     /// The resource ID of an existing Log Analytics Workspace to use for storing monitoring data. If not specified, uses the default Log Analytics Workspace if it exists, otherwise creates one.
     /// </summary>
     [CliOption("--workspace-resource-id")]
-    public string? WorkspaceResourceIdValue { get; set; }
+    public string? WorkspaceResourceId { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -1046,173 +1046,168 @@ public record AzAksCreateOptions : AzOptions
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
 
-    [Obsolete("Use AadTenantIdValue instead.")]
-    public bool? AadTenantId
+    [Obsolete("Use AadTenantId instead.")]
+    public string? AadTenantIdValue
     {
-        get => bool.TryParse(AadTenantIdValue, out var value) ? value : null;
-        set => AadTenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AadTenantId;
+        set => AadTenantId = value;
     }
 
-    [Obsolete("Use AciSubnetNameValue instead.")]
-    public bool? AciSubnetName
+    [Obsolete("Use AciSubnetName instead.")]
+    public string? AciSubnetNameValue
     {
-        get => bool.TryParse(AciSubnetNameValue, out var value) ? value : null;
-        set => AciSubnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AciSubnetName;
+        set => AciSubnetName = value;
     }
 
-    [Obsolete("Use AksCustomHeadersValue instead.")]
-    public bool? AksCustomHeaders
+    [Obsolete("Use AksCustomHeaders instead.")]
+    public string? AksCustomHeadersValue
     {
-        get => bool.TryParse(AksCustomHeadersValue, out var value) ? value : null;
-        set => AksCustomHeadersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AksCustomHeaders;
+        set => AksCustomHeaders = value;
     }
 
-    [Obsolete("Use AmplsResourceIdValue instead.")]
-    public bool? AmplsResourceId
+    [Obsolete("Use AmplsResourceId instead.")]
+    public string? AmplsResourceIdValue
     {
-        get => bool.TryParse(AmplsResourceIdValue, out var value) ? value : null;
-        set => AmplsResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AmplsResourceId;
+        set => AmplsResourceId = value;
     }
 
-    [Obsolete("Use AttachAcrValue instead.")]
-    public bool? AttachAcr
+    [Obsolete("Use AttachAcr instead.")]
+    public string? AttachAcrValue
     {
-        get => bool.TryParse(AttachAcrValue, out var value) ? value : null;
-        set => AttachAcrValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AttachAcr;
+        set => AttachAcr = value;
     }
 
-    [Obsolete("Use AzureKeyvaultKmsKeyIdValue instead.")]
-    public bool? AzureKeyvaultKmsKeyId
+    [Obsolete("Use AzureKeyvaultKmsKeyId instead.")]
+    public string? AzureKeyvaultKmsKeyIdValue
     {
-        get => bool.TryParse(AzureKeyvaultKmsKeyIdValue, out var value) ? value : null;
-        set => AzureKeyvaultKmsKeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AzureKeyvaultKmsKeyId;
+        set => AzureKeyvaultKmsKeyId = value;
     }
 
-    [Obsolete("Use AzureKeyvaultKmsKeyVaultResourceIdValue instead.")]
-    public bool? AzureKeyvaultKmsKeyVaultResourceId
+    [Obsolete("Use AzureKeyvaultKmsKeyVaultResourceId instead.")]
+    public string? AzureKeyvaultKmsKeyVaultResourceIdValue
     {
-        get => bool.TryParse(AzureKeyvaultKmsKeyVaultResourceIdValue, out var value) ? value : null;
-        set => AzureKeyvaultKmsKeyVaultResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AzureKeyvaultKmsKeyVaultResourceId;
+        set => AzureKeyvaultKmsKeyVaultResourceId = value;
     }
 
-    [Obsolete("Use AzureMonitorWorkspaceResourceIdValue instead.")]
-    public bool? AzureMonitorWorkspaceResourceId
+    [Obsolete("Use AzureMonitorWorkspaceResourceId instead.")]
+    public string? AzureMonitorWorkspaceResourceIdValue
     {
-        get => bool.TryParse(AzureMonitorWorkspaceResourceIdValue, out var value) ? value : null;
-        set => AzureMonitorWorkspaceResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AzureMonitorWorkspaceResourceId;
+        set => AzureMonitorWorkspaceResourceId = value;
     }
 
-    [Obsolete("Use BootstrapContainerRegistryResourceIdValue instead.")]
-    public bool? BootstrapContainerRegistryResourceId
+    [Obsolete("Use BootstrapContainerRegistryResourceId instead.")]
+    public string? BootstrapContainerRegistryResourceIdValue
     {
-        get => bool.TryParse(BootstrapContainerRegistryResourceIdValue, out var value) ? value : null;
-        set => BootstrapContainerRegistryResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BootstrapContainerRegistryResourceId;
+        set => BootstrapContainerRegistryResourceId = value;
     }
 
-    [Obsolete("Use DataCollectionSettingsValue instead.")]
-    public bool? DataCollectionSettings
+    [Obsolete("Use DataCollectionSettings instead.")]
+    public string? DataCollectionSettingsValue
     {
-        get => bool.TryParse(DataCollectionSettingsValue, out var value) ? value : null;
-        set => DataCollectionSettingsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DataCollectionSettings;
+        set => DataCollectionSettings = value;
     }
 
-    [Obsolete("Use DefenderConfigValue instead.")]
-    public bool? DefenderConfig
+    [Obsolete("Use DefenderConfig instead.")]
+    public string? DefenderConfigValue
     {
-        get => bool.TryParse(DefenderConfigValue, out var value) ? value : null;
-        set => DefenderConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DefenderConfig;
+        set => DefenderConfig = value;
     }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
-    [Obsolete("Use GrafanaResourceIdValue instead.")]
-    public bool? GrafanaResourceId
+    [Obsolete("Use GrafanaResourceId instead.")]
+    public string? GrafanaResourceIdValue
     {
-        get => bool.TryParse(GrafanaResourceIdValue, out var value) ? value : null;
-        set => GrafanaResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => GrafanaResourceId;
+        set => GrafanaResourceId = value;
     }
 
-    [Obsolete("Use IfMatchValue instead.")]
-    public bool? IfMatch
+    [Obsolete("Use IfMatch instead.")]
+    public string? IfMatchValue
     {
-        get => bool.TryParse(IfMatchValue, out var value) ? value : null;
-        set => IfMatchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => IfMatch;
+        set => IfMatch = value;
     }
 
-    [Obsolete("Use KubeletConfigValue instead.")]
-    public bool? KubeletConfig
+    [Obsolete("Use KubeletConfig instead.")]
+    public string? KubeletConfigValue
     {
-        get => bool.TryParse(KubeletConfigValue, out var value) ? value : null;
-        set => KubeletConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KubeletConfig;
+        set => KubeletConfig = value;
     }
 
-    [Obsolete("Use LinuxOsConfigValue instead.")]
-    public bool? LinuxOsConfig
+    [Obsolete("Use LinuxOsConfig instead.")]
+    public string? LinuxOsConfigValue
     {
-        get => bool.TryParse(LinuxOsConfigValue, out var value) ? value : null;
-        set => LinuxOsConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => LinuxOsConfig;
+        set => LinuxOsConfig = value;
     }
 
-    [Obsolete("Use MessageOfTheDayValue instead.")]
-    public bool? MessageOfTheDay
+    [Obsolete("Use MessageOfTheDay instead.")]
+    public string? MessageOfTheDayValue
     {
-        get => bool.TryParse(MessageOfTheDayValue, out var value) ? value : null;
-        set => MessageOfTheDayValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => MessageOfTheDay;
+        set => MessageOfTheDay = value;
     }
 
-    [Obsolete("Use PodIpAllocationModeValue instead.")]
-    public bool? PodIpAllocationMode
+    [Obsolete("Use PodIpAllocationMode instead.")]
+    public string? PodIpAllocationModeValue
     {
-        get => bool.TryParse(PodIpAllocationModeValue, out var value) ? value : null;
-        set => PodIpAllocationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PodIpAllocationMode;
+        set => PodIpAllocationMode = value;
     }
 
-    [Obsolete("Use PodSubnetIdValue instead.")]
-    public bool? PodSubnetId
+    [Obsolete("Use PodSubnetId instead.")]
+    public string? PodSubnetIdValue
     {
-        get => bool.TryParse(PodSubnetIdValue, out var value) ? value : null;
-        set => PodSubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PodSubnetId;
+        set => PodSubnetId = value;
     }
 
-    [Obsolete("Use PpgValue instead.")]
-    public bool? Ppg
+    [Obsolete("Use Ppg instead.")]
+    public string? PpgValue
     {
-        get => bool.TryParse(PpgValue, out var value) ? value : null;
-        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Ppg;
+        set => Ppg = value;
     }
 
-    [Obsolete("Use SnapshotIdValue instead.")]
-    public bool? SnapshotId
+    [Obsolete("Use SnapshotId instead.")]
+    public string? SnapshotIdValue
     {
-        get => bool.TryParse(SnapshotIdValue, out var value) ? value : null;
-        set => SnapshotIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SnapshotId;
+        set => SnapshotId = value;
     }
 
-    [Obsolete("Use VnetSubnetIdValue instead.")]
-    public bool? VnetSubnetId
+    [Obsolete("Use VnetSubnetId instead.")]
+    public string? VnetSubnetIdValue
     {
-        get => bool.TryParse(VnetSubnetIdValue, out var value) ? value : null;
-        set => VnetSubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VnetSubnetId;
+        set => VnetSubnetId = value;
     }
 
-    [Obsolete("Use WorkspaceResourceIdValue instead.")]
-    public bool? WorkspaceResourceId
+    [Obsolete("Use WorkspaceResourceId instead.")]
+    public string? WorkspaceResourceIdValue
     {
-        get => bool.TryParse(WorkspaceResourceIdValue, out var value) ? value : null;
-        set => WorkspaceResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => WorkspaceResourceId;
+        set => WorkspaceResourceId = value;
     }
 
-    [Obsolete("Use ApiServerSubnetId instead.")]
-    public bool? ApiserverSubnetId
-    {
-        get => bool.TryParse(ApiServerSubnetId, out var value) ? value : null;
-        set => ApiServerSubnetId = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+
 
     [Obsolete("Use EnableApiServerVnetIntegration instead.")]
     public bool? EnableApiserverVnetIntegration

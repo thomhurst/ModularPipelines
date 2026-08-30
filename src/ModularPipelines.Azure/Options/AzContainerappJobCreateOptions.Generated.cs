@@ -30,7 +30,7 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// Name or resource ID of the container app's environment.
     /// </summary>
     [CliOption("--environment")]
-    public string? EnvironmentValue { get; set; }
+    public string? Environment { get; set; }
 
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
@@ -96,20 +96,20 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https://learn.microsoft.com/azure/container-apps/azure- resource-manager-api-spec#examples.
     /// </summary>
     [CliOption("--yaml")]
-    public string? YamlValue { get; set; }
+    public string? Yaml { get; set; }
 
-    [Obsolete("Use EnvironmentValue instead.")]
-    public bool? Environment
+    [Obsolete("Use Environment instead.")]
+    public string? EnvironmentValue
     {
-        get => bool.TryParse(EnvironmentValue, out var value) ? value : null;
-        set => EnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Environment;
+        set => Environment = value;
     }
 
-    [Obsolete("Use YamlValue instead.")]
-    public bool? Yaml
+    [Obsolete("Use Yaml instead.")]
+    public string? YamlValue
     {
-        get => bool.TryParse(YamlValue, out var value) ? value : null;
-        set => YamlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Yaml;
+        set => Yaml = value;
     }
 
 }

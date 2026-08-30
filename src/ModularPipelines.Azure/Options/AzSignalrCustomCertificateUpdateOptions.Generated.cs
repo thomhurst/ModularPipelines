@@ -25,41 +25,41 @@ public record AzSignalrCustomCertificateUpdateOptions : AzOptions
     /// Key vault base URI. For example, `https://contoso.vault.azure.net`.
     /// </summary>
     [CliOption("--keyvault-base-uri")]
-    public string? KeyvaultBaseUriValue { get; set; }
+    public string? KeyvaultBaseUri { get; set; }
 
     /// <summary>
     /// Key vault secret name where certificate is stored.
     /// </summary>
     [SecretValue]
     [CliOption("--keyvault-secret-name")]
-    public string? KeyvaultSecretNameValue { get; set; }
+    public string? KeyvaultSecretName { get; set; }
 
     /// <summary>
     /// Key vault secret version where certificate is stored. If empty, will use latest version.
     /// </summary>
     [SecretValue]
     [CliOption("--keyvault-secret-version")]
-    public string? KeyvaultSecretVersionValue { get; set; }
+    public string? KeyvaultSecretVersion { get; set; }
 
-    [Obsolete("Use KeyvaultBaseUriValue instead.")]
-    public bool? KeyvaultBaseUri
+    [Obsolete("Use KeyvaultBaseUri instead.")]
+    public string? KeyvaultBaseUriValue
     {
-        get => bool.TryParse(KeyvaultBaseUriValue, out var value) ? value : null;
-        set => KeyvaultBaseUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyvaultBaseUri;
+        set => KeyvaultBaseUri = value;
     }
 
-    [Obsolete("Use KeyvaultSecretNameValue instead.")]
-    public bool? KeyvaultSecretName
+    [Obsolete("Use KeyvaultSecretName instead.")]
+    public string? KeyvaultSecretNameValue
     {
-        get => bool.TryParse(KeyvaultSecretNameValue, out var value) ? value : null;
-        set => KeyvaultSecretNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyvaultSecretName;
+        set => KeyvaultSecretName = value;
     }
 
-    [Obsolete("Use KeyvaultSecretVersionValue instead.")]
-    public bool? KeyvaultSecretVersion
+    [Obsolete("Use KeyvaultSecretVersion instead.")]
+    public string? KeyvaultSecretVersionValue
     {
-        get => bool.TryParse(KeyvaultSecretVersionValue, out var value) ? value : null;
-        set => KeyvaultSecretVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyvaultSecretVersion;
+        set => KeyvaultSecretVersion = value;
     }
 
 }

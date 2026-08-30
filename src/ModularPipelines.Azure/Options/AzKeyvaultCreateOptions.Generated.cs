@@ -60,7 +60,7 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// Name of the HSM. (--hsm-name and --name/-n are mutually exclusive, please specify just one of them).
     /// </summary>
     [CliOption("--hsm-name")]
-    public string? HsmNameValue { get; set; }
+    public string? HsmName { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
@@ -78,7 +78,7 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// Name of the Vault.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// [Vault Only] Don't add permissions for the current user/service principal in the new vault.  Allowed values: false, true.
@@ -116,18 +116,18 @@ public record AzKeyvaultCreateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use HsmNameValue instead.")]
-    public bool? HsmName
+    [Obsolete("Use HsmName instead.")]
+    public string? HsmNameValue
     {
-        get => bool.TryParse(HsmNameValue, out var value) ? value : null;
-        set => HsmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => HsmName;
+        set => HsmName = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
 }

@@ -36,7 +36,7 @@ public record AzAroValidateOptions : AzOptions
     /// Resource group of cluster.
     /// </summary>
     [CliOption("--cluster-resource-group")]
-    public string? ClusterResourceGroupValue { get; set; }
+    public string? ClusterResourceGroup { get; set; }
 
     /// <summary>
     /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
@@ -72,33 +72,33 @@ public record AzAroValidateOptions : AzOptions
     /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Name of vnet resource group.
     /// </summary>
     [CliOption("--vnet-resource-group")]
-    public string? VnetResourceGroupValue { get; set; }
+    public string? VnetResourceGroup { get; set; }
 
-    [Obsolete("Use ClusterResourceGroupValue instead.")]
-    public bool? ClusterResourceGroup
+    [Obsolete("Use ClusterResourceGroup instead.")]
+    public string? ClusterResourceGroupValue
     {
-        get => bool.TryParse(ClusterResourceGroupValue, out var value) ? value : null;
-        set => ClusterResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ClusterResourceGroup;
+        set => ClusterResourceGroup = value;
     }
 
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
+    [Obsolete("Use Vnet instead.")]
+    public string? VnetValue
     {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Vnet;
+        set => Vnet = value;
     }
 
-    [Obsolete("Use VnetResourceGroupValue instead.")]
-    public bool? VnetResourceGroup
+    [Obsolete("Use VnetResourceGroup instead.")]
+    public string? VnetResourceGroupValue
     {
-        get => bool.TryParse(VnetResourceGroupValue, out var value) ? value : null;
-        set => VnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VnetResourceGroup;
+        set => VnetResourceGroup = value;
     }
 
 }

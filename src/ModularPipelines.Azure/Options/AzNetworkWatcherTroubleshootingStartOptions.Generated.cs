@@ -30,39 +30,39 @@ public record AzNetworkWatcherTroubleshootingStartOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The type of target resource to troubleshoot, if resource ID is not specified.  Allowed values: vnetGateway, vpnConnection.
     /// </summary>
     [CliOption("--resource-type", ShortForm = "-t")]
-    public string? ResourceTypeValue { get; set; }
+    public string? ResourceType { get; set; }
 
     /// <summary>
     /// Name of the resource group the watcher is in.
     /// </summary>
     [CliOption("--watcher-rg")]
-    public string? WatcherRgValue { get; set; }
+    public string? WatcherRg { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use ResourceTypeValue instead.")]
-    public bool? ResourceType
+    [Obsolete("Use ResourceType instead.")]
+    public string? ResourceTypeValue
     {
-        get => bool.TryParse(ResourceTypeValue, out var value) ? value : null;
-        set => ResourceTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceType;
+        set => ResourceType = value;
     }
 
-    [Obsolete("Use WatcherRgValue instead.")]
-    public bool? WatcherRg
+    [Obsolete("Use WatcherRg instead.")]
+    public string? WatcherRgValue
     {
-        get => bool.TryParse(WatcherRgValue, out var value) ? value : null;
-        set => WatcherRgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => WatcherRg;
+        set => WatcherRg = value;
     }
 
 }

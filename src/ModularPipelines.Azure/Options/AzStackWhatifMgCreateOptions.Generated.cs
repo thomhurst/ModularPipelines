@@ -55,7 +55,7 @@ public record AzStackWhatifMgCreateOptions(
     /// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack.
     /// </summary>
     [CliOption("--deployment-subscription", ShortForm = "--ds")]
-    public string? DeploymentSubscriptionValue { get; set; }
+    public string? DeploymentSubscription { get; set; }
 
     /// <summary>
     /// The description of deployment stack.
@@ -97,7 +97,7 @@ public record AzStackWhatifMgCreateOptions(
     /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
     /// </summary>
     [CliOption("--resources-without-delete-support", ShortForm = "--rwd")]
-    public string? ResourcesWithoutDeleteSupportValue { get; set; }
+    public string? ResourcesWithoutDeleteSupport { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
@@ -127,7 +127,7 @@ public record AzStackWhatifMgCreateOptions(
     /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider,
     /// </summary>
     [CliOption("--validation-level", ShortForm = "--vl")]
-    public string? ValidationLevelValue { get; set; }
+    public string? ValidationLevel { get; set; }
 
     [Obsolete("Use DenySettingsExcludedActionsValues instead.")]
     public bool? DenySettingsExcludedActions
@@ -143,25 +143,25 @@ public record AzStackWhatifMgCreateOptions(
         set => DenySettingsExcludedPrincipalsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
-    [Obsolete("Use DeploymentSubscriptionValue instead.")]
-    public bool? DeploymentSubscription
+    [Obsolete("Use DeploymentSubscription instead.")]
+    public string? DeploymentSubscriptionValue
     {
-        get => bool.TryParse(DeploymentSubscriptionValue, out var value) ? value : null;
-        set => DeploymentSubscriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DeploymentSubscription;
+        set => DeploymentSubscription = value;
     }
 
-    [Obsolete("Use ResourcesWithoutDeleteSupportValue instead.")]
-    public bool? ResourcesWithoutDeleteSupport
+    [Obsolete("Use ResourcesWithoutDeleteSupport instead.")]
+    public string? ResourcesWithoutDeleteSupportValue
     {
-        get => bool.TryParse(ResourcesWithoutDeleteSupportValue, out var value) ? value : null;
-        set => ResourcesWithoutDeleteSupportValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourcesWithoutDeleteSupport;
+        set => ResourcesWithoutDeleteSupport = value;
     }
 
-    [Obsolete("Use ValidationLevelValue instead.")]
-    public bool? ValidationLevel
+    [Obsolete("Use ValidationLevel instead.")]
+    public string? ValidationLevelValue
     {
-        get => bool.TryParse(ValidationLevelValue, out var value) ? value : null;
-        set => ValidationLevelValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ValidationLevel;
+        set => ValidationLevel = value;
     }
 
     [Obsolete("Use ParametersValues instead.")]

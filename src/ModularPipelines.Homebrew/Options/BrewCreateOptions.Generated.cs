@@ -121,25 +121,25 @@ public record BrewCreateOptions(
     /// Explicitly set the name of the new formula or cask.
     /// </summary>
     [CliOption("--set-name", Format = OptionFormat.EqualsSeparated)]
-    public string? SetNameValue { get; set; }
+    public string? SetName { get; set; }
 
     /// <summary>
     /// Explicitly set the version of the new formula or cask.
     /// </summary>
     [CliOption("--set-version", Format = OptionFormat.EqualsSeparated)]
-    public string? SetVersionValue { get; set; }
+    public string? SetVersion { get; set; }
 
     /// <summary>
     /// Explicitly set the license of the new formula.
     /// </summary>
     [CliOption("--set-license", Format = OptionFormat.EqualsSeparated)]
-    public string? SetLicenseValue { get; set; }
+    public string? SetLicense { get; set; }
 
     /// <summary>
     /// Generate the new formula within the given tap, specified as user/repo.
     /// </summary>
     [CliOption("--tap", Format = OptionFormat.EqualsSeparated)]
-    public string? TapValue { get; set; }
+    public string? Tap { get; set; }
 
     /// <summary>
     /// Ignore errors for disallowed formula names and names that shadow aliases.
@@ -171,32 +171,32 @@ public record BrewCreateOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use SetNameValue instead.")]
-    public bool? SetName
+    [Obsolete("Use SetName instead.")]
+    public string? SetNameValue
     {
-        get => bool.TryParse(SetNameValue, out var value) ? value : null;
-        set => SetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SetName;
+        set => SetName = value;
     }
 
-    [Obsolete("Use SetVersionValue instead.")]
-    public bool? SetVersion
+    [Obsolete("Use SetVersion instead.")]
+    public string? SetVersionValue
     {
-        get => bool.TryParse(SetVersionValue, out var value) ? value : null;
-        set => SetVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SetVersion;
+        set => SetVersion = value;
     }
 
-    [Obsolete("Use SetLicenseValue instead.")]
-    public bool? SetLicense
+    [Obsolete("Use SetLicense instead.")]
+    public string? SetLicenseValue
     {
-        get => bool.TryParse(SetLicenseValue, out var value) ? value : null;
-        set => SetLicenseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SetLicense;
+        set => SetLicense = value;
     }
 
-    [Obsolete("Use TapValue instead.")]
-    public bool? Tap
+    [Obsolete("Use Tap instead.")]
+    public string? TapValue
     {
-        get => bool.TryParse(TapValue, out var value) ? value : null;
-        set => TapValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tap;
+        set => Tap = value;
     }
 
 }

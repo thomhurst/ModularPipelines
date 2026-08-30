@@ -30,7 +30,7 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
     /// The name of the AvailabilitySet used with this StreamingEndpoint for high availability streaming. This value can only be set at creation time.
     /// </summary>
     [CliOption("--availability-set-name")]
-    public string? AvailabilitySetNameValue { get; set; }
+    public string? AvailabilitySetName { get; set; }
 
     /// <summary>
     /// Space-separated list of custom host names for the streaming endpoint. Use "" to clear existing list.
@@ -62,11 +62,11 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use AvailabilitySetNameValue instead.")]
-    public bool? AvailabilitySetName
+    [Obsolete("Use AvailabilitySetName instead.")]
+    public string? AvailabilitySetNameValue
     {
-        get => bool.TryParse(AvailabilitySetNameValue, out var value) ? value : null;
-        set => AvailabilitySetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AvailabilitySetName;
+        set => AvailabilitySetName = value;
     }
 
 }

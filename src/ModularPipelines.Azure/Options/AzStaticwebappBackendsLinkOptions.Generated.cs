@@ -30,13 +30,13 @@ public record AzStaticwebappBackendsLinkOptions : AzOptions
     /// Name of the environment of static site.  Default: default.
     /// </summary>
     [CliOption("--environment-name")]
-    public string? EnvironmentNameValue { get; set; }
+    public string? EnvironmentName { get; set; }
 
-    [Obsolete("Use EnvironmentNameValue instead.")]
-    public bool? EnvironmentName
+    [Obsolete("Use EnvironmentName instead.")]
+    public string? EnvironmentNameValue
     {
-        get => bool.TryParse(EnvironmentNameValue, out var value) ? value : null;
-        set => EnvironmentNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EnvironmentName;
+        set => EnvironmentName = value;
     }
 
 }

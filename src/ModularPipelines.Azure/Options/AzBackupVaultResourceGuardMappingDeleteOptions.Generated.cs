@@ -24,7 +24,7 @@ public record AzBackupVaultResourceGuardMappingDeleteOptions : AzOptions
     /// ID of the tenant where the Resource Guard exists in Cross-Tenant scenarios.
     /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantIdValue { get; set; }
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -32,11 +32,11 @@ public record AzBackupVaultResourceGuardMappingDeleteOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use TenantIdValue instead.")]
-    public bool? TenantId
+    [Obsolete("Use TenantId instead.")]
+    public string? TenantIdValue
     {
-        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
-        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TenantId;
+        set => TenantId = value;
     }
 
 }

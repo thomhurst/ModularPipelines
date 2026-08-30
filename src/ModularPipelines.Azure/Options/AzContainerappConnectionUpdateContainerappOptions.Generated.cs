@@ -36,7 +36,7 @@ public record AzContainerappConnectionUpdateContainerappOptions : AzOptions
     /// Name of the containerapp connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The additional connection string properties used to build connection string.
@@ -60,13 +60,13 @@ public record AzContainerappConnectionUpdateContainerappOptions : AzOptions
     /// The resource id of the connection. ['--resource-group', '--name', '-- connection'] are required if '--id' is not specified.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the container app. Required if '--id' is not specified.None.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -84,47 +84,47 @@ public record AzContainerappConnectionUpdateContainerappOptions : AzOptions
     /// The resource group which contains the container app. Required if '--id' is not specified.None.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The id of key vault to store secret value.
     /// </summary>
     [CliOption("--vault-id")]
-    public string? VaultIdValue { get; set; }
+    public string? VaultId { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
+    [Obsolete("Use Connection instead.")]
+    public string? ConnectionValue
     {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Connection;
+        set => Connection = value;
     }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
+    [Obsolete("Use Id instead.")]
+    public string? IdValue
     {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Id;
+        set => Id = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use VaultIdValue instead.")]
-    public bool? VaultId
+    [Obsolete("Use VaultId instead.")]
+    public string? VaultIdValue
     {
-        get => bool.TryParse(VaultIdValue, out var value) ? value : null;
-        set => VaultIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VaultId;
+        set => VaultId = value;
     }
 
 }

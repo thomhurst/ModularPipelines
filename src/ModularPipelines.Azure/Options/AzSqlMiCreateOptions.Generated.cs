@@ -54,7 +54,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// The resource id of the partner Managed Instance to inherit DnsZone property from for Managed Instance creation.
     /// </summary>
     [CliOption("--dns-zone-partner")]
-    public string? DnsZonePartnerValue { get; set; }
+    public string? DnsZonePartner { get; set; }
 
     /// <summary>
     /// Enable Azure Active Directory Only Authentication for this server.
@@ -96,7 +96,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// Name of the Instance Pool where managed instance will be placed.
     /// </summary>
     [CliOption("--instance-pool-name")]
-    public string? InstancePoolNameValue { get; set; }
+    public string? InstancePoolName { get; set; }
 
     /// <summary>
     /// The storage iops of the managed instance. Storage iops can be specified in increments of 1.
@@ -108,7 +108,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// The key vault URI for encryption.
     /// </summary>
     [CliOption("--key-id", ShortForm = "-k")]
-    public string? KeyIdValue { get; set; }
+    public string? KeyId { get; set; }
 
     /// <summary>
     /// The license type to apply for this managed instance. Allowed values: BasePrice, LicenseIncluded.
@@ -192,7 +192,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// The virtual network name.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
+    public string? VnetName { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -206,32 +206,32 @@ public record AzSqlMiCreateOptions : AzOptions
     [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
 
-    [Obsolete("Use DnsZonePartnerValue instead.")]
-    public bool? DnsZonePartner
+    [Obsolete("Use DnsZonePartner instead.")]
+    public string? DnsZonePartnerValue
     {
-        get => bool.TryParse(DnsZonePartnerValue, out var value) ? value : null;
-        set => DnsZonePartnerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DnsZonePartner;
+        set => DnsZonePartner = value;
     }
 
-    [Obsolete("Use InstancePoolNameValue instead.")]
-    public bool? InstancePoolName
+    [Obsolete("Use InstancePoolName instead.")]
+    public string? InstancePoolNameValue
     {
-        get => bool.TryParse(InstancePoolNameValue, out var value) ? value : null;
-        set => InstancePoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => InstancePoolName;
+        set => InstancePoolName = value;
     }
 
-    [Obsolete("Use KeyIdValue instead.")]
-    public bool? KeyId
+    [Obsolete("Use KeyId instead.")]
+    public string? KeyIdValue
     {
-        get => bool.TryParse(KeyIdValue, out var value) ? value : null;
-        set => KeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyId;
+        set => KeyId = value;
     }
 
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
+    [Obsolete("Use VnetName instead.")]
+    public string? VnetNameValue
     {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VnetName;
+        set => VnetName = value;
     }
 
 }

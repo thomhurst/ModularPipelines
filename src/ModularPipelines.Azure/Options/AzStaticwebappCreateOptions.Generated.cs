@@ -48,7 +48,7 @@ public record AzStaticwebappCreateOptions : AzOptions
     /// The path of your build output relative to your apps location. For example, setting a value of 'build' when your app location is set to '/app' will cause the content at '/app/build' to be served.
     /// </summary>
     [CliOption("--output-location")]
-    public string? OutputLocationValue { get; set; }
+    public string? OutputLocation { get; set; }
 
     /// <summary>
     /// The pricing tiers for Static Web App.  Allowed values: Dedicated, Free, Standard.  Default: Free.
@@ -62,11 +62,11 @@ public record AzStaticwebappCreateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use OutputLocationValue instead.")]
-    public bool? OutputLocation
+    [Obsolete("Use OutputLocation instead.")]
+    public string? OutputLocationValue
     {
-        get => bool.TryParse(OutputLocationValue, out var value) ? value : null;
-        set => OutputLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OutputLocation;
+        set => OutputLocation = value;
     }
 
 }

@@ -36,13 +36,13 @@ public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
     /// The path which the web app uses to read-write data ex: /share1 or /share2.
     /// </summary>
     [CliOption("--mount-path", ShortForm = "-m")]
-    public string? MountPathValue { get; set; }
+    public string? MountPath { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// With slot setting you can decide to make BYOS configuration sticky to a slot, meaning that when that slot is swapped, the storage account stays with that slot.
@@ -56,18 +56,18 @@ public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
     [CliFlag("--storage-type", ShortForm = "-t")]
     public bool? StorageType { get; set; }
 
-    [Obsolete("Use MountPathValue instead.")]
-    public bool? MountPath
+    [Obsolete("Use MountPath instead.")]
+    public string? MountPathValue
     {
-        get => bool.TryParse(MountPathValue, out var value) ? value : null;
-        set => MountPathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => MountPath;
+        set => MountPath = value;
     }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

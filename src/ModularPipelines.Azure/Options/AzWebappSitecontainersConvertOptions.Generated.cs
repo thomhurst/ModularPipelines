@@ -30,7 +30,7 @@ public record AzWebappSitecontainersConvertOptions : AzOptions
     /// Name of the web app slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -38,11 +38,11 @@ public record AzWebappSitecontainersConvertOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

@@ -24,13 +24,13 @@ public record AzMonitorAutoscaleRuleListOptions : AzOptions
     /// Name of the autoscale profile.  Default: default.
     /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileNameValue { get; set; }
+    public string? ProfileName { get; set; }
 
-    [Obsolete("Use ProfileNameValue instead.")]
-    public bool? ProfileName
+    [Obsolete("Use ProfileName instead.")]
+    public string? ProfileNameValue
     {
-        get => bool.TryParse(ProfileNameValue, out var value) ? value : null;
-        set => ProfileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ProfileName;
+        set => ProfileName = value;
     }
 
 }

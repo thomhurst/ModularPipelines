@@ -66,7 +66,7 @@ public record AzMysqlFlexibleServerRestoreOptions : AzOptions
     /// This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. The name or id of new or existing private dns zone. You can use the private dns zone from same resource group, different resource group, or different subscription. If you want to use a zone from different resource group or subscription, please provide resource Id. CLI creates a new private dns zone within the same resource group as virtual network if not provided by users.
     /// </summary>
     [CliOption("--private-dns-zone")]
-    public string? PrivateDnsZoneValue { get; set; }
+    public string? PrivateDnsZone { get; set; }
 
     /// <summary>
     /// Determines the public access.  Allowed values: Disabled, Enabled.
@@ -84,7 +84,7 @@ public record AzMysqlFlexibleServerRestoreOptions : AzOptions
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
     /// </summary>
     [CliOption("--sku-name")]
-    public string? SkuNameValue { get; set; }
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.
@@ -102,13 +102,13 @@ public record AzMysqlFlexibleServerRestoreOptions : AzOptions
     /// Name or resource ID of a new or existing subnet. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a subnet from different resource group or subscription, please provide resource ID instead of name. Please note that the subnet will be delegated to flexibleServers. After delegation, this subnet cannot be used for any other type of Azure resources.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// The subnet IP address prefix to use when creating a new subnet in CIDR format. Default value is 10.0.0.0/24.
     /// </summary>
     [CliOption("--subnet-prefixes")]
-    public string? SubnetPrefixesValue { get; set; }
+    public string? SubnetPrefixes { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -120,13 +120,13 @@ public record AzMysqlFlexibleServerRestoreOptions : AzOptions
     /// Compute tier of the server. Accepted values: Burstable,
     /// </summary>
     [CliOption("--tier")]
-    public string? TierValue { get; set; }
+    public string? Tier { get; set; }
 
     /// <summary>
     /// Name or ID of a new or existing virtual network. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a vnet from different resource group or subscription, please provide a resource ID. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -140,46 +140,46 @@ public record AzMysqlFlexibleServerRestoreOptions : AzOptions
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
 
-    [Obsolete("Use PrivateDnsZoneValue instead.")]
-    public bool? PrivateDnsZone
+    [Obsolete("Use PrivateDnsZone instead.")]
+    public string? PrivateDnsZoneValue
     {
-        get => bool.TryParse(PrivateDnsZoneValue, out var value) ? value : null;
-        set => PrivateDnsZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PrivateDnsZone;
+        set => PrivateDnsZone = value;
     }
 
-    [Obsolete("Use SkuNameValue instead.")]
-    public bool? SkuName
+    [Obsolete("Use SkuName instead.")]
+    public string? SkuNameValue
     {
-        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
-        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SkuName;
+        set => SkuName = value;
     }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
+    [Obsolete("Use Subnet instead.")]
+    public string? SubnetValue
     {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Subnet;
+        set => Subnet = value;
     }
 
-    [Obsolete("Use SubnetPrefixesValue instead.")]
-    public bool? SubnetPrefixes
+    [Obsolete("Use SubnetPrefixes instead.")]
+    public string? SubnetPrefixesValue
     {
-        get => bool.TryParse(SubnetPrefixesValue, out var value) ? value : null;
-        set => SubnetPrefixesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SubnetPrefixes;
+        set => SubnetPrefixes = value;
     }
 
-    [Obsolete("Use TierValue instead.")]
-    public bool? Tier
+    [Obsolete("Use Tier instead.")]
+    public string? TierValue
     {
-        get => bool.TryParse(TierValue, out var value) ? value : null;
-        set => TierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tier;
+        set => Tier = value;
     }
 
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
+    [Obsolete("Use Vnet instead.")]
+    public string? VnetValue
     {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Vnet;
+        set => Vnet = value;
     }
 
 }

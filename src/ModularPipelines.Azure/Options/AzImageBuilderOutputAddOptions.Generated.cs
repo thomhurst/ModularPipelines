@@ -36,7 +36,7 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// Name of the image builder run output. Defaults to the name of the managed image or sig image definition.
     /// </summary>
     [CliOption("--output-name")]
-    public string? OutputNameValue { get; set; }
+    public string? OutputName { get; set; }
 
     /// <summary>
     /// Describe how to generate new x.y.z version number for distribution.  Allowed values: Latest, Source.
@@ -44,11 +44,11 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     [CliFlag("--versioning")]
     public bool? Versioning { get; set; }
 
-    [Obsolete("Use OutputNameValue instead.")]
-    public bool? OutputName
+    [Obsolete("Use OutputName instead.")]
+    public string? OutputNameValue
     {
-        get => bool.TryParse(OutputNameValue, out var value) ? value : null;
-        set => OutputNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OutputName;
+        set => OutputName = value;
     }
 
 }

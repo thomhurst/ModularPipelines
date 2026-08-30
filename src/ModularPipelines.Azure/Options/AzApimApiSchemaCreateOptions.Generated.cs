@@ -36,7 +36,7 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     /// The name of the schema resource.
     /// </summary>
     [CliOption("--schema-name")]
-    public string? SchemaNameValue { get; set; }
+    public string? SchemaName { get; set; }
 
     /// <summary>
     /// File path specified to import schema of the API.
@@ -44,11 +44,11 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     [CliFlag("--schema-path")]
     public bool? SchemaPath { get; set; }
 
-    [Obsolete("Use SchemaNameValue instead.")]
-    public bool? SchemaName
+    [Obsolete("Use SchemaName instead.")]
+    public string? SchemaNameValue
     {
-        get => bool.TryParse(SchemaNameValue, out var value) ? value : null;
-        set => SchemaNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SchemaName;
+        set => SchemaName = value;
     }
 
 }

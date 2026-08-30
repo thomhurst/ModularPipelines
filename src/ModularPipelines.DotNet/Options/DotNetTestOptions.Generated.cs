@@ -61,7 +61,7 @@ public record DotNetTestOptions : DotNetOptions
     /// Output directory of the diagnostic logging. If not specified the file will be generated inside the default 'TestResults' directory.
     /// </summary>
     [CliOption("--diagnostic-output-directory")]
-    public string? DiagnosticOutputDirectoryValue { get; set; }
+    public string? DiagnosticOutputDirectory { get; set; }
 
     /// <summary>
     /// The max number of test modules that can run in parallel.
@@ -183,11 +183,11 @@ public record DotNetTestOptions : DotNetOptions
     [CliArgument(1, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, RepeatOptionTerminator = true)]
     public IEnumerable<string>? ExtensionOptions { get; set; }
 
-    [Obsolete("Use DiagnosticOutputDirectoryValue instead.")]
-    public bool? DiagnosticOutputDirectory
+    [Obsolete("Use DiagnosticOutputDirectory instead.")]
+    public string? DiagnosticOutputDirectoryValue
     {
-        get => bool.TryParse(DiagnosticOutputDirectoryValue, out var value) ? value : null;
-        set => DiagnosticOutputDirectoryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DiagnosticOutputDirectory;
+        set => DiagnosticOutputDirectory = value;
     }
 
 }

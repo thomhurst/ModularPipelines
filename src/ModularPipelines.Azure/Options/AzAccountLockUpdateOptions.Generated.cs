@@ -36,7 +36,7 @@ public record AzAccountLockUpdateOptions : AzOptions
     /// Name of the lock.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Notes about this lock.
@@ -44,11 +44,11 @@ public record AzAccountLockUpdateOptions : AzOptions
     [CliFlag("--notes")]
     public bool? Notes { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
 }

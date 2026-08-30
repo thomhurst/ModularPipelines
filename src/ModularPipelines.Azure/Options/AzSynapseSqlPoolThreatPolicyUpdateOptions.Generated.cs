@@ -24,13 +24,13 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// Name of the security alert policy.
     /// </summary>
     [CliOption("--security-alert-policy-name", ShortForm = "-s")]
-    public string? SecurityAlertPolicyNameValue { get; set; }
+    public string? SecurityAlertPolicyName { get; set; }
 
-    [Obsolete("Use SecurityAlertPolicyNameValue instead.")]
-    public bool? SecurityAlertPolicyName
+    [Obsolete("Use SecurityAlertPolicyName instead.")]
+    public string? SecurityAlertPolicyNameValue
     {
-        get => bool.TryParse(SecurityAlertPolicyNameValue, out var value) ? value : null;
-        set => SecurityAlertPolicyNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SecurityAlertPolicyName;
+        set => SecurityAlertPolicyName = value;
     }
 
 }

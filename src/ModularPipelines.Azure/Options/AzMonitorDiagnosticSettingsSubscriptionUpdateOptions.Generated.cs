@@ -24,13 +24,13 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     /// The resource Id for the event hub authorization rule.
     /// </summary>
     [CliOption("--event-hub-auth-rule")]
-    public string? EventHubAuthRuleValue { get; set; }
+    public string? EventHubAuthRule { get; set; }
 
     /// <summary>
     /// The name of the event hub. If none is specified, the default event hub will be selected.
     /// </summary>
     [CliOption("--event-hub-name")]
-    public string? EventHubNameValue { get; set; }
+    public string? EventHubName { get; set; }
 
     /// <summary>
     /// Location of the resource.
@@ -54,40 +54,40 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     /// The resource id of the storage account to which you would like to send the Activity Log.
     /// </summary>
     [CliOption("--storage-account")]
-    public string? StorageAccountValue { get; set; }
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// The resource id of the log analytics workspace.
     /// </summary>
     [CliOption("--workspace")]
-    public string? WorkspaceValue { get; set; }
+    public string? Workspace { get; set; }
 
-    [Obsolete("Use EventHubAuthRuleValue instead.")]
-    public bool? EventHubAuthRule
+    [Obsolete("Use EventHubAuthRule instead.")]
+    public string? EventHubAuthRuleValue
     {
-        get => bool.TryParse(EventHubAuthRuleValue, out var value) ? value : null;
-        set => EventHubAuthRuleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EventHubAuthRule;
+        set => EventHubAuthRule = value;
     }
 
-    [Obsolete("Use EventHubNameValue instead.")]
-    public bool? EventHubName
+    [Obsolete("Use EventHubName instead.")]
+    public string? EventHubNameValue
     {
-        get => bool.TryParse(EventHubNameValue, out var value) ? value : null;
-        set => EventHubNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EventHubName;
+        set => EventHubName = value;
     }
 
-    [Obsolete("Use StorageAccountValue instead.")]
-    public bool? StorageAccount
+    [Obsolete("Use StorageAccount instead.")]
+    public string? StorageAccountValue
     {
-        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
-        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => StorageAccount;
+        set => StorageAccount = value;
     }
 
-    [Obsolete("Use WorkspaceValue instead.")]
-    public bool? Workspace
+    [Obsolete("Use Workspace instead.")]
+    public string? WorkspaceValue
     {
-        get => bool.TryParse(WorkspaceValue, out var value) ? value : null;
-        set => WorkspaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Workspace;
+        set => Workspace = value;
     }
 
 }

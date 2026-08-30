@@ -30,13 +30,13 @@ public record AzBotPrepareDeployOptions : AzOptions
     /// The path to the .csproj file relative to --code-dir.
     /// </summary>
     [CliOption("--proj-file-path")]
-    public string? ProjFilePathValue { get; set; }
+    public string? ProjFilePath { get; set; }
 
-    [Obsolete("Use ProjFilePathValue instead.")]
-    public bool? ProjFilePath
+    [Obsolete("Use ProjFilePath instead.")]
+    public string? ProjFilePathValue
     {
-        get => bool.TryParse(ProjFilePathValue, out var value) ? value : null;
-        set => ProjFilePathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ProjFilePath;
+        set => ProjFilePath = value;
     }
 
 }

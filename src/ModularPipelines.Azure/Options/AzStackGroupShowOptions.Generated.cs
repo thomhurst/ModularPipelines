@@ -24,39 +24,39 @@ public record AzStackGroupShowOptions : AzOptions
     /// The deployment stack resource ID.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// The name of the deployment stack.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The resource group where the deployment stack exists.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
+    [Obsolete("Use Id instead.")]
+    public string? IdValue
     {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Id;
+        set => Id = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

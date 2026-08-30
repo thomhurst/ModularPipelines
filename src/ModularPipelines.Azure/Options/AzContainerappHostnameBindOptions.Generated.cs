@@ -24,13 +24,13 @@ public record AzContainerappHostnameBindOptions : AzOptions
     /// Name or resource id of the certificate.
     /// </summary>
     [CliOption("--certificate", ShortForm = "-c")]
-    public string? CertificateValue { get; set; }
+    public string? Certificate { get; set; }
 
     /// <summary>
     /// Name or resource id of the Container App environment.
     /// </summary>
     [CliOption("--environment", ShortForm = "-e")]
-    public string? EnvironmentValue { get; set; }
+    public string? Environment { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -50,18 +50,18 @@ public record AzContainerappHostnameBindOptions : AzOptions
     [CliFlag("--validation-method", ShortForm = "-v")]
     public bool? ValidationMethod { get; set; }
 
-    [Obsolete("Use CertificateValue instead.")]
-    public bool? Certificate
+    [Obsolete("Use Certificate instead.")]
+    public string? CertificateValue
     {
-        get => bool.TryParse(CertificateValue, out var value) ? value : null;
-        set => CertificateValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Certificate;
+        set => Certificate = value;
     }
 
-    [Obsolete("Use EnvironmentValue instead.")]
-    public bool? Environment
+    [Obsolete("Use Environment instead.")]
+    public string? EnvironmentValue
     {
-        get => bool.TryParse(EnvironmentValue, out var value) ? value : null;
-        set => EnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Environment;
+        set => Environment = value;
     }
 
 }

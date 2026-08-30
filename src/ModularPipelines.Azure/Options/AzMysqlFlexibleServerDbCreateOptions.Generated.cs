@@ -36,13 +36,13 @@ public record AzMysqlFlexibleServerDbCreateOptions : AzOptions
     /// The name of the database to be created when provisioning the database server.
     /// </summary>
     [CliOption("--database-name", ShortForm = "-d")]
-    public string? DatabaseNameValue { get; set; }
+    public string? DatabaseName { get; set; }
 
-    [Obsolete("Use DatabaseNameValue instead.")]
-    public bool? DatabaseName
+    [Obsolete("Use DatabaseName instead.")]
+    public string? DatabaseNameValue
     {
-        get => bool.TryParse(DatabaseNameValue, out var value) ? value : null;
-        set => DatabaseNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DatabaseName;
+        set => DatabaseName = value;
     }
 
 }

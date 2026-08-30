@@ -24,7 +24,7 @@ public record AzWebappConfigSetOptions : AzOptions
     /// Accept system or user assigned identity which will be set for acr image pull. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
     /// </summary>
     [CliOption("--acr-identity")]
-    public string? AcrIdentityValue { get; set; }
+    public string? AcrIdentity { get; set; }
 
     /// <summary>
     /// Enable or disable pull image from acr use managed identity. Allowed values: false, true.
@@ -54,7 +54,7 @@ public record AzWebappConfigSetOptions : AzOptions
     /// Provide site configuration list in a format of either `key=value` pair or `@&lt;json_file&gt;`. PowerShell and Windows Command Prompt users should use a JSON file to provide these configurations to avoid compatibility issues with escape characters.
     /// </summary>
     [CliOption("--generic-configurations")]
-    public string? GenericConfigurationsValue { get; set; }
+    public string? GenericConfigurations { get; set; }
 
     /// <summary>
     /// Configures a web site to allow clients to connect over http2.0. Allowed values: false, true.
@@ -150,7 +150,7 @@ public record AzWebappConfigSetOptions : AzOptions
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// The startup file for linux hosted web apps, e.g. 'process.json' for
@@ -182,25 +182,25 @@ public record AzWebappConfigSetOptions : AzOptions
     [CliFlag("--windows-fx-version")]
     public bool? WindowsFxVersion { get; set; }
 
-    [Obsolete("Use AcrIdentityValue instead.")]
-    public bool? AcrIdentity
+    [Obsolete("Use AcrIdentity instead.")]
+    public string? AcrIdentityValue
     {
-        get => bool.TryParse(AcrIdentityValue, out var value) ? value : null;
-        set => AcrIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AcrIdentity;
+        set => AcrIdentity = value;
     }
 
-    [Obsolete("Use GenericConfigurationsValue instead.")]
-    public bool? GenericConfigurations
+    [Obsolete("Use GenericConfigurations instead.")]
+    public string? GenericConfigurationsValue
     {
-        get => bool.TryParse(GenericConfigurationsValue, out var value) ? value : null;
-        set => GenericConfigurationsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => GenericConfigurations;
+        set => GenericConfigurations = value;
     }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

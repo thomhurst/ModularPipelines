@@ -39,7 +39,7 @@ public record AzAcrTaskUpdateOptions(
     /// Auth mode of the source registry.  Allowed values:
     /// </summary>
     [CliOption("--auth-mode")]
-    public string? AuthModeValue { get; set; }
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Commands to execute. This also supports additional docker run parameters (https://docs.docker.com/engine/ reference/commandline/run/) or even other docker commands (https://docs.docker.com/engine/reference/com mandline/docker/).
@@ -93,7 +93,7 @@ public record AzAcrTaskUpdateOptions(
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Secret build argument in '--secret-arg name[=value]' format. Multiples are supported by passing '--secret- arg name[=value]' multiple times. This parameter value is not surfaced to the ACR team and is more suitable for sensitive information.
@@ -117,19 +117,19 @@ public record AzAcrTaskUpdateOptions(
     /// Assign the managed identity used for source registry login. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned managed identity.
     /// </summary>
     [CliOption("--source-acr-auth-id")]
-    public string? SourceAcrAuthIdValue { get; set; }
+    public string? SourceAcrAuthId { get; set; }
 
     /// <summary>
     /// The current status of task.  Allowed values: Disabled,
     /// </summary>
     [CliOption("--status")]
-    public string? StatusValue { get; set; }
+    public string? Status { get; set; }
 
     /// <summary>
     /// The name of the target build stage.
     /// </summary>
     [CliOption("--target")]
-    public string? TargetValue { get; set; }
+    public string? Target { get; set; }
 
     /// <summary>
     /// The timeout in seconds.
@@ -166,7 +166,7 @@ public record AzAcrTaskUpdateOptions(
     /// </summary>
     [CliOption("--git-access-token")]
     [SecretValue]
-    public string? GitAccessTokenValue { get; set; }
+    public string? GitAccessToken { get; set; }
 
     /// <summary>
     /// Indicates whether the source control pull request trigger is enabled. The trigger is disabled by default.  Allowed values: false, true.
@@ -174,11 +174,11 @@ public record AzAcrTaskUpdateOptions(
     [CliOption("--pull-request-trigger-enabled")]
     public bool? PullRequestTriggerEnabled { get; set; }
 
-    [Obsolete("Use AuthModeValue instead.")]
-    public bool? AuthMode
+    [Obsolete("Use AuthMode instead.")]
+    public string? AuthModeValue
     {
-        get => bool.TryParse(AuthModeValue, out var value) ? value : null;
-        set => AuthModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AuthMode;
+        set => AuthMode = value;
     }
 
     [Obsolete("Use ImageValues instead.")]
@@ -188,11 +188,11 @@ public record AzAcrTaskUpdateOptions(
         set => ImageValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
     [Obsolete("Use SetValues instead.")]
@@ -202,32 +202,32 @@ public record AzAcrTaskUpdateOptions(
         set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
-    [Obsolete("Use SourceAcrAuthIdValue instead.")]
-    public bool? SourceAcrAuthId
+    [Obsolete("Use SourceAcrAuthId instead.")]
+    public string? SourceAcrAuthIdValue
     {
-        get => bool.TryParse(SourceAcrAuthIdValue, out var value) ? value : null;
-        set => SourceAcrAuthIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceAcrAuthId;
+        set => SourceAcrAuthId = value;
     }
 
-    [Obsolete("Use StatusValue instead.")]
-    public bool? Status
+    [Obsolete("Use Status instead.")]
+    public string? StatusValue
     {
-        get => bool.TryParse(StatusValue, out var value) ? value : null;
-        set => StatusValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Status;
+        set => Status = value;
     }
 
-    [Obsolete("Use TargetValue instead.")]
-    public bool? Target
+    [Obsolete("Use Target instead.")]
+    public string? TargetValue
     {
-        get => bool.TryParse(TargetValue, out var value) ? value : null;
-        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Target;
+        set => Target = value;
     }
 
-    [Obsolete("Use GitAccessTokenValue instead.")]
-    public bool? GitAccessToken
+    [Obsolete("Use GitAccessToken instead.")]
+    public string? GitAccessTokenValue
     {
-        get => bool.TryParse(GitAccessTokenValue, out var value) ? value : null;
-        set => GitAccessTokenValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => GitAccessToken;
+        set => GitAccessToken = value;
     }
 
 }

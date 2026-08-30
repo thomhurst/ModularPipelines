@@ -24,7 +24,7 @@ public record AzWebappCreateOptions : AzOptions
     /// Accept system or user assigned identity which will be set for acr image pull. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
     /// </summary>
     [CliOption("--acr-identity")]
-    public string? AcrIdentityValue { get; set; }
+    public string? AcrIdentity { get; set; }
 
     /// <summary>
     /// Enable or disable pull image from acr use managed identity.
@@ -174,7 +174,7 @@ public record AzWebappCreateOptions : AzOptions
     /// Name or resource ID of the pre-existing subnet to have the webapp join. The --vnet is argument also needed if specifying subnet by name.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -188,18 +188,18 @@ public record AzWebappCreateOptions : AzOptions
     [CliFlag("--vnet")]
     public bool? Vnet { get; set; }
 
-    [Obsolete("Use AcrIdentityValue instead.")]
-    public bool? AcrIdentity
+    [Obsolete("Use AcrIdentity instead.")]
+    public string? AcrIdentityValue
     {
-        get => bool.TryParse(AcrIdentityValue, out var value) ? value : null;
-        set => AcrIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AcrIdentity;
+        set => AcrIdentity = value;
     }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
+    [Obsolete("Use Subnet instead.")]
+    public string? SubnetValue
     {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Subnet;
+        set => Subnet = value;
     }
 
 }

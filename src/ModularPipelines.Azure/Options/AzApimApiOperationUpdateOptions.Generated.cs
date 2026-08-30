@@ -24,7 +24,7 @@ public record AzApimApiOperationUpdateOptions : AzOptions
     /// Description of the operation. May include HTML formatting tags.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Required. Operation Name.
@@ -50,11 +50,11 @@ public record AzApimApiOperationUpdateOptions : AzOptions
     [CliFlag("--url-template")]
     public bool? UrlTemplate { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
 }

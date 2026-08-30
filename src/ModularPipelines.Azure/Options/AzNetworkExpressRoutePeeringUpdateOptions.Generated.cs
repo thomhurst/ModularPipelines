@@ -54,13 +54,13 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     /// Identifier used to identify the customer.
     /// </summary>
     [CliOption("--vlan-id")]
-    public string? VlanIdValue { get; set; }
+    public string? VlanId { get; set; }
 
-    [Obsolete("Use VlanIdValue instead.")]
-    public bool? VlanId
+    [Obsolete("Use VlanId instead.")]
+    public string? VlanIdValue
     {
-        get => bool.TryParse(VlanIdValue, out var value) ? value : null;
-        set => VlanIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VlanId;
+        set => VlanId = value;
     }
 
 }

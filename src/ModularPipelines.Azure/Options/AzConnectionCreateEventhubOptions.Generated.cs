@@ -30,7 +30,7 @@ public record AzConnectionCreateEventhubOptions : AzOptions
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -48,7 +48,7 @@ public record AzConnectionCreateEventhubOptions : AzOptions
     /// Name of the eventhub namespace. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--namespace")]
-    public string? NamespaceValue { get; set; }
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -60,27 +60,27 @@ public record AzConnectionCreateEventhubOptions : AzOptions
     /// The resource id of target service. Required if ['--target- resource-group', '--namespace'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
-    public string? TargetIdValue { get; set; }
+    public string? TargetId { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
+    [Obsolete("Use Connection instead.")]
+    public string? ConnectionValue
     {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Connection;
+        set => Connection = value;
     }
 
-    [Obsolete("Use NamespaceValue instead.")]
-    public bool? Namespace
+    [Obsolete("Use Namespace instead.")]
+    public string? NamespaceValue
     {
-        get => bool.TryParse(NamespaceValue, out var value) ? value : null;
-        set => NamespaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Namespace;
+        set => Namespace = value;
     }
 
-    [Obsolete("Use TargetIdValue instead.")]
-    public bool? TargetId
+    [Obsolete("Use TargetId instead.")]
+    public string? TargetIdValue
     {
-        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
-        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetId;
+        set => TargetId = value;
     }
 
 }

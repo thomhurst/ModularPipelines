@@ -31,7 +31,7 @@ public record AzAcrRunOptions(
     /// Auth mode of the source registry.  Allowed values: Default, None.
     /// </summary>
     [CliOption("--auth-mode")]
-    public string? AuthModeValue { get; set; }
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Commands to execute. This also supports additional docker run parameters (https://docs.docker.com/engine/reference/commandline/run/) or even other docker commands (https://docs.docker.com/engine/reference/commandline/docker/).
@@ -73,7 +73,7 @@ public record AzAcrRunOptions(
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Value in 'name[=value]' format. Multiples supported by passing --set multiple times.
@@ -91,7 +91,7 @@ public record AzAcrRunOptions(
     /// Assign the identity used for source registry login. Use '[caller]' for caller identity.  Allowed values: [caller], none.
     /// </summary>
     [CliOption("--source-acr-auth-id")]
-    public string? SourceAcrAuthIdValue { get; set; }
+    public string? SourceAcrAuthId { get; set; }
 
     /// <summary>
     /// The timeout in seconds.
@@ -105,18 +105,18 @@ public record AzAcrRunOptions(
     [CliFlag("--values")]
     public bool? Values { get; set; }
 
-    [Obsolete("Use AuthModeValue instead.")]
-    public bool? AuthMode
+    [Obsolete("Use AuthMode instead.")]
+    public string? AuthModeValue
     {
-        get => bool.TryParse(AuthModeValue, out var value) ? value : null;
-        set => AuthModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AuthMode;
+        set => AuthMode = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
     [Obsolete("Use SetValues instead.")]
@@ -126,11 +126,11 @@ public record AzAcrRunOptions(
         set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
-    [Obsolete("Use SourceAcrAuthIdValue instead.")]
-    public bool? SourceAcrAuthId
+    [Obsolete("Use SourceAcrAuthId instead.")]
+    public string? SourceAcrAuthIdValue
     {
-        get => bool.TryParse(SourceAcrAuthIdValue, out var value) ? value : null;
-        set => SourceAcrAuthIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceAcrAuthId;
+        set => SourceAcrAuthId = value;
     }
 
 }

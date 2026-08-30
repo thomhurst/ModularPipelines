@@ -24,13 +24,13 @@ public record AzSqlMidbCopyListOptions : AzOptions
     /// Name of the target managed instance to show copy operations for.
     /// </summary>
     [CliOption("--dest-mi")]
-    public string? DestMiValue { get; set; }
+    public string? DestMi { get; set; }
 
-    [Obsolete("Use DestMiValue instead.")]
-    public bool? DestMi
+    [Obsolete("Use DestMi instead.")]
+    public string? DestMiValue
     {
-        get => bool.TryParse(DestMiValue, out var value) ? value : null;
-        set => DestMiValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DestMi;
+        set => DestMi = value;
     }
 
 }

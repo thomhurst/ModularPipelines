@@ -24,13 +24,13 @@ public record AzSynapseKqlScriptCreateOptions : AzOptions
     /// The name of the Kusto database.
     /// </summary>
     [CliOption("--kusto-database-name")]
-    public string? KustoDatabaseNameValue { get; set; }
+    public string? KustoDatabaseName { get; set; }
 
     /// <summary>
     /// The name of the Kusto pool.
     /// </summary>
     [CliOption("--kusto-pool-name")]
-    public string? KustoPoolNameValue { get; set; }
+    public string? KustoPoolName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -38,18 +38,18 @@ public record AzSynapseKqlScriptCreateOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use KustoDatabaseNameValue instead.")]
-    public bool? KustoDatabaseName
+    [Obsolete("Use KustoDatabaseName instead.")]
+    public string? KustoDatabaseNameValue
     {
-        get => bool.TryParse(KustoDatabaseNameValue, out var value) ? value : null;
-        set => KustoDatabaseNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KustoDatabaseName;
+        set => KustoDatabaseName = value;
     }
 
-    [Obsolete("Use KustoPoolNameValue instead.")]
-    public bool? KustoPoolName
+    [Obsolete("Use KustoPoolName instead.")]
+    public string? KustoPoolNameValue
     {
-        get => bool.TryParse(KustoPoolNameValue, out var value) ? value : null;
-        set => KustoPoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KustoPoolName;
+        set => KustoPoolName = value;
     }
 
 }

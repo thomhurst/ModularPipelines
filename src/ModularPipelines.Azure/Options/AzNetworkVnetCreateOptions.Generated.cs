@@ -42,7 +42,7 @@ public record AzNetworkVnetCreateOptions : AzOptions
     /// Name or ID of a DDoS protection plan to associate with the VNet.
     /// </summary>
     [CliOption("--ddos-protection-plan")]
-    public string? DdosProtectionPlanValue { get; set; }
+    public string? DdosProtectionPlan { get; set; }
 
     /// <summary>
     /// Space-separated list of DNS server IP addresses.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -54,7 +54,7 @@ public record AzNetworkVnetCreateOptions : AzOptions
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// Enable encryption on the virtual network. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -72,7 +72,7 @@ public record AzNetworkVnetCreateOptions : AzOptions
     /// Resource location.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
-    public string? LocationValue { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -92,25 +92,25 @@ public record AzNetworkVnetCreateOptions : AzOptions
     [CliFlag("--vm-protection")]
     public bool? VmProtection { get; set; }
 
-    [Obsolete("Use DdosProtectionPlanValue instead.")]
-    public bool? DdosProtectionPlan
+    [Obsolete("Use DdosProtectionPlan instead.")]
+    public string? DdosProtectionPlanValue
     {
-        get => bool.TryParse(DdosProtectionPlanValue, out var value) ? value : null;
-        set => DdosProtectionPlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DdosProtectionPlan;
+        set => DdosProtectionPlan = value;
     }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
-    [Obsolete("Use LocationValue instead.")]
-    public bool? Location
+    [Obsolete("Use Location instead.")]
+    public string? LocationValue
     {
-        get => bool.TryParse(LocationValue, out var value) ? value : null;
-        set => LocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Location;
+        set => Location = value;
     }
 
 }

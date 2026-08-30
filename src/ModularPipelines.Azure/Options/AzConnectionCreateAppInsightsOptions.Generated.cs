@@ -24,7 +24,7 @@ public record AzConnectionCreateAppInsightsOptions : AzOptions
     /// Name of the app insights. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--app-insights")]
-    public string? AppInsightsValue { get; set; }
+    public string? AppInsights { get; set; }
 
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, python.
@@ -36,7 +36,7 @@ public record AzConnectionCreateAppInsightsOptions : AzOptions
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -60,27 +60,27 @@ public record AzConnectionCreateAppInsightsOptions : AzOptions
     /// The resource id of target service. Required if ['--target- resource-group', '--app-insights'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
-    public string? TargetIdValue { get; set; }
+    public string? TargetId { get; set; }
 
-    [Obsolete("Use AppInsightsValue instead.")]
-    public bool? AppInsights
+    [Obsolete("Use AppInsights instead.")]
+    public string? AppInsightsValue
     {
-        get => bool.TryParse(AppInsightsValue, out var value) ? value : null;
-        set => AppInsightsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AppInsights;
+        set => AppInsights = value;
     }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
+    [Obsolete("Use Connection instead.")]
+    public string? ConnectionValue
     {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Connection;
+        set => Connection = value;
     }
 
-    [Obsolete("Use TargetIdValue instead.")]
-    public bool? TargetId
+    [Obsolete("Use TargetId instead.")]
+    public string? TargetIdValue
     {
-        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
-        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TargetId;
+        set => TargetId = value;
     }
 
 }

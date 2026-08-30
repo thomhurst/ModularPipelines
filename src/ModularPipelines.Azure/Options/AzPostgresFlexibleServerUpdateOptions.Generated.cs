@@ -36,13 +36,13 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
     [CliOption("--backup-identity")]
-    public string? BackupIdentityValue { get; set; }
+    public string? BackupIdentity { get; set; }
 
     /// <summary>
     /// The resource identifier of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
     /// </summary>
     [CliOption("--backup-key")]
-    public string? BackupKeyValue { get; set; }
+    public string? BackupKey { get; set; }
 
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.
@@ -60,19 +60,19 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// The name or resource identifier of the user assigned identity for data encryption.
     /// </summary>
     [CliOption("--identity")]
-    public string? IdentityValue { get; set; }
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Value of IOPS in (operations/sec) to be allocated for this server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
     [CliOption("--iops")]
-    public string? IopsValue { get; set; }
+    public string? Iops { get; set; }
 
     /// <summary>
     /// The resource identifier of the primary keyvault key for data encryption.
     /// </summary>
     [CliOption("--key")]
-    public string? KeyValue { get; set; }
+    public string? Key { get; set; }
 
     /// <summary>
     /// Period of time (UTC) designated for maintenance. Examples: "Sun:23:30" to schedule on Sunday, 11:30pm UTC. To set back to default pass in "Disabled".
@@ -120,7 +120,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
     /// </summary>
     [CliOption("--sku-name")]
-    public string? SkuNameValue { get; set; }
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
@@ -156,7 +156,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// Compute tier of the server. Accepted values: Burstable,
     /// </summary>
     [CliOption("--tier")]
-    public string? TierValue { get; set; }
+    public string? Tier { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -170,53 +170,53 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     [CliFlag("--zonal-resiliency")]
     public bool? ZonalResiliency { get; set; }
 
-    [Obsolete("Use BackupIdentityValue instead.")]
-    public bool? BackupIdentity
+    [Obsolete("Use BackupIdentity instead.")]
+    public string? BackupIdentityValue
     {
-        get => bool.TryParse(BackupIdentityValue, out var value) ? value : null;
-        set => BackupIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BackupIdentity;
+        set => BackupIdentity = value;
     }
 
-    [Obsolete("Use BackupKeyValue instead.")]
-    public bool? BackupKey
+    [Obsolete("Use BackupKey instead.")]
+    public string? BackupKeyValue
     {
-        get => bool.TryParse(BackupKeyValue, out var value) ? value : null;
-        set => BackupKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BackupKey;
+        set => BackupKey = value;
     }
 
-    [Obsolete("Use IdentityValue instead.")]
-    public bool? Identity
+    [Obsolete("Use Identity instead.")]
+    public string? IdentityValue
     {
-        get => bool.TryParse(IdentityValue, out var value) ? value : null;
-        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Identity;
+        set => Identity = value;
     }
 
-    [Obsolete("Use IopsValue instead.")]
-    public bool? Iops
+    [Obsolete("Use Iops instead.")]
+    public string? IopsValue
     {
-        get => bool.TryParse(IopsValue, out var value) ? value : null;
-        set => IopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Iops;
+        set => Iops = value;
     }
 
-    [Obsolete("Use KeyValue instead.")]
-    public bool? Key
+    [Obsolete("Use Key instead.")]
+    public string? KeyValue
     {
-        get => bool.TryParse(KeyValue, out var value) ? value : null;
-        set => KeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Key;
+        set => Key = value;
     }
 
-    [Obsolete("Use SkuNameValue instead.")]
-    public bool? SkuName
+    [Obsolete("Use SkuName instead.")]
+    public string? SkuNameValue
     {
-        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
-        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SkuName;
+        set => SkuName = value;
     }
 
-    [Obsolete("Use TierValue instead.")]
-    public bool? Tier
+    [Obsolete("Use Tier instead.")]
+    public string? TierValue
     {
-        get => bool.TryParse(TierValue, out var value) ? value : null;
-        set => TierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tier;
+        set => Tier = value;
     }
 
 }

@@ -24,13 +24,13 @@ public record BrewAuditOptions : BrewOptions
     /// Audit the given operating system. (Pass all to audit all operating systems.)
     /// </summary>
     [CliOption("--os", Format = OptionFormat.EqualsSeparated)]
-    public string? OsValue { get; set; }
+    public string? Os { get; set; }
 
     /// <summary>
     /// Audit the given CPU architecture. (Pass all to audit all architectures.)
     /// </summary>
     [CliOption("--arch", Format = OptionFormat.EqualsSeparated)]
-    public string? ArchValue { get; set; }
+    public string? Arch { get; set; }
 
     /// <summary>
     /// Run additional, stricter style checks.
@@ -72,7 +72,7 @@ public record BrewAuditOptions : BrewOptions
     /// Check formulae and casks within the given tap, specified as user/repo.
     /// </summary>
     [CliOption("--tap", Format = OptionFormat.EqualsSeparated)]
-    public string? TapValue { get; set; }
+    public string? Tap { get; set; }
 
     /// <summary>
     /// Fix style violations automatically using RuboCop's auto-correct feature.
@@ -102,25 +102,25 @@ public record BrewAuditOptions : BrewOptions
     /// Specify a comma-separated method list to only run the methods named audit_method.
     /// </summary>
     [CliOption("--only", Format = OptionFormat.EqualsSeparated)]
-    public string? OnlyValue { get; set; }
+    public string? Only { get; set; }
 
     /// <summary>
     /// Specify a comma-separated method list to skip running the methods named audit_method.
     /// </summary>
     [CliOption("--except", Format = OptionFormat.EqualsSeparated)]
-    public string? ExceptValue { get; set; }
+    public string? Except { get; set; }
 
     /// <summary>
     /// Specify a comma-separated cops list to check for violations of only the listed RuboCop cops.
     /// </summary>
     [CliOption("--only-cops", Format = OptionFormat.EqualsSeparated)]
-    public string? OnlyCopsValue { get; set; }
+    public string? OnlyCops { get; set; }
 
     /// <summary>
     /// Specify a comma-separated cops list to skip checking for violations of the listed RuboCop cops.
     /// </summary>
     [CliOption("--except-cops", Format = OptionFormat.EqualsSeparated)]
-    public string? ExceptCopsValue { get; set; }
+    public string? ExceptCops { get; set; }
 
     /// <summary>
     /// Treat all named arguments as formulae.
@@ -164,53 +164,53 @@ public record BrewAuditOptions : BrewOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? FormulaOperand { get; set; }
 
-    [Obsolete("Use OsValue instead.")]
-    public bool? Os
+    [Obsolete("Use Os instead.")]
+    public string? OsValue
     {
-        get => bool.TryParse(OsValue, out var value) ? value : null;
-        set => OsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Os;
+        set => Os = value;
     }
 
-    [Obsolete("Use ArchValue instead.")]
-    public bool? Arch
+    [Obsolete("Use Arch instead.")]
+    public string? ArchValue
     {
-        get => bool.TryParse(ArchValue, out var value) ? value : null;
-        set => ArchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Arch;
+        set => Arch = value;
     }
 
-    [Obsolete("Use TapValue instead.")]
-    public bool? Tap
+    [Obsolete("Use Tap instead.")]
+    public string? TapValue
     {
-        get => bool.TryParse(TapValue, out var value) ? value : null;
-        set => TapValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Tap;
+        set => Tap = value;
     }
 
-    [Obsolete("Use OnlyValue instead.")]
-    public bool? Only
+    [Obsolete("Use Only instead.")]
+    public string? OnlyValue
     {
-        get => bool.TryParse(OnlyValue, out var value) ? value : null;
-        set => OnlyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Only;
+        set => Only = value;
     }
 
-    [Obsolete("Use ExceptValue instead.")]
-    public bool? Except
+    [Obsolete("Use Except instead.")]
+    public string? ExceptValue
     {
-        get => bool.TryParse(ExceptValue, out var value) ? value : null;
-        set => ExceptValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Except;
+        set => Except = value;
     }
 
-    [Obsolete("Use OnlyCopsValue instead.")]
-    public bool? OnlyCops
+    [Obsolete("Use OnlyCops instead.")]
+    public string? OnlyCopsValue
     {
-        get => bool.TryParse(OnlyCopsValue, out var value) ? value : null;
-        set => OnlyCopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OnlyCops;
+        set => OnlyCops = value;
     }
 
-    [Obsolete("Use ExceptCopsValue instead.")]
-    public bool? ExceptCops
+    [Obsolete("Use ExceptCops instead.")]
+    public string? ExceptCopsValue
     {
-        get => bool.TryParse(ExceptCopsValue, out var value) ? value : null;
-        set => ExceptCopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ExceptCops;
+        set => ExceptCops = value;
     }
 
     [Obsolete("EvalAll is no longer supported by the installed CLI and has no effect.")]

@@ -24,7 +24,7 @@ public record DotNetNuGetRemoveClientCertOptions : DotNetOptions
     /// Package source name.
     /// </summary>
     [CliOption("--package-source", ShortForm = "-s")]
-    public string? PackageSourceValue { get; set; }
+    public string? PackageSource { get; set; }
 
     /// <summary>
     /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
@@ -38,11 +38,11 @@ public record DotNetNuGetRemoveClientCertOptions : DotNetOptions
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
 
-    [Obsolete("Use PackageSourceValue instead.")]
-    public bool? PackageSource
+    [Obsolete("Use PackageSource instead.")]
+    public string? PackageSourceValue
     {
-        get => bool.TryParse(PackageSourceValue, out var value) ? value : null;
-        set => PackageSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PackageSource;
+        set => PackageSource = value;
     }
 
 }

@@ -48,7 +48,7 @@ public record AzNetworkExpressRoutePortCreateOptions : AzOptions
     /// The name of the peering location that the port is mapped to physically.
     /// </summary>
     [CliOption("--peering-location")]
-    public string? PeeringLocationValue { get; set; }
+    public string? PeeringLocation { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -56,11 +56,11 @@ public record AzNetworkExpressRoutePortCreateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use PeeringLocationValue instead.")]
-    public bool? PeeringLocation
+    [Obsolete("Use PeeringLocation instead.")]
+    public string? PeeringLocationValue
     {
-        get => bool.TryParse(PeeringLocationValue, out var value) ? value : null;
-        set => PeeringLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PeeringLocation;
+        set => PeeringLocation = value;
     }
 
 }

@@ -42,7 +42,7 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     /// A description of this Activity Log Alert rule.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Disable the activity log alert rule after it is created.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -68,11 +68,11 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     [CliFlag("--webhook-properties", ShortForm = "-w")]
     public bool? WebhookProperties { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
+    [Obsolete("Use Description instead.")]
+    public string? DescriptionValue
     {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Description;
+        set => Description = value;
     }
 
 }

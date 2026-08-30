@@ -30,26 +30,26 @@ public record AzAcrConnectedRegistryListOptions : AzOptions
     /// The name of the parent connected registry.
     /// </summary>
     [CliOption("--parent", ShortForm = "-p")]
-    public string? ParentValue { get; set; }
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use ParentValue instead.")]
-    public bool? Parent
+    [Obsolete("Use Parent instead.")]
+    public string? ParentValue
     {
-        get => bool.TryParse(ParentValue, out var value) ? value : null;
-        set => ParentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Parent;
+        set => Parent = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

@@ -24,7 +24,7 @@ public record AzContainerappComposeCreateOptions : AzOptions
     /// Path to a Docker Compose file with the configuration to import to Azure Container Apps.  Default: ./docker-compose.yml.
     /// </summary>
     [CliOption("--compose-file-path", ShortForm = "-f")]
-    public string? ComposeFilePathValue { get; set; }
+    public string? ComposeFilePath { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -44,11 +44,11 @@ public record AzContainerappComposeCreateOptions : AzOptions
     [CliFlag("--transport-mapping")]
     public bool? TransportMapping { get; set; }
 
-    [Obsolete("Use ComposeFilePathValue instead.")]
-    public bool? ComposeFilePath
+    [Obsolete("Use ComposeFilePath instead.")]
+    public string? ComposeFilePathValue
     {
-        get => bool.TryParse(ComposeFilePathValue, out var value) ? value : null;
-        set => ComposeFilePathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ComposeFilePath;
+        set => ComposeFilePath = value;
     }
 
 }

@@ -30,13 +30,13 @@ public record AzEventgridEventSubscriptionCreateOptions : AzOptions
     /// The Azure resource ID of an Azure Storage blob container destination where
     /// </summary>
     [CliOption("--deadletter-endpoint")]
-    public string? DeadletterEndpointValue { get; set; }
+    public string? DeadletterEndpoint { get; set; }
 
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination with identity where EventGrid should deadletter undeliverable events for this event subscription.
     /// </summary>
     [CliOption("--deadletter-identity-endpoint")]
-    public string? DeadletterIdentityEndpointValue { get; set; }
+    public string? DeadletterIdentityEndpoint { get; set; }
 
     /// <summary>
     /// Add delivery attribute mapping to send additional information via HTTP headers when delivering events. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--delivery-attribute-mapping` argument.
@@ -104,18 +104,18 @@ public record AzEventgridEventSubscriptionCreateOptions : AzOptions
     [CliFlag("--source-resource-id")]
     public bool? SourceResourceId { get; set; }
 
-    [Obsolete("Use DeadletterEndpointValue instead.")]
-    public bool? DeadletterEndpoint
+    [Obsolete("Use DeadletterEndpoint instead.")]
+    public string? DeadletterEndpointValue
     {
-        get => bool.TryParse(DeadletterEndpointValue, out var value) ? value : null;
-        set => DeadletterEndpointValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DeadletterEndpoint;
+        set => DeadletterEndpoint = value;
     }
 
-    [Obsolete("Use DeadletterIdentityEndpointValue instead.")]
-    public bool? DeadletterIdentityEndpoint
+    [Obsolete("Use DeadletterIdentityEndpoint instead.")]
+    public string? DeadletterIdentityEndpointValue
     {
-        get => bool.TryParse(DeadletterIdentityEndpointValue, out var value) ? value : null;
-        set => DeadletterIdentityEndpointValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DeadletterIdentityEndpoint;
+        set => DeadletterIdentityEndpoint = value;
     }
 
 }

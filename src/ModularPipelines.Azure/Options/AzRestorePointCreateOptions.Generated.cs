@@ -24,7 +24,7 @@ public record AzRestorePointCreateOptions : AzOptions
     /// Customer managed data disk encryption set resource id.
     /// </summary>
     [CliOption("--data-disk-restore-point-encryption-set")]
-    public string? DataDiskRestorePointEncryptionSetValue { get; set; }
+    public string? DataDiskRestorePointEncryptionSet { get; set; }
 
     /// <summary>
     /// The type of key used to encrypt the data of the data disk restore point.
@@ -48,7 +48,7 @@ public record AzRestorePointCreateOptions : AzOptions
     /// Customer managed OS disk encryption set resource id.
     /// </summary>
     [CliOption("--os-restore-point-encryption-set")]
-    public string? OsRestorePointEncryptionSetValue { get; set; }
+    public string? OsRestorePointEncryptionSet { get; set; }
 
     /// <summary>
     /// The type of key used to encrypt the data of the OS disk restore point.
@@ -60,53 +60,53 @@ public record AzRestorePointCreateOptions : AzOptions
     /// Resource Id of the source data disk.
     /// </summary>
     [CliOption("--source-data-disk-resource")]
-    public string? SourceDataDiskResourceValue { get; set; }
+    public string? SourceDataDiskResource { get; set; }
 
     /// <summary>
     /// Resource Id of the source OS disk.
     /// </summary>
     [CliOption("--source-os-resource")]
-    public string? SourceOsResourceValue { get; set; }
+    public string? SourceOsResource { get; set; }
 
     /// <summary>
     /// Resource Id of the source restore point from which a copy needs to be created.
     /// </summary>
     [CliOption("--source-restore-point")]
-    public string? SourceRestorePointValue { get; set; }
+    public string? SourceRestorePoint { get; set; }
 
-    [Obsolete("Use DataDiskRestorePointEncryptionSetValue instead.")]
-    public bool? DataDiskRestorePointEncryptionSet
+    [Obsolete("Use DataDiskRestorePointEncryptionSet instead.")]
+    public string? DataDiskRestorePointEncryptionSetValue
     {
-        get => bool.TryParse(DataDiskRestorePointEncryptionSetValue, out var value) ? value : null;
-        set => DataDiskRestorePointEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DataDiskRestorePointEncryptionSet;
+        set => DataDiskRestorePointEncryptionSet = value;
     }
 
-    [Obsolete("Use OsRestorePointEncryptionSetValue instead.")]
-    public bool? OsRestorePointEncryptionSet
+    [Obsolete("Use OsRestorePointEncryptionSet instead.")]
+    public string? OsRestorePointEncryptionSetValue
     {
-        get => bool.TryParse(OsRestorePointEncryptionSetValue, out var value) ? value : null;
-        set => OsRestorePointEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OsRestorePointEncryptionSet;
+        set => OsRestorePointEncryptionSet = value;
     }
 
-    [Obsolete("Use SourceDataDiskResourceValue instead.")]
-    public bool? SourceDataDiskResource
+    [Obsolete("Use SourceDataDiskResource instead.")]
+    public string? SourceDataDiskResourceValue
     {
-        get => bool.TryParse(SourceDataDiskResourceValue, out var value) ? value : null;
-        set => SourceDataDiskResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceDataDiskResource;
+        set => SourceDataDiskResource = value;
     }
 
-    [Obsolete("Use SourceOsResourceValue instead.")]
-    public bool? SourceOsResource
+    [Obsolete("Use SourceOsResource instead.")]
+    public string? SourceOsResourceValue
     {
-        get => bool.TryParse(SourceOsResourceValue, out var value) ? value : null;
-        set => SourceOsResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceOsResource;
+        set => SourceOsResource = value;
     }
 
-    [Obsolete("Use SourceRestorePointValue instead.")]
-    public bool? SourceRestorePoint
+    [Obsolete("Use SourceRestorePoint instead.")]
+    public string? SourceRestorePointValue
     {
-        get => bool.TryParse(SourceRestorePointValue, out var value) ? value : null;
-        set => SourceRestorePointValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceRestorePoint;
+        set => SourceRestorePoint = value;
     }
 
 }

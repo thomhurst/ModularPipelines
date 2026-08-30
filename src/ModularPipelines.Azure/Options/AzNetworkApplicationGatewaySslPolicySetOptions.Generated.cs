@@ -42,7 +42,7 @@ public record AzNetworkApplicationGatewaySslPolicySetOptions : AzOptions
     /// Name of SSL policy.  Allowed values: AppGwSslPolicy20150501,
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -56,11 +56,11 @@ public record AzNetworkApplicationGatewaySslPolicySetOptions : AzOptions
     [CliFlag("--policy-type")]
     public bool? PolicyType { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
 }

@@ -42,7 +42,7 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     /// Name or ID of the probe to associate with the settings.
     /// </summary>
     [CliOption("--probe")]
-    public string? ProbeValue { get; set; }
+    public string? Probe { get; set; }
 
     /// <summary>
     /// Protocol used to communicate with the backend.  Allowed values: Http, Https, Tcp, Tls.  Default: Tcp.
@@ -62,11 +62,11 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
 
-    [Obsolete("Use ProbeValue instead.")]
-    public bool? Probe
+    [Obsolete("Use Probe instead.")]
+    public string? ProbeValue
     {
-        get => bool.TryParse(ProbeValue, out var value) ? value : null;
-        set => ProbeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Probe;
+        set => Probe = value;
     }
 
 }

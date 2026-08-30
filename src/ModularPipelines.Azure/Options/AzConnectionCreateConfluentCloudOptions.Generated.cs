@@ -30,7 +30,7 @@ public record AzConnectionCreateConfluentCloudOptions : AzOptions
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -50,11 +50,11 @@ public record AzConnectionCreateConfluentCloudOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
+    [Obsolete("Use Connection instead.")]
+    public string? ConnectionValue
     {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Connection;
+        set => Connection = value;
     }
 
 }

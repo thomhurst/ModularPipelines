@@ -31,7 +31,7 @@ public record BrewUnpackOptions(
     /// Create subdirectories in the directory named by path instead.
     /// </summary>
     [CliOption("--destdir", Format = OptionFormat.EqualsSeparated)]
-    public string? DestdirValue { get; set; }
+    public string? Destdir { get; set; }
 
     /// <summary>
     /// Patches for formula will be applied to the unpacked source.
@@ -87,11 +87,11 @@ public record BrewUnpackOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use DestdirValue instead.")]
-    public bool? Destdir
+    [Obsolete("Use Destdir instead.")]
+    public string? DestdirValue
     {
-        get => bool.TryParse(DestdirValue, out var value) ? value : null;
-        set => DestdirValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Destdir;
+        set => Destdir = value;
     }
 
 }

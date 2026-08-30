@@ -24,13 +24,13 @@ public record AzMysqlFlexibleServerParameterSetBatchOptions : AzOptions
     /// Source of the configuration.
     /// </summary>
     [CliOption("--source")]
-    public string? SourceValue { get; set; }
+    public string? Source { get; set; }
 
-    [Obsolete("Use SourceValue instead.")]
-    public bool? Source
+    [Obsolete("Use Source instead.")]
+    public string? SourceValue
     {
-        get => bool.TryParse(SourceValue, out var value) ? value : null;
-        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Source;
+        set => Source = value;
     }
 
 }

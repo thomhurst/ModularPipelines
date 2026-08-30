@@ -30,13 +30,13 @@ public record AzSqlMidbRestoreOptions : AzOptions
     /// Name of the managed instance to restore managed database to. This can be same managed instance, or another managed instance on same subscription. When not specified it defaults to source managed instance.
     /// </summary>
     [CliOption("--dest-mi")]
-    public string? DestMiValue { get; set; }
+    public string? DestMi { get; set; }
 
     /// <summary>
     /// Name of the resource group of the managed instance to restore managed database to. When not specified it defaults to source resource group.
     /// </summary>
     [CliOption("--dest-resource-group")]
-    public string? DestResourceGroupValue { get; set; }
+    public string? DestResourceGroup { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -56,18 +56,18 @@ public record AzSqlMidbRestoreOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use DestMiValue instead.")]
-    public bool? DestMi
+    [Obsolete("Use DestMi instead.")]
+    public string? DestMiValue
     {
-        get => bool.TryParse(DestMiValue, out var value) ? value : null;
-        set => DestMiValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DestMi;
+        set => DestMi = value;
     }
 
-    [Obsolete("Use DestResourceGroupValue instead.")]
-    public bool? DestResourceGroup
+    [Obsolete("Use DestResourceGroup instead.")]
+    public string? DestResourceGroupValue
     {
-        get => bool.TryParse(DestResourceGroupValue, out var value) ? value : null;
-        set => DestResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => DestResourceGroup;
+        set => DestResourceGroup = value;
     }
 
 }

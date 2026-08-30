@@ -24,7 +24,7 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// Resource ID of the Application Insights resource to link with this App Configuration store.
     /// </summary>
     [CliOption("--appinsights-resource")]
-    public string? AppinsightsResourceValue { get; set; }
+    public string? AppinsightsResource { get; set; }
 
     /// <summary>
     /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass- through.
@@ -66,7 +66,7 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The sku of the App Configuration store.  Allowed values: Developer, Free, Premium, Standard.
@@ -80,18 +80,18 @@ public record AzAppConfigUpdateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use AppinsightsResourceValue instead.")]
-    public bool? AppinsightsResource
+    [Obsolete("Use AppinsightsResource instead.")]
+    public string? AppinsightsResourceValue
     {
-        get => bool.TryParse(AppinsightsResourceValue, out var value) ? value : null;
-        set => AppinsightsResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AppinsightsResource;
+        set => AppinsightsResource = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

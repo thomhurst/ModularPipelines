@@ -26,13 +26,13 @@ public record AzAcrTaskCredentialAddOptions : AzOptions
     /// </summary>
     [SecretValue]
     [CliOption("--password", ShortForm = "-p")]
-    public string? PasswordValue { get; set; }
+    public string? Password { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The task managed identity used for the credential. Use '[system]' to refer to the system-assigned identity or a client id to refer to a user-assigned identity. Please see https://aka.ms/acr/tasks/cross- registry-authentication for more information.
@@ -44,27 +44,27 @@ public record AzAcrTaskCredentialAddOptions : AzOptions
     /// The username to login to the custom registry. This can be plain text or a key vault secret URI.
     /// </summary>
     [CliOption("--username", ShortForm = "-u")]
-    public string? UsernameValue { get; set; }
+    public string? Username { get; set; }
 
-    [Obsolete("Use PasswordValue instead.")]
-    public bool? Password
+    [Obsolete("Use Password instead.")]
+    public string? PasswordValue
     {
-        get => bool.TryParse(PasswordValue, out var value) ? value : null;
-        set => PasswordValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Password;
+        set => Password = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use UsernameValue instead.")]
-    public bool? Username
+    [Obsolete("Use Username instead.")]
+    public string? UsernameValue
     {
-        get => bool.TryParse(UsernameValue, out var value) ? value : null;
-        set => UsernameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Username;
+        set => Username = value;
     }
 
 }

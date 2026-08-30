@@ -30,7 +30,7 @@ public record AzAppConfigRecoverOptions : AzOptions
     /// Resource group of the deleted App Configuration store.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -38,11 +38,11 @@ public record AzAppConfigRecoverOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

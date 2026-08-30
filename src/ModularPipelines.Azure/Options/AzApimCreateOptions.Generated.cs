@@ -78,13 +78,13 @@ public record AzApimCreateOptions : AzOptions
     /// The virtual network type.  Allowed values: External, Internal, None.  Default: None.
     /// </summary>
     [CliOption("--virtual-network", ShortForm = "-v")]
-    public string? VirtualNetworkValue { get; set; }
+    public string? VirtualNetwork { get; set; }
 
-    [Obsolete("Use VirtualNetworkValue instead.")]
-    public bool? VirtualNetwork
+    [Obsolete("Use VirtualNetwork instead.")]
+    public string? VirtualNetworkValue
     {
-        get => bool.TryParse(VirtualNetworkValue, out var value) ? value : null;
-        set => VirtualNetworkValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VirtualNetwork;
+        set => VirtualNetwork = value;
     }
 
 }

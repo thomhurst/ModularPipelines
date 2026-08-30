@@ -24,65 +24,65 @@ public record AzWebappConnectionListConfigurationOptions : AzOptions
     /// Name of the webapp connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The resource id of the connection. ['--resource-group', '--name', '-- connection'] are required if '--id' is not specified.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the webapp. Required if '--id' is not specified.None.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The resource group which contains the webapp. Required if '--id' is not specified.None.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the production slot if not specified.
     /// </summary>
     [CliOption("--slot")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
+    [Obsolete("Use Connection instead.")]
+    public string? ConnectionValue
     {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Connection;
+        set => Connection = value;
     }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
+    [Obsolete("Use Id instead.")]
+    public string? IdValue
     {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Id;
+        set => Id = value;
     }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
 }

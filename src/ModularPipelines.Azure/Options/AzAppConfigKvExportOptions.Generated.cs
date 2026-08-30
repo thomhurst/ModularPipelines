@@ -60,7 +60,7 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Prefix to be trimmed from keys. Prefix will be ignored for feature flags.
@@ -98,11 +98,11 @@ public record AzAppConfigKvExportOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
 }

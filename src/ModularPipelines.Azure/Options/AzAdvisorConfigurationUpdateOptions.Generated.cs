@@ -42,26 +42,26 @@ public record AzAdvisorConfigurationUpdateOptions : AzOptions
     /// Value for low CPU threshold.  Allowed values: 10, 15, 20, 5.
     /// </summary>
     [CliOption("--low-cpu-threshold", ShortForm = "-l")]
-    public string? LowCpuThresholdValue { get; set; }
+    public string? LowCpuThreshold { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use LowCpuThresholdValue instead.")]
-    public bool? LowCpuThreshold
+    [Obsolete("Use LowCpuThreshold instead.")]
+    public string? LowCpuThresholdValue
     {
-        get => bool.TryParse(LowCpuThresholdValue, out var value) ? value : null;
-        set => LowCpuThresholdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => LowCpuThreshold;
+        set => LowCpuThreshold = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

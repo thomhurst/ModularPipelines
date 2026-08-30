@@ -66,7 +66,7 @@ public record AzVmssCreateOptions : AzOptions
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// Indicate whether virtual machine agent should be provisioned on the virtual machine.
@@ -150,7 +150,7 @@ public record AzVmssCreateOptions : AzOptions
     /// Resource Id of the user managed identity which can be used for Azure disk encryption.
     /// </summary>
     [CliOption("--encryption-identity")]
-    public string? EncryptionIdentityValue { get; set; }
+    public string? EncryptionIdentity { get; set; }
 
     /// <summary>
     /// The eviction policy for virtual machines in a Spot priority scale set.
@@ -174,13 +174,13 @@ public record AzVmssCreateOptions : AzOptions
     /// Name or ID of dedicated host group that the virtual machine scale set resides in.
     /// </summary>
     [CliOption("--host-group")]
-    public string? HostGroupValue { get; set; }
+    public string? HostGroup { get; set; }
 
     /// <summary>
     /// The name of the operating system image as a URN alias, URN, custom image name or ID, or VHD blob URI. In addition, it also supports shared gallery image.
     /// </summary>
     [CliOption("--image")]
-    public string? ImageValue { get; set; }
+    public string? Image { get; set; }
 
     /// <summary>
     /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit,
@@ -258,7 +258,7 @@ public record AzVmssCreateOptions : AzOptions
     /// Specify the customer managed disk encryption set resource ID or name for the managed disk that is used for customer managed key encrypted
     /// </summary>
     [CliOption("--os-disk-secure-vm-disk-encryption-set")]
-    public string? OsDiskSecureVmDiskEncryptionSetValue { get; set; }
+    public string? OsDiskSecureVmDiskEncryptionSet { get; set; }
 
     /// <summary>
     /// Specify the encryption type of the OS managed disk.  Allowed values: DiskWithVMG uestState,
@@ -288,7 +288,7 @@ public record AzVmssCreateOptions : AzOptions
     /// The name or ID of the proximity placement group the
     /// </summary>
     [CliOption("--ppg")]
-    public string? PpgValue { get; set; }
+    public string? Ppg { get; set; }
 
     /// <summary>
     /// Set this Boolean property will lead to all unhealthy instances in a scale set getting upgraded before any healthy instances.
@@ -416,46 +416,46 @@ public record AzVmssCreateOptions : AzOptions
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
-    [Obsolete("Use EncryptionIdentityValue instead.")]
-    public bool? EncryptionIdentity
+    [Obsolete("Use EncryptionIdentity instead.")]
+    public string? EncryptionIdentityValue
     {
-        get => bool.TryParse(EncryptionIdentityValue, out var value) ? value : null;
-        set => EncryptionIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EncryptionIdentity;
+        set => EncryptionIdentity = value;
     }
 
-    [Obsolete("Use HostGroupValue instead.")]
-    public bool? HostGroup
+    [Obsolete("Use HostGroup instead.")]
+    public string? HostGroupValue
     {
-        get => bool.TryParse(HostGroupValue, out var value) ? value : null;
-        set => HostGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => HostGroup;
+        set => HostGroup = value;
     }
 
-    [Obsolete("Use ImageValue instead.")]
-    public bool? Image
+    [Obsolete("Use Image instead.")]
+    public string? ImageValue
     {
-        get => bool.TryParse(ImageValue, out var value) ? value : null;
-        set => ImageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Image;
+        set => Image = value;
     }
 
-    [Obsolete("Use OsDiskSecureVmDiskEncryptionSetValue instead.")]
-    public bool? OsDiskSecureVmDiskEncryptionSet
+    [Obsolete("Use OsDiskSecureVmDiskEncryptionSet instead.")]
+    public string? OsDiskSecureVmDiskEncryptionSetValue
     {
-        get => bool.TryParse(OsDiskSecureVmDiskEncryptionSetValue, out var value) ? value : null;
-        set => OsDiskSecureVmDiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OsDiskSecureVmDiskEncryptionSet;
+        set => OsDiskSecureVmDiskEncryptionSet = value;
     }
 
-    [Obsolete("Use PpgValue instead.")]
-    public bool? Ppg
+    [Obsolete("Use Ppg instead.")]
+    public string? PpgValue
     {
-        get => bool.TryParse(PpgValue, out var value) ? value : null;
-        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Ppg;
+        set => Ppg = value;
     }
 
 }

@@ -26,13 +26,13 @@ public record AzSignalrCustomCertificateCreateOptions : AzOptions
     /// </summary>
     [SecretValue]
     [CliOption("--keyvault-secret-version")]
-    public string? KeyvaultSecretVersionValue { get; set; }
+    public string? KeyvaultSecretVersion { get; set; }
 
-    [Obsolete("Use KeyvaultSecretVersionValue instead.")]
-    public bool? KeyvaultSecretVersion
+    [Obsolete("Use KeyvaultSecretVersion instead.")]
+    public string? KeyvaultSecretVersionValue
     {
-        get => bool.TryParse(KeyvaultSecretVersionValue, out var value) ? value : null;
-        set => KeyvaultSecretVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => KeyvaultSecretVersion;
+        set => KeyvaultSecretVersion = value;
     }
 
 }

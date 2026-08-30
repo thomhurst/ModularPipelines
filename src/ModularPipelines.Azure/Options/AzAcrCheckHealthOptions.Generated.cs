@@ -30,19 +30,19 @@ public record AzAcrCheckHealthOptions : AzOptions
     /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The name of the repository.
     /// </summary>
     [CliOption("--repository")]
-    public string? RepositoryValue { get; set; }
+    public string? Repository { get; set; }
 
     /// <summary>
     /// Virtual network ID so to run this command inside a VNET to verify the DNS routing to private endpoints.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -50,25 +50,25 @@ public record AzAcrCheckHealthOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use RepositoryValue instead.")]
-    public bool? Repository
+    [Obsolete("Use Repository instead.")]
+    public string? RepositoryValue
     {
-        get => bool.TryParse(RepositoryValue, out var value) ? value : null;
-        set => RepositoryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Repository;
+        set => Repository = value;
     }
 
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
+    [Obsolete("Use Vnet instead.")]
+    public string? VnetValue
     {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Vnet;
+        set => Vnet = value;
     }
 
 }

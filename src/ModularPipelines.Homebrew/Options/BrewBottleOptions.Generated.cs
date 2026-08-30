@@ -91,13 +91,13 @@ public record BrewBottleOptions(
     /// Use the specified URL as the root of the bottle's URL instead of Homebrew's default.
     /// </summary>
     [CliOption("--root-url", Format = OptionFormat.EqualsSeparated)]
-    public string? RootUrlValue { get; set; }
+    public string? RootUrl { get; set; }
 
     /// <summary>
     /// Use the specified download strategy class for downloading the bottle's URL instead of Homebrew's default.
     /// </summary>
     [CliOption("--root-url-using", Format = OptionFormat.EqualsSeparated)]
-    public string? RootUrlUsingValue { get; set; }
+    public string? RootUrlUsing { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -123,18 +123,18 @@ public record BrewBottleOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use RootUrlValue instead.")]
-    public bool? RootUrl
+    [Obsolete("Use RootUrl instead.")]
+    public string? RootUrlValue
     {
-        get => bool.TryParse(RootUrlValue, out var value) ? value : null;
-        set => RootUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => RootUrl;
+        set => RootUrl = value;
     }
 
-    [Obsolete("Use RootUrlUsingValue instead.")]
-    public bool? RootUrlUsing
+    [Obsolete("Use RootUrlUsing instead.")]
+    public string? RootUrlUsingValue
     {
-        get => bool.TryParse(RootUrlUsingValue, out var value) ? value : null;
-        set => RootUrlUsingValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => RootUrlUsing;
+        set => RootUrlUsing = value;
     }
 
     [Obsolete("Committer is no longer supported by the installed CLI and has no effect.")]

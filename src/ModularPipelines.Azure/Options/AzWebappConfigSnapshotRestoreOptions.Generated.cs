@@ -30,52 +30,52 @@ public record AzWebappConfigSnapshotRestoreOptions : AzOptions
     /// The name of the slot.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Name of the web app to retrieve snapshot from.
     /// </summary>
     [CliOption("--source-name")]
-    public string? SourceNameValue { get; set; }
+    public string? SourceName { get; set; }
 
     /// <summary>
     /// Name of the resource group to retrieve snapshot from.
     /// </summary>
     [CliOption("--source-resource-group")]
-    public string? SourceResourceGroupValue { get; set; }
+    public string? SourceResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the web app slot to retrieve snapshot from.
     /// </summary>
     [CliOption("--source-slot")]
-    public string? SourceSlotValue { get; set; }
+    public string? SourceSlot { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
+    [Obsolete("Use Slot instead.")]
+    public string? SlotValue
     {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Slot;
+        set => Slot = value;
     }
 
-    [Obsolete("Use SourceNameValue instead.")]
-    public bool? SourceName
+    [Obsolete("Use SourceName instead.")]
+    public string? SourceNameValue
     {
-        get => bool.TryParse(SourceNameValue, out var value) ? value : null;
-        set => SourceNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceName;
+        set => SourceName = value;
     }
 
-    [Obsolete("Use SourceResourceGroupValue instead.")]
-    public bool? SourceResourceGroup
+    [Obsolete("Use SourceResourceGroup instead.")]
+    public string? SourceResourceGroupValue
     {
-        get => bool.TryParse(SourceResourceGroupValue, out var value) ? value : null;
-        set => SourceResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceResourceGroup;
+        set => SourceResourceGroup = value;
     }
 
-    [Obsolete("Use SourceSlotValue instead.")]
-    public bool? SourceSlot
+    [Obsolete("Use SourceSlot instead.")]
+    public string? SourceSlotValue
     {
-        get => bool.TryParse(SourceSlotValue, out var value) ? value : null;
-        set => SourceSlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceSlot;
+        set => SourceSlot = value;
     }
 
 }

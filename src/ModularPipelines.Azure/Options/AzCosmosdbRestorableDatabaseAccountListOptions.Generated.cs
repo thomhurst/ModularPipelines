@@ -24,7 +24,7 @@ public record AzCosmosdbRestorableDatabaseAccountListOptions : AzOptions
     /// Name of the Account.
     /// </summary>
     [CliOption("--account-name", ShortForm = "-n")]
-    public string? AccountNameValue { get; set; }
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Location.
@@ -32,11 +32,11 @@ public record AzCosmosdbRestorableDatabaseAccountListOptions : AzOptions
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
 
-    [Obsolete("Use AccountNameValue instead.")]
-    public bool? AccountName
+    [Obsolete("Use AccountName instead.")]
+    public string? AccountNameValue
     {
-        get => bool.TryParse(AccountNameValue, out var value) ? value : null;
-        set => AccountNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AccountName;
+        set => AccountName = value;
     }
 
 }

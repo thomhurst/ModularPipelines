@@ -31,13 +31,13 @@ public record BrewFetchOptions(
     /// Download for the given operating system. (Pass all to download for all operating systems.)
     /// </summary>
     [CliOption("--os", Format = OptionFormat.EqualsSeparated)]
-    public string? OsValue { get; set; }
+    public string? Os { get; set; }
 
     /// <summary>
     /// Download for the given CPU architecture. (Pass all to download for all architectures.)
     /// </summary>
     [CliOption("--arch", Format = OptionFormat.EqualsSeparated)]
-    public string? ArchValue { get; set; }
+    public string? Arch { get; set; }
 
     /// <summary>
     /// Download for every supported operating system and architecture, plus each language for casks, fetching each distinct URL once.
@@ -49,7 +49,7 @@ public record BrewFetchOptions(
     /// Download a bottle for given tag.
     /// </summary>
     [CliOption("--bottle-tag", Format = OptionFormat.EqualsSeparated)]
-    public string? BottleTagValue { get; set; }
+    public string? BottleTag { get; set; }
 
     /// <summary>
     /// Fetch HEAD version instead of stable version.
@@ -129,25 +129,25 @@ public record BrewFetchOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use OsValue instead.")]
-    public bool? Os
+    [Obsolete("Use Os instead.")]
+    public string? OsValue
     {
-        get => bool.TryParse(OsValue, out var value) ? value : null;
-        set => OsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Os;
+        set => Os = value;
     }
 
-    [Obsolete("Use ArchValue instead.")]
-    public bool? Arch
+    [Obsolete("Use Arch instead.")]
+    public string? ArchValue
     {
-        get => bool.TryParse(ArchValue, out var value) ? value : null;
-        set => ArchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Arch;
+        set => Arch = value;
     }
 
-    [Obsolete("Use BottleTagValue instead.")]
-    public bool? BottleTag
+    [Obsolete("Use BottleTag instead.")]
+    public string? BottleTagValue
     {
-        get => bool.TryParse(BottleTagValue, out var value) ? value : null;
-        set => BottleTagValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BottleTag;
+        set => BottleTag = value;
     }
 
 }

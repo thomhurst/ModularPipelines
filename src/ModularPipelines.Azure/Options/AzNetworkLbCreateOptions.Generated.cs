@@ -24,19 +24,19 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// The name of the backend address pool.
     /// </summary>
     [CliOption("--backend-pool-name")]
-    public string? BackendPoolNameValue { get; set; }
+    public string? BackendPoolName { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// The name of the frontend IP configuration.  Default:
     /// </summary>
     [CliOption("--frontend-ip-name")]
-    public string? FrontendIpNameValue { get; set; }
+    public string? FrontendIpName { get; set; }
 
     /// <summary>
     /// Used to create internal facing Load balancer.
@@ -86,25 +86,25 @@ public record AzNetworkLbCreateOptions : AzOptions
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
 
-    [Obsolete("Use BackendPoolNameValue instead.")]
-    public bool? BackendPoolName
+    [Obsolete("Use BackendPoolName instead.")]
+    public string? BackendPoolNameValue
     {
-        get => bool.TryParse(BackendPoolNameValue, out var value) ? value : null;
-        set => BackendPoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => BackendPoolName;
+        set => BackendPoolName = value;
     }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
+    [Obsolete("Use EdgeZone instead.")]
+    public string? EdgeZoneValue
     {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => EdgeZone;
+        set => EdgeZone = value;
     }
 
-    [Obsolete("Use FrontendIpNameValue instead.")]
-    public bool? FrontendIpName
+    [Obsolete("Use FrontendIpName instead.")]
+    public string? FrontendIpNameValue
     {
-        get => bool.TryParse(FrontendIpNameValue, out var value) ? value : null;
-        set => FrontendIpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => FrontendIpName;
+        set => FrontendIpName = value;
     }
 
 }

@@ -24,7 +24,7 @@ public record AzContainerappEnvCertificateDeleteOptions : AzOptions
     /// Name or resource id of the certificate.
     /// </summary>
     [CliOption("--certificate", ShortForm = "-c")]
-    public string? CertificateValue { get; set; }
+    public string? Certificate { get; set; }
 
     /// <summary>
     /// Location of resource. Examples: eastus2, northeurope.
@@ -44,11 +44,11 @@ public record AzContainerappEnvCertificateDeleteOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use CertificateValue instead.")]
-    public bool? Certificate
+    [Obsolete("Use Certificate instead.")]
+    public string? CertificateValue
     {
-        get => bool.TryParse(CertificateValue, out var value) ? value : null;
-        set => CertificateValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Certificate;
+        set => Certificate = value;
     }
 
 }

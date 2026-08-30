@@ -60,7 +60,7 @@ public record AzStorageTableGenerateSasOptions : AzOptions
     /// The name of a stored access policy within the table's ACL.
     /// </summary>
     [CliOption("--policy-name")]
-    public string? PolicyNameValue { get; set; }
+    public string? PolicyName { get; set; }
 
     /// <summary>
     /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes valid. Do not use if a stored access policy is referenced with
@@ -80,11 +80,11 @@ public record AzStorageTableGenerateSasOptions : AzOptions
     [CliFlag("--start-rk")]
     public bool? StartRk { get; set; }
 
-    [Obsolete("Use PolicyNameValue instead.")]
-    public bool? PolicyName
+    [Obsolete("Use PolicyName instead.")]
+    public string? PolicyNameValue
     {
-        get => bool.TryParse(PolicyNameValue, out var value) ? value : null;
-        set => PolicyNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PolicyName;
+        set => PolicyName = value;
     }
 
 }

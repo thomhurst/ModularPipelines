@@ -24,7 +24,7 @@ public record AzGroupCreateOptions : AzOptions
     /// The ID of the resource that manages this resource group.
     /// </summary>
     [CliOption("--managed-by")]
-    public string? ManagedByValue { get; set; }
+    public string? ManagedBy { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -32,11 +32,11 @@ public record AzGroupCreateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use ManagedByValue instead.")]
-    public bool? ManagedBy
+    [Obsolete("Use ManagedBy instead.")]
+    public string? ManagedByValue
     {
-        get => bool.TryParse(ManagedByValue, out var value) ? value : null;
-        set => ManagedByValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ManagedBy;
+        set => ManagedBy = value;
     }
 
 }

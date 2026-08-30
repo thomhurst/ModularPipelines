@@ -84,19 +84,19 @@ public record BrewTestsOptions : BrewOptions
     /// Run only test_script_spec.rb. Appending :line_number will start at a specific line.
     /// </summary>
     [CliOption("--only", Format = OptionFormat.EqualsSeparated)]
-    public string? OnlyValue { get; set; }
+    public string? Only { get; set; }
 
     /// <summary>
     /// Output the n slowest tests. When run without --no-parallel this will output the slowest tests for each parallel test process.
     /// </summary>
     [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
-    public string? ProfileValue { get; set; }
+    public string? Profile { get; set; }
 
     /// <summary>
     /// Randomise tests with the specified value instead of a random seed. -d                               Display any debugging information.
     /// </summary>
     [CliOption("--seed", Format = OptionFormat.EqualsSeparated)]
-    public string? SeedValue { get; set; }
+    public string? Seed { get; set; }
 
     /// <summary>
     /// Make some output more quiet.
@@ -116,25 +116,25 @@ public record BrewTestsOptions : BrewOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use OnlyValue instead.")]
-    public bool? Only
+    [Obsolete("Use Only instead.")]
+    public string? OnlyValue
     {
-        get => bool.TryParse(OnlyValue, out var value) ? value : null;
-        set => OnlyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Only;
+        set => Only = value;
     }
 
-    [Obsolete("Use ProfileValue instead.")]
-    public bool? Profile
+    [Obsolete("Use Profile instead.")]
+    public string? ProfileValue
     {
-        get => bool.TryParse(ProfileValue, out var value) ? value : null;
-        set => ProfileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Profile;
+        set => Profile = value;
     }
 
-    [Obsolete("Use SeedValue instead.")]
-    public bool? Seed
+    [Obsolete("Use Seed instead.")]
+    public string? SeedValue
     {
-        get => bool.TryParse(SeedValue, out var value) ? value : null;
-        set => SeedValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Seed;
+        set => Seed = value;
     }
 
 }

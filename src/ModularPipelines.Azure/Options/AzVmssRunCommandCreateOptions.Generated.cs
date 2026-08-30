@@ -36,7 +36,7 @@ public record AzVmssRunCommandCreateOptions : AzOptions
     /// Uri (without SAS) to an append blob where the script error stream will be uploaded.
     /// </summary>
     [CliOption("--error-blob-uri")]
-    public string? ErrorBlobUriValue { get; set; }
+    public string? ErrorBlobUri { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
@@ -54,19 +54,19 @@ public record AzVmssRunCommandCreateOptions : AzOptions
     /// Uri (without SAS) to an append blob where the script output will be uploaded.
     /// </summary>
     [CliOption("--output-blob-uri")]
-    public string? OutputBlobUriValue { get; set; }
+    public string? OutputBlobUri { get; set; }
 
     /// <summary>
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
+    public string? Parameters { get; set; }
 
     /// <summary>
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--protected-parameters")]
-    public string? ProtectedParametersValue { get; set; }
+    public string? ProtectedParameters { get; set; }
 
     /// <summary>
     /// Password if needed for using run-as-user parameter. It will be encrypted and not logged.
@@ -104,32 +104,32 @@ public record AzVmssRunCommandCreateOptions : AzOptions
     [CliFlag("--timeout-in-seconds")]
     public bool? TimeoutInSeconds { get; set; }
 
-    [Obsolete("Use ErrorBlobUriValue instead.")]
-    public bool? ErrorBlobUri
+    [Obsolete("Use ErrorBlobUri instead.")]
+    public string? ErrorBlobUriValue
     {
-        get => bool.TryParse(ErrorBlobUriValue, out var value) ? value : null;
-        set => ErrorBlobUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ErrorBlobUri;
+        set => ErrorBlobUri = value;
     }
 
-    [Obsolete("Use OutputBlobUriValue instead.")]
-    public bool? OutputBlobUri
+    [Obsolete("Use OutputBlobUri instead.")]
+    public string? OutputBlobUriValue
     {
-        get => bool.TryParse(OutputBlobUriValue, out var value) ? value : null;
-        set => OutputBlobUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => OutputBlobUri;
+        set => OutputBlobUri = value;
     }
 
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
+    [Obsolete("Use Parameters instead.")]
+    public string? ParametersValue
     {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Parameters;
+        set => Parameters = value;
     }
 
-    [Obsolete("Use ProtectedParametersValue instead.")]
-    public bool? ProtectedParameters
+    [Obsolete("Use ProtectedParameters instead.")]
+    public string? ProtectedParametersValue
     {
-        get => bool.TryParse(ProtectedParametersValue, out var value) ? value : null;
-        set => ProtectedParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ProtectedParameters;
+        set => ProtectedParameters = value;
     }
 
 }

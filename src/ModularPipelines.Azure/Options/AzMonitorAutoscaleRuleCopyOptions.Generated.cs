@@ -24,13 +24,13 @@ public record AzMonitorAutoscaleRuleCopyOptions : AzOptions
     /// Name of the profile to copy rules from.  Default: default.
     /// </summary>
     [CliOption("--source-schedule")]
-    public string? SourceScheduleValue { get; set; }
+    public string? SourceSchedule { get; set; }
 
-    [Obsolete("Use SourceScheduleValue instead.")]
-    public bool? SourceSchedule
+    [Obsolete("Use SourceSchedule instead.")]
+    public string? SourceScheduleValue
     {
-        get => bool.TryParse(SourceScheduleValue, out var value) ? value : null;
-        set => SourceScheduleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => SourceSchedule;
+        set => SourceSchedule = value;
     }
 
 }

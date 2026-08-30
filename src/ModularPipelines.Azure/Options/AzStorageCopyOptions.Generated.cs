@@ -30,7 +30,7 @@ public record AzStorageCopyOptions : AzOptions
     /// The path/url of copy destination. It can be a local path, an url to azure storage server. If you provide destination parameter here, you do not need to provide arguments in copy destination arguments group and copy destination arguments will be deprecated in future.
     /// </summary>
     [CliOption("--destination", ShortForm = "-d")]
-    public string? DestinationValue { get; set; }
+    public string? Destination { get; set; }
 
     /// <summary>
     /// Look into sub-directories recursively.
@@ -42,20 +42,20 @@ public record AzStorageCopyOptions : AzOptions
     /// The path/url of copy source. It can be a local path, an url to azure storage server or AWS S3 buckets. If you provide source parameter here, you do not need to provide arguments in copy source arguments group and copy source arguments will be deprecated in future.
     /// </summary>
     [CliOption("--source", ShortForm = "-s")]
-    public string? SourceValue { get; set; }
+    public string? Source { get; set; }
 
-    [Obsolete("Use DestinationValue instead.")]
-    public bool? Destination
+    [Obsolete("Use Destination instead.")]
+    public string? DestinationValue
     {
-        get => bool.TryParse(DestinationValue, out var value) ? value : null;
-        set => DestinationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Destination;
+        set => Destination = value;
     }
 
-    [Obsolete("Use SourceValue instead.")]
-    public bool? Source
+    [Obsolete("Use Source instead.")]
+    public string? SourceValue
     {
-        get => bool.TryParse(SourceValue, out var value) ? value : null;
-        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Source;
+        set => Source = value;
     }
 
 }

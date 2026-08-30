@@ -24,13 +24,13 @@ public record AzTagCreateOptions : AzOptions
     /// The name of the tag to create.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The resource identifier for the entity being tagged. A resource, a resource group or a subscription may be tagged.
     /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceIdValue { get; set; }
+    public string? ResourceId { get; set; }
 
     /// <summary>
     /// The tags to be applied on the resource.
@@ -38,18 +38,18 @@ public record AzTagCreateOptions : AzOptions
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
+    [Obsolete("Use Name instead.")]
+    public string? NameValue
     {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Name;
+        set => Name = value;
     }
 
-    [Obsolete("Use ResourceIdValue instead.")]
-    public bool? ResourceId
+    [Obsolete("Use ResourceId instead.")]
+    public string? ResourceIdValue
     {
-        get => bool.TryParse(ResourceIdValue, out var value) ? value : null;
-        set => ResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceId;
+        set => ResourceId = value;
     }
 
 }

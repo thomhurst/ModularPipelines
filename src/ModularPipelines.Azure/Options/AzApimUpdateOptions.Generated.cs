@@ -60,7 +60,7 @@ public record AzApimUpdateOptions : AzOptions
     /// The name of your organization for use in the developer portal and e-mail notifications.
     /// </summary>
     [CliOption("--publisher-name")]
-    public string? PublisherNameValue { get; set; }
+    public string? PublisherName { get; set; }
 
     /// <summary>
     /// The number of deployed units of the SKU.
@@ -84,20 +84,20 @@ public record AzApimUpdateOptions : AzOptions
     /// The virtual network type.  Allowed values: External, Internal,
     /// </summary>
     [CliOption("--virtual-network", ShortForm = "-v")]
-    public string? VirtualNetworkValue { get; set; }
+    public string? VirtualNetwork { get; set; }
 
-    [Obsolete("Use PublisherNameValue instead.")]
-    public bool? PublisherName
+    [Obsolete("Use PublisherName instead.")]
+    public string? PublisherNameValue
     {
-        get => bool.TryParse(PublisherNameValue, out var value) ? value : null;
-        set => PublisherNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => PublisherName;
+        set => PublisherName = value;
     }
 
-    [Obsolete("Use VirtualNetworkValue instead.")]
-    public bool? VirtualNetwork
+    [Obsolete("Use VirtualNetwork instead.")]
+    public string? VirtualNetworkValue
     {
-        get => bool.TryParse(VirtualNetworkValue, out var value) ? value : null;
-        set => VirtualNetworkValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VirtualNetwork;
+        set => VirtualNetwork = value;
     }
 
 }

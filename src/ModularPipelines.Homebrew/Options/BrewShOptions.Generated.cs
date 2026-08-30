@@ -30,13 +30,13 @@ public record BrewShOptions : BrewOptions
     /// Use the standard $PATH instead of superenv's when std is passed.
     /// </summary>
     [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
-    public string? EnvValue { get; set; }
+    public string? Env { get; set; }
 
     /// <summary>
     /// Execute commands in a non-interactive shell.
     /// </summary>
     [CliOption("--cmd", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? CmdValue { get; set; }
+    public string? Cmd { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -68,18 +68,18 @@ public record BrewShOptions : BrewOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? File { get; set; }
 
-    [Obsolete("Use EnvValue instead.")]
-    public bool? Env
+    [Obsolete("Use Env instead.")]
+    public string? EnvValue
     {
-        get => bool.TryParse(EnvValue, out var value) ? value : null;
-        set => EnvValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Env;
+        set => Env = value;
     }
 
-    [Obsolete("Use CmdValue instead.")]
-    public bool? Cmd
+    [Obsolete("Use Cmd instead.")]
+    public string? CmdValue
     {
-        get => bool.TryParse(CmdValue, out var value) ? value : null;
-        set => CmdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Cmd;
+        set => Cmd = value;
     }
 
 }

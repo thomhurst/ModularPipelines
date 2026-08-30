@@ -36,7 +36,7 @@ public record AzBackupProtectionDisableOptions : AzOptions
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantIdValue { get; set; }
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values:
@@ -50,11 +50,11 @@ public record AzBackupProtectionDisableOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use TenantIdValue instead.")]
-    public bool? TenantId
+    [Obsolete("Use TenantId instead.")]
+    public string? TenantIdValue
     {
-        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
-        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => TenantId;
+        set => TenantId = value;
     }
 
 }

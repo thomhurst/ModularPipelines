@@ -24,26 +24,26 @@ public record AzResourceLockListOptions : AzOptions
     /// A query filter to use to restrict the results.
     /// </summary>
     [CliOption("--filter-string")]
-    public string? FilterStringValue { get; set; }
+    public string? FilterString { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use FilterStringValue instead.")]
-    public bool? FilterString
+    [Obsolete("Use FilterString instead.")]
+    public string? FilterStringValue
     {
-        get => bool.TryParse(FilterStringValue, out var value) ? value : null;
-        set => FilterStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => FilterString;
+        set => FilterString = value;
     }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
+    [Obsolete("Use ResourceGroup instead.")]
+    public string? ResourceGroupValue
     {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ResourceGroup;
+        set => ResourceGroup = value;
     }
 
 }

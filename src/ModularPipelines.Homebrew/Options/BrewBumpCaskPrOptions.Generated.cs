@@ -73,43 +73,43 @@ public record BrewBumpCaskPrOptions(
     /// Specify the new version for the cask.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? VersionValue { get; set; }
+    public string? Version { get; set; }
 
     /// <summary>
     /// Specify the new cask version for the ARM architecture.
     /// </summary>
     [CliOption("--version-arm", Format = OptionFormat.EqualsSeparated)]
-    public string? VersionArmValue { get; set; }
+    public string? VersionArm { get; set; }
 
     /// <summary>
     /// Specify the new cask version for the Intel architecture.
     /// </summary>
     [CliOption("--version-intel", Format = OptionFormat.EqualsSeparated)]
-    public string? VersionIntelValue { get; set; }
+    public string? VersionIntel { get; set; }
 
     /// <summary>
     /// Prepend message to the default pull request message.
     /// </summary>
     [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
-    public string? MessageValue { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// Specify the URL for the new download.
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
-    public string? UrlValue { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>
     /// Specify the SHA-256 checksum of the new download.
     /// </summary>
     [CliOption("--sha256", Format = OptionFormat.EqualsSeparated)]
-    public string? Sha256Value { get; set; }
+    public string? Sha256 { get; set; }
 
     /// <summary>
     /// Use the specified GitHub organization for forking.
     /// </summary>
     [CliOption("--fork-org", Format = OptionFormat.EqualsSeparated)]
-    public string? ForkOrgValue { get; set; }
+    public string? ForkOrg { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -135,53 +135,53 @@ public record BrewBumpCaskPrOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Use VersionValue instead.")]
-    public bool? Version
+    [Obsolete("Use Version instead.")]
+    public string? VersionValue
     {
-        get => bool.TryParse(VersionValue, out var value) ? value : null;
-        set => VersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Version;
+        set => Version = value;
     }
 
-    [Obsolete("Use VersionArmValue instead.")]
-    public bool? VersionArm
+    [Obsolete("Use VersionArm instead.")]
+    public string? VersionArmValue
     {
-        get => bool.TryParse(VersionArmValue, out var value) ? value : null;
-        set => VersionArmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VersionArm;
+        set => VersionArm = value;
     }
 
-    [Obsolete("Use VersionIntelValue instead.")]
-    public bool? VersionIntel
+    [Obsolete("Use VersionIntel instead.")]
+    public string? VersionIntelValue
     {
-        get => bool.TryParse(VersionIntelValue, out var value) ? value : null;
-        set => VersionIntelValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => VersionIntel;
+        set => VersionIntel = value;
     }
 
-    [Obsolete("Use MessageValue instead.")]
-    public bool? Message
+    [Obsolete("Use Message instead.")]
+    public string? MessageValue
     {
-        get => bool.TryParse(MessageValue, out var value) ? value : null;
-        set => MessageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Message;
+        set => Message = value;
     }
 
-    [Obsolete("Use UrlValue instead.")]
-    public bool? Url
+    [Obsolete("Use Url instead.")]
+    public string? UrlValue
     {
-        get => bool.TryParse(UrlValue, out var value) ? value : null;
-        set => UrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Url;
+        set => Url = value;
     }
 
-    [Obsolete("Use Sha256Value instead.")]
-    public bool? Sha256
+    [Obsolete("Use Sha256 instead.")]
+    public string? Sha256Value
     {
-        get => bool.TryParse(Sha256Value, out var value) ? value : null;
-        set => Sha256Value = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => Sha256;
+        set => Sha256 = value;
     }
 
-    [Obsolete("Use ForkOrgValue instead.")]
-    public bool? ForkOrg
+    [Obsolete("Use ForkOrg instead.")]
+    public string? ForkOrgValue
     {
-        get => bool.TryParse(ForkOrgValue, out var value) ? value : null;
-        set => ForkOrgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => ForkOrg;
+        set => ForkOrg = value;
     }
 
 }
