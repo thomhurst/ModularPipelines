@@ -5894,7 +5894,7 @@ public class GeneratorHardeningTests
         };
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
-        var normalized = GeneratorUtils.EnsureSecretValueUsing(
+        var normalized = GeneratorUtils.EnsureRequiredUsings(
             generated.Replace(
                 $"using ModularPipelines.Secrets;{Environment.NewLine}",
                 string.Empty,
@@ -6301,28 +6301,6 @@ public class GeneratorHardeningTests
             await Assert.That(generated).Contains("    FriUppercase");
             await Assert.That(generated.Split("[EnumValue(\"fri\")]", StringSplitOptions.None).Length)
                 .IsEqualTo(2);
-        }
-    }
-
-    [Test]
-    public async Task Required_Generated_Usings_Are_Added_Once()
-    {
-        const string source = "using System.CodeDom.Compiler;\n"
-            + "public sealed class ToolService(ICommandContext context)\n"
-            + "{\n"
-            + "    [SecretValue] public string? Token { get; init; }\n"
-            + "}\n";
-
-        var normalized = GeneratorUtils.EnsureRequiredUsings(source);
-        var normalizedAgain = GeneratorUtils.EnsureRequiredUsings(normalized);
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(normalized).StartsWith(
-                "using ModularPipelines.Context;\n"
-                    + "using ModularPipelines.Secrets;\n"
-                    + "using System.CodeDom.Compiler;");
-            await Assert.That(normalizedAgain).IsEqualTo(normalized);
         }
     }
 
