@@ -13,31 +13,13 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Generate runs commands described by directives within existing
+/// Download downloads the named modules, which can be module patterns selecting
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("generate")]
-public record GoGenerateOptions : GoOptions
+[CliSubCommand("mod", "download")]
+public record GoModDownloadOptions : GoOptions
 {
-    /// <summary>
-    /// The -run option.
-    /// </summary>
-    [CliOption("-run")]
-    public string? Run { get; set; }
-
-    /// <summary>
-    /// The -n option.
-    /// </summary>
-    [CliFlag("-n")]
-    public bool? N { get; set; }
-
-    /// <summary>
-    /// The -v option.
-    /// </summary>
-    [CliFlag("-v")]
-    public bool? V { get; set; }
-
     /// <summary>
     /// The -x option.
     /// </summary>
@@ -45,9 +27,21 @@ public record GoGenerateOptions : GoOptions
     public bool? X { get; set; }
 
     /// <summary>
-    /// The file or package targets.
+    /// The -json option.
+    /// </summary>
+    [CliFlag("-json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// The -reuse option.
+    /// </summary>
+    [CliOption("-reuse", Format = OptionFormat.EqualsSeparated)]
+    public string? Reuse { get; set; }
+
+    /// <summary>
+    /// The modules operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Targets { get; set; }
+    public IEnumerable<string>? Modules { get; set; }
 
 }

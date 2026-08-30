@@ -13,18 +13,30 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Fix runs the Go fix tool (cmd/fix) on the named packages
+/// Get resolves its command-line arguments to packages at specific module versions,
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("fix")]
-public record GoFixOptions : GoOptions
+[CliSubCommand("get")]
+public record GoGetOptions : GoOptions
 {
     /// <summary>
-    /// The -fixtool option.
+    /// The -t option.
     /// </summary>
-    [CliOption("-fixtool")]
-    public string? Fixtool { get; set; }
+    [CliFlag("-t")]
+    public bool? T { get; set; }
+
+    /// <summary>
+    /// The -u option.
+    /// </summary>
+    [CliFlag("-u")]
+    public bool? U { get; set; }
+
+    /// <summary>
+    /// The -tool option.
+    /// </summary>
+    [CliFlag("-tool")]
+    public bool? CliTool { get; set; }
 
     /// <summary>
     /// The packages operand.

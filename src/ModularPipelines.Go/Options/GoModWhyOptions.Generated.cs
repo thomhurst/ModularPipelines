@@ -13,23 +13,25 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Fix runs the Go fix tool (cmd/fix) on the named packages
+/// Why shows a shortest path in the import graph from the main module to
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("fix")]
-public record GoFixOptions : GoOptions
+[CliSubCommand("mod", "why")]
+public record GoModWhyOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Packages
+) : GoOptions
 {
     /// <summary>
-    /// The -fixtool option.
+    /// The -m option.
     /// </summary>
-    [CliOption("-fixtool")]
-    public string? Fixtool { get; set; }
+    [CliFlag("-m")]
+    public bool? M { get; set; }
 
     /// <summary>
-    /// The packages operand.
+    /// The -vendor option.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Packages { get; set; }
+    [CliFlag("-vendor")]
+    public bool? Vendor { get; set; }
 
 }

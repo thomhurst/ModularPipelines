@@ -1,15 +1,37 @@
 {
   "formatVersion": 1,
   "toolName": "go",
-  "commandCount": 5,
-  "commandTreeSha256": "d91b6c355f88c3e297ae0e96351ad5c316d2d369a2330c61a3a3c715e9996129",
+  "toolVersion": "go version go1.27.0 linux/amd64",
+  "commandCount": 23,
+  "commandTreeSha256": "93c8759ef56e6f27c819ff7e849e2156e7837444f7311267b71d63d48ea78f5d",
   "commands": [
     "go build",
+    "go clean",
+    "go env",
     "go fix",
+    "go fmt",
     "go generate",
+    "go get",
+    "go install",
+    "go list",
+    "go mod",
+    "go mod download",
+    "go mod edit",
+    "go mod init",
+    "go mod why",
+    "go run",
+    "go telemetry",
     "go test",
-    "go vet"
+    "go tool",
+    "go vet",
+    "go work",
+    "go work edit",
+    "go work init",
+    "go work use"
   ],
-  "commandGroups": [],
+  "commandGroups": [
+    "go mod",
+    "go work"
+  ],
   "exclusions": []
 }

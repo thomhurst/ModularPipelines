@@ -20,4 +20,16 @@ namespace ModularPipelines.Go.Options;
 [CliSubCommand("build")]
 public record GoBuildOptions : GoOptions
 {
+    /// <summary>
+    /// The -o option.
+    /// </summary>
+    [CliOption("-o")]
+    public string? O { get; set; }
+
+    /// <summary>
+    /// The packages operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Packages { get; set; }
+
 }

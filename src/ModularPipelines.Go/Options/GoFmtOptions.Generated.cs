@@ -13,18 +13,24 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Fix runs the Go fix tool (cmd/fix) on the named packages
+/// Fmt runs the command 'gofmt -l -w' on the packages named
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("fix")]
-public record GoFixOptions : GoOptions
+[CliSubCommand("fmt")]
+public record GoFmtOptions : GoOptions
 {
     /// <summary>
-    /// The -fixtool option.
+    /// The -n option.
     /// </summary>
-    [CliOption("-fixtool")]
-    public string? Fixtool { get; set; }
+    [CliFlag("-n")]
+    public bool? N { get; set; }
+
+    /// <summary>
+    /// The -x option.
+    /// </summary>
+    [CliFlag("-x")]
+    public bool? X { get; set; }
 
     /// <summary>
     /// The packages operand.
