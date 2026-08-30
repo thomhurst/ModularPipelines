@@ -94,7 +94,7 @@ internal class ResilienceHttpHandler : DelegatingHandler
         return baseDelay;
     }
 
-    private void OnRetry(RetryEvent<HttpResponseMessage> retryEvent)
+    private ValueTask OnRetry(RetryEvent<HttpResponseMessage> retryEvent)
     {
         var logger = _loggerAccessor.Logger;
         var outcome = retryEvent.Outcome;
@@ -104,7 +104,7 @@ internal class ResilienceHttpHandler : DelegatingHandler
             logger.LogWarning("HTTP request failed with {ExceptionType}: {Message}. Retry attempt {RetryAttempt} after {Delay}ms",
                 outcome.Exception.GetType().Name,
                 outcome.Exception.Message,
-                retryEvent.Attempt,
+                retryEvent.AttemptNumber,
                 (int) retryEvent.Delay.TotalMilliseconds);
         }
         else if (outcome.Result != null)
@@ -113,7 +113,7 @@ internal class ResilienceHttpHandler : DelegatingHandler
             {
                 logger.LogWarning("HTTP request returned {StatusCode}. Retry attempt {RetryAttempt} after {Delay}ms",
                     (int) outcome.Result.StatusCode,
-                    retryEvent.Attempt,
+                    retryEvent.AttemptNumber,
                     (int) retryEvent.Delay.TotalMilliseconds);
             }
             finally
@@ -121,6 +121,8 @@ internal class ResilienceHttpHandler : DelegatingHandler
                 outcome.Result.Dispose();
             }
         }
+
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>
