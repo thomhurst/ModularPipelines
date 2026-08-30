@@ -254,6 +254,51 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_File_Hints_Take_Precedence_Over_Numeric_Tokens()
+    {
+        const string helpText = """
+            NAME
+                gcloud storage insights dataset-configs update - update a dataset config
+
+            SYNOPSIS
+                gcloud storage insights dataset-configs update
+
+            FLAGS
+                 --source-folders=FOLDER_NUMBERS,...
+                    List of source folder IDs.
+                 --source-folders-file=FOLDER_NUMBERS_FILE
+                    CSV formatted file containing source folder IDs, one per line.
+                 --source-projects=PROJECT_NUMBERS,...
+                    List of source project numbers.
+                 --source-projects-file=PROJECT_NUMBERS_FILE
+                    CSV formatted file containing source project numbers, one per line.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "storage", "insights", "dataset-configs", "update"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option =>
+                option.SwitchName == "--source-folders").CSharpType)
+                .IsEqualTo("IEnumerable<int>?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--source-folders-file").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--source-projects").CSharpType)
+                .IsEqualTo("IEnumerable<int>?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--source-projects-file").CSharpType)
+                .IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Models_Repeatable_Options_As_Collections()
     {
         const string helpText = """

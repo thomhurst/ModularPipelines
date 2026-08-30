@@ -19138,11 +19138,11 @@ ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions
 ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.IncludeSourceLocations.set -> void
 ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceFolders.get -> System.Collections.Generic.IEnumerable<int>?
 ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceFolders.set -> void
-ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceFoldersFile.get -> int?
+ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceFoldersFile.get -> string?
 ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceFoldersFile.set -> void
 ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceProjects.get -> System.Collections.Generic.IEnumerable<int>?
 ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceProjects.set -> void
-ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceProjectsFile.get -> int?
+ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceProjectsFile.get -> string?
 ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsUpdateOptions.SourceProjectsFile.set -> void
 ModularPipelines.Google.Options.GcloudStorageInsightsInventoryReportsCreateOptions.CsvDelimiter.get -> string?
 ModularPipelines.Google.Options.GcloudStorageInsightsInventoryReportsCreateOptions.CsvDelimiter.set -> void
