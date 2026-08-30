@@ -12,6 +12,7 @@ override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableComma
 override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.GetHashCode() -> int
 override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.ToString() -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.FlywayCliScraper.MaxParallelism.get -> int
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.LiquibaseCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
 static ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.operator !=(ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? left, ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.operator ==(ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? left, ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? right) -> bool
 virtual ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.<Clone>$() -> ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand!

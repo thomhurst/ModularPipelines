@@ -113,6 +113,16 @@ public partial class LiquibaseCliScraper : CliScraperBase
     [
         new()
         {
+            SwitchName = "--allow-duplicated-changeset-identifiers",
+            PropertyName = "AllowDuplicatedChangeSetIdentifiers",
+            CSharpType = "bool?",
+            Description = "Allows duplicated changeset identifiers without failing Liquibase execution. DEFAULT: false",
+            IsFlag = false,
+            ValueSeparator = "=",
+            IsSecret = false,
+        },
+        new()
+        {
             SwitchName = "--databricks-diff-tblproperties-exclude-patterns",
             PropertyName = "DatabricksDiffTblPropertiesExcludePatterns",
             CSharpType = "string?",
@@ -145,7 +155,32 @@ public partial class LiquibaseCliScraper : CliScraperBase
             ValueSeparator = "=",
             IsSecret = true,
         },
+        new()
+        {
+            SwitchName = "--monitor-performance",
+            PropertyName = "MonitorPerformance",
+            CSharpType = "string?",
+            Description = "Enable performance tracking. Set to 'false' to disable. If set to 'true', data is stored to a `liquibase-TIMESTAMP.jfr` file in your working directory. Any other value will enable tracking and be used as the name of the file to write the data to. DEFAULT: false",
+            IsFlag = false,
+            ValueSeparator = "=",
+            IsSecret = false,
+        },
     ];
+
+    public override CliToolDefinition CreateToolDefinition() =>
+        base.CreateToolDefinition() with
+        {
+            GlobalCompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "AllowDuplicatedChangesetIdentifiers",
+                    CSharpType = "bool?",
+                    ForwardToPropertyName = "AllowDuplicatedChangeSetIdentifiers",
+                    ObsoleteMessage = "Use AllowDuplicatedChangeSetIdentifiers instead.",
+                },
+            ],
+        };
 
     /// <summary>
     /// Extracts subcommand names from liquibase help text.
@@ -410,13 +445,17 @@ public partial class LiquibaseCliScraper : CliScraperBase
         _ => NormalizePropertyName(optionName)
     };
 
-    private static void AddIfMissing(List<CliOptionDefinition> options, CliOptionDefinition option)
+    private static void AddIfMissing(
+        List<CliOptionDefinition> options,
+        CliOptionDefinition option)
     {
-        if (options.All(existing =>
-                !existing.SwitchName.Equals(option.SwitchName, StringComparison.OrdinalIgnoreCase)))
+        if (options.Any(existing =>
+                existing.SwitchName.Equals(option.SwitchName, StringComparison.OrdinalIgnoreCase)))
         {
-            options.Add(option);
+            return;
         }
+
+        options.Add(option);
     }
 
     private static CliOptionDefinition CreateDefineOption(string? description)
@@ -570,7 +609,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
     ///   --changeLogFile=PARAM          The root changelog file
     ///   --verbose                      Enable verbose output
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-[A-Za-z]),\s*)?(?<long>--[\w-]+)(?:\[?=(?<value>PARAM)\]?)?\s+(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?:(?<short>-[A-Za-z]),\s*)?(?<long>--[\w-]+)(?:\[?=(?<value>PARAM)\]?)?(?:\s+(?<desc>.*))?$", RegexOptions.Multiline)]
     private static partial Regex LiquibaseOptionPattern();
 
     [GeneratedRegex(@"^\s+-D=PARAM\s+(?<desc>.*)$", RegexOptions.Multiline)]

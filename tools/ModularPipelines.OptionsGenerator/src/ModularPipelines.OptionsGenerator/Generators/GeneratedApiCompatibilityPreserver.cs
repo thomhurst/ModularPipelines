@@ -2045,9 +2045,16 @@ internal static class GeneratedApiCompatibilityPreserver
 
         if (baseline.IsCompatibility)
         {
+            var caseVariantTarget = FindCaseVariantForwardingTarget(baseline, currentProperties);
             PreserveCompatibilityProperty(
                 command,
-                baseline,
+                caseVariantTarget is null
+                    ? baseline
+                    : baseline with
+                    {
+                        ForwardToPropertyName = caseVariantTarget.PropertyName,
+                        ObsoleteMessage = $"Use {caseVariantTarget.PropertyName} instead.",
+                    },
                 compatibilityProperties,
                 violations);
             return;
@@ -2085,6 +2092,30 @@ internal static class GeneratedApiCompatibilityPreserver
         {
             renamedProperties[baseline.PropertyName] = replacement.PropertyName;
         }
+    }
+
+    private static GeneratedApiProperty? FindCaseVariantForwardingTarget(
+        GeneratedApiProperty baseline,
+        IReadOnlyList<GeneratedApiProperty> currentProperties)
+    {
+        if (baseline.ForwardToPropertyName is not null
+            || baseline.ForwardingKind != CliCompatibilityForwardingKind.Direct)
+        {
+            return null;
+        }
+
+        var candidates = currentProperties
+            .Where(property => !property.PropertyName.Equals(
+                                   baseline.PropertyName,
+                                   StringComparison.Ordinal)
+                               && property.PropertyName.Equals(
+                                   baseline.PropertyName,
+                                   StringComparison.OrdinalIgnoreCase)
+                               && property.CSharpType.Equals(
+                                   baseline.CSharpType,
+                                   StringComparison.Ordinal))
+            .ToArray();
+        return candidates.Length == 1 ? candidates[0] : null;
     }
 
     private static bool TryValidateSameNameProperty(
@@ -2379,7 +2410,8 @@ internal static class GeneratedApiCompatibilityPreserver
         else if (!string.Equals(
                      supplied.ForwardToPropertyName,
                      expected.ForwardToPropertyName,
-                     StringComparison.Ordinal))
+                     StringComparison.Ordinal)
+                 && !CanActivateVirtualDispatchAlias(command, expected, supplied))
         {
             violations.Add(
                 $"{command.ClassName}.{expected.PropertyName} compatibility property changed forwarding target from "
@@ -2398,6 +2430,18 @@ internal static class GeneratedApiCompatibilityPreserver
                 + $"{expected.ForwardingKind} to {supplied.ForwardingKind}");
         }
     }
+
+    private static bool CanActivateVirtualDispatchAlias(
+        CliCommandDefinition command,
+        CliCompatibilityProperty expected,
+        CliCompatibilityProperty supplied) =>
+        expected.ForwardToPropertyName is null
+        && supplied.ForwardToPropertyName is { } targetName
+        && supplied.ForwardingKind == CliCompatibilityForwardingKind.Direct
+        && !supplied.UseInitAccessor
+        && command.Options.Any(option =>
+            option.PropertyName.Equals(targetName, StringComparison.Ordinal)
+            && option.PropertyType.Equals(supplied.CSharpType, StringComparison.Ordinal));
 
     private static void ValidateMatchingProperty(
         CliCommandDefinition command,
