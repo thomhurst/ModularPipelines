@@ -19,7 +19,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "can-i")]
 public record KubernetesAuthCanIOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Verb
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Verb
 ) : KubernetesOptions
 {
     public KubernetesAuthCanIOptions()

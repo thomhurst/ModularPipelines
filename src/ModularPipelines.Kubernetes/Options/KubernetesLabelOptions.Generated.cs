@@ -21,7 +21,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [CliSubCommand("label")]
 public record KubernetesLabelOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Key_1Val_1,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string KeyNValN
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string KeyNValN
 ) : KubernetesOptions
 {
     public KubernetesLabelOptions()

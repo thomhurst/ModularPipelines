@@ -20,7 +20,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [CliSubCommand("debug")]
 public record KubernetesDebugOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pod,
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)] string CommandArgs
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)] string CommandArgs
 ) : KubernetesOptions
 {
     public KubernetesDebugOptions()
@@ -171,5 +171,11 @@ public record KubernetesDebugOptions(
     /// </summary>
     [CliFlag("--tty", ShortForm = "-t")]
     public bool? Tty { get; set; }
+
+    /// <summary>
+    /// The COMMAND [args...] operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Args { get; set; }
 
 }

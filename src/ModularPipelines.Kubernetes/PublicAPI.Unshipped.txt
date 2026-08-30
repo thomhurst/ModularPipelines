@@ -157,6 +157,230 @@
 *REMOVED*virtual ModularPipelines.Kubernetes.Services.KustomizeEditSet.SecretAsync(ModularPipelines.Kubernetes.Options.KustomizeEditSetSecretOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Kubernetes.Services.KustomizeFn.ExecuteAsync(ModularPipelines.Kubernetes.Options.KustomizeFnOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Kubernetes.Services.KustomizeFn.RunAsync(ModularPipelines.Kubernetes.Options.KustomizeFnRunOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kubernetes.Enums.KubernetesAnnotateDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAnnotateDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAnnotateDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAnnotateDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesApplyCascade
+ModularPipelines.Kubernetes.Enums.KubernetesApplyCascade.Background = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyCascade
+ModularPipelines.Kubernetes.Enums.KubernetesApplyCascade.Foreground = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyCascade
+ModularPipelines.Kubernetes.Enums.KubernetesApplyCascade.Orphan = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyCascade
+ModularPipelines.Kubernetes.Enums.KubernetesApplyDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesApplyDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesApplyDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesApplyDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesCordonDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesCordonDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesCordonDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesCordonDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesCordonDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesCordonDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesCordonDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesDrainDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesDrainDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesDrainDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesDrainDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesDrainDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesDrainDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesDrainDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesLabelDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesLabelDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesLabelDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesLabelDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesPatchDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesPatchDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesPatchDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesPatchDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesReplaceCascade
+ModularPipelines.Kubernetes.Enums.KubernetesReplaceCascade.Background = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceCascade
+ModularPipelines.Kubernetes.Enums.KubernetesReplaceCascade.Foreground = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceCascade
+ModularPipelines.Kubernetes.Enums.KubernetesReplaceCascade.Orphan = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceCascade
+ModularPipelines.Kubernetes.Enums.KubernetesReplaceDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesReplaceDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesReplaceDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesReplaceDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesScaleDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesScaleDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesScaleDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesScaleDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesTaintDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesTaintDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesTaintDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesTaintDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesUncordonDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesUncordonDryRun.Client = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesUncordonDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesUncordonDryRun.None = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesUncordonDryRun
+ModularPipelines.Kubernetes.Enums.KubernetesUncordonDryRun.Server = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesUncordonDryRun
+ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.Annotations.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.Annotations.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Annotations) -> void
+ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.KubernetesAnnotateOptions(System.Collections.Generic.IEnumerable<string!>! Annotations) -> void
+ModularPipelines.Kubernetes.Options.KubernetesApplyEditLastAppliedOptions.ResourceName.get -> string?
+ModularPipelines.Kubernetes.Options.KubernetesApplyEditLastAppliedOptions.ResourceName.set -> void
+ModularPipelines.Kubernetes.Options.KubernetesApplyViewLastAppliedOptions.TypeName.get -> string?
+ModularPipelines.Kubernetes.Options.KubernetesApplyViewLastAppliedOptions.TypeName.set -> void
+ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.Deconstruct(out string! Pod) -> void
+ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.KubernetesAttachOptions(string! Pod) -> void
+ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.Pod.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.Pod.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.Deconstruct(out string! Verb) -> void
+ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.KubernetesAuthCanIOptions(string! Verb) -> void
+ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.Type.get -> string?
+ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.Type.set -> void
+ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.Verb.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.Verb.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.Deconstruct(out string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.KubernetesConfigDeleteClusterOptions(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions! original) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.KubernetesConfigDeleteClusterOptions(string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.Name.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.Name.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.Deconstruct(out string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.KubernetesConfigDeleteContextOptions(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions! original) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.KubernetesConfigDeleteContextOptions(string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.Name.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.Name.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.Deconstruct(out string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.KubernetesConfigDeleteUserOptions(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions! original) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.KubernetesConfigDeleteUserOptions(string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.Name.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.Name.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions
+ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.ContextName.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.ContextName.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.Deconstruct(out string! ContextName, out string! NewName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.KubernetesConfigRenameContextOptions(ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions! original) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.KubernetesConfigRenameContextOptions(string! ContextName, string! NewName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.NewName.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.NewName.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.Deconstruct(out string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.KubernetesConfigSetClusterOptions(string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.Name.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.Name.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetContextOptions.Name.get -> string?
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetContextOptions.Name.set -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.Deconstruct(out string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.KubernetesConfigSetCredentialsOptions(string! Name) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.Name.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.Name.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.Deconstruct(out string! PropertyName, out string! PropertyValue) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.KubernetesConfigSetOptions(string! PropertyName, string! PropertyValue) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.PropertyName.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.PropertyName.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.PropertyValue.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.PropertyValue.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions
+ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.Deconstruct(out string! PropertyName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.KubernetesConfigUnsetOptions(ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions! original) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.KubernetesConfigUnsetOptions(string! PropertyName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.PropertyName.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.PropertyName.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions
+ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.ContextName.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.ContextName.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.Deconstruct(out string! ContextName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.KubernetesConfigUseContextOptions(ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions! original) -> void
+ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.KubernetesConfigUseContextOptions(string! ContextName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.Deconstruct(out string! Node) -> void
+ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.KubernetesCordonOptions(string! Node) -> void
+ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.Node.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.Node.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesCpOptions.Deconstruct(out string! FileSpecSrc, out string! FileSpecDest) -> void
+ModularPipelines.Kubernetes.Options.KubernetesCpOptions.FileSpecDest.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesCpOptions.FileSpecDest.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesCpOptions.FileSpecSrc.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesCpOptions.FileSpecSrc.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesCpOptions.KubernetesCpOptions(string! FileSpecSrc, string! FileSpecDest) -> void
+ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.Args.set -> void
+ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.CommandArgs.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.CommandArgs.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.Deconstruct(out string! Pod, out string! CommandArgs) -> void
+ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.KubernetesDebugOptions(string! Pod, string! CommandArgs) -> void
+ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.Pod.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.Pod.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.Deconstruct(out string! Node) -> void
+ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.KubernetesDrainOptions(string! Node) -> void
+ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.Node.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.Node.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesEventsOptions.O.get -> string?
+ModularPipelines.Kubernetes.Options.KubernetesEventsOptions.O.set -> void
+ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Args.set -> void
+ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Command.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Command.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Deconstruct(out string! Pod, out string! Command) -> void
+ModularPipelines.Kubernetes.Options.KubernetesExecOptions.KubernetesExecOptions(string! Pod, string! Command) -> void
+ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Pod.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Pod.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Key_1Val_1, out string! KeyNValN) -> void
+ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.KeyNValN.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.KeyNValN.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.Key_1Val_1.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.Key_1Val_1.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.KubernetesLabelOptions(System.Collections.Generic.IEnumerable<string!>! Key_1Val_1, string! KeyNValN) -> void
+ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.Deconstruct(out string! Pod) -> void
+ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.KubernetesLogsOptions(string! Pod) -> void
+ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.Pod.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.Pod.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.Deconstruct(out string! TypeOrName, out System.Collections.Generic.IEnumerable<string!>! LocalPortRemotePort) -> void
+ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.KubernetesPortForwardOptions(string! TypeOrName, System.Collections.Generic.IEnumerable<string!>! LocalPortRemotePort) -> void
+ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.LocalPortRemotePort.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.LocalPortRemotePort.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.TypeOrName.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.TypeOrName.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.Deconstruct(out string! TypeName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.KubernetesRolloutHistoryOptions(string! TypeName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.TypeName.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.TypeName.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.Deconstruct(out string! Resource) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.KubernetesRolloutPauseOptions(string! Resource) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.Resource.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.Resource.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.Deconstruct(out string! Resource) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.KubernetesRolloutRestartOptions(string! Resource) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.Resource.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.Resource.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.Deconstruct(out string! Resource) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.KubernetesRolloutResumeOptions(string! Resource) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.Resource.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.Resource.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.Deconstruct(out string! TypeName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.KubernetesRolloutStatusOptions(string! TypeName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.TypeName.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.TypeName.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.Deconstruct(out string! TypeName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.KubernetesRolloutUndoOptions(string! TypeName) -> void
+ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.TypeName.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.TypeName.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.Deconstruct(out string! Node, out string! Name, out System.Collections.Generic.IEnumerable<string!>! Taints) -> void
+ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.KubernetesTaintOptions(string! Node, string! Name, System.Collections.Generic.IEnumerable<string!>! Taints) -> void
+ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.Name.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.Name.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.Node.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.Node.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.Taints.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.Taints.init -> void
+ModularPipelines.Kubernetes.Options.KubernetesTopNodeOptions.Name.get -> string?
+ModularPipelines.Kubernetes.Options.KubernetesTopNodeOptions.Name.set -> void
+ModularPipelines.Kubernetes.Options.KubernetesTopPodOptions.Name.get -> string?
+ModularPipelines.Kubernetes.Options.KubernetesTopPodOptions.Name.set -> void
+ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.Deconstruct(out string! Node) -> void
+ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.KubernetesUncordonOptions(string! Node) -> void
+ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.Node.get -> string!
+ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.Node.init -> void
 ModularPipelines.Kubernetes.Services.IKubernetes.AnnotateAsync(ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetes.AttachAsync(ModularPipelines.Kubernetes.Options.KubernetesAttachOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetes.AutoscaleAsync(ModularPipelines.Kubernetes.Options.KubernetesAutoscaleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -191,12 +415,18 @@ ModularPipelines.Kubernetes.Services.IKubernetesCertificate.DenyAsync(ModularPip
 ModularPipelines.Kubernetes.Services.IKubernetesCertificate.ExecuteAsync(ModularPipelines.Kubernetes.Options.KubernetesCertificateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesClusterinfo.DumpAsync(ModularPipelines.Kubernetes.Options.KubernetesClusterInfoDumpOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesClusterinfo.ExecuteAsync(ModularPipelines.Kubernetes.Options.KubernetesClusterInfoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Kubernetes.Services.IKubernetesConfig.DeleteClusterAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Kubernetes.Services.IKubernetesConfig.DeleteContextAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Kubernetes.Services.IKubernetesConfig.DeleteUserAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesConfig.ExecuteAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesConfig.GetContextsAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigGetContextsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Kubernetes.Services.IKubernetesConfig.RenameContextAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesConfig.SetAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesConfig.SetClusterAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesConfig.SetContextAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigSetContextOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesConfig.SetCredentialsAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Kubernetes.Services.IKubernetesConfig.UnsetAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Kubernetes.Services.IKubernetesConfig.UseContextAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesConfig.ViewAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigViewOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesKuberc.ExecuteAsync(ModularPipelines.Kubernetes.Options.KubernetesKubercOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Kubernetes.Services.IKubernetesKuberc.SetAsync(ModularPipelines.Kubernetes.Options.KubernetesKubercSetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -238,8 +468,68 @@ ModularPipelines.Kubernetes.Services.KustomizeEditAdd.KustomizeEditAdd(ModularPi
 ModularPipelines.Kubernetes.Services.KustomizeEditRemove.KustomizeEditRemove(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Kubernetes.Services.KustomizeEditSet.KustomizeEditSet(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Kubernetes.Services.KustomizeFn.KustomizeFn(ModularPipelines.Context.ICommandContext! command) -> void
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.Equals(object? obj) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.GetHashCode() -> int
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.ToString() -> string!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.Equals(object? obj) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.GetHashCode() -> int
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.ToString() -> string!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.Equals(object? obj) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.GetHashCode() -> int
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.ToString() -> string!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.Equals(object? obj) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.GetHashCode() -> int
+override ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.ToString() -> string!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.Equals(object? obj) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.GetHashCode() -> int
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.ToString() -> string!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.Equals(object? obj) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.GetHashCode() -> int
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.ToString() -> string!
+override sealed ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesOptions? other) -> bool
+override sealed ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesOptions? other) -> bool
+override sealed ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesOptions? other) -> bool
+override sealed ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesOptions? other) -> bool
+override sealed ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesOptions? other) -> bool
+override sealed ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesOptions? other) -> bool
 static ModularPipelines.Kubernetes.Extensions.KubernetesExtensions.Kubernetes(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Kubernetes.Services.IKubernetes!
 static ModularPipelines.Kubernetes.Extensions.KustomizeExtensions.Kustomize(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Kubernetes.Services.IKustomize!
+static ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.operator !=(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.operator ==(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.operator !=(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.operator ==(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.operator !=(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.operator ==(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.operator !=(ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.operator ==(ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.operator !=(ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.operator ==(ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.operator !=(ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions? right) -> bool
+static ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.operator ==(ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions? left, ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions? right) -> bool
+virtual ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions? other) -> bool
+virtual ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions? other) -> bool
+virtual ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions? other) -> bool
+virtual ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions? other) -> bool
+virtual ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions? other) -> bool
+virtual ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions? other) -> bool
 virtual ModularPipelines.Kubernetes.Services.KubernetesApply.EditLastAppliedAsync(ModularPipelines.Kubernetes.Options.KubernetesApplyEditLastAppliedOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesApply.ExecuteAsync(ModularPipelines.Kubernetes.Options.KubernetesApplyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesApply.SetLastAppliedAsync(ModularPipelines.Kubernetes.Options.KubernetesApplySetLastAppliedOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -253,12 +543,18 @@ virtual ModularPipelines.Kubernetes.Services.KubernetesCertificate.DenyAsync(Mod
 virtual ModularPipelines.Kubernetes.Services.KubernetesCertificate.ExecuteAsync(ModularPipelines.Kubernetes.Options.KubernetesCertificateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesClusterinfo.DumpAsync(ModularPipelines.Kubernetes.Options.KubernetesClusterInfoDumpOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesClusterinfo.ExecuteAsync(ModularPipelines.Kubernetes.Options.KubernetesClusterInfoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.DeleteClusterAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteClusterOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.DeleteContextAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteContextOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.DeleteUserAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigDeleteUserOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.ExecuteAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.GetContextsAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigGetContextsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.RenameContextAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigRenameContextOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.SetAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.SetClusterAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.SetContextAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigSetContextOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.SetCredentialsAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.UnsetAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigUnsetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.UseContextAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigUseContextOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesConfig.ViewAsync(ModularPipelines.Kubernetes.Options.KubernetesConfigViewOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesKuberc.ExecuteAsync(ModularPipelines.Kubernetes.Options.KubernetesKubercOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Kubernetes.Services.KubernetesKuberc.SetAsync(ModularPipelines.Kubernetes.Options.KubernetesKubercSetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
