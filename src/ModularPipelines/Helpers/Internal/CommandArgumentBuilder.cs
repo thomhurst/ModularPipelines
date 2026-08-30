@@ -300,9 +300,18 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static void AddFlag(List<string> args, FlagPart flagPart, object rawValue)
     {
-        if (rawValue is bool boolValue && boolValue)
+        if (rawValue is bool boolValue)
         {
-            args.Add(GetEffectiveName(flagPart.Attribute));
+            if (boolValue)
+            {
+                args.Add(GetEffectiveName(flagPart.Attribute));
+            }
+            else if (!string.IsNullOrEmpty(flagPart.Attribute.NegatedName))
+            {
+                args.Add(flagPart.Attribute.NegatedName);
+            }
+
+            return;
         }
 
         if (rawValue is int count && count > 0)

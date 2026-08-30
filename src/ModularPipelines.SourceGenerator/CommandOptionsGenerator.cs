@@ -943,7 +943,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 0,
                 property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 IsSupportedFlagType(property.Type),
-                false);
+                false,
+                NegatedName: GetNamedString(attribute, "NegatedName"));
         }
 
         return new PropertyMetadata(
@@ -1522,6 +1523,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliFlagAttribute({Literal(property.PrimaryValue!)})");
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        ShortForm = {NullableLiteral(property.ShortForm)},");
+                    sb.AppendLine($"                        NegatedName = {NullableLiteral(property.NegatedName)},");
                     sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }},");
@@ -2318,7 +2320,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool IsSupportedPropertyType,
         bool HasExplicitArgumentPosition,
         bool RepeatOptionTerminator = false,
-        string? CollectionSeparator = null);
+        string? CollectionSeparator = null,
+        string? NegatedName = null);
 
     private enum PropertyKind
     {

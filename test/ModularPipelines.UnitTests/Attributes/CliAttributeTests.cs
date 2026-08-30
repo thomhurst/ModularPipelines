@@ -70,6 +70,29 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Uses_Negated_Flag_Name_For_Explicit_False()
+    {
+        var attribute = new CliFlagAttribute("--feature") { NegatedName = "--no-feature" };
+
+        await Assert.That(RenderFlag(attribute, false)).IsEquivalentTo(["--no-feature"]);
+    }
+
+    [Test]
+    public async Task Generated_Metadata_Preserves_Negated_Flag_Name()
+    {
+        var enabled = BuildArguments(new TestCliOptionsWithNegatedFlag { Feature = true });
+        var disabled = BuildArguments(new TestCliOptionsWithNegatedFlag { Feature = false });
+        var unspecified = BuildArguments(new TestCliOptionsWithNegatedFlag());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(enabled).IsEquivalentTo(["--feature"]);
+            await Assert.That(disabled).IsEquivalentTo(["--no-feature"]);
+            await Assert.That(unspecified).IsEmpty();
+        }
+    }
+
+    [Test]
     [Arguments(OptionFormat.SpaceSeparated, "--namespace|value")]
     [Arguments(OptionFormat.EqualsSeparated, "--namespace=value")]
     [Arguments(OptionFormat.ColonSeparated, "--namespace:value")]
@@ -1064,9 +1087,9 @@ public class CliAttributeTests
         await Assert.That(list).Contains("bitnami/nginx");
     }
 
-    private static IReadOnlyList<string> RenderFlag(CliFlagAttribute attribute) =>
+    private static IReadOnlyList<string> RenderFlag(CliFlagAttribute attribute, object? value = null) =>
         new CommandArgumentBuilder().BuildArguments(
-            [new FlagPart("Value", _ => true, attribute)],
+            [new FlagPart("Value", _ => value ?? true, attribute)],
             new object());
 
     private static IReadOnlyList<string> RenderOption(CliOptionAttribute attribute) =>
@@ -1088,6 +1111,12 @@ public class CliAttributeTests
 
         [CliOption("--values")]
         public double[]? Values { get; init; }
+    }
+
+    internal record TestCliOptionsWithNegatedFlag : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public bool? Feature { get; init; }
     }
 
     internal record TestCliOptionsWithFlag : CommandLineToolOptions

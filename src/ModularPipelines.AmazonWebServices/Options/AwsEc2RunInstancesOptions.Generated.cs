@@ -191,10 +191,10 @@ public record AwsEc2RunInstancesOptions : AwsOptions
     [CliOption("--maintenance-options")]
     public string? MaintenanceOptions { get; set; }
 
-    [CliFlag("--disable-api-stop")]
+    [CliFlag("--disable-api-stop", NegatedName = "--no-disable-api-stop")]
     public bool? DisableApiStop { get; set; }
 
-    [CliFlag("--enable-primary-ipv6")]
+    [CliFlag("--enable-primary-ipv6", NegatedName = "--no-enable-primary-ipv6")]
     public bool? EnablePrimaryIpv6 { get; set; }
 
     /// <summary>
@@ -215,7 +215,7 @@ public record AwsEc2RunInstancesOptions : AwsOptions
     [CliOption("--secondary-interfaces", GroupValues = true)]
     public IEnumerable<string>? SecondaryInterfaces { get; set; }
 
-    [CliFlag("--dry-run")]
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliFlag("--disable-api-termination")]
@@ -258,7 +258,7 @@ public record AwsEc2RunInstancesOptions : AwsOptions
     [CliOption("--iam-instance-profile")]
     public string? IamInstanceProfile { get; set; }
 
-    [CliFlag("--ebs-optimized")]
+    [CliFlag("--ebs-optimized", NegatedName = "--no-ebs-optimized")]
     public bool? EbsOptimized { get; set; }
 
     /// <summary>
@@ -273,7 +273,7 @@ public record AwsEc2RunInstancesOptions : AwsOptions
     [CliOption("--secondary-private-ip-address-count")]
     public string? SecondaryPrivateIpAddressCount { get; set; }
 
-    [CliFlag("--associate-public-ip-address")]
+    [CliFlag("--associate-public-ip-address", NegatedName = "--no-associate-public-ip-address")]
     public bool? AssociatePublicIpAddress { get; set; }
 
     [CliOption("--cli-input-json")]

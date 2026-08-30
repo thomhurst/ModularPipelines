@@ -333,6 +333,24 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    public async Task GenerateCliAttributeString_Returns_CliFlag_With_Negated_Name()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--feature",
+            NegatedSwitchName = "--no-feature",
+            PropertyName = "Feature",
+            CSharpType = "bool?",
+            IsFlag = true,
+        };
+
+        var result = GeneratorUtils.GenerateCliAttributeString(option);
+
+        await Assert.That(result)
+            .IsEqualTo("CliFlag(\"--feature\", NegatedName = \"--no-feature\")");
+    }
+
+    [Test]
     public async Task GenerateCliAttributeString_Returns_CliOption_For_Value_Option()
     {
         var option = new CliOptionDefinition

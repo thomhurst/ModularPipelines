@@ -236,6 +236,31 @@ public class AwsCliScraperTests
     }
 
     [Test]
+    public async Task Paired_Boolean_Switches_Become_One_Negatable_Option()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsNegatedBooleanHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single().Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("--associate-public-ip-address");
+            await Assert.That(option.NegatedSwitchName).IsEqualTo("--no-associate-public-ip-address");
+            await Assert.That(option.PropertyName).IsEqualTo("AssociatePublicIpAddress");
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(option.IsFlag).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Enum_Detection_Rejects_Free_Form_Character_Descriptions()
     {
         var definition = AwsCliScraper.TryDetectEnum(
@@ -531,6 +556,35 @@ public class AwsCliScraperTests
                            --quiet (boolean)
                     """,
                 _ when arguments.StartsWith("s3 ", StringComparison.Ordinal) => "OPTIONS\n       --quiet (boolean)\n",
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class AwsNegatedBooleanHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o ec2",
+                "ec2 help" => "AVAILABLE COMMANDS\n       o run-instances",
+                "ec2 run-instances help" => """
+                    OPTIONS
+                           "--associate-public-ip-address" | "--no-associate-public-ip-address"
+                            (boolean) [EC2-VPC] If specified a public IP address will be assigned.
+                    """,
                 _ => string.Empty,
             };
 
