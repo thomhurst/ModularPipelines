@@ -318,6 +318,83 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Monitor_And_Stack_Descriptions_Require_Values()
+    {
+        const string helpText = """
+            Command
+                az monitor account issue create : Create an issue.
+
+            Optional Arguments
+                --background                     : The issue background information.
+                --impact-time                    : The issue impact time (in UTC).
+                --notifications                  : The issue notification settings.
+                --severity                       : The issue severity.
+                --status                         : The issue status. Allowed values: Closed, New.
+                --title                          : The issue title.
+                --deny-settings-excluded-actions : List of operations excluded from deny settings.
+                --deployment-resource-group      : The scope at which deployment is created.
+                --resources-without-delete-support: Defines what happens to unsupported resources.
+                --validation-level               : Validation level for the deployment stack.
+                --no-color                       : Disable color in results.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "monitor", "account", "issue", "create"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Where(option => option.PropertyName != "NoColor")
+                .All(option => !option.IsFlag && option.CSharpType != "bool?")).IsTrue();
+            await Assert.That(command.Options.Single(option => option.PropertyName == "NoColor").IsFlag)
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task CrLf_Section_Headers_Do_Not_Merge()
+    {
+        const string helpText = "Command\r\n"
+                                + "    az service create : Create a service.\r\n\r\n"
+                                + "Optional Arguments\r\n"
+                                + "Required Arguments\r\n"
+                                + "    --name : The name of the service.\r\n\r\n"
+                                + "Global Arguments\r\n"
+                                + "    --debug : Increase logging verbosity.\r\n";
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "service", "create"],
+            helpText);
+
+        var option = command!.Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.PropertyName).IsEqualTo("Name");
+            await Assert.That(option.IsRequired).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Policy_Options_Are_Inherited_After_Subcommands()
+    {
+        var tool = new TestAzCliScraper().CreateToolDefinition();
+
+        var acquireToken = tool.GetGlobalOptions().Single(option =>
+            option.SwitchName == "--acquire-policy-token");
+        var changeReference = tool.GetGlobalOptions().Single(option =>
+            option.SwitchName == "--change-reference");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsFalse();
+            await Assert.That(acquireToken.IsFlag).IsTrue();
+            await Assert.That(acquireToken.CSharpType).IsEqualTo("bool?");
+            await Assert.That(changeReference.IsFlag).IsFalse();
+            await Assert.That(changeReference.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Accept_Term_Remains_A_Presence_Only_Flag()
     {
         const string helpText = """

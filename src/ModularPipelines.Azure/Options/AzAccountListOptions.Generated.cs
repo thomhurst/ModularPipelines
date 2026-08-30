@@ -23,13 +23,20 @@ public record AzAccountListOptions : AzOptions
     /// <summary>
     /// List all subscriptions from all clouds, including subscriptions that are not 'Enabled'.
     /// </summary>
-    [CliFlag("--all")]
-    public bool? All { get; set; }
+    [CliOption("--all")]
+    public string? AllValue { get; set; }
 
     /// <summary>
     /// Retrieve up-to-date subscriptions from server.
     /// </summary>
     [CliFlag("--refresh")]
     public bool? Refresh { get; set; }
+
+    [Obsolete("Use AllValue instead.")]
+    public bool? All
+    {
+        get => bool.TryParse(AllValue, out var value) ? value : null;
+        set => AllValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

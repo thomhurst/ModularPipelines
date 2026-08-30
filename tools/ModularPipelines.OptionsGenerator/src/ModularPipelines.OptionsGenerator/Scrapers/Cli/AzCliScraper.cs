@@ -73,6 +73,36 @@ public partial class AzCliScraper : CliScraperBase
     protected override int MaxParallelism => 10;
 
     /// <summary>
+    /// Azure policy arguments are described as global but are registered on the selected
+    /// command parser, so they must follow the subcommand path.
+    /// </summary>
+    protected override bool GlobalOptionsBeforeSubcommands => false;
+
+    protected override IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions =>
+    [
+        new()
+        {
+            SwitchName = "--acquire-policy-token",
+            PropertyName = "AcquirePolicyToken",
+            CSharpType = "bool?",
+            Description = "Acquire an Azure Policy token automatically for this resource operation.",
+            IsFlag = true,
+            ValueSeparator = " ",
+            IsSecret = false,
+        },
+        new()
+        {
+            SwitchName = "--change-reference",
+            PropertyName = "ChangeReference",
+            CSharpType = "string?",
+            Description = "The related change reference ID for this resource operation.",
+            IsFlag = false,
+            ValueSeparator = " ",
+            IsSecret = false,
+        },
+    ];
+
+    /// <summary>
     /// Skip common utility subcommands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -512,7 +542,7 @@ public partial class AzCliScraper : CliScraperBase
     /// <summary>
     /// Matches section headers like "Arguments", "Global Arguments", "Subgroups:", etc.
     /// </summary>
-    [GeneratedRegex(@"^(?<name>[A-Z][\w\s]*:?)[ \t]*$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^(?<name>[A-Z][\w \t]*:?)[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
@@ -537,10 +567,10 @@ public partial class AzCliScraper : CliScraperBase
     [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<required>Required)\])?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
-    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|batch|accepts?)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list|defines?|validation level|denysettings|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();
 
-    [GeneratedRegex(@"\b(?:resource ID|secret URI|URI or path|key-value pairs|accepted values?)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"\b(?:resource ID|secret URI|URI or path|key-value pairs|accepted values?|allowed values?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzEmbeddedValueDescriptionPattern();
 
     #endregion

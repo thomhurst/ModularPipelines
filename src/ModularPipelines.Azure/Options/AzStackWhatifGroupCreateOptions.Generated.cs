@@ -35,20 +35,20 @@ public record AzStackWhatifGroupCreateOptions(
     /// <summary>
     /// DenySettings will be applied to child scopes.
     /// </summary>
-    [CliFlag("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
-    public bool? Cs { get; set; }
+    [CliOption("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
+    public string? CsValue { get; set; }
 
     /// <summary>
     /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.
     /// </summary>
-    [CliFlag("--deny-settings-excluded-actions", ShortForm = "--ea")]
-    public bool? DenySettingsExcludedActions { get; set; }
+    [CliOption("--deny-settings-excluded-actions", ShortForm = "--ea")]
+    public IEnumerable<string>? DenySettingsExcludedActionsValues { get; set; }
 
     /// <summary>
     /// List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted.
     /// </summary>
-    [CliFlag("--deny-settings-excluded-principals", ShortForm = "--ep")]
-    public bool? DenySettingsExcludedPrincipals { get; set; }
+    [CliOption("--deny-settings-excluded-principals", ShortForm = "--ep")]
+    public IEnumerable<string>? DenySettingsExcludedPrincipalsValues { get; set; }
 
     /// <summary>
     /// The description of deployment stack.
@@ -89,8 +89,8 @@ public record AzStackWhatifGroupCreateOptions(
     /// <summary>
     /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
     /// </summary>
-    [CliFlag("--resources-without-delete-support", ShortForm = "--rwd")]
-    public bool? ResourcesWithoutDeleteSupport { get; set; }
+    [CliOption("--resources-without-delete-support", ShortForm = "--rwd")]
+    public string? ResourcesWithoutDeleteSupportValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
@@ -119,7 +119,42 @@ public record AzStackWhatifGroupCreateOptions(
     /// <summary>
     /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider,
     /// </summary>
-    [CliFlag("--validation-level", ShortForm = "--vl")]
-    public bool? ValidationLevel { get; set; }
+    [CliOption("--validation-level", ShortForm = "--vl")]
+    public string? ValidationLevelValue { get; set; }
+
+    [Obsolete("Use CsValue instead.")]
+    public bool? Cs
+    {
+        get => bool.TryParse(CsValue, out var value) ? value : null;
+        set => CsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DenySettingsExcludedActionsValues instead.")]
+    public bool? DenySettingsExcludedActions
+    {
+        get => bool.TryParse(DenySettingsExcludedActionsValues?.FirstOrDefault(), out var value) ? value : null;
+        set => DenySettingsExcludedActionsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
+    }
+
+    [Obsolete("Use DenySettingsExcludedPrincipalsValues instead.")]
+    public bool? DenySettingsExcludedPrincipals
+    {
+        get => bool.TryParse(DenySettingsExcludedPrincipalsValues?.FirstOrDefault(), out var value) ? value : null;
+        set => DenySettingsExcludedPrincipalsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
+    }
+
+    [Obsolete("Use ResourcesWithoutDeleteSupportValue instead.")]
+    public bool? ResourcesWithoutDeleteSupport
+    {
+        get => bool.TryParse(ResourcesWithoutDeleteSupportValue, out var value) ? value : null;
+        set => ResourcesWithoutDeleteSupportValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ValidationLevelValue instead.")]
+    public bool? ValidationLevel
+    {
+        get => bool.TryParse(ValidationLevelValue, out var value) ? value : null;
+        set => ValidationLevelValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

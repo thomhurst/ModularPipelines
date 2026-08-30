@@ -84,7 +84,10 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
         sb.AppendLine($"[CliTool({GeneratorUtils.FormatStringLiteral(tool.ToolName)})]");
-        sb.AppendLine("[CliGlobalOptions]");
+        if (tool.GlobalOptionsBeforeSubcommands)
+        {
+            sb.AppendLine("[CliGlobalOptions]");
+        }
 
         // Class declaration
         var className = $"{tool.NamespacePrefix}Options";

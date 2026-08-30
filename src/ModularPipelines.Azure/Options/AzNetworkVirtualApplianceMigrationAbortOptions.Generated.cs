@@ -23,8 +23,8 @@ public record AzNetworkVirtualApplianceMigrationAbortOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait")]
+    public string? NoWaitValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -49,5 +49,12 @@ public record AzNetworkVirtualApplianceMigrationAbortOptions : AzOptions
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    [Obsolete("Use NoWaitValue instead.")]
+    public bool? NoWait
+    {
+        get => bool.TryParse(NoWaitValue, out var value) ? value : null;
+        set => NoWaitValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

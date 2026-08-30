@@ -1605,6 +1605,47 @@ public class GeneratorHardeningTests
             CliCompatibilityForwardingKind.NullableBooleanToString);
     }
 
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Flag_That_Became_Multiple_Values()
+    {
+        var command = Command("AzStackWhatifCreateOptions", "AzOptions", ["stack-whatif", "create"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--deny-settings-excluded-actions",
+                    PropertyName = "DenySettingsExcludedActions",
+                    CSharpType = "IEnumerable<string>?",
+                    AcceptsMultipleValues = true,
+                    IsCollection = true,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("DenySettingsExcludedActions", "bool?", switchName: "--deny-settings-excluded-actions")]);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var option = preserved.Options.Single();
+        var alias = preserved.CompatibilityProperties.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.PropertyName).IsEqualTo("DenySettingsExcludedActionsValues");
+            await Assert.That(alias.PropertyName).IsEqualTo("DenySettingsExcludedActions");
+            await Assert.That(alias.ForwardToPropertyName).IsEqualTo("DenySettingsExcludedActionsValues");
+            await Assert.That(alias.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableBooleanToStringCollection);
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "DenySettingsExcludedActions",
+            "DenySettingsExcludedActionsValues",
+            CliCompatibilityForwardingKind.NullableBooleanToStringCollection);
+    }
+
     private static async Task AssertCompatibilityForwardingRoundTrips(
         CliCommandDefinition generatedCommand,
         string compatibilityPropertyName,

@@ -35,8 +35,8 @@ public record AzMonitorAccountIssueUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string")]
+    public string? ForceStringValue { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -53,38 +53,38 @@ public record AzMonitorAccountIssueUpdateOptions : AzOptions
     /// <summary>
     /// The issue background information  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--background")]
-    public bool? Background { get; set; }
+    [CliOption("--background")]
+    public string? BackgroundValue { get; set; }
 
     /// <summary>
     /// The issue impact time (in UTC).
     /// </summary>
-    [CliFlag("--impact-time")]
-    public bool? ImpactTime { get; set; }
+    [CliOption("--impact-time")]
+    public string? ImpactTimeValue { get; set; }
 
     /// <summary>
     /// The issue notification settings  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--notifications")]
-    public bool? Notifications { get; set; }
+    [CliOption("--notifications")]
+    public string? NotificationsValue { get; set; }
 
     /// <summary>
     /// The issue severity.
     /// </summary>
-    [CliFlag("--severity")]
-    public bool? Severity { get; set; }
+    [CliOption("--severity")]
+    public string? SeverityValue { get; set; }
 
     /// <summary>
     /// The issue status.  Allowed values: Canceled, Closed,
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? StatusValue { get; set; }
 
     /// <summary>
     /// The issue title.
     /// </summary>
-    [CliFlag("--title")]
-    public bool? Title { get; set; }
+    [CliOption("--title")]
+    public string? TitleValue { get; set; }
 
     /// <summary>
     /// The name of the Azure Monitor Workspace. The name is case insensitive.
@@ -109,5 +109,54 @@ public record AzMonitorAccountIssueUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    [Obsolete("Use ForceStringValue instead.")]
+    public bool? ForceString
+    {
+        get => bool.TryParse(ForceStringValue, out var value) ? value : null;
+        set => ForceStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use BackgroundValue instead.")]
+    public bool? Background
+    {
+        get => bool.TryParse(BackgroundValue, out var value) ? value : null;
+        set => BackgroundValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ImpactTimeValue instead.")]
+    public bool? ImpactTime
+    {
+        get => bool.TryParse(ImpactTimeValue, out var value) ? value : null;
+        set => ImpactTimeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NotificationsValue instead.")]
+    public bool? Notifications
+    {
+        get => bool.TryParse(NotificationsValue, out var value) ? value : null;
+        set => NotificationsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SeverityValue instead.")]
+    public bool? Severity
+    {
+        get => bool.TryParse(SeverityValue, out var value) ? value : null;
+        set => SeverityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StatusValue instead.")]
+    public bool? Status
+    {
+        get => bool.TryParse(StatusValue, out var value) ? value : null;
+        set => StatusValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TitleValue instead.")]
+    public bool? Title
+    {
+        get => bool.TryParse(TitleValue, out var value) ? value : null;
+        set => TitleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

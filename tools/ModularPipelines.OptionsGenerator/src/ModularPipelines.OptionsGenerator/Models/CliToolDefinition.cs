@@ -83,6 +83,13 @@ public record CliToolDefinition
     public IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions { get; init; } = [];
 
     /// <summary>
+    /// Gets or sets a value indicating whether inherited tool-wide options are emitted before
+    /// subcommands. Some CLIs describe options as global while accepting them only after the
+    /// selected command path.
+    /// </summary>
+    public bool GlobalOptionsBeforeSubcommands { get; init; } = true;
+
+    /// <summary>
     /// Public global properties retained for source and binary compatibility but excluded from CLI rendering.
     /// </summary>
     public IReadOnlyList<CliCompatibilityProperty> GlobalCompatibilityProperties { get; init; } = [];

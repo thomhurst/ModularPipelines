@@ -1695,15 +1695,21 @@ internal static class GeneratedApiCompatibilityPreserver
         {
             var optionIndex = Array.FindIndex(options, option =>
                 option.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
-                && option.PropertyType.Equals("string?", StringComparison.Ordinal)
+                && (option.PropertyType.Equals("string?", StringComparison.Ordinal)
+                    || option.PropertyType.Equals("IEnumerable<string>?", StringComparison.Ordinal))
                 && HasSameCliIdentity(ToGeneratedProperty(option), baseline));
             if (optionIndex < 0)
             {
                 continue;
             }
 
+            var forwardsToCollection = options[optionIndex].PropertyType.Equals(
+                "IEnumerable<string>?",
+                StringComparison.Ordinal);
             var replacementName = GetUniqueReplacementName(
-                $"{baseline.PropertyName}Value",
+                forwardsToCollection
+                    ? $"{baseline.PropertyName}Values"
+                    : $"{baseline.PropertyName}Value",
                 propertyNames);
             propertyNames.Add(replacementName);
             options[optionIndex] = options[optionIndex] with { PropertyName = replacementName };
@@ -1714,7 +1720,9 @@ internal static class GeneratedApiCompatibilityPreserver
                     PropertyName = baseline.PropertyName,
                     CSharpType = baseline.CSharpType,
                     ForwardToPropertyName = replacementName,
-                    ForwardingKind = CliCompatibilityForwardingKind.NullableBooleanToString,
+                    ForwardingKind = forwardsToCollection
+                        ? CliCompatibilityForwardingKind.NullableBooleanToStringCollection
+                        : CliCompatibilityForwardingKind.NullableBooleanToString,
                     ObsoleteMessage = $"Use {replacementName} instead.",
                 },
                 compatibilityProperties,
@@ -2258,6 +2266,9 @@ internal static class GeneratedApiCompatibilityPreserver
             (CliCompatibilityForwardingKind.NullableInt32ToString,
                 CliCompatibilityForwardingKind.ScalarToCollection) =>
                 CliCompatibilityForwardingKind.NullableInt32ToStringCollection,
+            (CliCompatibilityForwardingKind.NullableBooleanToString,
+                CliCompatibilityForwardingKind.ScalarToCollection) =>
+                CliCompatibilityForwardingKind.NullableBooleanToStringCollection,
             (CliCompatibilityForwardingKind.NullableInt32ToString,
                 CliCompatibilityForwardingKind.NullableStringToCliOptionValue) =>
                 CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue,
@@ -2317,6 +2328,12 @@ internal static class GeneratedApiCompatibilityPreserver
             && replacement.CSharpType.Equals("string?", StringComparison.Ordinal))
         {
             return CliCompatibilityForwardingKind.NullableBooleanToString;
+        }
+
+        if (baseline.CSharpType.Equals("bool?", StringComparison.Ordinal)
+            && replacement.CSharpType.Equals("IEnumerable<string>?", StringComparison.Ordinal))
+        {
+            return CliCompatibilityForwardingKind.NullableBooleanToStringCollection;
         }
 
         if (!baseline.CSharpType.Equals("string?", StringComparison.Ordinal))
@@ -3684,7 +3701,7 @@ internal static class GeneratedApiCompatibilityPreserver
         ExpressionSyntax? expression,
         out (string? TargetPropertyName, CliCompatibilityForwardingKind Kind) forwarding)
     {
-        if (expression is ConditionalExpressionSyntax
+        if (expression is not ConditionalExpressionSyntax
             {
                 Condition: InvocationExpressionSyntax
                 {
@@ -3698,12 +3715,33 @@ internal static class GeneratedApiCompatibilityPreserver
                     },
                     ArgumentList.Arguments: { Count: > 0 } arguments,
                 },
-            }
-            && arguments[0].Expression is IdentifierNameSyntax stringValue)
+            })
+        {
+            forwarding = default;
+            return false;
+        }
+
+        if (arguments[0].Expression is IdentifierNameSyntax stringValue)
         {
             forwarding = (
                 stringValue.Identifier.ValueText,
                 CliCompatibilityForwardingKind.NullableBooleanToString);
+            return true;
+        }
+
+        if (arguments[0].Expression is ConditionalAccessExpressionSyntax
+            {
+                Expression: IdentifierNameSyntax collectionTarget,
+                WhenNotNull: InvocationExpressionSyntax
+                {
+                    Expression: MemberBindingExpressionSyntax collectionMember,
+                },
+            }
+            && collectionMember.Name.Identifier.ValueText.Equals("FirstOrDefault", StringComparison.Ordinal))
+        {
+            forwarding = (
+                collectionTarget.Identifier.ValueText,
+                CliCompatibilityForwardingKind.NullableBooleanToStringCollection);
             return true;
         }
 

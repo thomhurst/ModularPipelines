@@ -133,6 +133,11 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions => [];
 
     /// <summary>
+    /// Gets whether inherited tool-wide options must be emitted before subcommands.
+    /// </summary>
+    protected virtual bool GlobalOptionsBeforeSubcommands => true;
+
+    /// <summary>
     /// The validated union of scraped and supplemental global options.
     /// </summary>
     protected IReadOnlyList<CliOptionDefinition> EffectiveGlobalOptions =>
@@ -633,6 +638,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 .ToList(),
             GlobalOptions = GlobalOptions,
             SupplementalGlobalOptions = SupplementalGlobalOptions,
+            GlobalOptionsBeforeSubcommands = GlobalOptionsBeforeSubcommands,
             Errors = []
         };
     }
