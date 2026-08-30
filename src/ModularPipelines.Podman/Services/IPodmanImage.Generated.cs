@@ -27,6 +27,16 @@ public interface IPodmanImage
     PodmanImageTrust Trust => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Manage images
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(PodmanImageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Build an image using instructions from Containerfiles
     /// </summary>
     /// <param name="options">The command options.</param>

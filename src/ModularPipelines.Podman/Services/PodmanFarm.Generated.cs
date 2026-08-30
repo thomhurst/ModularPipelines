@@ -33,6 +33,21 @@ public class PodmanFarm : IPodmanFarm
     #region Commands
 
     /// <summary>
+    /// Farm out builds to remote machines
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PodmanFarmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanFarmOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Build a container image for multiple architectures
     /// </summary>
     /// <param name="options">The command options.</param>

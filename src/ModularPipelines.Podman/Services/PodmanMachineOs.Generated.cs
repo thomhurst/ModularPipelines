@@ -33,6 +33,21 @@ public class PodmanMachineOs
     #region Commands
 
     /// <summary>
+    /// Manage a Podman virtual machine's OS
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PodmanMachineOsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanMachineOsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Apply an OCI image to a Podman Machine's OS
     /// </summary>
     /// <param name="options">The command options.</param>

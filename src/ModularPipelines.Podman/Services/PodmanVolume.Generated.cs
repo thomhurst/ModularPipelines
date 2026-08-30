@@ -33,6 +33,21 @@ public class PodmanVolume : IPodmanVolume
     #region Commands
 
     /// <summary>
+    /// Manage volumes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PodmanVolumeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanVolumeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a new volume
     /// </summary>
     /// <param name="options">The command options.</param>
