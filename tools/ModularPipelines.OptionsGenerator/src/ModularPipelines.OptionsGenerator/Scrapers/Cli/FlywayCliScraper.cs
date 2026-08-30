@@ -62,6 +62,11 @@ public partial class FlywayCliScraper : CliScraperBase
     protected override int MaxCommandDepth => 2; // flyway + command = 2
 
     /// <summary>
+    /// Each Flyway help invocation starts a JVM, so high concurrency can exhaust runner memory.
+    /// </summary>
+    protected override int MaxParallelism => 2;
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -85,9 +90,26 @@ public partial class FlywayCliScraper : CliScraperBase
                     "flyway migrate",
                     "flyway snapshot",
                 ],
+                ConditionallyAvailableCommands =
+                [
+                    ConditionalCommand("add"),
+                    ConditionalCommand("deploy"),
+                    ConditionalCommand("diffApply"),
+                    ConditionalCommand("generate"),
+                    ConditionalCommand("init"),
+                    ConditionalCommand("list-engines"),
+                    ConditionalCommand("prepare"),
+                    ConditionalCommand("undo"),
+                ],
             },
         };
     }
+
+    private static CliConditionallyAvailableCommand ConditionalCommand(string command) => new()
+    {
+        Command = $"flyway {command}",
+        Reason = "Availability depends on the installed Flyway distribution, edition, and license.",
+    };
 
     /// <summary>
     /// Extracts subcommand names from Flyway help text.

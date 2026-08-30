@@ -2853,6 +2853,65 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Keeps_ConditionallyAvailable_Command_Active()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolEnterpriseOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"enterprise\")] "
+                + "public record ToolEnterpriseOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Tool { public Task EnterpriseAsync(ToolEnterpriseOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command("ToolCommunityOptions", "ToolOptions", ["community"])) with
+            {
+                CommandCoverage = new CliCommandCoveragePolicy
+                {
+                    ConditionallyAvailableCommands =
+                    [
+                        new CliConditionallyAvailableCommand
+                        {
+                            Command = "tool enterprise",
+                            Reason = "Requires an enterprise license.",
+                        },
+                    ],
+                },
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var restored = preserved.Commands.Single(command =>
+                command.ClassName.Equals("ToolEnterpriseOptions", StringComparison.Ordinal));
+            var generatedService = (await new ServiceInterfaceGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith("ITool.Generated.cs", StringComparison.Ordinal))
+                .Content;
+            var generatedOptions = (await new OptionsClassGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith(
+                    "ToolEnterpriseOptions.Generated.cs",
+                    StringComparison.Ordinal))
+                .Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.IsCompatibilityOnly).IsFalse();
+                await Assert.That(generatedOptions).DoesNotContain("[Obsolete(");
+                await Assert.That(generatedService).DoesNotContain("[Obsolete(");
+                await Assert.That(generatedService).Contains("EnterpriseAsync(ToolEnterpriseOptions? options = null");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task CompatibilityOnly_SubDomain_Facades_Are_Obsolete()
     {
         var command = Command(

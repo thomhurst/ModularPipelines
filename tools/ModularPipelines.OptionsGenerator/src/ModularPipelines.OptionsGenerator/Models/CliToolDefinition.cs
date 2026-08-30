@@ -188,9 +188,31 @@ public record CliCommandCoveragePolicy
     public IReadOnlyList<string> SentinelCommands { get; init; } = [];
 
     /// <summary>
+    /// Commands whose help visibility depends on an edition, license, plugin, or environment.
+    /// When one is absent from a fresh scrape, its existing generated definition remains active.
+    /// </summary>
+    public IReadOnlyList<CliConditionallyAvailableCommand> ConditionallyAvailableCommands { get; init; } = [];
+
+    /// <summary>
     /// Commands intentionally omitted from generation, with machine-readable reasons.
     /// </summary>
     public IReadOnlyList<CliCommandCoverageExclusion> Exclusions { get; init; } = [];
+}
+
+/// <summary>
+/// Documents a command whose visibility in CLI help depends on the current installation.
+/// </summary>
+public record CliConditionallyAvailableCommand
+{
+    /// <summary>
+    /// Full CLI command path.
+    /// </summary>
+    public required string Command { get; init; }
+
+    /// <summary>
+    /// Human-readable availability condition, such as an edition, license, plugin, or environment.
+    /// </summary>
+    public required string Reason { get; init; }
 }
 
 /// <summary>

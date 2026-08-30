@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
@@ -8,6 +9,18 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
 public class FlywayCommandCoverageTests
 {
+    [Test]
+    public async Task FlywayScraper_LimitsParallelismForJavaProcesses()
+    {
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        var scraper = new TestableFlywayCliScraper(
+            new UnusedExecutor(),
+            cache,
+            NullLogger<FlywayCliScraper>.Instance);
+
+        await Assert.That(scraper.Parallelism).IsEqualTo(2);
+    }
+
     [Test]
     public async Task FlywayVersion_ExtractsEditionVersionFromNoisyOutput()
     {
@@ -196,7 +209,23 @@ public class FlywayCommandCoverageTests
         }.Select(Command).ToArray();
         var evaluation = EvaluateCoverage(scraper, communityCommands);
 
+        var conditionallyAvailableCommands = scraper.CreateToolDefinition()
+            .CommandCoverage
+            .ConditionallyAvailableCommands
+            .Select(command => command.Command);
+
         await Assert.That(evaluation.Violations).IsEmpty();
+        await Assert.That(conditionallyAvailableCommands).IsEquivalentTo(
+        [
+            "flyway add",
+            "flyway deploy",
+            "flyway diffApply",
+            "flyway generate",
+            "flyway init",
+            "flyway list-engines",
+            "flyway prepare",
+            "flyway undo",
+        ]);
     }
 
     [Test]
@@ -276,6 +305,15 @@ public class FlywayCommandCoverageTests
             string command,
             CancellationToken cancellationToken = default) =>
             throw new NotSupportedException();
+    }
+
+    private sealed class TestableFlywayCliScraper(
+        ICliCommandExecutor executor,
+        IHelpTextCache helpCache,
+        ILogger<FlywayCliScraper> logger)
+        : FlywayCliScraper(executor, helpCache, logger)
+    {
+        public int Parallelism => MaxParallelism;
     }
 
     private sealed class FlywayExecutor(

@@ -39,6 +39,24 @@ internal static class CommandCoverageGuard
         var excludedCommands = exclusions
             .Select(exclusion => NormalizeCommand(exclusion.Command))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var conditionallyAvailableCommands = ValidateConditionallyAvailableCommands(
+                tool.CommandCoverage.ConditionallyAvailableCommands)
+            .Select(command => NormalizeCommand(command.Command))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var conflictingCommands = excludedCommands
+            .Intersect(conditionallyAvailableCommands, StringComparer.OrdinalIgnoreCase)
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (conflictingCommands.Length > 0)
+        {
+            throw new InvalidOperationException(
+                "Commands cannot be both excluded and conditionally available: "
+                + string.Join(", ", conflictingCommands));
+        }
+
+        var allowedMissingCommands = excludedCommands
+            .Concat(conditionallyAvailableCommands)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
         var addedCommands = previous is null
             ? []
             : commands.Except(previous.Commands, StringComparer.OrdinalIgnoreCase).ToArray();
@@ -46,13 +64,13 @@ internal static class CommandCoverageGuard
             ? []
             : previous.Commands.Except(commands, StringComparer.OrdinalIgnoreCase).ToArray();
         var unapprovedRemovedCommands = removedCommands
-            .Where(command => !excludedCommands.Contains(command))
+            .Where(command => !allowedMissingCommands.Contains(command))
             .ToArray();
         var knownGroupsWithoutChildren = GetKnownGroupsWithoutChildren(
             previous,
             commands,
-            excludedCommands);
-        var missingSentinels = GetMissingSentinels(tool.CommandCoverage, commands, excludedCommands);
+            allowedMissingCommands);
+        var missingSentinels = GetMissingSentinels(tool.CommandCoverage, commands, allowedMissingCommands);
         var violations = GetViolations(
             tool.CommandCoverage,
             commands.Count,
@@ -320,6 +338,32 @@ internal static class CommandCoverageGuard
         return exclusions
             .Select(exclusion => exclusion with { Command = NormalizeCommand(exclusion.Command) })
             .OrderBy(exclusion => exclusion.Command, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+    }
+
+    private static IReadOnlyList<CliConditionallyAvailableCommand> ValidateConditionallyAvailableCommands(
+        IReadOnlyList<CliConditionallyAvailableCommand> commands)
+    {
+        foreach (var command in commands)
+        {
+            if (string.IsNullOrWhiteSpace(command.Command) || string.IsNullOrWhiteSpace(command.Reason))
+            {
+                throw new InvalidOperationException(
+                    "Every conditionally available command requires a full command and a non-empty reason.");
+            }
+        }
+
+        var duplicate = commands
+            .GroupBy(command => NormalizeCommand(command.Command), StringComparer.OrdinalIgnoreCase)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicate is not null)
+        {
+            throw new InvalidOperationException($"Duplicate conditionally available command: {duplicate.Key}");
+        }
+
+        return commands
+            .Select(command => command with { Command = NormalizeCommand(command.Command) })
+            .OrderBy(command => command.Command, StringComparer.OrdinalIgnoreCase)
             .ToArray();
     }
 
