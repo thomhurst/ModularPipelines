@@ -28,7 +28,13 @@ internal sealed class SecretObfuscatedRenderable(
     public Measurement Measure(RenderOptions options, int maxWidth)
     {
         var innerMeasurement = _prepared.Renderable.Measure(options, maxWidth);
-        return MeasureSegments(GetSegments(options, maxWidth), maxWidth, innerMeasurement);
+        var segments = GetSegments(options, maxWidth, out var originalSegments);
+        return MeasureSegments(
+            segments,
+            originalSegments,
+            options,
+            maxWidth,
+            innerMeasurement);
     }
 
     public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) =>
@@ -37,13 +43,21 @@ internal sealed class SecretObfuscatedRenderable(
     internal IRenderable Snapshot(RenderOptions options, int maxWidth)
     {
         var innerMeasurement = _prepared.Renderable.Measure(options, maxWidth);
-        return new SegmentSnapshotRenderable(GetSegments(options, maxWidth), innerMeasurement);
+        var segments = GetSegments(options, maxWidth, out var originalSegments);
+        return new SegmentSnapshotRenderable(segments, originalSegments, innerMeasurement);
     }
 
-    private Segment[] GetSegments(RenderOptions options, int maxWidth)
+    private Segment[] GetSegments(RenderOptions options, int maxWidth) =>
+        GetSegments(options, maxWidth, out _);
+
+    private Segment[] GetSegments(
+        RenderOptions options,
+        int maxWidth,
+        out Segment[] originalSegments)
     {
-        var segments = SanitizeControlCodes(
+        originalSegments = SanitizeControlCodes(
             _prepared.Renderable.Render(options, maxWidth).ToArray());
+        var segments = originalSegments;
         if (_prepared.IsObfuscatedBeforeRender)
         {
             return ObfuscateLinks(segments);
@@ -598,6 +612,8 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static Measurement MeasureSegments(
         Segment[] segments,
+        Segment[] originalSegments,
+        RenderOptions options,
         int maxWidth,
         Measurement innerMeasurement)
     {
@@ -608,17 +624,51 @@ internal sealed class SecretObfuscatedRenderable(
         width = Math.Min(width, maxWidth);
         var innerMaximumWidth = Math.Min(innerMeasurement.Max, maxWidth);
         var innerMinimumWidth = Math.Min(innerMeasurement.Min, innerMaximumWidth);
-        var widthChange = width - innerMaximumWidth;
-        var minimumWidth = Math.Clamp(innerMinimumWidth + widthChange, 0, width);
+        var originalText = GetVisibleText(originalSegments);
+        var transformedText = GetVisibleText(segments);
+        var minimumWidth = string.Equals(originalText, transformedText, StringComparison.Ordinal)
+            ? Math.Min(innerMinimumWidth, width)
+            : GetTransformedMinimumWidth(
+                originalText,
+                transformedText,
+                options,
+                maxWidth,
+                innerMinimumWidth,
+                width);
         return new Measurement(minimumWidth, width);
+    }
+
+    private static string GetVisibleText(IEnumerable<Segment> segments) =>
+        string.Concat(segments
+            .Where(static segment => !segment.IsControlCode)
+            .Select(static segment => segment.Text));
+
+    private static int GetTransformedMinimumWidth(
+        string originalText,
+        string transformedText,
+        RenderOptions options,
+        int maxWidth,
+        int innerMinimumWidth,
+        int transformedMaximumWidth)
+    {
+        var originalTextMinimumWidth = ((IRenderable) new Text(originalText))
+            .Measure(options, maxWidth).Min;
+        var transformedTextMinimumWidth = ((IRenderable) new Text(transformedText))
+            .Measure(options, maxWidth).Min;
+        var structuralMinimumWidth = Math.Max(0, innerMinimumWidth - originalTextMinimumWidth);
+        return Math.Clamp(
+            structuralMinimumWidth + transformedTextMinimumWidth,
+            0,
+            transformedMaximumWidth);
     }
 
     private sealed class SegmentSnapshotRenderable(
         Segment[] segments,
+        Segment[] originalSegments,
         Measurement innerMeasurement) : IRenderable
     {
         public Measurement Measure(RenderOptions options, int maxWidth) =>
-            MeasureSegments(segments, maxWidth, innerMeasurement);
+            MeasureSegments(segments, originalSegments, options, maxWidth, innerMeasurement);
 
         public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) => segments;
     }

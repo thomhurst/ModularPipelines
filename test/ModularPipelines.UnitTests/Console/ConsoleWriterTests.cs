@@ -868,6 +868,42 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_MeasureDerivesMinimumFromLongerMask()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new Text("tiny abcdefghij"),
+            CreateSecretObfuscator("tiny", "[REDACTED]"));
+
+        var measurement = renderable.Measure(
+            RenderOptions.Create(AnsiConsole.Console),
+            80);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(measurement.Min).IsEqualTo(10);
+            await Assert.That(measurement.Max).IsEqualTo(21);
+        }
+    }
+
+    [Test]
+    public async Task Write_MeasureDerivesMinimumFromShorterMask()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new Text("1234567890 abcdefghij"),
+            CreateSecretObfuscator("1234567890", "x"));
+
+        var measurement = renderable.Measure(
+            RenderOptions.Create(AnsiConsole.Console),
+            80);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(measurement.Min).IsEqualTo(10);
+            await Assert.That(measurement.Max).IsEqualTo(12);
+        }
+    }
+
+    [Test]
     public async Task Write_AutoSizedTableAccountsForColumnContentWithTitle()
     {
         var table = new Table()
