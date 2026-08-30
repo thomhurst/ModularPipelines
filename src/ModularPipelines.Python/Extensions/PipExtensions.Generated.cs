@@ -33,7 +33,7 @@ public static class PipExtensions
     }
 
     /// <summary>
-    /// Gets the pip service from the pipeline context.
+    /// Gets the pip service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPip"/> service for executing pip commands.</returns>
