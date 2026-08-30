@@ -97,6 +97,7 @@
 - [Chocolatey Package](/docs/next/mp-packages/chocolatey.md): Strongly typed Chocolatey package-management commands.
 - [ansible CLI reference](/docs/next/mp-packages/cli/ansible.md): ModularPipelines.Ansible provides strongly typed access to the ansible CLI.
 - [argocd CLI reference](/docs/next/mp-packages/cli/argocd.md): ModularPipelines.ArgoCd provides strongly typed access to the argocd CLI.
+- [aws CLI reference](/docs/next/mp-packages/cli/aws.md): ModularPipelines.AmazonWebServices provides strongly typed access to the aws CLI.
 - [az CLI reference](/docs/next/mp-packages/cli/az.md): ModularPipelines.Azure provides strongly typed access to the az CLI.
 - [brew CLI reference](/docs/next/mp-packages/cli/brew.md): ModularPipelines.Homebrew provides strongly typed access to the brew CLI.
 - [buildah CLI reference](/docs/next/mp-packages/cli/buildah.md): ModularPipelines.Buildah provides strongly typed access to the buildah CLI.
