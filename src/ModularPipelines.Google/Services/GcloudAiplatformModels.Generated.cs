@@ -33,6 +33,21 @@ public class GcloudAiplatformModels
     #region Commands
 
     /// <summary>
+    /// AI Platform Models commands
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAiPlatformModelsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiPlatformModelsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy binding     for a model
     /// </summary>
     /// <param name="options">The command options.</param>

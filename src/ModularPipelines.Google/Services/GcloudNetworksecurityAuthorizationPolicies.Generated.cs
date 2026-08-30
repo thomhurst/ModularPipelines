@@ -33,6 +33,21 @@ public class GcloudNetworksecurityAuthorizationPolicies
     #region Commands
 
     /// <summary>
+    /// manage Network Security     AuthorizationPolicies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecurityAuthorizationPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityAuthorizationPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete     authorization policy
     /// </summary>
     /// <param name="options">The command options.</param>

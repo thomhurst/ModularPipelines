@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunWorkerPoolsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Region in which the resource can be found. Alternatively, set the     property [run/region].
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

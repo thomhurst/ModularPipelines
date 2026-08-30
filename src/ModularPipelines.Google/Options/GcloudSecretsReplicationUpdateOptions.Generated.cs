@@ -21,4 +21,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("secrets", "replication", "update")]
 public record GcloudSecretsReplicationUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Replication update. At most one of these can be specified: Replication update. At most one of these can be specified: Remove customer managed encryption key so that future versions will be encrypted by a Google managed encryption key.
+    /// </summary>
+    [CliFlag("--remove-cmek")]
+    public bool? RemoveCmek { get; set; }
+
+    /// <summary>
+    /// Replication update. At most one of these can be specified: Replication update. At most one of these can be specified: Or at least one of these can be specified: CMEK Update. Location of replica to update. For secrets with automatic replication policies, this can be omitted.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Replication update. At most one of these can be specified: Replication update. At most one of these can be specified: Or at least one of these can be specified: CMEK Update. New KMS key with which to encrypt and decrypt future secret versions.
+    /// </summary>
+    [CliOption("--set-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? SetKmsKey { get; set; }
+
 }

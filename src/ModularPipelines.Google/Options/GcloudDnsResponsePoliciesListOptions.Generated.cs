@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsResponsePoliciesListOptions : GcloudOptions
 {
     /// <summary>
-    /// Specifies the desired service location the request is sent to. Defaults     to Cloud DNS global service. Use --location=global if you want to     target the global service.
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

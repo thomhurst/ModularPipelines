@@ -43,6 +43,21 @@ public class GcloudParametermanagerParameters
     #region Commands
 
     /// <summary>
+    /// manage Parameter Manager parameter     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudParametermanagerParametersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParametermanagerParametersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a Parameter Manager     parameter
     /// </summary>
     /// <param name="options">The command options.</param>

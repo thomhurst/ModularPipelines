@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFirestoreBackupsListOptions : GcloudOptions
 {
     /// <summary>
-    /// The location to operate on. Available locations are listed at     https://cloud.google.com/firestore/docs/locations.     For example, to operate on location us-east1:       $ gcloud firestore backups list --location='us-east1'
+    /// The location to operate on. Available locations are listed at https://cloud.google.com/firestore/docs/locations. For example, to operate on location us-east1: $ gcloud firestore backups list --location='us-east1'
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

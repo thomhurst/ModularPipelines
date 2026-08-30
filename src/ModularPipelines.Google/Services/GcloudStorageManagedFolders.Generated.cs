@@ -33,6 +33,21 @@ public class GcloudStorageManagedFolders
     #region Commands
 
     /// <summary>
+    /// manage Cloud Storage managed folders
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudStorageManagedFoldersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageManagedFoldersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an IAM policy     binding to a managed folder
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudSccSources
     #region Commands
 
     /// <summary>
+    /// manage Cloud SCC (Security Command Center) finding     sources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSccSourcesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSccSourcesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a source given its display name or     source id
     /// </summary>
     /// <param name="options">The command options.</param>

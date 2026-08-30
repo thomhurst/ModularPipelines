@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudCertificateManagerTrustConfigsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The current etag of the asset. If an etag is provided and does not     match the current etag of the asset, the deletion will be blocked.
+    /// The current etag of the asset. If an etag is provided and does not match the current etag of the asset, the deletion will be blocked.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }

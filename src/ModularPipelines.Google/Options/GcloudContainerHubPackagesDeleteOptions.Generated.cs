@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubPackagesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// If true, force deletion of any child resources. Otherwise, attempting     to delete a Fleet Package with children will fail.
+    /// If true, force deletion of any child resources. Otherwise, attempting to delete a Fleet Package with children will fail.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

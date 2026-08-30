@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAiOperationsDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the index. Applies to operations belongs to an index resource. Do     not set otherwise.
+    /// ID of the index. Applies to operations belongs to an index resource. Do not set otherwise.
     /// </summary>
     [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
     public string? Index { get; set; }
 
     /// <summary>
-    /// ID of the index endpoint. Applies to operations belongs to an index     endpoint resource. Do not set otherwise.
+    /// ID of the index endpoint. Applies to operations belongs to an index endpoint resource. Do not set otherwise.
     /// </summary>
     [CliOption("--index-endpoint", Format = OptionFormat.EqualsSeparated)]
     public string? IndexEndpoint { get; set; }

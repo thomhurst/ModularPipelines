@@ -49,6 +49,21 @@ public class GcloudHealthcareHl7v2Stores
     #region Commands
 
     /// <summary>
+    /// manage Cloud Healthcare API HL7v2 stores
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudHealthcareHl7v2StoresOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudHealthcareHl7v2StoresOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an IAM policy     binding to a Cloud Healthcare API HL7v2 store
     /// </summary>
     /// <param name="options">The command options.</param>

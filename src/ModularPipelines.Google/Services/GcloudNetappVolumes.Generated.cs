@@ -55,6 +55,21 @@ public class GcloudNetappVolumes
     #region Commands
 
     /// <summary>
+    /// create and manage Cloud NetApp Volumes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetappVolumesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetappVolumesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud NetApp Volume
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -115,6 +130,21 @@ public class GcloudNetappVolumes
     }
 
     /// <summary>
+    /// retrieves the split status of a     Cloud NetApp clone volume
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetSplitStatusAsync(
+        GcloudNetappVolumesGetSplitStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetappVolumesGetSplitStatusOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Cloud NetApp Volumes
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -157,6 +187,21 @@ public class GcloudNetappVolumes
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetappVolumesRevertOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// starts splitting a Cloud NetApp clone     volume from its source volume
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StartSplitAsync(
+        GcloudNetappVolumesStartSplitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetappVolumesStartSplitOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

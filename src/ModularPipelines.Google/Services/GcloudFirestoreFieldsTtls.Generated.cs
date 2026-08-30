@@ -33,6 +33,21 @@ public class GcloudFirestoreFieldsTtls
     #region Commands
 
     /// <summary>
+    /// live metadata for Cloud     Firestore
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFirestoreFieldsTtlsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirestoreFieldsTtlsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list all fields used as a Time To Live     expiration setting
     /// </summary>
     /// <param name="options">The command options.</param>

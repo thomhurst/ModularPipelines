@@ -33,6 +33,21 @@ public class GcloudFirestoreLocations
     #region Commands
 
     /// <summary>
+    /// the set of commands to manage Locations for     Cloud Firestore
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFirestoreLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirestoreLocationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list locations available to Google Cloud     Firestore
     /// </summary>
     /// <param name="options">The command options.</param>

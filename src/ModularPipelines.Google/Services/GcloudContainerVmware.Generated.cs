@@ -57,4 +57,23 @@ public class GcloudContainerVmware
     public GcloudContainerVmwareOperations Operations => _operations ??= new GcloudContainerVmwareOperations(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// deploy and manage Anthos clusters on VMware for     running containers
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerVmwareOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerVmwareOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

@@ -33,6 +33,21 @@ public class GcloudNetworkconnectivityOperations
     #region Commands
 
     /// <summary>
+    /// manage Network Connectivity Center     operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivityOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivityOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Network     Connectivity Center operation
     /// </summary>
     /// <param name="options">The command options.</param>

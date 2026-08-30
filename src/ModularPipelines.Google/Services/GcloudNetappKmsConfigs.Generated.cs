@@ -33,6 +33,21 @@ public class GcloudNetappKmsConfigs
     #region Commands
 
     /// <summary>
+    /// create and manage Cloud NetApp Volumes KMS     Configs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetappKmsConfigsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetappKmsConfigsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud NetApp Volumes KMS Config
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudNetworksecurityDnsThreatDetectors
     #region Commands
 
     /// <summary>
+    /// manage Dns Threat Detector     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecurityDnsThreatDetectorsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityDnsThreatDetectorsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     DnsThreatDetector resource
     /// </summary>
     /// <param name="options">The command options.</param>

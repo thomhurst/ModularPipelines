@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudHealthcareHl7v2StoresUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// A list of notification configs. Each configuration uses a filter to     determine whether to publish a message (both Ingest &amp; Create) on the     corresponding notification destination. Only the message name is sent     as part of the notification. Supplied by the client.     See     https://cloud.google.com/appengine/docs/standard/python/search/query_strings     for the syntax of the filter.     Note: A topic must be created before publishing or subscribing to it.     For instructions on creating topics, refer to:     https://cloud.google.com/pubsub/docs/admin#create_a_topic
+    /// A list of notification configs. Each configuration uses a filter to determine whether to publish a message (both Ingest &amp; Create) on the corresponding notification destination. Only the message name is sent as part of the notification. Supplied by the client. See https://cloud.google.com/appengine/docs/standard/python/search/query_strings for the syntax of the filter. Note: A topic must be created before publishing or subscribing to it. For instructions on creating topics, refer to: https://cloud.google.com/pubsub/docs/admin#create_a_topic
     /// </summary>
     [CliOption("--notification-config", Format = OptionFormat.EqualsSeparated)]
     public string? NotificationConfig { get; set; }

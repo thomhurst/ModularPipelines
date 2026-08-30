@@ -17,35 +17,35 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudAcceleratorType
 {
     [EnumValue("NVIDIA_TESLA_A100")]
-    NvidiaTeslaA100,
+    NvidiaTeslaA100 = 0,
 
     [EnumValue("NVIDIA_TESLA_K80")]
-    NvidiaTeslaK80,
+    NvidiaTeslaK80 = 1,
 
     [EnumValue("NVIDIA_TESLA_P100")]
-    NvidiaTeslaP100,
+    NvidiaTeslaP100 = 2,
 
     [EnumValue("NVIDIA_TESLA_V100")]
-    NvidiaTeslaV100,
+    NvidiaTeslaV100 = 3,
 
     [EnumValue("NVIDIA_TESLA_P4")]
-    NvidiaTeslaP4,
+    NvidiaTeslaP4 = 4,
 
     [EnumValue("NVIDIA_TESLA_T4")]
-    NvidiaTeslaT4,
+    NvidiaTeslaT4 = 5,
 
     [EnumValue("NVIDIA_TESLA_T4_VWS")]
-    NvidiaTeslaT4Vws,
+    NvidiaTeslaT4Vws = 6,
 
     [EnumValue("NVIDIA_TESLA_P100_VWS")]
-    NvidiaTeslaP100Vws,
+    NvidiaTeslaP100Vws = 7,
 
     [EnumValue("NVIDIA_TESLA_P4_VWS")]
-    NvidiaTeslaP4Vws,
+    NvidiaTeslaP4Vws = 8,
 
     [EnumValue("TPU_V2")]
-    TpuV2,
+    TpuV2 = 9,
 
     [EnumValue("TPU_V3")]
-    TpuV3
+    TpuV3 = 10
 }

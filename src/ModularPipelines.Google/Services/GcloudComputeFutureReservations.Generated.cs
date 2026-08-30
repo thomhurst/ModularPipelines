@@ -33,6 +33,21 @@ public class GcloudComputeFutureReservations
     #region Commands
 
     /// <summary>
+    /// manage Compute Engine future     reservations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeFutureReservationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeFutureReservationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel a Compute Engine future     reservation
     /// </summary>
     /// <param name="options">The command options.</param>

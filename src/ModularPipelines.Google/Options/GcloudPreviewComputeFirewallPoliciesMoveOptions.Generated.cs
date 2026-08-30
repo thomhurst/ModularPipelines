@@ -30,7 +30,7 @@ public record GcloudPreviewComputeFirewallPoliciesMoveOptions(
     public string? Folder { get; set; }
 
     /// <summary>
-    /// Organization in which the organization firewall policy is to be moved.     Must be set if FIREWALL_POLICY is short name.
+    /// Organization in which the organization firewall policy is to be moved. Must be set if FIREWALL_POLICY is short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }

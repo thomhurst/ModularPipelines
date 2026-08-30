@@ -43,6 +43,21 @@ public class GcloudDataprocJobs
     #region Commands
 
     /// <summary>
+    /// submit and manage Dataproc jobs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataprocJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataprocJobsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete the record of an inactive job
     /// </summary>
     /// <param name="options">The command options.</param>

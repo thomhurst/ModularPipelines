@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudObservabilityTraceScopesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Describes this trace scope.     The maximum length of the description is 8000 characters.
+    /// Describes this trace scope. The maximum length of the description is 8000 characters.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Names of the projects that are included in this trace scope.     ◆ projects/[PROJECT_ID]     A trace scope can include a maximum of 20 projects.
+    /// Names of the projects that are included in this trace scope. ◆ projects/[PROJECT_ID] A trace scope can include a maximum of 20 projects.
     /// </summary>
     [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ResourceNames { get; set; }

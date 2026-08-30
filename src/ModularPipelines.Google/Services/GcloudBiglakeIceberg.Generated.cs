@@ -51,4 +51,23 @@ public class GcloudBiglakeIceberg
     public GcloudBiglakeIcebergTables Tables => _tables ??= new GcloudBiglakeIcebergTables(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// biglake Iceberg REST Catalogs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBiglakeIcebergOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBiglakeIcebergOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

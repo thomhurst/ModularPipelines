@@ -24,13 +24,13 @@ public record GcloudArtifactsVulnerabilitiesListOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If specified, all requests to Artifact Analysis for occurrences will go     to location specified
+    /// If specified, all requests to Artifact Analysis for occurrences will go to location specified
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// A filter for the occurrences which will be summarized. See link for     officially supported filters:     https://cloud.google.com/container-analysis/docs/os-scanning-automatically#filtering
+    /// A filter for the occurrences which will be summarized. See link for officially supported filters: https://cloud.google.com/container-analysis/docs/os-scanning-automatically#filtering
     /// </summary>
     [CliOption("--occurrence-filter", Format = OptionFormat.EqualsSeparated)]
     public string? OccurrenceFilter { get; set; }

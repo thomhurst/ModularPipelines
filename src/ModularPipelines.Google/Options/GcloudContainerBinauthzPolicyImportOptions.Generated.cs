@@ -24,7 +24,7 @@ public record GcloudContainerBinauthzPolicyImportOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Whether to perform additional checks on the validity of policy     contents.
+    /// Whether to perform additional checks on the validity of policy contents.
     /// </summary>
     [CliFlag("--strict-validation")]
     public bool? StrictValidation { get; set; }

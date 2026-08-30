@@ -15,13 +15,26 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud workspaceaddons commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudWorkspaceaddons
 {
     /// <summary>
     /// gcloud deployments sub-commands.
     /// </summary>
-    GcloudWorkspaceaddonsDeployments Deployments { get; }
+    GcloudWorkspaceaddonsDeployments Deployments => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// ons resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudWorkspaceAddOnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// gets the authorization     information for deployments in a given project
@@ -30,9 +43,7 @@ public interface IGcloudWorkspaceaddons
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetAuthorizationAsync(
-        GcloudWorkspaceAddOnsGetAuthorizationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> GetAuthorizationAsync(GcloudWorkspaceAddOnsGetAuthorizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

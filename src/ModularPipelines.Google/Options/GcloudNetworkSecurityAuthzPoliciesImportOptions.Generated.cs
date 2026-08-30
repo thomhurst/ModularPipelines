@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityAuthzPoliciesImportOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Path to a YAML file containing the configuration export data. The YAML     file must not contain any output-only fields. Alternatively, you may     omit this flag to read from standard input. For a schema describing the     export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/...     $CLOUDSDKROOT is can be obtained with the following command:       $ gcloud info --format='value(installation.sdk_root)'
+    /// Path to a YAML file containing the configuration export data. The YAML file must not contain any output-only fields. Alternatively, you may omit this flag to read from standard input. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/... $CLOUDSDKROOT is can be obtained with the following command: $ gcloud info --format='value(installation.sdk_root)'
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }

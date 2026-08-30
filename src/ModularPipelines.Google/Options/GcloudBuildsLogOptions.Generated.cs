@@ -24,13 +24,13 @@ public record GcloudBuildsLogOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The region of the Cloud Build Service to use. Must be set to a     supported region name (e.g. us-central1). If unset, builds/region,     which is the default region to use when working with Cloud Build     resources, is used. If builds/region is unset, region is set to global.     Note: Region must be specified in 2nd gen repo; global is not     supported.
+    /// The region of the Cloud Build Service to use. Must be set to a supported region name (e.g. us-central1). If unset, builds/region, which is the default region to use when working with Cloud Build resources, is used. If builds/region is unset, region is set to global. Note: Region must be specified in 2nd gen repo; global is not supported.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// If a build is ongoing, stream the logs to stdout until the build     completes.
+    /// If a build is ongoing, stream the logs to stdout until the build completes.
     /// </summary>
     [CliFlag("--stream")]
     public bool? Stream { get; set; }

@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBigtableHotTabletsListOptions : GcloudOptions
 {
     /// <summary>
-    /// End time of the time range to search for hot tablets. See $ gcloud     topic datetimes for information on time formats.
+    /// End time of the time range to search for hot tablets. See $ gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// Start time of the time range to search for hot tablets. See $ gcloud     topic datetimes for information on time formats.
+    /// Start time of the time range to search for hot tablets. See $ gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
     public string? StartTime { get; set; }

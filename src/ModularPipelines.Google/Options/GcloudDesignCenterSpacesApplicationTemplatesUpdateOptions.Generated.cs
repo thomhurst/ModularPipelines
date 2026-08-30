@@ -22,21 +22,117 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Application template description.
+    /// SaaS runtime context. Application template description.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Application template display name.    Update application_parameters.    At most one of these can be specified:     --application-parameters=[key=KEY],[value=VALUE]      Set application_parameters to new value. Parameters to apply to all      components in an application. You can specify projectID and region.       key        The key of the parameter.       value        The value of the parameter.      Shorthand Example:        --application-parameters=key=string,value={...} --application-parameters=key=string,value={...}      JSON Example:        --application-parameters='[{"key": "string", "value": {...}}]'      File Example:        --application-parameters=path_to_file.(yaml|json)     Or at least one of these can be specified:      --add-application-parameters=[key=KEY],[value=VALUE]       Add new value to application_parameters list. Parameters to apply       to all components in an application. You can specify projectID and       region.        key         The key of the parameter.        value         The value of the parameter.       Shorthand Example:         --add-application-parameters=key=string,value={...} --add-application-parameters=key=string,value={...}       JSON Example:         --add-application-parameters='[{"key": "string", "value": {...}}]'       File Example:         --add-application-parameters=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-application-parameters        Clear application_parameters value and set to empty list.       --remove-application-parameters=[key=KEY],[value=VALUE]        Remove existing value from application_parameters list.        Parameters to apply to all components in an application. You can        specify projectID and region.         key          The key of the parameter.         value          The value of the parameter.        Shorthand Example:          --remove-application-parameters=key=string,value={...} --remove-application-parameters=key=string,value={...}        JSON Example:          --remove-application-parameters='[{"key": "string", "value": {...}}]'        File Example:          --remove-application-parameters=path_to_file.(yaml|json)    SaaS runtime context.
+    /// SaaS runtime context. Application template display name.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Set applicationTemplate.saasRuntimeContext back to default value.    Update saas_runtime_context_names.    At most one of these can be specified:     --saas-runtime-context-names=[SAAS_RUNTIME_CONTEXT_NAMES,...]      Set saas_runtime_context_names to new value.     Or at least one of these can be specified:      --add-saas-runtime-context-names=[ADD_SAAS_RUNTIME_CONTEXT_NAMES,...]       Add new value to saas_runtime_context_names list.      At most one of these can be specified:       --clear-saas-runtime-context-names        Clear saas_runtime_context_names value and set to empty list.       --remove-saas-runtime-context-names=[REMOVE_SAAS_RUNTIME_CONTEXT_NAMES,...]        Remove existing value from saas_runtime_context_names list.    Update root_input_variables.    At most one of these can be specified:     --root-input-variables=[componentUri=COMPONENTURI],[variable=VARIABLE]      Set root_input_variables to new value. Root level input variables of      the application template.       componentUri        Component to which this variable belongs.       variable        Name of the variable.      Shorthand Example:        --root-input-variables=componentUri=string,variable=string --root-input-variables=componentUri=string,variable=string      JSON Example:        --root-input-variables='[{"componentUri": "string", "variable": "string"}]'      File Example:        --root-input-variables=path_to_file.(yaml|json)     Or at least one of these can be specified:      --add-root-input-variables=[componentUri=COMPONENTURI],[variable=VARIABLE]       Add new value to root_input_variables list. Root level input       variables of the application template.        componentUri         Component to which this variable belongs.        variable         Name of the variable.       Shorthand Example:         --add-root-input-variables=componentUri=string,variable=string --add-root-input-variables=componentUri=string,variable=string       JSON Example:         --add-root-input-variables='[{"componentUri": "string", "variable": "string"}]'       File Example:         --add-root-input-variables=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-root-input-variables        Clear root_input_variables value and set to empty list.       --remove-root-input-variables=[componentUri=COMPONENTURI],[variable=VARIABLE]        Remove existing value from root_input_variables list. Root level        input variables of the application template.         componentUri          Component to which this variable belongs.         variable          Name of the variable.        Shorthand Example:          --remove-root-input-variables=componentUri=string,variable=string --remove-root-input-variables=componentUri=string,variable=string        JSON Example:          --remove-root-input-variables='[{"componentUri": "string", "variable": "string"}]'        File Example:          --remove-root-input-variables=path_to_file.(yaml|json)    Update root_output_variables.    At most one of these can be specified:     --root-output-variables=[componentUri=COMPONENTURI],[variable=VARIABLE]      Set root_output_variables to new value. Root level output variables      of the application template.       componentUri        Component to which this variable belongs.       variable        Name of the variable.      Shorthand Example:        --root-output-variables=componentUri=string,variable=string --root-output-variables=componentUri=string,variable=string      JSON Example:        --root-output-variables='[{"componentUri": "string", "variable": "string"}]'      File Example:        --root-output-variables=path_to_file.(yaml|json)     Or at least one of these can be specified:      --add-root-output-variables=[componentUri=COMPONENTURI],[variable=VARIABLE]       Add new value to root_output_variables list. Root level output       variables of the application template.        componentUri         Component to which this variable belongs.        variable         Name of the variable.       Shorthand Example:         --add-root-output-variables=componentUri=string,variable=string --add-root-output-variables=componentUri=string,variable=string       JSON Example:         --add-root-output-variables='[{"componentUri": "string", "variable": "string"}]'       File Example:         --add-root-output-variables=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-root-output-variables        Clear root_output_variables value and set to empty list.       --remove-root-output-variables=[componentUri=COMPONENTURI],[variable=VARIABLE]        Remove existing value from root_output_variables list. Root level        output variables of the application template.         componentUri          Component to which this variable belongs.         variable          Name of the variable.        Shorthand Example:          --remove-root-output-variables=componentUri=string,variable=string --remove-root-output-variables=componentUri=string,variable=string        JSON Example:          --remove-root-output-variables='[{"componentUri": "string", "variable": "string"}]'        File Example:          --remove-root-output-variables=path_to_file.(yaml|json)
+    /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Set application_parameters to new value. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --application-parameters=key=string,value={...} --application-parameters=key=string,value={...} JSON Example: --application-parameters='[{"key": "string", "value": {...}}]' File Example: --application-parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--application-parameters", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationParameters { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-application-parameters=key=string,value={...} --add-application-parameters=key=string,value={...} JSON Example: --add-application-parameters='[{"key": "string", "value": {...}}]' File Example: --add-application-parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-application-parameters", Format = OptionFormat.EqualsSeparated)]
+    public string? AddApplicationParameters { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear application_parameters value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-application-parameters")]
+    public bool? ClearApplicationParameters { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-application-parameters=key=string,value={...} --remove-application-parameters=key=string,value={...} JSON Example: --remove-application-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-application-parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-application-parameters", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveApplicationParameters { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Set applicationTemplate.saasRuntimeContext back to default value.
     /// </summary>
     [CliFlag("--clear-saas-runtime-context")]
     public bool? ClearSaasRuntimeContext { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Set saas_runtime_context_names to new value.
+    /// </summary>
+    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SaasRuntimeContextNames { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: Add new value to saas_runtime_context_names list.
+    /// </summary>
+    [CliOption("--add-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddSaasRuntimeContextNames { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear saas_runtime_context_names value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-saas-runtime-context-names")]
+    public bool? ClearSaasRuntimeContextNames { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from saas_runtime_context_names list.
+    /// </summary>
+    [CliOption("--remove-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveSaasRuntimeContextNames { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Set root_input_variables to new value. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --root-input-variables=componentUri=string,variable=string --root-input-variables=componentUri=string,variable=string JSON Example: --root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --root-input-variables=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--root-input-variables", Format = OptionFormat.EqualsSeparated)]
+    public string? RootInputVariables { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Or at least one of these can be specified: Add new value to root_input_variables list. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --add-root-input-variables=componentUri=string,variable=string --add-root-input-variables=componentUri=string,variable=string JSON Example: --add-root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --add-root-input-variables=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-root-input-variables", Format = OptionFormat.EqualsSeparated)]
+    public string? AddRootInputVariables { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear root_input_variables value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-root-input-variables")]
+    public bool? ClearRootInputVariables { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from root_input_variables list. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --remove-root-input-variables=componentUri=string,variable=string --remove-root-input-variables=componentUri=string,variable=string JSON Example: --remove-root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --remove-root-input-variables=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-root-input-variables", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveRootInputVariables { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Set root_output_variables to new value. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --root-output-variables=componentUri=string,variable=string --root-output-variables=componentUri=string,variable=string JSON Example: --root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --root-output-variables=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--root-output-variables", Format = OptionFormat.EqualsSeparated)]
+    public string? RootOutputVariables { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Or at least one of these can be specified: Add new value to root_output_variables list. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --add-root-output-variables=componentUri=string,variable=string --add-root-output-variables=componentUri=string,variable=string JSON Example: --add-root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --add-root-output-variables=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-root-output-variables", Format = OptionFormat.EqualsSeparated)]
+    public string? AddRootOutputVariables { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear root_output_variables value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-root-output-variables")]
+    public bool? ClearRootOutputVariables { get; set; }
+
+    /// <summary>
+    /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from root_output_variables list. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --remove-root-output-variables=componentUri=string,variable=string --remove-root-output-variables=componentUri=string,variable=string JSON Example: --remove-root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --remove-root-output-variables=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-root-output-variables", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveRootOutputVariables { get; set; }
 
 }

@@ -26,39 +26,81 @@ public record GcloudPreviewComputeForwardingRulesUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If True, then clients from all regions can access this internal     forwarding rule. This can only be specified for forwarding rules with     the LOAD_BALANCING_SCHEME set to INTERNAL or INTERNAL_MANAGED. For     forwarding rules of type INTERNAL, the target must be either a backend     service or a target instance.
+    /// If True, then clients from all regions can access this internal forwarding rule. This can only be specified for forwarding rules with the LOAD_BALANCING_SCHEME set to INTERNAL or INTERNAL_MANAGED. For forwarding rules of type INTERNAL, the target must be either a backend service or a target instance.
     /// </summary>
     [CliFlag("--allow-global-access")]
     public bool? AllowGlobalAccess { get; set; }
 
     /// <summary>
-    /// If specified, clients from all regions can access this Private Service     Connect forwarding rule. This can only be specified if the forwarding     rule's target is a service attachment (--target-service-attachment).
+    /// If specified, clients from all regions can access this Private Service Connect forwarding rule. This can only be specified if the forwarding rule's target is a service attachment (--target-service-attachment).
     /// </summary>
     [CliFlag("--allow-psc-global-access")]
     public bool? AllowPscGlobalAccess { get; set; }
 
     /// <summary>
-    /// Determines the fraction of requests that should be processed by the     Global external Application Load Balancer.     The value of this field must be in the range [0, 100].
+    /// Determines the fraction of requests that should be processed by the Global external Application Load Balancer. The value of this field must be in the range [0, 100].
     /// </summary>
     [CliOption("--external-managed-backend-bucket-migration-testing-percentage", Format = OptionFormat.EqualsSeparated)]
     public string? ExternalManagedBackendBucketMigrationTestingPercentage { get; set; }
 
     /// <summary>
-    /// Only for the Global external Application Load Balancer migration.     The value of this field must be EXTERNAL or EXTERNAL_MANAGED.     LOAD_BALANCING_SCHEME must be one of: EXTERNAL, EXTERNAL_MANAGED.
+    /// Only for the Global external Application Load Balancer migration. The value of this field must be EXTERNAL or EXTERNAL_MANAGED. LOAD_BALANCING_SCHEME must be one of: EXTERNAL, EXTERNAL_MANAGED.
     /// </summary>
     [CliOption("--load-balancing-scheme", Format = OptionFormat.EqualsSeparated)]
     public GcloudLoadBalancingScheme? LoadBalancingScheme { get; set; }
 
     /// <summary>
-    /// List of comma-separated IP addresses or IP ranges. If set, this     forwarding rule only forwards traffic when the packet's source IP     address matches one of the IP ranges set here.
+    /// Opaque filter criteria used by load balancer to restrict routing configuration to a limited set of xDS compliant clients. filter-match-criteria Specifies how individual filter label matches contribute toward the overall metadata filter match. Supported values are MATCH_ANY and MATCH_ALL. filter-labels A list of label/value pairs that must match labels in the provided metadata based on filter-match-criteria, e.g., {'key1':'val1','key2':'val2'}. Can be specified multiple times for multiple metadata filters.
+    /// </summary>
+    [CliOption("--metadata-filter", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MetadataFilter { get; set; }
+
+    /// <summary>
+    /// List of comma-separated IP addresses or IP ranges. If set, this forwarding rule only forwards traffic when the packet's source IP address matches one of the IP ranges set here.
     /// </summary>
     [CliOption("--source-ip-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourceIpRanges { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-external-managed-backend-bucket-migration-state      Clears current state of external managed migration.     --external-managed-backend-bucket-migration-state=EXTERNAL_MANAGED_BACKEND_BUCKET_MIGRATION_STATE      Specifies the migration state. Possible values are PREPARE,      TEST_BY_PERCENTAGE, and TEST_ALL_TRAFFIC.      To begin the migration from EXTERNAL to EXTERNAL_MANAGED, the state      must be changed to PREPARE. The state must be changed to      TEST_ALL_TRAFFIC before the loadBalancingScheme can be changed to      EXTERNAL_MANAGED. Optionally, the TEST_BY_PERCENTAGE state can be      used to migrate traffic to backend buckets attached to this      forwarding rule by percentage using the      --external-managed-backend-bucket-migration-testing-percentage flag.      EXTERNAL_MANAGED_BACKEND_BUCKET_MIGRATION_STATE must be one of:      PREPARE, TEST_BY_PERCENTAGE, TEST_ALL_TRAFFIC.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud preview compute forwarding-rules update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud preview compute forwarding-rules update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --global      If set, the forwarding rule is global.     --region=REGION      Region of the forwarding rule to operate on. If not specified, you      might be prompted to select a region (interactive mode only).      To avoid prompting when this flag is omitted, you can set the      compute/region property:        $ gcloud config set compute/region REGION      A list of regions can be fetched by running:        $ gcloud compute regions list      To unset the property, run:        $ gcloud config unset compute/region      Alternatively, the region can be stored in the environment variable      CLOUDSDK_COMPUTE_REGION.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public GcloudUpdateLabels? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clears current state of external managed migration.
+    /// </summary>
+    [CliFlag("--clear-external-managed-backend-bucket-migration-state")]
+    public bool? ClearExternalManagedBackendBucketMigrationState { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies the migration state. Possible values are PREPARE, TEST_BY_PERCENTAGE, and TEST_ALL_TRAFFIC. To begin the migration from EXTERNAL to EXTERNAL_MANAGED, the state must be changed to PREPARE. The state must be changed to TEST_ALL_TRAFFIC before the loadBalancingScheme can be changed to EXTERNAL_MANAGED. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate traffic to backend buckets attached to this forwarding rule by percentage using the --external-managed-backend-bucket-migration-testing-percentage flag. EXTERNAL_MANAGED_BACKEND_BUCKET_MIGRATION_STATE must be one of: PREPARE, TEST_BY_PERCENTAGE, TEST_ALL_TRAFFIC.
+    /// </summary>
+    [CliOption("--external-managed-backend-bucket-migration-state", Format = OptionFormat.EqualsSeparated)]
+    public GcloudExternalManagedBackendBucketMigrationState? ExternalManagedBackendBucketMigrationState { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud preview compute forwarding-rules update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud preview compute forwarding-rules update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the forwarding rule is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the forwarding rule to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
 }

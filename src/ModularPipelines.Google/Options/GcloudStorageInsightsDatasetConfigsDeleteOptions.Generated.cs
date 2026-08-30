@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageInsightsDatasetConfigsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Delete the BigQuery instance links before the config gets deleted     explicitly.
+    /// Delete the BigQuery instance links before the config gets deleted explicitly.
     /// </summary>
     [CliFlag("--auto-delete-link")]
     public bool? AutoDeleteLink { get; set; }

@@ -21,6 +21,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDeveloperconnect : IGcloudDeveloperconnect
 {
     private readonly ICommandContext _command;
+    private GcloudDeveloperconnectAccountConnectors? _accountConnectors;
     private GcloudDeveloperconnectConnections? _connections;
     private GcloudDeveloperconnectInsightsConfigs? _insightsConfigs;
     private GcloudDeveloperconnectOperations? _operations;
@@ -36,6 +37,11 @@ public class GcloudDeveloperconnect : IGcloudDeveloperconnect
     #region Sub-command Groups
 
     /// <summary>
+    /// gcloud account-connectors sub-commands.
+    /// </summary>
+    public GcloudDeveloperconnectAccountConnectors AccountConnectors => _accountConnectors ??= new GcloudDeveloperconnectAccountConnectors(_command);
+
+    /// <summary>
     /// gcloud connections sub-commands.
     /// </summary>
     public GcloudDeveloperconnectConnections Connections => _connections ??= new GcloudDeveloperconnectConnections(_command);
@@ -49,6 +55,25 @@ public class GcloudDeveloperconnect : IGcloudDeveloperconnect
     /// gcloud operations sub-commands.
     /// </summary>
     public GcloudDeveloperconnectOperations Operations => _operations ??= new GcloudDeveloperconnectOperations(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Developer Connect resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDeveloperConnectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeveloperConnectOptions(), executionOptions, cancellationToken);
+    }
 
     #endregion
 }

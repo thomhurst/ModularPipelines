@@ -23,13 +23,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPreviewComputeProjectInfoUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Cloud armor tier to assign to the project. CLOUD_ARMOR_TIER must be one     of: CA_STANDARD, CA_ENTERPRISE_PAYGO, CA_ENTERPRISE_ANNUAL.
+    /// Cloud armor tier to assign to the project. CLOUD_ARMOR_TIER must be one of: CA_STANDARD, CA_ENTERPRISE_PAYGO, CA_ENTERPRISE_ANNUAL.
     /// </summary>
     [CliOption("--cloud-armor-tier", Format = OptionFormat.EqualsSeparated)]
     public string? CloudArmorTier { get; set; }
 
     /// <summary>
-    /// The default network tier to assign to the project. DEFAULT_NETWORK_TIER     must be one of: PREMIUM, STANDARD.
+    /// The default network tier to assign to the project. DEFAULT_NETWORK_TIER must be one of: PREMIUM, STANDARD.
     /// </summary>
     [CliOption("--default-network-tier", Format = OptionFormat.EqualsSeparated)]
     public GcloudDefaultNetworkTier? DefaultNetworkTier { get; set; }

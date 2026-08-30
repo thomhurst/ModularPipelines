@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerCloudBindingsListOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the organization or fully qualified identifier for the     organization.     To set the organization attribute:     ◆ provide the argument --organization on the command line;     ◆ set the property access_context_manager/organization.
+    /// Organization resource - The parent organization of the bindings you want to list. This represents a Cloud resource. Organization resource - The parent organization of the bindings you want to list. This represents a Cloud resource. ID of the organization or fully qualified identifier for the organization. To set the organization attribute: ◆ provide the argument --organization on the command line; ◆ set the property access_context_manager/organization.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }

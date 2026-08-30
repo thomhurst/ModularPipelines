@@ -26,39 +26,63 @@ public record GcloudSccFindingsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Time at which the event took place. For example, if the finding     represents an open firewall it would capture the time the open firewall     was detected. If event-time is not provided, it will default to UTC     version of NOW. See $ gcloud topic datetimes for information on     supported time formats.
+    /// Time at which the event took place. For example, if the finding represents an open firewall it would capture the time the open firewall was detected. If event-time is not provided, it will default to UTC version of NOW. See $ gcloud topic datetimes for information on supported time formats.
     /// </summary>
     [CliOption("--event-time", Format = OptionFormat.EqualsSeparated)]
     public string? EventTime { get; set; }
 
     /// <summary>
-    /// URI that, if available, points to a web page outside of Cloud SCC     (Security Command Center) where additional information about the     finding can be found. This field is guaranteed to be either empty or a     well formed URL.
+    /// URI that, if available, points to a web page outside of Cloud SCC (Security Command Center) where additional information about the finding can be found. This field is guaranteed to be either empty or a well formed URL.
     /// </summary>
     [CliOption("--external-uri", Format = OptionFormat.EqualsSeparated)]
     public string? ExternalUri { get; set; }
 
-    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
-    public string? Location { get; set; }
-
-    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
-
     /// <summary>
-    /// Source specific properties. These properties are managed by the source     that writes the finding. The key names in the source_properties map     must be between 1 and 255 characters, and must start with a letter and     contain alphanumeric characters or underscores only. For example     "key1=val1,key2=val2"
+    /// Source specific properties. These properties are managed by the source that writes the finding. The key names in the source_properties map must be between 1 and 255 characters, and must start with a letter and contain alphanumeric characters or underscores only. For example "key1=val1,key2=val2"
     /// </summary>
     [CliOption("--source-properties", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? SourceProperties { get; set; }
 
     /// <summary>
-    /// State is one of: [ACTIVE, INACTIVE]. STATE must be one of: active,     inactive, state-unspecified.
+    /// State is one of: [ACTIVE, INACTIVE]. STATE must be one of: active, inactive, state-unspecified.
     /// </summary>
     [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
     public GcloudState? State { get; set; }
 
     /// <summary>
-    /// Optional: If left unspecified (default), an update-mask is     automatically created using the flags specified in the command and only     those values are updated. For example: --external-uri='&lt;some-uri&gt;'     --event-time='&lt;some-time&gt;' would automatically generate     --update-mask='external_uri,event_time'. Note that as a result, only     external-uri and event-time are updated for the given finding and     everything else remains untouched. If you want to delete     attributes/properties (that are not being changed in the update     command) use an empty update-mask (''). That will delete all the     mutable properties/attributes that aren't specified as flags in the     update command. In the above example it would delete source-properties.     State can be toggled from ACTIVE to INACTIVE and vice-versa but it     cannot be deleted.    At most one of these can be specified:     --folder=FOLDER      The folder ID (e.g., 456) that contains the finding.     --organization=ORGANIZATION      The organization ID (e.g., 123) that contains the finding.     --project=PROJECT      The project ID (e.g., example-project) that contains the finding.
+    /// Optional: If left unspecified (default), an update-mask is automatically created using the flags specified in the command and only those values are updated. For example: --external-uri='&lt;some-uri&gt;' --event-time='&lt;some-time&gt;' would automatically generate --update-mask='external_uri,event_time'. Note that as a result, only external-uri and event-time are updated for the given finding and everything else remains untouched. If you want to delete attributes/properties (that are not being changed in the update command) use an empty update-mask (''). That will delete all the mutable properties/attributes that aren't specified as flags in the update command. In the above example it would delete source-properties. State can be toggled from ACTIVE to INACTIVE and vice-versa but it cannot be deleted.
     /// </summary>
     [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMask { get; set; }
+
+    /// <summary>
+    /// The folder ID (e.g., 456) that contains the finding.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// The organization ID (e.g., 123) that contains the finding.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// The project ID (e.g., example-project) that contains the finding.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Source id. Defaults to all sources.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
 
 }

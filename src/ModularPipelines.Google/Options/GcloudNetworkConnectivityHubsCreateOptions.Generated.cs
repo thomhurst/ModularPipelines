@@ -24,7 +24,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityHubsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -36,25 +36,25 @@ public record GcloudNetworkConnectivityHubsCreateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// This boolean controls whether Private Service Connect transitivity is     enabled for the hub.
+    /// This boolean controls whether Private Service Connect transitivity is enabled for the hub.
     /// </summary>
     [CliFlag("--export-psc")]
     public bool? ExportPsc { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Policy mode of the hub. POLICY_MODE must be one of:     policy-mode-unspecified, preset.
+    /// Policy mode of the hub. POLICY_MODE must be one of: policy-mode-unspecified, preset.
     /// </summary>
     [CliOption("--policy-mode", Format = OptionFormat.EqualsSeparated)]
     public GcloudPolicyMode? PolicyMode { get; set; }
 
     /// <summary>
-    /// Topology of the hub. Only applicable when --policy-mode=PRESET.     PRESET_TOPOLOGY must be one of: hybrid-inspection, mesh,     preset-topology-unspecified, star.
+    /// Topology of the hub. Only applicable when --policy-mode=PRESET. PRESET_TOPOLOGY must be one of: hybrid-inspection, mesh, preset-topology-unspecified, star.
     /// </summary>
     [CliOption("--preset-topology", Format = OptionFormat.EqualsSeparated)]
     public GcloudPresetTopology? PresetTopology { get; set; }

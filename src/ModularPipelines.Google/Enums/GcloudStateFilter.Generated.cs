@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudStateFilter
 {
     [EnumValue("active")]
-    Active,
+    Active = 0,
 
     [EnumValue("inactive")]
-    Inactive
+    Inactive = 1
 }

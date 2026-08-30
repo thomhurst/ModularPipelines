@@ -33,6 +33,21 @@ public class GcloudAuditmanagerAuditScopes
     #region Commands
 
     /// <summary>
+    /// command group for Audit Manager Audit     Scopes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAuditManagerAuditScopesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuditManagerAuditScopesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// generate Audit Scope
     /// </summary>
     /// <param name="options">The command options.</param>

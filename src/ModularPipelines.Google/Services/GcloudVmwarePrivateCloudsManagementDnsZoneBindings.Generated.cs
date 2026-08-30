@@ -33,6 +33,21 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
     #region Commands
 
     /// <summary>
+    /// manage     Management DNS zone bindings in Google Cloud VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     management DNS zone binding
     /// </summary>
     /// <param name="options">The command options.</param>

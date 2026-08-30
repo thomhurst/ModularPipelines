@@ -33,6 +33,21 @@ public class GcloudBeyondcorpSecurityGatewaysApplications
     #region Commands
 
     /// <summary>
+    /// manage Application     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBeyondcorpSecurityGatewaysApplicationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBeyondcorpSecurityGatewaysApplicationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an IAM policy binding to a security gateway application
     /// </summary>
     /// <param name="options">The command options.</param>

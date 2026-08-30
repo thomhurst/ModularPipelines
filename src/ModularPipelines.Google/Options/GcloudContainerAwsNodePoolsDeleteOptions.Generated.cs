@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAwsNodePoolsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Allow idempotent deletion of node pool. The request will still succeed     in case the node pool does not exist.
+    /// Allow idempotent deletion of node pool. The request will still succeed in case the node pool does not exist.
     /// </summary>
     [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Force delete an AWS node pool. Deletion of the AWS node pool will     succeed even if errors occur during deleting in-node pool resources.     Using this parameter may result in orphaned resources in the node pool.
+    /// Force delete an AWS node pool. Deletion of the AWS node pool will succeed even if errors occur during deleting in-node pool resources. Using this parameter may result in orphaned resources in the node pool.
     /// </summary>
     [CliFlag("--ignore-errors")]
     public bool? IgnoreErrors { get; set; }

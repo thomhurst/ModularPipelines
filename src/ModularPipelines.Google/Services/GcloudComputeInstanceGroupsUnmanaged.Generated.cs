@@ -33,6 +33,21 @@ public class GcloudComputeInstanceGroupsUnmanaged
     #region Commands
 
     /// <summary>
+    /// read and manipulate Compute     Engine unmanaged instance group
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInstanceGroupsUnmanagedOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInstanceGroupsUnmanagedOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// adds instances to     an unmanaged instance group by name
     /// </summary>
     /// <param name="options">The command options.</param>

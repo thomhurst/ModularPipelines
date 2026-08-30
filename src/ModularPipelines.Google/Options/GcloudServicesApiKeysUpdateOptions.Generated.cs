@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -22,15 +23,69 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServicesApiKeysUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// If specified, merge the new restrictions with the current restrictions of the key instead of replacing them.
+    /// </summary>
+    [CliFlag("--append")]
+    public bool? Append { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Display name of the key to update.    At most one of these can be specified:     --annotations=[KEY=VALUE,...]      Annotations are key resource. Specify annotations as a key-value      dictionary for small amounts of arbitrary client data.     --clear-annotations      If set, clear all annotations on the key.    At most one of these can be specified:     --clear-restrictions      If set, clear all restrictions on the key.     Or at least one of these can be specified:      --api-target=service=SERVICE[,methods=METHOD:...],[...]       Repeatable. Specify service and optionally one or multiple specific       methods. Both fields are case insensitive. Methods can be specified       as a colon-separated list (e.g.,       --api-target="service=foo.service.com,methods=method1:method2"), or       using --flags-file (see $ gcloud topic flags-file for details).      At most one of these can be specified:       --allowed-application=[sha1_fingerprint=SHA1_FINGERPRINT,package_name=PACKAGE_NAME,...]        Repeatable. Specify multiple allowed applications. The accepted        keys are sha1_fingerprint and package_name.       --allowed-bundle-ids=[ALLOWED_BUNDLE_IDS,...]        iOS app's bundle ids that are allowed to use the key.       --allowed-ips=[ALLOWED_IPS,...]        A list of the caller IP addresses that are allowed to make API        calls with this key.       --allowed-referrers=[ALLOWED_REFERRERS,...]        A list of regular expressions for the referrer URLs that are        allowed to make API calls with this key.
+    /// Display name of the key to update.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Annotations are key resource. Specify annotations as a key-value dictionary for small amounts of arbitrary client data.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, clear all annotations on the key.
+    /// </summary>
+    [CliFlag("--clear-annotations")]
+    public bool? ClearAnnotations { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, clear all restrictions on the key.
+    /// </summary>
+    [CliFlag("--clear-restrictions")]
+    public bool? ClearRestrictions { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Repeatable. Specify service and optionally one or multiple specific methods. Both fields are case insensitive. Methods can be specified as a colon-separated list (e.g., --api-target="service=foo.service.com,methods=method1:method2"), or using --flags-file (see $ gcloud topic flags-file for details).
+    /// </summary>
+    [CliOption("--api-target", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ApiTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Repeatable. Specify multiple allowed applications. The accepted keys are sha1_fingerprint and package_name.
+    /// </summary>
+    [CliOption("--allowed-application", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedApplication { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: iOS app's bundle ids that are allowed to use the key.
+    /// </summary>
+    [CliOption("--allowed-bundle-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedBundleIds { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: A list of the caller IP addresses that are allowed to make API calls with this key.
+    /// </summary>
+    [CliOption("--allowed-ips", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedIps { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: A list of regular expressions for the referrer URLs that are allowed to make API calls with this key.
+    /// </summary>
+    [CliOption("--allowed-referrers", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedReferrers { get; set; }
 
 }

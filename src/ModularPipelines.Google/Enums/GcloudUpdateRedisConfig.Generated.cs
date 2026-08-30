@@ -10,30 +10,27 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
-/// <summary>
-/// Allowed values for --updateredisconfig.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudUpdateRedisConfig
 {
     [EnumValue("friday")]
-    Friday,
+    Friday = 0,
 
     [EnumValue("monday")]
-    Monday,
+    Monday = 1,
 
     [EnumValue("saturday")]
-    Saturday,
+    Saturday = 2,
 
     [EnumValue("sunday")]
-    Sunday,
+    Sunday = 3,
 
     [EnumValue("thursday")]
-    Thursday,
+    Thursday = 4,
 
     [EnumValue("tuesday")]
-    Tuesday,
+    Tuesday = 5,
 
     [EnumValue("wednesday")]
-    Wednesday
+    Wednesday = 6
 }

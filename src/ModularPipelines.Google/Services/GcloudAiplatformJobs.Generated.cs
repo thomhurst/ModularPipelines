@@ -43,6 +43,21 @@ public class GcloudAiplatformJobs
     #region Commands
 
     /// <summary>
+    /// AI Platform Jobs commands
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAiPlatformJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiPlatformJobsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel a running AI Platform job
     /// </summary>
     /// <param name="options">The command options.</param>

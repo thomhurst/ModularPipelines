@@ -33,6 +33,21 @@ public class GcloudManagedkafkaConnectors
     #region Commands
 
     /// <summary>
+    /// administer Managed Service for Apache     Kafka connectors
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudManagedKafkaConnectorsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudManagedKafkaConnectorsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Managed Service for     Apache Kafka connector
     /// </summary>
     /// <param name="options">The command options.</param>

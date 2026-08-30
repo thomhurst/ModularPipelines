@@ -33,6 +33,21 @@ public class GcloudHealthcareFhirStoresImport
     #region Commands
 
     /// <summary>
+    /// manage Cloud Healthcare API FHIR     store imports
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudHealthcareFhirStoresImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudHealthcareFhirStoresImportOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// import FHIR resources from     Google Cloud Storage into a Cloud Healthcare API FHIR store
     /// </summary>
     /// <param name="options">The command options.</param>

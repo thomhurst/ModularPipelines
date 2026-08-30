@@ -24,13 +24,13 @@ public record GcloudStorageObjectsComposeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma     separated list of key=value pairs, e.g. header1=value1,header2=value2.     Overrides the default storage/additional_headers property value for     this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
     /// <summary>
-    /// If set, the source objects will be deleted after a successful     composition. Note that this deletion bypasses the soft delete policy if     configured on the bucket.
+    /// If set, the source objects will be deleted after a successful composition. Note that this deletion bypasses the soft delete policy if configured on the bucket.
     /// </summary>
     [CliFlag("--delete-source-objects")]
     public bool? DeleteSourceObjects { get; set; }

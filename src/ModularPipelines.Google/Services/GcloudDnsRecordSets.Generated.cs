@@ -49,6 +49,21 @@ public class GcloudDnsRecordSets
     #region Commands
 
     /// <summary>
+    /// zones
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDnsRecordSetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDnsRecordSetsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// zone
     /// </summary>
     /// <param name="options">The command options.</param>

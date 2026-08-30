@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSourceAuthMethod
 {
     [EnumValue("AWS_SIGNATURE_V2")]
-    AwsSignatureV2,
+    AwsSignatureV2 = 0,
 
     [EnumValue("AWS_SIGNATURE_V4")]
-    AwsSignatureV4
+    AwsSignatureV4 = 1
 }

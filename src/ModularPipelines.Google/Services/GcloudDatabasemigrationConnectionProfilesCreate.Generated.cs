@@ -33,6 +33,21 @@ public class GcloudDatabasemigrationConnectionProfilesCreate
     #region Commands
 
     /// <summary>
+    /// create Database     Migration Service connection profiles
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDatabaseMigrationConnectionProfilesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     Database Migration Service connection profile for AlloyDB
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -114,12 +129,21 @@ public class GcloudDatabasemigrationConnectionProfilesCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SqlserverAsync(
+    public virtual async Task<CommandResult> SqlServerAsync(
         GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions(), executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use SqlServerAsync instead.")]
+    public virtual async Task<CommandResult> SqlserverAsync(
+        GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await SqlServerAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

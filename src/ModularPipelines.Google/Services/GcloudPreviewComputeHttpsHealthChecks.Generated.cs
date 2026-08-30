@@ -33,6 +33,21 @@ public class GcloudPreviewComputeHttpsHealthChecks
     #region Commands
 
     /// <summary>
+    /// read and manipulate HTTPS     health checks for load balanced instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeHttpsHealthChecksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeHttpsHealthChecksOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a legacy HTTPS     health check
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudWebSsoResponseType
 {
     [EnumValue("code")]
-    Code,
+    Code = 0,
 
     [EnumValue("id-token")]
-    IdToken
+    IdToken = 1
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudRedirectType
 {
     [EnumValue("google-recaptcha")]
-    GoogleRecaptcha,
+    GoogleRecaptcha = 0,
 
     [EnumValue("external-302")]
-    External_302
+    External_302 = 1
 }

@@ -33,6 +33,21 @@ public class GcloudPubliccaExternalAccountKeys
     #region Commands
 
     /// <summary>
+    /// create ACME external account     binding keys
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPubliccaExternalAccountKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPubliccaExternalAccountKeysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new external     account key
     /// </summary>
     /// <param name="options">The command options.</param>

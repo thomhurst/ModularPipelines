@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFunctionsRuntimesListOptions : GcloudOptions
 {
     /// <summary>
-    /// Only show runtimes within the region. Overrides the default     functions/region property value for this command invocation.
+    /// Only show runtimes within the region. Overrides the default functions/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

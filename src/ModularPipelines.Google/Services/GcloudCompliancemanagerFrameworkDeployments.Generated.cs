@@ -33,6 +33,21 @@ public class GcloudCompliancemanagerFrameworkDeployments
     #region Commands
 
     /// <summary>
+    /// manage Framework     Deployment resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComplianceManagerFrameworkDeploymentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComplianceManagerFrameworkDeploymentsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a framework     deployment
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -57,4 +57,23 @@ public class GcloudAuditmanager : IGcloudAuditmanager
     public GcloudAuditmanagerOperations Operations => _operations ??= new GcloudAuditmanagerOperations(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// enroll resources, audit workloads and generate     reports
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAuditManagerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuditManagerOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

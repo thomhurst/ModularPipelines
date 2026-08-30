@@ -28,19 +28,19 @@ public record GcloudDnsResponsePoliciesUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// The comma-separated list of GKE cluster names to associate with the     response policy.
+    /// The comma-separated list of GKE cluster names to associate with the response policy.
     /// </summary>
     [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gkeclusters { get; set; }
 
     /// <summary>
-    /// Specifies the desired service location the request is sent to. Defaults     to Cloud DNS global service. Use --location=global if you want to     target the global service.
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// The comma-separated list of network names to associate with the     response policy.
+    /// The comma-separated list of network names to associate with the response policy.
     /// </summary>
     [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Networks { get; set; }

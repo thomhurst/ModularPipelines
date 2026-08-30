@@ -22,36 +22,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNotebooksRuntimesMigrateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CliOption("--post-startup-script-option", Format = OptionFormat.EqualsSeparated)]
-    public string? PostStartupScriptOption { get; set; }
-
     /// <summary>
-    /// The service account to be included in the Compute Engine instance of     the new Workbench Instance when the Runtime uses single user only mode     for permission. If not specified, the Compute Engine default service     account     (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account)     is used. When the Runtime uses service account mode for permission, it     will reuse the same service account, and this field must be empty.    Network configs.    Network resource - The name of the VPC that this instance is in. Format:   projects/{project_id}/global/networks/{network_id}. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --network on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// The service account to be included in the Compute Engine instance of the new Workbench Instance when the Runtime uses single user only mode for permission. If not specified, the Compute Engine default service account (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used. When the Runtime uses service account mode for permission, it will reuse the same service account, and this field must be empty.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// ID of the network or fully qualified identifier for the network.     To set the network attribute:     ◆ provide the argument --network on the command line.    Subnetwork resource - The name of the subnet that this instance is in.   Format:   projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The   arguments in this group can be used to specify the attributes of this   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --subnet on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// ID of the network or fully qualified identifier for the network. To set the network attribute: * provide the argument --network on the command line.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// ID of the subnetwork or fully qualified identifier for the subnetwork.     To set the subnet attribute:     ◆ provide the argument --subnet on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: * provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Google Cloud region of this subnetwork     https://cloud.google.com/compute/docs/regions-zones/#locations.     To set the subnet-region attribute:     ◆ provide the argument --subnet on the command line with a fully      specified name;     ◆ provide the argument --subnet-region on the command line.
+    /// Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: * provide the argument --subnet on the command line with a fully specified name; * provide the argument --subnet-region on the command line.
     /// </summary>
     [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetRegion { get; set; }
+
+    /// <summary>
+    /// Specifies the behavior of post startup script during migration. POST_STARTUP_SCRIPT_OPTION must be one of: POST_STARTUP_SCRIPT_OPTION_UNSPECIFIED, POST_STARTUP_SCRIPT_OPTION_SKIP, POST_STARTUP_SCRIPT_OPTION_RERUN.
+    /// </summary>
+    [CliOption("--post-startup-script-option", Format = OptionFormat.EqualsSeparated)]
+    public string? PostStartupScriptOption { get; set; }
 
 }

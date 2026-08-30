@@ -24,21 +24,39 @@ public record GcloudContainerNodePoolsRollbackOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The cluster from which to rollback the node pool. Overrides the default     container/cluster property value for this command invocation.
+    /// The cluster from which to rollback the node pool. Overrides the default container/cluster property value for this command invocation.
     /// </summary>
     [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// Indicates whether node pool rollbacks should respect pod disruption     budgets.    At most one of these can be specified:     --location=LOCATION      Compute zone or region (e.g. us-central1-a or us-central1) for the      cluster. Overrides the default compute/region or compute/zone value      for this command invocation. Prefer using this flag over the --region      or --zone flags.     --region=REGION      Compute region (e.g. us-central1) for a regional cluster. Overrides      the default compute/region property value for this command      invocation.     --zone=ZONE, -z ZONE      Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the      default compute/zone property value for this command invocation.
+    /// Indicates whether node pool rollbacks should respect pod disruption budgets.
     /// </summary>
     [CliOption("--respect-pdb", Format = OptionFormat.EqualsSeparated)]
     public string? RespectPdb { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
 
 }

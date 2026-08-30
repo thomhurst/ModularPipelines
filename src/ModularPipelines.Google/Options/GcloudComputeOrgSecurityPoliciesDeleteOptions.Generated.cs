@@ -24,7 +24,7 @@ public record GcloudComputeOrgSecurityPoliciesDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Organization in which the organization security policy is to be     deleted. Must be set if SECURITY_POLICY is short name.
+    /// Organization in which the organization security policy is to be deleted. Must be set if SECURITY_POLICY is short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }

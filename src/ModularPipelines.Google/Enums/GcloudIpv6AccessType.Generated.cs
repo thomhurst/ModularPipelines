@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudIpv6AccessType
 {
     [EnumValue("external")]
-    External,
+    External = 0,
 
     [EnumValue("internal")]
-    Internal
+    Internal = 1
 }

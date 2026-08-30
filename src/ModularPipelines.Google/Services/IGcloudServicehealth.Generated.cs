@@ -15,22 +15,35 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud servicehealth commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudServicehealth
 {
     /// <summary>
     /// gcloud events sub-commands.
     /// </summary>
-    GcloudServicehealthEvents Events { get; }
+    GcloudServicehealthEvents Events => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud organization-events sub-commands.
     /// </summary>
-    GcloudServicehealthOrganizationEvents OrganizationEvents { get; }
+    GcloudServicehealthOrganizationEvents OrganizationEvents => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud organization-impacts sub-commands.
     /// </summary>
-    GcloudServicehealthOrganizationImpacts OrganizationImpacts { get; }
+    GcloudServicehealthOrganizationImpacts OrganizationImpacts => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// request events that are relevant to your project or     organization
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudServiceHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

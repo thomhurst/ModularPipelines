@@ -15,37 +15,50 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud agentregistry commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudAgentregistry
 {
     /// <summary>
     /// gcloud agents sub-commands.
     /// </summary>
-    GcloudAgentregistryAgents Agents { get; }
+    GcloudAgentregistryAgents Agents => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud bindings sub-commands.
     /// </summary>
-    GcloudAgentregistryBindings Bindings { get; }
+    GcloudAgentregistryBindings Bindings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud endpoints sub-commands.
     /// </summary>
-    GcloudAgentregistryEndpoints Endpoints { get; }
+    GcloudAgentregistryEndpoints Endpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud mcp-servers sub-commands.
     /// </summary>
-    GcloudAgentregistryMcpServers McpServers { get; }
+    GcloudAgentregistryMcpServers McpServers => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAgentregistryOperations Operations { get; }
+    GcloudAgentregistryOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudAgentregistryServices Services { get; }
+    GcloudAgentregistryServices Services => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Agent Registry resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudAgentRegistryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

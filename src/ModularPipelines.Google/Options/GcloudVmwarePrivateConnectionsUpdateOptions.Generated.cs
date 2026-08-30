@@ -22,10 +22,16 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwarePrivateConnectionsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// Updated description for this Private Connection.
@@ -34,7 +40,7 @@ public record GcloudVmwarePrivateConnectionsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Updated routing mode for this Private Connection. ROUTING_MODE must be     one of: GLOBAL, REGIONAL.
+    /// Updated routing mode for this Private Connection. ROUTING_MODE must be one of: GLOBAL, REGIONAL.
     /// </summary>
     [CliOption("--routing-mode", Format = OptionFormat.EqualsSeparated)]
     public string? RoutingMode { get; set; }

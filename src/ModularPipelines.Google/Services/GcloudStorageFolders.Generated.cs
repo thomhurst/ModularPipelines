@@ -33,6 +33,21 @@ public class GcloudStorageFolders
     #region Commands
 
     /// <summary>
+    /// manage Cloud Storage folders
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudStorageFoldersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageFoldersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create folders for hierarchical namespace     bucket
     /// </summary>
     /// <param name="options">The command options.</param>

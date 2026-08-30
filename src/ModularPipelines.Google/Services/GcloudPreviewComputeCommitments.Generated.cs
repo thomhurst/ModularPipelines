@@ -33,6 +33,21 @@ public class GcloudPreviewComputeCommitments
     #region Commands
 
     /// <summary>
+    /// manage Compute Engine commitments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeCommitmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeCommitmentsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create Compute Engine     license-based commitments
     /// </summary>
     /// <param name="options">The command options.</param>

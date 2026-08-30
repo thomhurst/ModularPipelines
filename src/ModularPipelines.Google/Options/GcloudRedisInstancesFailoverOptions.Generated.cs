@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRedisInstancesFailoverOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Data protection mode to use for the failover. If not specified,     defaults to 'limited-data-loss'. DATA_PROTECTION_MODE must be one of:      force-data-loss       Failover without data loss protection. Can cause significant data       loss.     limited-data-loss       Failover with data loss protection that ensures loss is within       system thresholds.
+    /// Data protection mode to use for the failover. If not specified, defaults to 'limited-data-loss'. DATA_PROTECTION_MODE must be one of: force-data-loss Failover without data loss protection. Can cause significant data loss. limited-data-loss Failover with data loss protection that ensures loss is within system thresholds.
     /// </summary>
     [CliOption("--data-protection-mode", Format = OptionFormat.EqualsSeparated)]
     public string? DataProtectionMode { get; set; }

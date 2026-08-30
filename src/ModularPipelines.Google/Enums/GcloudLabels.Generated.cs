@@ -17,11 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLabels
 {
     [EnumValue("balance")]
-    Balance,
+    Balance = 0,
 
     [EnumValue("security")]
-    Security,
+    Security = 1,
 
     [EnumValue("usability")]
-    Usability
+    Usability = 2,
+
+    [EnumValue("never")]
+    Never = 3,
+
+    [EnumValue("on-failure")]
+    OnFailure = 4,
+
+    [EnumValue("always")]
+    Always = 5
 }

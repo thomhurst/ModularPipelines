@@ -51,4 +51,23 @@ public class GcloudPreviewComputeNetworksVpcAccess
     public GcloudPreviewComputeNetworksVpcAccessOperations Operations => _operations ??= new GcloudPreviewComputeNetworksVpcAccessOperations(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage VPC Access Service     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeNetworksVpcAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeNetworksVpcAccessOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

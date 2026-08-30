@@ -24,12 +24,12 @@ public record GcloudDeploymentManagerDeploymentsDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CliOption("--delete-policy", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("DeletePolicy is no longer supported by the installed CLI and has no effect.")]
     public string? DeletePolicy { get; set; }
 
 }

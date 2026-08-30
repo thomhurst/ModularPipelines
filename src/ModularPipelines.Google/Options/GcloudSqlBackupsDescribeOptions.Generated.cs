@@ -23,6 +23,9 @@ public record GcloudSqlBackupsDescribeOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
     public string? Instance { get; set; }
 

@@ -49,6 +49,21 @@ public class GcloudContainerAttached
     #region Commands
 
     /// <summary>
+    /// manage Attached clusters for running containers
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerAttachedOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAttachedOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Cloud server     configuration for Attached clusters
     /// </summary>
     /// <param name="options">The command options.</param>

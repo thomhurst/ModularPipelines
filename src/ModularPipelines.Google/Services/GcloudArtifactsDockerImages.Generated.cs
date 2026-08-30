@@ -33,6 +33,21 @@ public class GcloudArtifactsDockerImages
     #region Commands
 
     /// <summary>
+    /// manage Artifact Registry container images
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudArtifactsDockerImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsDockerImagesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete an Artifact Registry     container image
     /// </summary>
     /// <param name="options">The command options.</param>

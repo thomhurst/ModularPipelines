@@ -33,6 +33,21 @@ public class GcloudIamRoles
     #region Commands
 
     /// <summary>
+    /// create and manipulate roles
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIamRolesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamRolesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a role from an existing role
     /// </summary>
     /// <param name="options">The command options.</param>

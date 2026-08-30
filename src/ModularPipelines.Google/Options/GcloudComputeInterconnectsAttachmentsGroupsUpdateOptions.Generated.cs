@@ -24,7 +24,7 @@ public record GcloudComputeInterconnectsAttachmentsGroupsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Member interconnect attachments to add to the interconnect attachment     group initially.
+    /// Member interconnect attachments to add to the interconnect attachment group initially.
     /// </summary>
     [CliOption("--attachments", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attachments { get; set; }
@@ -42,7 +42,7 @@ public record GcloudComputeInterconnectsAttachmentsGroupsUpdateOptions(
     public string? IntendedAvailabilitySla { get; set; }
 
     /// <summary>
-    /// Optional update mask to specify which fields to update. Use commas to     separate masks. If not specified, all fields present in the command     will be updated.
+    /// Optional update mask to specify which fields to update. Use commas to separate masks. If not specified, all fields present in the command will be updated.
     /// </summary>
     [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMask { get; set; }

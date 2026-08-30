@@ -33,6 +33,21 @@ public class GcloudSpannerDatabasesDdl
     #region Commands
 
     /// <summary>
+    /// manage the DDL for Cloud Spanner databases
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSpannerDatabasesDdlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesDdlOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe the DDL for a Cloud     Spanner database
     /// </summary>
     /// <param name="options">The command options.</param>

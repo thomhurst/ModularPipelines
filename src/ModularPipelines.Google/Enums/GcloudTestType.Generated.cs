@@ -17,14 +17,15 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudTestType
 {
     [EnumValue("DIRECT_CONNECTIVITY")]
-    DirectConnectivity,
+    DirectConnectivity = 0,
 
     [EnumValue("DOWNLOAD_THROUGHPUT")]
-    DownloadThroughput,
+    DownloadThroughput = 1,
 
     [EnumValue("LATENCY")]
-    Latency,
+    Latency = 2,
 
     [EnumValue("UPLOAD_THROUGHPUT")]
-    UploadThroughput
+    UploadThroughput = 3,
+
 }

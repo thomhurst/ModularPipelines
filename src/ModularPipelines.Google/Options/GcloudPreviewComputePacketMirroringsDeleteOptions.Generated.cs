@@ -24,7 +24,7 @@ public record GcloudPreviewComputePacketMirroringsDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Region of the packet mirrorings to delete. Overrides the default     compute/region property value for this command invocation.
+    /// Region of the packet mirrorings to delete. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

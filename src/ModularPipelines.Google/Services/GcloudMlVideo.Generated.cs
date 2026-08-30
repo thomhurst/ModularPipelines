@@ -43,6 +43,21 @@ public class GcloudMlVideo
     #region Commands
 
     /// <summary>
+    /// Intelligence command groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudMlVideoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMlVideoOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// detect explicit content in videos
     /// </summary>
     /// <param name="options">The command options.</param>

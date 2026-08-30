@@ -33,6 +33,21 @@ public class GcloudNetworksecurityUllMirroringCollectors
     #region Commands
 
     /// <summary>
+    /// manage Ull Mirroring     Collector resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecurityUllMirroringCollectorsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityUllMirroringCollectorsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// manage Ull     Mirroring Collector Rule resources
     /// </summary>
     /// <param name="options">The command options.</param>

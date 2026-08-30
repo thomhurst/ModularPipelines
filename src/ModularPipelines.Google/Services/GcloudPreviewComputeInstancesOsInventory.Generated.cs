@@ -33,6 +33,21 @@ public class GcloudPreviewComputeInstancesOsInventory
     #region Commands
 
     /// <summary>
+    /// read Compute Engine OS     Inventory Data and Related Resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeInstancesOsInventoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeInstancesOsInventoryOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Compute     Engine virtual instance's OS inventory data
     /// </summary>
     /// <param name="options">The command options.</param>

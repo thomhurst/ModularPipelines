@@ -33,6 +33,21 @@ public class GcloudOracledatabaseGoldengateConnectionTypes
     #region Commands
 
     /// <summary>
+    /// manage Goldengate     Connection Type resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudOracleDatabaseGoldengateConnectionTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseGoldengateConnectionTypesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list all     Goldengate connection types
     /// </summary>
     /// <param name="options">The command options.</param>

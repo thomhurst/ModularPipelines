@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -49,7 +49,7 @@ public record GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions : GcloudOp
     public string? ReadAuthorizerTokenSecretVersion { get; set; }
 
     /// <summary>
-    /// Service Directory service resource to use for accessing the Bitbucket     Data Center. Necessary only if the server has no public access from the     internet.
+    /// Service Directory service resource to use for accessing the Bitbucket Data Center. Necessary only if the server has no public access from the internet.
     /// </summary>
     [CliOption("--service-directory-service", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceDirectoryService { get; set; }

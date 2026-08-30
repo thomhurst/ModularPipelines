@@ -15,43 +15,46 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud datastream commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDatastream
 {
     /// <summary>
     /// gcloud connection-profiles sub-commands.
     /// </summary>
-    GcloudDatastreamConnectionProfiles ConnectionProfiles { get; }
+    GcloudDatastreamConnectionProfiles ConnectionProfiles => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudDatastreamLocations Locations { get; }
+    GcloudDatastreamLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud objects sub-commands.
     /// </summary>
-    GcloudDatastreamObjects Objects { get; }
+    GcloudDatastreamObjects Objects => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDatastreamOperations Operations { get; }
+    GcloudDatastreamOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud private-connections sub-commands.
     /// </summary>
-    GcloudDatastreamPrivateConnections PrivateConnections { get; }
+    GcloudDatastreamPrivateConnections PrivateConnections => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud routes sub-commands.
     /// </summary>
-    GcloudDatastreamRoutes Routes { get; }
+    GcloudDatastreamRoutes Routes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud streams sub-commands.
     /// </summary>
-    GcloudDatastreamStreams Streams { get; }
+    GcloudDatastreamStreams Streams => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud Datastream resources
@@ -60,9 +63,7 @@ public interface IGcloudDatastream
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudDatastreamOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudDatastreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

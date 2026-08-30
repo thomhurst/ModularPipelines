@@ -22,14 +22,26 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAppBrowseOptions : GcloudOptions
 {
     /// <summary>
-    /// Launch a browser if possible. When disabled, only displays the URL.     Enabled by default, use --no-launch-browser to disable.
+    /// Launch a browser if possible. When disabled, only displays the URL. Enabled by default, use --no-launch-browser to disable.
     /// </summary>
     [CliFlag("--launch-browser")]
     public bool? LaunchBrowser { get; set; }
 
+    /// <summary>
+    /// Launch a browser if possible. When disabled, only displays the URL. Enabled by default, use --no-launch-browser to disable.
+    /// </summary>
+    [CliFlag("--no-launch-browser")]
+    public bool? NoLaunchBrowser { get; set; }
+
+    /// <summary>
+    /// The service that should be opened. If not specified, use the default service. May be used in conjunction with --version.
+    /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
+    /// <summary>
+    /// The version of the app that should be opened. If not specified, choose a version based on the service's traffic split.
+    /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 

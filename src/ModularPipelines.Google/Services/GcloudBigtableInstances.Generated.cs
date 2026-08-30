@@ -43,6 +43,21 @@ public class GcloudBigtableInstances
     #region Commands
 
     /// <summary>
+    /// manage Cloud Bigtable instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBigtableInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBigtableInstancesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an IAM policy     binding to a Cloud Bigtable instance
     /// </summary>
     /// <param name="options">The command options.</param>

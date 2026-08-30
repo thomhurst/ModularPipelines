@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubIdentityServiceEnableOptions : GcloudOptions
 {
     /// <summary>
-    /// The path to an identity-service.yaml identity configuration file. If     specified, this configuration would be the default Identity Service     configuration for all memberships in your fleet. It could be overridden     with a membership-specific configuration by using the the Apply command     with the --config argument.       To enable the Identity Service Feature with a fleet-level default       membership configuration, run:       $ gcloud container hub identity-service enable \       --fleet-default-member-config=/path/to/identity-service.yaml
+    /// The path to an identity-service.yaml identity configuration file. If specified, this configuration would be the default Identity Service configuration for all memberships in your fleet. It could be overridden with a membership-specific configuration by using the the Apply command with the --config argument. To enable the Identity Service Feature with a fleet-level default membership configuration, run: $ gcloud container hub identity-service enable \ --fleet-default-member-config=/path/to/identity-service.yaml
     /// </summary>
     [CliOption("--fleet-default-member-config", Format = OptionFormat.EqualsSeparated)]
     public string? FleetDefaultMemberConfig { get; set; }

@@ -33,6 +33,21 @@ public class GcloudContainerFleetPolicycontrollerContentTemplates
     #region Commands
 
     /// <summary>
+    /// manage Policy     Controller content templates
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerFleetPolicycontrollerContentTemplatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetPolicycontrollerContentTemplatesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// disable     template installation for Policy Controller content
     /// </summary>
     /// <param name="options">The command options.</param>

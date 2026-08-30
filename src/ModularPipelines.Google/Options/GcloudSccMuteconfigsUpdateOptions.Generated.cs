@@ -30,24 +30,45 @@ public record GcloudSccMuteconfigsUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// The expiry of the mute config. Only applicable for dynamic configs. If     the expiry is set, when the config expires, it is removed from all     findings. See $ gcloud topic datetimes for information on supported     time formats.
+    /// The expiry of the mute config. Only applicable for dynamic configs. If the expiry is set, when the config expires, it is removed from all findings. See $ gcloud topic datetimes for information on supported time formats.
     /// </summary>
     [CliOption("--expiry-time", Format = OptionFormat.EqualsSeparated)]
     public string? ExpiryTime { get; set; }
 
     /// <summary>
-    /// The filter string which will applied to findings muted by a mute     configuration.
+    /// The filter string which will applied to findings muted by a mute configuration.
     /// </summary>
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
 
-    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
-    public string? Location { get; set; }
-
     /// <summary>
-    /// Optional: If left unspecified (default), an update-mask is     automatically created using the flags specified in the command and only     those values are updated.    At most one of these can be specified:     --folder=FOLDER      Folder where the mute config resides. Formatted as folders/456 or      just 456.     --organization=ORGANIZATION      Organization where the mute config resides. Formatted as      organizations/123 or just 123.     --project=PROJECT      Project (id or number) where the mute config resides. Formatted as      projects/789 or just 789.
+    /// Optional: If left unspecified (default), an update-mask is automatically created using the flags specified in the command and only those values are updated.
     /// </summary>
     [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMask { get; set; }
+
+    /// <summary>
+    /// Folder where the mute config resides. Formatted as folders/456 or just 456.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Organization where the mute config resides. Formatted as organizations/123 or just 123.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Project (id or number) where the mute config resides. Formatted as projects/789 or just 789.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
 
 }

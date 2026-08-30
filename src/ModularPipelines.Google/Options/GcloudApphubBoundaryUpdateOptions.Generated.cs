@@ -22,25 +22,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApphubBoundaryUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    Update Boundary Options
+    /// Update Boundary Options Location resource - Location of the Boundary. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ Boundaries only support global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The CRM node to associate with the boundary.    Location resource - Location of the Boundary. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ Boundaries only support global location with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// Update Boundary Options Location resource - Location of the Boundary. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ Boundaries only support global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The CRM node to associate with the boundary.
     /// </summary>
     [CliOption("--crm-node", Format = OptionFormat.EqualsSeparated)]
     public string? CrmNode { get; set; }
 
     /// <summary>
-    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ Boundaries only support global location.
+    /// Update Boundary Options Location resource - Location of the Boundary. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ Boundaries only support global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ Boundaries only support global location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests.
+    /// Update Boundary Options Location resource - Location of the Boundary. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ Boundaries only support global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. An optional request ID to identify requests.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }

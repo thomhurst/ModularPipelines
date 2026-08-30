@@ -25,22 +25,16 @@ public record GcloudStorageDiagnoseOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Tests to run as part of this diagnosis. Following tests are supported:     DIRECT_CONNECTIVITY: Run a test upload over the Direct Connectivity     network path and run other diagnostics if the upload fails.     DOWNLOAD_THROUGHPUT: Upload objects to the specified bucket and record     the number of bytes transferred per second.     UPLOAD_THROUGHPUT: Download objects from the specified bucket and     record the number of bytes transferred per second.     LATENCY: Write the objects, retrieve their metadata, read the objects,     and record latency of each operation.     TEST_TYPES must be one of: DIRECT_CONNECTIVITY, DOWNLOAD_THROUGHPUT,     LATENCY, UPLOAD_THROUGHPUT.
+    /// Tests to run as part of this diagnosis. Following tests are supported: DIRECT_CONNECTIVITY: Run a test upload over the Direct Connectivity network path and run other diagnostics if the upload fails. DOWNLOAD_THROUGHPUT: Upload objects to the specified bucket and record the number of bytes transferred per second. UPLOAD_THROUGHPUT: Download objects from the specified bucket and record the number of bytes transferred per second. LATENCY: Write the objects, retrieve their metadata, read the objects, and record latency of each operation. TEST_TYPES must be one of: DIRECT_CONNECTIVITY, DOWNLOAD_THROUGHPUT, LATENCY, UPLOAD_THROUGHPUT.
     /// </summary>
     [CliOption("--test-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudTestType? TestType { get; set; }
 
-    [CliOption("--download-type", Format = OptionFormat.EqualsSeparated)]
-    public string? DownloadType { get; set; }
-
     /// <summary>
-    /// If the diagnostic supports writing logs, write the logs to this file     location.
+    /// If the diagnostic supports writing logs, write the logs to this file location.
     /// </summary>
     [CliOption("--logs-path", Format = OptionFormat.EqualsSeparated)]
     public string? LogsPath { get; set; }
-
-    [CliOption("--upload-type", Format = OptionFormat.EqualsSeparated)]
-    public string? UploadType { get; set; }
 
     /// <summary>
     /// Number of processes at max to use for each diagnostic test.
@@ -49,19 +43,31 @@ public record GcloudStorageDiagnoseOptions(
     public int? ProcessCount { get; set; }
 
     /// <summary>
-    /// Number of threads at max to use for each diagnostic test.    Object properties:
+    /// Number of threads at max to use for each diagnostic test.
     /// </summary>
     [CliOption("--thread-count", Format = OptionFormat.EqualsSeparated)]
     public int? ThreadCount { get; set; }
 
     /// <summary>
-    /// Number of objects to use for each diagnostic test.     This flag argument must be specified if any of the other arguments in     this group are specified.    Object size properties:    Exactly one of these must be specified:     --object-size=OBJECT_SIZE      Object size to use for the diagnostic tests.     --object-sizes=[OBJECT_SIZES,...]      List of object sizes to use for the tests. Sizes should be provided      for each object specified using --object-count flag.    Export diagnostic bundle.
+    /// Number of objects to use for each diagnostic test. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--object-count", Format = OptionFormat.EqualsSeparated)]
     public int? ObjectCount { get; set; }
 
     /// <summary>
-    /// Generate and export a diagnostic bundle. The following information will     be bundled and exported into a gzipped tarball (.tar.gz):     ◆ Latest gcloud CLI logs.     ◆ Output of running the gcloud storage diagnose command.     ◆ Output of running the gcloud info --anonymize command.     Note: This command generates a bundle containing system information     like disk counter detlas, CPU information and system configurations.     Please exercise caution while sharing.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Object size to use for the diagnostic tests.
+    /// </summary>
+    [CliOption("--object-size", Format = OptionFormat.EqualsSeparated)]
+    public int? ObjectSize { get; set; }
+
+    /// <summary>
+    /// List of object sizes to use for the tests. Sizes should be provided for each object specified using --object-count flag.
+    /// </summary>
+    [CliOption("--object-sizes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<int>? ObjectSizes { get; set; }
+
+    /// <summary>
+    /// Generate and export a diagnostic bundle. The following information will be bundled and exported into a gzipped tarball (.tar.gz): * Latest gcloud CLI logs. * Output of running the gcloud storage diagnose command. * Output of running the gcloud info --anonymize command. Note: This command generates a bundle containing system information like disk counter detlas, CPU information and system configurations. Please exercise caution while sharing. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--export")]
     public bool? Export { get; set; }
@@ -71,5 +77,11 @@ public record GcloudStorageDiagnoseOptions(
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
+
+    [Obsolete("DownloadType is no longer supported by the installed CLI and has no effect.")]
+    public string? DownloadType { get; set; }
+
+    [Obsolete("UploadType is no longer supported by the installed CLI and has no effect.")]
+    public string? UploadType { get; set; }
 
 }

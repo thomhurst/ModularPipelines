@@ -33,6 +33,21 @@ public class GcloudCertificatemanagerTrustConfigs
     #region Commands
 
     /// <summary>
+    /// manage Certificate Manager trust     configs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudCertificateManagerTrustConfigsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudCertificateManagerTrustConfigsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create TrustConfig
     /// </summary>
     /// <param name="options">The command options.</param>

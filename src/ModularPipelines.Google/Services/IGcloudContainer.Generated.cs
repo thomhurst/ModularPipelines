@@ -15,83 +15,86 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud container commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudContainer
 {
     /// <summary>
     /// gcloud ai sub-commands.
     /// </summary>
-    GcloudContainerAi Ai { get; }
+    GcloudContainerAi Ai => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud attached sub-commands.
     /// </summary>
-    GcloudContainerAttached Attached { get; }
+    GcloudContainerAttached Attached => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud aws sub-commands.
     /// </summary>
-    GcloudContainerAws Aws { get; }
+    GcloudContainerAws Aws => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud azure sub-commands.
     /// </summary>
-    GcloudContainerAzure Azure { get; }
+    GcloudContainerAzure Azure => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud bare-metal sub-commands.
     /// </summary>
-    GcloudContainerBareMetal BareMetal { get; }
+    GcloudContainerBareMetal BareMetal => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud binauthz sub-commands.
     /// </summary>
-    GcloudContainerBinauthz Binauthz { get; }
+    GcloudContainerBinauthz Binauthz => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    GcloudContainerClusters Clusters { get; }
+    GcloudContainerClusters Clusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud fleet sub-commands.
     /// </summary>
-    GcloudContainerFleet Fleet { get; }
+    GcloudContainerFleet Fleet => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud hub sub-commands.
     /// </summary>
-    GcloudContainerHub Hub { get; }
+    GcloudContainerHub Hub => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud images sub-commands.
     /// </summary>
-    GcloudContainerImages Images { get; }
+    GcloudContainerImages Images => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud node-pools sub-commands.
     /// </summary>
-    GcloudContainerNodePools NodePools { get; }
+    GcloudContainerNodePools NodePools => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudContainerOperations Operations { get; }
+    GcloudContainerOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud subnets sub-commands.
     /// </summary>
-    GcloudContainerSubnets Subnets { get; }
+    GcloudContainerSubnets Subnets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud vmware sub-commands.
     /// </summary>
-    GcloudContainerVmware Vmware { get; }
+    GcloudContainerVmware Vmware => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud workload sub-commands.
     /// </summary>
-    GcloudContainerWorkload Workload { get; }
+    GcloudContainerWorkload Workload => throw new System.NotSupportedException();
 
     /// <summary>
     /// deploy and manage clusters of machines for running     containers
@@ -100,10 +103,8 @@ public interface IGcloudContainer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudContainerOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudContainerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// get Kubernetes Engine server config
@@ -112,9 +113,7 @@ public interface IGcloudContainer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetServerConfigAsync(
-        GcloudContainerGetServerConfigOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> GetServerConfigAsync(GcloudContainerGetServerConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

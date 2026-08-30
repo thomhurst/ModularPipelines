@@ -33,6 +33,21 @@ public class GcloudResourceManagerCapabilities
     #region Commands
 
     /// <summary>
+    /// manage Cloud Folder Capabilities
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudResourceManagerCapabilitiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudResourceManagerCapabilitiesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show whether a Capability     is enabled
     /// </summary>
     /// <param name="options">The command options.</param>

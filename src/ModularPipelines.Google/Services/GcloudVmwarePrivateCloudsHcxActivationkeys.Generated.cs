@@ -33,6 +33,21 @@ public class GcloudVmwarePrivateCloudsHcxActivationkeys
     #region Commands
 
     /// <summary>
+    /// manage VMware HCX     activation keys using Google Cloud VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwarePrivateCloudsHcxActivationkeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsHcxActivationkeysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Google     Cloud VMware HCX activation key
     /// </summary>
     /// <param name="options">The command options.</param>

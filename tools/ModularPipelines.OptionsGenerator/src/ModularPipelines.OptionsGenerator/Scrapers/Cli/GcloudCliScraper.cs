@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -232,13 +233,15 @@ public partial class GcloudCliScraper : CliScraperBase
 
         foreach (var argument in argumentGroup.FlattenArguments())
         {
-            var option = CreateOption(argument);
-            if (option is null || !seenOptions.Add(option.SwitchName))
+            foreach (var option in CreateOptions(argument))
             {
-                continue;
-            }
+                if (!seenOptions.Add(option.SwitchName))
+                {
+                    continue;
+                }
 
-            options.Add(NormalizeRepeatability(option, helpText, commandParts));
+                options.Add(NormalizeRepeatability(option, helpText, commandParts));
+            }
         }
 
         return (options, [argumentGroup]);
@@ -270,31 +273,34 @@ public partial class GcloudCliScraper : CliScraperBase
         };
     }
 
-    private static CliOptionDefinition? CreateOption(CliArgumentDefinition argument)
+    private static IEnumerable<CliOptionDefinition> CreateOptions(CliArgumentDefinition argument)
     {
         var longForm = argument.SwitchName;
         if (string.IsNullOrEmpty(longForm))
         {
-            return null;
+            yield break;
         }
 
         var propertyName = NormalizePropertyName(longForm);
         if (propertyName is null)
         {
-            return null;
+            yield break;
         }
 
         var valueHint = argument.ValueHint ?? string.Empty;
         var description = argument.Documentation;
         var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
-        var acceptsMultipleValues = !isFlag
-            && (valueHint.Contains("...")
-                || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
-        var isNumeric = IsNumericHint(valueHint);
-        var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
+        var isCompositeValue = IsCompositeValueHint(valueHint);
+        var acceptsMultipleValues = AcceptsMultipleValues(
+            valueHint,
+            description,
+            isFlag,
+            isCompositeValue);
+        var isNumeric = IsNumericValue(longForm, valueHint, description, isCompositeValue);
+        var isKeyValue = IsKeyValue(valueHint, isCompositeValue);
         var enumDefinition = TryDetectEnum(propertyName, description);
 
-        return new CliOptionDefinition
+        var option = new CliOptionDefinition
         {
             SwitchName = longForm,
             PropertyName = propertyName,
@@ -314,7 +320,76 @@ public partial class GcloudCliScraper : CliScraperBase
             EnumDefinition = enumDefinition,
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, description)
         };
+
+        yield return option;
+
+        var negativeSwitch = $"--no-{longForm[2..]}";
+        if (argument.IsNegatable
+            || DescriptionMentionsSwitch(description, negativeSwitch))
+        {
+            yield return CreateNegatedOption(option, negativeSwitch);
+        }
     }
+
+    private static bool AcceptsMultipleValues(
+        string valueHint,
+        string? description,
+        bool isFlag,
+        bool isCompositeValue) =>
+        !isFlag
+        && !isCompositeValue
+        && (valueHint.Contains("...")
+            || DescriptionDeclaresValueList(description)
+            || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
+
+    private static bool IsNumericValue(
+        string switchName,
+        string valueHint,
+        string? description,
+        bool isCompositeValue) =>
+        !IsTextualIdentifierOption(switchName)
+        && !IsFilePathHint(switchName, valueHint)
+        && !isCompositeValue
+        && !DescriptionDeclaresStructuredValue(description)
+        && !DescriptionDeclaresTextualCategories(description)
+        && IsNumericHint(valueHint);
+
+    private static bool IsKeyValue(string valueHint, bool isCompositeValue) =>
+        !isCompositeValue
+        && (valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,"));
+
+    private static CliOptionDefinition CreateNegatedOption(
+        CliOptionDefinition option,
+        string negativeSwitch)
+    {
+        var propertyName = $"No{option.PropertyName}";
+        return option with
+        {
+            SwitchName = negativeSwitch,
+            PropertyName = propertyName,
+            CSharpType = "bool?",
+            Description = $"Negates {option.SwitchName}. {option.Description}",
+            IsFlag = true,
+            ValueArity = CliOptionValueArity.Required,
+            AcceptsMultipleValues = false,
+            GroupValues = false,
+            IsCollection = false,
+            IsKeyValue = false,
+            IsNumeric = false,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag: true),
+            SecretValueKeys = [],
+            ValueSeparator = " ",
+            EnumDefinition = null,
+            ValidationConstraints = null,
+        };
+    }
+
+    private static bool DescriptionMentionsSwitch(string? description, string switchName) =>
+        !string.IsNullOrEmpty(description)
+        && Regex.IsMatch(
+            description,
+            $@"(?<![\w-]){Regex.Escape(switchName)}(?![\w-])",
+            RegexOptions.IgnoreCase);
 
     private static CliArgumentDefinition? ParseGcloudArgument(string line)
     {
@@ -379,11 +454,32 @@ public partial class GcloudCliScraper : CliScraperBase
     }
 
     private static bool IsNumericHint(string hint)
-    {
-        var lower = hint.ToLowerInvariant();
-        return lower.Contains("count") || lower.Contains("number") || lower.Contains("size") ||
-               lower.Contains("timeout") || lower.Contains("seconds") || lower.Contains("iops");
-    }
+        => NumericHintPattern().IsMatch(hint);
+
+    private static bool IsTextualIdentifierOption(string switchName)
+        => switchName.Equals("--billing-account", StringComparison.OrdinalIgnoreCase)
+            || (switchName.Contains("service-account", StringComparison.OrdinalIgnoreCase)
+                && !switchName.EndsWith("-project-number", StringComparison.OrdinalIgnoreCase));
+
+    private static bool IsCompositeValueHint(string valueHint)
+        => (valueHint.StartsWith('[') && valueHint.Contains('='))
+            || valueHint.Count(character => character == '=') > 1;
+
+    private static bool IsFilePathHint(string switchName, string valueHint)
+        => switchName.EndsWith("-file", StringComparison.OrdinalIgnoreCase)
+            || switchName.EndsWith("-path", StringComparison.OrdinalIgnoreCase)
+            || FilePathHintPattern().IsMatch(valueHint);
+
+    private static bool DescriptionDeclaresTextualCategories(string? description)
+        => !string.IsNullOrEmpty(description)
+            && TextualCategoriesPattern().IsMatch(description);
+
+    private static bool DescriptionDeclaresStructuredValue(string? description)
+        => description?.Contains("JSON Example:", StringComparison.OrdinalIgnoreCase) is true
+           || description?.Contains("File Example:", StringComparison.OrdinalIgnoreCase) is true;
+
+    private static bool DescriptionDeclaresValueList(string? description)
+        => description?.StartsWith("List of ", StringComparison.OrdinalIgnoreCase) is true;
 
     private static CliEnumDefinition? TryDetectEnum(string propertyName, string? description)
     {
@@ -483,8 +579,23 @@ public partial class GcloudCliScraper : CliScraperBase
     /// --option=VALUE
     /// </summary>
     [GeneratedRegex(
-        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s]+))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?$")]
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s;]+))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
     private static partial Regex GcloudFlagPattern();
+
+    [GeneratedRegex(
+        @"(?<![A-Za-z0-9])(?:counts?|numbers?|sizes?|timeouts?|seconds|iops)(?![A-Za-z0-9])",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex NumericHintPattern();
+
+    [GeneratedRegex(
+        @"(?<![A-Za-z0-9])(?:file|filename|filepath|path)(?![A-Za-z0-9])",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex FilePathHintPattern();
+
+    [GeneratedRegex(
+        @"\bmust be one of:\s*[A-Za-z][A-Za-z0-9_-]*\b",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex TextualCategoriesPattern();
 
     #endregion
 }

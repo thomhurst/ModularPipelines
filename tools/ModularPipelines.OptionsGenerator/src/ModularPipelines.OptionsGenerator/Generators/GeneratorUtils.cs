@@ -14,8 +14,43 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public static partial class GeneratorUtils
 {
+    private const string ContextUsing = "using ModularPipelines.Context;";
+    private const string SecretValueUsing = "using ModularPipelines.Secrets;";
+
     internal const string CompatibilityOnlyObsoleteMessage =
         "This command is no longer supported by the installed CLI and is retained only for compatibility.";
+
+    internal static string EnsureRequiredUsings(string content)
+    {
+        content = EnsureUsing(
+            content,
+            ContextUsing,
+            content.Contains("ICommandContext", StringComparison.Ordinal));
+        return EnsureUsing(
+            content,
+            SecretValueUsing,
+            content.Contains("[SecretValue", StringComparison.Ordinal)
+                || content.Contains("property: SecretValue", StringComparison.Ordinal));
+    }
+
+    private static string EnsureUsing(string content, string requiredUsing, bool isRequired)
+    {
+        if (!isRequired || content.Contains(requiredUsing, StringComparison.Ordinal))
+        {
+            return content;
+        }
+
+        const string usingAnchor = "using System.CodeDom.Compiler;";
+        var usingIndex = content.IndexOf(usingAnchor, StringComparison.Ordinal);
+        if (usingIndex < 0)
+        {
+            throw new InvalidOperationException(
+                $"Generated source requires '{requiredUsing}' but has no using anchor.");
+        }
+
+        var newline = content.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
+        return content.Insert(usingIndex, requiredUsing + newline);
+    }
 
     internal static bool IsCompatibilityOnlySubDomain(
         CliToolDefinition tool,

@@ -33,6 +33,21 @@ public class GcloudContainerFleetIdentityService
     #region Commands
 
     /// <summary>
+    /// manage Identity Service Feature
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerFleetIdentityServiceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetIdentityServiceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// update the Identity Service     Feature
     /// </summary>
     /// <param name="options">The command options.</param>

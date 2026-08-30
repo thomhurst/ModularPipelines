@@ -33,6 +33,21 @@ public class GcloudPreviewComputeTargetInstances
     #region Commands
 
     /// <summary>
+    /// read and manipulate Compute     Engine virtual target instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeTargetInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeTargetInstancesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a target instance     for handling traffic from a forwarding rule
     /// </summary>
     /// <param name="options">The command options.</param>

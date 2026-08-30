@@ -33,6 +33,21 @@ public class GcloudPreviewComputeDiagnose
     #region Commands
 
     /// <summary>
+    /// debugging tools for Compute Engine     virtual machine instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeDiagnoseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeDiagnoseOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// triggers instance to gather     logs and upload them to a Cloud Storage Bucket
     /// </summary>
     /// <param name="options">The command options.</param>

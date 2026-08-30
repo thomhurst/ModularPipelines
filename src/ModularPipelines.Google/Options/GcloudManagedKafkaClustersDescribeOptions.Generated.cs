@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudManagedKafkaClustersDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// Show detailed information about individual brokers, such as broker id     and zone, as well as the Kafka version running on the cluster.
+    /// Show detailed information about individual brokers, such as broker id and zone, as well as the Kafka version running on the cluster.
     /// </summary>
     [CliFlag("--full")]
     public bool? Full { get; set; }

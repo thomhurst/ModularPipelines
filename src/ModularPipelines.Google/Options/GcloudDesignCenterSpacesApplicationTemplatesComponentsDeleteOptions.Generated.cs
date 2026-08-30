@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// If set to true, the component's children are also deleted. If false,     the component is only deleted if it has no children.
+    /// If set to true, the component's children are also deleted. If false, the component is only deleted if it has no children.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

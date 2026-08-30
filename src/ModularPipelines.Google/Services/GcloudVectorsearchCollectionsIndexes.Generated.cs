@@ -33,6 +33,21 @@ public class GcloudVectorsearchCollectionsIndexes
     #region Commands
 
     /// <summary>
+    /// manage Index resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVectorSearchCollectionsIndexesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVectorSearchCollectionsIndexesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create an index
     /// </summary>
     /// <param name="options">The command options.</param>

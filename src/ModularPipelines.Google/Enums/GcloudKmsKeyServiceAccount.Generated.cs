@@ -10,21 +10,18 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
-/// <summary>
-/// Allowed values for --kmskeyserviceaccount.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudKmsKeyServiceAccount
 {
     [EnumValue("pd-standard")]
-    PdStandard,
+    PdStandard = 0,
 
     [EnumValue("pd-balanced")]
-    PdBalanced,
+    PdBalanced = 1,
 
     [EnumValue("pd-ssd")]
-    PdSsd,
+    PdSsd = 2,
 
     [EnumValue("hyperdisk-balanced-ha")]
-    HyperdiskBalancedHa
+    HyperdiskBalancedHa = 3
 }

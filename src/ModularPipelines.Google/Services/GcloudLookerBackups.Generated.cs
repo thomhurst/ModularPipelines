@@ -33,6 +33,21 @@ public class GcloudLookerBackups
     #region Commands
 
     /// <summary>
+    /// manage Looker instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudLookerBackupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLookerBackupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a backup of a Looker instance
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -85,6 +85,21 @@ public class GcloudComputeOsConfig
     #region Commands
 
     /// <summary>
+    /// manage OS Config tasks for Compute Engine VM     instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeOsConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOsConfigOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// troubleshoot issues with the setup     of VM Manager on a specified VM instance
     /// </summary>
     /// <param name="options">The command options.</param>

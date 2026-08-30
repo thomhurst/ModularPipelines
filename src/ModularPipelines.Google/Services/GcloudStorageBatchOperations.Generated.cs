@@ -45,4 +45,23 @@ public class GcloudStorageBatchOperations
     public GcloudStorageBatchOperationsJobs Jobs => _jobs ??= new GcloudStorageBatchOperationsJobs(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Cloud Storage batch operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudStorageBatchOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageBatchOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

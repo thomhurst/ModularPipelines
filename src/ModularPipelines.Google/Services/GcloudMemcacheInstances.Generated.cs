@@ -33,6 +33,21 @@ public class GcloudMemcacheInstances
     #region Commands
 
     /// <summary>
+    /// manage Cloud Memorystore Memcached instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudMemcacheInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMemcacheInstancesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// apply parameter update to     nodes in a Memorystore Memcached instance
     /// </summary>
     /// <param name="options">The command options.</param>

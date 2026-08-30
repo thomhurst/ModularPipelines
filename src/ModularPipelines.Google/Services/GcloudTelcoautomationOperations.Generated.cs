@@ -33,6 +33,21 @@ public class GcloudTelcoautomationOperations
     #region Commands
 
     /// <summary>
+    /// command group for working with telco     automation operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudTelcoAutomationOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudTelcoAutomationOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// get description of a     long-running telco automation operation
     /// </summary>
     /// <param name="options">The command options.</param>

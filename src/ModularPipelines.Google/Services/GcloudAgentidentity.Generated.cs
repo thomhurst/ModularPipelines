@@ -45,4 +45,23 @@ public class GcloudAgentidentity : IGcloudAgentidentity
     public GcloudAgentidentityAuthProviders AuthProviders => _authProviders ??= new GcloudAgentidentityAuthProviders(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Agent Identity resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAgentIdentityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAgentIdentityOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

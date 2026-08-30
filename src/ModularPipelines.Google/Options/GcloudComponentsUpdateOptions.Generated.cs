@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComponentsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// An optional Google Cloud CLI version to update your components to. By     default, components are updated to the latest available version. By     selecting an older version you can downgrade your Google Cloud CLI     installation.
+    /// An optional Google Cloud CLI version to update your components to. By default, components are updated to the latest available version. By selecting an older version you can downgrade your Google Cloud CLI installation.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }

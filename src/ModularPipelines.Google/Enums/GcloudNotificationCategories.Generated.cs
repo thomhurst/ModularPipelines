@@ -17,26 +17,26 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudNotificationCategories
 {
     [EnumValue("all")]
-    All,
+    All = 0,
 
     [EnumValue("billing")]
-    Billing,
+    Billing = 1,
 
     [EnumValue("legal")]
-    Legal,
+    Legal = 2,
 
     [EnumValue("product-updates")]
-    ProductUpdates,
+    ProductUpdates = 3,
 
     [EnumValue("security")]
-    Security,
+    Security = 4,
 
     [EnumValue("suspension")]
-    Suspension,
+    Suspension = 5,
 
     [EnumValue("technical")]
-    Technical,
+    Technical = 6,
 
     [EnumValue("technical-incidents")]
-    TechnicalIncidents
+    TechnicalIncidents = 7
 }

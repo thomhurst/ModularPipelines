@@ -27,6 +27,9 @@ public record GcloudAppVersionsListOptions : GcloudOptions
     [CliFlag("--hide-no-traffic")]
     public bool? HideNoTraffic { get; set; }
 
+    /// <summary>
+    /// Only show versions from this service.
+    /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 

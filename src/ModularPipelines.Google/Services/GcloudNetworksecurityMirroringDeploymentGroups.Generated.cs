@@ -33,6 +33,21 @@ public class GcloudNetworksecurityMirroringDeploymentGroups
     #region Commands
 
     /// <summary>
+    /// manage Mirroring     Deployment Group resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecurityMirroringDeploymentGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityMirroringDeploymentGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     Mirroring Deployment Group
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -22,15 +23,51 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityInternalRangesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Description of the Internal Range    At most one of these can be specified:     --clear-labels      Clear existing labels for the range.     --labels=[KEY=VALUE,...]      List of label KEY=VALUE pairs for the range being updated.    At most one of these can be specified:     --clear-overlaps      Clear existing overlap fields for the range.     --overlaps=[OVERLAPS,...]      Overlap specifications for the range being updated. OVERLAPS must be      one of:       overlap-existing-subnet-range        Allows for creation of internal ranges that overlap with existing        subnets.       overlap-route-range        Allows for creation or existence of routes that have a more        specific destination than the created range.    At most one of these can be specified:     --ip-cidr-range=IP_CIDR_RANGE      IP range that this internal range defines.     --prefix-length=PREFIX_LENGTH      An alternative to ip-cidr-range. Can be set when trying to create a      reservation that automatically finds a free range of the given size.
+    /// Description of the Internal Range
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear existing labels for the range.
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label KEY=VALUE pairs for the range being updated.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear existing overlap fields for the range.
+    /// </summary>
+    [CliFlag("--clear-overlaps")]
+    public bool? ClearOverlaps { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Overlap specifications for the range being updated. OVERLAPS must be one of: overlap-existing-subnet-range Allows for creation of internal ranges that overlap with existing subnets. overlap-route-range Allows for creation or existence of routes that have a more specific destination than the created range.
+    /// </summary>
+    [CliOption("--overlaps", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Overlaps { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: IP range that this internal range defines.
+    /// </summary>
+    [CliOption("--ip-cidr-range", Format = OptionFormat.EqualsSeparated)]
+    public string? IpCidrRange { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: An alternative to ip-cidr-range. Can be set when trying to create a reservation that automatically finds a free range of the given size.
+    /// </summary>
+    [CliOption("--prefix-length", Format = OptionFormat.EqualsSeparated)]
+    public string? PrefixLength { get; set; }
 
 }

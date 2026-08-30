@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerPerimetersDryRunEnforceAllOptions : GcloudOptions
 {
     /// <summary>
-    /// The etag for the version of the Access Policy that this operation is to     be performed on. If, at the time of the operation, the etag for the     Access Policy stored in Access Context Manager is different from the     specified etag, then the commit operation will not be performed and the     call will fail. If etag is not provided, the operation will be     performed as if a valid etag is provided.
+    /// The etag for the version of the Access Policy that this operation is to be performed on. If, at the time of the operation, the etag for the Access Policy stored in Access Context Manager is different from the specified etag, then the commit operation will not be performed and the call will fail. If etag is not provided, the operation will be performed as if a valid etag is provided.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 
     /// <summary>
-    /// The parent Access Policy which owns all Service Perimeters in scope for     the commit operation.
+    /// The parent Access Policy which owns all Service Perimeters in scope for the commit operation.
     /// </summary>
     [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public string? Policy { get; set; }

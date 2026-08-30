@@ -69,4 +69,23 @@ public class GcloudCertificatemanager : IGcloudCertificatemanager
     public GcloudCertificatemanagerTrustConfigs TrustConfigs => _trustConfigs ??= new GcloudCertificatemanagerTrustConfigs(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage SSL certificates for your Google Cloud     projects
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudCertificateManagerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudCertificateManagerOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

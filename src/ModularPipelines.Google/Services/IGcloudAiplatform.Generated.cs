@@ -15,33 +15,46 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud aiplatform commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudAiplatform
 {
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudAiplatformJobs Jobs { get; }
+    GcloudAiplatformJobs Jobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud local sub-commands.
     /// </summary>
-    GcloudAiplatformLocal Local { get; }
+    GcloudAiplatformLocal Local => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud models sub-commands.
     /// </summary>
-    GcloudAiplatformModels Models { get; }
+    GcloudAiplatformModels Models => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAiplatformOperations Operations { get; }
+    GcloudAiplatformOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud versions sub-commands.
     /// </summary>
-    GcloudAiplatformVersions Versions { get; }
+    GcloudAiplatformVersions Versions => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage AI Platform jobs and models
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudAiPlatformOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// run AI Platform online prediction
@@ -50,9 +63,7 @@ public interface IGcloudAiplatform
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PredictAsync(
-        GcloudAiPlatformPredictOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> PredictAsync(GcloudAiPlatformPredictOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud transfer commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudTransfer
 {
     /// <summary>
     /// gcloud agent-pools sub-commands.
     /// </summary>
-    GcloudTransferAgentPools AgentPools { get; }
+    GcloudTransferAgentPools AgentPools => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud agents sub-commands.
     /// </summary>
-    GcloudTransferAgents Agents { get; }
+    GcloudTransferAgents Agents => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudTransferJobs Jobs { get; }
+    GcloudTransferJobs Jobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudTransferOperations Operations { get; }
+    GcloudTransferOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Transfer Service jobs, operations, and agents
@@ -45,21 +48,17 @@ public interface IGcloudTransfer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudTransferOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudTransferOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// authorize an account for all Transfer Service     features
+    /// authorize an account for all Storage Transfer     Service features
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AuthorizeAsync(
-        GcloudTransferAuthorizeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> AuthorizeAsync(GcloudTransferAuthorizeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

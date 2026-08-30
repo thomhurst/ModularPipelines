@@ -43,6 +43,21 @@ public class GcloudGeminiLoggingSettings
     #region Commands
 
     /// <summary>
+    /// manage Logging Setting resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudGeminiLoggingSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudGeminiLoggingSettingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create loggingSettings
     /// </summary>
     /// <param name="options">The command options.</param>

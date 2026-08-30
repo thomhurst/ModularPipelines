@@ -23,10 +23,16 @@ namespace ModularPipelines.Google.Options;
 public record GcloudProjectsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Enable cloudapis.googleapis.com during creation. Enabled by default,     use --no-enable-cloud-apis to disable.
+    /// Enable cloudapis.googleapis.com during creation. Enabled by default, use --no-enable-cloud-apis to disable.
     /// </summary>
     [CliFlag("--enable-cloud-apis")]
     public bool? EnableCloudApis { get; set; }
+
+    /// <summary>
+    /// Enable cloudapis.googleapis.com during creation. Enabled by default, use --no-enable-cloud-apis to disable.
+    /// </summary>
+    [CliFlag("--no-enable-cloud-apis")]
+    public bool? NoEnableCloudApis { get; set; }
 
     /// <summary>
     /// ID for the folder to use as a parent
@@ -35,13 +41,13 @@ public record GcloudProjectsCreateOptions : GcloudOptions
     public string? Folder { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Name for the project you want to create. If not specified, will use     project id as name.
+    /// Name for the project you want to create. If not specified, will use project id as name.
     /// </summary>
     [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
     public string? Name { get; set; }
@@ -59,7 +65,7 @@ public record GcloudProjectsCreateOptions : GcloudOptions
     public bool? SetAsDefault { get; set; }
 
     /// <summary>
-    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as     &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;.     Example: 123/environment=production,123/costCenter=marketing     Note: Currently this field is in Preview.
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing Note: Currently this field is in Preview.
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

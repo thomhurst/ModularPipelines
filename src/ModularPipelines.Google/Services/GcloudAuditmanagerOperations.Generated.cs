@@ -33,6 +33,21 @@ public class GcloudAuditmanagerOperations
     #region Commands
 
     /// <summary>
+    /// check audit operation status
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAuditManagerOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuditManagerOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe Audit operation
     /// </summary>
     /// <param name="options">The command options.</param>

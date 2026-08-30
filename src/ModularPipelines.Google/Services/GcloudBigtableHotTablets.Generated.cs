@@ -33,6 +33,21 @@ public class GcloudBigtableHotTablets
     #region Commands
 
     /// <summary>
+    /// manage Cloud Bigtable hot tablets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBigtableHotTabletsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBigtableHotTabletsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list hot tablets in a Cloud Bigtable     cluster
     /// </summary>
     /// <param name="options">The command options.</param>

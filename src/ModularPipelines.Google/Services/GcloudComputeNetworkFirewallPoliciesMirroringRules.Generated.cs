@@ -33,6 +33,21 @@ public class GcloudComputeNetworkFirewallPoliciesMirroringRules
     #region Commands
 
     /// <summary>
+    /// read and     manipulate Compute Engine packet mirroring rules in network firewall     policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeNetworkFirewallPoliciesMirroringRulesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeNetworkFirewallPoliciesMirroringRulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a     Compute Engine network firewall policy packet mirroring rule
     /// </summary>
     /// <param name="options">The command options.</param>

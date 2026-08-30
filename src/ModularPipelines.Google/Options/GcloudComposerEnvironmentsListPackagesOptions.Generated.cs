@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComposerEnvironmentsListPackagesOptions : GcloudOptions
 {
     /// <summary>
-    /// List PyPI packages, their versions and a dependency tree, as displayed     by the "python -m pipdeptree --warn" command.
+    /// List PyPI packages, their versions and a dependency tree, as displayed by the "python -m pipdeptree --warn" command.
     /// </summary>
     [CliFlag("--tree")]
     public bool? Tree { get; set; }

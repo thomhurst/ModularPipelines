@@ -22,15 +22,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunComposeUpOptions : GcloudOptions
 {
     /// <summary>
-    /// If set to true, only validates the configuration. The configuration is     not applied.
+    /// Whether to enable allowing unauthenticated access to the service. This may take a few moments to take effect. Use --allow-unauthenticated to enable and --no-allow-unauthenticated to disable.
+    /// </summary>
+    [CliFlag("--allow-unauthenticated")]
+    public bool? AllowUnauthenticated { get; set; }
+
+    /// <summary>
+    /// Whether to enable allowing unauthenticated access to the service. This may take a few moments to take effect. Use --allow-unauthenticated to enable and --no-allow-unauthenticated to disable.
+    /// </summary>
+    [CliFlag("--no-allow-unauthenticated")]
+    public bool? NoAllowUnauthenticated { get; set; }
+
+    /// <summary>
+    /// If set to true, only validates the configuration. The configuration is not applied.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Region in which the resource can be found. Alternatively, set the     property [run/region].    At most one of these can be specified:     --build      Force build of images.     --no-build      Skip building from source if applicable.
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Force build of images.
+    /// </summary>
+    [CliFlag("--build")]
+    public bool? Build { get; set; }
+
+    /// <summary>
+    /// Skip building from source if applicable.
+    /// </summary>
+    [CliFlag("--no-build")]
+    public bool? NoBuild { get; set; }
 
 }

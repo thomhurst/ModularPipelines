@@ -24,7 +24,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityBackendAuthenticationConfigsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -54,7 +54,7 @@ public record GcloudNetworkSecurityBackendAuthenticationConfigsCreateOptions : G
     public string? TrustConfig { get; set; }
 
     /// <summary>
-    /// Indicates whether the load balancer should trust backend server     certificates. WELL_KNOWN_ROOTS must be one of: none, public-roots.
+    /// Indicates whether the load balancer should trust backend server certificates. WELL_KNOWN_ROOTS must be one of: none, public-roots.
     /// </summary>
     [CliOption("--well-known-roots", Format = OptionFormat.EqualsSeparated)]
     public GcloudWellKnownRoots? WellKnownRoots { get; set; }

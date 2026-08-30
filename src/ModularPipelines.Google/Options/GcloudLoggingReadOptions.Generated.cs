@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,9 +22,63 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("logging", "read")]
 public record GcloudLoggingReadOptions : GcloudOptions
 {
+    /// <summary>
+    /// Billing account of the log entries to read.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Folder of the log entries to read.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Organization of the log entries to read.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Project of the log entries to read. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Resource name(s) to read logs from. A resource can either be an top-level resource (e.g., "projects/my-project") or a full log view resource path (e.g., "projects/my-project/locations/my-location/buckets/my-bucket/views/my-view"). Multiple resources can be specified, separated by a comma.
+    /// </summary>
+    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceNames { get; set; }
+
+    /// <summary>
+    /// Id of the log bucket. If this argument is provided then --location and --view must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? Bucket { get; set; }
+
+    /// <summary>
+    /// Location of the log bucket. If this argument is provided then --bucket and --view must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Id of the view. If this argument is provided then --location and --bucket must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    public string? View { get; set; }
+
+    /// <summary>
+    /// Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
     [CliOption("--freshness", Format = OptionFormat.EqualsSeparated)]
     public string? Freshness { get; set; }
 
+    /// <summary>
+    /// Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc.
+    /// </summary>
     [CliOption("--order", Format = OptionFormat.EqualsSeparated)]
     public string? Order { get; set; }
 

@@ -33,6 +33,21 @@ public class GcloudNetworksecurityServerTlsPolicies
     #region Commands
 
     /// <summary>
+    /// manage Network Security     ServerTlsPolicies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecurityServerTlsPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityServerTlsPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete ServerTlsPolicy
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudFirestoreBackupsSchedules
     #region Commands
 
     /// <summary>
+    /// manage the backup schedules for a     Cloud Firestore Database
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFirestoreBackupsSchedulesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirestoreBackupsSchedulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a Cloud Firestore     backup schedule
     /// </summary>
     /// <param name="options">The command options.</param>

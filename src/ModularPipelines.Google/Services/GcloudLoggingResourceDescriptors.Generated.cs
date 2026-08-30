@@ -33,6 +33,21 @@ public class GcloudLoggingResourceDescriptors
     #region Commands
 
     /// <summary>
+    /// get information about resource     descriptors
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudLoggingResourceDescriptorsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLoggingResourceDescriptorsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list all available resource     descriptors
     /// </summary>
     /// <param name="options">The command options.</param>

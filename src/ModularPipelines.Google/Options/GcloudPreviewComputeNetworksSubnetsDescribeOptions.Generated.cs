@@ -24,13 +24,13 @@ public record GcloudPreviewComputeNetworksSubnetsDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Region of the subnetwork to describe. If not specified, you might be     prompted to select a region (interactive mode only).     To avoid prompting when this flag is omitted, you can set the     compute/region property:       $ gcloud config set compute/region REGION     A list of regions can be fetched by running:       $ gcloud compute regions list     To unset the property, run:       $ gcloud config unset compute/region     Alternatively, the region can be stored in the environment variable     CLOUDSDK_COMPUTE_REGION.
+    /// Region of the subnetwork to describe. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Specifies the information to include in the output. VIEW must be (only     one value is supported):      WITH_UTILIZATION       Output includes the IP address utilization data of all subnetwork       ranges, showing total allocated and free IPv4 and IPv6 IP       addresses.
+    /// Specifies the information to include in the output. VIEW must be (only one value is supported): WITH_UTILIZATION Output includes the IP address utilization data of all subnetwork ranges, showing total allocated and free IPv4 and IPv6 IP addresses.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }

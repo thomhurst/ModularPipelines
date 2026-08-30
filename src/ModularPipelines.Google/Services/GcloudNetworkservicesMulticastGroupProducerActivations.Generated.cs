@@ -33,6 +33,21 @@ public class GcloudNetworkservicesMulticastGroupProducerActivations
     #region Commands
 
     /// <summary>
+    /// manage     Network Services MulticastGroupProducerActivations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkServicesMulticastGroupProducerActivationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkServicesMulticastGroupProducerActivationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a multicast group producer activation
     /// </summary>
     /// <param name="options">The command options.</param>

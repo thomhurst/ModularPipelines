@@ -33,6 +33,21 @@ public class GcloudDataplexZonesActions
     #region Commands
 
     /// <summary>
+    /// manage Dataplex zone resource actions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataplexZonesActionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataplexZonesActionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Dataplex zone actions
     /// </summary>
     /// <param name="options">The command options.</param>

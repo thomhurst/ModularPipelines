@@ -33,6 +33,21 @@ public class GcloudObservabilityTraceScopes
     #region Commands
 
     /// <summary>
+    /// manage Trace Scope resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudObservabilityTraceScopesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudObservabilityTraceScopesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create traceScopes
     /// </summary>
     /// <param name="options">The command options.</param>

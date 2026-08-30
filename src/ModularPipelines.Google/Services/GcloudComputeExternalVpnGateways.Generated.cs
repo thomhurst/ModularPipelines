@@ -33,6 +33,21 @@ public class GcloudComputeExternalVpnGateways
     #region Commands
 
     /// <summary>
+    /// list, create, delete and update     External VPN Gateways
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeExternalVpnGatewaysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeExternalVpnGatewaysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new Compute Engine     external VPN gateway
     /// </summary>
     /// <param name="options">The command options.</param>

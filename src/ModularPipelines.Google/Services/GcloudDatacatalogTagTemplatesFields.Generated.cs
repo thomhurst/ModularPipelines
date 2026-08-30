@@ -43,6 +43,21 @@ public class GcloudDatacatalogTagTemplatesFields
     #region Commands
 
     /// <summary>
+    /// manage tag template fields in     Data Catalog
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataCatalogTagTemplatesFieldsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataCatalogTagTemplatesFieldsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Data Catalog tag     template field
     /// </summary>
     /// <param name="options">The command options.</param>

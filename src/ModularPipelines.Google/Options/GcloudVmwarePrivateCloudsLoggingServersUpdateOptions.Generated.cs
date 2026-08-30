@@ -23,10 +23,16 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwarePrivateCloudsLoggingServersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// Fully-qualified domain name (FQDN) or IP Address of the logging server.
@@ -41,13 +47,13 @@ public record GcloudVmwarePrivateCloudsLoggingServersUpdateOptions : GcloudOptio
     public string? Port { get; set; }
 
     /// <summary>
-    /// Defines possible protocols used to send logs to a logging server.     PROTOCOL must be one of: UDP, TCP, TLS, RELP, SSL.
+    /// Defines possible protocols used to send logs to a logging server. PROTOCOL must be one of: UDP, TCP, TLS, RELP, SSL.
     /// </summary>
     [CliOption("--protocol", Format = OptionFormat.EqualsSeparated)]
     public GcloudProtocol? Protocol { get; set; }
 
     /// <summary>
-    /// The type of component that produces logs that will be forwarded to this     logging server. SOURCE_TYPE must be one of: VCSA, ESXI.
+    /// The type of component that produces logs that will be forwarded to this logging server. SOURCE_TYPE must be one of: VCSA, ESXI.
     /// </summary>
     [CliOption("--source-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudSourceType? SourceType { get; set; }

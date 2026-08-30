@@ -31,9 +31,33 @@ public record GcloudPreviewComputeSecurityPoliciesCreateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// The format of the file to create the security policy config from.     Specify either yaml or json. Defaults to yaml if not specified. Will be     ignored if --file-name is not specified. FILE_FORMAT must be one of:     json, yaml.    Creation options.    At most one of these can be specified:     --file-name=FILE_NAME      The name of the JSON or YAML file to create a security policy config      from.     --type=SECURITY_POLICY_TYPE      The type indicates the intended use of the security policy.      SECURITY_POLICY_TYPE must be one of: CLOUD_ARMOR, CLOUD_ARMOR_EDGE,      CLOUD_ARMOR_NETWORK.    At most one of these can be specified:     --global      If set, the security policy is global.     --region=REGION      Region of the security policy to create. Overrides the default      compute/region property value for this command invocation.
+    /// The format of the file to create the security policy config from. Specify either yaml or json. Defaults to yaml if not specified. Will be ignored if --file-name is not specified. FILE_FORMAT must be one of: json, yaml.
     /// </summary>
     [CliOption("--file-format", Format = OptionFormat.EqualsSeparated)]
     public GcloudFileFormat? FileFormat { get; set; }
+
+    /// <summary>
+    /// Creation options. At most one of these can be specified: The name of the JSON or YAML file to create a security policy config from.
+    /// </summary>
+    [CliOption("--file-name", Format = OptionFormat.EqualsSeparated)]
+    public string? FileName { get; set; }
+
+    /// <summary>
+    /// Creation options. At most one of these can be specified: The type indicates the intended use of the security policy. SECURITY_POLICY_TYPE must be one of: CLOUD_ARMOR, CLOUD_ARMOR_EDGE, CLOUD_ARMOR_NETWORK.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType? Type { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the security policy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the security policy to create. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
 }

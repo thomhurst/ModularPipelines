@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAgentIdentityAuthProvidersListOptions : GcloudOptions
 {
     /// <summary>
-    /// Deleted auth_providers will be kept with a soft-delete for 30 days     before being purged. If this field is set to true, deleted     auth_providers will also be returned.
+    /// Deleted auth_providers will be kept with a soft-delete for 30 days before being purged. If this field is set to true, deleted auth_providers will also be returned.
     /// </summary>
     [CliFlag("--show-deleted")]
     public bool? ShowDeleted { get; set; }

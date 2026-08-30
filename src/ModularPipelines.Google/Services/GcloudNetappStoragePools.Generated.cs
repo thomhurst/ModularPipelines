@@ -33,6 +33,21 @@ public class GcloudNetappStoragePools
     #region Commands
 
     /// <summary>
+    /// create and manage Cloud NetApp Storage Pools
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetappStoragePoolsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetappStoragePoolsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud NetApp Storage Pool
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -84,12 +99,21 @@ public class GcloudNetappStoragePools
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExecuteAsync(
+    public virtual async Task<CommandResult> ExecuteCommandAsync(
         GcloudNetappStoragePoolsExecuteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use ExecuteCommandAsync instead.")]
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetappStoragePoolsExecuteOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

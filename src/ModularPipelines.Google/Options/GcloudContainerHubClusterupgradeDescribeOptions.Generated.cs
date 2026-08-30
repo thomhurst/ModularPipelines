@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubClusterupgradeDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// Shows the cluster upgrade feature information for the current fleet as     well as information for all other fleets linked in the same rollout     sequence (provided that the caller has permission to view the upstream     and downstream fleets). This displays cluster upgrade information for     fleets in the current fleet's rollout sequence in order of furthest     upstream to downstream.     To view the cluster upgrade feature information for the rollout     sequence containing the current fleet, run:       $ gcloud container hub clusterupgrade describe \         --show-linked-cluster-upgrade
+    /// Shows the cluster upgrade feature information for the current fleet as well as information for all other fleets linked in the same rollout sequence (provided that the caller has permission to view the upstream and downstream fleets). This displays cluster upgrade information for fleets in the current fleet's rollout sequence in order of furthest upstream to downstream. To view the cluster upgrade feature information for the rollout sequence containing the current fleet, run: $ gcloud container hub clusterupgrade describe \ --show-linked-cluster-upgrade
     /// </summary>
     [CliFlag("--show-linked-cluster-upgrade")]
     public bool? ShowLinkedClusterUpgrade { get; set; }

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkloadIdentityPoolsListAttestationRulesOptions : GcloudOptions
 {
     /// <summary>
-    /// Apply a filter on the container ids of the attestation rules being     listed. Expects a comma-delimited string of project numbers in the     format projects/&lt;project-number&gt;,....
+    /// Apply a filter on the container ids of the attestation rules being listed. Expects a comma-delimited string of project numbers in the format projects/&lt;project-number&gt;,....
     /// </summary>
     [CliOption("--container-id-filter", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerIdFilter { get; set; }

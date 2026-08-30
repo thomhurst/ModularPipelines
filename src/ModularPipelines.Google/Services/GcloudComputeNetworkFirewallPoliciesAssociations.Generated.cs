@@ -33,6 +33,21 @@ public class GcloudComputeNetworkFirewallPoliciesAssociations
     #region Commands
 
     /// <summary>
+    /// read and manipulate     Compute Engine network firewall policy associations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeNetworkFirewallPoliciesAssociationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeNetworkFirewallPoliciesAssociationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new     association between a firewall policy and a network
     /// </summary>
     /// <param name="options">The command options.</param>

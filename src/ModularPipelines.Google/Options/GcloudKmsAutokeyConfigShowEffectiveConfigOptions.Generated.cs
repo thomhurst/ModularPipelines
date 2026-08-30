@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "autokey-config", "show-effective-config")]
 public record GcloudKmsAutokeyConfigShowEffectiveConfigOptions : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: The folder id in which the AutokeyConfig resource exists.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: The project id in which the AutokeyConfig resource exists.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

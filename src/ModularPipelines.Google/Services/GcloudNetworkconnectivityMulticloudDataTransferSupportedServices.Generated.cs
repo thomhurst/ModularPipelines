@@ -33,6 +33,21 @@ public class GcloudNetworkconnectivityMulticloudDataTransferSupportedServices
     #region Commands
 
     /// <summary>
+    /// manage Multicloud Data Transfer Supported Service resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// services     describe - describe multicloudDataTransferSupportedService
     /// </summary>
     /// <param name="options">The command options.</param>

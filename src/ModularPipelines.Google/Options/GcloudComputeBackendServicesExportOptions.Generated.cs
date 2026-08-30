@@ -24,9 +24,21 @@ public record GcloudComputeBackendServicesExportOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Path to a YAML file where the configuration will be exported.     Alternatively, you may omit this flag to write to standard output. For     a schema describing the export/import format, see:     $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/BackendService.yaml.    At most one of these can be specified:     --global      If set, the backend service is global.     --region=REGION      Region of the backend service to export. Overrides the default      compute/region property value for this command invocation.
+    /// Path to a YAML file where the configuration will be exported. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/BackendService.yaml.
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the backend service is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the backend service to export. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
 }

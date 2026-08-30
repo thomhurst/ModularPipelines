@@ -33,6 +33,21 @@ public class GcloudWorkbenchExecutions
     #region Commands
 
     /// <summary>
+    /// workbench executions command group
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudWorkbenchExecutionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkbenchExecutionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Workbench execution
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudComputeSoleTenancyNodeTemplates
     #region Commands
 
     /// <summary>
+    /// read and manage Compute Engine     sole-tenancy node templates
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeSoleTenancyNodeTemplatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeSoleTenancyNodeTemplatesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM     policy binding to a Compute Engine node template
     /// </summary>
     /// <param name="options">The command options.</param>

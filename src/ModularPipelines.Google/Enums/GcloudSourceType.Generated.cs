@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSourceType
 {
     [EnumValue("VCSA")]
-    Vcsa,
+    Vcsa = 0,
 
     [EnumValue("ESXI")]
-    Esxi
+    Esxi = 1
 }

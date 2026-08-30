@@ -23,13 +23,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Google Cloud KMS key that will be used to secure local disks on nodes     in this node pool. The Edge Container service account for this project     must have roles/cloudkms.cryptoKeyEncrypterDecrypter on the key.     If not provided, a Google-managed key will be used instead.
+    /// Google Cloud KMS key that will be used to secure local disks on nodes in this node pool. The Edge Container service account for this project must have roles/cloudkms.cryptoKeyEncrypterDecrypter on the key. If not provided, a Google-managed key will be used instead.
     /// </summary>
     [CliOption("--local-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? LocalDiskKmsKey { get; set; }
@@ -41,7 +41,7 @@ public record GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions : GcloudOpt
     public int? LroTimeout { get; set; }
 
     /// <summary>
-    /// Only machines matching this filter will be allowed to join the node     pool. The filtering language accepts strings like "name=&lt;name&gt;", and is     documented in more detail at https://google.aip.dev/160.
+    /// Only machines matching this filter will be allowed to join the node pool. The filtering language accepts strings like "name=&lt;name&gt;", and is documented in more detail at https://google.aip.dev/160.
     /// </summary>
     [CliOption("--machine-filter", Format = OptionFormat.EqualsSeparated)]
     public string? MachineFilter { get; set; }
@@ -53,21 +53,33 @@ public record GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions : GcloudOpt
     public int? NodeCount { get; set; }
 
     /// <summary>
-    /// Comma-delimited list of key-value pairs that comprise labels for the     individual nodes in the node pool. This flag updates the Kubernetes     labels, unlike --update-labels, --remove-labels, and --clear-labels     which update the cloud resource labels.
+    /// Comma-delimited list of key-value pairs that comprise labels for the individual nodes in the node pool. This flag updates the Kubernetes labels, unlike --update-labels, --remove-labels, and --clear-labels which update the cloud resource labels.
     /// </summary>
     [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Once specified, a Google-managed key will be used for the control plane     disk encryption.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud edge-cloud container clusters node-pools update \         --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud edge-cloud container clusters node-pools update \         --clear-labels --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
+    /// Once specified, a Google-managed key will be used for the control plane disk encryption.
     /// </summary>
     [CliFlag("--use-google-managed-key")]
     public bool? UseGoogleManagedKey { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud edge-cloud container clusters node-pools update \ --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud edge-cloud container clusters node-pools update \ --clear-labels --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

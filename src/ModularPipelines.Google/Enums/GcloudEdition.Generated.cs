@@ -17,8 +17,14 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudEdition
 {
     [EnumValue("ENTERPRISE")]
-    Enterprise,
+    Enterprise = 0,
 
     [EnumValue("ENTERPRISE_PLUS")]
-    EnterprisePlus
+    EnterprisePlus = 1,
+
+    [EnumValue("enterprise")]
+    EnterpriseLowercase = 2,
+
+    [EnumValue("enterprise-plus")]
+    EnterprisePlusLowercase = 3
 }

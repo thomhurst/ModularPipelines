@@ -24,62 +24,110 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Annotations for the cluster.
+    /// Proxy config Annotations for the cluster.
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Proxy config Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Set Binary Authorization evaluation mode for this cluster.     BINAUTHZ_EVALUATION_MODE must be one of: DISABLED,     PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// Proxy config Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
     /// </summary>
     [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BinauthzEvaluationMode { get; set; }
 
     /// <summary>
-    /// Clear the description for the cluster.
+    /// Proxy config Clear the description for the cluster.
     /// </summary>
     [CliFlag("--clear-description")]
     public bool? ClearDescription { get; set; }
 
     /// <summary>
-    /// Description for the cluster.
+    /// Proxy config Description for the cluster.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled.     Examples:       $ gcloud container attached clusters update --logging=SYSTEM       $ gcloud container attached clusters update --logging=SYSTEM,WORKLOAD       $ gcloud container attached clusters update --logging=NONE     COMPONENT must be one of: NONE, SYSTEM, WORKLOAD.
+    /// Proxy config Set the components that have logging enabled. Examples: $ gcloud container attached clusters update --logging=SYSTEM $ gcloud container attached clusters update --logging=SYSTEM,WORKLOAD $ gcloud container attached clusters update --logging=NONE COMPONENT must be one of: NONE, SYSTEM, WORKLOAD.
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
     public GcloudLogging? Logging { get; set; }
 
     /// <summary>
-    /// Platform version to use for the cluster.     To retrieve a list of valid versions, run:       $ gcloud alpha container attached get-server-config \         --location=LOCATION     Replace LOCATION with the target Google Cloud location for the cluster.
+    /// Proxy config Platform version to use for the cluster. To retrieve a list of valid versions, run: $ gcloud alpha container attached get-server-config \ --location=LOCATION Replace LOCATION with the target Google Cloud location for the cluster.
     /// </summary>
     [CliOption("--platform-version", Format = OptionFormat.EqualsSeparated)]
     public string? PlatformVersion { get; set; }
 
     /// <summary>
-    /// Validate the update of the cluster, but don't actually perform it.    Admin groups    At most one of these can be specified:     --admin-groups=[GROUP,...]      Groups of users that can perform operations as a cluster      administrator.     --clear-admin-groups      Clear the admin groups associated with the cluster    Admin users    At most one of these can be specified:     --admin-users=[USER,...]      Users that can perform operations as a cluster administrator.     --clear-admin-users      Clear the admin users associated with the cluster    Cloud Monitoring Config    At most one of these can be specified:     --disable-cloud-monitoring      Disable managed collection for Cloud Monitoring.     --enable-cloud-monitoring      Enable managed collection for Cloud Monitoring.    Monitoring Config    At most one of these can be specified:     --disable-managed-prometheus      Disable managed collection for Managed Service for Prometheus.     --enable-managed-prometheus      Enable managed collection for Managed Service for Prometheus.    Proxy config
+    /// Proxy config Validate the update of the cluster, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Name of the Kubernetes secret that contains the HTTP/HTTPS proxy     configuration.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Proxy config Admin groups At most one of these can be specified: Groups of users that can perform operations as a cluster administrator.
+    /// </summary>
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdminGroups { get; set; }
+
+    /// <summary>
+    /// Proxy config Admin groups At most one of these can be specified: Clear the admin groups associated with the cluster
+    /// </summary>
+    [CliFlag("--clear-admin-groups")]
+    public bool? ClearAdminGroups { get; set; }
+
+    /// <summary>
+    /// Proxy config Admin users At most one of these can be specified: Users that can perform operations as a cluster administrator.
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Proxy config Admin users At most one of these can be specified: Clear the admin users associated with the cluster
+    /// </summary>
+    [CliFlag("--clear-admin-users")]
+    public bool? ClearAdminUsers { get; set; }
+
+    /// <summary>
+    /// Proxy config Cloud Monitoring Config At most one of these can be specified: Disable managed collection for Cloud Monitoring.
+    /// </summary>
+    [CliFlag("--disable-cloud-monitoring")]
+    public bool? DisableCloudMonitoring { get; set; }
+
+    /// <summary>
+    /// Proxy config Cloud Monitoring Config At most one of these can be specified: Enable managed collection for Cloud Monitoring.
+    /// </summary>
+    [CliFlag("--enable-cloud-monitoring")]
+    public bool? EnableCloudMonitoring { get; set; }
+
+    /// <summary>
+    /// Proxy config Monitoring Config At most one of these can be specified: Disable managed collection for Managed Service for Prometheus.
+    /// </summary>
+    [CliFlag("--disable-managed-prometheus")]
+    public bool? DisableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Proxy config Monitoring Config At most one of these can be specified: Enable managed collection for Managed Service for Prometheus.
+    /// </summary>
+    [CliFlag("--enable-managed-prometheus")]
+    public bool? EnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Proxy config Name of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [SecretValue]
     [CliOption("--proxy-secret-name", Format = OptionFormat.EqualsSeparated)]
     public string? ProxySecretName { get; set; }
 
     /// <summary>
-    /// Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy     configuration.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Proxy config Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [SecretValue]
     [CliOption("--proxy-secret-namespace", Format = OptionFormat.EqualsSeparated)]

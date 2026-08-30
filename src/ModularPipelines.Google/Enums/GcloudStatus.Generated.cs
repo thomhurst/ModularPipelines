@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudStatus
 {
     [EnumValue("deleted")]
-    Deleted,
+    Deleted = 0,
 
     [EnumValue("disabled")]
-    Disabled,
+    Disabled = 1,
 
     [EnumValue("enabled")]
-    Enabled
+    Enabled = 2
 }

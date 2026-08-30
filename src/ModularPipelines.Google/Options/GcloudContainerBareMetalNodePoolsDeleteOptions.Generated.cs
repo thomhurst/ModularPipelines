@@ -22,25 +22,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerBareMetalNodePoolsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// If set, and the Bare Metal Node Pool is not found, the request will     succeed but no action will be taken.
+    /// If set, and the Bare Metal Node Pool is not found, the request will succeed but no action will be taken.
     /// </summary>
     [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set, the deletion of a Bare Metal Node Pool resource will succeed     even if errors occur during deletion.
+    /// If set, the deletion of a Bare Metal Node Pool resource will succeed even if errors occur during deletion.
     /// </summary>
     [CliFlag("--ignore-errors")]
     public bool? IgnoreErrors { get; set; }
 
     /// <summary>
-    /// If set, only validate the request, but do not actually perform the     operation.
+    /// If set, only validate the request, but do not actually perform the operation.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }

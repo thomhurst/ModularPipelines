@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// List of alternative name servers to forward to. Non-RFC1918 addresses     will forward to the target through the Internet.RFC1918 addresses will     forward through the VPC.
+    /// List of alternative name servers to forward to. Non-RFC1918 addresses will forward to the target through the Internet.RFC1918 addresses will forward through the VPC.
     /// </summary>
     [CliOption("--alternative-name-servers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AlternativeNameServers { get; set; }
@@ -34,7 +34,19 @@ public record GcloudDnsPoliciesUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies whether to allow networks bound to this policy to receive DNS     queries sent by VMs or applications over VPN connections. Defaults to     False.
+    /// Specifies whether to allow networks bound to this policy to use DNS64 for IPv6-only VM instances. Use --enable-dns64-all-queries to enable and --no-enable-dns64-all-queries to disable.
+    /// </summary>
+    [CliFlag("--enable-dns64-all-queries")]
+    public bool? EnableDns64AllQueries { get; set; }
+
+    /// <summary>
+    /// Specifies whether to allow networks bound to this policy to use DNS64 for IPv6-only VM instances. Use --enable-dns64-all-queries to enable and --no-enable-dns64-all-queries to disable.
+    /// </summary>
+    [CliFlag("--no-enable-dns64-all-queries")]
+    public bool? NoEnableDns64AllQueries { get; set; }
+
+    /// <summary>
+    /// Specifies whether to allow networks bound to this policy to receive DNS queries sent by VMs or applications over VPN connections. Defaults to False.
     /// </summary>
     [CliFlag("--enable-inbound-forwarding")]
     public bool? EnableInboundForwarding { get; set; }
@@ -52,7 +64,7 @@ public record GcloudDnsPoliciesUpdateOptions : GcloudOptions
     public IEnumerable<string>? Networks { get; set; }
 
     /// <summary>
-    /// List of alternative name servers to forward to. All addresses specified     for this parameter will be reached through the VPC.
+    /// List of alternative name servers to forward to. All addresses specified for this parameter will be reached through the VPC.
     /// </summary>
     [CliOption("--private-alternative-name-servers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PrivateAlternativeNameServers { get; set; }

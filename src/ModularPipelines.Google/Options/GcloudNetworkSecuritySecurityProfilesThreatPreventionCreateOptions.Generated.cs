@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecuritySecurityProfilesThreatPreventionCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is False.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is False.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -35,7 +35,7 @@ public record GcloudNetworkSecuritySecurityProfilesThreatPreventionCreateOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }

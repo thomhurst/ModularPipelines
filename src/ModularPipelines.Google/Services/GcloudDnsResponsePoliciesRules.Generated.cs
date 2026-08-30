@@ -33,6 +33,21 @@ public class GcloudDnsResponsePoliciesRules
     #region Commands
 
     /// <summary>
+    /// manage your Cloud DNS response policy     rules
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDnsResponsePoliciesRulesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDnsResponsePoliciesRulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a new Cloud DNS     response policy rule
     /// </summary>
     /// <param name="options">The command options.</param>

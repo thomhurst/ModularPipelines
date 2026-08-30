@@ -33,6 +33,21 @@ public class GcloudVmwareOperations
     #region Commands
 
     /// <summary>
+    /// list and describe operations in Google Cloud     VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwareOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwareOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Google Cloud VMware Engine     operation
     /// </summary>
     /// <param name="options">The command options.</param>

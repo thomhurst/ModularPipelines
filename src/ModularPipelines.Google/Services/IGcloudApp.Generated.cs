@@ -15,58 +15,61 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud app commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudApp
 {
     /// <summary>
     /// gcloud domain-mappings sub-commands.
     /// </summary>
-    GcloudAppDomainMappings DomainMappings { get; }
+    GcloudAppDomainMappings DomainMappings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud firewall-rules sub-commands.
     /// </summary>
-    GcloudAppFirewallRules FirewallRules { get; }
+    GcloudAppFirewallRules FirewallRules => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudAppInstances Instances { get; }
+    GcloudAppInstances Instances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud logs sub-commands.
     /// </summary>
-    GcloudAppLogs Logs { get; }
+    GcloudAppLogs Logs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAppOperations Operations { get; }
+    GcloudAppOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud regions sub-commands.
     /// </summary>
-    GcloudAppRegions Regions { get; }
+    GcloudAppRegions Regions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud runtimes sub-commands.
     /// </summary>
-    GcloudAppRuntimes Runtimes { get; }
+    GcloudAppRuntimes Runtimes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudAppServices Services { get; }
+    GcloudAppServices Services => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud ssl-certificates sub-commands.
     /// </summary>
-    GcloudAppSslCertificates SslCertificates { get; }
+    GcloudAppSslCertificates SslCertificates => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud versions sub-commands.
     /// </summary>
-    GcloudAppVersions Versions { get; }
+    GcloudAppVersions Versions => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage your App Engine deployments
@@ -75,10 +78,8 @@ public interface IGcloudApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudAppOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudAppOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// open the current app in a web browser
@@ -87,10 +88,8 @@ public interface IGcloudApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BrowseAsync(
-        GcloudAppBrowseOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> BrowseAsync(GcloudAppBrowseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// create an App Engine app within the current Google     Cloud Project
@@ -99,10 +98,8 @@ public interface IGcloudApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(
-        GcloudAppCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateAsync(GcloudAppCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// deploy the local code and/or configuration of your app     to App Engine
@@ -111,10 +108,8 @@ public interface IGcloudApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeployAsync(
-        GcloudAppDeployOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeployAsync(GcloudAppDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// display all data about an existing service
@@ -123,10 +118,8 @@ public interface IGcloudApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DescribeAsync(
-        GcloudAppDescribeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DescribeAsync(GcloudAppDescribeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// open the App Engine dashboard, or log viewer, in     a web browser
@@ -135,10 +128,8 @@ public interface IGcloudApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OpenConsoleAsync(
-        GcloudAppOpenConsoleOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> OpenConsoleAsync(GcloudAppOpenConsoleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// updates an App Engine application
@@ -147,9 +138,7 @@ public interface IGcloudApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        GcloudAppUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(GcloudAppUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

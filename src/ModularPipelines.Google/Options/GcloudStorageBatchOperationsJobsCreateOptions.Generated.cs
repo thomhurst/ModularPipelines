@@ -28,7 +28,7 @@ public record GcloudStorageBatchOperationsJobsCreateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// If true, the job will run in dry run mode, returning the total object     count and, if the object configuration is a prefix list, the bytes     found from source. No transformations will be performed.
+    /// If true, the job will run in dry run mode, returning the total object count and, if the object configuration is a prefix list, the bytes found from source. No transformations will be performed.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }

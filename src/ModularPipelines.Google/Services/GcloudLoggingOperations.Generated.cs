@@ -33,6 +33,21 @@ public class GcloudLoggingOperations
     #region Commands
 
     /// <summary>
+    /// manage long running operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudLoggingOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLoggingOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel a long running operation
     /// </summary>
     /// <param name="options">The command options.</param>

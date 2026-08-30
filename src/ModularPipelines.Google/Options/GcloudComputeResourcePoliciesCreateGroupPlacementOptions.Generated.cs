@@ -24,7 +24,7 @@ public record GcloudComputeResourcePoliciesCreateGroupPlacementOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Defines the accelerator connection strategy for accelerator machine     types like TPUs. ACCELERATOR_TOPOLOGY_MODE must be one of:      AUTO_CONNECT       This creates a static, pre-formed accelerator topology.     PROVISION_ONLY       The interconnected chips are connected on demand. At the time of VM       creation, the chips are not connected.
+    /// Defines the accelerator connection strategy for accelerator machine types like TPUs. ACCELERATOR_TOPOLOGY_MODE must be one of: AUTO_CONNECT This creates a static, pre-formed accelerator topology. PROVISION_ONLY The interconnected chips are connected on demand. At the time of VM creation, the chips are not connected.
     /// </summary>
     [CliOption("--accelerator-topology-mode", Format = OptionFormat.EqualsSeparated)]
     public string? AcceleratorTopologyMode { get; set; }
@@ -36,7 +36,7 @@ public record GcloudComputeResourcePoliciesCreateGroupPlacementOptions(
     public int? AvailabilityDomainCount { get; set; }
 
     /// <summary>
-    /// Collocation specifies whether to place VMs inside the sameavailability     domain on the same low-latency network. COLLOCATION must be one of:      collocated       Low network latency between more VMs placed on the same       availability domain.     unspecified-collocation       Unspecified network latency between VMs placed on the same       availability domain. This is the default behavior.
+    /// Collocation specifies whether to place VMs inside the sameavailability domain on the same low-latency network. COLLOCATION must be one of: collocated Low network latency between more VMs placed on the same availability domain. unspecified-collocation Unspecified network latency between VMs placed on the same availability domain. This is the default behavior.
     /// </summary>
     [CliOption("--collocation", Format = OptionFormat.EqualsSeparated)]
     public string? Collocation { get; set; }
@@ -48,19 +48,19 @@ public record GcloudComputeResourcePoliciesCreateGroupPlacementOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies the shape of the GPU slice, in slice based GPU families eg.     A4X.
+    /// Specifies the shape of the GPU slice, in slice based GPU families eg. A4X.
     /// </summary>
     [CliOption("--gpu-topology", Format = OptionFormat.EqualsSeparated)]
     public string? GpuTopology { get; set; }
 
     /// <summary>
-    /// Region of the resource policy to operate on. If not specified, you     might be prompted to select a region (interactive mode only).     To avoid prompting when this flag is omitted, you can set the     compute/region property:       $ gcloud config set compute/region REGION     A list of regions can be fetched by running:       $ gcloud compute regions list     To unset the property, run:       $ gcloud config unset compute/region     Alternatively, the region can be stored in the environment variable     CLOUDSDK_COMPUTE_REGION.
+    /// Region of the resource policy to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Number of instances targeted by the group placement policy. Google does     not recommend that you use this flag unless you use a compact policy     and you want your policy to work only if it contains this exact number     of VMs.
+    /// Number of instances targeted by the group placement policy. Google does not recommend that you use this flag unless you use a compact policy and you want your policy to work only if it contains this exact number of VMs.
     /// </summary>
     [CliOption("--vm-count", Format = OptionFormat.EqualsSeparated)]
     public int? VmCount { get; set; }

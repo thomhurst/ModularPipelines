@@ -69,4 +69,23 @@ public class GcloudAgentregistry : IGcloudAgentregistry
     public GcloudAgentregistryServices Services => _services ??= new GcloudAgentregistryServices(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Agent Registry resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAgentRegistryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAgentRegistryOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

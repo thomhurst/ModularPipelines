@@ -37,7 +37,7 @@ public record GcloudAppFirewallRulesUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// An IP address or range in CIDR notation or the * wildcard to match all     traffic.
+    /// An IP address or range in CIDR notation or the * wildcard to match all traffic.
     /// </summary>
     [CliOption("--source-range", Format = OptionFormat.EqualsSeparated)]
     public string? SourceRange { get; set; }

@@ -22,15 +22,33 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsProjectsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ set the property artifacts/location.
+    /// Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// The minimum severity level of logs to generate. This flag is only     applicable when using --enable-platform-logs. SEVERITY must be one of:      error       Log events with severity ERROR or higher.     info       Log events with severity INFO or higher.    At most one of these can be specified:     --clear-platform-logs      Clear platform logging settings for the project in this location to      fall back to organization settings or AR defaults.     --disable-platform-logs      Disable platform logging for the project in this location.     --enable-platform-logs      Enable platform logging for the project in this location.
+    /// Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The minimum severity level of logs to generate. This flag is only applicable when using --enable-platform-logs. SEVERITY must be one of: error Log events with severity ERROR or higher. info Log events with severity INFO or higher.
     /// </summary>
     [CliOption("--severity", Format = OptionFormat.EqualsSeparated)]
     public string? Severity { get; set; }
+
+    /// <summary>
+    /// Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Clear platform logging settings for the project in this location to fall back to organization settings or AR defaults.
+    /// </summary>
+    [CliFlag("--clear-platform-logs")]
+    public bool? ClearPlatformLogs { get; set; }
+
+    /// <summary>
+    /// Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Disable platform logging for the project in this location.
+    /// </summary>
+    [CliFlag("--disable-platform-logs")]
+    public bool? DisablePlatformLogs { get; set; }
+
+    /// <summary>
+    /// Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Enable platform logging for the project in this location.
+    /// </summary>
+    [CliFlag("--enable-platform-logs")]
+    public bool? EnablePlatformLogs { get; set; }
 
 }

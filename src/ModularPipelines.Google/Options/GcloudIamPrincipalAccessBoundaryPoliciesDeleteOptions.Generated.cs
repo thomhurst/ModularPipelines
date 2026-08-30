@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The etag of the principal access boundary policy. If this is provided,     it must match the server's etag.
+    /// The etag of the principal access boundary policy. If this is provided, it must match the server's etag.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 
     /// <summary>
-    /// If set to true, the request will force the deletion of the policy even     if the policy is referenced in policy bindings.
+    /// If set to true, the request will force the deletion of the policy even if the policy is referenced in policy bindings.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

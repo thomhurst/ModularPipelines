@@ -17,17 +17,29 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudPurpose
 {
     [EnumValue("VPC_PEERING")]
-    VpcPeering,
+    VpcPeering = 0,
 
     [EnumValue("SHARED_LOADBALANCER_VIP")]
-    SharedLoadbalancerVip,
+    SharedLoadbalancerVip = 1,
 
     [EnumValue("GCE_ENDPOINT")]
-    GceEndpoint,
+    GceEndpoint = 2,
 
     [EnumValue("IPSEC_INTERCONNECT")]
-    IpsecInterconnect,
+    IpsecInterconnect = 3,
 
     [EnumValue("PRIVATE_SERVICE_CONNECT")]
-    PrivateServiceConnect
+    PrivateServiceConnect = 4,
+
+    [EnumValue("cloud-armor")]
+    CloudArmor = 5,
+
+    [EnumValue("default")]
+    Default = 6,
+
+    [EnumValue("GCE_FIREWALL")]
+    GceFirewall = 7,
+
+    [EnumValue("DATA_GOVERNANCE")]
+    DataGovernance = 8
 }

@@ -15,23 +15,26 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud biglake commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudBiglake
 {
     /// <summary>
     /// gcloud data-product-sharing sub-commands.
     /// </summary>
-    GcloudBiglakeDataProductSharing DataProductSharing { get; }
+    GcloudBiglakeDataProductSharing DataProductSharing => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud delta-sharing sub-commands.
     /// </summary>
-    GcloudBiglakeDeltaSharing DeltaSharing { get; }
+    GcloudBiglakeDeltaSharing DeltaSharing => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud iceberg sub-commands.
     /// </summary>
-    GcloudBiglakeIceberg Iceberg { get; }
+    GcloudBiglakeIceberg Iceberg => throw new System.NotSupportedException();
 
     /// <summary>
     /// create and manage Google Cloud BigLake resources
@@ -40,9 +43,7 @@ public interface IGcloudBiglake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudBiglakeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudBiglakeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

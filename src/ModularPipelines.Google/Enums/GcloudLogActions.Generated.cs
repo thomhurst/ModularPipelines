@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLogActions
 {
     [EnumValue("copy")]
-    Copy,
+    Copy = 0,
 
     [EnumValue("delete")]
-    Delete,
+    Delete = 1,
 
     [EnumValue("find")]
-    Find
+    Find = 2
 }

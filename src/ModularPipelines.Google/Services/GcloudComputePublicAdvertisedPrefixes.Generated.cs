@@ -33,6 +33,21 @@ public class GcloudComputePublicAdvertisedPrefixes
     #region Commands
 
     /// <summary>
+    /// manage public advertised prefix     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputePublicAdvertisedPrefixesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputePublicAdvertisedPrefixesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a Compute Engine     public advertised prefix
     /// </summary>
     /// <param name="options">The command options.</param>

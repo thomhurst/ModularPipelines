@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVectorSearchCollectionsDataObjectsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// The current etag of the DataObject. If an etag is provided and does not     match the current etag of the DataObject, deletion will be blocked and     an ABORTED error will be returned.
+    /// The current etag of the DataObject. If an etag is provided and does not match the current etag of the DataObject, deletion will be blocked and an ABORTED error will be returned.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }

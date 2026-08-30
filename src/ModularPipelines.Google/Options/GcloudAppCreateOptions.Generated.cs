@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAppCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// The region to create the app within. Use gcloud app regions list to     list available regions. If not provided, select region interactively.
+    /// The region to create the app within. Use gcloud app regions list to list available regions. If not provided, select region interactively.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// The app-level default service account to create the app with. Note that     you can specify a distinct service account for each App Engine version     with gcloud app deploy --service-account. However if you do not specify     a version-level service account, this default will be used. If this     parameter is not provided for app creation, the app-level default will     be set to be the out-of-box App Engine Default Service Account,     https://cloud.google.com/appengine/docs/standard/python3/service-account     outlines the limitation of that service account.
+    /// The app-level default service account to create the app with. Note that you can specify a distinct service account for each App Engine version with gcloud app deploy --service-account. However if you do not specify a version-level service account, this default will be used. If this parameter is not provided for app creation, the app-level default will be set to be the out-of-box App Engine Default Service Account, https://cloud.google.com/appengine/docs/standard/python3/service-account outlines the limitation of that service account.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// The app-level SSL policy to create the app with. SSL_POLICY must be one     of: TLS_VERSION_1_0, TLS_VERSION_1_2.
+    /// The app-level SSL policy to create the app with. SSL_POLICY must be one of: TLS_VERSION_1_0, TLS_VERSION_1_2.
     /// </summary>
     [CliOption("--ssl-policy", Format = OptionFormat.EqualsSeparated)]
     public string? SslPolicy { get; set; }

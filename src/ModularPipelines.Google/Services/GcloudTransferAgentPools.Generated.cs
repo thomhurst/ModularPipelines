@@ -33,6 +33,21 @@ public class GcloudTransferAgentPools
     #region Commands
 
     /// <summary>
+    /// premise transfer agent pools
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudTransferAgentPoolsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudTransferAgentPoolsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Transfer Service agent pool
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -22,28 +22,34 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("workflows", "run")]
 public record GcloudWorkflowsRunOptions : GcloudOptions
 {
-    [CliOption("--call-log-level", Format = OptionFormat.EqualsSeparated)]
-    public string? CallLogLevel { get; set; }
-
     /// <summary>
-    /// JSON string with data that will be passed to the workflow as an     argument.
+    /// JSON string with data that will be passed to the workflow as an argument.
     /// </summary>
     [CliOption("--data", Format = OptionFormat.EqualsSeparated)]
     public string? Data { get; set; }
 
     /// <summary>
-    /// If set, the execution will not be backlogged when the concurrency quota     is exhausted. Backlogged executions start when the concurrency quota     becomes available.
+    /// If set, the execution will not be backlogged when the concurrency quota is exhausted. Backlogged executions start when the concurrency quota becomes available.
     /// </summary>
     [CliFlag("--disable-concurrency-quota-overflow-buffering")]
     public bool? DisableConcurrencyQuotaOverflowBuffering { get; set; }
 
-    [CliOption("--execution-history-level", Format = OptionFormat.EqualsSeparated)]
-    public string? ExecutionHistoryLevel { get; set; }
-
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Level of call logging to apply during execution. CALL_LOG_LEVEL must be one of: log-all-calls Log all calls to subworkflows or library functions and their results. log-errors-only Log when a call is stopped due to an exception. log-none Perform no call logging. none No logging level specified.
+    /// </summary>
+    [CliOption("--call-log-level", Format = OptionFormat.EqualsSeparated)]
+    public string? CallLogLevel { get; set; }
+
+    /// <summary>
+    /// Level of execution history to apply during execution. EXECUTION_HISTORY_LEVEL must be one of: execution-history-basic Enable execution history basic feature. execution-history-detailed Enable execution history detailed feature. none No execution history level specified.
+    /// </summary>
+    [CliOption("--execution-history-level", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutionHistoryLevel { get; set; }
 
 }

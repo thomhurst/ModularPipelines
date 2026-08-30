@@ -33,6 +33,21 @@ public class GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints
     #region Commands
 
     /// <summary>
+    /// a Monitoring Point is an agent within your network or application     infrastructure that sends probes and reports the results to AppNeta
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// points     describe - describe a Monitoring Point
     /// </summary>
     /// <param name="options">The command options.</param>

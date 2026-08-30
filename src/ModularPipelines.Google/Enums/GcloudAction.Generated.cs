@@ -17,8 +17,9 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudAction
 {
     [EnumValue("ALLOW")]
-    Allow,
+    Allow = 0,
 
     [EnumValue("DENY")]
-    Deny
+    Deny = 1,
+
 }

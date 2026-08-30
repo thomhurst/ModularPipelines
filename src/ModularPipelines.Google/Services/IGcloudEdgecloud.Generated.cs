@@ -15,17 +15,35 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud edgecloud commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudEdgecloud
 {
     /// <summary>
     /// gcloud container sub-commands.
     /// </summary>
-    GcloudEdgecloudContainer Container { get; }
+    GcloudEdgecloudContainer Container => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud networking sub-commands.
     /// </summary>
-    GcloudEdgecloudNetworking Networking { get; }
+    GcloudEdgecloudNetworking Networking => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// gcloud zones sub-commands.
+    /// </summary>
+    GcloudEdgecloudZones Zones => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// cloud resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudEdgeCloudOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

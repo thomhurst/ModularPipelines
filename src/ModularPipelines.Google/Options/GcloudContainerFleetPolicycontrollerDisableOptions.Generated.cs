@@ -21,4 +21,28 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "policycontroller", "disable")]
 public record GcloudContainerFleetPolicycontrollerDisableOptions : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Removes the fleet default configuration for policy controller. Memberships configured with the fleet default will maintain their current configuration. $ gcloud container fleet policycontroller disable \ --fleet-default-member-config
+    /// </summary>
+    [CliFlag("--fleet-default-member-config")]
+    public bool? FleetDefaultMemberConfig { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Or at most one of these can be specified: Membership flags. If supplied, apply to all Policy Controllers memberships in the fleet.
+    /// </summary>
+    [CliFlag("--all-memberships")]
+    public bool? AllMemberships { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Or at most one of these can be specified: Membership flags. Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. IDs of the memberships or fully qualified identifiers for the memberships. To set the memberships attribute: ◇ provide the argument --memberships on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--memberships", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Memberships { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Or at most one of these can be specified: Membership flags. Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. Location for the memberships. To set the location attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --location on the command line; ◇ set the property gkehub/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

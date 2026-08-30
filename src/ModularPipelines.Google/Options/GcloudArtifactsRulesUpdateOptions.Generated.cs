@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsRulesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The action the rule would make, can only be DENY or ALLOW. ACTION must     be one of: allow, deny.
+    /// The action the rule would make, can only be DENY or ALLOW. ACTION must be one of: allow, deny.
     /// </summary>
     [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
     public string? Action { get; set; }
@@ -34,7 +34,7 @@ public record GcloudArtifactsRulesUpdateOptions : GcloudOptions
     public string? Condition { get; set; }
 
     /// <summary>
-    /// The operation the rule applies to. OPERATION must be (only one value is     supported): download.
+    /// The operation the rule applies to. OPERATION must be (only one value is supported): download.
     /// </summary>
     [CliOption("--operation", Format = OptionFormat.EqualsSeparated)]
     public string? Operation { get; set; }

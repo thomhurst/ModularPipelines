@@ -33,6 +33,21 @@ public class GcloudAiIndexEndpoints
     #region Commands
 
     /// <summary>
+    /// manage Vertex AI index endpoints
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAiIndexEndpointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiIndexEndpointsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new Vertex AI index endpoint
     /// </summary>
     /// <param name="options">The command options.</param>

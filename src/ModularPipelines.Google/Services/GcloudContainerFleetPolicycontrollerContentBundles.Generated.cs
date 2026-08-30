@@ -33,6 +33,21 @@ public class GcloudContainerFleetPolicycontrollerContentBundles
     #region Commands
 
     /// <summary>
+    /// manage Policy     Controller content bundles
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerFleetPolicycontrollerContentBundlesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetPolicycontrollerContentBundlesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// removes a     bundle installation for Policy Controller content
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudMemcacheRegions
     #region Commands
 
     /// <summary>
+    /// manage Cloud Memorystore Memcached regions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudMemcacheRegionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMemcacheRegionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// display metadata for a Memorystore     Memcached region
     /// </summary>
     /// <param name="options">The command options.</param>

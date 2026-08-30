@@ -33,6 +33,21 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
     #region Commands
 
     /// <summary>
+    /// create and manage     user workloads ConfigMaps of environment
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComposerEnvironmentsUserWorkloadsConfigMapsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     user workloads ConfigMap
     /// </summary>
     /// <param name="options">The command options.</param>

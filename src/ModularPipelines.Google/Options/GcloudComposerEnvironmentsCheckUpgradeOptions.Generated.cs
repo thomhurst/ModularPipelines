@@ -22,9 +22,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComposerEnvironmentsCheckUpgradeOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    Group of arguments for performing in-place environment upgrades.    At most one of these can be specified:     --airflow-version=AIRFLOW_VERSION      Upgrade the environment to a later Apache Airflow version in-place.      Must be of the form X[.Y[.Z]], where [] denotes optional fragments.      Examples: 2, 2.3, 2.3.4.      The Apache Airflow version is a semantic version or an alias in the      form of major or major.minor version numbers, resolved to the latest      matching Apache Airflow version supported in the current Cloud      Composer version. The resolved version is stored in the upgraded      environment.     --image-version=IMAGE_VERSION      Upgrade the environment to a later version in-place.      The image version encapsulates the versions of both Cloud Composer      and Apache Airflow. Must be of the form      composer-A[.B.C[-D.E]]-airflow-X[.Y[.Z]], where [] denotes optional      fragments.      Examples: composer-2-airflow-2, composer-2-airflow-2.2,      composer-2.1.2-airflow-2.3.4.      The Cloud Composer portion of the image version is a semantic version      or an alias in the form of major version number or latest, resolved      to the current Cloud Composer version. The Apache Airflow portion of      the image version is a semantic version or an alias in the form of      major or major.minor version numbers, resolved to the latest matching      Apache Airflow version supported in the given Cloud Composer version.      The resolved versions are stored in the upgraded environment.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Group of arguments for performing in-place environment upgrades. At most one of these can be specified: Upgrade the environment to a later Apache Airflow version in-place. Must be of the form X[.Y[.Z]], where [] denotes optional fragments. Examples: 2, 2.3, 2.3.4. The Apache Airflow version is a semantic version or an alias in the form of major or major.minor version numbers, resolved to the latest matching Apache Airflow version supported in the current Cloud Composer version. The resolved version is stored in the upgraded environment.
+    /// </summary>
+    [CliOption("--airflow-version", Format = OptionFormat.EqualsSeparated)]
+    public string? AirflowVersion { get; set; }
+
+    /// <summary>
+    /// Group of arguments for performing in-place environment upgrades. At most one of these can be specified: Upgrade the environment to a later version in-place. The image version encapsulates the versions of both Cloud Composer and Apache Airflow. Must be of the form composer-A[.B.C[-D.E]]-airflow-X[.Y[.Z]], where [] denotes optional fragments. Examples: composer-2-airflow-2, composer-2-airflow-2.2, composer-2.1.2-airflow-2.3.4. The Cloud Composer portion of the image version is a semantic version or an alias in the form of major version number or latest, resolved to the current Cloud Composer version. The Apache Airflow portion of the image version is a semantic version or an alias in the form of major or major.minor version numbers, resolved to the latest matching Apache Airflow version supported in the given Cloud Composer version. The resolved versions are stored in the upgraded environment.
+    /// </summary>
+    [CliOption("--image-version", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageVersion { get; set; }
 
 }

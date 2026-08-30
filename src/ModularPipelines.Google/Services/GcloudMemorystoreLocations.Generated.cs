@@ -33,6 +33,21 @@ public class GcloudMemorystoreLocations
     #region Commands
 
     /// <summary>
+    /// manage Memorystore for Valkey locations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudMemorystoreLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMemorystoreLocationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show metadata for a Memorystore for     Valkey location
     /// </summary>
     /// <param name="options">The command options.</param>

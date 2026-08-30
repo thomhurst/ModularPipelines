@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -25,9 +26,165 @@ public record GcloudApigeeProductsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Name to be displayed in the UI or developer portal to developers     registering for API access.    At most one of these can be specified:     --all-apis      Include all deployed API proxies in the product, so long as they      match the other parameters.     Or at least one of these can be specified:      API proxies to which this API product is bound. Only those API proxies     will be accessible through the API product.      The API proxy names must already be deployed to the bound     environments, or creation of the API product will fail. To get a list     of deployed API proxies, run:        $ gcloud apigee deployments list      To deploy an API proxy, run:        $ gcloud apigee apis deploy.      --add-api=[API,...]       Adds a new API to the set of APIs.      --remove-api=[API,...]       Removes an existing API from the set of APIs.    At most one of these can be specified:     --all-environments      Make all environments accessible through this API product.     Or at least one of these can be specified:      Environments to which the API product is bound. Requests to     environments that are not listed are rejected, preventing developers     from accessing those resources even if they can access the same API     proxies in another environment.      For example, this can be used to prevent applications with access to     production APIs from accessing the alpha or beta versions of those     APIs.      To get a list of available environments, run:        $ gcloud apigee environments list      --add-environment=[ENVIRONMENT,...]       Adds a new environment to the set of environments.      --remove-environment=[ENVIRONMENT,...]       Removes an existing environment from the set of environments.    At most one of these can be specified:     --all-resources      Include all deployed API resources in the product, so long as they      match the other parameters.     Or at least one of these can be specified:      API resources to be bundled in the API product.      By default, the resource paths are mapped from the proxy.pathsuffix     variable.      The proxy path suffix is defined as the URI fragment following the     ProxyEndpoint base path. For example, if /forecastrss is given as an     element of this list, and the base path defined for the API proxy is     /weather, then only requests to /weather/forecastrss are permitted by     the API product.      Proxy paths can use asterisks as wildcards; /** indicates that all     sub-URIs are included, whereas a single asterisk indicates that only     URIs one level down are included.      By default, / supports the same resources as /** as well as the base     path defined by the API proxy.      For example, if the base path of the API proxy is /v1/weatherapikey,     then the API product supports requests to /v1/weatherapikey and to any     sub-URIs, such as /v1/weatherapikey/forecastrss,     /v1/weatherapikey/region/CA, and so on.      The API proxy resources must already be deployed to the bound     environments, or creation of the API product will fail.      --add-resource=[RESOURCE#...]       Adds a new resource to the set of resources.      --remove-resource=[RESOURCE#...]       Removes an existing resource from the set of resources.    At most one of these can be specified:     --automatic-approval      Allow developers to generate approved consumer keys without waiting      for approval.     --manual-approval      Require manual approval of developer requests to access this API      product before their consumer keys can be used.    At most one of these can be specified:     --clear-attributes      Removes all attributes.     Or at least one of these can be specified:      Key-value attribute pairs that may be used to extend the default API     product profile with customer-specific metadata. Up to 17 attributes     can be specified.      --add-attribute=[NAME=VALUE,...]       Adds a new attribute to the set of attributes.      --remove-attribute=[NAME,...]       Removes an existing attribute from the set of attributes.    At most one of these can be specified:     --clear-description      Remove the API product's description.     --description=SET_DESCRIPTION      Overview of the API product. Include key information about the API      product that is not captured by other fields.    At most one of these can be specified:     --clear-oauth-scopes      Removes all OAuth scopes.     Or at least one of these can be specified:      Comma-separated list of OAuth scopes that are validated at runtime.     Apigee validates that the scopes in any access token presented match     the scopes defined in the OAuth policy assoicated with the API     product.      --add-oauth-scope=[OAUTH-SCOPE,...]       Adds a new OAuth scope to the set of OAuth scopes.      --remove-oauth-scope=[OAUTH-SCOPE,...]       Removes an existing OAuth scope from the set of OAuth scopes.    At most one of these can be specified:     --clear-quota      Remove any quota currently imposed on the API product.     Or at least one of these can be specified:      To impose a quota limit on calls to the API product, specify all of     the following:      --quota=QUOTA       Number of request messages permitted per app by this API product       for the specified --quota-interval and --quota-unit.       For example, --quota=50, --quota-interval=12, and --quota-unit=hour       means 50 requests are allowed every 12 hours.      --quota-interval=QUOTA_INTERVAL       Time interval over which the number of request messages is       calculated.      --quota-unit=QUOTA_UNIT       Time unit for --quota-interval. QUOTA_UNIT must be one of: minute,       hour, day, month.    At most one of these can be specified:     --internal-access      Prevent external access to this API product.     --private-access      Hide this API product in the developer portal but make it accessible      by external developers.     --public-access      Make this API product visible to developers in the Apigee developer      portal.
+    /// Name to be displayed in the UI or developer portal to developers registering for API access.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public GcloudDisplayName? DisplayName { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Include all deployed API proxies in the product, so long as they match the other parameters.
+    /// </summary>
+    [CliFlag("--all-apis")]
+    public bool? AllApis { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Adds a new API to the set of APIs.
+    /// </summary>
+    [CliOption("--add-api", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddApi { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Removes an existing API from the set of APIs.
+    /// </summary>
+    [CliOption("--remove-api", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveApi { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Make all environments accessible through this API product.
+    /// </summary>
+    [CliFlag("--all-environments")]
+    public bool? AllEnvironments { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Adds a new environment to the set of environments.
+    /// </summary>
+    [CliOption("--add-environment", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddEnvironment { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Removes an existing environment from the set of environments.
+    /// </summary>
+    [CliOption("--remove-environment", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveEnvironment { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Include all deployed API resources in the product, so long as they match the other parameters.
+    /// </summary>
+    [CliFlag("--all-resources")]
+    public bool? AllResources { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: API resources to be bundled in the API product. By default, the resource paths are mapped from the proxy.pathsuffix variable. The proxy path suffix is defined as the URI fragment following the ProxyEndpoint base path. For example, if /forecastrss is given as an element of this list, and the base path defined for the API proxy is /weather, then only requests to /weather/forecastrss are permitted by the API product. Proxy paths can use asterisks as wildcards; /** indicates that all sub-URIs are included, whereas a single asterisk indicates that only URIs one level down are included. By default, / supports the same resources as /** as well as the base path defined by the API proxy. For example, if the base path of the API proxy is /v1/weatherapikey, then the API product supports requests to /v1/weatherapikey and to any sub-URIs, such as /v1/weatherapikey/forecastrss, /v1/weatherapikey/region/CA, and so on. The API proxy resources must already be deployed to the bound environments, or creation of the API product will fail. Adds a new resource to the set of resources.
+    /// </summary>
+    [CliOption("--add-resource", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddResource { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: API resources to be bundled in the API product. By default, the resource paths are mapped from the proxy.pathsuffix variable. The proxy path suffix is defined as the URI fragment following the ProxyEndpoint base path. For example, if /forecastrss is given as an element of this list, and the base path defined for the API proxy is /weather, then only requests to /weather/forecastrss are permitted by the API product. Proxy paths can use asterisks as wildcards; /** indicates that all sub-URIs are included, whereas a single asterisk indicates that only URIs one level down are included. By default, / supports the same resources as /** as well as the base path defined by the API proxy. For example, if the base path of the API proxy is /v1/weatherapikey, then the API product supports requests to /v1/weatherapikey and to any sub-URIs, such as /v1/weatherapikey/forecastrss, /v1/weatherapikey/region/CA, and so on. The API proxy resources must already be deployed to the bound environments, or creation of the API product will fail. Removes an existing resource from the set of resources.
+    /// </summary>
+    [CliOption("--remove-resource", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveResource { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Allow developers to generate approved consumer keys without waiting for approval.
+    /// </summary>
+    [CliFlag("--automatic-approval")]
+    public bool? AutomaticApproval { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Require manual approval of developer requests to access this API product before their consumer keys can be used.
+    /// </summary>
+    [CliFlag("--manual-approval")]
+    public bool? ManualApproval { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Removes all attributes.
+    /// </summary>
+    [CliFlag("--clear-attributes")]
+    public bool? ClearAttributes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Adds a new attribute to the set of attributes.
+    /// </summary>
+    [CliOption("--add-attribute", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? AddAttribute { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Removes an existing attribute from the set of attributes.
+    /// </summary>
+    [CliOption("--remove-attribute", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAttribute { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove the API product's description.
+    /// </summary>
+    [CliFlag("--clear-description")]
+    public bool? ClearDescription { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Overview of the API product. Include key information about the API product that is not captured by other fields.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Removes all OAuth scopes.
+    /// </summary>
+    [CliFlag("--clear-oauth-scopes")]
+    public bool? ClearOauthScopes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Adds a new OAuth scope to the set of OAuth scopes.
+    /// </summary>
+    [CliOption("--add-oauth-scope", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddOauthScope { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Removes an existing OAuth scope from the set of OAuth scopes.
+    /// </summary>
+    [CliOption("--remove-oauth-scope", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveOauthScope { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove any quota currently imposed on the API product.
+    /// </summary>
+    [CliFlag("--clear-quota")]
+    public bool? ClearQuota { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: To impose a quota limit on calls to the API product, specify all of the following: Number of request messages permitted per app by this API product for the specified --quota-interval and --quota-unit. For example, --quota=50, --quota-interval=12, and --quota-unit=hour means 50 requests are allowed every 12 hours.
+    /// </summary>
+    [CliOption("--quota", Format = OptionFormat.EqualsSeparated)]
+    public string? Quota { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: To impose a quota limit on calls to the API product, specify all of the following: Time interval over which the number of request messages is calculated.
+    /// </summary>
+    [CliOption("--quota-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? QuotaInterval { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: To impose a quota limit on calls to the API product, specify all of the following: Time unit for --quota-interval. QUOTA_UNIT must be one of: minute, hour, day, month.
+    /// </summary>
+    [CliOption("--quota-unit", Format = OptionFormat.EqualsSeparated)]
+    public GcloudQuotaUnit? QuotaUnit { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Prevent external access to this API product.
+    /// </summary>
+    [CliFlag("--internal-access")]
+    public bool? InternalAccess { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Hide this API product in the developer portal but make it accessible by external developers.
+    /// </summary>
+    [CliFlag("--private-access")]
+    public bool? PrivateAccess { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Make this API product visible to developers in the Apigee developer portal.
+    /// </summary>
+    [CliFlag("--public-access")]
+    public bool? PublicAccess { get; set; }
 
 }

@@ -23,43 +23,55 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappBackupPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Add backup limit arguments. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// A description of the Cloud NetApp Backup Policy
+    /// Add backup limit arguments. A description of the Cloud NetApp Backup Policy
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Boolean value indiciating whether backups are made automatically     according to the schedules. If enabled, this will be applied to all     volumes that have this backup policy attached and enforced on the     volume level. If not specified, the default is true.
+    /// Add backup limit arguments. The Boolean value indiciating whether backups are made automatically according to the schedules. If enabled, this will be applied to all volumes that have this backup policy attached and enforced on the volume level. If not specified, the default is true.
     /// </summary>
     [CliOption("--enabled", Format = OptionFormat.EqualsSeparated)]
     public string? Enabled { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud netapp backup-policies update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud netapp backup-policies update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Add backup limit arguments.
+    /// Add backup limit arguments. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Maximum number of daily backups to keep. Note that the minimum daily     backup limit is 2.
+    /// Add backup limit arguments. At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud netapp backup-policies update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud netapp backup-policies update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// Add backup limit arguments. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Add backup limit arguments. Maximum number of daily backups to keep. Note that the minimum daily backup limit is 2.
     /// </summary>
     [CliOption("--daily-backup-limit", Format = OptionFormat.EqualsSeparated)]
     public string? DailyBackupLimit { get; set; }
 
     /// <summary>
-    /// Number of monthly backups to keep. Note that the sum of daily, weekly     and monthly backups should be greater than 1
+    /// Add backup limit arguments. Number of monthly backups to keep. Note that the sum of daily, weekly and monthly backups should be greater than 1
     /// </summary>
     [CliOption("--monthly-backup-limit", Format = OptionFormat.EqualsSeparated)]
     public string? MonthlyBackupLimit { get; set; }
 
     /// <summary>
-    /// Number of weekly backups to keep. Note that the sum of daily, weekly     and monthly backups should be greater than 1
+    /// Add backup limit arguments. Number of weekly backups to keep. Note that the sum of daily, weekly and monthly backups should be greater than 1
     /// </summary>
     [CliOption("--weekly-backup-limit", Format = OptionFormat.EqualsSeparated)]
     public string? WeeklyBackupLimit { get; set; }

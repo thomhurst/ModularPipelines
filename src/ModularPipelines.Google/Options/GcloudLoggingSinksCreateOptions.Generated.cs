@@ -24,51 +24,82 @@ public record GcloudLoggingSinksCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Writer identity for the sink. This flag can only be used if the     destination is a log bucket in a different project. The writer identity     is automatically generated when it is not provided for a sink.
+    /// Settings for sink exporting data to BigQuery. Writer identity for the sink. This flag can only be used if the destination is a log bucket in a different project. The writer identity is automatically generated when it is not provided for a sink.
     /// </summary>
     [CliOption("--custom-writer-identity", Format = OptionFormat.EqualsSeparated)]
     public int? CustomWriterIdentity { get; set; }
 
     /// <summary>
-    /// Description of the sink.
+    /// Settings for sink exporting data to BigQuery. Description of the sink.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Sink will be disabled. Disabled sinks do not export logs.
+    /// Settings for sink exporting data to BigQuery. Sink will be disabled. Disabled sinks do not export logs.
     /// </summary>
     [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// Specify an exclusion filter for a log entry that is not to be exported.     This flag can be repeated.     The name and filter attributes are required. The following keys are     accepted:      name       An identifier, such as load-balancer-exclusion. Identifiers are       limited to 100 characters and can include only letters, digits,       underscores, hyphens, and periods.      description       A description of this exclusion.      filter       An advanced log filter that matches the log entries to be excluded.      disabled       If this exclusion should be disabled and not exclude the log       entries.
+    /// Settings for sink exporting data to BigQuery. Specify an exclusion filter for a log entry that is not to be exported. This flag can be repeated. The name and filter attributes are required. The following keys are accepted: name An identifier, such as load-balancer-exclusion. Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. description A description of this exclusion. filter An advanced log filter that matches the log entries to be excluded. disabled If this exclusion should be disabled and not exclude the log entries.
     /// </summary>
     [CliOption("--exclusion", Format = OptionFormat.EqualsSeparated)]
-    public string? Exclusion { get; set; }
+    public IEnumerable<string>? ExclusionValues { get; set; }
 
     /// <summary>
-    /// Whether to export logs from all child projects and folders. Only     applies to sinks for organizations and folders.
+    /// Settings for sink exporting data to BigQuery. Whether to export logs from all child projects and folders. Only applies to sinks for organizations and folders.
     /// </summary>
     [CliFlag("--include-children")]
     public bool? IncludeChildren { get; set; }
 
     /// <summary>
-    /// Whether to intercept logs from all child projects and folders. Only     applies to sinks for organizations and folders.
+    /// Settings for sink exporting data to BigQuery. Whether to intercept logs from all child projects and folders. Only applies to sinks for organizations and folders.
     /// </summary>
     [CliFlag("--intercept-children")]
     public bool? InterceptChildren { get; set; }
 
     /// <summary>
-    /// A filter expression for the sink. If present, the filter specifies     which log entries to export.    Settings for sink exporting data to BigQuery.
+    /// Settings for sink exporting data to BigQuery. A filter expression for the sink. If present, the filter specifies which log entries to export.
     /// </summary>
     [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
     public string? LogFilter { get; set; }
 
     /// <summary>
-    /// If specified, use BigQuery's partitioned tables. By default, Logging     creates dated tables based on the log entries' timestamps, e.g.     'syslog_20170523'. Partitioned tables remove the suffix and special     query syntax     (https://cloud.google.com/bigquery/docs/querying-partitioned-tables)     must be used.    At most one of these can be specified:     --billing-account=BILLING_ACCOUNT_ID      Billing account of the sink to create.     --folder=FOLDER_ID      Folder of the sink to create.     --organization=ORGANIZATION_ID      Organization of the sink to create.     --project=PROJECT_ID      Project of the sink to create.      The Google Cloud project ID to use for this invocation. If omitted,      then the current project is assumed; the current project can be      listed using gcloud config list --format='text(core.project)' and can      be set using gcloud config set project PROJECTID.      --project and its fallback core/project property play two roles in      the invocation. It specifies the project of the resource to operate      on. It also specifies the project for API enablement check, quota,      and billing. To specify a different project for quota and billing,      use --billing-project or billing/quota_project property.
+    /// Settings for sink exporting data to BigQuery. If specified, use BigQuery's partitioned tables. By default, Logging creates dated tables based on the log entries' timestamps, e.g. 'syslog_20170523'. Partitioned tables remove the suffix and special query syntax (https://cloud.google.com/bigquery/docs/querying-partitioned-tables) must be used.
     /// </summary>
     [CliFlag("--use-partitioned-tables")]
     public bool? UsePartitionedTables { get; set; }
+
+    /// <summary>
+    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Billing account of the sink to create.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Folder of the sink to create.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Organization of the sink to create.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Project of the sink to create. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    [Obsolete("Use ExclusionValues instead.")]
+    public string? Exclusion
+    {
+        get => ExclusionValues?.FirstOrDefault();
+        set => ExclusionValues = value is null ? null : [value];
+    }
 
 }

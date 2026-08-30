@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudKmsKeysSetRotationScheduleOptions : GcloudOptions
 {
     /// <summary>
-    /// Next automatic rotation time of the key. See $ gcloud topic datetimes     for information on time formats.
+    /// Next automatic rotation time of the key. See $ gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--next-rotation-time", Format = OptionFormat.EqualsSeparated)]
     public string? NextRotationTime { get; set; }
 
     /// <summary>
-    /// Automatic rotation period of the key. See $ gcloud topic datetimes for     information on duration formats.
+    /// Automatic rotation period of the key. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--rotation-period", Format = OptionFormat.EqualsSeparated)]
     public string? RotationPeriod { get; set; }

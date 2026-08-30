@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSccPosturesDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the specific posture revision to described. If not specified,     latest revision is described.
+    /// ID of the specific posture revision to described. If not specified, latest revision is described.
     /// </summary>
     [CliOption("--revision-id", Format = OptionFormat.EqualsSeparated)]
     public string? RevisionId { get; set; }

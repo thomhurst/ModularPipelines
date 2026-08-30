@@ -33,6 +33,21 @@ public class GcloudWorkstationsConfigs
     #region Commands
 
     /// <summary>
+    /// manage Cloud Workstations configuration     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudWorkstationsConfigsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkstationsConfigsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a workstation configuration
     /// </summary>
     /// <param name="options">The command options.</param>

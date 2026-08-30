@@ -43,6 +43,21 @@ public class GcloudPreviewConfig
     #region Commands
 
     /// <summary>
+    /// view and edit Google Cloud CLI properties
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewConfigOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// print the value of a Google Cloud CLI property
     /// </summary>
     /// <param name="options">The command options.</param>

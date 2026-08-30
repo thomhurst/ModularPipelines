@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudConcurrencyMode
 {
     [EnumValue("optimistic")]
-    Optimistic,
+    Optimistic = 0,
 
     [EnumValue("pessimistic")]
-    Pessimistic
+    Pessimistic = 1
 }

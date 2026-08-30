@@ -43,6 +43,21 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
     #region Commands
 
     /// <summary>
+    /// manage IAM workload     identity pool provider keys
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIamWorkloadIdentityPoolsProvidersKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new     workload identity pool provider key
     /// </summary>
     /// <param name="options">The command options.</param>

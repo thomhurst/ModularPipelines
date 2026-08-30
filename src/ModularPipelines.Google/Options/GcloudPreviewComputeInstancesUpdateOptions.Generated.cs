@@ -26,39 +26,165 @@ public record GcloudPreviewComputeInstancesUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
+    /// Enables deletion protection for the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// </summary>
+    [CliFlag("--deletion-protection")]
+    public bool? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// Enables deletion protection for the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// </summary>
+    [CliFlag("--no-deletion-protection")]
+    public bool? NoDeletionProtection { get; set; }
+
+    /// <summary>
+    /// Enable a display device on VM instances. Use --enable-display-device to enable and --no-enable-display-device to disable.
+    /// </summary>
+    [CliFlag("--enable-display-device")]
+    public bool? EnableDisplayDevice { get; set; }
+
+    /// <summary>
+    /// Enable a display device on VM instances. Use --enable-display-device to enable and --no-enable-display-device to disable.
+    /// </summary>
+    [CliFlag("--no-enable-display-device")]
+    public bool? NoEnableDisplayDevice { get; set; }
+
+    /// <summary>
+    /// Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
+    /// </summary>
+    [CliFlag("--graceful-shutdown")]
+    public bool? GracefulShutdown { get; set; }
+
+    /// <summary>
+    /// Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
+    /// </summary>
+    [CliFlag("--no-graceful-shutdown")]
+    public bool? NoGracefulShutdown { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum time for the graceful shutdown. After this time, the instance is set to STOPPING even if tasks are still running. Specify the time as the number of hours, minutes, or seconds followed by h, m, and s respectively. For example, specify 30m for 30 minutes or 20m10s for 20 minutes and 10 seconds. The value must be between 1 second and 1 hour.
+    /// </summary>
+    [CliOption("--graceful-shutdown-max-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? GracefulShutdownMaxDuration { get; set; }
+
+    /// <summary>
     /// The workload identity to use for the instance.
     /// </summary>
     [CliOption("--identity", Format = OptionFormat.EqualsSeparated)]
     public string? Identity { get; set; }
 
     /// <summary>
-    /// When specified, the VM will be scheduled on host with specified CPU     architecture or a newer one. To list available CPU platforms in given     zone, run:       $ gcloud preview compute zones describe ZONE \        --format="value(availableCpuPlatforms)"     Default setting is "AUTOMATIC".     CPU platform selection is available only in selected zones.     You can find more information on-line:     https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform
+    /// Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
+    /// </summary>
+    [CliFlag("--identity-certificate")]
+    public bool? IdentityCertificate { get; set; }
+
+    /// <summary>
+    /// Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
+    /// </summary>
+    [CliFlag("--no-identity-certificate")]
+    public bool? NoIdentityCertificate { get; set; }
+
+    /// <summary>
+    /// When specified, the VM will be scheduled on host with specified CPU architecture or a newer one. To list available CPU platforms in given zone, run: $ gcloud preview compute zones describe ZONE \ --format="value(availableCpuPlatforms)" Default setting is "AUTOMATIC". CPU platform selection is available only in selected zones. You can find more information on-line: https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform
     /// </summary>
     [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
     public string? MinCpuPlatform { get; set; }
 
     /// <summary>
-    /// If specified, Compute Engine returns an error if the update requires a     higher action to be applied to the instance. If not specified, the     default will be REFRESH. MOST_DISRUPTIVE_ALLOWED_ACTION must be one of:     NO_EFFECT, REFRESH, RESTART.
+    /// If specified, Compute Engine returns an error if the update requires a higher action to be applied to the instance. If not specified, the default will be REFRESH. MOST_DISRUPTIVE_ALLOWED_ACTION must be one of: NO_EFFECT, REFRESH, RESTART.
     /// </summary>
     [CliOption("--most-disruptive-allowed-action", Format = OptionFormat.EqualsSeparated)]
     public GcloudMostDisruptiveAllowedAction? MostDisruptiveAllowedAction { get; set; }
 
     /// <summary>
-    /// Causes the instance to re-learn the integrity policy baseline using the     current instance configuration. Use this flag after any planned     boot-specific changes in the instance configuration, like kernel     updates or kernel driver installation.
+    /// Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
+    /// </summary>
+    [CliFlag("--shielded-integrity-monitoring")]
+    public bool? ShieldedIntegrityMonitoring { get; set; }
+
+    /// <summary>
+    /// Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
+    /// </summary>
+    [CliFlag("--no-shielded-integrity-monitoring")]
+    public bool? NoShieldedIntegrityMonitoring { get; set; }
+
+    /// <summary>
+    /// Causes the instance to re-learn the integrity policy baseline using the current instance configuration. Use this flag after any planned boot-specific changes in the instance configuration, like kernel updates or kernel driver installation.
     /// </summary>
     [CliFlag("--shielded-learn-integrity-policy")]
     public bool? ShieldedLearnIntegrityPolicy { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-secure-boot to enable and --no-shielded-secure-boot to disable.
+    /// </summary>
+    [CliFlag("--shielded-secure-boot")]
+    public bool? ShieldedSecureBoot { get; set; }
+
+    /// <summary>
+    /// The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-secure-boot to enable and --no-shielded-secure-boot to disable.
+    /// </summary>
+    [CliFlag("--no-shielded-secure-boot")]
+    public bool? NoShieldedSecureBoot { get; set; }
+
+    /// <summary>
+    /// The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-vtpm to enable and --no-shielded-vtpm to disable.
+    /// </summary>
+    [CliFlag("--shielded-vtpm")]
+    public bool? ShieldedVtpm { get; set; }
+
+    /// <summary>
+    /// The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-vtpm to enable and --no-shielded-vtpm to disable.
+    /// </summary>
+    [CliFlag("--no-shielded-vtpm")]
+    public bool? NoShieldedVtpm { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Zone of the instance to update. If not specified, you might be prompted     to select a zone (interactive mode only). gcloud attempts to identify     the appropriate zone by searching for resources in your currently     active project. If the zone cannot be determined, gcloud prompts you     for a selection with all available Google Cloud Platform zones.     To avoid prompting when this flag is omitted, the user can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud preview compute instances update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud preview compute instances update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Sole Tenancy.    At most one of these can be specified:     --clear-node-affinities      Removes the node affinities field from the instance. If specified,      the instance node settings will be cleared. The instance will not be      scheduled onto a sole-tenant node.     --node=NODE      The name of the node to schedule this instance on.     --node-affinity-file=PATH_TO_FILE      The JSON/YAML file containing the configuration of desired nodes onto      which this instance could be scheduled. These rules filter the nodes      according to their node affinity labels. A node's affinity labels      come from the node template of the group the node is in.      The file should contain a list of a JSON/YAML objects. For an      example, see      https://cloud.google.com/compute/docs/nodes/provisioning-sole-tenant-vms#configure_node_affinity_labels.      The following list describes the fields:       key        Corresponds to the node affinity label keys of the Node resource.      operator        Specifies the node selection type. Must be one of: IN: Requires        Compute Engine to seek for matched nodes. NOT_IN: Requires        Compute Engine to avoid certain nodes.      values        Optional. A list of values which correspond to the node affinity        label values of the Node resource.        Use a full or relative path to a local file containing the value        of node_affinity_file.     --node-group=NODE_GROUP      The name of the node group to schedule this instance on.
+    /// Zone of the instance to update. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud preview compute instances update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud preview compute instances update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Removes the node affinities field from the instance. If specified, the instance node settings will be cleared. The instance will not be scheduled onto a sole-tenant node.
+    /// </summary>
+    [CliFlag("--clear-node-affinities")]
+    public bool? ClearNodeAffinities { get; set; }
+
+    /// <summary>
+    /// The name of the node to schedule this instance on.
+    /// </summary>
+    [CliOption("--node", Format = OptionFormat.EqualsSeparated)]
+    public string? Node { get; set; }
+
+    /// <summary>
+    /// The JSON/YAML file containing the configuration of desired nodes onto which this instance could be scheduled. These rules filter the nodes according to their node affinity labels. A node's affinity labels come from the node template of the group the node is in. The file should contain a list of a JSON/YAML objects. For an example, see https://cloud.google.com/compute/docs/nodes/provisioning-sole-tenant-vms#configure_node_affinity_labels. The following list describes the fields: key Corresponds to the node affinity label keys of the Node resource. operator Specifies the node selection type. Must be one of: IN: Requires Compute Engine to seek for matched nodes. NOT_IN: Requires Compute Engine to avoid certain nodes. values Optional. A list of values which correspond to the node affinity label values of the Node resource. Use a full or relative path to a local file containing the value of node_affinity_file.
+    /// </summary>
+    [CliOption("--node-affinity-file", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeAffinityFile { get; set; }
+
+    /// <summary>
+    /// The name of the node group to schedule this instance on.
+    /// </summary>
+    [CliOption("--node-group", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeGroup { get; set; }
 
 }

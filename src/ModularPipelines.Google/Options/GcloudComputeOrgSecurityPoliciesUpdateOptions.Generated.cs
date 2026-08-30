@@ -30,31 +30,31 @@ public record GcloudComputeOrgSecurityPoliciesUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// A comma-separated list of custom Content-Type header values to apply     JSON parsing for preconfigured WAF rules. Only applicable when JSON     parsing is enabled, like --json-parsing=STANDARD. When configuring a     Content-Type header value, only the type/subtype needs to be specified,     and the parameters should be excluded.
+    /// A comma-separated list of custom Content-Type header values to apply JSON parsing for preconfigured WAF rules. Only applicable when JSON parsing is enabled, like --json-parsing=STANDARD. When configuring a Content-Type header value, only the type/subtype needs to be specified, and the parameters should be excluded.
     /// </summary>
     [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JsonCustomContentTypes { get; set; }
 
     /// <summary>
-    /// The JSON parsing behavior for this rule. Must be one of the following     values: [DISABLED, STANDARD, STANDARD_WITH_GRAPHQL]. JSON_PARSING must     be one of: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+    /// The JSON parsing behavior for this rule. Must be one of the following values: [DISABLED, STANDARD, STANDARD_WITH_GRAPHQL]. JSON_PARSING must be one of: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
     /// </summary>
     [CliOption("--json-parsing", Format = OptionFormat.EqualsSeparated)]
     public string? JsonParsing { get; set; }
 
     /// <summary>
-    /// The level of detail to display for WAF logging. LOG_LEVEL must be one     of: NORMAL, VERBOSE.
+    /// The level of detail to display for WAF logging. LOG_LEVEL must be one of: NORMAL, VERBOSE.
     /// </summary>
     [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
     public string? LogLevel { get; set; }
 
     /// <summary>
-    /// Organization in which the organization security policy is to be     updated. Must be set if SECURITY_POLICY is the short name.
+    /// Organization in which the organization security policy is to be updated. Must be set if SECURITY_POLICY is the short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// A comma-separated list of request header names to use for resolving the     caller's user IP address.
+    /// A comma-separated list of request header names to use for resolving the caller's user IP address.
     /// </summary>
     [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UserIpRequestHeaders { get; set; }

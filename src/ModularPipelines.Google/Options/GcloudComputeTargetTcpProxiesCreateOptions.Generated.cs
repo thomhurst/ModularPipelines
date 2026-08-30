@@ -24,7 +24,7 @@ public record GcloudComputeTargetTcpProxiesCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// A backend service that will be used for connections to the target TCP     proxy.
+    /// A backend service that will be used for connections to the target TCP proxy.
     /// </summary>
     [CliOption("--backend-service", Format = OptionFormat.EqualsSeparated)]
     public string? BackendService { get; set; }
@@ -36,11 +36,50 @@ public record GcloudComputeTargetTcpProxiesCreateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies the load balancing scheme for the target TCP proxy.     LOAD_BALANCING_SCHEME must be one of:      EXTERNAL       Classic Proxy Network Load Balancers.     EXTERNAL_MANAGED       Envoy-based global and regional external Proxy Network Load       Balancer.     INTERNAL_MANAGED       Envoy-based cross-region and regional internal Proxy Network Load       Balancer.
+    /// Specifies the load balancing scheme for the target TCP proxy. LOAD_BALANCING_SCHEME must be one of: EXTERNAL Classic Proxy Network Load Balancers. EXTERNAL_MANAGED Envoy-based global and regional external Proxy Network Load Balancer. INTERNAL_MANAGED Envoy-based cross-region and regional internal Proxy Network Load Balancer.
     /// </summary>
     [CliOption("--load-balancing-scheme", Format = OptionFormat.EqualsSeparated)]
     public string? LoadBalancingScheme { get; set; }
 
+    /// <summary>
+    /// This field only applies when the forwarding rule that references this target proxy has a --load-balancing-scheme set to INTERNAL_SELF_MANAGED. When this field is set to true, Envoy proxies set up inbound traffic interception and bind to the IP address and port specified in the forwarding rule. This is generally useful when using Traffic Director to configure Envoy as a gateway or middle proxy (in other words, not a sidecar proxy). The Envoy proxy listens for inbound requests and handles requests when it receives them. Use --proxy-bind to enable and --no-proxy-bind to disable.
+    /// </summary>
+    [CliFlag("--proxy-bind")]
+    public bool? ProxyBind { get; set; }
+
+    /// <summary>
+    /// This field only applies when the forwarding rule that references this target proxy has a --load-balancing-scheme set to INTERNAL_SELF_MANAGED. When this field is set to true, Envoy proxies set up inbound traffic interception and bind to the IP address and port specified in the forwarding rule. This is generally useful when using Traffic Director to configure Envoy as a gateway or middle proxy (in other words, not a sidecar proxy). The Envoy proxy listens for inbound requests and handles requests when it receives them. Use --proxy-bind to enable and --no-proxy-bind to disable.
+    /// </summary>
+    [CliFlag("--no-proxy-bind")]
+    public bool? NoProxyBind { get; set; }
+
+    /// <summary>
+    /// Region of the backend service to operate on. If not specified it will be set to the region of the TCP Proxy. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--backend-service-region", Format = OptionFormat.EqualsSeparated)]
+    public string? BackendServiceRegion { get; set; }
+
+    /// <summary>
+    /// If set, the backend service is global.
+    /// </summary>
+    [CliFlag("--global-backend-service")]
+    public bool? GlobalBackendService { get; set; }
+
+    /// <summary>
+    /// If set, the target TCP proxy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// Region of the target TCP proxy to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Enables PROXY protocol (version 1) for passing client connection information.
+    /// </summary>
     [CliOption("--proxy-header", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyHeader { get; set; }
 

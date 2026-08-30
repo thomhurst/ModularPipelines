@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexZonesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -41,31 +41,43 @@ public record GcloudDataplexZonesUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Validate the create action, but don't actually perform it.    Settings to manage the metadata discovery and publishing.
+    /// Validate the create action, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// The list of patterns to apply for selecting data to exclude during     discovery. For Cloud Storage bucket assets, these are interpreted as     glob patterns used to match object names. For BigQuery dataset assets,     these are interpreted as patterns to match table names.
+    /// Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
+    /// </summary>
+    [CliFlag("--discovery-enabled")]
+    public bool? DiscoveryEnabled { get; set; }
+
+    /// <summary>
+    /// Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
+    /// </summary>
+    [CliFlag("--no-discovery-enabled")]
+    public bool? NoDiscoveryEnabled { get; set; }
+
+    /// <summary>
+    /// The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
     /// </summary>
     [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DiscoveryExcludePatterns { get; set; }
 
     /// <summary>
-    /// The list of patterns to apply for selecting data to include during     discovery if only a subset of the data should considered. For Cloud     Storage bucket assets, these are interpreted as glob patterns used to     match object names. For BigQuery dataset assets, these are interpreted     as patterns to match table names.    Determines when discovery jobs are triggered.
+    /// The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
     /// </summary>
     [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DiscoveryIncludePatterns { get; set; }
 
     /// <summary>
-    /// Cron schedule (https://en.wikipedia.org/wiki/Cron) for running     discovery jobs periodically. Discovery jobs must be scheduled at least     30 minutes apart.    Describe data formats.    Describe CSV and similar semi-structured data formats.
+    /// Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery jobs periodically. Discovery jobs must be scheduled at least 30 minutes apart.
     /// </summary>
     [CliOption("--discovery-schedule", Format = OptionFormat.EqualsSeparated)]
     public string? DiscoverySchedule { get; set; }
@@ -77,16 +89,40 @@ public record GcloudDataplexZonesUpdateOptions : GcloudOptions
     public string? CsvDelimiter { get; set; }
 
     /// <summary>
+    /// Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
+    /// </summary>
+    [CliFlag("--csv-disable-type-inference")]
+    public bool? CsvDisableTypeInference { get; set; }
+
+    /// <summary>
+    /// Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
+    /// </summary>
+    [CliFlag("--no-csv-disable-type-inference")]
+    public bool? NoCsvDisableTypeInference { get; set; }
+
+    /// <summary>
     /// The character encoding of the data. The default is UTF-8.
     /// </summary>
     [CliOption("--csv-encoding", Format = OptionFormat.EqualsSeparated)]
     public string? CsvEncoding { get; set; }
 
     /// <summary>
-    /// The number of rows to interpret as header rows that should be skipped     when reading data rows.    Describe JSON data format.
+    /// The number of rows to interpret as header rows that should be skipped when reading data rows.
     /// </summary>
     [CliOption("--csv-header-rows", Format = OptionFormat.EqualsSeparated)]
     public string? CsvHeaderRows { get; set; }
+
+    /// <summary>
+    /// Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
+    /// </summary>
+    [CliFlag("--json-disable-type-inference")]
+    public bool? JsonDisableTypeInference { get; set; }
+
+    /// <summary>
+    /// Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
+    /// </summary>
+    [CliFlag("--no-json-disable-type-inference")]
+    public bool? NoJsonDisableTypeInference { get; set; }
 
     /// <summary>
     /// The character encoding of the data. The default is UTF-8.

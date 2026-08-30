@@ -17,20 +17,23 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDiskType
 {
     [EnumValue("pd-standard")]
-    PdStandard,
+    PdStandard = 0,
 
     [EnumValue("pd-ssd")]
-    PdSsd,
+    PdSsd = 1,
 
     [EnumValue("pd-balanced")]
-    PdBalanced,
+    PdBalanced = 2,
 
     [EnumValue("hyperdisk-balanced")]
-    HyperdiskBalanced,
+    HyperdiskBalanced = 3,
 
     [EnumValue("hyperdisk-extreme")]
-    HyperdiskExtreme,
+    HyperdiskExtreme = 4,
 
     [EnumValue("hyperdisk-throughput")]
-    HyperdiskThroughput
+    HyperdiskThroughput = 5,
+
+    [EnumValue("hyperdisk-balanced-ha")]
+    HyperdiskBalancedHa = 6
 }

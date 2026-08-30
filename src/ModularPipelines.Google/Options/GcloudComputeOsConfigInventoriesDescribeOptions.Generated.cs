@@ -24,13 +24,13 @@ public record GcloudComputeOsConfigInventoriesDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Location of the Compute Engine VM instance to describe. If not     specified, the property compute/zone is used. For details on setting     properties, see: https://cloud.google.com/sdk/docs/properties
+    /// Location of the Compute Engine VM instance to describe. If not specified, the property compute/zone is used. For details on setting properties, see: https://cloud.google.com/sdk/docs/properties
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Specifies what information should be included in the output. If     unspecified, the default view is basic. VIEW must be one of:      basic       Output is limited to operating system details.     full       Output includes operating system details and package information.
+    /// Specifies what information should be included in the output. If unspecified, the default view is basic. VIEW must be one of: basic Output is limited to operating system details. full Output includes operating system details and package information.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }

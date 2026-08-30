@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSecurityPosture
 {
     [EnumValue("disabled")]
-    Disabled,
+    Disabled = 0,
 
     [EnumValue("standard")]
-    Standard,
+    Standard = 1,
 
     [EnumValue("enterprise")]
-    Enterprise
+    Enterprise = 2
 }

@@ -33,6 +33,21 @@ public class GcloudDatastreamRoutes
     #region Commands
 
     /// <summary>
+    /// manage Datastream routes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDatastreamRoutesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatastreamRoutesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Datastream private connection     route
     /// </summary>
     /// <param name="options">The command options.</param>

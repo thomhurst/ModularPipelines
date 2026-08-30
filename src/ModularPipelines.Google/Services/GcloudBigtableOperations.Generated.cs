@@ -33,6 +33,21 @@ public class GcloudBigtableOperations
     #region Commands
 
     /// <summary>
+    /// manage Cloud Bigtable operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBigtableOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBigtableOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Cloud Bigtable operation
     /// </summary>
     /// <param name="options">The command options.</param>

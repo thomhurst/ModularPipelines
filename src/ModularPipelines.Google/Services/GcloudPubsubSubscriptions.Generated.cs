@@ -33,6 +33,21 @@ public class GcloudPubsubSubscriptions
     #region Commands
 
     /// <summary>
+    /// manage Cloud Pub/Sub subscriptions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPubsubSubscriptionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPubsubSubscriptionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// acknowledges one or more messages on the     specified subscription
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudEventarcProviders
     #region Commands
 
     /// <summary>
+    /// explore event providers available in Eventarc
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudEventarcProvidersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEventarcProvidersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe an Eventarc event provider
     /// </summary>
     /// <param name="options">The command options.</param>

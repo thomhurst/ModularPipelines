@@ -15,18 +15,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud anthos commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudAnthos
 {
     /// <summary>
     /// gcloud auth sub-commands.
     /// </summary>
-    GcloudAnthosAuth Auth { get; }
+    GcloudAnthosAuth Auth => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud config sub-commands.
     /// </summary>
-    GcloudAnthosConfig Config { get; }
+    GcloudAnthosConfig Config => throw new System.NotSupportedException();
 
     /// <summary>
     /// anthos command Group
@@ -35,10 +38,8 @@ public interface IGcloudAnthos
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudAnthosOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudAnthosOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// generates a login configuration file
@@ -47,9 +48,7 @@ public interface IGcloudAnthos
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateLoginConfigAsync(
-        GcloudAnthosCreateLoginConfigOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateLoginConfigAsync(GcloudAnthosCreateLoginConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

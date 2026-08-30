@@ -33,6 +33,21 @@ public class GcloudRunWorkerPoolsLogs
     #region Commands
 
     /// <summary>
+    /// read logs for Cloud Run worker pools
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRunWorkerPoolsLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRunWorkerPoolsLogsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// read logs for a Cloud Run worker pool
     /// </summary>
     /// <param name="options">The command options.</param>

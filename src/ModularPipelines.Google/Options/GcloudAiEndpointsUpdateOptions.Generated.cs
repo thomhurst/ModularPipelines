@@ -35,9 +35,51 @@ public record GcloudAiEndpointsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud ai endpoints update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud ai endpoints update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --clear-traffic-split      Clears the traffic split map. If the map is empty, the endpoint is to      not accept any traffic at the moment.     --traffic-split=[DEPLOYED_MODEL_ID=VALUE,...]      List of pairs of deployed model id and value to set as traffic split.    At most one of these can be specified:     --disable-request-response-logging      Disable prediction request &amp; response logging.     Or at least one of these can be specified:      --request-response-logging-rate=REQUEST_RESPONSE_LOGGING_RATE       Prediction request &amp; response sampling rate for logging to BigQuery       table.      --request-response-logging-table=REQUEST_RESPONSE_LOGGING_TABLE       BigQuery table uri for prediction request &amp; response logging.       You can provide table uri that does not exist, it will be created       for you.       Value should be provided in format: bq://PROJECT_ID/DATASET/TABLE
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud ai endpoints update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud ai endpoints update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clears the traffic split map. If the map is empty, the endpoint is to not accept any traffic at the moment.
+    /// </summary>
+    [CliFlag("--clear-traffic-split")]
+    public bool? ClearTrafficSplit { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of pairs of deployed model id and value to set as traffic split.
+    /// </summary>
+    [CliOption("--traffic-split", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? TrafficSplit { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Disable prediction request &amp; response logging.
+    /// </summary>
+    [CliFlag("--disable-request-response-logging")]
+    public bool? DisableRequestResponseLogging { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Prediction request &amp; response sampling rate for logging to BigQuery table.
+    /// </summary>
+    [CliOption("--request-response-logging-rate", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestResponseLoggingRate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: BigQuery table uri for prediction request &amp; response logging. You can provide table uri that does not exist, it will be created for you. Value should be provided in format: bq://PROJECT_ID/DATASET/TABLE
+    /// </summary>
+    [CliOption("--request-response-logging-table", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestResponseLoggingTable { get; set; }
 
 }

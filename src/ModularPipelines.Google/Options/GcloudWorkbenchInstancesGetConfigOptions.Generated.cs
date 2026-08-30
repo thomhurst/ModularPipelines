@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkbenchInstancesGetConfigOptions : GcloudOptions
 {
     /// <summary>
-    /// Google Cloud location of this environment     https://cloud.google.com/compute/docs/regions-zones/#locations.
+    /// Google Cloud location of this environment https://cloud.google.com/compute/docs/regions-zones/#locations.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

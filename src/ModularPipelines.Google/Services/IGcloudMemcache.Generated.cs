@@ -15,23 +15,26 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud memcache commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudMemcache
 {
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudMemcacheInstances Instances { get; }
+    GcloudMemcacheInstances Instances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudMemcacheOperations Operations { get; }
+    GcloudMemcacheOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud regions sub-commands.
     /// </summary>
-    GcloudMemcacheRegions Regions { get; }
+    GcloudMemcacheRegions Regions => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud Memorystore Memcached resources
@@ -40,9 +43,7 @@ public interface IGcloudMemcache
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudMemcacheOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudMemcacheOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

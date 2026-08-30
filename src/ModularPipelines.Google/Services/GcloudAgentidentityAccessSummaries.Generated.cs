@@ -33,6 +33,21 @@ public class GcloudAgentidentityAccessSummaries
     #region Commands
 
     /// <summary>
+    /// manage Access Summary resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAgentIdentityAccessSummariesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAgentIdentityAccessSummariesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe an access     summary
     /// </summary>
     /// <param name="options">The command options.</param>

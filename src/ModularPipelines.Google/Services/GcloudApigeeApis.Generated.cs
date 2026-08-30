@@ -33,6 +33,21 @@ public class GcloudApigeeApis
     #region Commands
 
     /// <summary>
+    /// manage Apigee API proxies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudApigeeApisOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApigeeApisOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// deploy an API proxy to an environment
     /// </summary>
     /// <param name="options">The command options.</param>

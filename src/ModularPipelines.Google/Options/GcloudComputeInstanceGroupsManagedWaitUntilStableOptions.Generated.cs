@@ -24,9 +24,21 @@ public record GcloudComputeInstanceGroupsManagedWaitUntilStableOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Timeout in seconds for waiting for group becoming stable.    At most one of these can be specified:     --region=REGION      Region of the managed instance group to operate on. If not specified,      you might be prompted to select a region (interactive mode only).      A list of regions can be fetched by running:        $ gcloud compute regions list      Overrides the default compute/region property value for this command      invocation.     --zone=ZONE      Zone of the managed instance group to operate on. If not specified,      you might be prompted to select a zone (interactive mode only).      A list of zones can be fetched by running:        $ gcloud compute zones list      Overrides the default compute/zone property value for this command      invocation.
+    /// Timeout in seconds for waiting for group becoming stable.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
 
 }

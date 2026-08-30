@@ -24,7 +24,7 @@ public record GcloudPrivatecaPoolsDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// This field skips the integrity check that would normally prevent     breaking a CA Pool if it is used by another cloud resource and allows     the CA Pool to be in a state where it is not able to issue     certificates. Doing so may result in unintended and unrecoverable     effects on any dependent resource(s) since the CA Pool would not be     able to issue certificates.
+    /// This field skips the integrity check that would normally prevent breaking a CA Pool if it is used by another cloud resource and allows the CA Pool to be in a state where it is not able to issue certificates. Doing so may result in unintended and unrecoverable effects on any dependent resource(s) since the CA Pool would not be able to issue certificates.
     /// </summary>
     [CliFlag("--ignore-dependent-resources")]
     public bool? IgnoreDependentResources { get; set; }

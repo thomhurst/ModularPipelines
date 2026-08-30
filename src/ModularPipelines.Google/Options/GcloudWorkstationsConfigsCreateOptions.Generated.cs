@@ -24,34 +24,31 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// A Single or Range of ports externally accessible in the workstation. If     not specified defaults to ports 22, 80 and ports 1024-65535.     To specify a single port, both first and last should be same.     Example:       $ gcloud workstations configs create \         --allowed-ports=first=9000,last=9090       $ gcloud workstations configs create --allowed-ports=first=80,last=80     Sets allowed_ports value.      first       Required, sets first value.      last       Required, sets last value.     Shorthand Example:       --allowed-ports=first=int,last=int     JSON Example:       --allowed-ports='{"first": int, "last": int}'     File Example:       --allowed-ports=path_to_file.(yaml|json)
+    /// A Single or Range of ports externally accessible in the workstation. If not specified defaults to ports 22, 80 and ports 1024-65535. To specify a single port, both first and last should be same. Example: $ gcloud workstations configs create \ --allowed-ports=first=9000,last=9090 $ gcloud workstations configs create --allowed-ports=first=80,last=80 Sets allowed_ports value. first Required, sets first value. last Required, sets last value. Shorthand Example: --allowed-ports=first=int,last=int JSON Example: --allowed-ports='{"first": int, "last": int}' File Example: --allowed-ports=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--allowed-ports", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedPorts { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
-    public int? BootDiskSize { get; set; }
-
     /// <summary>
-    /// Arguments passed to the entrypoint.     Example:       $ gcloud workstations configs create --container-args=arg_1,arg_2
+    /// Arguments passed to the entrypoint. Example: $ gcloud workstations configs create --container-args=arg_1,arg_2
     /// </summary>
     [CliOption("--container-args", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerArgs { get; set; }
 
     /// <summary>
-    /// If set, overrides the default ENTRYPOINT specified by the image.     Example:       $ gcloud workstations configs create \         --container-command=executable,parameter_1,parameter_2
+    /// If set, overrides the default ENTRYPOINT specified by the image. Example: $ gcloud workstations configs create \ --container-command=executable,parameter_1,parameter_2
     /// </summary>
     [CliOption("--container-command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerCommand { get; set; }
 
     /// <summary>
-    /// Environment variables passed to the container.     Example:       $ gcloud workstations configs create \         --container-env=key1=value1,key2=value2
+    /// Environment variables passed to the container. Example: $ gcloud workstations configs create \ --container-env=key1=value1,key2=value2
     /// </summary>
     [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerEnv { get; set; }
@@ -69,124 +66,109 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public string? ContainerWorkingDir { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have no public IP     address.
+    /// Default value is false. If set, instances will have no public IP address.
     /// </summary>
     [CliFlag("--disable-public-ip-addresses")]
     public bool? DisablePublicIpAddresses { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) Default value is False. If set, workstations disable SSH     connections to the root VM.     The --disable-ssh-to-vm option is deprecated; use --enable-ssh-to-vm     instead.
+    /// (DEPRECATED) Default value is False. If set, workstations disable SSH connections to the root VM. The --disable-ssh-to-vm option is deprecated; use --enable-ssh-to-vm instead.
     /// </summary>
     [CliFlag("--disable-ssh-to-vm")]
     public bool? DisableSshToVm { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, workstations don't allow plain TCP     connections.
+    /// Default value is false. If set, workstations don't allow plain TCP connections.
     /// </summary>
     [CliFlag("--disable-tcp-connections")]
     public bool? DisableTcpConnections { get; set; }
 
     /// <summary>
-    /// Whether to enable Linux auditd logging on the workstation. When     enabled, a service account must also be specified that has     logging.buckets.write permission on the project.
+    /// Whether to enable Linux auditd logging on the workstation. When enabled, a service account must also be specified that has logging.buckets.write permission on the project.
     /// </summary>
     [CliFlag("--enable-audit-agent")]
     public bool? EnableAuditAgent { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have confidential     compute enabled.
+    /// Default value is false. If set, instances will have confidential compute enabled.
     /// </summary>
     [CliFlag("--enable-confidential-compute")]
     public bool? EnableConfidentialCompute { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have nested     virtualization enabled.
+    /// Default value is false. If set, instances will have nested virtualization enabled.
     /// </summary>
     [CliFlag("--enable-nested-virtualization")]
     public bool? EnableNestedVirtualization { get; set; }
 
     /// <summary>
-    /// Default value is False. If set, workstations enable SSH connections to     the root VM.
+    /// Default value is False. If set, workstations enable SSH connections to the root VM.
     /// </summary>
     [CliFlag("--enable-ssh-to-vm")]
     public bool? EnableSshToVm { get; set; }
 
     /// <summary>
-    /// Ephemeral directory which won't persist across workstation sessions. An     ephemeral directory is backed by a Compute Engine persistent disk whose     mount-path, source-snapshot, source-image, and read-only are     configurable.      mount-path       Location of this directory in the running workstation.      source-snapshot       Name of the snapshot to use as the source for the disk. Must be       empty if [source_image][] is set. Must be empty if [read_only][] is       false. Updating [source_snapshot][] will update content in the       ephemeral directory after the workstation is restarted.      source-image       Name of the disk image to use as the source for the disk. Must be       empty if [source_snapshot][] is set. Updating [source_image][] will       update content in the ephemeral directory after the workstation is       restarted.      read-only       Whether the disk is read only. If true, the disk may be shared by       multiple VMs and [source_snapshot][] must be set. Set to false when       not specified and true when specified.       Example:         $ gcloud workstations configs create \           --ephemeral-directory="mount-path=/home2,disk-type=pd-balanced,s\         ource-snapshot=projects/my-project/global/snapshots/snapshot,read-on\         ly=true"
+    /// Ephemeral directory which won't persist across workstation sessions. An ephemeral directory is backed by a Compute Engine persistent disk whose mount-path, source-snapshot, source-image, and read-only are configurable. mount-path Location of this directory in the running workstation. source-snapshot Name of the snapshot to use as the source for the disk. Must be empty if [source_image][] is set. Must be empty if [read_only][] is false. Updating [source_snapshot][] will update content in the ephemeral directory after the workstation is restarted. source-image Name of the disk image to use as the source for the disk. Must be empty if [source_snapshot][] is set. Updating [source_image][] will update content in the ephemeral directory after the workstation is restarted. read-only Whether the disk is read only. If true, the disk may be shared by multiple VMs and [source_snapshot][] must be set. Set to false when not specified and true when specified. Example: $ gcloud workstations configs create \ --ephemeral-directory="mount-path=/home2,disk-type=pd-balanced,s\ ource-snapshot=projects/my-project/global/snapshots/snapshot,read-on\ ly=true"
     /// </summary>
     [CliOption("--ephemeral-directory", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? EphemeralDirectory { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, creator of a workstation will get     roles/workstations.policyAdmin role along with roles/workstations.user     role on the workstation created by them.
+    /// Default value is false. If set, creator of a workstation will get roles/workstations.policyAdmin role along with roles/workstations.user role on the workstation created by them.
     /// </summary>
     [CliFlag("--grant-workstation-admin-role-on-create")]
     public bool? GrantWorkstationAdminRoleOnCreate { get; set; }
 
-    [CliOption("--idle-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? IdleTimeout { get; set; }
-
     /// <summary>
-    /// Custom metadata to apply to Compute Engine instances.     Example:       $ gcloud workstations configs create \         --instance-metadata=key1=value1,key2=value2
+    /// Custom metadata to apply to Compute Engine instances. Example: $ gcloud workstations configs create \ --instance-metadata=key1=value1,key2=value2
     /// </summary>
     [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? InstanceMetadata { get; set; }
 
     /// <summary>
-    /// Labels that are applied to the configuration and propagated to the     underlying Compute Engine resources.     Example:       $ gcloud workstations configs create \         --labels=label1=value1,label2=value2
+    /// Labels that are applied to the configuration and propagated to the underlying Compute Engine resources. Example: $ gcloud workstations configs create \ --labels=label1=value1,label2=value2
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
-    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
-    public string? MachineType { get; set; }
-
     /// <summary>
-    /// Maximum number of workstations under this configuration a user can have     workstations.workstation.use permission on.     If not specified, defaults to 0, which indicates a user can have     unlimited number of workstations under this configuration.
+    /// Maximum number of workstations under this configuration a user can have workstations.workstation.use permission on. If not specified, defaults to 0, which indicates a user can have unlimited number of workstations under this configuration.
     /// </summary>
     [CliOption("--max-usable-workstations-count", Format = OptionFormat.EqualsSeparated)]
     public int? MaxUsableWorkstationsCount { get; set; }
 
     /// <summary>
-    /// Network tags to add to the Google Compute Engine machines backing the     Workstations.     Example:       $ gcloud workstations configs create --network-tags=tag_1,tag_2
+    /// Network tags to add to the Google Compute Engine machines backing the Workstations. Example: $ gcloud workstations configs create --network-tags=tag_1,tag_2
     /// </summary>
     [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
-    /// Number of instances to pool for faster Workstation startup.
-    /// </summary>
-    [CliOption("--pool-size", Format = OptionFormat.EqualsSeparated)]
-    public int? PoolSize { get; set; }
-
-    /// <summary>
-    /// Specifies the zones the VM and disk resources will be replicated within     the region. If set, exactly two zones within the workstation cluster's     region must be specified.     Example:       $ gcloud workstations configs create \         --replica-zones=us-central1-a,us-central1-f
+    /// Specifies the zones the VM and disk resources will be replicated within the region. If set, exactly two zones within the workstation cluster's region must be specified. Example: $ gcloud workstations configs create \ --replica-zones=us-central1-a,us-central1-f
     /// </summary>
     [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ReplicaZones { get; set; }
 
-    [CliOption("--running-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? RunningTimeout { get; set; }
-
     /// <summary>
-    /// Email address of the service account that will be used on VM instances     used to support this config. This service account must have permission     to pull the specified container image. If not set, VMs will run without     a service account, in which case the image must be publicly accessible.
+    /// Email address of the service account that will be used on VM instances used to support this config. This service account must have permission to pull the specified container image. If not set, VMs will run without a service account, in which case the image must be publicly accessible.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Scopes to grant to the service_account. Various scopes are     automatically added based on feature usage. When specified, users of     workstations under this configuration must have     iam.serviceAccounts.actAs on the service account.
+    /// Scopes to grant to the service_account. Various scopes are automatically added based on feature usage. When specified, users of workstations under this configuration must have iam.serviceAccounts.actAs on the service account.
     /// </summary>
     [CliOption("--service-account-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountScopes { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have integrity     monitoring enabled.
+    /// Default value is false. If set, instances will have integrity monitoring enabled.
     /// </summary>
     [CliFlag("--shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have Secure Boot     enabled.
+    /// Default value is false. If set, instances will have Secure Boot enabled.
     /// </summary>
     [CliFlag("--shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
@@ -198,39 +180,141 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public bool? ShieldedVtpm { get; set; }
 
     /// <summary>
-    /// Link to the startup script stored in Cloud Storage. The script is     executed on the workstation VM after it is booted.     Example:       $ gcloud workstations configs create \         --startup-script-uri=gs://{bucket-name}/{object-name}
+    /// Link to the startup script stored in Cloud Storage. The script is executed on the workstation VM after it is booted. Example: $ gcloud workstations configs create \ --startup-script-uri=gs://{bucket-name}/{object-name}
     /// </summary>
     [CliOption("--startup-script-uri", Format = OptionFormat.EqualsSeparated)]
     public string? StartupScriptUri { get; set; }
 
     /// <summary>
-    /// Resource manager tags to be bound to the instance. Tag keys and values     have the same definition as     https://cloud.google.com/resource-manager/docs/tags/tags-overview     Example:       $ gcloud workstations configs create \         --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\       value2    Accelerator settings
+    /// Resource manager tags to be bound to the instance. Tag keys and values have the same definition as https://cloud.google.com/resource-manager/docs/tags/tags-overview Example: $ gcloud workstations configs create \ --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\ value2
     /// </summary>
     [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VmTags { get; set; }
 
     /// <summary>
-    /// The number of accelerator cards exposed to the instance.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// The number of accelerator cards exposed to the instance. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--accelerator-count", Format = OptionFormat.EqualsSeparated)]
     public int? AcceleratorCount { get; set; }
 
     /// <summary>
-    /// The type of accelerator resource to attach to the instance, for     example, "nvidia-tesla-p100".    At most one of these can be specified:     --container-custom-image=CONTAINER_CUSTOM_IMAGE      A docker image for the workstation. This image must be accessible by      the service account configured in this configuration      (--service-account). If no service account is defined, this image      must be public.     --container-predefined-image=CONTAINER_PREDEFINED_IMAGE; default="codeoss"      Code editor on base images. CONTAINER_PREDEFINED_IMAGE must be one      of:       base-image        Base image - no IDE      clion        CLion      codeoss        Code OSS      codeoss-cuda        Code OSS + CUDA toolkit      goland        GoLand      intellij        IntelliJ IDEA Ultimate      phpstorm        PhpStorm      pycharm        PyCharm Professional      rider        Rider      rubymine        RubyMine      webstorm        WebStorm    Encryption key settings
+    /// The type of accelerator resource to attach to the instance, for example, "nvidia-tesla-p100".
     /// </summary>
     [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
     public string? AcceleratorType { get; set; }
 
     /// <summary>
-    /// The customer-managed encryption key to use for this config. If not     specified, a Google-managed encryption key is used.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// A docker image for the workstation. This image must be accessible by the service account configured in this configuration (--service-account). If no service account is defined, this image must be public.
+    /// </summary>
+    [CliOption("--container-custom-image", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerCustomImage { get; set; }
+
+    /// <summary>
+    /// The customer-managed encryption key to use for this config. If not specified, a Google-managed encryption key is used. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// The service account associated with the provided customer-managed     encryption key.    At most one of these can be specified:     --no-persistent-storage      If set, workstations under this configuration will not have a      persistent directory.     Or at least one of these can be specified:      --disk-archive-timeout=DISK_ARCHIVE_TIMEOUT       Number of seconds to wait after initially creating or subsequently       shutting down the workstation before converting its disk into a       snapshot to save costs. A value of 0 indicates that the disk will       never be archived.      --disk-reclaim-policy=DISK_RECLAIM_POLICY; default="delete"       What should happen to the disk after the Workstation is deleted.       DISK_RECLAIM_POLICY must be one of:        delete         The persistent disk will be deleted with the Workstation.       retain         The persistent disk will be remain after the workstation is         deleted and the administrator must manually delete the disk.      --disk-type=DISK_TYPE       Type of the persistent directory. DISK_TYPE must be one of:       pd-standard, pd-balanced, pd-ssd, hyperdisk-balanced-ha.      At most one of these can be specified:       --disk-size=DISK_SIZE        Size of the persistent directory in GB. DISK_SIZE must be one of:        10, 50, 100, 200, 500, 1000.       --disk-source-snapshot=DISK_SOURCE_SNAPSHOT        Name of the snapshot to use as the source for the home disk.     Or at least one of these can be specified:      --pd-disk-type=PD_DISK_TYPE; default="pd-standard"       Type of the persistent directory. PD_DISK_TYPE must be one of:       pd-standard, pd-balanced, pd-ssd.      --pd-reclaim-policy=PD_RECLAIM_POLICY; default="delete"       What should happen to the disk after the Workstation is deleted.       PD_RECLAIM_POLICY must be one of:        delete         The persistent disk will be deleted with the Workstation.       retain         The persistent disk will be remain after the workstation is         deleted and the administrator must manually delete the disk.      At most one of these can be specified:       --pd-disk-size=PD_DISK_SIZE; default=200        Size of the persistent directory in GB. PD_DISK_SIZE must be one        of: 10, 50, 100, 200, 500, 1000.       --pd-source-snapshot=PD_SOURCE_SNAPSHOT        Name of the snapshot to use as the source for the home disk.
+    /// The service account associated with the provided customer-managed encryption key.
     /// </summary>
     [CliOption("--kms-key-service-account", Format = OptionFormat.EqualsSeparated)]
-    public GcloudKmsKeyServiceAccount? KmsKeyServiceAccount { get; set; }
+    public int? KmsKeyServiceAccount { get; set; }
+
+    /// <summary>
+    /// If set, workstations under this configuration will not have a persistent directory.
+    /// </summary>
+    [CliFlag("--no-persistent-storage")]
+    public bool? NoPersistentStorage { get; set; }
+
+    /// <summary>
+    /// Number of seconds to wait after initially creating or subsequently shutting down the workstation before converting its disk into a snapshot to save costs. A value of 0 indicates that the disk will never be archived.
+    /// </summary>
+    [CliOption("--disk-archive-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? DiskArchiveTimeout { get; set; }
+
+    /// <summary>
+    /// Type of the persistent directory. DISK_TYPE must be one of: pd-standard, pd-balanced, pd-ssd, hyperdisk-balanced-ha.
+    /// </summary>
+    [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDiskType? DiskType { get; set; }
+
+    /// <summary>
+    /// Size of the persistent directory in GB. DISK_SIZE must be one of: 10, 50, 100, 200, 500, 1000.
+    /// </summary>
+    [CliOption("--disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? DiskSize { get; set; }
+
+    /// <summary>
+    /// Name of the snapshot to use as the source for the home disk.
+    /// </summary>
+    [CliOption("--disk-source-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskSourceSnapshot { get; set; }
+
+    /// <summary>
+    /// Name of the snapshot to use as the source for the home disk.
+    /// </summary>
+    [CliOption("--pd-source-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? PdSourceSnapshot { get; set; }
+
+    /// <summary>
+    /// Size of the boot disk in GB.
+    /// </summary>
+    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskSize { get; set; }
+
+    /// <summary>
+    /// How long (in seconds) to wait before automatically stopping an instance that hasn't received any user traffic. A value of 0 indicates that this instance should never time out due to idleness.
+    /// </summary>
+    [CliOption("--idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? IdleTimeout { get; set; }
+
+    /// <summary>
+    /// Machine type determines the specifications of the Compute Engine machines that the workstations created under this configuration will run on.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Number of instances to pool for faster Workstation startup.
+    /// </summary>
+    [CliOption("--pool-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PoolSize { get; set; }
+
+    /// <summary>
+    /// How long (in seconds) to wait before automatically stopping a workstation after it started. A value of 0 indicates that workstations using this config should never time out.
+    /// </summary>
+    [CliOption("--running-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? RunningTimeout { get; set; }
+
+    /// <summary>
+    /// Code editor on base images. CONTAINER_PREDEFINED_IMAGE must be one of: base-image Base image - no IDE clion CLion codeoss Code OSS codeoss-cuda Code OSS + CUDA toolkit goland GoLand intellij IntelliJ IDEA Ultimate phpstorm PhpStorm pycharm PyCharm Professional rider Rider rubymine RubyMine webstorm WebStorm
+    /// </summary>
+    [CliOption("--container-predefined-image", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerPredefinedImage { get; set; }
+
+    /// <summary>
+    /// What should happen to the disk after the Workstation is deleted. DISK_RECLAIM_POLICY must be one of: delete The persistent disk will be deleted with the Workstation. retain The persistent disk will be remain after the workstation is deleted and the administrator must manually delete the disk.
+    /// </summary>
+    [CliOption("--disk-reclaim-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskReclaimPolicy { get; set; }
+
+    /// <summary>
+    /// Type of the persistent directory. PD_DISK_TYPE must be one of: pd-standard, pd-balanced, pd-ssd.
+    /// </summary>
+    [CliOption("--pd-disk-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PdDiskType { get; set; }
+
+    /// <summary>
+    /// What should happen to the disk after the Workstation is deleted. PD_RECLAIM_POLICY must be one of: delete The persistent disk will be deleted with the Workstation. retain The persistent disk will be remain after the workstation is deleted and the administrator must manually delete the disk.
+    /// </summary>
+    [CliOption("--pd-reclaim-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? PdReclaimPolicy { get; set; }
+
+    /// <summary>
+    /// Size of the persistent directory in GB. PD_DISK_SIZE must be one of: 10, 50, 100, 200, 500, 1000.
+    /// </summary>
+    [CliOption("--pd-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PdDiskSize { get; set; }
 
 }

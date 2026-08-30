@@ -33,6 +33,21 @@ public class GcloudIapTcpDestGroups
     #region Commands
 
     /// <summary>
+    /// manage IAP TCP Destination Group resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIapTcpDestGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIapTcpDestGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy binding     to an IAP TCP Tunnel Destination Group resource
     /// </summary>
     /// <param name="options">The command options.</param>

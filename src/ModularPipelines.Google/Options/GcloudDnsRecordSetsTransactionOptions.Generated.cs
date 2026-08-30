@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dns", "record-sets", "transaction")]
 public record GcloudDnsRecordSetsTransactionOptions : GcloudOptions
 {
-    [CliOption("--transaction-file", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("TransactionFile is no longer supported by the installed CLI and has no effect.")]
     public string? TransactionFile { get; set; }
 
 }

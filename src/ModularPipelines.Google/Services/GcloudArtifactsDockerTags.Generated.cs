@@ -33,6 +33,21 @@ public class GcloudArtifactsDockerTags
     #region Commands
 
     /// <summary>
+    /// manage Artifact Registry container image     tags
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudArtifactsDockerTagsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsDockerTagsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add a tag to a container image in     Artifact Registry
     /// </summary>
     /// <param name="options">The command options.</param>

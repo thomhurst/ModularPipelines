@@ -33,6 +33,21 @@ public class GcloudNotebooksEnvironments
     #region Commands
 
     /// <summary>
+    /// notebooks Environments Command Group
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNotebooksEnvironmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNotebooksEnvironmentsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// request for creating environments
     /// </summary>
     /// <param name="options">The command options.</param>

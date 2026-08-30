@@ -33,6 +33,21 @@ public class GcloudComputeOsConfigPatchJobs
     #region Commands
 
     /// <summary>
+    /// manage OS patches for Compute Engine     VMs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeOsConfigPatchJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOsConfigPatchJobsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel a specific OS patch job     which must currently be active
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -69,12 +84,21 @@ public class GcloudComputeOsConfigPatchJobs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExecuteAsync(
+    public virtual async Task<CommandResult> ExecuteCommandAsync(
         GcloudComputeOsConfigPatchJobsExecuteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOsConfigPatchJobsExecuteOptions(), executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use ExecuteCommandAsync instead.")]
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeOsConfigPatchJobsExecuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

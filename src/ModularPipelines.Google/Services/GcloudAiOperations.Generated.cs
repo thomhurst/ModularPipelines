@@ -33,6 +33,21 @@ public class GcloudAiOperations
     #region Commands
 
     /// <summary>
+    /// manage Vertex AI operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAiOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// gets detailed index information about the     given operation id
     /// </summary>
     /// <param name="options">The command options.</param>

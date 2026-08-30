@@ -25,9 +25,21 @@ public record GcloudPreviewComputeForwardingRulesDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The view of the forwarding rule to return. BASIC includes the standard     fields. FULL includes standard fields plus any extensions attached to     the forwarding rule. VIEW must be one of: BASIC, FULL.    At most one of these can be specified:     --global      If set, the forwarding rule is global.     --region=REGION      Region of the forwarding rule to describe. If not specified, you      might be prompted to select a region (interactive mode only).      To avoid prompting when this flag is omitted, you can set the      compute/region property:        $ gcloud config set compute/region REGION      A list of regions can be fetched by running:        $ gcloud compute regions list      To unset the property, run:        $ gcloud config unset compute/region      Alternatively, the region can be stored in the environment variable      CLOUDSDK_COMPUTE_REGION.
+    /// The view of the forwarding rule to return. BASIC includes the standard fields. FULL includes standard fields plus any extensions attached to the forwarding rule. VIEW must be one of: BASIC, FULL.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public GcloudView? View { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the forwarding rule is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the forwarding rule to describe. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
 }

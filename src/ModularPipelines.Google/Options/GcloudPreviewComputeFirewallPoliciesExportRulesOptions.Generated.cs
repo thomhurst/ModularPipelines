@@ -24,13 +24,13 @@ public record GcloudPreviewComputeFirewallPoliciesExportRulesOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Path to a YAML file where the configuration will be exported.     Alternatively, you may omit this flag to write to standard output. For     a schema describing the export/import format, see:     $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/FirewallPolicy.yaml.
+    /// Path to a YAML file where the configuration will be exported. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/FirewallPolicy.yaml.
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
 
     /// <summary>
-    /// Organization in which the organization firewall policy rules export     from. Must be set if FIREWALL_POLICY is short name.
+    /// Organization in which the organization firewall policy rules export from. Must be set if FIREWALL_POLICY is short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }

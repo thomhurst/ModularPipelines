@@ -15,28 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud metastore commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudMetastore
 {
     /// <summary>
     /// gcloud federations sub-commands.
     /// </summary>
-    GcloudMetastoreFederations Federations { get; }
+    GcloudMetastoreFederations Federations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudMetastoreLocations Locations { get; }
+    GcloudMetastoreLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudMetastoreOperations Operations { get; }
+    GcloudMetastoreOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudMetastoreServices Services { get; }
+    GcloudMetastoreServices Services => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Dataproc Metastore resources
@@ -45,9 +48,7 @@ public interface IGcloudMetastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudMetastoreOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudMetastoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

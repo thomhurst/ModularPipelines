@@ -24,7 +24,7 @@ public record GcloudPreviewComputeFirewallPoliciesGetIamPolicyOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Organization ID in which the organization firewall policy is to be     described. Must be set if FIREWALL_POLICY is short name.
+    /// Organization ID in which the organization firewall policy is to be described. Must be set if FIREWALL_POLICY is short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }

@@ -33,6 +33,21 @@ public class GcloudRedisOperations
     #region Commands
 
     /// <summary>
+    /// manage Cloud Memorystore Redis operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRedisOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRedisOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel a Memorystore Redis import or     export operation
     /// </summary>
     /// <param name="options">The command options.</param>

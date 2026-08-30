@@ -33,6 +33,21 @@ public class GcloudConfigConfigurations
     #region Commands
 
     /// <summary>
+    /// manage the set of gcloud named     configurations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudConfigConfigurationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudConfigConfigurationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// activates an existing named     configuration
     /// </summary>
     /// <param name="options">The command options.</param>

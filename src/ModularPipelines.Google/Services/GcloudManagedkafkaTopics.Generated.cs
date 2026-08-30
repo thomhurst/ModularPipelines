@@ -33,6 +33,21 @@ public class GcloudManagedkafkaTopics
     #region Commands
 
     /// <summary>
+    /// administer Managed Service for Apache Kafka     topics
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudManagedKafkaTopicsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudManagedKafkaTopicsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Managed Service for Apache     Kafka topic
     /// </summary>
     /// <param name="options">The command options.</param>

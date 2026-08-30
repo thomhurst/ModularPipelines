@@ -23,13 +23,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageInsightsDatasetConfigsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Provide retention period for the activity data in the config. This     overrides the retention period for activity data. Otherwise, the     retention_period_days value is used for activity data as well.
+    /// Provide retention period for the activity data in the config. This overrides the retention period for activity data. Otherwise, the retention_period_days value is used for activity data as well.
     /// </summary>
     [CliOption("--activity-data-retention-period-days", Format = OptionFormat.EqualsSeparated)]
     public string? ActivityDataRetentionPeriodDays { get; set; }
 
     /// <summary>
-    /// Automatically include any new buckets created if they satisfy criteria     defined in config settings. AUTO_ADD_NEW_BUCKETS must be one of: true,     false.
+    /// Automatically include any new buckets created if they satisfy criteria defined in config settings. AUTO_ADD_NEW_BUCKETS must be one of: true, false.
     /// </summary>
     [CliOption("--auto-add-new-buckets", Format = OptionFormat.EqualsSeparated)]
     public GcloudAutoAddNewBuckets? AutoAddNewBuckets { get; set; }
@@ -41,9 +41,75 @@ public record GcloudStorageInsightsDatasetConfigsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Provide retention period for the config.    List of source options either source projects or source folders or enable   organization scope. Refer Dataset Configuration Properties   (https://cloud.google.com/storage/docs/insights/datasets#dataset-config)   for more details.    At most one of these can be specified:     --enable-organization-scope      If passed, the dataset config will be enabled on the organization.     Or at most one of these can be specified:      List of source folder IDs or the file containing list of folder IDs.      --source-folders=[SOURCE_FOLDER_NUMBERS,...]       List of source folder IDs.      --source-folders-file=SOURCE_FOLDER_NUMBERS_IN_FILE       CSV formatted file containing source folder IDs, one per line.     Or at most one of these can be specified:      List of source project numbers or the file containing list of project     numbers.      --source-projects=[SOURCE_PROJECT_NUMBERS,...]       List of source project numbers.      --source-projects-file=SOURCE_PROJECT_NUMBERS_IN_FILE       CSV formatted file containing source project numbers, one per line.    Specify the list of buckets to be included or excluded, both a list of   bucket names and prefix regexes can be specified for either include or   exclude buckets.    At most one of these can be specified:     Specify the list of buckets to be excluded.     --exclude-bucket-names=[BUCKETS_NAMES,...]      List of bucket names to be excluded.     --exclude-bucket-prefix-regexes=[BUCKETS_REGEXES,...]      List of bucket prefix regexes to be excluded. Allowed regex patterns      are similar to those for the --include-bucket-prefix-regexes flag.     Specify the list of buckets to be included.     --include-bucket-names=[BUCKETS_NAMES,...]      List of bucket names be included.     --include-bucket-prefix-regexes=[BUCKETS_REGEXES,...]      List of bucket prefix regexes to be included. The dataset config will      include all the buckets that match with the prefix regex. Examples of      allowed prefix regex patterns can be testbucket*, testbucket.*foo,      testb.+foo* . It should follow syntax specified in google/re2 on      GitHub.    Specify the list of locations for source projects to be included or   excluded from available locations   (https://cloud.google.com/storage/docs/locations#available-locations).    At most one of these can be specified:     --exclude-source-locations=[LIST_OF_SOURCE_LOCATIONS,...]      List of locations for projects to be excluded.     --include-source-locations=[LIST_OF_SOURCE_LOCATIONS,...]      List of locations for projects to be included.
+    /// Provide retention period for the config.
     /// </summary>
     [CliOption("--retention-period-days", Format = OptionFormat.EqualsSeparated)]
     public string? RetentionPeriodDays { get; set; }
+
+    /// <summary>
+    /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: If passed, the dataset config will be enabled on the organization.
+    /// </summary>
+    [CliFlag("--enable-organization-scope")]
+    public bool? EnableOrganizationScope { get; set; }
+
+    /// <summary>
+    /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: Or at most one of these can be specified: List of source folder IDs or the file containing list of folder IDs. List of source folder IDs.
+    /// </summary>
+    [CliOption("--source-folders", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<int>? SourceFolders { get; set; }
+
+    /// <summary>
+    /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: Or at most one of these can be specified: List of source folder IDs or the file containing list of folder IDs. CSV formatted file containing source folder IDs, one per line.
+    /// </summary>
+    [CliOption("--source-folders-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceFoldersFile { get; set; }
+
+    /// <summary>
+    /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: Or at most one of these can be specified: List of source project numbers or the file containing list of project numbers. List of source project numbers.
+    /// </summary>
+    [CliOption("--source-projects", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<int>? SourceProjects { get; set; }
+
+    /// <summary>
+    /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: Or at most one of these can be specified: List of source project numbers or the file containing list of project numbers. CSV formatted file containing source project numbers, one per line.
+    /// </summary>
+    [CliOption("--source-projects-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceProjectsFile { get; set; }
+
+    /// <summary>
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket names to be excluded.
+    /// </summary>
+    [CliOption("--exclude-bucket-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludeBucketNames { get; set; }
+
+    /// <summary>
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket prefix regexes to be excluded. Allowed regex patterns are similar to those for the --include-bucket-prefix-regexes flag.
+    /// </summary>
+    [CliOption("--exclude-bucket-prefix-regexes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludeBucketPrefixRegexes { get; set; }
+
+    /// <summary>
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket names be included.
+    /// </summary>
+    [CliOption("--include-bucket-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeBucketNames { get; set; }
+
+    /// <summary>
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket prefix regexes to be included. The dataset config will include all the buckets that match with the prefix regex. Examples of allowed prefix regex patterns can be testbucket*, testbucket.*foo, testb.+foo* . It should follow syntax specified in google/re2 on GitHub.
+    /// </summary>
+    [CliOption("--include-bucket-prefix-regexes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeBucketPrefixRegexes { get; set; }
+
+    /// <summary>
+    /// Specify the list of locations for source projects to be included or excluded from available locations (https://cloud.google.com/storage/docs/locations#available-locations). At most one of these can be specified: List of locations for projects to be excluded.
+    /// </summary>
+    [CliOption("--exclude-source-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludeSourceLocations { get; set; }
+
+    /// <summary>
+    /// Specify the list of locations for source projects to be included or excluded from available locations (https://cloud.google.com/storage/docs/locations#available-locations). At most one of these can be specified: List of locations for projects to be included.
+    /// </summary>
+    [CliOption("--include-source-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeSourceLocations { get; set; }
 
 }

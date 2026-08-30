@@ -17,8 +17,9 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudRuntimeUpdatePolicy
 {
     [EnumValue("automatic")]
-    Automatic,
+    Automatic = 0,
 
     [EnumValue("on-deploy")]
-    OnDeploy
+    OnDeploy = 1,
+
 }

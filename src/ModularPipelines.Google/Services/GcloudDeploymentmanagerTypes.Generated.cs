@@ -33,6 +33,21 @@ public class GcloudDeploymentmanagerTypes
     #region Commands
 
     /// <summary>
+    /// commands for Deployment Manager types
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDeploymentManagerTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeploymentManagerTypesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list types in a project
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudSpannerDatabasesSplits
     #region Commands
 
     /// <summary>
+    /// manage the split points for Spanner     databases
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSpannerDatabasesSplitsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesSplitsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add split points to a Spanner     database
     /// </summary>
     /// <param name="options">The command options.</param>

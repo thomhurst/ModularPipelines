@@ -25,9 +25,21 @@ public record GcloudAppDomainMappingsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Type of certificate management. 'automatic' will provision an SSL     certificate automatically while 'manual' requires the user to provide a     certificate id to provision. CERTIFICATE_MANAGEMENT must be one of:     automatic, manual.    At most one of these can be specified:     --certificate-id=CERTIFICATE_ID      A certificate id to use for this domain. May not be used on a domain      mapping with automatically managed certificates. Use the gcloud app      ssl-certificates list to see available certificates for this app.     --no-certificate-id      Do not associate any certificate with this domain.
+    /// Type of certificate management. 'automatic' will provision an SSL certificate automatically while 'manual' requires the user to provide a certificate id to provision. CERTIFICATE_MANAGEMENT must be one of: automatic, manual.
     /// </summary>
     [CliOption("--certificate-management", Format = OptionFormat.EqualsSeparated)]
     public GcloudCertificateManagement? CertificateManagement { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: A certificate id to use for this domain. May not be used on a domain mapping with automatically managed certificates. Use the gcloud app ssl-certificates list to see available certificates for this app.
+    /// </summary>
+    [CliOption("--certificate-id", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificateId { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Do not associate any certificate with this domain.
+    /// </summary>
+    [CliFlag("--no-certificate-id")]
+    public bool? NoCertificateId { get; set; }
 
 }

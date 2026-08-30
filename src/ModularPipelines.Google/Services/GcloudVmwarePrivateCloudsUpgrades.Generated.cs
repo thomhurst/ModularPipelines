@@ -33,6 +33,21 @@ public class GcloudVmwarePrivateCloudsUpgrades
     #region Commands
 
     /// <summary>
+    /// manage upgrades in Google Cloud     VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwarePrivateCloudsUpgradesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsUpgradesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Google Cloud     VMware Engine upgrades
     /// </summary>
     /// <param name="options">The command options.</param>

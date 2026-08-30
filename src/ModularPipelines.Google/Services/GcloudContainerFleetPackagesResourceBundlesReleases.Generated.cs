@@ -33,6 +33,21 @@ public class GcloudContainerFleetPackagesResourceBundlesReleases
     #region Commands
 
     /// <summary>
+    /// commands for     managing Package Rollouts Releases
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerFleetPackagesResourceBundlesReleasesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetPackagesResourceBundlesReleasesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create     Package Rollouts Release
     /// </summary>
     /// <param name="options">The command options.</param>

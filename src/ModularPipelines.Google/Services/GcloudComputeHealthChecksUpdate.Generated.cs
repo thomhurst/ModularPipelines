@@ -33,6 +33,21 @@ public class GcloudComputeHealthChecksUpdate
     #region Commands
 
     /// <summary>
+    /// update health checks for load     balanced instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeHealthChecksUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeHealthChecksUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// update a gRPC health check
     /// </summary>
     /// <param name="options">The command options.</param>

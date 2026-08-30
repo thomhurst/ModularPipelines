@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -34,7 +34,7 @@ public record GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions : GcloudOpti
     public string? Description { get; set; }
 
     /// <summary>
-    /// Whether the namespace is disabled. If disabled, credentials may no     longer be issued for identities in this namespace. Existing credentials     may continue to be accepted until they expire.
+    /// Whether the namespace is disabled. If disabled, credentials may no longer be issued for identities in this namespace. Existing credentials may continue to be accepted until they expire.
     /// </summary>
     [CliFlag("--disabled")]
     public bool? Disabled { get; set; }

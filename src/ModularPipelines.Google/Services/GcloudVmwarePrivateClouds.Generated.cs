@@ -97,6 +97,21 @@ public class GcloudVmwarePrivateClouds
     #region Commands
 
     /// <summary>
+    /// manage private clouds in Google Cloud VMware     Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwarePrivateCloudsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a VMware Engine private cloud
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -169,6 +184,21 @@ public class GcloudVmwarePrivateClouds
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// migrate the     management VMs of a private cloud to a workload cluster
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MigrateManagementVmsAsync(
+        GcloudVmwarePrivateCloudsMigrateManagementVmsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsMigrateManagementVmsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

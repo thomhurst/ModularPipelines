@@ -43,6 +43,21 @@ public class GcloudRunJobsExecutions
     #region Commands
 
     /// <summary>
+    /// view and manage your Cloud Run jobs executions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRunJobsExecutionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRunJobsExecutionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel an execution
     /// </summary>
     /// <param name="options">The command options.</param>

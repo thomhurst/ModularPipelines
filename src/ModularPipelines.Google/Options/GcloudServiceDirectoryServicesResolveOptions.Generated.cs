@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceDirectoryServicesResolveOptions : GcloudOptions
 {
     /// <summary>
-    /// Apply a Boolean filter EXPRESSION to each endpoint in the service. If     the expression evaluates True, then that endpoint is listed.
+    /// Apply a Boolean filter EXPRESSION to each endpoint in the service. If the expression evaluates True, then that endpoint is listed.
     /// </summary>
     [CliOption("--endpoint-filter", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointFilter { get; set; }

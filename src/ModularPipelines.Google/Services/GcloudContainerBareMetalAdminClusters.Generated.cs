@@ -33,6 +33,21 @@ public class GcloudContainerBareMetalAdminClusters
     #region Commands
 
     /// <summary>
+    /// create and manage admin     clusters in Anthos on bare metal
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerBareMetalAdminClustersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerBareMetalAdminClustersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create an Anthos on     bare metal admin cluster
     /// </summary>
     /// <param name="options">The command options.</param>

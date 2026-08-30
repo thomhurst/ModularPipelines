@@ -33,6 +33,21 @@ public class GcloudContainerAiProfilesUseCase
     #region Commands
 
     /// <summary>
+    /// list supported use cases for GKE     Inference Quickstart
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerAiProfilesUseCaseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAiProfilesUseCaseOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list supported use cases that     were used to generate the inference profiles
     /// </summary>
     /// <param name="options">The command options.</param>

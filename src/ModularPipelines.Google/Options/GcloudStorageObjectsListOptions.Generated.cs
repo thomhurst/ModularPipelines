@@ -25,25 +25,25 @@ public record GcloudStorageObjectsListOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma     separated list of key=value pairs, e.g. header1=value1,header2=value2.     Overrides the default storage/additional_headers property value for     this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
     /// <summary>
-    /// For features like soft delete, the API may return an empty list. If     present, continue querying. This may incur costs from repeated LIST     calls and may not return any additional objects.
+    /// For features like soft delete, the API may return an empty list. If present, continue querying. This may incur costs from repeated LIST calls and may not return any additional objects.
     /// </summary>
     [CliFlag("--exhaustive")]
     public bool? Exhaustive { get; set; }
 
     /// <summary>
-    /// API requests to the LIST endpoint do not fetch the hashes for encrypted     objects by default. If this flag is set, a GET request is sent for each     encrypted object in order to fetch hashes. This can significantly     increase the cost of the command.
+    /// API requests to the LIST endpoint do not fetch the hashes for encrypted objects by default. If this flag is set, a GET request is sent for each encrypted object in order to fetch hashes. This can significantly increase the cost of the command.
     /// </summary>
     [CliFlag("--fetch-encrypted-object-hashes")]
     public bool? FetchEncryptedObjectHashes { get; set; }
 
     /// <summary>
-    /// Server side filtering for objects. Works only for Google Cloud Storage     URLs. The filter only works for objects, and not directories or     buckets, which means commands like storage ls and storage du will still     list directories or buckets even if they do not contain any objects     matching the filter. See     https://cloud.google.com/storage/docs/listing-objects#filter-by-object-contexts-syntax     for more details.
+    /// Server side filtering for objects. Works only for Google Cloud Storage URLs. The filter only works for objects, and not directories or buckets, which means commands like storage ls and storage du will still list directories or buckets even if they do not contain any objects matching the filter. See https://cloud.google.com/storage/docs/listing-objects#filter-by-object-contexts-syntax for more details.
     /// </summary>
     [CliOption("--metadata-filter", Format = OptionFormat.EqualsSeparated)]
     public string? MetadataFilter { get; set; }
@@ -56,19 +56,19 @@ public record GcloudStorageObjectsListOptions(
     public string? NextPageToken { get; set; }
 
     /// <summary>
-    /// Shows metadata in the format returned by the API instead of     standardizing it.
+    /// Shows metadata in the format returned by the API instead of standardizing it.
     /// </summary>
     [CliFlag("--raw")]
     public bool? Raw { get; set; }
 
     /// <summary>
-    /// Displays soft-deleted resources only. For objects, it will exclude live     and noncurrent ones.
+    /// Displays soft-deleted resources only. For objects, it will exclude live and noncurrent ones.
     /// </summary>
     [CliFlag("--soft-deleted")]
     public bool? SoftDeleted { get; set; }
 
     /// <summary>
-    /// Emulates gsutil stat-style behavior. Does not show past object versions     and changes output format.
+    /// Emulates gsutil stat-style behavior. Does not show past object versions and changes output format.
     /// </summary>
     [CliFlag("--stat")]
     public bool? Stat { get; set; }

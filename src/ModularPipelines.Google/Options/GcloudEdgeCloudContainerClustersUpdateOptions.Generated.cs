@@ -23,27 +23,99 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCloudContainerClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set, use the specified default container runtime class for the     cluster.
+    /// If set, use the specified default container runtime class for the cluster.
     /// </summary>
     [CliOption("--container-default-runtime-class", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerDefaultRuntimeClass { get; set; }
 
     /// <summary>
-    /// Specifies the maximum duration a node can reboot offline (without     connection to Google) and then rejoin its cluster to resume its     designated workloads. This duration is relative to the machine's most     recent connection to Google. The maximum allowed duration is 7 days. If     left unspecified, the default 0 means not allowed. The parameter should     be an ISO 8601 duration string, for example, "P1DT1H2M3S".
+    /// Specifies the maximum duration a node can reboot offline (without connection to Google) and then rejoin its cluster to resume its designated workloads. This duration is relative to the machine's most recent connection to Google. The maximum allowed duration is 7 days. If left unspecified, the default 0 means not allowed. The parameter should be an ISO 8601 duration string, for example, "P1DT1H2M3S".
     /// </summary>
     [CliOption("--offline-reboot-ttl", Format = OptionFormat.EqualsSeparated)]
     public string? OfflineRebootTtl { get; set; }
 
     /// <summary>
-    /// Release channel a cluster is subscribed to. It supports two values,     NONE and REGULAR. NONE is used to opt out of any release channel.     Clusters subscribed to the REGULAR channel will be automatically     upgraded to versions that are considered GA quality, and cannot be     manually upgraded. RELEASE_CHANNEL must be one of: none, regular,     release-channel-unspecified.    At most one of these can be specified:     --clear-maintenance-window      If set, removes the maintenance window setting from the cluster. If      any exclusion windows exist, they must be removed beforehand as a      maintenance policy cannot exist without a maintenance window.     --remove-maintenance-exclusion-window=REMOVE_MAINTENANCE_EXCLUSION_WINDOW      Name of the maintenance exclusion to remove.     Or at least one of these can be specified:      Add a maintenance exclusion window (all flags must be specified to add     a valid maintenance exclusion window). There can be a maximum of 3     exclusion windows set at a given time. A maintenance exclusion window     cannot be added in the absence of a maintenance window.      --add-maintenance-exclusion-end=ADD_MAINTENANCE_EXCLUSION_END       End time of the maintenance exclusion window in the RFC 3339       (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g.       "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00".      --add-maintenance-exclusion-name=ADD_MAINTENANCE_EXCLUSION_NAME       Unique name (per cluster) of the maintenance exclusion window that       can be used to remove it.      --add-maintenance-exclusion-start=ADD_MAINTENANCE_EXCLUSION_START       Start time of the maintenance exclusion window (can occur in the       past) in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt)       format. E.g. "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00".     Or at least one of these can be specified:      Updates cluster maintenance window setting (more than one flags can be     specified from this group)      --maintenance-window-end=MAINTENANCE_WINDOW_END       End time of the recurring cluster maintenance window in the RFC       3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g.       "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00"      --maintenance-window-recurrence=MAINTENANCE_WINDOW_RECURRENCE       An RFC 5545 (https://tools.ietf.org/html/rfc5545#section-3.8.5.3)       recurrence rule for how the cluster maintenance window recurs. They       go on for the span of time between the start and the end time. E.g.       FREQ=WEEKLY;BYDAY=SU.      --maintenance-window-start=MAINTENANCE_WINDOW_START       Start time of the recurring cluster maintenance window in the RFC       3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g.       "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00"    At most one of these can be specified:     --control-plane-kms-key=CONTROL_PLANE_KMS_KEY      If set, use the specified KMS key for the cluster control plane nodes      encryption.     --use-google-managed-key      If set, use Google managed key for the cluster control plane nodes      encryption.    At most one of these can be specified:     --use-google-managed-zone-key      If set, use Google managed key for zone storage encryption.     --zone-storage-kms-key=ZONE_STORAGE_KMS_KEY      If set, use the specified KMS key for zone storage encryption.
+    /// Release channel a cluster is subscribed to. It supports two values, NONE and REGULAR. NONE is used to opt out of any release channel. Clusters subscribed to the REGULAR channel will be automatically upgraded to versions that are considered GA quality, and cannot be manually upgraded. RELEASE_CHANNEL must be one of: none, regular, release-channel-unspecified.
     /// </summary>
     [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
     public GcloudReleaseChannel? ReleaseChannel { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, removes the maintenance window setting from the cluster. If any exclusion windows exist, they must be removed beforehand as a maintenance policy cannot exist without a maintenance window.
+    /// </summary>
+    [CliFlag("--clear-maintenance-window")]
+    public bool? ClearMaintenanceWindow { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Name of the maintenance exclusion to remove.
+    /// </summary>
+    [CliOption("--remove-maintenance-exclusion-window", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveMaintenanceExclusionWindow { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Add a maintenance exclusion window (all flags must be specified to add a valid maintenance exclusion window). There can be a maximum of 3 exclusion windows set at a given time. A maintenance exclusion window cannot be added in the absence of a maintenance window. End time of the maintenance exclusion window in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00".
+    /// </summary>
+    [CliOption("--add-maintenance-exclusion-end", Format = OptionFormat.EqualsSeparated)]
+    public string? AddMaintenanceExclusionEnd { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Add a maintenance exclusion window (all flags must be specified to add a valid maintenance exclusion window). There can be a maximum of 3 exclusion windows set at a given time. A maintenance exclusion window cannot be added in the absence of a maintenance window. Unique name (per cluster) of the maintenance exclusion window that can be used to remove it.
+    /// </summary>
+    [CliOption("--add-maintenance-exclusion-name", Format = OptionFormat.EqualsSeparated)]
+    public string? AddMaintenanceExclusionName { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Add a maintenance exclusion window (all flags must be specified to add a valid maintenance exclusion window). There can be a maximum of 3 exclusion windows set at a given time. A maintenance exclusion window cannot be added in the absence of a maintenance window. Start time of the maintenance exclusion window (can occur in the past) in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00".
+    /// </summary>
+    [CliOption("--add-maintenance-exclusion-start", Format = OptionFormat.EqualsSeparated)]
+    public string? AddMaintenanceExclusionStart { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Updates cluster maintenance window setting (more than one flags can be specified from this group) End time of the recurring cluster maintenance window in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00"
+    /// </summary>
+    [CliOption("--maintenance-window-end", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowEnd { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Updates cluster maintenance window setting (more than one flags can be specified from this group) An RFC 5545 (https://tools.ietf.org/html/rfc5545#section-3.8.5.3) recurrence rule for how the cluster maintenance window recurs. They go on for the span of time between the start and the end time. E.g. FREQ=WEEKLY;BYDAY=SU.
+    /// </summary>
+    [CliOption("--maintenance-window-recurrence", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowRecurrence { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Updates cluster maintenance window setting (more than one flags can be specified from this group) Start time of the recurring cluster maintenance window in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00"
+    /// </summary>
+    [CliOption("--maintenance-window-start", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowStart { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, use the specified KMS key for the cluster control plane nodes encryption.
+    /// </summary>
+    [CliOption("--control-plane-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneKmsKey { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, use Google managed key for the cluster control plane nodes encryption.
+    /// </summary>
+    [CliFlag("--use-google-managed-key")]
+    public bool? UseGoogleManagedKey { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, use Google managed key for zone storage encryption.
+    /// </summary>
+    [CliFlag("--use-google-managed-zone-key")]
+    public bool? UseGoogleManagedZoneKey { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, use the specified KMS key for zone storage encryption.
+    /// </summary>
+    [CliOption("--zone-storage-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ZoneStorageKmsKey { get; set; }
 
 }

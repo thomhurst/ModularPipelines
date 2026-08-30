@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComplianceManagerFrameworkDeploymentsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// An opaque identifier for the current version of the resource.     If you provide this value, then it must match the existing value. If     the values don't match, then the request fails with an     [ABORTED][google.rpc.Code.ABORTED] error.     If you omit this value, then the resource is deleted regardless of its     current etag value.
+    /// An opaque identifier for the current version of the resource. If you provide this value, then it must match the existing value. If the values don't match, then the request fails with an [ABORTED][google.rpc.Code.ABORTED] error. If you omit this value, then the resource is deleted regardless of its current etag value.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }

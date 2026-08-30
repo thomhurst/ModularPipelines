@@ -33,6 +33,21 @@ public class GcloudAccesscontextmanagerSupportedServices
     #region Commands
 
     /// <summary>
+    /// retrieve VPC Service     Controls Supported Services
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAccessContextManagerSupportedServicesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAccessContextManagerSupportedServicesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// gets     information about a VPC Service Controls Supported Service
     /// </summary>
     /// <param name="options">The command options.</param>

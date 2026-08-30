@@ -76,7 +76,7 @@ public class GcloudTransfer : IGcloudTransfer
     }
 
     /// <summary>
-    /// authorize an account for all Transfer Service     features
+    /// authorize an account for all Storage Transfer     Service features
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

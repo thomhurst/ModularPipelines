@@ -33,6 +33,21 @@ public class GcloudPreviewComputeInstancesNetworkInterfaces
     #region Commands
 
     /// <summary>
+    /// read and manipulate     Compute Engine instance network interfaces
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeInstancesNetworkInterfacesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeInstancesNetworkInterfacesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add a Dynamic     Network Interface to a Compute Engine instance
     /// </summary>
     /// <param name="options">The command options.</param>

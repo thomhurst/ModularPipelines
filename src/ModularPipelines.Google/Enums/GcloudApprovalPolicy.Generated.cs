@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudApprovalPolicy
 {
     [EnumValue("transparency")]
-    Transparency,
+    Transparency = 0,
 
     [EnumValue("streamlined-support")]
-    StreamlinedSupport,
+    StreamlinedSupport = 1,
 
     [EnumValue("access-approval")]
-    AccessApproval
+    AccessApproval = 2
 }

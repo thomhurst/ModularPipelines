@@ -33,6 +33,21 @@ public class GcloudComputeNetworksVpcAccessOperations
     #region Commands
 
     /// <summary>
+    /// manage operations resource     for VPC Access Service
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeNetworksVpcAccessOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeNetworksVpcAccessOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show metadata for     a VPC Access Service operation
     /// </summary>
     /// <param name="options">The command options.</param>

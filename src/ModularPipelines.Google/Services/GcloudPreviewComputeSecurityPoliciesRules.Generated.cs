@@ -33,6 +33,21 @@ public class GcloudPreviewComputeSecurityPoliciesRules
     #region Commands
 
     /// <summary>
+    /// read and manipulate     Compute Engine security policies rules
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeSecurityPoliciesRulesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeSecurityPoliciesRulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// exclusion     - add an exclusion configuration for preconfigured WAF evaluation into     a security policy rule
     /// </summary>
     /// <param name="options">The command options.</param>

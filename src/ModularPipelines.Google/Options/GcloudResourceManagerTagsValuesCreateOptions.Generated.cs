@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudResourceManagerTagsValuesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// User-assigned description of the TagKey or TagValue. Must not exceed     256 characters.
+    /// User-assigned description of the TagKey or TagValue. Must not exceed 256 characters.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }

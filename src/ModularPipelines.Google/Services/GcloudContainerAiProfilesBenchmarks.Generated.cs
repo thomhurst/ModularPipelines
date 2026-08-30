@@ -33,6 +33,21 @@ public class GcloudContainerAiProfilesBenchmarks
     #region Commands
 
     /// <summary>
+    /// manage benchmarks for GKE     Inference Quickstart
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerAiProfilesBenchmarksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAiProfilesBenchmarksOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list benchmarks for a given     model and model server
     /// </summary>
     /// <param name="options">The command options.</param>

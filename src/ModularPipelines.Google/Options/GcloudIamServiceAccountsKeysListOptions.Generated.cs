@@ -22,12 +22,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamServiceAccountsKeysListOptions : GcloudOptions
 {
     /// <summary>
-    /// Return only keys created before the specified time. Common time formats     are accepted. This is equivalent to     --filter="validAfterTime&lt;DATE_TIME". See $ gcloud topic datetimes for     information on time formats.
+    /// Return only keys created before the specified time. Common time formats are accepted. This is equivalent to --filter="validAfterTime&lt;DATE_TIME". See $ gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--created-before", Format = OptionFormat.EqualsSeparated)]
     public string? CreatedBefore { get; set; }
 
-    [CliOption("--managed-by", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("ManagedBy is no longer supported by the installed CLI and has no effect.")]
     public string? ManagedBy { get; set; }
 
 }

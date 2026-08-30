@@ -22,75 +22,87 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// An arbitrary user-provided name for the SecurityGateway. Cannot exceed     64 characters.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. An arbitrary user-provided name for the SecurityGateway. Cannot exceed 64 characters.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Map of Hubs that represents regional data path deployment with Google     Cloud Platform region as a key.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --hubs=string     JSON Example:       --hubs='{"string": {}}'     File Example:       --hubs=path_to_file.(yaml|json)
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Map of Hubs that represents regional data path deployment with Google Cloud Platform region as a key. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --hubs=string JSON Example: --hubs='{"string": {}}' File Example: --hubs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--hubs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Hubs { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.    The configuration for the proxy.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// List of the allowed client header names.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. List of the allowed client header names.
     /// </summary>
     [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
-    /// Client IP configuration. The client IP address is included if true.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Client IP configuration. The client IP address is included if true.
     /// </summary>
     [CliFlag("--proxy-protocol-config-client-ip")]
     public bool? ProxyProtocolConfigClientIp { get; set; }
 
     /// <summary>
-    /// The security gateway identity configuration.     PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY must be (only one value is     supported):      resource-name       Resource name for gateway identity, in the format:       projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. The security gateway identity configuration. PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY must be (only one value is supported): resource-name Resource name for gateway identity, in the format: projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}
     /// </summary>
     [CliOption("--proxy-protocol-config-gateway-identity", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyProtocolConfigGatewayIdentity { get; set; }
 
     /// <summary>
-    /// Custom resource specific headers along with the values. The names     should conform to RFC 9110: &gt;Field names can contain alphanumeric     characters, hyphens, and periods, can contain only ASCII-printable     characters and tabs, and must start with a letter.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --proxy-protocol-config-metadata-headers=string=string     JSON Example:       --proxy-protocol-config-metadata-headers='{"string": "string"}'     File Example:       --proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)    Contextual headers configuration.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --proxy-protocol-config-metadata-headers=string=string JSON Example: --proxy-protocol-config-metadata-headers='{"string": "string"}' File Example: --proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProxyProtocolConfigMetadataHeaders { get; set; }
 
     /// <summary>
-    /// Default output type for all enabled headers.     CONTEXTUAL_HEADERS_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.    The delegated device information configuration.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Default output type for all enabled headers. CONTEXTUAL_HEADERS_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
     /// </summary>
     [CliOption("--contextual-headers-output-type", Format = OptionFormat.EqualsSeparated)]
     public string? ContextualHeadersOutputType { get; set; }
 
     /// <summary>
-    /// The output type details for the delegated device.     DEVICE_INFO_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.    The delegated group configuration details.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. The output type details for the delegated device. DEVICE_INFO_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
     /// </summary>
     [CliOption("--device-info-output-type", Format = OptionFormat.EqualsSeparated)]
     public string? DeviceInfoOutputType { get; set; }
 
     /// <summary>
-    /// The output type of the delegated group information.     GROUP_INFO_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.    The configuration information for the delegated user.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. The output type of the delegated group information. GROUP_INFO_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
     /// </summary>
     [CliOption("--group-info-output-type", Format = OptionFormat.EqualsSeparated)]
     public string? GroupInfoOutputType { get; set; }
 
     /// <summary>
-    /// The delegated user's information. USER_INFO_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.    Set the value of   googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by   using flag [service-discovery] or flags [].    At most one of these can be specified:      Settings related to the Service Discovery.      If Service Discovery is done through API, defines its settings.      API operation descriptor.      --resource-override-path=RESOURCE_OVERRIDE_PATH       Contains the URI path fragment where HTTP request is sent.     --service-discovery=[apiGateway=APIGATEWAY]      Settings related to the Service Discovery.      Shorthand Example:        --service-discovery=apiGateway={resourceOverride={path=string}}      JSON Example:        --service-discovery='{"apiGateway": {"resourceOverride": {"path": "string"}}}'      File Example:        --service-discovery=path_to_file.(yaml|json)
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. The delegated user's information. USER_INFO_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
     /// </summary>
     [CliOption("--user-info-output-type", Format = OptionFormat.EqualsSeparated)]
     public string? UserInfoOutputType { get; set; }
+
+    /// <summary>
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Settings related to the Service Discovery. If Service Discovery is done through API, defines its settings. API operation descriptor. Contains the URI path fragment where HTTP request is sent.
+    /// </summary>
+    [CliOption("--resource-override-path", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceOverridePath { get; set; }
+
+    /// <summary>
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Settings related to the Service Discovery. Shorthand Example: --service-discovery=apiGateway={resourceOverride={path=string}} JSON Example: --service-discovery='{"apiGateway": {"resourceOverride": {"path": "string"}}}' File Example: --service-discovery=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--service-discovery", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceDiscovery { get; set; }
 
 }

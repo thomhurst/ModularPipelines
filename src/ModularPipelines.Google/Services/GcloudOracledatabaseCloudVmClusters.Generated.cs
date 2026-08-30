@@ -43,6 +43,21 @@ public class GcloudOracledatabaseCloudVmClusters
     #region Commands
 
     /// <summary>
+    /// manage Cloud Vm Cluster     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudOracleDatabaseCloudVmClustersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseCloudVmClustersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new     CloudVmCluster
     /// </summary>
     /// <param name="options">The command options.</param>

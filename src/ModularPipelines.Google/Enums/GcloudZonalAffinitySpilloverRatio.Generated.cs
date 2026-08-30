@@ -17,11 +17,26 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudZonalAffinitySpilloverRatio
 {
     [EnumValue("PREPARE")]
-    Prepare,
+    Prepare = 0,
 
     [EnumValue("TEST_BY_PERCENTAGE")]
-    TestByPercentage,
+    TestByPercentage = 1,
 
     [EnumValue("TEST_ALL_TRAFFIC")]
-    TestAllTraffic
+    TestAllTraffic = 2,
+
+    [EnumValue("INTERNAL")]
+    Internal = 3,
+
+    [EnumValue("EXTERNAL")]
+    External = 4,
+
+    [EnumValue("INTERNAL_SELF_MANAGED")]
+    InternalSelfManaged = 5,
+
+    [EnumValue("EXTERNAL_MANAGED")]
+    ExternalManaged = 6,
+
+    [EnumValue("INTERNAL_MANAGED")]
+    InternalManaged = 7
 }

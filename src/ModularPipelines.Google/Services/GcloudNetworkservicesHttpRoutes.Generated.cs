@@ -33,6 +33,21 @@ public class GcloudNetworkservicesHttpRoutes
     #region Commands
 
     /// <summary>
+    /// manage Network Services HttpRoutes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkServicesHttpRoutesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkServicesHttpRoutesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete http route
     /// </summary>
     /// <param name="options">The command options.</param>

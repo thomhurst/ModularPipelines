@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudAutoMonitoringScope
 {
     [EnumValue("ALL")]
-    All,
+    All = 0,
 
     [EnumValue("NONE")]
-    None
+    None = 1
 }

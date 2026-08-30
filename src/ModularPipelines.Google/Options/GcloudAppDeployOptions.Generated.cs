@@ -22,22 +22,28 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAppDeployOptions : GcloudOptions
 {
     /// <summary>
-    /// Deploy with a specific app.yaml that will replace the one defined in     the DEPLOYABLE.
+    /// Deploy with a specific app.yaml that will replace the one defined in the DEPLOYABLE.
     /// </summary>
     [CliOption("--appyaml", Format = OptionFormat.EqualsSeparated)]
     public string? Appyaml { get; set; }
 
     /// <summary>
-    /// The Google Cloud Storage bucket used to stage files associated with the     deployment. If this argument is not specified, the application's     default code bucket is used.
+    /// The Google Cloud Storage bucket used to stage files associated with the deployment. If this argument is not specified, the application's default code bucket is used.
     /// </summary>
     [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
     public string? Bucket { get; set; }
 
     /// <summary>
-    /// Enable caching mechanisms involved in the deployment process,     particularly in the build step. Enabled by default, use --no-cache to     disable.
+    /// Enable caching mechanisms involved in the deployment process, particularly in the build step. Enabled by default, use --no-cache to disable.
     /// </summary>
     [CliFlag("--cache")]
     public bool? Cache { get; set; }
+
+    /// <summary>
+    /// Enable caching mechanisms involved in the deployment process, particularly in the build step. Enabled by default, use --no-cache to disable.
+    /// </summary>
+    [CliFlag("--no-cache")]
+    public bool? NoCache { get; set; }
 
     /// <summary>
     /// Override the .gcloudignore file and use the specified file instead.
@@ -46,29 +52,44 @@ public record GcloudAppDeployOptions : GcloudOptions
     public string? IgnoreFile { get; set; }
 
     /// <summary>
-    /// (App Engine flexible environment only.) Deploy with a specific Docker     image. Docker url must be from one of the valid Artifact Registry     hostnames.
+    /// (App Engine flexible environment only.) Deploy with a specific Docker image. Docker url must be from one of the valid Artifact Registry hostnames.
     /// </summary>
     [CliOption("--image-url", Format = OptionFormat.EqualsSeparated)]
     public string? ImageUrl { get; set; }
 
     /// <summary>
-    /// Promote the deployed version to receive all traffic. Overrides the     default app/promote_by_default property value for this command     invocation. Use --no-promote to disable.
+    /// Promote the deployed version to receive all traffic. Overrides the default app/promote_by_default property value for this command invocation. Use --no-promote to disable.
     /// </summary>
     [CliFlag("--promote")]
     public bool? Promote { get; set; }
 
     /// <summary>
-    /// The service account that this deployed version will run as. If this     argument is not specified, the App Engine default service account will     be used for your current deployed version.
+    /// Promote the deployed version to receive all traffic. Overrides the default app/promote_by_default property value for this command invocation. Use --no-promote to disable.
+    /// </summary>
+    [CliFlag("--no-promote")]
+    public bool? NoPromote { get; set; }
+
+    /// <summary>
+    /// The service account that this deployed version will run as. If this argument is not specified, the App Engine default service account will be used for your current deployed version.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Stop the previously running version when deploying a new version that     receives all traffic.     Note that if the version is running on an instance of an auto-scaled     service in the App Engine Standard environment, using     --stop-previous-version will not work and the previous version will     continue to run because auto-scaled service instances are always     running.     Overrides the default app/stop_previous_version property value for this     command invocation. Use --no-stop-previous-version to disable.
+    /// Stop the previously running version when deploying a new version that receives all traffic. Note that if the version is running on an instance of an auto-scaled service in the App Engine Standard environment, using --stop-previous-version will not work and the previous version will continue to run because auto-scaled service instances are always running. Overrides the default app/stop_previous_version property value for this command invocation. Use --no-stop-previous-version to disable.
     /// </summary>
     [CliFlag("--stop-previous-version")]
     public bool? StopPreviousVersion { get; set; }
 
+    /// <summary>
+    /// Stop the previously running version when deploying a new version that receives all traffic. Note that if the version is running on an instance of an auto-scaled service in the App Engine Standard environment, using --stop-previous-version will not work and the previous version will continue to run because auto-scaled service instances are always running. Overrides the default app/stop_previous_version property value for this command invocation. Use --no-stop-previous-version to disable.
+    /// </summary>
+    [CliFlag("--no-stop-previous-version")]
+    public bool? NoStopPreviousVersion { get; set; }
+
+    /// <summary>
+    /// The version of the app that will be created or replaced by this deployment. If you do not specify a version, one will be generated for you.
+    /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 

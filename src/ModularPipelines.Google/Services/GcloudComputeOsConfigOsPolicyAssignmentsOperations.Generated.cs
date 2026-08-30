@@ -33,6 +33,21 @@ public class GcloudComputeOsConfigOsPolicyAssignmentsOperations
     #region Commands
 
     /// <summary>
+    /// manage     long-running operations generated from creating or editing OS policy     assignments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeOsConfigOsPolicyAssignmentsOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel     an OS policy assignment operation
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudVmwareNetworks
     #region Commands
 
     /// <summary>
+    /// manage VMware Engine networks in Google Cloud     VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwareNetworksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwareNetworksOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Google Cloud VMware Engine network
     /// </summary>
     /// <param name="options">The command options.</param>

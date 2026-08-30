@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubMeshEnableOptions : GcloudOptions
 {
     /// <summary>
-    /// The path to a service-mesh.yaml configuration file.       To enable the Service Mesh Feature with a fleet-level default       membership configuration, run:       $ gcloud container hub mesh enable \       --fleet-default-member-config=/path/to/service-mesh.yaml
+    /// The path to a service-mesh.yaml configuration file. To enable the Service Mesh Feature with a fleet-level default membership configuration, run: $ gcloud container hub mesh enable \ --fleet-default-member-config=/path/to/service-mesh.yaml
     /// </summary>
     [CliOption("--fleet-default-member-config", Format = OptionFormat.EqualsSeparated)]
     public string? FleetDefaultMemberConfig { get; set; }

@@ -33,6 +33,21 @@ public class GcloudComputeTpusTopologies
     #region Commands
 
     /// <summary>
+    /// list available Cloud TPU topologies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeTpusTopologiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeTpusTopologiesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list available topologies for Cloud     TPUs
     /// </summary>
     /// <param name="options">The command options.</param>

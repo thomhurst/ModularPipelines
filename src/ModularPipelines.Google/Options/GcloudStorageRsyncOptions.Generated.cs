@@ -24,34 +24,37 @@ public record GcloudStorageRsyncOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma     separated list of key=value pairs, e.g. header1=value1,header2=value2.     Overrides the default storage/additional_headers property value for     this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
-    [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
-    public string? CannedAcl { get; set; }
-
     /// <summary>
-    /// When comparing objects with matching names at the source and     destination, skip modification time check and compare object hashes.     Normally, hashes are only compared if modification times are not     available.
+    /// When comparing objects with matching names at the source and destination, skip modification time check and compare object hashes. Normally, hashes are only compared if modification times are not available.
     /// </summary>
     [CliFlag("--checksums-only")]
     public bool? ChecksumsOnly { get; set; }
 
+    /// <summary>
+    /// Do not overwrite existing files or objects at the destination. Skipped items will be printed. This option may perform an additional GET request for cloud objects before attempting an upload.
+    /// </summary>
     [CliFlag("--no-clobber")]
     public bool? NoClobber { get; set; }
 
     /// <summary>
-    /// Manually specified MD5 hash digest for the contents of an uploaded     file. This flag cannot be used when uploading multiple files. The     custom digest is used by the cloud provider for validation.
+    /// Manually specified MD5 hash digest for the contents of an uploaded file. This flag cannot be used when uploading multiple files. The custom digest is used by the cloud provider for validation.
     /// </summary>
     [CliOption("--content-md5", Format = OptionFormat.EqualsSeparated)]
     public string? ContentMd5 { get; set; }
 
+    /// <summary>
+    /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
+    /// </summary>
     [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
-    /// Delete extra files under DESTINATION not found under SOURCE. By default     extra files are not deleted. Managed folders are not affected by this     flag.     Note: this option can delete data quickly if you specify the wrong     source and destination combination.
+    /// Delete extra files under DESTINATION not found under SOURCE. By default extra files are not deleted. Managed folders are not affected by this flag. Note: this option can delete data quickly if you specify the wrong source and destination combination.
     /// </summary>
     [CliFlag("--delete-unmatched-destination-objects")]
     public bool? DeleteUnmatchedDestinationObjects { get; set; }
@@ -63,42 +66,69 @@ public record GcloudStorageRsyncOptions(
     public bool? DoNotDecompress { get; set; }
 
     /// <summary>
-    /// Print what operations rsync would perform without actually executing     them.
+    /// Print what operations rsync would perform without actually executing them.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
+    /// <summary>
+    /// Exclude objects matching regex pattern from rsync. Note that this is a Python regular expression, not a pure wildcard pattern. For example, matching a string ending in "abc" is .*abc$ rather than *abc. Also note that the exclude path is relative, as opposed to absolute (similar to Linux rsync and tar exclude options). For the Windows cmd.exe command line interpreter, use ^ as an escape character instead of \ and escape the | character. When using Windows PowerShell, use ' instead of " and surround the | character with ".
+    /// </summary>
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
+    /// <summary>
+    /// Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files.
+    /// </summary>
     [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GzipInFlight { get; set; }
 
+    /// <summary>
+    /// Applies gzip transport encoding to file uploads. This option works like the --gzip-in-flight option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in longer uploads.
+    /// </summary>
     [CliFlag("--gzip-in-flight-all")]
     public bool? GzipInFlightAll { get; set; }
 
     /// <summary>
-    /// Ignore file symlinks instead of copying what they point to. Enabled by     default, use --no-ignore-symlinks to disable.
+    /// Ignore file symlinks instead of copying what they point to. Enabled by default, use --no-ignore-symlinks to disable.
     /// </summary>
     [CliFlag("--ignore-symlinks")]
     public bool? IgnoreSymlinks { get; set; }
 
     /// <summary>
-    /// Includes managed folders in command operations. For transfers, gcloud     storage will set up managed folders in the destination with the same     IAM policy bindings as the source. Managed folders are only included     with recursive cloud-to-cloud transfers.
+    /// Ignore file symlinks instead of copying what they point to. Enabled by default, use --no-ignore-symlinks to disable.
+    /// </summary>
+    [CliFlag("--no-ignore-symlinks")]
+    public bool? NoIgnoreSymlinks { get; set; }
+
+    /// <summary>
+    /// Includes managed folders in command operations. For transfers, gcloud storage will set up managed folders in the destination with the same IAM policy bindings as the source. Managed folders are only included with recursive cloud-to-cloud transfers.
     /// </summary>
     [CliFlag("--include-managed-folders")]
     public bool? IncludeManagedFolders { get; set; }
 
+    /// <summary>
+    /// Causes POSIX attributes to be preserved when objects are copied. With this feature enabled, gcloud storage will copy several fields provided by the stat command: access time, modification time, owner UID, owner group GID, and the mode (permissions) of the file. For uploads, these attributes are read off of local files and stored in the cloud as custom metadata. For downloads, custom cloud metadata is set as POSIX attributes on files after they are downloaded. On Windows, this flag will only set and restore access time and modification time because Windows doesn't have a notion of POSIX UID, GID, and mode.
+    /// </summary>
     [CliFlag("--preserve-posix")]
     public bool? PreservePosix { get; set; }
 
-    [CliFlag("--recursive")]
-    public bool? Recursive { get; set; }
-
+    /// <summary>
+    /// Skip operating on destination object if it has a newer modification time than the source.
+    /// </summary>
     [CliFlag("--skip-if-dest-has-newer-mtime")]
     public bool? SkipIfDestHasNewerMtime { get; set; }
 
+    /// <summary>
+    /// Skip objects with unsupported object types.
+    /// </summary>
     [CliFlag("--skip-unsupported")]
     public bool? SkipUnsupported { get; set; }
+
+    [Obsolete("CannedAcl is no longer supported by the installed CLI and has no effect.")]
+    public string? CannedAcl { get; set; }
+
+    [Obsolete("Recursive is no longer supported by the installed CLI and has no effect.")]
+    public bool? Recursive { get; set; }
 
 }

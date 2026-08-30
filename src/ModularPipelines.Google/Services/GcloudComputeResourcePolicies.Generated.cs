@@ -49,6 +49,21 @@ public class GcloudComputeResourcePolicies
     #region Commands
 
     /// <summary>
+    /// manage Compute Engine Resource Policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeResourcePoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeResourcePoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete a Compute Engine resource     policy
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -121,6 +136,21 @@ public class GcloudComputeResourcePolicies
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine resource policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudComputeResourcePoliciesTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeResourcePoliciesTestIamPermissionsOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

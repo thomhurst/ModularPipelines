@@ -22,21 +22,183 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApihubApisVersionsOperationsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// Set attributes to new value. The list of user defined attributes associated with the API operation resource. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. + If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. + If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attributes { get; set; }
+
+    /// <summary>
+    /// Update attributes value or add key value pair. The list of user defined attributes associated with the API operation resource. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. - If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. - If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --update-attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --update-attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --update-attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateAttributes { get; set; }
+
+    /// <summary>
+    /// Clear attributes value and set to empty map.
+    /// </summary>
+    [CliFlag("--clear-attributes")]
+    public bool? ClearAttributes { get; set; }
+
+    /// <summary>
+    /// Remove existing value from map attributes. Sets remove_attributes value. Shorthand Example: --remove-attributes=string,string JSON Example: --remove-attributes=["string"] File Example: --remove-attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-attributes", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveAttributes { get; set; }
+
+    /// <summary>
     /// Set googleCloudApihubV1ApiOperation.details back to default value.
     /// </summary>
     [CliFlag("--clear-details")]
     public bool? ClearDetails { get; set; }
 
     /// <summary>
-    /// Description of the operation behavior. For OpenAPI spec, this will map     to operation.description in the spec, in case description is empty,     operation.summary will be used.    Documentation details.
+    /// For OpenAPI spec, this will be set if operation.deprecated`is marked as true in the spec. Use *--details-deprecated* to enable and *--no-details-deprecated* to disable.
+    /// </summary>
+    [CliFlag("--details-deprecated")]
+    public bool? DetailsDeprecated { get; set; }
+
+    /// <summary>
+    /// For OpenAPI spec, this will be set if operation.deprecated`is marked as true in the spec. Use *--details-deprecated* to enable and *--no-details-deprecated* to disable.
+    /// </summary>
+    [CliFlag("--no-details-deprecated")]
+    public bool? NoDetailsDeprecated { get; set; }
+
+    /// <summary>
+    /// Description of the operation behavior. For OpenAPI spec, this will map to operation.description in the spec, in case description is empty, operation.summary will be used.
     /// </summary>
     [CliOption("--details-description", Format = OptionFormat.EqualsSeparated)]
     public string? DetailsDescription { get; set; }
 
     /// <summary>
-    /// The uri of the externally hosted documentation.    Arguments for the operation.    At most one of these can be specified:     The HTTP Operation.     --http-operation-method=HTTP_OPERATION_METHOD      Operation method Note: Even though this field is optional, it is      required for      [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation]      API and we will fail the request if not provided.      HTTP_OPERATION_METHOD must be one of:       delete        Delete Operation type.      get        Get Operation type.      head        Head Operation type.      options        Options Operation type.      patch        Patch Operation type.      post        Post Operation type.      put        Put Operation type.      trace        Trace Operation type.     The path details derived from the spec.     --http-operation-path=HTTP_OPERATION_PATH      Complete path relative to server endpoint. Note: Even though this      field is optional, it is required for      [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation]      API and we will fail the request if not provided.     --http-operation-path-description=HTTP_OPERATION_PATH_DESCRIPTION      A short description for the path applicable to all operations.     Details describing an MCP Tool.     --mcp-tool-description=MCP_TOOL_DESCRIPTION      Description of what the tool does.     The operation schema needed for an operation.     Arguments for the value.     --mcp-tool-input-schema-json=MCP_TOOL_INPUT_SCHEMA_JSON      The JSON schema. Only valid JSON is accepted but semantic validation      of schema is not supported right now.     --mcp-tool-name=MCP_TOOL_NAME      The name of the tool, unique within its parent scope (version).     The operation schema needed for an operation.     Arguments for the value.     --mcp-tool-output-schema-json=MCP_TOOL_OUTPUT_SCHEMA_JSON      The JSON schema. Only valid JSON is accepted but semantic validation      of schema is not supported right now.     --mcp-tool-title=MCP_TOOL_TITLE      Optional title for the tool.     Annotations for a Tool.     Arguments for the destructive hint.     --[no-]mcp-tool-annotations-destructive-hint      Hint indicating if the tool may have destructive side effects. Use      --mcp-tool-annotations-destructive-hint to enable and      --no-mcp-tool-annotations-destructive-hint to disable.     Arguments for the idempotent hint.     --[no-]mcp-tool-annotations-idempotent-hint      Hint indicating if the tool is idempotent. Use      --mcp-tool-annotations-idempotent-hint to enable and      --no-mcp-tool-annotations-idempotent-hint to disable.     Arguments for the open world hint.     --[no-]mcp-tool-annotations-open-world-hint      Hint indicating if the tool interacts with the open world (e.g.,      internet). Use --mcp-tool-annotations-open-world-hint to enable and      --no-mcp-tool-annotations-open-world-hint to disable.     Arguments for the read only hint.     --[no-]mcp-tool-annotations-read-only-hint      Hint indicating if the tool is read-only. Use      --mcp-tool-annotations-read-only-hint to enable and      --no-mcp-tool-annotations-read-only-hint to disable.     --mcp-tool-annotations-title=MCP_TOOL_ANNOTATIONS_TITLE      A human-readable title for the tool (if different from Tool.title).     Update mcp_tool_annotations_additional_hints.     At most one of these can be specified:      --mcp-tool-annotations-additional-hints=[MCP_TOOL_ANNOTATIONS_ADDITIONAL_HINTS,...]       Set mcp_tool_annotations_additional_hints to new value. Additional       hints which may help tools and not covered in defaults.        KEY         Sets KEY value.        VALUE         Sets VALUE value.       Shorthand Example:         --mcp-tool-annotations-additional-hints=string=string       JSON Example:         --mcp-tool-annotations-additional-hints='{"string": "string"}'       File Example:         --mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)      Or at least one of these can be specified:       --update-mcp-tool-annotations-additional-hints=[UPDATE_MCP_TOOL_ANNOTATIONS_ADDITIONAL_HINTS,...]        Update mcp_tool_annotations_additional_hints value or add key        value pair. Additional hints which may help tools and not covered        in defaults.         KEY          Sets KEY value.         VALUE          Sets VALUE value.        Shorthand Example:          --update-mcp-tool-annotations-additional-hints=string=string        JSON Example:          --update-mcp-tool-annotations-additional-hints='{"string": "string"}'        File Example:          --update-mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)       At most one of these can be specified:        --clear-mcp-tool-annotations-additional-hints         Clear mcp_tool_annotations_additional_hints value and set to         empty map.        --remove-mcp-tool-annotations-additional-hints=REMOVE_MCP_TOOL_ANNOTATIONS_ADDITIONAL_HINTS         Remove existing value from map         mcp_tool_annotations_additional_hints. Sets         remove_mcp_tool_annotations_additional_hints value.         Shorthand Example:           --remove-mcp-tool-annotations-additional-hints=string,string         JSON Example:           --remove-mcp-tool-annotations-additional-hints=["string"]         File Example:           --remove-mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)
+    /// The uri of the externally hosted documentation.
     /// </summary>
     [CliOption("--documentation-external-uri", Format = OptionFormat.EqualsSeparated)]
     public string? DocumentationExternalUri { get; set; }
+
+    /// <summary>
+    /// Operation method Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided. HTTP_OPERATION_METHOD must be one of: delete Delete Operation type. get Get Operation type. head Head Operation type. options Options Operation type. patch Patch Operation type. post Post Operation type. put Put Operation type. trace Trace Operation type.
+    /// </summary>
+    [CliOption("--http-operation-method", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpOperationMethod { get; set; }
+
+    /// <summary>
+    /// Complete path relative to server endpoint. Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided.
+    /// </summary>
+    [CliOption("--http-operation-path", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpOperationPath { get; set; }
+
+    /// <summary>
+    /// A short description for the path applicable to all operations.
+    /// </summary>
+    [CliOption("--http-operation-path-description", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpOperationPathDescription { get; set; }
+
+    /// <summary>
+    /// Description of what the tool does.
+    /// </summary>
+    [CliOption("--mcp-tool-description", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolDescription { get; set; }
+
+    /// <summary>
+    /// The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
+    /// </summary>
+    [CliOption("--mcp-tool-input-schema-json", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolInputSchemaJson { get; set; }
+
+    /// <summary>
+    /// The name of the tool, unique within its parent scope (version).
+    /// </summary>
+    [CliOption("--mcp-tool-name", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolName { get; set; }
+
+    /// <summary>
+    /// The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
+    /// </summary>
+    [CliOption("--mcp-tool-output-schema-json", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolOutputSchemaJson { get; set; }
+
+    /// <summary>
+    /// Optional title for the tool.
+    /// </summary>
+    [CliOption("--mcp-tool-title", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolTitle { get; set; }
+
+    /// <summary>
+    /// Hint indicating if the tool may have destructive side effects. Use --mcp-tool-annotations-destructive-hint to enable and --no-mcp-tool-annotations-destructive-hint to disable.
+    /// </summary>
+    [CliFlag("--mcp-tool-annotations-destructive-hint")]
+    public bool? McpToolAnnotationsDestructiveHint { get; set; }
+
+    /// <summary>
+    /// Hint indicating if the tool may have destructive side effects. Use --mcp-tool-annotations-destructive-hint to enable and --no-mcp-tool-annotations-destructive-hint to disable.
+    /// </summary>
+    [CliFlag("--no-mcp-tool-annotations-destructive-hint")]
+    public bool? NoMcpToolAnnotationsDestructiveHint { get; set; }
+
+    /// <summary>
+    /// Hint indicating if the tool is idempotent. Use --mcp-tool-annotations-idempotent-hint to enable and --no-mcp-tool-annotations-idempotent-hint to disable.
+    /// </summary>
+    [CliFlag("--mcp-tool-annotations-idempotent-hint")]
+    public bool? McpToolAnnotationsIdempotentHint { get; set; }
+
+    /// <summary>
+    /// Hint indicating if the tool is idempotent. Use --mcp-tool-annotations-idempotent-hint to enable and --no-mcp-tool-annotations-idempotent-hint to disable.
+    /// </summary>
+    [CliFlag("--no-mcp-tool-annotations-idempotent-hint")]
+    public bool? NoMcpToolAnnotationsIdempotentHint { get; set; }
+
+    /// <summary>
+    /// Hint indicating if the tool interacts with the open world (e.g., internet). Use --mcp-tool-annotations-open-world-hint to enable and --no-mcp-tool-annotations-open-world-hint to disable.
+    /// </summary>
+    [CliFlag("--mcp-tool-annotations-open-world-hint")]
+    public bool? McpToolAnnotationsOpenWorldHint { get; set; }
+
+    /// <summary>
+    /// Hint indicating if the tool interacts with the open world (e.g., internet). Use --mcp-tool-annotations-open-world-hint to enable and --no-mcp-tool-annotations-open-world-hint to disable.
+    /// </summary>
+    [CliFlag("--no-mcp-tool-annotations-open-world-hint")]
+    public bool? NoMcpToolAnnotationsOpenWorldHint { get; set; }
+
+    /// <summary>
+    /// Hint indicating if the tool is read-only. Use --mcp-tool-annotations-read-only-hint to enable and --no-mcp-tool-annotations-read-only-hint to disable.
+    /// </summary>
+    [CliFlag("--mcp-tool-annotations-read-only-hint")]
+    public bool? McpToolAnnotationsReadOnlyHint { get; set; }
+
+    /// <summary>
+    /// Hint indicating if the tool is read-only. Use --mcp-tool-annotations-read-only-hint to enable and --no-mcp-tool-annotations-read-only-hint to disable.
+    /// </summary>
+    [CliFlag("--no-mcp-tool-annotations-read-only-hint")]
+    public bool? NoMcpToolAnnotationsReadOnlyHint { get; set; }
+
+    /// <summary>
+    /// A human-readable title for the tool (if different from Tool.title).
+    /// </summary>
+    [CliOption("--mcp-tool-annotations-title", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolAnnotationsTitle { get; set; }
+
+    /// <summary>
+    /// Set mcp_tool_annotations_additional_hints to new value. Additional hints which may help tools and not covered in defaults. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --mcp-tool-annotations-additional-hints=string=string JSON Example: --mcp-tool-annotations-additional-hints='{"string": "string"}' File Example: --mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--mcp-tool-annotations-additional-hints", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? McpToolAnnotationsAdditionalHints { get; set; }
+
+    /// <summary>
+    /// Update mcp_tool_annotations_additional_hints value or add key value pair. Additional hints which may help tools and not covered in defaults. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-mcp-tool-annotations-additional-hints=string=string JSON Example: --update-mcp-tool-annotations-additional-hints='{"string": "string"}' File Example: --update-mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-mcp-tool-annotations-additional-hints", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateMcpToolAnnotationsAdditionalHints { get; set; }
+
+    /// <summary>
+    /// Clear mcp_tool_annotations_additional_hints value and set to empty map.
+    /// </summary>
+    [CliFlag("--clear-mcp-tool-annotations-additional-hints")]
+    public bool? ClearMcpToolAnnotationsAdditionalHints { get; set; }
+
+    /// <summary>
+    /// Remove existing value from map mcp_tool_annotations_additional_hints. Sets remove_mcp_tool_annotations_additional_hints value. Shorthand Example: --remove-mcp-tool-annotations-additional-hints=string,string JSON Example: --remove-mcp-tool-annotations-additional-hints=["string"] File Example: --remove-mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-mcp-tool-annotations-additional-hints", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveMcpToolAnnotationsAdditionalHints { get; set; }
 
 }

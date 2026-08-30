@@ -24,15 +24,27 @@ public record GcloudComputeInterconnectsMacsecUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Enable or disable MACsec on this Interconnect. MACsec enablement will     fail if the MACsec configuration is not specified. Use --no-enabled to     disable it.
+    /// Enable or disable MACsec on this Interconnect. MACsec enablement will fail if the MACsec configuration is not specified. Use --no-enabled to disable it.
     /// </summary>
     [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// If enabled, the Interconnect will be configured with a should-secure     MACsec security policy, that allows the Google router to fallback to     cleartext traffic if the MKA session cannot be established. By default,     the Interconnect will be configured with a must-secure security policy     that drops all traffic if the MKA session cannot be established with     your router. Use --no-fail-open to disable it.
+    /// Enable or disable MACsec on this Interconnect. MACsec enablement will fail if the MACsec configuration is not specified. Use --no-enabled to disable it.
+    /// </summary>
+    [CliFlag("--no-enabled")]
+    public bool? NoEnabled { get; set; }
+
+    /// <summary>
+    /// If enabled, the Interconnect will be configured with a should-secure MACsec security policy, that allows the Google router to fallback to cleartext traffic if the MKA session cannot be established. By default, the Interconnect will be configured with a must-secure security policy that drops all traffic if the MKA session cannot be established with your router. Use --no-fail-open to disable it.
     /// </summary>
     [CliFlag("--fail-open")]
     public bool? FailOpen { get; set; }
+
+    /// <summary>
+    /// If enabled, the Interconnect will be configured with a should-secure MACsec security policy, that allows the Google router to fallback to cleartext traffic if the MKA session cannot be established. By default, the Interconnect will be configured with a must-secure security policy that drops all traffic if the MKA session cannot be established with your router. Use --no-fail-open to disable it.
+    /// </summary>
+    [CliFlag("--no-fail-open")]
+    public bool? NoFailOpen { get; set; }
 
 }

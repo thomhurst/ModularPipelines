@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRecaptchaKeysMigrateOptions : GcloudOptions
 {
     /// <summary>
-    /// If true, skips the billing check. If your usage of reCAPTCHA is under     the free quota, you can safely skip the billing check.
+    /// If true, skips the billing check. If your usage of reCAPTCHA is under the free quota, you can safely skip the billing check.
     /// </summary>
     [CliFlag("--skip-billing-check")]
     public bool? SkipBillingCheck { get; set; }

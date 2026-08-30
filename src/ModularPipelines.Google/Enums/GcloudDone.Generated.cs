@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDone
 {
     [EnumValue("false")]
-    False,
+    False = 0,
 
     [EnumValue("true")]
-    True
+    True = 1
 }

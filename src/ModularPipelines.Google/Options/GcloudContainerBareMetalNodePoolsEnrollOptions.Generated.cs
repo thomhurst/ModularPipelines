@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerBareMetalNodePoolsEnrollOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set, only validate the request, but do not actually perform the     operation.
+    /// If set, only validate the request, but do not actually perform the operation.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }

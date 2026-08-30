@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -23,25 +24,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPrivatecaRootsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// If this flag is set, the Certificate Authority will be automatically     enabled upon creation.
+    /// If this flag is set, the Certificate Authority will be automatically enabled upon creation.
     /// </summary>
     [CliFlag("--auto-enable")]
     public bool? AutoEnable { get; set; }
 
     /// <summary>
-    /// The name of an existing storage bucket to use for storing the CA     certificates and CRLs for CAs in this pool. If omitted, a new bucket     will be created and managed by the service on your behalf.
+    /// The name of an existing storage bucket to use for storing the CA certificates and CRLs for CAs in this pool. If omitted, a new bucket will be created and managed by the service on your behalf.
     /// </summary>
     [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
     public string? Bucket { get; set; }
 
     /// <summary>
-    /// One or more comma-separated URLs that will be added to the Authority     Information Access extension in the issued certificate. These URLs are     where the issuer CA certificate is located.
+    /// One or more comma-separated URLs that will be added to the Authority Information Access extension in the issued certificate. These URLs are where the issuer CA certificate is located.
     /// </summary>
     [CliOption("--custom-aia-urls", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomAiaUrls { get; set; }
 
     /// <summary>
-    /// One or more comma-separated URLs that will be added to the CRL     Distribution Points (CDP) extension in the issued certificate. These     URLs are where CRL information is located.
+    /// One or more comma-separated URLs that will be added to the CRL Distribution Points (CDP) extension in the issued certificate. These URLs are where CRL information is located.
     /// </summary>
     [CliOption("--custom-cdp-urls", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomCdpUrls { get; set; }
@@ -53,13 +54,13 @@ public record GcloudPrivatecaRootsCreateOptions : GcloudOptions
     public IEnumerable<string>? DnsSan { get; set; }
 
     /// <summary>
-    /// One or more comma-separated email Subject Alternative Names.    Source CA resource - An existing CA from which to copy configuration   values for the new CA. You can still override any of those values by   explicitly providing the appropriate flags. The specified existing CA must   be part of the same pool as the one being created. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property privateca/location.    To set the pool attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --pool on the command line.
+    /// One or more comma-separated email Subject Alternative Names.
     /// </summary>
     [CliOption("--email-san", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EmailSan { get; set; }
 
     /// <summary>
-    /// ID of the source CA or fully qualified identifier for the source CA.     To set the certificate_authority attribute:     ◆ provide the argument --from-ca on the command line.
+    /// ID of the source CA or fully qualified identifier for the source CA. To set the certificate_authority attribute: * provide the argument --from-ca on the command line.
     /// </summary>
     [CliOption("--from-ca", Format = OptionFormat.EqualsSeparated)]
     public string? FromCa { get; set; }
@@ -71,19 +72,19 @@ public record GcloudPrivatecaRootsCreateOptions : GcloudOptions
     public IEnumerable<string>? IpSan { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// X.501 name of the certificate subject. Example: --subject     "C=US,ST=California,L=Mountain View,O=Google LLC,CN=google.com"
+    /// X.501 name of the certificate subject. Example: --subject "C=US,ST=California,L=Mountain View,O=Google LLC,CN=google.com"
     /// </summary>
     [CliOption("--subject", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Subject { get; set; }
 
     /// <summary>
-    /// Optional field to specify subject key ID for certificate. DO NOT USE     except to maintain a previously established identifier for a public     key, whose SKI was not generated using method (1) described in RFC 5280     section 4.2.1.2.
+    /// Optional field to specify subject key ID for certificate. DO NOT USE except to maintain a previously established identifier for a public key, whose SKI was not generated using method (1) described in RFC 5280 section 4.2.1.2.
     /// </summary>
     [CliOption("--subject-key-id", Format = OptionFormat.EqualsSeparated)]
     public string? SubjectKeyId { get; set; }
@@ -94,7 +95,136 @@ public record GcloudPrivatecaRootsCreateOptions : GcloudOptions
     [CliOption("--uri-san", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UriSan { get; set; }
 
+    /// <summary>
+    /// ID of the key version or fully qualified identifier for the key version. To set the kms-key-version attribute: - provide the argument --kms-key-version on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key-version", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyVersion { get; set; }
+
+    /// <summary>
+    /// The KMS key of the key version. To set the kms-key attribute: - provide the argument --kms-key-version on the command line with a fully specified name; - provide the argument --kms-key on the command line.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// The KMS keyring of the key version. To set the kms-keyring attribute: - provide the argument --kms-key-version on the command line with a fully specified name; - provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// The location of the key version. To set the kms-location attribute: - provide the argument --kms-key-version on the command line with a fully specified name; - provide the argument --kms-location on the command line; - provide the argument location on the command line; - set the property privateca/location.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// The project containing the key version. To set the kms-project attribute: - provide the argument --kms-key-version on the command line with a fully specified name; - provide the argument --kms-project on the command line; - provide the argument project on the command line; - set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// The name of an existing preset profile used to encapsulate X.509 parameter values. USE_PRESET_PROFILE must be one of: leaf_client_tls, leaf_code_signing, leaf_mtls, leaf_server_tls, leaf_smime, root_unconstrained, subordinate_client_tls_pathlen_0, subordinate_code_signing_pathlen_0, subordinate_mtls_pathlen_0, subordinate_server_tls_pathlen_0, subordinate_smime_pathlen_0, subordinate_unconstrained_pathlen_0. For more information, see https://cloud.google.com/certificate-authority-service/docs/certificate-profile.
+    /// </summary>
+    [CliOption("--use-preset-profile", Format = OptionFormat.EqualsSeparated)]
+    public GcloudUsePresetProfile? UsePresetProfile { get; set; }
+
+    /// <summary>
+    /// The list of extended key usages for this CA. This can only be provided if --use-preset-profile is not provided. EXTENDED_KEY_USAGES must be one of: server_auth, client_auth, code_signing, email_protection, time_stamping, ocsp_signing.
+    /// </summary>
+    [CliOption("--extended-key-usages", Format = OptionFormat.EqualsSeparated)]
+    public GcloudExtendedKeyUsages? ExtendedKeyUsages { get; set; }
+
+    /// <summary>
+    /// The list of key usages for this CA. This can only be provided if --use-preset-profile is not provided. KEY_USAGES must be one of: digital_signature, content_commitment, key_encipherment, data_encipherment, key_agreement, cert_sign, crl_sign, encipher_only, decipher_only.
+    /// </summary>
+    [CliOption("--key-usages", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKeyUsages? KeyUsages { get; set; }
+
+    /// <summary>
+    /// Maximum depth of subordinate CAs allowed under this CA for a CA certificate. This can only be provided if neither --use-preset-profile nor --unconstrained-chain-length are provided.
+    /// </summary>
+    [CliOption("--max-chain-length", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxChainLength { get; set; }
+
+    /// <summary>
+    /// If set, allows an unbounded number of subordinate CAs under this newly issued CA certificate. This can only be provided if neither --use-preset-profile nor --max-chain-length are provided.
+    /// </summary>
+    [CliFlag("--unconstrained-chain-length")]
+    public bool? UnconstrainedChainLength { get; set; }
+
+    /// <summary>
+    /// Indicates whether or not name constraints are marked as critical. Name constraints are considered critical unless explicitly set to false. Enabled by default, use --no-name-constraints-critical to disable.
+    /// </summary>
+    [CliFlag("--name-constraints-critical")]
+    public bool? NameConstraintsCritical { get; set; }
+
+    /// <summary>
+    /// Indicates whether or not name constraints are marked as critical. Name constraints are considered critical unless explicitly set to false. Enabled by default, use --no-name-constraints-critical to disable.
+    /// </summary>
+    [CliFlag("--no-name-constraints-critical")]
+    public bool? NoNameConstraintsCritical { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated DNS names which are excluded from being issued certificates. Any DNS name that can be constructed by simply adding zero or more labels to the left-hand side of the name satisfies the name constraint. For example, example.com, www.example.com, www.sub.example.com would satisfy example.com, while example1.com does not.
+    /// </summary>
+    [CliOption("--name-excluded-dns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NameExcludedDns { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated emails which are excluded from being issued certificates. The value can be a particular email address, a hostname to indicate all email addresses on that host or a domain with a leading period (e.g. .example.com) to indicate all email addresses in that domain.
+    /// </summary>
+    [CliOption("--name-excluded-email", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NameExcludedEmail { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated IP ranges which are excluded from being issued certificates. For IPv4 addresses, the ranges are expressed using CIDR notation as specified in RFC 4632. For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+    /// </summary>
+    [CliOption("--name-excluded-ip", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NameExcludedIp { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated URIs which are excluded from being issued certificates. The value can be a hostname or a domain with a leading period (like .example.com)
+    /// </summary>
+    [CliOption("--name-excluded-uri", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NameExcludedUri { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated DNS names which are permitted to be issued certificates. Any DNS name that can be constructed by simply adding zero or more labels to the left-hand side of the name satisfies the name constraint. For example, example.com, www.example.com, www.sub.example.com would satisfy example.com, while example1.com does not.
+    /// </summary>
+    [CliOption("--name-permitted-dns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NamePermittedDns { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated email addresses which are permitted to be issued certificates. The value can be a particular email address, a hostname to indicate all email addresses on that host or a domain with a leading period (e.g. .example.com) to indicate all email addresses in that domain.
+    /// </summary>
+    [CliOption("--name-permitted-email", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NamePermittedEmail { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated IP ranges which are permitted to be issued certificates. For IPv4 addresses, the ranges are expressed using CIDR notation as specified in RFC 4632. For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+    /// </summary>
+    [CliOption("--name-permitted-ip", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NamePermittedIp { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated URIs which are permitted to be issued certificates. The value can be a hostname or a domain with a leading period (like .example.com)
+    /// </summary>
+    [CliOption("--name-permitted-uri", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NamePermittedUri { get; set; }
+
+    /// <summary>
+    /// The validity of this CA, as an ISO8601 duration. Defaults to 10 years.
+    /// </summary>
     [CliOption("--validity", Format = OptionFormat.EqualsSeparated)]
     public string? Validity { get; set; }
+
+    /// <summary>
+    /// The crypto algorithm to use for creating a managed KMS key for the Certificate Authority. The default is rsa-pkcs1-4096-sha256. KEY_ALGORITHM must be one of: ec-p256-sha256, ec-p384-sha384, rsa-pkcs1-2048-sha256, rsa-pkcs1-3072-sha256, rsa-pkcs1-4096-sha256, rsa-pss-2048-sha256, rsa-pss-3072-sha256, rsa-pss-4096-sha256.
+    /// </summary>
+    [CliOption("--key-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyAlgorithm { get; set; }
 
 }

@@ -24,7 +24,7 @@ public record GcloudContainerImagesDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If there are tags pointing to an image to be deleted then they must all     be specified explicitly, or this flag must be specified, for the     command to succeed.
+    /// If there are tags pointing to an image to be deleted then they must all be specified explicitly, or this flag must be specified, for the command to succeed.
     /// </summary>
     [CliFlag("--force-delete-tags")]
     public bool? ForceDeleteTags { get; set; }

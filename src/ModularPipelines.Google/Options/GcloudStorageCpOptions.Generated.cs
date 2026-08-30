@@ -24,26 +24,38 @@ public record GcloudStorageCpOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma     separated list of key=value pairs, e.g. header1=value1,header2=value2.     Overrides the default storage/additional_headers property value for     this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
+    /// <summary>
+    /// Copy all source versions from a source bucket or folder. If not set, only the live version of each source object is copied. Note: This option is only useful when the destination bucket has Object Versioning enabled. Additionally, the generation numbers of copied versions do not necessarily match the order of the original generation numbers.
+    /// </summary>
     [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
+    /// <summary>
+    /// Do not overwrite existing files or objects at the destination. Skipped items will be printed. This option may perform an additional GET request for cloud objects before attempting an upload.
+    /// </summary>
     [CliFlag("--no-clobber")]
     public bool? NoClobber { get; set; }
 
     /// <summary>
-    /// Manually specified MD5 hash digest for the contents of an uploaded     file. This flag cannot be used when uploading multiple files. The     custom digest is used by the cloud provider for validation.
+    /// Manually specified MD5 hash digest for the contents of an uploaded file. This flag cannot be used when uploading multiple files. The custom digest is used by the cloud provider for validation.
     /// </summary>
     [CliOption("--content-md5", Format = OptionFormat.EqualsSeparated)]
     public string? ContentMd5 { get; set; }
 
+    /// <summary>
+    /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
+    /// </summary>
     [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
+    /// <summary>
+    /// Copy in "daisy chain" mode, which means copying an object by first downloading it to the machine where the command is run, then uploading it to the destination bucket. The default mode is a "copy in the cloud," where data is copied without uploading or downloading. During a copy in the cloud, a source composite object remains composite at its destination. However, you can use daisy chain mode to change a composite object into a non-composite object. Note: Daisy chain mode is automatically used when copying between providers.
+    /// </summary>
     [CliFlag("--daisy-chain")]
     public bool? DaisyChain { get; set; }
 
@@ -54,33 +66,99 @@ public record GcloudStorageCpOptions(
     public bool? DoNotDecompress { get; set; }
 
     /// <summary>
-    /// Includes managed folders in command operations. For transfers, gcloud     storage will set up managed folders in the destination with the same     IAM policy bindings as the source. Managed folders are only included     with recursive cloud-to-cloud transfers. Please note that for     hierarchical namespace buckets, managed folders are always included.     Hence this flag would not be applicable to hierarchical namespace     buckets.
+    /// Includes managed folders in command operations. For transfers, gcloud storage will set up managed folders in the destination with the same IAM policy bindings as the source. Managed folders are only included with recursive cloud-to-cloud transfers. Please note that for hierarchical namespace buckets, managed folders are always included. Hence this flag would not be applicable to hierarchical namespace buckets.
     /// </summary>
     [CliFlag("--include-managed-folders")]
     public bool? IncludeManagedFolders { get; set; }
 
+    /// <summary>
+    /// Outputs a manifest log file with detailed information about each item that was copied. This manifest contains the following information for each item: * Source path. * Destination path. * Source size. * Bytes transferred. * MD5 hash. * Transfer start time and date in UTC and ISO 8601 format. * Transfer completion time and date in UTC and ISO 8601 format. * Final result of the attempted transfer: OK, error, or skipped. * Details, if any. If the manifest file already exists, gcloud storage appends log items to the existing file. Objects that are marked as "OK" or "skipped" in the existing manifest file are not retried by future commands. Objects marked as "error" are retried.
+    /// </summary>
     [CliOption("--manifest-path", Format = OptionFormat.EqualsSeparated)]
     public string? ManifestPath { get; set; }
 
+    /// <summary>
+    /// Causes POSIX attributes to be preserved when objects are copied. With this feature enabled, gcloud storage will copy several fields provided by the stat command: access time, modification time, owner UID, owner group GID, and the mode (permissions) of the file. For uploads, these attributes are read off of local files and stored in the cloud as custom metadata. For downloads, custom cloud metadata is set as POSIX attributes on files after they are downloaded. On Windows, this flag will only set and restore access time and modification time because Windows doesn't have a notion of POSIX UID, GID, and mode.
+    /// </summary>
     [CliFlag("--preserve-posix")]
     public bool? PreservePosix { get; set; }
 
+    /// <summary>
+    /// Prints the version-specific URL for each copied object.
+    /// </summary>
     [CliFlag("--print-created-message")]
     public bool? PrintCreatedMessage { get; set; }
 
+    /// <summary>
+    /// Read the list of resources to copy from stdin. No need to enter a source argument if this flag is present. Example: "storage cp -I gs://bucket/destination". The input format must consist of one path (e.g., "Documents/data/file1.txt") or one object URL (e.g., "gs://example-bucket/event.log") per line. Use a pipe to send the file list to the command. Example: "cat example-file-list.txt | gcloud storage cp --read-paths-from-stdin gs://example-destination-bucket". Note: To copy the contents of one file directly from stdin, use "-" as the source argument without the "-I" flag.
+    /// </summary>
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
-    [CliFlag("--recursive")]
-    public bool? Recursive { get; set; }
-
+    /// <summary>
+    /// Skip objects with unsupported object types.
+    /// </summary>
     [CliFlag("--skip-unsupported")]
     public bool? SkipUnsupported { get; set; }
 
+    /// <summary>
+    /// Specify the storage class of the destination object. If not specified, the default storage class of the destination bucket is used. This option is not valid for copying to non-cloud destinations.
+    /// </summary>
     [CliOption("--storage-class", Format = OptionFormat.EqualsSeparated)]
     public string? StorageClass { get; set; }
 
-    [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
+    /// <summary>
+    /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// </summary>
+    [CliFlag("--preserve-acl")]
+    public bool? PreserveAcl { get; set; }
+
+    /// <summary>
+    /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// </summary>
+    [CliFlag("--no-preserve-acl")]
+    public bool? NoPreserveAcl { get; set; }
+
+    /// <summary>
+    /// Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files.
+    /// </summary>
+    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? GzipInFlight { get; set; }
+
+    /// <summary>
+    /// Applies gzip transport encoding to file uploads. This option works like the --gzip-in-flight option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in longer uploads.
+    /// </summary>
+    [CliFlag("--gzip-in-flight-all")]
+    public bool? GzipInFlightAll { get; set; }
+
+    /// <summary>
+    /// Applies gzip content encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This saves network bandwidth and space in Cloud Storage. When you specify the --gzip-local option, the data from files is compressed before it is uploaded, but the original files are left uncompressed on the local disk. The uploaded objects retain the Content-Type and name of the original files. However, the Content-Encoding metadata is set to gzip and the Cache-Control metadata set to no-transform. The data remains compressed on Cloud Storage servers and will not be decompressed on download by gcloud storage because of the no-transform field. Since the local gzip option compresses data prior to upload, it is not subject to the same compression buffer bottleneck of the in-flight gzip option.
+    /// </summary>
+    [CliOption("--gzip-local", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? GzipLocal { get; set; }
+
+    /// <summary>
+    /// Applies gzip content encoding to file uploads. This option works like the --gzip-local option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in files taking up more space in the cloud than they would if left uncompressed.
+    /// </summary>
+    [CliFlag("--gzip-local-all")]
+    public bool? GzipLocalAll { get; set; }
+
+    /// <summary>
+    /// Ignore file symlinks instead of copying what they point to.
+    /// </summary>
+    [CliFlag("--ignore-symlinks")]
+    public bool? IgnoreSymlinks { get; set; }
+
+    /// <summary>
+    /// Preserve symlinks instead of copying what they point to. With this feature enabled, uploaded symlinks will be represented as placeholders in the cloud whose content consists of the linked path. Inversely, such placeholders will be converted to symlinks when downloaded while this feature is enabled, as described at https://cloud.google.com/storage-transfer/docs/metadata-preservation#posix_to. Directory symlinks are only followed if this flag is specified. CAUTION: No validation is applied to the symlink target paths. Once downloaded, preserved symlinks will point to whatever path was specified by the placeholder, regardless of the location or permissions of the path, or whether it actually exists. This feature is not supported on Windows.
+    /// </summary>
+    [CliFlag("--preserve-symlinks")]
+    public bool? PreserveSymlinks { get; set; }
+
+    [Obsolete("Recursive is no longer supported by the installed CLI and has no effect.")]
+    public bool? Recursive { get; set; }
+
+    [Obsolete("CannedAcl is no longer supported by the installed CLI and has no effect.")]
     public string? CannedAcl { get; set; }
 
 }

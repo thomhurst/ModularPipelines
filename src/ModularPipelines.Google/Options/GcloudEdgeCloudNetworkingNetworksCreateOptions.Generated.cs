@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCloudNetworkingNetworksCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -35,13 +35,13 @@ public record GcloudEdgeCloudNetworkingNetworksCreateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Maximum transmission unit (MTU) is the size of the largest IP packet     that can be transmitted on this network. Default value is 1500 bytes,     and the valid values are 1500 and 9000.
+    /// Maximum transmission unit (MTU) is the size of the largest IP packet that can be transmitted on this network. Default value is 1500 bytes, and the valid values are 1500 and 9000.
     /// </summary>
     [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
     public string? Mtu { get; set; }

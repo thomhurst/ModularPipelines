@@ -33,6 +33,21 @@ public class GcloudStorageIntelligenceFindingsRevisions
     #region Commands
 
     /// <summary>
+    /// historical revisions of     intelligence findings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudStorageIntelligenceFindingsRevisionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageIntelligenceFindingsRevisionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// historical     revision description of a finding
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudComputeResourcePoliciesCreate
     #region Commands
 
     /// <summary>
+    /// create Compute Engine Resource     Policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeResourcePoliciesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeResourcePoliciesCreateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     Compute Engine Disk Consistency Group resource policy
     /// </summary>
     /// <param name="options">The command options.</param>

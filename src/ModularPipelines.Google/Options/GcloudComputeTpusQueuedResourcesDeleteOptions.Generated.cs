@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeTpusQueuedResourcesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set to true, any nodes in this queued resource will also be deleted.     Otherwise, the request will only work if the queued resource has no     nodes.
+    /// If set to true, any nodes in this queued resource will also be deleted. Otherwise, the request will only work if the queued resource has no nodes.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

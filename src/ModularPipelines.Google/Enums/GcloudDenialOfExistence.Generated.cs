@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDenialOfExistence
 {
     [EnumValue("nsec")]
-    Nsec,
+    Nsec = 0,
 
     [EnumValue("nsec3")]
-    Nsec3
+    Nsec3 = 1
 }

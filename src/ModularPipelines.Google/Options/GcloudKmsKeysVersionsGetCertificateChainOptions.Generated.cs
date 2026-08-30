@@ -23,9 +23,6 @@ public record GcloudKmsKeysVersionsGetCertificateChainOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
 ) : GcloudOptions
 {
-    [CliOption("--certificate-chain-type", Format = OptionFormat.EqualsSeparated)]
-    public string? CertificateChainType { get; set; }
-
     /// <summary>
     /// The containing key.
     /// </summary>
@@ -49,5 +46,11 @@ public record GcloudKmsKeysVersionsGetCertificateChainOptions(
     /// </summary>
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFile { get; set; }
+
+    /// <summary>
+    /// Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition.
+    /// </summary>
+    [CliOption("--certificate-chain-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificateChainType { get; set; }
 
 }

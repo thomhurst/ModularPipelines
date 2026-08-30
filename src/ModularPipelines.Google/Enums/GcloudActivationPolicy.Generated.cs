@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudActivationPolicy
 {
     [EnumValue("always")]
-    Always,
+    Always = 0,
 
     [EnumValue("never")]
-    Never
+    Never = 1
 }

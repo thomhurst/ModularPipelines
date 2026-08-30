@@ -24,21 +24,33 @@ public record GcloudPreviewComputeInstanceGroupsManagedRollingActionReplaceOptio
 ) : GcloudOptions
 {
     /// <summary>
-    /// Maximum additional number of instances that can be created during the     update process. This can be a fixed number (e.g. 5) or a percentage of     size to the managed instance group (e.g. 10%). Defaults to 0 if the     managed instance group has stateful configuration, or to the number of     zones in which it operates otherwise.
+    /// Maximum additional number of instances that can be created during the update process. This can be a fixed number (e.g. 5) or a percentage of size to the managed instance group (e.g. 10%). Defaults to 0 if the managed instance group has stateful configuration, or to the number of zones in which it operates otherwise.
     /// </summary>
     [CliOption("--max-surge", Format = OptionFormat.EqualsSeparated)]
     public string? MaxSurge { get; set; }
 
     /// <summary>
-    /// Maximum number of instances that can be unavailable during the update     process. This can be a fixed number (e.g. 5) or a percentage of size to     the managed instance group (e.g. 10%). Defaults to the number of zones     in which the managed instance group operates.
+    /// Maximum number of instances that can be unavailable during the update process. This can be a fixed number (e.g. 5) or a percentage of size to the managed instance group (e.g. 10%). Defaults to the number of zones in which the managed instance group operates.
     /// </summary>
     [CliOption("--max-unavailable", Format = OptionFormat.EqualsSeparated)]
     public string? MaxUnavailable { get; set; }
 
     /// <summary>
-    /// Type of replacement method. Specifies what action will be taken to     update instances. Defaults to ``recreate`` if the managed instance     group has stateful configuration, or to ``substitute`` otherwise.     REPLACEMENT_METHOD must be one of:      recreate       Recreate instances and preserve the instance names. The instance       IDs and creation timestamps might change.     substitute       Delete old instances and create instances with new names.    At most one of these can be specified:     --region=REGION      Region of the managed instance group to operate on. If not specified,      you might be prompted to select a region (interactive mode only).      A list of regions can be fetched by running:        $ gcloud compute regions list      Overrides the default compute/region property value for this command      invocation.     --zone=ZONE      Zone of the managed instance group to operate on. If not specified,      you might be prompted to select a zone (interactive mode only).      A list of zones can be fetched by running:        $ gcloud compute zones list      Overrides the default compute/zone property value for this command      invocation.
+    /// Type of replacement method. Specifies what action will be taken to update instances. Defaults to ``recreate`` if the managed instance group has stateful configuration, or to ``substitute`` otherwise. REPLACEMENT_METHOD must be one of: recreate Recreate instances and preserve the instance names. The instance IDs and creation timestamps might change. substitute Delete old instances and create instances with new names.
     /// </summary>
     [CliOption("--replacement-method", Format = OptionFormat.EqualsSeparated)]
     public string? ReplacementMethod { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
 
 }

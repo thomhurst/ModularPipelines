@@ -17,8 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDirectVpcEgress
 {
     [EnumValue("private-ranges-only")]
-    PrivateRangesOnly,
+    PrivateRangesOnly = 0,
 
     [EnumValue("all")]
-    All
+    All = 1,
+
+    [EnumValue("all-traffic")]
+    AllTraffic = 2
 }

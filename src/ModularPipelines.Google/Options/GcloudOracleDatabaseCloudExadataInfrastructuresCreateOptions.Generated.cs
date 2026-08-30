@@ -22,115 +22,127 @@ namespace ModularPipelines.Google.Options;
 public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// User friendly name for this resource.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow User friendly name for this resource.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The GCP Oracle zone where Oracle Exadata Infrastructure is hosted.     Example: us-east4-b-r2. If not specified, the system will pick a zone     based on availability.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The GCP Oracle zone where Oracle Exadata Infrastructure is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability.
     /// </summary>
     [CliOption("--gcp-oracle-zone", Format = OptionFormat.EqualsSeparated)]
     public string? GcpOracleZone { get; set; }
 
     /// <summary>
-    /// Labels or tags associated with the resource.      KEY       Keys must start with a lowercase character and contain only hyphens       (-), underscores (_), lowercase characters, and numbers.      VALUE       Values must contain only hyphens (-), underscores (_), lowercase       characters, and numbers.     Shorthand Example:       --labels=string=string     JSON Example:       --labels='{"string": "string"}'     File Example:       --labels=path_to_file.(yaml|json)
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Labels or tags associated with the resource. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// An optional ID to identify the request. This value is used to identify     duplicate requests. If you make a request with the same request ID and     the original request is still in progress or completed, the server     ignores the second request. This prevents clients from accidentally     creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).    Various properties of Exadata Infrastructure.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// The shape of the Exadata Infrastructure. The shape determines the     amount of CPU, storage, and memory resources allocated to the instance.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The shape of the Exadata Infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--properties-shape", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesShape { get; set; }
 
     /// <summary>
-    /// The number of compute servers for the Exadata Infrastructure.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The number of compute servers for the Exadata Infrastructure.
     /// </summary>
     [CliOption("--properties-compute-count", Format = OptionFormat.EqualsSeparated)]
     public int? PropertiesComputeCount { get; set; }
 
     /// <summary>
-    /// The list of customer contacts.      email       The email address used by Oracle to send notifications regarding       databases and infrastructure.     Shorthand Example:       --properties-customer-contacts=email=string --properties-customer-contacts=email=string     JSON Example:       --properties-customer-contacts='[{"email": "string"}]'     File Example:       --properties-customer-contacts=path_to_file.(yaml|json)
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The list of customer contacts. email The email address used by Oracle to send notifications regarding databases and infrastructure. Shorthand Example: --properties-customer-contacts=email=string --properties-customer-contacts=email=string JSON Example: --properties-customer-contacts='[{"email": "string"}]' File Example: --properties-customer-contacts=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--properties-customer-contacts", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesCustomerContacts { get; set; }
 
     /// <summary>
-    /// The number of Cloud Exadata storage servers for the Exadata     Infrastructure.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The database server type of the Exadata Infrastructure.
+    /// </summary>
+    [CliOption("--properties-database-server-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDatabaseServerType { get; set; }
+
+    /// <summary>
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The number of Cloud Exadata storage servers for the Exadata Infrastructure.
     /// </summary>
     [CliOption("--properties-storage-count", Format = OptionFormat.EqualsSeparated)]
     public int? PropertiesStorageCount { get; set; }
 
     /// <summary>
-    /// The total storage allocated to the Exadata Infrastructure resource, in     gigabytes (GB).    Maintenance window as defined by Oracle.   https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The storage server type of the Exadata Infrastructure.
+    /// </summary>
+    [CliOption("--properties-storage-server-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesStorageServerType { get; set; }
+
+    /// <summary>
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The total storage allocated to the Exadata Infrastructure resource, in gigabytes (GB).
     /// </summary>
     [CliOption("--properties-total-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
     public int? PropertiesTotalStorageSizeGb { get; set; }
 
     /// <summary>
-    /// Determines the amount of time the system will wait before the start of     each database server patching operation. Custom action timeout is in     minutes and valid value is between 15 to 120 (inclusive).
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Determines the amount of time the system will wait before the start of each database server patching operation. Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive).
     /// </summary>
     [CliOption("--maintenance-window-custom-action-timeout-mins", Format = OptionFormat.EqualsSeparated)]
     public int? MaintenanceWindowCustomActionTimeoutMins { get; set; }
 
     /// <summary>
-    /// Days during the week when maintenance should be performed.     MAINTENANCE_WINDOW_DAYS_OF_WEEK must be one of:      friday       Friday     monday       Monday     saturday       Saturday     sunday       Sunday     thursday       Thursday     tuesday       Tuesday     wednesday       Wednesday
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Days during the week when maintenance should be performed. MAINTENANCE_WINDOW_DAYS_OF_WEEK must be one of: friday Friday monday Monday saturday Saturday sunday Sunday thursday Thursday tuesday Tuesday wednesday Wednesday
     /// </summary>
     [CliOption("--maintenance-window-days-of-week", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MaintenanceWindowDaysOfWeek { get; set; }
 
     /// <summary>
-    /// The window of hours during the day when maintenance should be     performed. The window is a 4 hour slot. Valid values are: 0 -     represents time slot 0:00 - 3:59 UTC 4 - represents time slot 4:00 -     7:59 UTC 8 - represents time slot 8:00 - 11:59 UTC 12 - represents time     slot 12:00 - 15:59 UTC 16 - represents time slot 16:00 - 19:59 UTC 20 -     represents time slot 20:00 - 23:59 UTC
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are: 0 - represents time slot 0:00 - 3:59 UTC 4 - represents time slot 4:00 - 7:59 UTC 8 - represents time slot 8:00 - 11:59 UTC 12 - represents time slot 12:00 - 15:59 UTC 16 - represents time slot 16:00 - 19:59 UTC 20 - represents time slot 20:00 - 23:59 UTC
     /// </summary>
     [CliOption("--maintenance-window-hours-of-day", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MaintenanceWindowHoursOfDay { get; set; }
 
     /// <summary>
-    /// If true, enables the configuration of a custom action timeout (waiting     period) between database server patching operations.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
     /// </summary>
     [CliFlag("--maintenance-window-is-custom-action-timeout-enabled")]
     public bool? MaintenanceWindowIsCustomActionTimeoutEnabled { get; set; }
 
     /// <summary>
-    /// Lead time window allows user to set a lead time to prepare for a down     time. The lead time is in weeks and valid value is between 1 to 4.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4.
     /// </summary>
     [CliOption("--maintenance-window-lead-time-week", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowLeadTimeWeek { get; set; }
 
     /// <summary>
-    /// Months during the year when maintenance should be performed.     MAINTENANCE_WINDOW_MONTHS must be one of:      april       The month of April.     august       The month of August.     december       The month of December.     february       The month of February.     january       The month of January.     july       The month of July.     june       The month of June.     march       The month of March.     may       The month of May.     november       The month of November.     october       The month of October.     september       The month of September.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Months during the year when maintenance should be performed. MAINTENANCE_WINDOW_MONTHS must be one of: april The month of April. august The month of August. december The month of December. february The month of February. january The month of January. july The month of July. june The month of June. march The month of March. may The month of May. november The month of November. october The month of October. september The month of September.
     /// </summary>
     [CliOption("--maintenance-window-months", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MaintenanceWindowMonths { get; set; }
 
     /// <summary>
-    /// Cloud CloudExadataInfrastructure node patching method, either "ROLLING"     or "NONROLLING". Default value is ROLLING.     MAINTENANCE_WINDOW_PATCHING_MODE must be one of:      non-rolling       The non-rolling maintenance method first updates your storage       servers at the same time, then your database servers at the same       time.     rolling       Updates the Cloud Exadata database server hosts in a rolling       fashion.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Cloud CloudExadataInfrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING. MAINTENANCE_WINDOW_PATCHING_MODE must be one of: non-rolling The non-rolling maintenance method first updates your storage servers at the same time, then your database servers at the same time. rolling Updates the Cloud Exadata database server hosts in a rolling fashion.
     /// </summary>
     [CliOption("--maintenance-window-patching-mode", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowPatchingMode { get; set; }
 
     /// <summary>
-    /// The maintenance window scheduling preference.     MAINTENANCE_WINDOW_PREFERENCE must be one of:      custom-preference       Custom preference.     no-preference       No preference.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The maintenance window scheduling preference. MAINTENANCE_WINDOW_PREFERENCE must be one of: custom-preference Custom preference. no-preference No preference.
     /// </summary>
     [CliOption("--maintenance-window-preference", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowPreference { get; set; }
 
     /// <summary>
-    /// Weeks during the month when maintenance should be performed. Weeks     start on the 1st, 8th, 15th, and 22nd days of the month, and have a     duration of 7 days. Weeks start and end based on calendar dates, not     days of the week.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week.
     /// </summary>
     [CliOption("--maintenance-window-weeks-of-month", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MaintenanceWindowWeeksOfMonth { get; set; }

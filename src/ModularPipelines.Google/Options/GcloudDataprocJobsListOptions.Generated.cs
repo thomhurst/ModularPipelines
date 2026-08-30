@@ -29,7 +29,7 @@ public record GcloudDataprocJobsListOptions : GcloudOptions
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// Dataproc region to use. Each Dataproc region constitutes an independent     resource namespace constrained to deploying instances into Compute     Engine zones inside the region. Overrides the default dataproc/region     property value for this command invocation.
+    /// Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

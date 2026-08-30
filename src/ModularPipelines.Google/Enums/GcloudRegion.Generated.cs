@@ -17,14 +17,15 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudRegion
 {
     [EnumValue("asia-east1")]
-    AsiaEast1,
+    AsiaEast1 = 0,
 
     [EnumValue("europe-west1")]
-    EuropeWest1,
+    EuropeWest1 = 1,
 
     [EnumValue("us-east1")]
-    UsEast1,
+    UsEast1 = 2,
 
     [EnumValue("us-west1")]
-    UsWest1
+    UsWest1 = 3,
+
 }

@@ -33,6 +33,21 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
     #region Commands
 
     /// <summary>
+    /// manage Repository     Group resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     repository group for a given code repository index instance
     /// </summary>
     /// <param name="options">The command options.</param>

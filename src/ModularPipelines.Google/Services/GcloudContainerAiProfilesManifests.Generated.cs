@@ -33,6 +33,21 @@ public class GcloudContainerAiProfilesManifests
     #region Commands
 
     /// <summary>
+    /// generate optimized Kubernetes     manifests
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerAiProfilesManifestsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAiProfilesManifestsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// deploy     Kubernetes manifests with compute, load balancing, and autoscaling     capabilities
     /// </summary>
     /// <param name="options">The command options.</param>

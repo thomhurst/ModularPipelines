@@ -22,15 +22,69 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSpannerInstancePartitionsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Description of the instance partition.    At most one of these can be specified:     --nodes=NODES      Number of nodes for the instance partition.     --processing-units=PROCESSING_UNITS      Number of processing units for the instance partition.     Or at least one of these can be specified:      Autoscaling      --autoscaling-storage-target=AUTOSCALING_STORAGE_TARGET       Specifies the target percentage of storage the autoscaled instance       can utilize.      Autoscaling CPU targets.      --autoscaling-high-priority-cpu-target=AUTOSCALING_HIGH_PRIORITY_CPU_TARGET       Specifies the target percentage of high-priority CPU the autoscaled       instance can utilize.      --autoscaling-total-cpu-target=AUTOSCALING_TOTAL_CPU_TARGET       Specifies the target percentage of total CPU the autoscaled       instance can utilize.      Autoscaling limits can be defined in either nodes or processing units.      At most one of these can be specified:       Autoscaling limits in nodes:       --autoscaling-max-nodes=AUTOSCALING_MAX_NODES        Maximum number of nodes for the autoscaled instance.       --autoscaling-min-nodes=AUTOSCALING_MIN_NODES        Minimum number of nodes for the autoscaled instance.       Autoscaling limits in processing units:       --autoscaling-max-processing-units=AUTOSCALING_MAX_PROCESSING_UNITS        Maximum number of processing units for the autoscaled instance.       --autoscaling-min-processing-units=AUTOSCALING_MIN_PROCESSING_UNITS        Minimum number of processing units for the autoscaled instance.
+    /// Description of the instance partition.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Number of nodes for the instance partition.
+    /// </summary>
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? Nodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Number of processing units for the instance partition.
+    /// </summary>
+    [CliOption("--processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? ProcessingUnits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling CPU targets. Specifies the target percentage of storage the autoscaled instance can utilize.
+    /// </summary>
+    [CliOption("--autoscaling-storage-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingStorageTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling CPU targets. Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
+    /// </summary>
+    [CliOption("--autoscaling-high-priority-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingHighPriorityCpuTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling CPU targets. Specifies the target percentage of total CPU the autoscaled instance can utilize.
+    /// </summary>
+    [CliOption("--autoscaling-total-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingTotalCpuTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Maximum number of nodes for the autoscaled instance.
+    /// </summary>
+    [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Minimum number of nodes for the autoscaled instance.
+    /// </summary>
+    [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Maximum number of processing units for the autoscaled instance.
+    /// </summary>
+    [CliOption("--autoscaling-max-processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxProcessingUnits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Minimum number of processing units for the autoscaled instance.
+    /// </summary>
+    [CliOption("--autoscaling-min-processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinProcessingUnits { get; set; }
 
 }

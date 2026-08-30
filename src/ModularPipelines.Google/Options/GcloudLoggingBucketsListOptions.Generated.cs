@@ -22,9 +22,33 @@ namespace ModularPipelines.Google.Options;
 public record GcloudLoggingBucketsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Location from which to list buckets. By default, buckets in all     locations will be listed    At most one of these can be specified:     --billing-account=BILLING_ACCOUNT_ID      Billing account of the buckets to list.     --folder=FOLDER_ID      Folder of the buckets to list.     --organization=ORGANIZATION_ID      Organization of the buckets to list.     --project=PROJECT_ID      Project of the buckets to list.      The Google Cloud project ID to use for this invocation. If omitted,      then the current project is assumed; the current project can be      listed using gcloud config list --format='text(core.project)' and can      be set using gcloud config set project PROJECTID.      --project and its fallback core/project property play two roles in      the invocation. It specifies the project of the resource to operate      on. It also specifies the project for API enablement check, quota,      and billing. To specify a different project for quota and billing,      use --billing-project or billing/quota_project property.
+    /// Location from which to list buckets. By default, buckets in all locations will be listed
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Billing account of the buckets to list.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder of the buckets to list.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization of the buckets to list.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project of the buckets to list. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
 
 }

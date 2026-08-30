@@ -24,7 +24,7 @@ public record GcloudStorageBucketsAnywhereCachesDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Shows metadata in the format returned by the API instead of     standardizing it.
+    /// Shows metadata in the format returned by the API instead of standardizing it.
     /// </summary>
     [CliFlag("--raw")]
     public bool? Raw { get; set; }

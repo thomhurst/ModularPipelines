@@ -15,78 +15,81 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud scc commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudScc
 {
     /// <summary>
     /// gcloud assets sub-commands.
     /// </summary>
-    GcloudSccAssets Assets { get; }
+    GcloudSccAssets Assets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud bqexports sub-commands.
     /// </summary>
-    GcloudSccBqexports Bqexports { get; }
+    GcloudSccBqexports Bqexports => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud custom-modules sub-commands.
     /// </summary>
-    GcloudSccCustomModules CustomModules { get; }
+    GcloudSccCustomModules CustomModules => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud findings sub-commands.
     /// </summary>
-    GcloudSccFindings Findings { get; }
+    GcloudSccFindings Findings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud iac-validation-reports sub-commands.
     /// </summary>
-    GcloudSccIacValidationReports IacValidationReports { get; }
+    GcloudSccIacValidationReports IacValidationReports => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud manage sub-commands.
     /// </summary>
-    GcloudSccManage Manage { get; }
+    GcloudSccManage Manage => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud muteconfigs sub-commands.
     /// </summary>
-    GcloudSccMuteconfigs Muteconfigs { get; }
+    GcloudSccMuteconfigs Muteconfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud notifications sub-commands.
     /// </summary>
-    GcloudSccNotifications Notifications { get; }
+    GcloudSccNotifications Notifications => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudSccOperations Operations { get; }
+    GcloudSccOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud posture-deployments sub-commands.
     /// </summary>
-    GcloudSccPostureDeployments PostureDeployments { get; }
+    GcloudSccPostureDeployments PostureDeployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud posture-operations sub-commands.
     /// </summary>
-    GcloudSccPostureOperations PostureOperations { get; }
+    GcloudSccPostureOperations PostureOperations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud postures sub-commands.
     /// </summary>
-    GcloudSccPostures Postures { get; }
+    GcloudSccPostures Postures => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud posture-templates sub-commands.
     /// </summary>
-    GcloudSccPostureTemplates PostureTemplates { get; }
+    GcloudSccPostureTemplates PostureTemplates => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud sources sub-commands.
     /// </summary>
-    GcloudSccSources Sources { get; }
+    GcloudSccSources Sources => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud SCC resources
@@ -95,9 +98,7 @@ public interface IGcloudScc
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudSccOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudSccOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

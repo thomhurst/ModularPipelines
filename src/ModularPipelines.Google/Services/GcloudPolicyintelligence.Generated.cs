@@ -49,6 +49,21 @@ public class GcloudPolicyintelligence : IGcloudPolicyintelligence
     #region Commands
 
     /// <summary>
+    /// a platform to help better understand, use, and     manage policies at scale
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPolicyIntelligenceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPolicyIntelligenceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// query activities on cloud     resource
     /// </summary>
     /// <param name="options">The command options.</param>

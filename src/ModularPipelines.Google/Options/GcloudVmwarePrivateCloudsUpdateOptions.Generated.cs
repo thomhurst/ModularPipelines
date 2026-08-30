@@ -22,15 +22,33 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwarePrivateCloudsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// Text describing the private cloud
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// The encryption type to use for the private cloud. CMEK requires --kms-key to be set. ENCRYPTION_TYPE must be one of: CMEK Customer managed encryption key. GMEK Google managed encryption key.
+    /// </summary>
+    [CliOption("--encryption-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionType { get; set; }
+
+    /// <summary>
+    /// The Cloud KMS key resource name to use for encryption. Format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. Required and only applicable when --encryption-type is CMEK.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
 
 }

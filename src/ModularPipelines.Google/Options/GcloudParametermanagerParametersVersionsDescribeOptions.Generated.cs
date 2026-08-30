@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudParametermanagerParametersVersionsDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// View of the ParameterVersion. In the default FULL view, all metadata &amp;     payload associated with the ParameterVersion will be returned. VIEW     must be one of:      basic       Include only the metadata for the resource.     full       Include metadata &amp; other relevant payload data as well. This is the       default view.
+    /// View of the ParameterVersion. In the default FULL view, all metadata &amp; payload associated with the ParameterVersion will be returned. VIEW must be one of: basic Include only the metadata for the resource. full Include metadata &amp; other relevant payload data as well. This is the default view.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }

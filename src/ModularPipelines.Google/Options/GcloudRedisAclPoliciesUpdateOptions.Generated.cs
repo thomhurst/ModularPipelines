@@ -22,15 +22,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRedisAclPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Idempotent request UUID.    Update rules.    At most one of these can be specified:     --rules=[rule=RULE],[username=USERNAME]      Set rules to new value. The ACL rules within the ACL policy.       rule        The rule to be applied to the username. Ex: "on &gt;password123 ~        +@all" The format of the rule is defined by Redis OSS:        https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/.       username        Specifies the IAM user or service account to be added to the ACL        policy. This username will be directly set on the Redis OSS.      Shorthand Example:        --rules=rule=string,username=string --rules=rule=string,username=string      JSON Example:        --rules='[{"rule": "string", "username": "string"}]'      File Example:        --rules=path_to_file.(yaml|json)     Or at least one of these can be specified:      --add-rules=[rule=RULE],[username=USERNAME]       Add new value to rules list. The ACL rules within the ACL policy.        rule         The rule to be applied to the username. Ex: "on &gt;password123 ~         +@all" The format of the rule is defined by Redis OSS:         https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/.        username         Specifies the IAM user or service account to be added to the         ACL policy. This username will be directly set on the Redis         OSS.       Shorthand Example:         --add-rules=rule=string,username=string --add-rules=rule=string,username=string       JSON Example:         --add-rules='[{"rule": "string", "username": "string"}]'       File Example:         --add-rules=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-rules        Clear rules value and set to empty list.       --remove-rules=[rule=RULE],[username=USERNAME]        Remove existing value from rules list. The ACL rules within the        ACL policy.         rule          The rule to be applied to the username. Ex: "on &gt;password123          ~ +@all" The format of the rule is defined by Redis OSS:          https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/.         username          Specifies the IAM user or service account to be added to the          ACL policy. This username will be directly set on the Redis          OSS.        Shorthand Example:          --remove-rules=rule=string,username=string --remove-rules=rule=string,username=string        JSON Example:          --remove-rules='[{"rule": "string", "username": "string"}]'        File Example:          --remove-rules=path_to_file.(yaml|json)
+    /// Idempotent request UUID.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Update rules. At most one of these can be specified: Set rules to new value. The ACL rules within the ACL policy. rule The rule to be applied to the username. Ex: "on &gt;password123 ~ +@all" The format of the rule is defined by Redis OSS: https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/. username Specifies the IAM user or service account to be added to the ACL policy. This username will be directly set on the Redis OSS. Shorthand Example: --rules=rule=string,username=string --rules=rule=string,username=string JSON Example: --rules='[{"rule": "string", "username": "string"}]' File Example: --rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--rules", Format = OptionFormat.EqualsSeparated)]
+    public string? Rules { get; set; }
+
+    /// <summary>
+    /// Update rules. At most one of these can be specified: Or at least one of these can be specified: Add new value to rules list. The ACL rules within the ACL policy. rule The rule to be applied to the username. Ex: "on &gt;password123 ~ +@all" The format of the rule is defined by Redis OSS: https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/. username Specifies the IAM user or service account to be added to the ACL policy. This username will be directly set on the Redis OSS. Shorthand Example: --add-rules=rule=string,username=string --add-rules=rule=string,username=string JSON Example: --add-rules='[{"rule": "string", "username": "string"}]' File Example: --add-rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-rules", Format = OptionFormat.EqualsSeparated)]
+    public string? AddRules { get; set; }
+
+    /// <summary>
+    /// Update rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear rules value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-rules")]
+    public bool? ClearRules { get; set; }
+
+    /// <summary>
+    /// Update rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from rules list. The ACL rules within the ACL policy. rule The rule to be applied to the username. Ex: "on &gt;password123 ~ +@all" The format of the rule is defined by Redis OSS: https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/. username Specifies the IAM user or service account to be added to the ACL policy. This username will be directly set on the Redis OSS. Shorthand Example: --remove-rules=rule=string,username=string --remove-rules=rule=string,username=string JSON Example: --remove-rules='[{"rule": "string", "username": "string"}]' File Example: --remove-rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-rules", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveRules { get; set; }
 
 }

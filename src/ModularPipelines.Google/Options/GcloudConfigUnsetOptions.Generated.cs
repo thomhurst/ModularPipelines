@@ -24,7 +24,7 @@ public record GcloudConfigUnsetOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If set, the property is updated for the entire Google Cloud CLI     installation. Otherwise, by default, the property is updated only in     the currently active configuration.
+    /// If set, the property is updated for the entire Google Cloud CLI installation. Otherwise, by default, the property is updated only in the currently active configuration.
     /// </summary>
     [CliFlag("--installation")]
     public bool? Installation { get; set; }

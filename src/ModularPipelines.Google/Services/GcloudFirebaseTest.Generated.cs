@@ -51,4 +51,23 @@ public class GcloudFirebaseTest
     public GcloudFirebaseTestNetworkProfiles NetworkProfiles => _networkProfiles ??= new GcloudFirebaseTestNetworkProfiles(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// interact with Firebase Test Lab
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudFirebaseTestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirebaseTestOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

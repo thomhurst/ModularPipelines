@@ -33,6 +33,21 @@ public class GcloudNetworksecurityAddressGroups
     #region Commands
 
     /// <summary>
+    /// manage Network Security     AddressGroups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecurityAddressGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityAddressGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add items to an address     group
     /// </summary>
     /// <param name="options">The command options.</param>

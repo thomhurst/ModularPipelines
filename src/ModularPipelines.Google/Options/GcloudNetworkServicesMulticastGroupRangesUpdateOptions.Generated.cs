@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesMulticastGroupRangesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -35,9 +35,69 @@ public record GcloudNetworkServicesMulticastGroupRangesUpdateOptions : GcloudOpt
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud network-services multicast-group-ranges update \         --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud network-services multicast-group-ranges update \         --clear-labels --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Update consumer_accept_list.    At most one of these can be specified:     --consumer-accept-list=[CONSUMER_ACCEPT_LIST,...]      Set consumer_accept_list to new value.     Or at least one of these can be specified:      --add-consumer-accept-list=[ADD_CONSUMER_ACCEPT_LIST,...]       Add new value to consumer_accept_list list.      At most one of these can be specified:       --clear-consumer-accept-list        Clear consumer_accept_list value and set to empty list.       --remove-consumer-accept-list=[REMOVE_CONSUMER_ACCEPT_LIST,...]        Remove existing value from consumer_accept_list list.
+    /// Whether to enable logging for this multicast group range. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Whether to enable logging for this multicast group range. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// Whether an empty consumer accept list will reject all consumer projects. Use --require-explicit-accept to enable and --no-require-explicit-accept to disable.
+    /// </summary>
+    [CliFlag("--require-explicit-accept")]
+    public bool? RequireExplicitAccept { get; set; }
+
+    /// <summary>
+    /// Whether an empty consumer accept list will reject all consumer projects. Use --require-explicit-accept to enable and --no-require-explicit-accept to disable.
+    /// </summary>
+    [CliFlag("--no-require-explicit-accept")]
+    public bool? NoRequireExplicitAccept { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud network-services multicast-group-ranges update \ --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud network-services multicast-group-ranges update \ --clear-labels --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Set consumer_accept_list to new value.
+    /// </summary>
+    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ConsumerAcceptList { get; set; }
+
+    /// <summary>
+    /// Add new value to consumer_accept_list list.
+    /// </summary>
+    [CliOption("--add-consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddConsumerAcceptList { get; set; }
+
+    /// <summary>
+    /// Clear consumer_accept_list value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-consumer-accept-list")]
+    public bool? ClearConsumerAcceptList { get; set; }
+
+    /// <summary>
+    /// Remove existing value from consumer_accept_list list.
+    /// </summary>
+    [CliOption("--remove-consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveConsumerAcceptList { get; set; }
 
 }

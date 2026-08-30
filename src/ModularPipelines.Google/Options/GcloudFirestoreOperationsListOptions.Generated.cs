@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "operations", "list")]
 public record GcloudFirestoreOperationsListOptions : GcloudOptions
 {
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("Database is no longer supported by the installed CLI and has no effect.")]
     public string? Database { get; set; }
 
 }

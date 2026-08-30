@@ -24,7 +24,7 @@ public record GcloudMlVisionDetectTextTiffOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Maximum number of response protos to put into each output JSON file on     Google Cloud Storage. The valid range is [1, 100]. If not specified,     the default value is 20.
+    /// Maximum number of response protos to put into each output JSON file on Google Cloud Storage. The valid range is [1, 100]. If not specified, the default value is 20.
     /// </summary>
     [CliOption("--batch-size", Format = OptionFormat.EqualsSeparated)]
     public int? BatchSize { get; set; }

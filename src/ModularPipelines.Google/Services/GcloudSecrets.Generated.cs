@@ -130,6 +130,21 @@ public class GcloudSecrets : IGcloudSecrets
     }
 
     /// <summary>
+    /// enable managed rotation for a     secret
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> EnableManagedRotationAsync(
+        GcloudSecretsEnableManagedRotationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSecretsEnableManagedRotationOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// get the IAM policy for the secret
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -172,6 +187,21 @@ public class GcloudSecrets : IGcloudSecrets
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSecretsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// rotate a secret
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RotateSecretAsync(
+        GcloudSecretsRotateSecretOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSecretsRotateSecretOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

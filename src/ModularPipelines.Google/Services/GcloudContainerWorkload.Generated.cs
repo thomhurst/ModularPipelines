@@ -39,4 +39,23 @@ public class GcloudContainerWorkload
     public GcloudContainerWorkloadProfiles Profiles => _profiles ??= new GcloudContainerWorkloadProfiles(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Workload Optimizer related workloads for     GKE
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerWorkloadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerWorkloadOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

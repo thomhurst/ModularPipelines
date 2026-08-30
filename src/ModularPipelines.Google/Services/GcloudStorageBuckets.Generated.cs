@@ -49,6 +49,21 @@ public class GcloudStorageBuckets
     #region Commands
 
     /// <summary>
+    /// manage Cloud Storage buckets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudStorageBucketsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageBucketsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add an IAM policy binding     to a bucket
     /// </summary>
     /// <param name="options">The command options.</param>

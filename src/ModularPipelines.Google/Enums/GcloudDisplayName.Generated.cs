@@ -10,21 +10,18 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
-/// <summary>
-/// Allowed values for --displayname.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDisplayName
 {
     [EnumValue("minute")]
-    Minute,
+    Minute = 0,
 
     [EnumValue("hour")]
-    Hour,
+    Hour = 1,
 
     [EnumValue("day")]
-    Day,
+    Day = 2,
 
     [EnumValue("month")]
-    Month
+    Month = 3
 }

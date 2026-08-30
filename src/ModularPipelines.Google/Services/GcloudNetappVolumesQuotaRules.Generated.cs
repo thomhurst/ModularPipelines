@@ -33,6 +33,21 @@ public class GcloudNetappVolumesQuotaRules
     #region Commands
 
     /// <summary>
+    /// create and manage Cloud NetApp Volume     QuotaRules
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetappVolumesQuotaRulesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetappVolumesQuotaRulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud NetApp Volume     Quota Rule
     /// </summary>
     /// <param name="options">The command options.</param>

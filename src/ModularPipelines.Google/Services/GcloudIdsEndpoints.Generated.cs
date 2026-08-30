@@ -33,6 +33,21 @@ public class GcloudIdsEndpoints
     #region Commands
 
     /// <summary>
+    /// create and manage Cloud IDS Endpoints
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIdsEndpointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIdsEndpointsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud IDS endpoint
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudStrictHostKeyChecking
 {
     [EnumValue("yes")]
-    Yes,
+    Yes = 0,
 
     [EnumValue("no")]
-    No,
+    No = 1,
 
     [EnumValue("ask")]
-    Ask
+    Ask = 2
 }

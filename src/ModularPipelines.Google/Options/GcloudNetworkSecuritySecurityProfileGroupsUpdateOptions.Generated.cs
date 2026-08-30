@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is False.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is False.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -35,9 +35,81 @@ public record GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions : GcloudOp
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud network-security security-profile-groups update \         --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud network-security security-profile-groups update \         --clear-labels --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --clear-threat-prevention-profile      Clear the threat-prevention-profile field.     Or at least one of these can be specified:      Threat prevention profile resource - Path to Threat Prevention Profile     resource. The arguments in this group can be used to specify the     attributes of this resource. This resource can be one of the following     types: [networksecurity.organizations.locations.securityProfiles,     networksecurity.projects.locations.securityProfiles].      --threat-prevention-profile=THREAT_PREVENTION_PROFILE       ID of the threat_prevention_profile or fully qualified identifier       for the threat_prevention_profile.       To set the name attribute:       ▫ provide the argument --threat-prevention-profile on the command        line.       This flag argument must be specified if any of the other arguments       in this group are specified.      --threat-prevention-profile-location=THREAT_PREVENTION_PROFILE_LOCATION       Location of the threat_prevention_profile. NOTE: Only global       security profiles are supported.       To set the location attribute:       ▫ provide the argument --threat-prevention-profile on the command        line with a fully specified name;       ▫ provide the argument --threat-prevention-profile-location on        the command line;       ▫ provide the argument --security-profile-location on the command        line;       ▫ provide the argument --location on the command line;       ▫ provide the argument security_profile_group on the command line        with a fully specified name.      --threat-prevention-profile-organization=THREAT_PREVENTION_PROFILE_ORGANIZATION       Organization ID of the Security Profile.       To set the organization attribute:       ▫ provide the argument --threat-prevention-profile on the command        line with a fully specified name;       ▫ provide the argument --threat-prevention-profile-organization        on the command line;       ▫ provide the argument --security-profile-organization on the        command line;       ▫ provide the argument --organization on the command line;       ▫ provide the argument security_profile_group on the command line        with a fully specified name. Must be specified for resource of        type [networksecurity.organizations.locations.securityProfiles].      --threat-prevention-profile-project=THREAT_PREVENTION_PROFILE_PROJECT       Project ID of the threat_prevention_profile.       To set the project attribute:       ▫ provide the argument --threat-prevention-profile on the command        line with a fully specified name;       ▫ provide the argument --threat-prevention-profile-project on the        command line;       ▫ set the property core/project;       ▫ provide the argument security_profile_group on the command line        with a fully specified name. Must be specified for resource of        type [networksecurity.projects.locations.securityProfiles].    At most one of these can be specified:     --clear-url-filtering-profile      Clear the url-filtering-profile field.     Or at least one of these can be specified:      Url filtering profile resource - Path to URL Filtering Profile     resource. The arguments in this group can be used to specify the     attributes of this resource. This resource can be one of the following     types: [networksecurity.organizations.locations.securityProfiles,     networksecurity.projects.locations.securityProfiles].      --url-filtering-profile=URL_FILTERING_PROFILE       ID of the url_filtering_profile or fully qualified identifier for       the url_filtering_profile.       To set the name attribute:       ▫ provide the argument --url-filtering-profile on the command        line.       This flag argument must be specified if any of the other arguments       in this group are specified.      --url-filtering-profile-location=URL_FILTERING_PROFILE_LOCATION       Location of the url_filtering_profile. NOTE: Only global security       profiles are supported.       To set the location attribute:       ▫ provide the argument --url-filtering-profile on the command        line with a fully specified name;       ▫ provide the argument --url-filtering-profile-location on the        command line;       ▫ provide the argument --location on the command line;       ▫ provide the argument security_profile_group on the command line        with a fully specified name.      --url-filtering-profile-organization=URL_FILTERING_PROFILE_ORGANIZATION       Organization ID of the Security Profile.       To set the organization attribute:       ▫ provide the argument --url-filtering-profile on the command        line with a fully specified name;       ▫ provide the argument --url-filtering-profile-organization on        the command line;       ▫ provide the argument --organization on the command line;       ▫ provide the argument security_profile_group on the command line        with a fully specified name. Must be specified for resource of        type [networksecurity.organizations.locations.securityProfiles].      --url-filtering-profile-project=URL_FILTERING_PROFILE_PROJECT       Project ID of the url_filtering_profile.       To set the project attribute:       ▫ provide the argument --url-filtering-profile on the command        line with a fully specified name;       ▫ provide the argument --url-filtering-profile-project on the        command line;       ▫ set the property core/project;       ▫ provide the argument security_profile_group on the command line        with a fully specified name. Must be specified for resource of        type [networksecurity.projects.locations.securityProfiles].
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud network-security security-profile-groups update \ --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud network-security security-profile-groups update \ --clear-labels --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the threat-prevention-profile field.
+    /// </summary>
+    [CliFlag("--clear-threat-prevention-profile")]
+    public bool? ClearThreatPreventionProfile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Threat prevention profile resource - Path to Threat Prevention Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. ID of the threat_prevention_profile or fully qualified identifier for the threat_prevention_profile. To set the name attribute: ▫ provide the argument --threat-prevention-profile on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--threat-prevention-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreatPreventionProfile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Threat prevention profile resource - Path to Threat Prevention Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Location of the threat_prevention_profile. NOTE: Only global security profiles are supported. To set the location attribute: ▫ provide the argument --threat-prevention-profile on the command line with a fully specified name; ▫ provide the argument --threat-prevention-profile-location on the command line; ▫ provide the argument --security-profile-location on the command line; ▫ provide the argument --location on the command line; ▫ provide the argument security_profile_group on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--threat-prevention-profile-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreatPreventionProfileLocation { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Threat prevention profile resource - Path to Threat Prevention Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Organization ID of the Security Profile. To set the organization attribute: ▫ provide the argument --threat-prevention-profile on the command line with a fully specified name; ▫ provide the argument --threat-prevention-profile-organization on the command line; ▫ provide the argument --security-profile-organization on the command line; ▫ provide the argument --organization on the command line; ▫ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.organizations.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--threat-prevention-profile-organization", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreatPreventionProfileOrganization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Threat prevention profile resource - Path to Threat Prevention Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Project ID of the threat_prevention_profile. To set the project attribute: ▫ provide the argument --threat-prevention-profile on the command line with a fully specified name; ▫ provide the argument --threat-prevention-profile-project on the command line; ▫ set the property core/project; ▫ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.projects.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--threat-prevention-profile-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreatPreventionProfileProject { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the url-filtering-profile field.
+    /// </summary>
+    [CliFlag("--clear-url-filtering-profile")]
+    public bool? ClearUrlFilteringProfile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Url filtering profile resource - Path to URL Filtering Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. ID of the url_filtering_profile or fully qualified identifier for the url_filtering_profile. To set the name attribute: ▫ provide the argument --url-filtering-profile on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--url-filtering-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlFilteringProfile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Url filtering profile resource - Path to URL Filtering Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Location of the url_filtering_profile. NOTE: Only global security profiles are supported. To set the location attribute: ▫ provide the argument --url-filtering-profile on the command line with a fully specified name; ▫ provide the argument --url-filtering-profile-location on the command line; ▫ provide the argument --location on the command line; ▫ provide the argument security_profile_group on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--url-filtering-profile-location", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlFilteringProfileLocation { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Url filtering profile resource - Path to URL Filtering Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Organization ID of the Security Profile. To set the organization attribute: ▫ provide the argument --url-filtering-profile on the command line with a fully specified name; ▫ provide the argument --url-filtering-profile-organization on the command line; ▫ provide the argument --organization on the command line; ▫ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.organizations.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--url-filtering-profile-organization", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlFilteringProfileOrganization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Url filtering profile resource - Path to URL Filtering Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Project ID of the url_filtering_profile. To set the project attribute: ▫ provide the argument --url-filtering-profile on the command line with a fully specified name; ▫ provide the argument --url-filtering-profile-project on the command line; ▫ set the property core/project; ▫ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.projects.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--url-filtering-profile-project", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlFilteringProfileProject { get; set; }
 
 }

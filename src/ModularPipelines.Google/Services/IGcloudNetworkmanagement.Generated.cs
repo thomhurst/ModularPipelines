@@ -15,27 +15,40 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud networkmanagement commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudNetworkmanagement
 {
     /// <summary>
     /// gcloud connectivity-tests sub-commands.
     /// </summary>
-    GcloudNetworkmanagementConnectivityTests ConnectivityTests { get; }
+    GcloudNetworkmanagementConnectivityTests ConnectivityTests => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud network-monitoring-providers sub-commands.
     /// </summary>
-    GcloudNetworkmanagementNetworkMonitoringProviders NetworkMonitoringProviders { get; }
+    GcloudNetworkmanagementNetworkMonitoringProviders NetworkMonitoringProviders => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudNetworkmanagementOperations Operations { get; }
+    GcloudNetworkmanagementOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud vpc-flow-logs-configs sub-commands.
     /// </summary>
-    GcloudNetworkmanagementVpcFlowLogsConfigs VpcFlowLogsConfigs { get; }
+    GcloudNetworkmanagementVpcFlowLogsConfigs VpcFlowLogsConfigs => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Network Management resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudNetworkManagementOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecuritySecurityProfilesImportOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is False.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is False.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Path to a YAML file containing configuration export data.     Alternatively, you may omit this flag to read from standard input. For     a schema describing the export/import format, see:     $CLOUDSDKROOT/lib/googlecloudsdk/schemas/networksecurity/v1/SecurityProfile.yaml.       Note: $CLOUDSDKROOT represents the Google Cloud CLI's installation directory.
+    /// Path to a YAML file containing configuration export data. Alternatively, you may omit this flag to read from standard input. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/networksecurity/v1/SecurityProfile.yaml. Note: $CLOUDSDKROOT represents the Google Cloud CLI's installation directory.
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }

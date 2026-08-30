@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSccPostureDeploymentsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -34,7 +34,7 @@ public record GcloudSccPostureDeploymentsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Etag is an optional flag. If the provided Etag doesn't match the server     generated Etag, the update operation won't proceed.
+    /// Etag is an optional flag. If the provided Etag doesn't match the server generated Etag, the update operation won't proceed.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
@@ -46,7 +46,7 @@ public record GcloudSccPostureDeploymentsUpdateOptions : GcloudOptions
     public string? UpdateMask { get; set; }
 
     /// <summary>
-    /// Relative name of the posture to be updated, like     organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;.
+    /// Relative name of the posture to be updated, like organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;.
     /// </summary>
     [CliOption("--posture-id", Format = OptionFormat.EqualsSeparated)]
     public string? PostureId { get; set; }

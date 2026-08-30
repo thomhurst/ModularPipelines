@@ -22,36 +22,64 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageDuOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma     separated list of key=value pairs, e.g. header1=value1,header2=value2.     Overrides the default storage/additional_headers property value for     this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
+    /// <summary>
+    /// Includes noncurrent object versions for a bucket with Object Versioning enabled. Also prints the generation and metageneration number for each listed object.
+    /// </summary>
     [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
+    /// <summary>
+    /// Exclude a pattern from the report. Example: -e "*.o" excludes any object that ends in ".o". Can be specified multiple times.
+    /// </summary>
     [CliOption("--exclude-name-pattern", Format = OptionFormat.EqualsSeparated)]
-    public string? ExcludeNamePattern { get; set; }
+    public IEnumerable<string>? ExcludeNamePatternValues { get; set; }
 
+    /// <summary>
+    /// Similar to -e, but excludes patterns from the given file. The patterns to exclude should be listed one per line.
+    /// </summary>
     [CliOption("--exclude-name-pattern-file", Format = OptionFormat.EqualsSeparated)]
     public string? ExcludeNamePatternFile { get; set; }
 
     /// <summary>
-    /// Server side filtering for objects. Works only for Google Cloud Storage     URLs. The filter only works for objects, and not directories or     buckets, which means commands like storage ls and storage du will still     list directories or buckets even if they do not contain any objects     matching the filter. See     https://cloud.google.com/storage/docs/listing-objects#filter-by-object-contexts-syntax     for more details.
+    /// Server side filtering for objects. Works only for Google Cloud Storage URLs. The filter only works for objects, and not directories or buckets, which means commands like storage ls and storage du will still list directories or buckets even if they do not contain any objects matching the filter. See https://cloud.google.com/storage/docs/listing-objects#filter-by-object-contexts-syntax for more details.
     /// </summary>
     [CliOption("--metadata-filter", Format = OptionFormat.EqualsSeparated)]
     public string? MetadataFilter { get; set; }
 
+    /// <summary>
+    /// Prints object sizes in human-readable format. For example, 1 KiB, 234 MiB, or 2GiB.
+    /// </summary>
     [CliFlag("--readable-sizes")]
     public bool? ReadableSizes { get; set; }
 
+    /// <summary>
+    /// Displays only the summary for each argument.
+    /// </summary>
     [CliFlag("--summarize")]
     public bool? Summarize { get; set; }
 
+    /// <summary>
+    /// Includes a total size of all input sources.
+    /// </summary>
     [CliFlag("--total")]
     public bool? Total { get; set; }
 
+    /// <summary>
+    /// Ends each output line with a 0 byte rather than a newline. You can use this to make the output machine-readable.
+    /// </summary>
     [CliFlag("--zero-terminator")]
     public bool? ZeroTerminator { get; set; }
+
+    [Obsolete("Use ExcludeNamePatternValues instead.")]
+    public string? ExcludeNamePattern
+    {
+        get => ExcludeNamePatternValues?.FirstOrDefault();
+        set => ExcludeNamePatternValues = value is null ? null : [value];
+    }
 
 }

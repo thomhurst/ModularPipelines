@@ -33,6 +33,21 @@ public class GcloudRunServicesLogs
     #region Commands
 
     /// <summary>
+    /// read logs for Cloud Run services
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRunServicesLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRunServicesLogsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// read logs for a Cloud Run service
     /// </summary>
     /// <param name="options">The command options.</param>

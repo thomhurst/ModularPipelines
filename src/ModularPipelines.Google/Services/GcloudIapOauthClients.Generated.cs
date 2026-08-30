@@ -33,6 +33,21 @@ public class GcloudIapOauthClients
     #region Commands
 
     /// <summary>
+    /// manage IAP OAuth clients
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIapOauthClientsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIapOauthClientsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Cloud IAP OAuth client in the     project
     /// </summary>
     /// <param name="options">The command options.</param>

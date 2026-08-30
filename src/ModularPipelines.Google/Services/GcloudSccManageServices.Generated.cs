@@ -33,6 +33,21 @@ public class GcloudSccManageServices
     #region Commands
 
     /// <summary>
+    /// manage Cloud SCC (Security Command Center)     services
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSccManageServicesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSccManageServicesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// get the details of a Security Command     Center service
     /// </summary>
     /// <param name="options">The command options.</param>

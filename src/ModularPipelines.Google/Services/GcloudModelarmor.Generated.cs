@@ -45,4 +45,23 @@ public class GcloudModelarmor : IGcloudModelarmor
     public GcloudModelarmorTemplates Templates => _templates ??= new GcloudModelarmorTemplates(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// agnostic     security and AI safety measures to mitigate risks associated with large     language models (LLMs)
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudModelArmorOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudModelArmorOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

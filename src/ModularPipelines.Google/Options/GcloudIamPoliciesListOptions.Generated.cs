@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamPoliciesListOptions : GcloudOptions
 {
     /// <summary>
-    /// Page token received from a previous call. Provide this token to     retrieve the next page.
+    /// Page token received from a previous call. Provide this token to retrieve the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--page_token", Format = OptionFormat.EqualsSeparated)]

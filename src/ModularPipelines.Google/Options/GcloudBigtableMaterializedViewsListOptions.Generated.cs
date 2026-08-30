@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "materialized-views", "list")]
 public record GcloudBigtableMaterializedViewsListOptions : GcloudOptions
 {
-    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("View is no longer supported by the installed CLI and has no effect.")]
     public string? View { get; set; }
 
 }

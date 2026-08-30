@@ -33,6 +33,21 @@ public class GcloudPreviewComputeInterconnectsAttachmentsGroups
     #region Commands
 
     /// <summary>
+    /// create or     manipulate interconnect attachment groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeInterconnectsAttachmentsGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeInterconnectsAttachmentsGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add     member interconnect attachments to a Compute Engine interconnect     attachment group
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -125,6 +140,21 @@ public class GcloudPreviewComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMembersAsync(
         GcloudPreviewComputeInterconnectsAttachmentsGroupsRemoveMembersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set the IAM policy for a Compute Engine interconnect attachment group
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicyAsync(
+        GcloudPreviewComputeInterconnectsAttachmentsGroupsSetIamPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

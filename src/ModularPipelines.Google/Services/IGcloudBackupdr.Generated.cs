@@ -15,67 +15,80 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud backupdr commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudBackupdr
 {
     /// <summary>
     /// gcloud backup-plan-associations sub-commands.
     /// </summary>
-    GcloudBackupdrBackupPlanAssociations BackupPlanAssociations { get; }
+    GcloudBackupdrBackupPlanAssociations BackupPlanAssociations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backup-plan-revisions sub-commands.
     /// </summary>
-    GcloudBackupdrBackupPlanRevisions BackupPlanRevisions { get; }
+    GcloudBackupdrBackupPlanRevisions BackupPlanRevisions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backup-plans sub-commands.
     /// </summary>
-    GcloudBackupdrBackupPlans BackupPlans { get; }
+    GcloudBackupdrBackupPlans BackupPlans => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backups sub-commands.
     /// </summary>
-    GcloudBackupdrBackups Backups { get; }
+    GcloudBackupdrBackups Backups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backup-vaults sub-commands.
     /// </summary>
-    GcloudBackupdrBackupVaults BackupVaults { get; }
+    GcloudBackupdrBackupVaults BackupVaults => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud data-source-references sub-commands.
     /// </summary>
-    GcloudBackupdrDataSourceReferences DataSourceReferences { get; }
+    GcloudBackupdrDataSourceReferences DataSourceReferences => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud data-sources sub-commands.
     /// </summary>
-    GcloudBackupdrDataSources DataSources { get; }
+    GcloudBackupdrDataSources DataSources => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudBackupdrLocations Locations { get; }
+    GcloudBackupdrLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud management-servers sub-commands.
     /// </summary>
-    GcloudBackupdrManagementServers ManagementServers { get; }
+    GcloudBackupdrManagementServers ManagementServers => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudBackupdrOperations Operations { get; }
+    GcloudBackupdrOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud resource-backup-config sub-commands.
     /// </summary>
-    GcloudBackupdrResourceBackupConfig ResourceBackupConfig { get; }
+    GcloudBackupdrResourceBackupConfig ResourceBackupConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-config sub-commands.
     /// </summary>
-    GcloudBackupdrServiceConfig ServiceConfig { get; }
+    GcloudBackupdrServiceConfig ServiceConfig => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Backup and DR resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudBackupDrOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

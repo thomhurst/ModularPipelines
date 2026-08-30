@@ -24,19 +24,19 @@ public record GcloudContainerFleetScopesNamespacesGetCredentialsOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Membership ID to get credentials from. If not provided, a prompt will     offer a list of memberships in the fleet.
+    /// Membership ID to get credentials from. If not provided, a prompt will offer a list of memberships in the fleet.
     /// </summary>
     [CliOption("--membership", Format = OptionFormat.EqualsSeparated)]
     public string? Membership { get; set; }
 
     /// <summary>
-    /// The location of the membership resource, e.g. us-central1. If not     specified, defaults to global.
+    /// The location of the membership resource, e.g. us-central1. If not specified, defaults to global.
     /// </summary>
     [CliOption("--membership-location", Format = OptionFormat.EqualsSeparated)]
     public string? MembershipLocation { get; set; }
 
     /// <summary>
-    /// If true, the default namespace for the context in the generated     kubeconfig will be set to the Fleet namespace (i.e. the name given as     the positional argument in this command).     Otherwise, no default namespace will be set, functioning the same as     gcloud container fleet memberships get-credentials.
+    /// If true, the default namespace for the context in the generated kubeconfig will be set to the Fleet namespace (i.e. the name given as the positional argument in this command). Otherwise, no default namespace will be set, functioning the same as gcloud container fleet memberships get-credentials.
     /// </summary>
     [CliOption("--set-namespace-in-config", Format = OptionFormat.EqualsSeparated)]
     public string? SetNamespaceInConfig { get; set; }

@@ -24,7 +24,7 @@ public record GcloudResourceManagerTagsHoldsDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Region where the TagHold is stored. If not provided, the API will     attempt to find and delete the specified TagHold from the "global"     region.
+    /// Region where the TagHold is stored. If not provided, the API will attempt to find and delete the specified TagHold from the "global" region.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

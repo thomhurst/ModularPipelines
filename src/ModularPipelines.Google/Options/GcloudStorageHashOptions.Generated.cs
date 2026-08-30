@@ -24,15 +24,27 @@ public record GcloudStorageHashOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma     separated list of key=value pairs, e.g. header1=value1,header2=value2.     Overrides the default storage/additional_headers property value for     this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
     /// <summary>
-    /// Output hash digests in hex format. By default, digests are displayed in     base64.    At most one of these can be specified:     --skip-crc32c      Skip CRC32C hash calculation. Useful if command is running slow.     --skip-md5      Skip MD5 hash calculation. Useful if command is running slow.
+    /// Output hash digests in hex format. By default, digests are displayed in base64.
     /// </summary>
     [CliFlag("--hex")]
     public bool? Hex { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Skip CRC32C hash calculation. Useful if command is running slow.
+    /// </summary>
+    [CliFlag("--skip-crc32c")]
+    public bool? SkipCrc32c { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Skip MD5 hash calculation. Useful if command is running slow.
+    /// </summary>
+    [CliFlag("--skip-md5")]
+    public bool? SkipMd5 { get; set; }
 
 }

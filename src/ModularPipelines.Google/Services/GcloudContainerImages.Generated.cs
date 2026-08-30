@@ -33,6 +33,21 @@ public class GcloudContainerImages
     #region Commands
 
     /// <summary>
+    /// list and manipulate Google Container Registry     images
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerImagesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// adds tags to existing image
     /// </summary>
     /// <param name="options">The command options.</param>

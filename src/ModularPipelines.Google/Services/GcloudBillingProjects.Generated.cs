@@ -33,6 +33,21 @@ public class GcloudBillingProjects
     #region Commands
 
     /// <summary>
+    /// manage the billing account configuration of your     projects
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBillingProjectsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBillingProjectsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show detailed billing information for a     project
     /// </summary>
     /// <param name="options">The command options.</param>

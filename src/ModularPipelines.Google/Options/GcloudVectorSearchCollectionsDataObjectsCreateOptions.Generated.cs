@@ -34,7 +34,7 @@ public record GcloudVectorSearchCollectionsDataObjectsCreateOptions : GcloudOpti
     public string? Etag { get; set; }
 
     /// <summary>
-    /// The vectors of the dataObject.      KEY       Sets KEY value.      VALUE       Sets VALUE value.        dense         A dense vector.          values           The values of the vector.        sparse         A sparse vector.          indices           The corresponding indices for the values.          values           The values of the vector.     Shorthand Example:       --vectors=string={dense={values=[float]},sparse={indices=[int],values=[float]}}     JSON Example:       --vectors='{"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}'     File Example:       --vectors=path_to_file.(yaml|json)
+    /// The vectors of the dataObject. KEY Sets KEY value. VALUE Sets VALUE value. dense A dense vector. values The values of the vector. sparse A sparse vector. indices The corresponding indices for the values. values The values of the vector. Shorthand Example: --vectors=string={dense={values=[float]},sparse={indices=[int],values=[float]}} JSON Example: --vectors='{"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}' File Example: --vectors=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--vectors", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Vectors { get; set; }

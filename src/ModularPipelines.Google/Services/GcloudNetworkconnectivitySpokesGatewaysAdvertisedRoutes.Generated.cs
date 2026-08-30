@@ -33,6 +33,21 @@ public class GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes
     #region Commands
 
     /// <summary>
+    /// manage     gateway advertised routes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new gateway advertised route
     /// </summary>
     /// <param name="options">The command options.</param>

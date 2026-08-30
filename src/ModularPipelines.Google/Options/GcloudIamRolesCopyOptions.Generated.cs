@@ -40,7 +40,7 @@ public record GcloudIamRolesCopyOptions : GcloudOptions
     public string? Destination { get; set; }
 
     /// <summary>
-    /// The source role ID. For predefined roles, for example: roles/viewer.     For custom roles, for example: myCompanyAdmin.
+    /// The source role ID. For predefined roles, for example: roles/viewer. For custom roles, for example: myCompanyAdmin.
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexDatascansDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// Displays spec data based on the argument value. The default view is     'basic'. VIEW must be one of:      basic       Does not include spec data in response.      full       Includes spec data in response.
+    /// Displays spec data based on the argument value. The default view is 'basic'. VIEW must be one of: basic Does not include spec data in response. full Includes spec data in response.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }

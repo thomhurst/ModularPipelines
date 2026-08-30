@@ -21,9 +21,15 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("app", "instances", "list")]
 public record GcloudAppInstancesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// If specified, only list instances belonging to the given service.
+    /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
+    /// <summary>
+    /// If specified, only list instances belonging to the given version.
+    /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 

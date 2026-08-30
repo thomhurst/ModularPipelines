@@ -43,6 +43,21 @@ public class GcloudContainerHubPackagesResourceBundles
     #region Commands
 
     /// <summary>
+    /// commands for managing     Package Rollouts Resource Bundles
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerHubPackagesResourceBundlesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerHubPackagesResourceBundlesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create Package     Rollouts Resource Bundle
     /// </summary>
     /// <param name="options">The command options.</param>

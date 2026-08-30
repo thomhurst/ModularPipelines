@@ -33,6 +33,21 @@ public class GcloudComputeTargetGrpcProxies
     #region Commands
 
     /// <summary>
+    /// manage Compute Engine target gRPC     proxy resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeTargetGrpcProxiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeTargetGrpcProxiesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a target gRPC proxy
     /// </summary>
     /// <param name="options">The command options.</param>

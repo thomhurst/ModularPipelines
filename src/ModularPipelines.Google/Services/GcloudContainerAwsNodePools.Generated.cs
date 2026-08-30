@@ -33,6 +33,21 @@ public class GcloudContainerAwsNodePools
     #region Commands
 
     /// <summary>
+    /// create and manage node pools in an Anthos     cluster on AWS
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerAwsNodePoolsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAwsNodePoolsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a node pool in an Anthos     cluster on AWS
     /// </summary>
     /// <param name="options">The command options.</param>

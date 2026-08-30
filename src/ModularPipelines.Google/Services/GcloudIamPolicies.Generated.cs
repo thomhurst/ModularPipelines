@@ -33,6 +33,21 @@ public class GcloudIamPolicies
     #region Commands
 
     /// <summary>
+    /// manage IAM deny policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudIamPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a policy on the given attachment point     with the given name
     /// </summary>
     /// <param name="options">The command options.</param>

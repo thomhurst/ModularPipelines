@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPrivatecaPoolsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Location of the CA pools. If this is not specified, CA pools across all     locations will be listed.
+    /// Location of the CA pools. If this is not specified, CA pools across all locations will be listed.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

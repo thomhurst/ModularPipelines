@@ -33,6 +33,21 @@ public class GcloudApphubBoundary
     #region Commands
 
     /// <summary>
+    /// manage App Hub boundaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudApphubBoundaryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApphubBoundaryOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// show metadata for an App Hub boundary
     /// </summary>
     /// <param name="options">The command options.</param>

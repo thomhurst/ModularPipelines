@@ -33,6 +33,21 @@ public class GcloudComputeInstantSnapshots
     #region Commands
 
     /// <summary>
+    /// create, list and delete Compute Engine     instant snapshots
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInstantSnapshotsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInstantSnapshotsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add labels to Google Compute     Engine instant-snapshotss
     /// </summary>
     /// <param name="options">The command options.</param>

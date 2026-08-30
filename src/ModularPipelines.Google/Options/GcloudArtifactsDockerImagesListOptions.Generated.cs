@@ -22,13 +22,10 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsDockerImagesListOptions : GcloudOptions
 {
     /// <summary>
-    /// If specified, tags associated with each image digest are displayed up     to a maximum of 100 tags per version.
+    /// If specified, tags associated with each image digest are displayed up to a maximum of 100 tags per version.
     /// </summary>
     [CliFlag("--include-tags")]
     public bool? IncludeTags { get; set; }
-
-    [CliOption("--occurrence-filter", Format = OptionFormat.EqualsSeparated)]
-    public string? OccurrenceFilter { get; set; }
 
     /// <summary>
     /// Show summaries of the various occurrence types.
@@ -36,6 +33,15 @@ public record GcloudArtifactsDockerImagesListOptions : GcloudOptions
     [CliFlag("--show-occurrences")]
     public bool? ShowOccurrences { get; set; }
 
+    /// <summary>
+    /// A filter for the occurrences which will be summarized.
+    /// </summary>
+    [CliOption("--occurrence-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? OccurrenceFilter { get; set; }
+
+    /// <summary>
+    /// The number of the most recent images for which to summarize occurrences.
+    /// </summary>
     [CliOption("--show-occurrences-from", Format = OptionFormat.EqualsSeparated)]
     public string? ShowOccurrencesFrom { get; set; }
 

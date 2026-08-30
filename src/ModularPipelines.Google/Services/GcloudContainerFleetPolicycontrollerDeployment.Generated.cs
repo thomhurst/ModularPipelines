@@ -33,6 +33,21 @@ public class GcloudContainerFleetPolicycontrollerDeployment
     #region Commands
 
     /// <summary>
+    /// configure Policy     Controller component deployments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerFleetPolicycontrollerDeploymentOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetPolicycontrollerDeploymentOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// removes     configuration properties from Policy Controller components
     /// </summary>
     /// <param name="options">The command options.</param>

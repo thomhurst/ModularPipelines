@@ -15,23 +15,26 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud workbench commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudWorkbench
 {
     /// <summary>
     /// gcloud executions sub-commands.
     /// </summary>
-    GcloudWorkbenchExecutions Executions { get; }
+    GcloudWorkbenchExecutions Executions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudWorkbenchInstances Instances { get; }
+    GcloudWorkbenchInstances Instances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud schedules sub-commands.
     /// </summary>
-    GcloudWorkbenchSchedules Schedules { get; }
+    GcloudWorkbenchSchedules Schedules => throw new System.NotSupportedException();
 
     /// <summary>
     /// workbench Command Group
@@ -40,9 +43,7 @@ public interface IGcloudWorkbench
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudWorkbenchOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudWorkbenchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

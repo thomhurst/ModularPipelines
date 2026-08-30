@@ -33,6 +33,21 @@ public class GcloudComputeTpusVersions
     #region Commands
 
     /// <summary>
+    /// explore Available Tensorflow versions for     Cloud TPUs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeTpusVersionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeTpusVersionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Tensorflow version     available for Cloud TPUs
     /// </summary>
     /// <param name="options">The command options.</param>

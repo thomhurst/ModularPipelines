@@ -24,25 +24,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEventarcMessageBusesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Fully qualified name of the crypto key to use for customer-managed     encryption. If this is unspecified, Google-managed keys will be used     for encryption.
+    /// Fully qualified name of the crypto key to use for customer-managed encryption. If this is unspecified, Google-managed keys will be used for encryption.
     /// </summary>
     [CliOption("--crypto-key", Format = OptionFormat.EqualsSeparated)]
     public string? CryptoKey { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// The logging config of the message bus. LOGGING_CONFIG must be one of:     NONE, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY.
+    /// The logging config of the message bus. LOGGING_CONFIG must be one of: NONE, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY.
     /// </summary>
     [CliOption("--logging-config", Format = OptionFormat.EqualsSeparated)]
     public GcloudLoggingConfig? LoggingConfig { get; set; }

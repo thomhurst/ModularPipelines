@@ -22,10 +22,16 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityFirewallEndpointsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// Location of the endpoint
@@ -33,6 +39,9 @@ public record GcloudNetworkSecurityFirewallEndpointsDeleteOptions : GcloudOption
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
     [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
     public string? MaxWait { get; set; }
 

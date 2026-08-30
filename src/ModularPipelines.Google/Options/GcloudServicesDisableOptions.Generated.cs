@@ -24,13 +24,13 @@ public record GcloudServicesDisableOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If specified, the disable call will proceed even if there are enabled     services which depend on the service to be disabled or disable the     service used in last 30 days or was enabled in recent 3 days. Forcing     the call means that the services which depend on the service to be     disabled will also be disabled.
+    /// If specified, the disable call will proceed even if there are enabled services which depend on the service to be disabled or disable the service used in last 30 days or was enabled in recent 3 days. Forcing the call means that the services which depend on the service to be disabled will also be disabled.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

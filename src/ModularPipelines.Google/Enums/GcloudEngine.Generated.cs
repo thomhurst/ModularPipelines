@@ -17,8 +17,9 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudEngine
 {
     [EnumValue("default")]
-    Default,
+    Default = 0,
 
     [EnumValue("lightning")]
-    Lightning
+    Lightning = 1,
+
 }

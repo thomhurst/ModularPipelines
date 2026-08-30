@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApihubApisVersionsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// If set to true, any specs from this version will also be deleted.     Otherwise, the request will only work if the version has no specs.
+    /// If set to true, any specs from this version will also be deleted. Otherwise, the request will only work if the version has no specs.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

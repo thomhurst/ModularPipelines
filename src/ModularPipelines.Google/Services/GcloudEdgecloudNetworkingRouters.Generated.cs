@@ -33,6 +33,21 @@ public class GcloudEdgecloudNetworkingRouters
     #region Commands
 
     /// <summary>
+    /// manage Distributed Cloud Edge     Network routers
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudEdgeCloudNetworkingRoutersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudNetworkingRoutersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add a BGP peer to a     Distributed Cloud Edge Network router
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -15,53 +15,61 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud iam commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudIam
 {
     /// <summary>
+    /// gcloud access-policies sub-commands.
+    /// </summary>
+    GcloudIamAccessPolicies AccessPolicies => throw new System.NotSupportedException();
+
+    /// <summary>
     /// gcloud oauth-clients sub-commands.
     /// </summary>
-    GcloudIamOauthClients OauthClients { get; }
+    GcloudIamOauthClients OauthClients => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud policies sub-commands.
     /// </summary>
-    GcloudIamPolicies Policies { get; }
+    GcloudIamPolicies Policies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud policy-bindings sub-commands.
     /// </summary>
-    GcloudIamPolicyBindings PolicyBindings { get; }
+    GcloudIamPolicyBindings PolicyBindings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud principal-access-boundary-policies sub-commands.
     /// </summary>
-    GcloudIamPrincipalAccessBoundaryPolicies PrincipalAccessBoundaryPolicies { get; }
+    GcloudIamPrincipalAccessBoundaryPolicies PrincipalAccessBoundaryPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud roles sub-commands.
     /// </summary>
-    GcloudIamRoles Roles { get; }
+    GcloudIamRoles Roles => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-accounts sub-commands.
     /// </summary>
-    GcloudIamServiceAccounts ServiceAccounts { get; }
+    GcloudIamServiceAccounts ServiceAccounts => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud simulator sub-commands.
     /// </summary>
-    GcloudIamSimulator Simulator { get; }
+    GcloudIamSimulator Simulator => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud workforce-pools sub-commands.
     /// </summary>
-    GcloudIamWorkforcePools WorkforcePools { get; }
+    GcloudIamWorkforcePools WorkforcePools => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud workload-identity-pools sub-commands.
     /// </summary>
-    GcloudIamWorkloadIdentityPools WorkloadIdentityPools { get; }
+    GcloudIamWorkloadIdentityPools WorkloadIdentityPools => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage IAM service accounts and keys
@@ -70,10 +78,8 @@ public interface IGcloudIam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudIamOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudIamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// list IAM grantable roles for a resource
@@ -82,10 +88,8 @@ public interface IGcloudIam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListGrantableRolesAsync(
-        GcloudIamListGrantableRolesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListGrantableRolesAsync(GcloudIamListGrantableRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// list IAM testable permissions for a     resource
@@ -94,9 +98,7 @@ public interface IGcloudIam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListTestablePermissionsAsync(
-        GcloudIamListTestablePermissionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListTestablePermissionsAsync(GcloudIamListTestablePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

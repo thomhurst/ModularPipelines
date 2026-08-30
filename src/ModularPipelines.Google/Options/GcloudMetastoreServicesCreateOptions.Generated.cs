@@ -24,93 +24,201 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMetastoreServicesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// A boolean flag to determine whether Dataproc Metastore autoscaling     should be enabled, false if unspecified.     The default minimum and maximum scaling factors are 0.1 and 6.0,     respectively.     The minimum and maximum scaling factors can be specified using     --min-scaling-factor and --max-scaling-factor.
+    /// A boolean flag to determine whether Dataproc Metastore autoscaling should be enabled, false if unspecified. The default minimum and maximum scaling factors are 0.1 and 6.0, respectively. The minimum and maximum scaling factors can be specified using --min-scaling-factor and --max-scaling-factor.
     /// </summary>
     [CliFlag("--autoscaling-enabled")]
     public bool? AutoscalingEnabled { get; set; }
 
     /// <summary>
-    /// A boolean flag to determine whether Dataproc Metastore metadata sync to     Data Catalog should be enabled, false if unspecified. Mutually     exclusive with flag --encryption-kms-key.
+    /// A boolean flag to determine whether Dataproc Metastore metadata sync to Data Catalog should be enabled, false if unspecified. Mutually exclusive with flag --encryption-kms-key.
     /// </summary>
     [CliFlag("--data-catalog-sync")]
     public bool? DataCatalogSync { get; set; }
 
-    [CliOption("--database-type", Format = OptionFormat.EqualsSeparated)]
-    public string? DatabaseType { get; set; }
-
     /// <summary>
-    /// Flag that enables delete protection on Dataproc Metastore instance to     prevent accidental deletions of the instance. Use --deletion-protection     to enable.    Encryption configuration for the metastore service.
+    /// Flag that enables delete protection on Dataproc Metastore instance to prevent accidental deletions of the instance. Use --deletion-protection to enable.
     /// </summary>
     [CliFlag("--deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// The name of the Cloud KMS key to use for customer data encryption.     Cannot be changed once the service is created. Mutually exclusive with     flag --data-catalog-sync. This can be provided as a fully-qualified     URL, or a relative name in the form     projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{crypto_key_id}.
+    /// The name of the Cloud KMS key to use for customer data encryption. Cannot be changed once the service is created. Mutually exclusive with flag --data-catalog-sync. This can be provided as a fully-qualified URL, or a relative name in the form projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{crypto_key_id}.
     /// </summary>
     [CliOption("--encryption-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionKmsKey { get; set; }
 
-    [CliOption("--endpoint-protocol", Format = OptionFormat.EqualsSeparated)]
-    public string? EndpointProtocol { get; set; }
-
     /// <summary>
-    /// The Hive metastore schema version. The supported versions of a location     are listed via:       gcloud metastore locations describe     If unspecified, the default version chosen by the server will be used.
+    /// The Hive metastore schema version. The supported versions of a location are listed via: gcloud metastore locations describe If unspecified, the default version chosen by the server will be used.
     /// </summary>
     [CliOption("--hive-metastore-version", Format = OptionFormat.EqualsSeparated)]
     public string? HiveMetastoreVersion { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
-    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
-
-    [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
-    public string? ReleaseChannel { get; set; }
-
     /// <summary>
-    /// List of tag KEY=VALUE pairs to add.    Auxiliary versions configuration for the Dataproc Metastore service. When   specified, a secondary Hive metastore service is created along with the   primary service.    At most one of these can be specified:     --auxiliary-versions=[AUXILIARY_VERSIONS,...]      Comma-separated list of auxiliary Hive metastore versions to deploy.      Auxiliary Hive metastore versions must be less than the primary Hive      metastore service's version.     --auxiliary-versions-from-file=AUXILIARY_VERSIONS_FROM_FILE      Path to a YAML file containing the auxiliary versions configuration      for Dataproc Metastore instance. The file should contain a unique      auxiliary service name and auxiliary version that is lower than the      primary service version. The primary version's Hive metastore configs      are applied to the auxiliary version. Additional Hive metastore      configs can be specified for the auxiliary version using      "config_overrides". If a specified config property has already been      overridden in the primary Hive metastore version's configs, the      auxiliary version's override takes precedence. The contents of the      file should be structured as follows:      YAML:         - name: aux-service1          version: x.y.z          config_overrides:           key1: value1           key2: value2          ...         - name: aux-service2          version: x.y.z          config_overrides:           key1: value1           key2: value2          ...         ...    Network configuration for the metastore service.    At most one of these can be specified:     --consumer-subnetworks=[CONSUMER_SUBNETWORKS,...]      The list of subnetworks from which the service can be accessed. This      can be the subnetwork's ID, fully-qualified URL, or relative name in      the form      projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork}.     --network=NETWORK      The name of the network on which the service can be accessed. This      can be the network's ID, fully-qualified URL, or relative name in the      form projects/{project_id}/global/networks/{network}. If "network",      "consumer-subnetworks" and "network-config" are unspecified, the      "default" network will be used.     --network-config-from-file=NETWORK_CONFIG_FROM_FILE      Path to a YAML file containing the network configuration for Dataproc      Metastore instance. The contents of the file should be structured as      follows:      YAML: consumers:      ▸ subnetwork:       projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork_id}      ▸ subnetwork:       projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork_id}       ...    Configuration properties specific to running Hive metastore software as   the metastore service.    At most one of these can be specified:     --hive-metastore-configs=[KEY=VALUE,...]      A mapping of Hive metastore configuration key-value pairs to apply to      the Hive metastore.     --hive-metastore-configs-from-file=PATH_TO_FILE      Path to a XML file containing a mapping of Hive metastore      configuration key-value pairs to apply to the Hive metastore.      For example:        hive-site.xml          &lt;configuration&gt;           &lt;property&gt;            &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;            &lt;value&gt;${test.warehouse.dir}&lt;/value&gt;            &lt;description&gt;&lt;/description&gt;           &lt;/property&gt;          &lt;/configuration&gt;      Use a full or relative path to a local file containing the value of      hive_metastore_configs.    The instance size of the Dataproc Metastore instance.    At most one of these can be specified:     --instance-size=INSTANCE_SIZE      The instance size of the service. INSTANCE_SIZE must be one of:       extra-large        Extra large instance size, maps to a scaling factor of 6.0.       extra-small        Extra small instance size, maps to a scaling factor of 0.1.       large        Large instance size, maps to a scaling factor of 3.0.       medium        Medium instance size, maps to a scaling factor of 1.0.       small        Small instance size, maps to a scaling factor of 0.5.     --scaling-factor=SCALING_FACTOR      The scaling factor of the service. Can be one of [0.1, 0.2, 0.3, 0.4,      0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0].     --tier=TIER      The tier of the service. TIER must be one of:       developer        The developer tier provides limited scalability and no fault        tolerance. Good for low-cost proof-of-concept.       enterprise        The enterprise tier provides multi-zone high availability, and        sufficient scalability for enterprise-level Dataproc Metastore        workloads.     Or at least one of these can be specified:      The autoscaling configuration of the Dataproc Metastore instance.      --max-scaling-factor=MAX_SCALING_FACTOR       The maximum scaling factor allowed by the autoscaler. Can be one of       [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0,       5.0, 6.0]. The default value is 6.0.      --min-scaling-factor=MIN_SCALING_FACTOR       The minimum scaling factor allowed by the autoscaler. Can be one of       [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0,       5.0, 6.0]. The default value is 0.1.    Information used to configure the Hive metastore service as a service   principal in a Kerberos realm.
+    /// List of tag KEY=VALUE pairs to add.
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A Kerberos principal that exists in the KDC to authenticate as. A     typical principal is of the form "primary/instance@REALM", but there is     no exact format.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Comma-separated list of auxiliary Hive metastore versions to deploy. Auxiliary Hive metastore versions must be less than the primary Hive metastore service's version.
+    /// </summary>
+    [CliOption("--auxiliary-versions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AuxiliaryVersions { get; set; }
+
+    /// <summary>
+    /// Path to a YAML file containing the auxiliary versions configuration for Dataproc Metastore instance. The file should contain a unique auxiliary service name and auxiliary version that is lower than the primary service version. The primary version's Hive metastore configs are applied to the auxiliary version. Additional Hive metastore configs can be specified for the auxiliary version using "config_overrides". If a specified config property has already been overridden in the primary Hive metastore version's configs, the auxiliary version's override takes precedence. The contents of the file should be structured as follows: YAML: - name: aux-service1 version: x.y.z config_overrides: key1: value1 key2: value2 ... - name: aux-service2 version: x.y.z config_overrides: key1: value1 key2: value2 ... ...
+    /// </summary>
+    [CliOption("--auxiliary-versions-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? AuxiliaryVersionsFromFile { get; set; }
+
+    /// <summary>
+    /// The list of subnetworks from which the service can be accessed. This can be the subnetwork's ID, fully-qualified URL, or relative name in the form projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork}.
+    /// </summary>
+    [CliOption("--consumer-subnetworks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ConsumerSubnetworks { get; set; }
+
+    /// <summary>
+    /// The name of the network on which the service can be accessed. This can be the network's ID, fully-qualified URL, or relative name in the form projects/{project_id}/global/networks/{network}. If "network", "consumer-subnetworks" and "network-config" are unspecified, the "default" network will be used.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Path to a YAML file containing the network configuration for Dataproc Metastore instance. The contents of the file should be structured as follows: YAML: consumers: + subnetwork: projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork_id} + subnetwork: projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork_id} ...
+    /// </summary>
+    [CliOption("--network-config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkConfigFromFile { get; set; }
+
+    /// <summary>
+    /// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore.
+    /// </summary>
+    [CliOption("--hive-metastore-configs", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? HiveMetastoreConfigs { get; set; }
+
+    /// <summary>
+    /// Path to a XML file containing a mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore. For example: hive-site.xml &lt;configuration&gt; &lt;property&gt; &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt; &lt;value&gt;${test.warehouse.dir}&lt;/value&gt; &lt;description&gt;&lt;/description&gt; &lt;/property&gt; &lt;/configuration&gt; Use a full or relative path to a local file containing the value of hive_metastore_configs.
+    /// </summary>
+    [CliOption("--hive-metastore-configs-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? HiveMetastoreConfigsFromFile { get; set; }
+
+    /// <summary>
+    /// The instance size of the service. INSTANCE_SIZE must be one of: extra-large Extra large instance size, maps to a scaling factor of 6.0. extra-small Extra small instance size, maps to a scaling factor of 0.1. large Large instance size, maps to a scaling factor of 3.0. medium Medium instance size, maps to a scaling factor of 1.0. small Small instance size, maps to a scaling factor of 0.5.
+    /// </summary>
+    [CliOption("--instance-size", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceSize { get; set; }
+
+    /// <summary>
+    /// The scaling factor of the service. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0].
+    /// </summary>
+    [CliOption("--scaling-factor", Format = OptionFormat.EqualsSeparated)]
+    public string? ScalingFactor { get; set; }
+
+    /// <summary>
+    /// The tier of the service. TIER must be one of: developer The developer tier provides limited scalability and no fault tolerance. Good for low-cost proof-of-concept. enterprise The enterprise tier provides multi-zone high availability, and sufficient scalability for enterprise-level Dataproc Metastore workloads.
+    /// </summary>
+    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
+    public string? Tier { get; set; }
+
+    /// <summary>
+    /// The maximum scaling factor allowed by the autoscaler. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]. The default value is 6.0.
+    /// </summary>
+    [CliOption("--max-scaling-factor", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxScalingFactor { get; set; }
+
+    /// <summary>
+    /// The minimum scaling factor allowed by the autoscaler. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]. The default value is 0.1.
+    /// </summary>
+    [CliOption("--min-scaling-factor", Format = OptionFormat.EqualsSeparated)]
+    public string? MinScalingFactor { get; set; }
+
+    /// <summary>
+    /// A Kerberos principal that exists in the KDC to authenticate as. A typical principal is of the form "primary/instance@REALM", but there is no exact format. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kerberos-principal", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosPrincipal { get; set; }
 
     /// <summary>
-    /// A Kerberos keytab file that can be used to authenticate a service     principal with a Kerberos Key Distribution Center. This is a Secret     Manager secret version, and can be fully-qualified URL, or relative     name in the form     projects/{project_id}/secrets/{secret_id}/versions/{version_id}.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// A Kerberos keytab file that can be used to authenticate a service principal with a Kerberos Key Distribution Center. This is a Secret Manager secret version, and can be fully-qualified URL, or relative name in the form projects/{project_id}/secrets/{secret_id}/versions/{version_id}. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--keytab", Format = OptionFormat.EqualsSeparated)]
     public string? Keytab { get; set; }
 
     /// <summary>
-    /// A Cloud Storage URI that specifies the path to a krb5.conf file. It is     of the form gs://{bucket_name}/path/krb5.conf, although the file does     not need to be named krb5.conf explicitly.     This flag argument must be specified if any of the other arguments in     this group are specified.    The one hour maintenance window that specifies when Dataproc Metastore may   perform system maintenance operation to the service, in UTC time.
+    /// A Cloud Storage URI that specifies the path to a krb5.conf file. It is of the form gs://{bucket_name}/path/krb5.conf, although the file does not need to be named krb5.conf explicitly. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--krb5-config", Format = OptionFormat.EqualsSeparated)]
     public string? Krb5Config { get; set; }
 
     /// <summary>
-    /// The day of week when the window starts, e.g., sun.     MAINTENANCE_WINDOW_DAY must be one of: fri, mon, sat, sun, thu, tue,     wed.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// The day of week when the window starts, e.g., sun. MAINTENANCE_WINDOW_DAY must be one of: fri, mon, sat, sun, thu, tue, wed. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
     public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
 
     /// <summary>
-    /// The hour of day (0-23) when the window starts.     This flag argument must be specified if any of the other arguments in     this group are specified.    Scheduled backup configurations to enable a scheduled backup of the   metastore service.    At most one of these can be specified:     --scheduled-backup-configs-from-file=PATH_TO_FILE      Path to a JSON file containing a mapping of scheduled backup      configurations key-value pairs to apply to the scheduled backup.      For example:        backup_configs.json          {           "enabled": true,           "cron_schedule": "0 * * * *",           "backup_location": "gs://example-bucket",           "time_zone": "UTC"          }      Use a full or relative path to a local file containing the value of      scheduled_backup_configs.     Or at least one of these can be specified:      Scheduled backup configurations to enable a scheduled backup of the     metastore service.      --enable-scheduled-backup       Enable or disable scheduled backups for the Metastore service.      --scheduled-backup-cron=SCHEDULED_BACKUP_CRON       Specify the frequency of a scheduled backup of the metastore       service.      --scheduled-backup-location=SCHEDULED_BACKUP_LOCATION       Set the Cloud Storage URI to store the scheduled backups of the       metastore service.
+    /// The hour of day (0-23) when the window starts. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--maintenance-window-hour", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowHour { get; set; }
+
+    /// <summary>
+    /// Path to a JSON file containing a mapping of scheduled backup configurations key-value pairs to apply to the scheduled backup. For example: backup_configs.json { "enabled": true, "cron_schedule": "0 * * * *", "backup_location": "gs://example-bucket", "time_zone": "UTC" } Use a full or relative path to a local file containing the value of scheduled_backup_configs.
+    /// </summary>
+    [CliOption("--scheduled-backup-configs-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduledBackupConfigsFromFile { get; set; }
+
+    /// <summary>
+    /// Enable or disable scheduled backups for the Metastore service.
+    /// </summary>
+    [CliFlag("--enable-scheduled-backup")]
+    public bool? EnableScheduledBackup { get; set; }
+
+    /// <summary>
+    /// Specify the frequency of a scheduled backup of the metastore service.
+    /// </summary>
+    [CliOption("--scheduled-backup-cron", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduledBackupCron { get; set; }
+
+    /// <summary>
+    /// Set the Cloud Storage URI to store the scheduled backups of the metastore service.
+    /// </summary>
+    [CliOption("--scheduled-backup-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduledBackupLocation { get; set; }
+
+    /// <summary>
+    /// The type of database the Dataproc Metastore service will store data in. DATABASE_TYPE must be one of: mysql MYSQL database type is a Dataproc Metastore service backed by MySQL CloudSQL. spanner SPANNER database type is a Dataproc Metastore service backed by Cloud Spanner.
+    /// </summary>
+    [CliOption("--database-type", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseType { get; set; }
+
+    /// <summary>
+    /// The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT. ENDPOINT_PROTOCOL must be one of: grpc The modernized GRPC protocol. thrift The legacy Apache THRIFT protocol.
+    /// </summary>
+    [CliOption("--endpoint-protocol", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointProtocol { get; set; }
+
+    /// <summary>
+    /// The TCP port on which the Metastore service will listen. If unspecified, the default port 9083 will be used.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// The release channel of the service. RELEASE_CHANNEL must be one of: canary The CANARY release channel contains the newest features, which may be unstable and subject to unresolved issues with no known workarounds. Services using the CANARY release channel are not subject to any SLAs. stable The STABLE release channel contains features that are considered stable and have been validated for production use.
+    /// </summary>
+    [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
+    public string? ReleaseChannel { get; set; }
 
 }

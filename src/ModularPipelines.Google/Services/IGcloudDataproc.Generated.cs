@@ -15,43 +15,46 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dataproc commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDataproc
 {
     /// <summary>
     /// gcloud autoscaling-policies sub-commands.
     /// </summary>
-    GcloudDataprocAutoscalingPolicies AutoscalingPolicies { get; }
+    GcloudDataprocAutoscalingPolicies AutoscalingPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud batches sub-commands.
     /// </summary>
-    GcloudDataprocBatches Batches { get; }
+    GcloudDataprocBatches Batches => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    GcloudDataprocClusters Clusters { get; }
+    GcloudDataprocClusters Clusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudDataprocJobs Jobs { get; }
+    GcloudDataprocJobs Jobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud node-groups sub-commands.
     /// </summary>
-    GcloudDataprocNodeGroups NodeGroups { get; }
+    GcloudDataprocNodeGroups NodeGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDataprocOperations Operations { get; }
+    GcloudDataprocOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud workflow-templates sub-commands.
     /// </summary>
-    GcloudDataprocWorkflowTemplates WorkflowTemplates { get; }
+    GcloudDataprocWorkflowTemplates WorkflowTemplates => throw new System.NotSupportedException();
 
     /// <summary>
     /// create and manage Google Cloud Dataproc clusters and jobs
@@ -60,9 +63,7 @@ public interface IGcloudDataproc
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudDataprocOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudDataprocOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -24,7 +24,7 @@ public record GcloudComputeCompositeHealthChecksGetHealthOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Region of the composite health check to operate on. Overrides the     default compute/region property value for this command invocation.
+    /// Region of the composite health check to operate on. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

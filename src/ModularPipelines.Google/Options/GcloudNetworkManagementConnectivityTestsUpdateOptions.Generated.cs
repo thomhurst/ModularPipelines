@@ -23,16 +23,22 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// This boolean controls whether to skip firewall checking. Use     --no-bypass-firewall-checks to disable.
+    /// This boolean controls whether to skip firewall checking. Use --no-bypass-firewall-checks to disable.
     /// </summary>
     [CliFlag("--bypass-firewall-checks")]
     public bool? BypassFirewallChecks { get; set; }
+
+    /// <summary>
+    /// This boolean controls whether to skip firewall checking. Use --no-bypass-firewall-checks to disable.
+    /// </summary>
+    [CliFlag("--no-bypass-firewall-checks")]
+    public bool? NoBypassFirewallChecks { get; set; }
 
     /// <summary>
     /// The description of the connectivity test.
@@ -41,19 +47,19 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     public string? Description { get; set; }
 
     /// <summary>
-    /// A hostname as the destination endpoint. Only applicable for Google     Kubernetes Engine.
+    /// A hostname as the destination endpoint. Only applicable for Google Kubernetes Engine.
     /// </summary>
     [CliOption("--destination-fqdn", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationFqdn { get; set; }
 
     /// <summary>
-    /// A VPC network URI for the destination endpoint. Used only when the     source is an external IP address endpoint, and the destination is an     internal IP address endpoint.
+    /// A VPC network URI for the destination endpoint. Used only when the source is an external IP address endpoint, and the destination is an internal IP address endpoint.
     /// </summary>
     [CliOption("--destination-network", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationNetwork { get; set; }
 
     /// <summary>
-    /// The IP protocol port of the destination. Only applicable when protocol     is TCP or UDP.
+    /// The IP protocol port of the destination. Only applicable when protocol is TCP or UDP.
     /// </summary>
     [CliOption("--destination-port", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationPort { get; set; }
@@ -71,7 +77,7 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// IDs of other projects involved in the connectivity test, besides the     source and destination project.
+    /// IDs of other projects involved in the connectivity test, besides the source and destination project.
     /// </summary>
     [CliOption("--other-projects", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OtherProjects { get; set; }
@@ -83,24 +89,249 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     public string? Protocol { get; set; }
 
     /// <summary>
-    /// This boolean controls whether return traces (from the destination to     the source) will be additionally calculated if packet successfully     reaches the destination from the source. Use --no-round-trip to     disable.
+    /// This boolean controls whether return traces (from the destination to the source) will be additionally calculated if packet successfully reaches the destination from the source. Use --no-round-trip to disable.
     /// </summary>
     [CliFlag("--round-trip")]
     public bool? RoundTrip { get; set; }
 
     /// <summary>
-    /// A VPC network URI for the source endpoint. Used according to the     source-network-type flag.
+    /// This boolean controls whether return traces (from the destination to the source) will be additionally calculated if packet successfully reaches the destination from the source. Use --no-round-trip to disable.
+    /// </summary>
+    [CliFlag("--no-round-trip")]
+    public bool? NoRoundTrip { get; set; }
+
+    /// <summary>
+    /// A VPC network URI for the source endpoint. Used according to the source-network-type flag.
     /// </summary>
     [CliOption("--source-network", Format = OptionFormat.EqualsSeparated)]
     public string? SourceNetwork { get; set; }
 
-    [CliOption("--source-network-type", Format = OptionFormat.EqualsSeparated)]
-    public string? SourceNetworkType { get; set; }
-
     /// <summary>
-    /// Project ID of the source endpoint.    At most one of these can be specified:     --clear-destination-cloud-sql-instance      Clear existing destination Cloud SQL instance.     --destination-cloud-sql-instance=DESTINATION_CLOUD_SQL_INSTANCE      A Cloud SQL instance URI as the destination endpoint.    At most one of these can be specified:     --clear-destination-forwarding-rule      Clear existing destination forwarding rule.     --destination-forwarding-rule=DESTINATION_FORWARDING_RULE      A forwarding rule URI as the destination endpoint.    At most one of these can be specified:     --clear-destination-gke-master-cluster      Clear existing destination cluster for Google Kubernetes Engine      master.     --destination-gke-master-cluster=DESTINATION_GKE_MASTER_CLUSTER      A cluster URI for Google Kubernetes Engine master as the destination      endpoint.    At most one of these can be specified:     --clear-destination-gke-pod      Clear existing destination GKE Pod.     --destination-gke-pod=DESTINATION_GKE_POD      A GKE Pod URI as the destination endpoint.    At most one of these can be specified:     --clear-destination-instance      Clear existing destination instance.     --destination-instance=DESTINATION_INSTANCE      A Compute Engine instance URI as the destination endpoint.    At most one of these can be specified:     --clear-destination-ip-address      Clear existing destination IP address.     --destination-ip-address=DESTINATION_IP_ADDRESS      The IP address of the destination which can be an external or      internal IP.    At most one of these can be specified:     --clear-destination-redis-cluster      Clear existing destination Redis Cluster.     --destination-redis-cluster=DESTINATION_REDIS_CLUSTER      A Redis cluster URI as the destination endpoint.    At most one of these can be specified:     --clear-destination-redis-instance      Clear existing destination Redis Instance.     --destination-redis-instance=DESTINATION_REDIS_INSTANCE      A Redis instance URI as the destination endpoint.    At most one of these can be specified:     --clear-source-app-engine-version      Clear existing source App Engine version.     --source-app-engine-version=SOURCE_APP_ENGINE_VERSION      App Engine version URI as the source endpoint.    At most one of these can be specified:     --clear-source-cloud-function      Clear existing source Cloud function.     --source-cloud-function=SOURCE_CLOUD_FUNCTION      A Cloud function URI as the source endpoint.    At most one of these can be specified:     --clear-source-cloud-run-job      Clear existing source Cloud Run job.     --source-cloud-run-job=SOURCE_CLOUD_RUN_JOB      Cloud Run job URI as the source endpoint.    At most one of these can be specified:     --clear-source-cloud-run-revision      Clear existing source Cloud Run revision.     --source-cloud-run-revision=SOURCE_CLOUD_RUN_REVISION      Cloud Run revision URI as the source endpoint.    At most one of these can be specified:     --clear-source-cloud-sql-instance      Clear existing source Cloud SQL instance.     --source-cloud-sql-instance=SOURCE_CLOUD_SQL_INSTANCE      A Cloud SQL instance URI as the source endpoint.    At most one of these can be specified:     --clear-source-gke-master-cluster      Clear existing source cluster for Google Kubernetes Engine master.     --source-gke-master-cluster=SOURCE_GKE_MASTER_CLUSTER      A cluster URI for Google Kubernetes Engine master as the source      endpoint.    At most one of these can be specified:     --clear-source-gke-pod      Clear existing source GKE Pod.     --source-gke-pod=SOURCE_GKE_POD      A GKE Pod URI as the source endpoint.    At most one of these can be specified:     --clear-source-instance      Clear existing source instance.     --source-instance=SOURCE_INSTANCE      A Compute Engine instance URI as the source endpoint.    At most one of these can be specified:     --clear-source-ip-address      Clear existing source IP address.     --source-ip-address=SOURCE_IP_ADDRESS      The IP address of the source which can be an external or internal IP.
+    /// Project ID of the source endpoint.
     /// </summary>
     [CliOption("--source-project", Format = OptionFormat.EqualsSeparated)]
     public string? SourceProject { get; set; }
+
+    /// <summary>
+    /// Clear existing destination Cloud SQL instance.
+    /// </summary>
+    [CliFlag("--clear-destination-cloud-sql-instance")]
+    public bool? ClearDestinationCloudSqlInstance { get; set; }
+
+    /// <summary>
+    /// A Cloud SQL instance URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-cloud-sql-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationCloudSqlInstance { get; set; }
+
+    /// <summary>
+    /// Clear existing destination forwarding rule.
+    /// </summary>
+    [CliFlag("--clear-destination-forwarding-rule")]
+    public bool? ClearDestinationForwardingRule { get; set; }
+
+    /// <summary>
+    /// A forwarding rule URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-forwarding-rule", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationForwardingRule { get; set; }
+
+    /// <summary>
+    /// Clear existing destination cluster for Google Kubernetes Engine master.
+    /// </summary>
+    [CliFlag("--clear-destination-gke-master-cluster")]
+    public bool? ClearDestinationGkeMasterCluster { get; set; }
+
+    /// <summary>
+    /// A cluster URI for Google Kubernetes Engine master as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-gke-master-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationGkeMasterCluster { get; set; }
+
+    /// <summary>
+    /// Clear existing destination GKE Pod.
+    /// </summary>
+    [CliFlag("--clear-destination-gke-pod")]
+    public bool? ClearDestinationGkePod { get; set; }
+
+    /// <summary>
+    /// A GKE Pod URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-gke-pod", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationGkePod { get; set; }
+
+    /// <summary>
+    /// Clear existing destination instance.
+    /// </summary>
+    [CliFlag("--clear-destination-instance")]
+    public bool? ClearDestinationInstance { get; set; }
+
+    /// <summary>
+    /// A Compute Engine instance URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationInstance { get; set; }
+
+    /// <summary>
+    /// Clear existing destination IP address.
+    /// </summary>
+    [CliFlag("--clear-destination-ip-address")]
+    public bool? ClearDestinationIpAddress { get; set; }
+
+    /// <summary>
+    /// The IP address of the destination which can be an external or internal IP.
+    /// </summary>
+    [CliOption("--destination-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationIpAddress { get; set; }
+
+    /// <summary>
+    /// Clear existing destination Redis Cluster.
+    /// </summary>
+    [CliFlag("--clear-destination-redis-cluster")]
+    public bool? ClearDestinationRedisCluster { get; set; }
+
+    /// <summary>
+    /// A Redis cluster URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-redis-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationRedisCluster { get; set; }
+
+    /// <summary>
+    /// Clear existing destination Redis Instance.
+    /// </summary>
+    [CliFlag("--clear-destination-redis-instance")]
+    public bool? ClearDestinationRedisInstance { get; set; }
+
+    /// <summary>
+    /// A Redis instance URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-redis-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationRedisInstance { get; set; }
+
+    /// <summary>
+    /// Clear existing source App Engine version.
+    /// </summary>
+    [CliFlag("--clear-source-app-engine-version")]
+    public bool? ClearSourceAppEngineVersion { get; set; }
+
+    /// <summary>
+    /// App Engine version URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-app-engine-version", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceAppEngineVersion { get; set; }
+
+    /// <summary>
+    /// Clear existing source Cloud function.
+    /// </summary>
+    [CliFlag("--clear-source-cloud-function")]
+    public bool? ClearSourceCloudFunction { get; set; }
+
+    /// <summary>
+    /// A Cloud function URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-cloud-function", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCloudFunction { get; set; }
+
+    /// <summary>
+    /// Clear existing source Cloud Run job.
+    /// </summary>
+    [CliFlag("--clear-source-cloud-run-job")]
+    public bool? ClearSourceCloudRunJob { get; set; }
+
+    /// <summary>
+    /// Cloud Run job URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-cloud-run-job", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCloudRunJob { get; set; }
+
+    /// <summary>
+    /// Clear existing source Cloud Run revision.
+    /// </summary>
+    [CliFlag("--clear-source-cloud-run-revision")]
+    public bool? ClearSourceCloudRunRevision { get; set; }
+
+    /// <summary>
+    /// Cloud Run revision URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-cloud-run-revision", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCloudRunRevision { get; set; }
+
+    /// <summary>
+    /// Clear existing source Cloud SQL instance.
+    /// </summary>
+    [CliFlag("--clear-source-cloud-sql-instance")]
+    public bool? ClearSourceCloudSqlInstance { get; set; }
+
+    /// <summary>
+    /// A Cloud SQL instance URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-cloud-sql-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCloudSqlInstance { get; set; }
+
+    /// <summary>
+    /// Clear existing source DMS private connection.
+    /// </summary>
+    [CliFlag("--clear-source-dms-private-connection")]
+    public bool? ClearSourceDmsPrivateConnection { get; set; }
+
+    /// <summary>
+    /// DMS private connection URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-dms-private-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDmsPrivateConnection { get; set; }
+
+    /// <summary>
+    /// Clear existing source cluster for Google Kubernetes Engine master.
+    /// </summary>
+    [CliFlag("--clear-source-gke-master-cluster")]
+    public bool? ClearSourceGkeMasterCluster { get; set; }
+
+    /// <summary>
+    /// A cluster URI for Google Kubernetes Engine master as the source endpoint.
+    /// </summary>
+    [CliOption("--source-gke-master-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceGkeMasterCluster { get; set; }
+
+    /// <summary>
+    /// Clear existing source GKE Pod.
+    /// </summary>
+    [CliFlag("--clear-source-gke-pod")]
+    public bool? ClearSourceGkePod { get; set; }
+
+    /// <summary>
+    /// A GKE Pod URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-gke-pod", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceGkePod { get; set; }
+
+    /// <summary>
+    /// Clear existing source instance.
+    /// </summary>
+    [CliFlag("--clear-source-instance")]
+    public bool? ClearSourceInstance { get; set; }
+
+    /// <summary>
+    /// A Compute Engine instance URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstance { get; set; }
+
+    /// <summary>
+    /// Clear existing source IP address.
+    /// </summary>
+    [CliFlag("--clear-source-ip-address")]
+    public bool? ClearSourceIpAddress { get; set; }
+
+    /// <summary>
+    /// The IP address of the source which can be an external or internal IP.
+    /// </summary>
+    [CliOption("--source-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceIpAddress { get; set; }
+
+    /// <summary>
+    /// Type of the network where the source is located. SOURCE_NETWORK_TYPE must be one of: gcp-network A VPC network. Should be used for internal IP addresses in VPC networks. The source-network field should be set to the URI of this network. Only endpoints within this network will be considered. internet Internet. Should be used for internet-routable external IP addresses or IP addresses for global Google APIs and services. non-gcp-network A network outside of Google Cloud (for example, an on-premises network or another cloud provider network). Should be used for internal IP addresses outside of Google Cloud. The source-network field should be set to the URI of the VPC network containing a corresponding Cloud VPN tunnel, Cloud Interconnect VLAN attachment, or a router appliance instance. Only endpoints reachable from the provided VPC network via the routes to networks outside of Google Cloud will be considered. unspecified Unspecified. The test will analyze all possible IP address locations. This might take longer and produce inaccurate or ambiguous results, so prefer specifying an explicit network type. The source-project field should be set to the project where the Google Cloud endpoint is located, or where the endpoint outside of Google Cloud should be reachable from (via routes to networks outside of Google Cloud). The project might also be inferred from the Connectivity Test project or other projects referenced in the request.
+    /// </summary>
+    [CliOption("--source-network-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceNetworkType { get; set; }
 
 }

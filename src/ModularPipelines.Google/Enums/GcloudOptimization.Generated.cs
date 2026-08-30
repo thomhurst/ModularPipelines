@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudOptimization
 {
     [EnumValue("AUTODETECT")]
-    Autodetect,
+    Autodetect = 0,
 
     [EnumValue("DISABLED")]
-    Disabled
+    Disabled = 1
 }

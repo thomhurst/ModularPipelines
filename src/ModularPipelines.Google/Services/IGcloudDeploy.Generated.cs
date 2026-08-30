@@ -15,53 +15,56 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud deploy commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDeploy
 {
     /// <summary>
     /// gcloud automation-runs sub-commands.
     /// </summary>
-    GcloudDeployAutomationRuns AutomationRuns { get; }
+    GcloudDeployAutomationRuns AutomationRuns => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud automations sub-commands.
     /// </summary>
-    GcloudDeployAutomations Automations { get; }
+    GcloudDeployAutomations Automations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud custom-target-types sub-commands.
     /// </summary>
-    GcloudDeployCustomTargetTypes CustomTargetTypes { get; }
+    GcloudDeployCustomTargetTypes CustomTargetTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud delivery-pipelines sub-commands.
     /// </summary>
-    GcloudDeployDeliveryPipelines DeliveryPipelines { get; }
+    GcloudDeployDeliveryPipelines DeliveryPipelines => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud deploy-policies sub-commands.
     /// </summary>
-    GcloudDeployDeployPolicies DeployPolicies { get; }
+    GcloudDeployDeployPolicies DeployPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud job-runs sub-commands.
     /// </summary>
-    GcloudDeployJobRuns JobRuns { get; }
+    GcloudDeployJobRuns JobRuns => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud releases sub-commands.
     /// </summary>
-    GcloudDeployReleases Releases { get; }
+    GcloudDeployReleases Releases => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud rollouts sub-commands.
     /// </summary>
-    GcloudDeployRollouts Rollouts { get; }
+    GcloudDeployRollouts Rollouts => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud targets sub-commands.
     /// </summary>
-    GcloudDeployTargets Targets { get; }
+    GcloudDeployTargets Targets => throw new System.NotSupportedException();
 
     /// <summary>
     /// create and manage Cloud Deploy resources
@@ -70,10 +73,8 @@ public interface IGcloudDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudDeployOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// applies a yaml configuration containing Delivery     Pipeline(s), Target(s), Custom Target Type(s), Deploy Policy(ies), and     Automation(s) declarative definitions
@@ -82,10 +83,8 @@ public interface IGcloudDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ApplyAsync(
-        GcloudDeployApplyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ApplyAsync(GcloudDeployApplyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// deletes Delivery Pipeline(s), Target(s), Custom     Target Type(s), and Automation(s) in a yaml configuration
@@ -94,10 +93,8 @@ public interface IGcloudDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        GcloudDeployDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(GcloudDeployDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// get the Cloud Deploy config for the provided     region and project
@@ -106,9 +103,7 @@ public interface IGcloudDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetConfigAsync(
-        GcloudDeployGetConfigOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> GetConfigAsync(GcloudDeployGetConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

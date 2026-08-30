@@ -199,6 +199,21 @@ public class GcloudNetworksecurity : IGcloudNetworksecurity
     #region Commands
 
     /// <summary>
+    /// manage Network Security resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecurityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// manage Mirroring Endpoint     resources
     /// </summary>
     /// <param name="options">The command options.</param>

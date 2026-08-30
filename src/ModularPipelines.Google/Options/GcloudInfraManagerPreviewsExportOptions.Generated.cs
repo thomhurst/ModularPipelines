@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudInfraManagerPreviewsExportOptions : GcloudOptions
 {
     /// <summary>
-    /// File name for preview export artifacts. It is optional and it specifies     the filename or complete path for the downloaded preview export     artifacts. If only a file path is provided, the artifacts will be     downloaded as "preview" within that directory. If a filename is     included, the artifacts will be downloaded with that name.
+    /// File name for preview export artifacts. It is optional and it specifies the filename or complete path for the downloaded preview export artifacts. If only a file path is provided, the artifacts will be downloaded as "preview" within that directory. If a filename is included, the artifacts will be downloaded with that name.
     /// </summary>
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }

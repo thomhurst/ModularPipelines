@@ -24,16 +24,19 @@ public record GcloudEndpointsServicesDeployOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
+    /// <summary>
+    /// Force the deployment even if any hazardous changes to the service configuration are detected.
+    /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
 
     /// <summary>
-    /// If included, the command validates the service configuration(s), but     does not deploy them. The service must exist in order to validate the     configuration(s).
+    /// If included, the command validates the service configuration(s), but does not deploy them. The service must exist in order to validate the configuration(s).
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }

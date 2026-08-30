@@ -33,6 +33,21 @@ public class GcloudComputeCompositeHealthChecks
     #region Commands
 
     /// <summary>
+    /// manage composite health checks
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeCompositeHealthChecksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeCompositeHealthChecksOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a composite health     check
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -105,6 +120,21 @@ public class GcloudComputeCompositeHealthChecks
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeCompositeHealthChecksListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine composite health check
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudComputeCompositeHealthChecksTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeCompositeHealthChecksTestIamPermissionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

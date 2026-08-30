@@ -33,6 +33,21 @@ public class GcloudSccManageCustomModulesSha
     #region Commands
 
     /// <summary>
+    /// manage Security Health Analytics     custom modules
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSccManageCustomModulesShaOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSccManageCustomModulesShaOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create an Security Health     Analytics custom module
     /// </summary>
     /// <param name="options">The command options.</param>

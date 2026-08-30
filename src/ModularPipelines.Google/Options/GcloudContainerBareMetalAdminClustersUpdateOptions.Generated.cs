@@ -23,43 +23,43 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Set Binary Authorization evaluation mode for this cluster.     BINAUTHZ_EVALUATION_MODE must be one of: DISABLED,     PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
     /// </summary>
     [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BinauthzEvaluationMode { get; set; }
 
     /// <summary>
-    /// Description for the resource.    Anthos on bare metal cluster operations configuration.
+    /// Description for the resource.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Whether collection of application logs/metrics should be enabled (in     addition to system logs/metrics).    Populate one of the network configs.    Island mode CIDR network configuration.
+    /// Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
     /// </summary>
     [CliFlag("--enable-application-logs")]
     public bool? EnableApplicationLogs { get; set; }
 
     /// <summary>
-    /// IPv4 address range for all services in the cluster.    Anthos on bare metal node access related settings for the admin cluster.
+    /// IPv4 address range for all services in the cluster.
     /// </summary>
     [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IslandModeServiceAddressCidrBlocks { get; set; }
 
     /// <summary>
-    /// User name used to access node machines.    Anthos on bare metal cluster maintenance configuration.
+    /// User name used to access node machines.
     /// </summary>
     [CliOption("--login-user", Format = OptionFormat.EqualsSeparated)]
     public string? LoginUser { get; set; }
 
     /// <summary>
-    /// IPv4 addresses to be placed into maintenance mode.    Anthos on bare metal admin cluster workload node configuration.
+    /// IPv4 addresses to be placed into maintenance mode.
     /// </summary>
     [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
@@ -71,22 +71,28 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public string? MaxPodsPerNode { get; set; }
 
     /// <summary>
-    /// If set, only validate the request, but do not actually perform the     operation.
+    /// If set, only validate the request, but do not actually perform the operation.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Anthos cluster on bare metal version for the admin cluster resource.    Anthos on bare metal cluster control plane configuration.
+    /// Anthos cluster on bare metal version for the admin cluster resource.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
     /// <summary>
-    /// API Server argument configuration.    Anthos on bare metal cluster control plane node pool configuration.    Anthos on bare metal node pool configuration for control plane nodes.    Anthos on bare metal node configuration for control plane nodes.    Populate control plane node config.    At most one of these can be specified:     --control-plane-node-configs=[labels=LABELS],[node-ip=NODE-IP]      Control plane node configuration.
+    /// API Server argument configuration.
     /// </summary>
     [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ApiServerArgs { get; set; }
+
+    /// <summary>
+    /// Control plane node configuration.
+    /// </summary>
+    [CliOption("--control-plane-node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneNodeConfigs { get; set; }
 
     /// <summary>
     /// Labels assigned to nodes of a node pool.
@@ -95,7 +101,7 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? ControlPlaneNodeLabels { get; set; }
 
     /// <summary>
-    /// Node taint applied to every Kubernetes node in a node pool.    Anthos on bare metal cluster proxy configuration.
+    /// Node taint applied to every Kubernetes node in a node pool.
     /// </summary>
     [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints { get; set; }

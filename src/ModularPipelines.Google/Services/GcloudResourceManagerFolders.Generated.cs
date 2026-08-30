@@ -33,6 +33,21 @@ public class GcloudResourceManagerFolders
     #region Commands
 
     /// <summary>
+    /// manage Cloud Folders
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudResourceManagerFoldersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudResourceManagerFoldersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy     binding for a folder
     /// </summary>
     /// <param name="options">The command options.</param>

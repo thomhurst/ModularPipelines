@@ -24,7 +24,7 @@ public record GcloudContainerFleetPackagesResourceBundlesDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If true, force deletion of any child resources. Otherwise, attempting     to delete a Resource Bundle with children will fail.
+    /// If true, force deletion of any child resources. Otherwise, attempting to delete a Resource Bundle with children will fail.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

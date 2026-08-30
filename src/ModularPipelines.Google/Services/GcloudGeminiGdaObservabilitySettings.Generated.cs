@@ -43,6 +43,21 @@ public class GcloudGeminiGdaObservabilitySettings
     #region Commands
 
     /// <summary>
+    /// manage Gda Observability Setting     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudGeminiGdaObservabilitySettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudGeminiGdaObservabilitySettingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create     gdaObservabilitySettings
     /// </summary>
     /// <param name="options">The command options.</param>

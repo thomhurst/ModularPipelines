@@ -24,31 +24,31 @@ public record GcloudPreviewComputeSnapshotsUpdateKmsKeyOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The region of the snapshot to update.    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the snapshot. The 'Compute Engine Service Agent'   service account must hold permission 'Cloud KMS CryptoKey   Encrypter/Decrypter'. The arguments in this group can be used to specify   the attributes of this resource.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the snapshot. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The region of the snapshot to update.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// ID of the key or fully qualified identifier for the key.     To set the kms-key attribute:     ◆ provide the argument --kms-key on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the snapshot. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// The KMS keyring of the key.     To set the kms-keyring attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the snapshot. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
     /// </summary>
     [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKeyring { get; set; }
 
     /// <summary>
-    /// The Google Cloud location for the key.     To set the kms-location attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-location on the command line;     ◆ provide the argument --region on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the snapshot. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line; ◆ provide the argument --region on the command line.
     /// </summary>
     [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
     public string? KmsLocation { get; set; }
 
     /// <summary>
-    /// The Google Cloud project for the key.     To set the kms-project attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-project on the command line;     ◆ set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the snapshot. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
     public string? KmsProject { get; set; }

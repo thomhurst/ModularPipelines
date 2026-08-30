@@ -33,6 +33,21 @@ public class GcloudServiceextensionsLbEdgeExtensions
     #region Commands
 
     /// <summary>
+    /// manage Service Extensions     LbEdgeExtension resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudServiceExtensionsLbEdgeExtensionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudServiceExtensionsLbEdgeExtensionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete an     LbEdgeExtension resource
     /// </summary>
     /// <param name="options">The command options.</param>

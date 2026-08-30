@@ -23,79 +23,91 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerVmwareNodePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Configuration of the node pool Node pool autoscaling Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Display name for the resource.
+    /// Configuration of the node pool Node pool autoscaling Display name for the resource.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// If set, only validate the request, but do not actually perform the     operation.    Configuration of the node pool
+    /// Configuration of the node pool Node pool autoscaling If set, only validate the request, but do not actually perform the operation.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Size of VMware disk to be used during creation in GB.
+    /// Configuration of the node pool Node pool autoscaling Size of VMware disk to be used during creation in GB.
     /// </summary>
     [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? BootDiskSize { get; set; }
 
     /// <summary>
-    /// Number of CPUs for each node in the node pool.
+    /// Configuration of the node pool Node pool autoscaling Number of CPUs for each node in the node pool.
     /// </summary>
     [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
     public string? Cpus { get; set; }
 
     /// <summary>
-    /// OS image name in vCenter.
+    /// Configuration of the node pool Node pool autoscaling OS image name in vCenter.
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
     public string? Image { get; set; }
 
     /// <summary>
-    /// OS image type to use on node pool instances.
+    /// Configuration of the node pool Node pool autoscaling OS image type to use on node pool instances.
     /// </summary>
     [CliOption("--image-type", Format = OptionFormat.EqualsSeparated)]
     public string? ImageType { get; set; }
 
     /// <summary>
-    /// Size of memory for each node in the node pool in MB.
+    /// Configuration of the node pool Node pool autoscaling Size of memory for each node in the node pool in MB.
     /// </summary>
     [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
     public string? Memory { get; set; }
 
     /// <summary>
-    /// Kubernetes labels (key/value pairs) to be applied to each node.
+    /// Configuration of the node pool Node pool autoscaling Kubernetes labels (key/value pairs) to be applied to each node.
     /// </summary>
     [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
 
     /// <summary>
-    /// Applies the given kubernetes taints on all nodes in the new node pool,     which can be used with tolerations for pod scheduling.     Taint effect must be one of the following: NoSchedule,     PreferNoSchedule, or NoExecute.     Examples:       $ gcloud container vmware node-pools update node-pool-1 \         --cluster=example-cluster \         --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule
+    /// Configuration of the node pool Node pool autoscaling Applies the given kubernetes taints on all nodes in the new node pool, which can be used with tolerations for pod scheduling. Taint effect must be one of the following: NoSchedule, PreferNoSchedule, or NoExecute. Examples: $ gcloud container vmware node-pools update node-pool-1 \ --cluster=example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule
     /// </summary>
     [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? NodeTaints { get; set; }
 
     /// <summary>
-    /// Number of replicas to use on node pool instances.    At most one of these can be specified:     --disable-load-balancer      If set, disable the use of load balancer on the node pool instances.     --enable-load-balancer      If set, enable the use of load balancer on the node pool instances.    Node pool autoscaling
+    /// Configuration of the node pool Node pool autoscaling Number of replicas to use on node pool instances.
     /// </summary>
     [CliOption("--replicas", Format = OptionFormat.EqualsSeparated)]
     public string? Replicas { get; set; }
 
     /// <summary>
-    /// Maximum number of replicas in the node pool.
+    /// Configuration of the node pool Node pool autoscaling At most one of these can be specified: If set, disable the use of load balancer on the node pool instances.
+    /// </summary>
+    [CliFlag("--disable-load-balancer")]
+    public bool? DisableLoadBalancer { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool Node pool autoscaling At most one of these can be specified: If set, enable the use of load balancer on the node pool instances.
+    /// </summary>
+    [CliFlag("--enable-load-balancer")]
+    public bool? EnableLoadBalancer { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool Node pool autoscaling Maximum number of replicas in the node pool.
     /// </summary>
     [CliOption("--max-replicas", Format = OptionFormat.EqualsSeparated)]
     public string? MaxReplicas { get; set; }
 
     /// <summary>
-    /// Minimum number of replicas in the node pool.
+    /// Configuration of the node pool Node pool autoscaling Minimum number of replicas in the node pool.
     /// </summary>
     [CliOption("--min-replicas", Format = OptionFormat.EqualsSeparated)]
     public string? MinReplicas { get; set; }

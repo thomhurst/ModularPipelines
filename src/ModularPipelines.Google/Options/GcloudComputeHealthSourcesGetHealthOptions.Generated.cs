@@ -24,7 +24,7 @@ public record GcloudComputeHealthSourcesGetHealthOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Region of the health source to operate on. Overrides the default     compute/region property value for this command invocation.
+    /// Region of the health source to operate on. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

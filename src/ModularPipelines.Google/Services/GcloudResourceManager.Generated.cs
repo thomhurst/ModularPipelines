@@ -57,4 +57,23 @@ public class GcloudResourceManager : IGcloudResourceManager
     public GcloudResourceManagerTags Tags => _tags ??= new GcloudResourceManagerTags(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Cloud Resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudResourceManagerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudResourceManagerOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

@@ -43,6 +43,21 @@ public class GcloudGeminiGeminiGcpEnablementSettings
     #region Commands
 
     /// <summary>
+    /// manage Gemini Gcp Enablement     Setting resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudGeminiGeminiGcpEnablementSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudGeminiGeminiGcpEnablementSettingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create     geminiGcpEnablementSettings
     /// </summary>
     /// <param name="options">The command options.</param>

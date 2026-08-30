@@ -33,6 +33,21 @@ public class GcloudSccFindings
     #region Commands
 
     /// <summary>
+    /// manage Cloud SCC (Security Command Center) findings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSccFindingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSccFindingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// bulk mute Security Command Center findings     based on a filter
     /// </summary>
     /// <param name="options">The command options.</param>

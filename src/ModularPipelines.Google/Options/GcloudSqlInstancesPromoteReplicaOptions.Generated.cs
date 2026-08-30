@@ -24,9 +24,21 @@ public record GcloudSqlInstancesPromoteReplicaOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Whether the promote operation is a failover. Use --failover to enable and --no-failover to disable.
+    /// </summary>
+    [CliFlag("--failover")]
+    public bool? Failover { get; set; }
+
+    /// <summary>
+    /// Whether the promote operation is a failover. Use --failover to enable and --no-failover to disable.
+    /// </summary>
+    [CliFlag("--no-failover")]
+    public bool? NoFailover { get; set; }
 
 }

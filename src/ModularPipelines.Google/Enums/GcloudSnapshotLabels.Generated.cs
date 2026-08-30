@@ -10,30 +10,27 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
-/// <summary>
-/// Allowed values for --snapshotlabels.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudSnapshotLabels
 {
     [EnumValue("monday")]
-    Monday,
+    Monday = 0,
 
     [EnumValue("tuesday")]
-    Tuesday,
+    Tuesday = 1,
 
     [EnumValue("wednesday")]
-    Wednesday,
+    Wednesday = 2,
 
     [EnumValue("thursday")]
-    Thursday,
+    Thursday = 3,
 
     [EnumValue("friday")]
-    Friday,
+    Friday = 4,
 
     [EnumValue("saturday")]
-    Saturday,
+    Saturday = 5,
 
     [EnumValue("sunday")]
-    Sunday
+    Sunday = 6
 }

@@ -23,13 +23,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPubsubLiteOperationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Filter operations by completion status. This flag is ignored if     --filter is set. DONE must be one of: false, true.
+    /// Filter operations by completion status. This flag is ignored if --filter is set. DONE must be one of: false, true.
     /// </summary>
     [CliOption("--done", Format = OptionFormat.EqualsSeparated)]
     public GcloudDone? Done { get; set; }
 
     /// <summary>
-    /// Filter operations by target subscription. This flag is ignored if     --filter is set.
+    /// Filter operations by target subscription. This flag is ignored if --filter is set.
     /// </summary>
     [CliOption("--subscription", Format = OptionFormat.EqualsSeparated)]
     public string? Subscription { get; set; }

@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeployDeliveryPipelinesDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If true, the delivery pipeline with sub-resources will be deleted and     its sub-resources will also be deleted.
+    /// If true, the delivery pipeline with sub-resources will be deleted and its sub-resources will also be deleted.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

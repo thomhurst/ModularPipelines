@@ -24,13 +24,13 @@ public record GcloudSpannerInstanceConfigsDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Used for optimistic concurrency control as a way to help prevent     simultaneous deletes of an instance config from overwriting each other.
+    /// Used for optimistic concurrency control as a way to help prevent simultaneous deletes of an instance config from overwriting each other.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 
     /// <summary>
-    /// If specified, validate that the deletion will succeed without deleting     the instance config.
+    /// If specified, validate that the deletion will succeed without deleting the instance config.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }

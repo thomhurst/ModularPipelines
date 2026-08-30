@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -27,11 +28,8 @@ public record GcloudSpannerCliOptions : GcloudOptions
     [CliOption("--database-role", Format = OptionFormat.EqualsSeparated)]
     public string? DatabaseRole { get; set; }
 
-    [CliOption("--delimiter", Format = OptionFormat.EqualsSeparated)]
-    public string? Delimiter { get; set; }
-
     /// <summary>
-    /// Enables directed reads to provide the flexibility to route read-only     transactions and single reads to a specific replica type or region     (replica_location:replica_type). The replica_type is optional and can     be either READ_ONLY or READ_WRITE.
+    /// Enables directed reads to provide the flexibility to route read-only transactions and single reads to a specific replica type or region (replica_location:replica_type). The replica_type is optional and can be either READ_ONLY or READ_WRITE.
     /// </summary>
     [CliOption("--directed-read", Format = OptionFormat.EqualsSeparated)]
     public string? DirectedRead { get; set; }
@@ -42,17 +40,11 @@ public record GcloudSpannerCliOptions : GcloudOptions
     [CliOption("--execute", Format = OptionFormat.EqualsSeparated)]
     public string? Execute { get; set; }
 
-    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
-    public string? Host { get; set; }
-
     /// <summary>
     /// Show output in HTML format.
     /// </summary>
     [CliFlag("--html")]
     public bool? Html { get; set; }
-
-    [CliOption("--idle-transaction-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? IdleTransactionTimeout { get; set; }
 
     /// <summary>
     /// SQL statement to execute after startup.
@@ -72,11 +64,8 @@ public record GcloudSpannerCliOptions : GcloudOptions
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
 
-    [CliOption("--prompt", Format = OptionFormat.EqualsSeparated)]
-    public string? Prompt { get; set; }
-
     /// <summary>
-    /// Path of a file that contains a protobuf-serialized     google.protobuf.FileDescriptorSet message to use in this invocation.
+    /// Path of a file that contains a protobuf-serialized google.protobuf.FileDescriptorSet message to use in this invocation.
     /// </summary>
     [CliOption("--proto-descriptor-file", Format = OptionFormat.EqualsSeparated)]
     public string? ProtoDescriptorFile { get; set; }
@@ -99,9 +88,6 @@ public record GcloudSpannerCliOptions : GcloudOptions
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
 
-    [CliOption("--system-command", Format = OptionFormat.EqualsSeparated)]
-    public string? SystemCommand { get; set; }
-
     /// <summary>
     /// Show output in table format.
     /// </summary>
@@ -119,5 +105,35 @@ public record GcloudSpannerCliOptions : GcloudOptions
     /// </summary>
     [CliFlag("--xml")]
     public bool? Xml { get; set; }
+
+    /// <summary>
+    /// Set the statement delimiter.
+    /// </summary>
+    [CliOption("--delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? Delimiter { get; set; }
+
+    /// <summary>
+    /// Host on which Spanner server is located.
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// Set the idle transaction timeout. The default timeout is 60 seconds.
+    /// </summary>
+    [CliOption("--idle-transaction-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? IdleTransactionTimeout { get; set; }
+
+    /// <summary>
+    /// Set the prompt to the specified format.
+    /// </summary>
+    [CliOption("--prompt", Format = OptionFormat.EqualsSeparated)]
+    public string? Prompt { get; set; }
+
+    /// <summary>
+    /// Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF.
+    /// </summary>
+    [CliOption("--system-command", Format = OptionFormat.EqualsSeparated)]
+    public string? SystemCommand { get; set; }
 
 }

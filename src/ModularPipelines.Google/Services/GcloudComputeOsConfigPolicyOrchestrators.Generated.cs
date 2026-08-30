@@ -33,6 +33,21 @@ public class GcloudComputeOsConfigPolicyOrchestrators
     #region Commands
 
     /// <summary>
+    /// manage VM Manager policy     orchestrators
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeOsConfigPolicyOrchestratorsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOsConfigPolicyOrchestratorsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a policy     orchestrator
     /// </summary>
     /// <param name="options">The command options.</param>

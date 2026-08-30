@@ -33,6 +33,21 @@ public class GcloudComputeVpnTunnels
     #region Commands
 
     /// <summary>
+    /// read and manipulate Compute Engine VPN tunnels
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeVpnTunnelsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeVpnTunnelsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a VPN tunnel
     /// </summary>
     /// <param name="options">The command options.</param>

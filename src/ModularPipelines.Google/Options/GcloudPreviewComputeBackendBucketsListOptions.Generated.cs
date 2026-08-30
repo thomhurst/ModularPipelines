@@ -21,7 +21,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "backend-buckets", "list")]
 public record GcloudPreviewComputeBackendBucketsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// (DEPRECATED) Regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out. Flag --regexp is deprecated. Use --filter="name~'REGEXP'" instead.
+    /// </summary>
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
     public string? Regexp { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If provided, only global resources are shown.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If provided, only regional resources are shown. If arguments are provided, only resources from the given regions are shown.
+    /// </summary>
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Regions { get; set; }
 
 }

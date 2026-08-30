@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeploymentManagerDeploymentsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Changes the --format flag to print the resource IDs. Otherwise either     the --format value or the default format is used.
+    /// Changes the --format flag to print the resource IDs. Otherwise either the --format value or the default format is used.
     /// </summary>
     [CliFlag("--simple-list")]
     public bool? SimpleList { get; set; }

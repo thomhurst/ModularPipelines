@@ -33,6 +33,21 @@ public class GcloudDataplexContext
     #region Commands
 
     /// <summary>
+    /// manage Dataplex Context
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDataplexContextOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataplexContextOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// looks up metadata that can be used as     context by agents
     /// </summary>
     /// <param name="options">The command options.</param>

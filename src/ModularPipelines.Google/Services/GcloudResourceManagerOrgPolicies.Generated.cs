@@ -33,6 +33,21 @@ public class GcloudResourceManagerOrgPolicies
     #region Commands
 
     /// <summary>
+    /// manage Org Policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudResourceManagerOrgPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudResourceManagerOrgPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add values to an Organization     Policy allowed_values list policy
     /// </summary>
     /// <param name="options">The command options.</param>

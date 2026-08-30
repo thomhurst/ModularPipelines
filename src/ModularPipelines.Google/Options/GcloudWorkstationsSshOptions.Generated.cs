@@ -22,29 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsSshOptions : GcloudOptions
 {
     /// <summary>
-    /// A command to run on the workstation.     Runs the command on the target workstation and then exits.
+    /// A command to run on the workstation. Runs the command on the target workstation and then exits.
     /// </summary>
     [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
     public string? Command { get; set; }
 
-    [CliOption("--local-host-port", Format = OptionFormat.EqualsSeparated)]
-    public string? LocalHostPort { get; set; }
-
-    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
-
     /// <summary>
-    /// Additional flags to be passed to ssh(1). It is recommended that flags     be passed using an assignment operator and quotes. Example:       $ gcloud workstations ssh --ssh-flag="-vvv" \         --ssh-flag="-L 80:localhost:80"
+    /// Additional flags to be passed to ssh(1). It is recommended that flags be passed using an assignment operator and quotes. Example: $ gcloud workstations ssh --ssh-flag="-vvv" \ --ssh-flag="-L 80:localhost:80"
     /// </summary>
     [CliOption("--ssh-flag", Format = OptionFormat.EqualsSeparated)]
     public string? SshFlag { get; set; }
 
     /// <summary>
-    /// If set, automatically starts the workstation if it is currently     stopped.
+    /// If set, automatically starts the workstation if it is currently stopped.
     /// </summary>
     [CliFlag("--start-workstation")]
     public bool? StartWorkstation { get; set; }
 
+    /// <summary>
+    /// LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen.
+    /// </summary>
+    [CliOption("--local-host-port", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalHostPort { get; set; }
+
+    /// <summary>
+    /// The port on the workstation to which traffic should be sent.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// The username with which to SSH.
+    /// </summary>
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 

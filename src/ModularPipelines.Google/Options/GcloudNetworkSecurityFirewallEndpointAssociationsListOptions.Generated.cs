@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "firewall-endpoint-associations", "list")]
 public record GcloudNetworkSecurityFirewallEndpointAssociationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Location of the firewall endpoint association
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Zone of the firewall endpoint association
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

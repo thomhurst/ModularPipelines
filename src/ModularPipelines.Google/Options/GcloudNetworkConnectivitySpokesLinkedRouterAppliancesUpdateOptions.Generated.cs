@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivitySpokesLinkedRouterAppliancesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -35,39 +35,51 @@ public record GcloudNetworkConnectivitySpokesLinkedRouterAppliancesUpdateOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Dynamic routes overlapped/encompassed by exclude export ranges are     excluded during export to hub.
+    /// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
     /// </summary>
     [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludeExportRanges { get; set; }
 
     /// <summary>
-    /// Hub routes overlapped/encompassed by exclude import ranges are excluded     during import from hub.
+    /// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
     /// </summary>
     [CliOption("--exclude-import-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludeImportRanges { get; set; }
 
     /// <summary>
-    /// Dynamic routes fully encompassed by include export ranges are included     during export to hub. If it's empty, the spoke exports all dynamic     routes to the hub.
+    /// Dynamic routes fully encompassed by include export ranges are included during export to hub. If it's empty, the spoke exports all dynamic routes to the hub.
     /// </summary>
     [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IncludeExportRanges { get; set; }
 
     /// <summary>
-    /// Hub routes fully encompassed by include import ranges are included     during import from hub. If it's empty, the spoke does not import any     subnets from the hub. If it's empty and site-to-site-data-transfer is     true, the spoke imports all IPv4 site-to-site dynamic routes from the     hub.
+    /// Hub routes fully encompassed by include import ranges are included during import from hub. If it's empty, the spoke does not import any subnets from the hub. If it's empty and site-to-site-data-transfer is true, the spoke imports all IPv4 site-to-site dynamic routes from the hub.
     /// </summary>
     [CliOption("--include-import-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IncludeImportRanges { get; set; }
 
     /// <summary>
-    /// Router appliance instance(s) with which to replace the set of instances     already linked to this spoke. Pass this flag multiple times to replace     with multiple instances. For example, use     --router-appliance=instance=new_ins_uri,ip=10.10.0.1 for a single     router appliance instance, or     --router-appliance=instance=new_ins_uri_1,ip=10.10.0.1     --router-appliance=instance=new_ins_uri_2,ip=10.10.0.2 ... for multiple     instances.
+    /// Router appliance instance(s) with which to replace the set of instances already linked to this spoke. Pass this flag multiple times to replace with multiple instances. For example, use --router-appliance=instance=new_ins_uri,ip=10.10.0.1 for a single router appliance instance, or --router-appliance=instance=new_ins_uri_1,ip=10.10.0.1 --router-appliance=instance=new_ins_uri_2,ip=10.10.0.2 ... for multiple instances.
     /// </summary>
     [CliOption("--router-appliance", Format = OptionFormat.EqualsSeparated)]
     public string? RouterAppliance { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud network-connectivity spokes linked-router-appliances \         update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud network-connectivity spokes linked-router-appliances \         update --clear-labels --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud network-connectivity spokes linked-router-appliances \ update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud network-connectivity spokes linked-router-appliances \ update --clear-labels --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

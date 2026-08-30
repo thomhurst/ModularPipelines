@@ -29,7 +29,7 @@ public record GcloudBuildsConnectionsUpdateGithubOptions : GcloudOptions
     public string? AppInstallationId { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }

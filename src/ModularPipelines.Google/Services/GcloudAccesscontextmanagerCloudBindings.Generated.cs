@@ -33,6 +33,21 @@ public class GcloudAccesscontextmanagerCloudBindings
     #region Commands
 
     /// <summary>
+    /// manage Access Context     Manager cloud access bindings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAccessContextManagerCloudBindingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAccessContextManagerCloudBindingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create cloud access     bindings for a specific group
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -93,7 +108,7 @@ public class GcloudAccesscontextmanagerCloudBindings
     }
 
     /// <summary>
-    /// update a existing     cloud access binding under an organization
+    /// update an existing     cloud access binding under an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

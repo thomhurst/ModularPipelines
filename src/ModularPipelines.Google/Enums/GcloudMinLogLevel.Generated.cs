@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudMinLogLevel
 {
     [EnumValue("debug")]
-    Debug,
+    Debug = 0,
 
     [EnumValue("info")]
-    Info,
+    Info = 1,
 
     [EnumValue("error")]
-    Error
+    Error = 2
 }

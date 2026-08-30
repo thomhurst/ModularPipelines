@@ -30,7 +30,7 @@ public record GcloudPreviewComputeUrlMapsListCdnCacheInvalidationsOptions(
     public bool? Global { get; set; }
 
     /// <summary>
-    /// The maximum number of invalidations to list. This has an upper limit of     1000. For more results, use Cloud Logging.
+    /// The maximum number of invalidations to list. This has an upper limit of 1000. For more results, use Cloud Logging.
     /// </summary>
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
     public string? Limit { get; set; }

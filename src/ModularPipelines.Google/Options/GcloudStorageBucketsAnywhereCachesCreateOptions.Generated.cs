@@ -25,10 +25,22 @@ public record GcloudStorageBucketsAnywhereCachesCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The cache admission policy decides for each cache miss, whether to     insert the missed block or not. ADMISSION_POLICY must be one of:     ADMIT_ON_FIRST_MISS, ADMIT_ON_SECOND_MISS.
+    /// The cache admission policy decides for each cache miss, whether to insert the missed block or not. ADMISSION_POLICY must be one of: ADMIT_ON_FIRST_MISS, ADMIT_ON_SECOND_MISS.
     /// </summary>
     [CliOption("--admission-policy", Format = OptionFormat.EqualsSeparated)]
     public GcloudAdmissionPolicy? AdmissionPolicy { get; set; }
+
+    /// <summary>
+    /// Enables the Ingest-on-Write feature on the bucket. Use --enable-ingest-on-write to enable and --no-enable-ingest-on-write to disable.
+    /// </summary>
+    [CliFlag("--enable-ingest-on-write")]
+    public bool? EnableIngestOnWrite { get; set; }
+
+    /// <summary>
+    /// Enables the Ingest-on-Write feature on the bucket. Use --enable-ingest-on-write to enable and --no-enable-ingest-on-write to disable.
+    /// </summary>
+    [CliFlag("--no-enable-ingest-on-write")]
+    public bool? NoEnableIngestOnWrite { get; set; }
 
     /// <summary>
     /// Cache entry time-to-live. Default to 24h if not provided.

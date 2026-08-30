@@ -22,9 +22,27 @@ namespace ModularPipelines.Google.Options;
 public record GcloudInfoOptions : GcloudOptions
 {
     /// <summary>
-    /// Minimize any personal identifiable information. Use it when sharing     output with others.    At most one of these can be specified:     --show-log      Print the contents of the last log file.     Or at least one of these can be specified:      --run-diagnostics       Run diagnostics on your installation of the Google Cloud CLI.       This flag argument must be specified if any of the other arguments       in this group are specified.      --check-certs=HOSTNAME       Run diagnostics on the certificate chain for a given host.
+    /// Minimize any personal identifiable information. Use it when sharing output with others.
     /// </summary>
     [CliFlag("--anonymize")]
     public bool? Anonymize { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Print the contents of the last log file.
+    /// </summary>
+    [CliFlag("--show-log")]
+    public bool? ShowLog { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Run diagnostics on your installation of the Google Cloud CLI. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--run-diagnostics")]
+    public bool? RunDiagnostics { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Run diagnostics on the certificate chain for a given host.
+    /// </summary>
+    [CliOption("--check-certs", Format = OptionFormat.EqualsSeparated)]
+    public string? CheckCerts { get; set; }
 
 }

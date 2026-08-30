@@ -33,6 +33,21 @@ public class GcloudPreviewComputeTargetHttpsProxies
     #region Commands
 
     /// <summary>
+    /// list, create, and delete     target HTTPS proxies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeTargetHttpsProxiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeTargetHttpsProxiesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a target HTTPS     proxy
     /// </summary>
     /// <param name="options">The command options.</param>

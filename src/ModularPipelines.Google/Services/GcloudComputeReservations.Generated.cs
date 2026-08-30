@@ -22,6 +22,7 @@ public class GcloudComputeReservations
 {
     private readonly ICommandContext _command;
     private GcloudComputeReservationsBlocks? _blocks;
+    private GcloudComputeReservationsHosts? _hosts;
     private GcloudComputeReservationsSlots? _slots;
     private GcloudComputeReservationsSubBlocks? _subBlocks;
 
@@ -41,6 +42,11 @@ public class GcloudComputeReservations
     public GcloudComputeReservationsBlocks Blocks => _blocks ??= new GcloudComputeReservationsBlocks(_command);
 
     /// <summary>
+    /// gcloud hosts sub-commands.
+    /// </summary>
+    public GcloudComputeReservationsHosts Hosts => _hosts ??= new GcloudComputeReservationsHosts(_command);
+
+    /// <summary>
     /// gcloud slots sub-commands.
     /// </summary>
     public GcloudComputeReservationsSlots Slots => _slots ??= new GcloudComputeReservationsSlots(_command);
@@ -53,6 +59,21 @@ public class GcloudComputeReservations
     #endregion
 
     #region Commands
+
+    /// <summary>
+    /// manage Compute Engine reservations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeReservationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeReservationsOptions(), executionOptions, cancellationToken);
+    }
 
     /// <summary>
     /// add IAM policy binding     to a Compute Engine reservation

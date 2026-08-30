@@ -15,143 +15,156 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud networksecurity commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudNetworksecurity
 {
     /// <summary>
     /// gcloud address-groups sub-commands.
     /// </summary>
-    GcloudNetworksecurityAddressGroups AddressGroups { get; }
+    GcloudNetworksecurityAddressGroups AddressGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud authorization-policies sub-commands.
     /// </summary>
-    GcloudNetworksecurityAuthorizationPolicies AuthorizationPolicies { get; }
+    GcloudNetworksecurityAuthorizationPolicies AuthorizationPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud authz-policies sub-commands.
     /// </summary>
-    GcloudNetworksecurityAuthzPolicies AuthzPolicies { get; }
+    GcloudNetworksecurityAuthzPolicies AuthzPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backend-authentication-configs sub-commands.
     /// </summary>
-    GcloudNetworksecurityBackendAuthenticationConfigs BackendAuthenticationConfigs { get; }
+    GcloudNetworksecurityBackendAuthenticationConfigs BackendAuthenticationConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud client-tls-policies sub-commands.
     /// </summary>
-    GcloudNetworksecurityClientTlsPolicies ClientTlsPolicies { get; }
+    GcloudNetworksecurityClientTlsPolicies ClientTlsPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud dns-threat-detectors sub-commands.
     /// </summary>
-    GcloudNetworksecurityDnsThreatDetectors DnsThreatDetectors { get; }
+    GcloudNetworksecurityDnsThreatDetectors DnsThreatDetectors => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud firewall-endpoint-associations sub-commands.
     /// </summary>
-    GcloudNetworksecurityFirewallEndpointAssociations FirewallEndpointAssociations { get; }
+    GcloudNetworksecurityFirewallEndpointAssociations FirewallEndpointAssociations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud firewall-endpoints sub-commands.
     /// </summary>
-    GcloudNetworksecurityFirewallEndpoints FirewallEndpoints { get; }
+    GcloudNetworksecurityFirewallEndpoints FirewallEndpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud gateway-security-policies sub-commands.
     /// </summary>
-    GcloudNetworksecurityGatewaySecurityPolicies GatewaySecurityPolicies { get; }
+    GcloudNetworksecurityGatewaySecurityPolicies GatewaySecurityPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud intercept-deployment-groups sub-commands.
     /// </summary>
-    GcloudNetworksecurityInterceptDeploymentGroups InterceptDeploymentGroups { get; }
+    GcloudNetworksecurityInterceptDeploymentGroups InterceptDeploymentGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud intercept-deployments sub-commands.
     /// </summary>
-    GcloudNetworksecurityInterceptDeployments InterceptDeployments { get; }
+    GcloudNetworksecurityInterceptDeployments InterceptDeployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud intercept-endpoint-group-associations sub-commands.
     /// </summary>
-    GcloudNetworksecurityInterceptEndpointGroupAssociations InterceptEndpointGroupAssociations { get; }
+    GcloudNetworksecurityInterceptEndpointGroupAssociations InterceptEndpointGroupAssociations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud intercept-endpoint-groups sub-commands.
     /// </summary>
-    GcloudNetworksecurityInterceptEndpointGroups InterceptEndpointGroups { get; }
+    GcloudNetworksecurityInterceptEndpointGroups InterceptEndpointGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud mirroring-deployment-groups sub-commands.
     /// </summary>
-    GcloudNetworksecurityMirroringDeploymentGroups MirroringDeploymentGroups { get; }
+    GcloudNetworksecurityMirroringDeploymentGroups MirroringDeploymentGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud mirroring-deployments sub-commands.
     /// </summary>
-    GcloudNetworksecurityMirroringDeployments MirroringDeployments { get; }
+    GcloudNetworksecurityMirroringDeployments MirroringDeployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud mirroring-endpoint-group-associations sub-commands.
     /// </summary>
-    GcloudNetworksecurityMirroringEndpointGroupAssociations MirroringEndpointGroupAssociations { get; }
+    GcloudNetworksecurityMirroringEndpointGroupAssociations MirroringEndpointGroupAssociations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud mirroring-endpoint-groups sub-commands.
     /// </summary>
-    GcloudNetworksecurityMirroringEndpointGroups MirroringEndpointGroups { get; }
+    GcloudNetworksecurityMirroringEndpointGroups MirroringEndpointGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudNetworksecurityOperations Operations { get; }
+    GcloudNetworksecurityOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud org-address-groups sub-commands.
     /// </summary>
-    GcloudNetworksecurityOrgAddressGroups OrgAddressGroups { get; }
+    GcloudNetworksecurityOrgAddressGroups OrgAddressGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud secure-access-connect sub-commands.
     /// </summary>
-    GcloudNetworksecuritySecureAccessConnect SecureAccessConnect { get; }
+    GcloudNetworksecuritySecureAccessConnect SecureAccessConnect => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud security-profile-groups sub-commands.
     /// </summary>
-    GcloudNetworksecuritySecurityProfileGroups SecurityProfileGroups { get; }
+    GcloudNetworksecuritySecurityProfileGroups SecurityProfileGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud security-profiles sub-commands.
     /// </summary>
-    GcloudNetworksecuritySecurityProfiles SecurityProfiles { get; }
+    GcloudNetworksecuritySecurityProfiles SecurityProfiles => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud server-tls-policies sub-commands.
     /// </summary>
-    GcloudNetworksecurityServerTlsPolicies ServerTlsPolicies { get; }
+    GcloudNetworksecurityServerTlsPolicies ServerTlsPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tls-inspection-policies sub-commands.
     /// </summary>
-    GcloudNetworksecurityTlsInspectionPolicies TlsInspectionPolicies { get; }
+    GcloudNetworksecurityTlsInspectionPolicies TlsInspectionPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud ull-mirroring-collectors sub-commands.
     /// </summary>
-    GcloudNetworksecurityUllMirroringCollectors UllMirroringCollectors { get; }
+    GcloudNetworksecurityUllMirroringCollectors UllMirroringCollectors => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud ull-mirroring-engines sub-commands.
     /// </summary>
-    GcloudNetworksecurityUllMirroringEngines UllMirroringEngines { get; }
+    GcloudNetworksecurityUllMirroringEngines UllMirroringEngines => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud url-lists sub-commands.
     /// </summary>
-    GcloudNetworksecurityUrlLists UrlLists { get; }
+    GcloudNetworksecurityUrlLists UrlLists => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Network Security resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudNetworkSecurityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Mirroring Endpoint     resources
@@ -160,9 +173,7 @@ public interface IGcloudNetworksecurity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> MirroringEndpointsAsync(
-        GcloudNetworkSecurityMirroringEndpointsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> MirroringEndpointsAsync(GcloudNetworkSecurityMirroringEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

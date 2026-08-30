@@ -27,68 +27,80 @@ public record GcloudSqlInstancesPatchOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Activation policy for this instance. This specifies when the instance     should be activated and is applicable only when the instance state is     RUNNABLE. The default is always. More information on activation     policies can be found here:     https://cloud.google.com/sql/docs/mysql/start-stop-restart-instance#activation_policy.     ACTIVATION_POLICY must be one of: always, never.
+    /// Activation policy for this instance. This specifies when the instance should be activated and is applicable only when the instance state is RUNNABLE. The default is always. More information on activation policies can be found here: https://cloud.google.com/sql/docs/mysql/start-stop-restart-instance#activation_policy. ACTIVATION_POLICY must be one of: always, never.
     /// </summary>
     [CliOption("--activation-policy", Format = OptionFormat.EqualsSeparated)]
     public GcloudActivationPolicy? ActivationPolicy { get; set; }
 
     /// <summary>
-    /// A comma-separated list of the DNS servers to be used for Active     Directory. Only available for SQL Server instances. E.g:     10.0.0.1,10.0.0.2
+    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2
     /// </summary>
     [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
-    /// Managed Service for Microsoft Active Directory domain this instance is     joined to. Only available for SQL Server instances.
+    /// Managed Service for Microsoft Active Directory domain this instance is joined to. Only available for SQL Server instances.
     /// </summary>
     [CliOption("--active-directory-domain", Format = OptionFormat.EqualsSeparated)]
     public string? ActiveDirectoryDomain { get; set; }
 
     /// <summary>
-    /// Defines the Active Directory mode. Only available for SQL Server     instances. ACTIVE_DIRECTORY_MODE must be one of:     MANAGED_ACTIVE_DIRECTORY, CUSTOMER_MANAGED_ACTIVE_DIRECTORY.
+    /// Defines the Active Directory mode. Only available for SQL Server instances. ACTIVE_DIRECTORY_MODE must be one of: MANAGED_ACTIVE_DIRECTORY, CUSTOMER_MANAGED_ACTIVE_DIRECTORY.
     /// </summary>
     [CliOption("--active-directory-mode", Format = OptionFormat.EqualsSeparated)]
     public string? ActiveDirectoryMode { get; set; }
 
     /// <summary>
-    /// Defines the organizational unit to be used for Active Directory. Only     available for SQL Server instances. E.g:     OU=Cloud,DC=ad,DC=example,DC=com
+    /// Defines the organizational unit to be used for Active Directory. Only available for SQL Server instances. E.g: OU=Cloud,DC=ad,DC=example,DC=com
     /// </summary>
     [CliOption("--active-directory-organizational-unit", Format = OptionFormat.EqualsSeparated)]
     public string? ActiveDirectoryOrganizationalUnit { get; set; }
 
     /// <summary>
-    /// The secret manager key storing administrator credentials. Only     available for SQL Server instances.
+    /// The secret manager key storing administrator credentials. Only available for SQL Server instances.
     /// </summary>
     [SecretValue]
     [CliOption("--active-directory-secret-manager-key", Format = OptionFormat.EqualsSeparated)]
     public string? ActiveDirectorySecretManagerKey { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
+    /// </summary>
+    [CliFlag("--assign-ip")]
+    public bool? AssignIp { get; set; }
+
+    /// <summary>
+    /// Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
+    /// </summary>
+    [CliFlag("--no-assign-ip")]
+    public bool? NoAssignIp { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The location, as a Cloud Storage bucket, to which audit files are     uploaded. The URI is in the form gs://bucketName/folderName. Only     available for SQL Server instances.
+    /// The location, as a Cloud Storage bucket, to which audit files are uploaded. The URI is in the form gs://bucketName/folderName. Only available for SQL Server instances.
     /// </summary>
     [CliOption("--audit-bucket-path", Format = OptionFormat.EqualsSeparated)]
     public string? AuditBucketPath { get; set; }
 
     /// <summary>
-    /// The number of days for audit log retention on disk, for example, 3dfor     3 days. Only available for SQL Server instances.
+    /// The number of days for audit log retention on disk, for example, 3dfor 3 days. Only available for SQL Server instances.
     /// </summary>
     [CliOption("--audit-retention-interval", Format = OptionFormat.EqualsSeparated)]
     public string? AuditRetentionInterval { get; set; }
 
     /// <summary>
-    /// How often to upload audit logs (audit files), for example, 30mfor 30     minutes. Only available for SQL Server instances.
+    /// How often to upload audit logs (audit files), for example, 30mfor 30 minutes. Only available for SQL Server instances.
     /// </summary>
     [CliOption("--audit-upload-interval", Format = OptionFormat.EqualsSeparated)]
     public string? AuditUploadInterval { get; set; }
 
     /// <summary>
-    /// Specifies level of availability. AVAILABILITY_TYPE must be one of:      regional       Provides high availability and is recommended for production       instances; instance automatically fails over to another zone within       your selected region.     zonal       Provides no failover capability. This is the default.
+    /// Specifies level of availability. AVAILABILITY_TYPE must be one of: regional Provides high availability and is recommended for production instances; instance automatically fails over to another zone within your selected region. zonal Provides no failover capability. This is the default.
     /// </summary>
     [CliOption("--availability-type", Format = OptionFormat.EqualsSeparated)]
     public string? AvailabilityType { get; set; }
@@ -112,40 +124,52 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? ClearEntraIdConfig { get; set; }
 
     /// <summary>
-    /// Clear the DR replica setting for the primary instance. Flag is only     available for MySQL and PostgreSQL database instances.
+    /// Clear the DR replica setting for the primary instance. Flag is only available for MySQL and PostgreSQL database instances.
     /// </summary>
     [CliFlag("--clear-failover-dr-replica-name")]
     public bool? ClearFailoverDrReplicaName { get; set; }
 
     /// <summary>
-    /// Clear the existing password policy. This flag is only available for     Postgres.
+    /// Clear the existing password policy. This flag is only available for Postgres.
     /// </summary>
     [CliFlag("--clear-password-policy")]
     public bool? ClearPasswordPolicy { get; set; }
 
     /// <summary>
-    /// Cloud SQL Connector enforcement mode. It determines how Cloud SQL     Connectors are used in the connection. See the list of modes here     (https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/instances#connectorenforcement).     CONNECTOR_ENFORCEMENT must be one of:      CONNECTOR_ENFORCEMENT_UNSPECIFIED       The requirement for Cloud SQL connectors is unknown.     NOT_REQUIRED       Does not require Cloud SQL connectors.     REQUIRED       Requires all connections to use Cloud SQL connectors, including the       Cloud SQL Auth Proxy and Cloud SQL Java, Python, and Go connectors.       Note: This disables all existing authorized networks.
+    /// Cloud SQL Connector enforcement mode. It determines how Cloud SQL Connectors are used in the connection. See the list of modes here (https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/instances#connectorenforcement). CONNECTOR_ENFORCEMENT must be one of: CONNECTOR_ENFORCEMENT_UNSPECIFIED The requirement for Cloud SQL connectors is unknown. NOT_REQUIRED Does not require Cloud SQL connectors. REQUIRED Requires all connections to use Cloud SQL connectors, including the Cloud SQL Auth Proxy and Cloud SQL Java, Python, and Go connectors. Note: This disables all existing authorized networks.
     /// </summary>
     [CliOption("--connector-enforcement", Format = OptionFormat.EqualsSeparated)]
     public string? ConnectorEnforcement { get; set; }
 
     /// <summary>
-    /// Whole number value indicating how many cores are desired in the     machine. Both --cpu and --memory must be specified if a custom machine     type is desired, and the --tier flag must be omitted.--cpu and --memory     flags are not compatible with the Enterprise Plus edition. These flags     should not be used when creating an Enterprise Plus edition, as the     machine configuration is determined by the --tier flag instead.
+    /// Whole number value indicating how many cores are desired in the machine. Both --cpu and --memory must be specified if a custom machine type is desired, and the --tier flag must be omitted.--cpu and --memory flags are not compatible with the Enterprise Plus edition. These flags should not be used when creating an Enterprise Plus edition, as the machine configuration is determined by the --tier flag instead.
     /// </summary>
     [CliOption("--cpu", Format = OptionFormat.EqualsSeparated)]
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// Controls connectivity to the instance using ExecuteSql API.     DATA_API_ACCESS must be one of:      ALLOW_DATA_API       Allow using ExecuteSql API to connect to the instance. For Private       IP instances, this will allow authorized users to access the       instance from the public internet using ExecuteSql API.     DATA_API_ACCESS_UNSPECIFIED       Unspecified mode, effectively the same as DISALLOW_DATA_API.     DISALLOW_DATA_API       Disallow using ExecuteSql API to connect to the instance.
+    /// Controls connectivity to the instance using ExecuteSql API. DATA_API_ACCESS must be one of: ALLOW_DATA_API Allow using ExecuteSql API to connect to the instance. For Private IP instances, this will allow authorized users to access the instance from the public internet using ExecuteSql API. DATA_API_ACCESS_UNSPECIFIED Unspecified mode, effectively the same as DISALLOW_DATA_API. DISALLOW_DATA_API Disallow using ExecuteSql API to connect to the instance.
     /// </summary>
     [CliOption("--data-api-access", Format = OptionFormat.EqualsSeparated)]
     public string? DataApiAccess { get; set; }
 
     /// <summary>
-    /// The database engine type and versions. If left unspecified, no changes     occur. See the list of database versions at     https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/SqlDatabaseVersion.     Apart from listed major versions, DATABASE_VERSION also accepts     supported minor versions. DATABASE_VERSION must be one of: MYSQL_5_6,     MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, MYSQL_9_7, POSTGRES_9_6, POSTGRES_10,     POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15,     POSTGRES_16, POSTGRES_17, POSTGRES_18, SQLSERVER_2017_EXPRESS,     SQLSERVER_2017_WEB, SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE,     SQLSERVER_2019_EXPRESS, SQLSERVER_2019_WEB, SQLSERVER_2019_STANDARD,     SQLSERVER_2019_ENTERPRISE, SQLSERVER_2022_EXPRESS, SQLSERVER_2022_WEB,     SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE,     SQLSERVER_2025_EXPRESS, SQLSERVER_2025_STANDARD,     SQLSERVER_2025_ENTERPRISE.
+    /// The database engine type and versions. If left unspecified, no changes occur. See the list of database versions at https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/SqlDatabaseVersion. Apart from listed major versions, DATABASE_VERSION also accepts supported minor versions. DATABASE_VERSION must be one of: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, MYSQL_9_7, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB, SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2019_EXPRESS, SQLSERVER_2019_WEB, SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2022_EXPRESS, SQLSERVER_2022_WEB, SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2025_EXPRESS, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE.
     /// </summary>
     [CliOption("--database-version", Format = OptionFormat.EqualsSeparated)]
     public string? DatabaseVersion { get; set; }
+
+    /// <summary>
+    /// Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// </summary>
+    [CliFlag("--deletion-protection")]
+    public bool? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// </summary>
+    [CliFlag("--no-deletion-protection")]
+    public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
     /// Date when the deny maintenance period ends, that is 2021-01-10.
@@ -172,22 +196,166 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? Diff { get; set; }
 
     /// <summary>
-    /// Specifies the edition of Cloud SQL instance. EDITION must be one of:     enterprise, enterprise-plus.
+    /// Specifies the edition of Cloud SQL instance. EDITION must be one of: enterprise, enterprise-plus.
     /// </summary>
     [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
     public GcloudEdition? Edition { get; set; }
 
     /// <summary>
-    /// Enables auto-upgrade for MySQL 8.0 minor versions. The MySQL version     must be 8.0.35 or higher.
+    /// Enables auto-upgrade for MySQL 8.0 minor versions. The MySQL version must be 8.0.35 or higher.
     /// </summary>
     [CliFlag("--enable-auto-upgrade-minor-version")]
     public bool? EnableAutoUpgradeMinorVersion { get; set; }
 
     /// <summary>
-    /// Enable the password policy, which enforces user password management     with the policies configured for the instance. This flag is only     available for Postgres.
+    /// Allows for data recovery from a specific point in time, down to a fraction of a second. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs. Use --enable-bin-log to enable and --no-enable-bin-log to disable.
+    /// </summary>
+    [CliFlag("--enable-bin-log")]
+    public bool? EnableBinLog { get; set; }
+
+    /// <summary>
+    /// Allows for data recovery from a specific point in time, down to a fraction of a second. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs. Use --enable-bin-log to enable and --no-enable-bin-log to disable.
+    /// </summary>
+    [CliFlag("--no-enable-bin-log")]
+    public bool? NoEnableBinLog { get; set; }
+
+    /// <summary>
+    /// Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
+    /// </summary>
+    [CliFlag("--enable-connection-pooling")]
+    public bool? EnableConnectionPooling { get; set; }
+
+    /// <summary>
+    /// Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
+    /// </summary>
+    [CliFlag("--no-enable-connection-pooling")]
+    public bool? NoEnableConnectionPooling { get; set; }
+
+    /// <summary>
+    /// Enable use of data cache for accelerated read performance. This flag is only available for Enterprise_Plus edition instances. Use --enable-data-cache to enable and --no-enable-data-cache to disable.
+    /// </summary>
+    [CliFlag("--enable-data-cache")]
+    public bool? EnableDataCache { get; set; }
+
+    /// <summary>
+    /// Enable use of data cache for accelerated read performance. This flag is only available for Enterprise_Plus edition instances. Use --enable-data-cache to enable and --no-enable-data-cache to disable.
+    /// </summary>
+    [CliFlag("--no-enable-data-cache")]
+    public bool? NoEnableDataCache { get; set; }
+
+    /// <summary>
+    /// Enable database replication. Applicable only for read replica instance(s). WARNING: Instance will be restarted. Use --enable-database-replication to enable and --no-enable-database-replication to disable.
+    /// </summary>
+    [CliFlag("--enable-database-replication")]
+    public bool? EnableDatabaseReplication { get; set; }
+
+    /// <summary>
+    /// Enable database replication. Applicable only for read replica instance(s). WARNING: Instance will be restarted. Use --enable-database-replication to enable and --no-enable-database-replication to disable.
+    /// </summary>
+    [CliFlag("--no-enable-database-replication")]
+    public bool? NoEnableDatabaseReplication { get; set; }
+
+    /// <summary>
+    /// Enable Dataplex integration for Google Cloud SQL. Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
+    /// </summary>
+    [CliFlag("--enable-dataplex-integration")]
+    public bool? EnableDataplexIntegration { get; set; }
+
+    /// <summary>
+    /// Enable Dataplex integration for Google Cloud SQL. Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
+    /// </summary>
+    [CliFlag("--no-enable-dataplex-integration")]
+    public bool? NoEnableDataplexIntegration { get; set; }
+
+    /// <summary>
+    /// Enable Vertex AI integration for Google Cloud SQL. You can integrate Vertex AI with Cloud SQL for MySQL and Cloud SQL for PostgreSQL instances only. Use --enable-google-ml-integration to enable and --no-enable-google-ml-integration to disable.
+    /// </summary>
+    [CliFlag("--enable-google-ml-integration")]
+    public bool? EnableGoogleMlIntegration { get; set; }
+
+    /// <summary>
+    /// Enable Vertex AI integration for Google Cloud SQL. You can integrate Vertex AI with Cloud SQL for MySQL and Cloud SQL for PostgreSQL instances only. Use --enable-google-ml-integration to enable and --no-enable-google-ml-integration to disable.
+    /// </summary>
+    [CliFlag("--no-enable-google-ml-integration")]
+    public bool? NoEnableGoogleMlIntegration { get; set; }
+
+    /// <summary>
+    /// Enable a private path for Google Cloud services. This flag specifies whether the instance is accessible to internal Google Cloud services such as BigQuery. This is only applicable to MySQL and PostgreSQL instances that don't use public IP. Currently, SQL Server isn't supported. Use --enable-google-private-path to enable and --no-enable-google-private-path to disable.
+    /// </summary>
+    [CliFlag("--enable-google-private-path")]
+    public bool? EnableGooglePrivatePath { get; set; }
+
+    /// <summary>
+    /// Enable a private path for Google Cloud services. This flag specifies whether the instance is accessible to internal Google Cloud services such as BigQuery. This is only applicable to MySQL and PostgreSQL instances that don't use public IP. Currently, SQL Server isn't supported. Use --enable-google-private-path to enable and --no-enable-google-private-path to disable.
+    /// </summary>
+    [CliFlag("--no-enable-google-private-path")]
+    public bool? NoEnableGooglePrivatePath { get; set; }
+
+    /// <summary>
+    /// Enable the password policy, which enforces user password management with the policies configured for the instance. This flag is only available for Postgres.
     /// </summary>
     [CliFlag("--enable-password-policy")]
     public bool? EnablePasswordPolicy { get; set; }
+
+    /// <summary>
+    /// Allows for data recovery from a specific point in time, down to a fraction of a second, using write-ahead logs. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs. Use --enable-point-in-time-recovery to enable and --no-enable-point-in-time-recovery to disable.
+    /// </summary>
+    [CliFlag("--enable-point-in-time-recovery")]
+    public bool? EnablePointInTimeRecovery { get; set; }
+
+    /// <summary>
+    /// Allows for data recovery from a specific point in time, down to a fraction of a second, using write-ahead logs. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs. Use --enable-point-in-time-recovery to enable and --no-enable-point-in-time-recovery to disable.
+    /// </summary>
+    [CliFlag("--no-enable-point-in-time-recovery")]
+    public bool? NoEnablePointInTimeRecovery { get; set; }
+
+    /// <summary>
+    /// Enable connecting to the Cloud SQL instance with Private Service Connect. Use --enable-private-service-connect to enable and --no-enable-private-service-connect to disable.
+    /// </summary>
+    [CliFlag("--enable-private-service-connect")]
+    public bool? EnablePrivateServiceConnect { get; set; }
+
+    /// <summary>
+    /// Enable connecting to the Cloud SQL instance with Private Service Connect. Use --enable-private-service-connect to enable and --no-enable-private-service-connect to disable.
+    /// </summary>
+    [CliFlag("--no-enable-private-service-connect")]
+    public bool? NoEnablePrivateServiceConnect { get; set; }
+
+    /// <summary>
+    /// If set, service connection policy will be created by Cloud SQL when missing for PSC enabled instance. Use --enable-psc-auto-connection-policy to enable and --no-enable-psc-auto-connection-policy to disable.
+    /// </summary>
+    [CliFlag("--enable-psc-auto-connection-policy")]
+    public bool? EnablePscAutoConnectionPolicy { get; set; }
+
+    /// <summary>
+    /// If set, service connection policy will be created by Cloud SQL when missing for PSC enabled instance. Use --enable-psc-auto-connection-policy to enable and --no-enable-psc-auto-connection-policy to disable.
+    /// </summary>
+    [CliFlag("--no-enable-psc-auto-connection-policy")]
+    public bool? NoEnablePscAutoConnectionPolicy { get; set; }
+
+    /// <summary>
+    /// Enable per instance DNS records for PSC auto-connections. Use --enable-psc-auto-dns to enable and --no-enable-psc-auto-dns to disable.
+    /// </summary>
+    [CliFlag("--enable-psc-auto-dns")]
+    public bool? EnablePscAutoDns { get; set; }
+
+    /// <summary>
+    /// Enable per instance DNS records for PSC auto-connections. Use --enable-psc-auto-dns to enable and --no-enable-psc-auto-dns to disable.
+    /// </summary>
+    [CliFlag("--no-enable-psc-auto-dns")]
+    public bool? NoEnablePscAutoDns { get; set; }
+
+    /// <summary>
+    /// Enable the global DNS record pointing to the primary, for Enterprise Plus edition only. Use --enable-psc-write-endpoint-dns to enable and --no-enable-psc-write-endpoint-dns to disable.
+    /// </summary>
+    [CliFlag("--enable-psc-write-endpoint-dns")]
+    public bool? EnablePscWriteEndpointDns { get; set; }
+
+    /// <summary>
+    /// Enable the global DNS record pointing to the primary, for Enterprise Plus edition only. Use --enable-psc-write-endpoint-dns to enable and --no-enable-psc-write-endpoint-dns to disable.
+    /// </summary>
+    [CliFlag("--no-enable-psc-write-endpoint-dns")]
+    public bool? NoEnablePscWriteEndpointDns { get; set; }
 
     /// <summary>
     /// Force the instance to use the new network architecture.
@@ -196,43 +364,115 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? EnforceNewSqlNetworkArchitecture { get; set; }
 
     /// <summary>
-    /// Set a Disaster Recovery (DR) replica with the specified name for the     primary instance. This must be one of the existing cross region     replicas of the primary instance. Flag is only available for MySQL and     PostgreSQL database instances.
+    /// Set a Disaster Recovery (DR) replica with the specified name for the primary instance. This must be one of the existing cross region replicas of the primary instance. Flag is only available for MySQL and PostgreSQL database instances.
     /// </summary>
     [CliOption("--failover-dr-replica-name", Format = OptionFormat.EqualsSeparated)]
     public string? FailoverDrReplicaName { get; set; }
 
     /// <summary>
-    /// Specifies number of days to retain final backup. The valid range is     between 1 and 365. For instances managed by BackupDR, the valid range     is between 1 day and 10 years (3653 days). Default value is 30 days.
+    /// Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
+    /// </summary>
+    [CliFlag("--final-backup")]
+    public bool? FinalBackup { get; set; }
+
+    /// <summary>
+    /// Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
+    /// </summary>
+    [CliFlag("--no-final-backup")]
+    public bool? NoFinalBackup { get; set; }
+
+    /// <summary>
+    /// Specifies number of days to retain final backup. The valid range is between 1 and 365. For instances managed by BackupDR, the valid range is between 1 day and 10 years (3653 days). Default value is 30 days.
     /// </summary>
     [CliOption("--final-backup-retention-days", Format = OptionFormat.EqualsSeparated)]
     public string? FinalBackupRetentionDays { get; set; }
 
     /// <summary>
-    /// First Generation instances only. The App Engine app this instance     should follow. It must be in the same region as the instance. WARNING:     Instance may be restarted.
+    /// First Generation instances only. The App Engine app this instance should follow. It must be in the same region as the instance. WARNING: Instance may be restarted.
     /// </summary>
     [CliOption("--follow-gae-app", Format = OptionFormat.EqualsSeparated)]
     public string? FollowGaeApp { get; set; }
 
     /// <summary>
-    /// Number of query plans to sample every minute. Default value is 5.     Allowed range: 0 to 20.
+    /// Enable the major version upgrade of replicas when the in-place major version upgrade of a primary instance is initated with --database-version. Use --include-replicas-for-major-version-upgrade to enable and --no-include-replicas-for-major--version-upgrade to disable. Use --include-replicas-for-major-version-upgrade to enable and --no-include-replicas-for-major-version-upgrade to disable.
+    /// </summary>
+    [CliFlag("--include-replicas-for-major-version-upgrade")]
+    public bool? IncludeReplicasForMajorVersionUpgrade { get; set; }
+
+    /// <summary>
+    /// Enable the major version upgrade of replicas when the in-place major version upgrade of a primary instance is initated with --database-version. Use --include-replicas-for-major-version-upgrade to enable and --no-include-replicas-for-major--version-upgrade to disable. Use --include-replicas-for-major-version-upgrade to enable and --no-include-replicas-for-major-version-upgrade to disable.
+    /// </summary>
+    [CliFlag("--no-include-replicas-for-major-version-upgrade")]
+    public bool? NoIncludeReplicasForMajorVersionUpgrade { get; set; }
+
+    /// <summary>
+    /// Enable enhanced query insights for Enterprise Plus edition to provide more detailed query analytics. Use --insights-config-enhanced-query-insights-enabled to enable and --no-insights-config-enhanced-query-insights-enabled to disable.
+    /// </summary>
+    [CliFlag("--insights-config-enhanced-query-insights-enabled")]
+    public bool? InsightsConfigEnhancedQueryInsightsEnabled { get; set; }
+
+    /// <summary>
+    /// Enable enhanced query insights for Enterprise Plus edition to provide more detailed query analytics. Use --insights-config-enhanced-query-insights-enabled to enable and --no-insights-config-enhanced-query-insights-enabled to disable.
+    /// </summary>
+    [CliFlag("--no-insights-config-enhanced-query-insights-enabled")]
+    public bool? NoInsightsConfigEnhancedQueryInsightsEnabled { get; set; }
+
+    /// <summary>
+    /// Enable query insights feature to provide query and query plan analytics. Use --insights-config-query-insights-enabled to enable and --no-insights-config-query-insights-enabled to disable.
+    /// </summary>
+    [CliFlag("--insights-config-query-insights-enabled")]
+    public bool? InsightsConfigQueryInsightsEnabled { get; set; }
+
+    /// <summary>
+    /// Enable query insights feature to provide query and query plan analytics. Use --insights-config-query-insights-enabled to enable and --no-insights-config-query-insights-enabled to disable.
+    /// </summary>
+    [CliFlag("--no-insights-config-query-insights-enabled")]
+    public bool? NoInsightsConfigQueryInsightsEnabled { get; set; }
+
+    /// <summary>
+    /// Number of query plans to sample every minute. Default value is 5. Allowed range: 0 to 20.
     /// </summary>
     [CliOption("--insights-config-query-plans-per-minute", Format = OptionFormat.EqualsSeparated)]
     public string? InsightsConfigQueryPlansPerMinute { get; set; }
 
     /// <summary>
-    /// Sets the default query length limit. For Cloud SQL Enterprise edition,     the range is from 256 to 4500 (in bytes) and the default query length     is 1024 bytes. For Cloud SQL Enterprise Plus edition, the range is from     1024 to 100,000 (in bytes) and the default query length is 10,000     bytes.
+    /// Sets the default query length limit. For Cloud SQL Enterprise edition, the range is from 256 to 4500 (in bytes) and the default query length is 1024 bytes. For Cloud SQL Enterprise Plus edition, the range is from 1024 to 100,000 (in bytes) and the default query length is 10,000 bytes.
     /// </summary>
     [CliOption("--insights-config-query-string-length", Format = OptionFormat.EqualsSeparated)]
     public string? InsightsConfigQueryStringLength { get; set; }
 
     /// <summary>
-    /// The type of the instance. INSTANCE_TYPE must be one of:      CLOUD_SQL_INSTANCE       A primary instance.     READ_POOL_INSTANCE       A read pool instance.     READ_REPLICA_INSTANCE       A read replica instance.
+    /// Allow application tags to be recorded by the query insights feature. Use --insights-config-record-application-tags to enable and --no-insights-config-record-application-tags to disable.
+    /// </summary>
+    [CliFlag("--insights-config-record-application-tags")]
+    public bool? InsightsConfigRecordApplicationTags { get; set; }
+
+    /// <summary>
+    /// Allow application tags to be recorded by the query insights feature. Use --insights-config-record-application-tags to enable and --no-insights-config-record-application-tags to disable.
+    /// </summary>
+    [CliFlag("--no-insights-config-record-application-tags")]
+    public bool? NoInsightsConfigRecordApplicationTags { get; set; }
+
+    /// <summary>
+    /// Allow the client address to be recorded by the query insights feature. Use --insights-config-record-client-address to enable and --no-insights-config-record-client-address to disable.
+    /// </summary>
+    [CliFlag("--insights-config-record-client-address")]
+    public bool? InsightsConfigRecordClientAddress { get; set; }
+
+    /// <summary>
+    /// Allow the client address to be recorded by the query insights feature. Use --insights-config-record-client-address to enable and --no-insights-config-record-client-address to disable.
+    /// </summary>
+    [CliFlag("--no-insights-config-record-client-address")]
+    public bool? NoInsightsConfigRecordClientAddress { get; set; }
+
+    /// <summary>
+    /// The type of the instance. INSTANCE_TYPE must be one of: CLOUD_SQL_INSTANCE A primary instance. READ_POOL_INSTANCE A read pool instance. READ_REPLICA_INSTANCE A read replica instance.
     /// </summary>
     [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// Which channel's updates to apply during the maintenance window. If not     specified, Cloud SQL chooses the timing of updates to your instance.     MAINTENANCE_RELEASE_CHANNEL must be one of:      preview       Preview updates release prior to production updates. You may wish       to use the preview channel for dev/test applications so that you       can preview their compatibility with your application prior to the       production release.     production       Production updates are stable and recommended for applications in       production.     week5       week5 updates release after the production updates. Use the week5       channel to receive a 5 week advance notification about the upcoming       maintenance, so you can prepare your application for the release.
+    /// Which channel's updates to apply during the maintenance window. If not specified, Cloud SQL chooses the timing of updates to your instance. MAINTENANCE_RELEASE_CHANNEL must be one of: preview Preview updates release prior to production updates. You may wish to use the preview channel for dev/test applications so that you can preview their compatibility with your application prior to the production release. production Production updates are stable and recommended for applications in production. week5 week5 updates release after the production updates. Use the week5 channel to receive a 5 week advance notification about the upcoming maintenance, so you can prepare your application for the release.
     /// </summary>
     [CliOption("--maintenance-release-channel", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceReleaseChannel { get; set; }
@@ -250,7 +490,7 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? MaintenanceWindowAny { get; set; }
 
     /// <summary>
-    /// Day of week for maintenance window, in UTC time zone.     MAINTENANCE_WINDOW_DAY must be one of: SUN, MON, TUE, WED, THU, FRI,     SAT.
+    /// Day of week for maintenance window, in UTC time zone. MAINTENANCE_WINDOW_DAY must be one of: SUN, MON, TUE, WED, THU, FRI, SAT.
     /// </summary>
     [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
     public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
@@ -262,29 +502,41 @@ public record GcloudSqlInstancesPatchOptions(
     public string? MaintenanceWindowHour { get; set; }
 
     /// <summary>
-    /// Whole number value indicating how much memory is desired in the     machine. A size unit should be provided (eg. 3072MiB or 9GiB) - if no     units are specified, GiB is assumed. Both --cpu and --memory must be     specified if a custom machine type is desired, and the --tier flag must     be omitted. --cpu and --memory flags are not compatible with the     Enterprise Plus edition. These flags should not be used when creating     an Enterprise Plus edition, as the machine configuration is determined     by the --tier flag instead.
+    /// Whole number value indicating how much memory is desired in the machine. A size unit should be provided (eg. 3072MiB or 9GiB) - if no units are specified, GiB is assumed. Both --cpu and --memory must be specified if a custom machine type is desired, and the --tier flag must be omitted. --cpu and --memory flags are not compatible with the Enterprise Plus edition. These flags should not be used when creating an Enterprise Plus edition, as the machine configuration is determined by the --tier flag instead.
     /// </summary>
     [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
     public string? Memory { get; set; }
 
     /// <summary>
-    /// Network in the current project that the instance will be part of. To     specify using a network with a shared VPC, use the full URL of the     network. For an example host project, 'testproject', and shared     network, 'testsharednetwork', this would use the form:     --network=projects/testproject/global/networks/testsharednetwork
+    /// Network in the current project that the instance will be part of. To specify using a network with a shared VPC, use the full URL of the network. For an example host project, 'testproject', and shared network, 'testsharednetwork', this would use the form: --network=projects/testproject/global/networks/testsharednetwork
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// The number of nodes in the pool. This option is only available for read     pools.
+    /// The number of nodes in the pool. This option is only available for read pools.
     /// </summary>
     [CliOption("--node-count", Format = OptionFormat.EqualsSeparated)]
     public int? NodeCount { get; set; }
 
     /// <summary>
-    /// The complexity of the password. This flag is available only for     PostgreSQL. PASSWORD_POLICY_COMPLEXITY must be one of:      COMPLEXITY_DEFAULT       A combination of lowercase, uppercase, numeric, and       non-alphanumeric characters.     COMPLEXITY_UNSPECIFIED       The default value if COMPLEXITY_DEFAULT is not specified. It       implies that complexity check is not enabled.
+    /// The complexity of the password. This flag is available only for PostgreSQL. PASSWORD_POLICY_COMPLEXITY must be one of: COMPLEXITY_DEFAULT A combination of lowercase, uppercase, numeric, and non-alphanumeric characters. COMPLEXITY_UNSPECIFIED The default value if COMPLEXITY_DEFAULT is not specified. It implies that complexity check is not enabled.
     /// </summary>
     [SecretValue]
     [CliOption("--password-policy-complexity", Format = OptionFormat.EqualsSeparated)]
     public string? PasswordPolicyComplexity { get; set; }
+
+    /// <summary>
+    /// Disallow username as a part of the password. Use --password-policy-disallow-username-substring to enable and --no-password-policy-disallow-username-substring to disable.
+    /// </summary>
+    [CliFlag("--password-policy-disallow-username-substring")]
+    public bool? PasswordPolicyDisallowUsernameSubstring { get; set; }
+
+    /// <summary>
+    /// Disallow username as a part of the password. Use --password-policy-disallow-username-substring to enable and --no-password-policy-disallow-username-substring to disable.
+    /// </summary>
+    [CliFlag("--no-password-policy-disallow-username-substring")]
+    public bool? NoPasswordPolicyDisallowUsernameSubstring { get; set; }
 
     /// <summary>
     /// Minimum number of characters allowed in the password.
@@ -294,33 +546,48 @@ public record GcloudSqlInstancesPatchOptions(
     public string? PasswordPolicyMinLength { get; set; }
 
     /// <summary>
-    /// Minimum interval after which the password can be changed, for example,     2m for 2 minutes. See &lt;a href="/sdk/gcloud/reference/topic/datetimes"&gt;     $ gcloud topic datetimes&lt;/a&gt; for information on duration formats. This     flag is available only for PostgreSQL.
+    /// Minimum interval after which the password can be changed, for example, 2m for 2 minutes. See &lt;a href="/sdk/gcloud/reference/topic/datetimes"&gt; $ gcloud topic datetimes&lt;/a&gt; for information on duration formats. This flag is available only for PostgreSQL.
     /// </summary>
     [SecretValue]
     [CliOption("--password-policy-password-change-interval", Format = OptionFormat.EqualsSeparated)]
     public string? PasswordPolicyPasswordChangeInterval { get; set; }
 
     /// <summary>
-    /// Number of previous passwords that cannot be reused. The valid range is     0 to 100.
+    /// Number of previous passwords that cannot be reused. The valid range is 0 to 100.
     /// </summary>
     [SecretValue]
     [CliOption("--password-policy-reuse-interval", Format = OptionFormat.EqualsSeparated)]
     public string? PasswordPolicyReuseInterval { get; set; }
 
     /// <summary>
-    /// A comma-separated list of performance capture settings to add to the     MySQL instance. The input should be in a format of key=value. Available     case-sensitive keys are: enabled (boolean), probing-interval-seconds     (integer), probe-threshold (integer), running-threads-threshold     (integer), seconds-behind-source-threshold (integer),     transaction-duration-threshold (integer),     cpu-utilization-threshold-percent (integer),     memory-usage-threshold-percent (integer),     transaction-lock-wait-threshold-count (integer),     semaphore-wait-threshold-count (integer),     history-list-length-threshold-count (integer),     transaction-kill-threshold-seconds (integer), transaction-kill-type     (string), transaction-kill-excluded-user-hosts (string,     semicolon-separated list) Example: --performance-capture-config     enabled=true,probe-threshold=5, cpu-utilization-threshold-percent=80,     transaction-kill-excluded-user-hosts=user1@host1;user2@%,     transaction-kill-type=READ_ONLY_TRANSACTIONS
+    /// A comma-separated list of performance capture settings to add to the MySQL instance. The input should be in a format of key=value. Available case-sensitive keys are: enabled (boolean), probing-interval-seconds (integer), probe-threshold (integer), running-threads-threshold (integer), seconds-behind-source-threshold (integer), transaction-duration-threshold (integer), cpu-utilization-threshold-percent (integer), memory-usage-threshold-percent (integer), transaction-lock-wait-threshold-count (integer), semaphore-wait-threshold-count (integer), history-list-length-threshold-count (integer), transaction-kill-threshold-seconds (integer), transaction-kill-type (string), transaction-kill-excluded-user-hosts (string, semicolon-separated list) Example: --performance-capture-config enabled=true,probe-threshold=5, cpu-utilization-threshold-percent=80, transaction-kill-excluded-user-hosts=user1@host1;user2@%, transaction-kill-type=READ_ONLY_TRANSACTIONS
     /// </summary>
     [CliOption("--performance-capture-config", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? PerformanceCaptureConfig { get; set; }
 
+    /// <summary>
+    /// First Generation instances only. The pricing plan for this instance. PRICING_PLAN must be one of: PER_USE, PACKAGE.
+    /// </summary>
     [CliOption("--pricing-plan", Format = OptionFormat.EqualsSeparated)]
     public string? PricingPlan { get; set; }
 
     /// <summary>
-    /// Reconciles the instance's PSA networking configuration. If the instance     is already on a PSA network, the DNS zone and records associated with     the PSA write endpoint are either added if missing or updated if     incorrect.
+    /// Reconciles the instance's PSA networking configuration. If the instance is already on a PSA network, the DNS zone and records associated with the PSA write endpoint are either added if missing or updated if incorrect.
     /// </summary>
     [CliFlag("--reconcile-psa-networking")]
     public bool? ReconcilePsaNetworking { get; set; }
+
+    /// <summary>
+    /// Allow/Disallow replica recreation when a primary MySQL instance operating in reduced durability mode crashes. Not recreating the replicas might lead to data inconsistencies between the primary and its replicas. This setting is only applicable for MySQL instances and is enabled by default. Use --recreate-replicas-on-primary-crash to enable and --no-recreate-replicas-on-primary-crash to disable.
+    /// </summary>
+    [CliFlag("--recreate-replicas-on-primary-crash")]
+    public bool? RecreateReplicasOnPrimaryCrash { get; set; }
+
+    /// <summary>
+    /// Allow/Disallow replica recreation when a primary MySQL instance operating in reduced durability mode crashes. Not recreating the replicas might lead to data inconsistencies between the primary and its replicas. This setting is only applicable for MySQL instances and is enabled by default. Use --recreate-replicas-on-primary-crash to enable and --no-recreate-replicas-on-primary-crash to disable.
+    /// </summary>
+    [CliFlag("--no-recreate-replicas-on-primary-crash")]
+    public bool? NoRecreateReplicasOnPrimaryCrash { get; set; }
 
     /// <summary>
     /// Removes the user-specified deny maintenance period.
@@ -329,13 +596,37 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? RemoveDenyMaintenancePeriod { get; set; }
 
     /// <summary>
-    /// Type of replication this instance uses. The default is synchronous.     REPLICATION must be one of: synchronous, asynchronous.
+    /// Type of replication this instance uses. The default is synchronous. REPLICATION must be one of: synchronous, asynchronous.
     /// </summary>
     [CliOption("--replication", Format = OptionFormat.EqualsSeparated)]
     public GcloudReplication? Replication { get; set; }
 
     /// <summary>
-    /// Set the server CA mode of the instance. SERVER_CA_MODE must be one of:      CUSTOMER_MANAGED_CAS_CA       Customer-managed CA hosted on Google Cloud's Certificate Authority       Service (CAS).     GOOGLE_MANAGED_CAS_CA       Google-managed regional CA part of root CA hierarchy hosted on       Google Cloud's Certificate Authority Service (CAS).     GOOGLE_MANAGED_INTERNAL_CA       Google-managed self-signed internal CA.
+    /// mysqld should default to 'REQUIRE X509' for users connecting over IP. Use --require-ssl to enable and --no-require-ssl to disable.
+    /// </summary>
+    [CliFlag("--require-ssl")]
+    public bool? RequireSsl { get; set; }
+
+    /// <summary>
+    /// mysqld should default to 'REQUIRE X509' for users connecting over IP. Use --require-ssl to enable and --no-require-ssl to disable.
+    /// </summary>
+    [CliFlag("--no-require-ssl")]
+    public bool? NoRequireSsl { get; set; }
+
+    /// <summary>
+    /// Retain automated/ondemand backups of the instance after the instance is deleted. Use --retain-backups-on-delete to enable and --no-retain-backups-on-delete to disable.
+    /// </summary>
+    [CliFlag("--retain-backups-on-delete")]
+    public bool? RetainBackupsOnDelete { get; set; }
+
+    /// <summary>
+    /// Retain automated/ondemand backups of the instance after the instance is deleted. Use --retain-backups-on-delete to enable and --no-retain-backups-on-delete to disable.
+    /// </summary>
+    [CliFlag("--no-retain-backups-on-delete")]
+    public bool? NoRetainBackupsOnDelete { get; set; }
+
+    /// <summary>
+    /// Set the server CA mode of the instance. SERVER_CA_MODE must be one of: CUSTOMER_MANAGED_CAS_CA Customer-managed CA hosted on Google Cloud's Certificate Authority Service (CAS). GOOGLE_MANAGED_CAS_CA Google-managed regional CA part of root CA hierarchy hosted on Google Cloud's Certificate Authority Service (CAS). GOOGLE_MANAGED_INTERNAL_CA Google-managed self-signed internal CA.
     /// </summary>
     [CliOption("--server-ca-mode", Format = OptionFormat.EqualsSeparated)]
     public string? ServerCaMode { get; set; }
@@ -347,65 +638,80 @@ public record GcloudSqlInstancesPatchOptions(
     public string? ServerCaPool { get; set; }
 
     /// <summary>
-    /// Set the server certificate rotation mode of the instance.     SERVER_CERTIFICATE_ROTATION_MODE must be one of:      AUTOMATIC_ROTATION_DURING_MAINTENANCE       Automatic server certificate rotation during Cloud SQL scheduled       maintenance or self-service maintenance updates. Requires       server_ca_mode to be GOOGLE_MANAGED_CAS_CA or       CUSTOMER_MANAGED_CAS_CA.     NO_AUTOMATIC_ROTATION       No automatic server certificate rotation. Server certificates must       be rotated manually.
+    /// Set the server certificate rotation mode of the instance. SERVER_CERTIFICATE_ROTATION_MODE must be one of: AUTOMATIC_ROTATION_DURING_MAINTENANCE Automatic server certificate rotation during Cloud SQL scheduled maintenance or self-service maintenance updates. Requires server_ca_mode to be GOOGLE_MANAGED_CAS_CA or CUSTOMER_MANAGED_CAS_CA. NO_AUTOMATIC_ROTATION No automatic server certificate rotation. Server certificates must be rotated manually.
     /// </summary>
     [CliOption("--server-certificate-rotation-mode", Format = OptionFormat.EqualsSeparated)]
     public string? ServerCertificateRotationMode { get; set; }
 
     /// <summary>
-    /// Simulate a maintenance event without changing the version. Only     applicable to instances that support near-zero downtime planned     maintenance.
+    /// Simulate a maintenance event without changing the version. Only applicable to instances that support near-zero downtime planned maintenance.
     /// </summary>
     [CliFlag("--simulate-maintenance-event")]
     public bool? SimulateMaintenanceEvent { get; set; }
 
     /// <summary>
-    /// Set the SSL mode of the instance. SSL_MODE must be one of:      ALLOW_UNENCRYPTED_AND_ENCRYPTED       Allow non-SSL and SSL connections. For SSL connections, client       certificate will not be verified.     ENCRYPTED_ONLY       Only allow connections encrypted with SSL/TLS.     TRUSTED_CLIENT_CERTIFICATE_REQUIRED       Only allow connections encrypted with SSL/TLS and with valid client       certificates.
+    /// Set the SSL mode of the instance. SSL_MODE must be one of: ALLOW_UNENCRYPTED_AND_ENCRYPTED Allow non-SSL and SSL connections. For SSL connections, client certificate will not be verified. ENCRYPTED_ONLY Only allow connections encrypted with SSL/TLS. TRUSTED_CLIENT_CERTIFICATE_REQUIRED Only allow connections encrypted with SSL/TLS and with valid client certificates.
     /// </summary>
     [CliOption("--ssl-mode", Format = OptionFormat.EqualsSeparated)]
     public string? SslMode { get; set; }
 
     /// <summary>
-    /// Allows you to set a maximum storage capacity, in GB. Automatic     increases to your capacity will stop once this limit has been reached.     Default capacity is unlimited.
+    /// Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
+    /// </summary>
+    [CliFlag("--storage-auto-increase")]
+    public bool? StorageAutoIncrease { get; set; }
+
+    /// <summary>
+    /// Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
+    /// </summary>
+    [CliFlag("--no-storage-auto-increase")]
+    public bool? NoStorageAutoIncrease { get; set; }
+
+    /// <summary>
+    /// Allows you to set a maximum storage capacity, in GB. Automatic increases to your capacity will stop once this limit has been reached. Default capacity is unlimited.
     /// </summary>
     [CliOption("--storage-auto-increase-limit", Format = OptionFormat.EqualsSeparated)]
     public string? StorageAutoIncreaseLimit { get; set; }
 
     /// <summary>
-    /// Indicates how many IOPS to provision for the data disk. This sets the     number of I/O operations per second that the disk can handle.
+    /// Indicates how many IOPS to provision for the data disk. This sets the number of I/O operations per second that the disk can handle.
     /// </summary>
     [CliOption("--storage-provisioned-iops", Format = OptionFormat.EqualsSeparated)]
     public int? StorageProvisionedIops { get; set; }
 
     /// <summary>
-    /// Indicates how much throughput to provision for the data disk. This sets     the throughput in MB per second that the disk can handle.
+    /// Indicates how much throughput to provision for the data disk. This sets the throughput in MB per second that the disk can handle.
     /// </summary>
     [CliOption("--storage-provisioned-throughput", Format = OptionFormat.EqualsSeparated)]
     public string? StorageProvisionedThroughput { get; set; }
 
     /// <summary>
-    /// Amount of storage allocated to the instance. Must be an integer number     of GB. The default is 10GB. Information on storage limits can be found     here: https://cloud.google.com/sql/docs/quotas#storage_limits
+    /// Amount of storage allocated to the instance. Must be an integer number of GB. The default is 10GB. Information on storage limits can be found here: https://cloud.google.com/sql/docs/quotas#storage_limits
     /// </summary>
     [CliOption("--storage-size", Format = OptionFormat.EqualsSeparated)]
     public int? StorageSize { get; set; }
 
     /// <summary>
-    /// The storage type for the instance, determined by the selected machine     type. STORAGE_TYPE must be one of: SSD, HDD, HYPERDISK_BALANCED.
+    /// The storage type for the instance, determined by the selected machine type. STORAGE_TYPE must be one of: SSD, HDD, HYPERDISK_BALANCED.
     /// </summary>
     [CliOption("--storage-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudStorageType? StorageType { get; set; }
 
     /// <summary>
-    /// Switches the location of the transaction logs used for PITR from disk     to Cloud Storage.
+    /// Switches the location of the transaction logs used for PITR from disk to Cloud Storage.
     /// </summary>
     [CliFlag("--switch-transaction-logs-to-cloud-storage")]
     public bool? SwitchTransactionLogsToCloudStorage { get; set; }
 
     /// <summary>
-    /// The number of threads per core. The value of this flag can be 1 or 2.     To disable SMT, set this flag to 1. Only available in Cloud SQL for SQL     Server instances.
+    /// The number of threads per core. The value of this flag can be 1 or 2. To disable SMT, set this flag to 1. Only available in Cloud SQL for SQL Server instances.
     /// </summary>
     [CliOption("--threads-per-core", Format = OptionFormat.EqualsSeparated)]
     public string? ThreadsPerCore { get; set; }
 
+    /// <summary>
+    /// Specifies the machine type for the instance. The usage of this flag depends on the selected --edition. Enterprise Edition: Use --tier for shared-core instances (e.g., db-f1-micro, db-g1-small). For dedicated-core instances, do not use --tier; instead, customize your instance by specifying its CPU and memory with the --cpu and --memory flags. Enterprise Plus Edition: --tier is required to specify the predefined machine type. The --cpu and --memory flags are not supported for Enterprise Plus. Examples include db-perf-optimized-N-2 (N2 series) or db-c4a-highmem-2 (C4A series). For a detailed list of available machine types and series, refer to the documentation for your database engine: * MySQL: https://cloud.google.com/sql/docs/mysql/machine-series-overview * PostgreSQL: https://cloud.google.com/sql/docs/postgres/machine-series-overview * SQL Server: https://cloud.google.com/sql/docs/sqlserver/machine-series-overview Learn more about how machine types, CPU, and memory affect pricing: https://cloud.google.com/sql/pricing WARNING: Instance will be restarted.
+    /// </summary>
     [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
     public string? Tier { get; set; }
 
@@ -416,25 +722,163 @@ public record GcloudSqlInstancesPatchOptions(
     public string? TimeZone { get; set; }
 
     /// <summary>
-    /// Upgrade from old network architecture to new network architecture. The     new network architecture offers better isolation, reliability, and     faster new feature adoption.    At most one of these can be specified:     --allowed-psc-projects=PROJECT,[PROJECT,...]      A comma-separated list of projects. Each project in this list might      be represented by a project number (numeric) or by a project ID      (alphanumeric). This allows Private Service Connect connections to be      established from specified consumer projects.     --clear-allowed-psc-projects      This will clear the project allowlist of Private Service Connect,      disallowing all projects from creating new Private Service Connect      bindings to the instance.    At most one of these can be specified:     --authorized-gae-apps=APP,[APP,...]      First Generation instances only. List of project IDs for App Engine      applications running in the Standard environment that can access this      instance.      The value given for this argument replaces the existing list.     --clear-gae-apps      Specified to clear the list of App Engine apps that can access this      instance.    At most one of these can be specified:     --authorized-networks=NETWORK,[NETWORK,...]      The list of external networks that are allowed to connect to the      instance. Specified in CIDR notation, also known as 'slash' notation      (e.g. 192.168.100.0/24).      The value given for this argument replaces the existing list.     --clear-authorized-networks      Clear the list of external networks that are allowed to connect to      the instance.    At most one of these can be specified:     --clear-connection-pool-flags      This will clear the connection pool flags set on the instance.     --connection-pool-flags=FLAG=VALUE,[FLAG=VALUE,...]      Comma-separated list of connection pool flags to set on the instance      connection pool. Use an equals sign to separate flag name and value.      More information on available flags can be found here:      https://cloud.google.com/sql/docs/mysql/managed-connection-pooling#configuration-options      for MySQL and      https://cloud.google.com/sql/docs/postgres/managed-connection-pooling#configuration-options      for PostgreSQL. (e.g., --connection-pool-flags      max_pool_size=1000,max_client_connections=20)    At most one of these can be specified:     --clear-custom-subject-alternative-names      This clears the customer specified DNS names.     --custom-subject-alternative-names=DNS,[DNS,[DNS]]      A comma-separated list of DNS names to add to the instance's SSL      certificate. A custom SAN is a structured way to add additional DNS      names (host names) that are not managed by Cloud SQL to an instance.      It allows for hostname verification during establishment of a      database connection using the DNS name over SSL/TLS. When you create      and/or update an instance, you can add a comma-separated list of up      to three DNS names to the server certificate of your instance.    At most one of these can be specified:     --clear-database-flags      Clear the database flags set on the instance. WARNING: Instance will      be restarted.     --database-flags=FLAG=VALUE,[FLAG=VALUE,...]      Comma-separated list of database flags to set on the instance. Use an      equals sign to separate flag name and value. Flags without values,      like skip_grant_tables, can be written out without a value after,      e.g., skip_grant_tables=. Use on/off for booleans. View the Instance      Resource API for allowed flags. (e.g., --database-flags      max_allowed_packet=55555,skip_grant_tables=,log_output=1)    At most one of these can be specified:     --clear-psc-auto-connections      This removes all automatically created connections. Cloud SQL uses      these connections to connect to an instance using Private Service      Connect.     --psc-auto-connections=[network=NETWORK],[project=PROJECT]      A comma-separated list of networks or network-project pairs. Each      project is represented by a project number (numeric) or by a project      ID (alphanumeric). This allows Private Service Connect connections to      be created automatically for the specified networks. For example,      this connection uses "the form      psc-auto-connections=network=projects/testproject1/global/networks/testnetwork1"      or "the form      psc-auto-connections=project=testproject1,network=projects/testproject1/global/networks/testnetwork1".      Sets psc_auto_connections value.       network        Required, sets network value.       project        Sets project value.      Shorthand Example:        --psc-auto-connections=network=string,project=string      JSON Example:        --psc-auto-connections='{"network": "string", "project": "string"}'      File Example:        --psc-auto-connections=path_to_file.(yaml|json)    At most one of these can be specified:     --clear-psc-network-attachment-uri      Disable outbound connectivity from a Cloud SQL instance which uses      Private Service Connect (PSC).     --psc-network-attachment-uri=PSC_NETWORK_ATTACHMENT_URI      Full URI of the network attachment that is configured to support      outbound connectivity from a Cloud SQL instance which uses Private      Service Connect (PSC). For example, this would be of the      form:--psc-network-attachment-uri=projects/test-project/regions/us-central1/networkAttachments/my-na    Entraid configuration for the SQL Server instance.
+    /// Upgrade from old network architecture to new network architecture. The new network architecture offers better isolation, reliability, and faster new feature adoption.
     /// </summary>
     [CliFlag("--upgrade-sql-network-architecture")]
     public bool? UpgradeSqlNetworkArchitecture { get; set; }
 
     /// <summary>
-    /// Set the Entraid application ID.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
+    /// </summary>
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedPscProjects { get; set; }
+
+    /// <summary>
+    /// This will clear the project allowlist of Private Service Connect, disallowing all projects from creating new Private Service Connect bindings to the instance.
+    /// </summary>
+    [CliFlag("--clear-allowed-psc-projects")]
+    public bool? ClearAllowedPscProjects { get; set; }
+
+    /// <summary>
+    /// First Generation instances only. List of project IDs for App Engine applications running in the Standard environment that can access this instance. The value given for this argument replaces the existing list.
+    /// </summary>
+    [CliOption("--authorized-gae-apps", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AuthorizedGaeApps { get; set; }
+
+    /// <summary>
+    /// Specified to clear the list of App Engine apps that can access this instance.
+    /// </summary>
+    [CliFlag("--clear-gae-apps")]
+    public bool? ClearGaeApps { get; set; }
+
+    /// <summary>
+    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). The value given for this argument replaces the existing list.
+    /// </summary>
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// Clear the list of external networks that are allowed to connect to the instance.
+    /// </summary>
+    [CliFlag("--clear-authorized-networks")]
+    public bool? ClearAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// This will clear the connection pool flags set on the instance.
+    /// </summary>
+    [CliFlag("--clear-connection-pool-flags")]
+    public bool? ClearConnectionPoolFlags { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of connection pool flags to set on the instance connection pool. Use an equals sign to separate flag name and value. More information on available flags can be found here: https://cloud.google.com/sql/docs/mysql/managed-connection-pooling#configuration-options for MySQL and https://cloud.google.com/sql/docs/postgres/managed-connection-pooling#configuration-options for PostgreSQL. (e.g., --connection-pool-flags max_pool_size=1000,max_client_connections=20)
+    /// </summary>
+    [CliOption("--connection-pool-flags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ConnectionPoolFlags { get; set; }
+
+    /// <summary>
+    /// This clears the customer specified DNS names.
+    /// </summary>
+    [CliFlag("--clear-custom-subject-alternative-names")]
+    public bool? ClearCustomSubjectAlternativeNames { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of DNS names to add to the instance's SSL certificate. A custom SAN is a structured way to add additional DNS names (host names) that are not managed by Cloud SQL to an instance. It allows for hostname verification during establishment of a database connection using the DNS name over SSL/TLS. When you create and/or update an instance, you can add a comma-separated list of up to three DNS names to the server certificate of your instance.
+    /// </summary>
+    [CliOption("--custom-subject-alternative-names", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomSubjectAlternativeNames { get; set; }
+
+    /// <summary>
+    /// Clear the database flags set on the instance. WARNING: Instance will be restarted.
+    /// </summary>
+    [CliFlag("--clear-database-flags")]
+    public bool? ClearDatabaseFlags { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of database flags to set on the instance. Use an equals sign to separate flag name and value. Flags without values, like skip_grant_tables, can be written out without a value after, e.g., skip_grant_tables=. Use on/off for booleans. View the Instance Resource API for allowed flags. (e.g., --database-flags max_allowed_packet=55555,skip_grant_tables=,log_output=1)
+    /// </summary>
+    [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? DatabaseFlags { get; set; }
+
+    /// <summary>
+    /// This removes all automatically created connections. Cloud SQL uses these connections to connect to an instance using Private Service Connect.
+    /// </summary>
+    [CliFlag("--clear-psc-auto-connections")]
+    public bool? ClearPscAutoConnections { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of networks or network-project pairs. Each project is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks. For example, this connection uses "the form psc-auto-connections=network=projects/testproject1/global/networks/testnetwork1" or "the form psc-auto-connections=project=testproject1,network=projects/testproject1/global/networks/testnetwork1". Sets psc_auto_connections value. network Required, sets network value. project Sets project value. Shorthand Example: --psc-auto-connections=network=string,project=string JSON Example: --psc-auto-connections='{"network": "string", "project": "string"}' File Example: --psc-auto-connections=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--psc-auto-connections", Format = OptionFormat.EqualsSeparated)]
+    public string? PscAutoConnections { get; set; }
+
+    /// <summary>
+    /// Disable outbound connectivity from a Cloud SQL instance which uses Private Service Connect (PSC).
+    /// </summary>
+    [CliFlag("--clear-psc-network-attachment-uri")]
+    public bool? ClearPscNetworkAttachmentUri { get; set; }
+
+    /// <summary>
+    /// Full URI of the network attachment that is configured to support outbound connectivity from a Cloud SQL instance which uses Private Service Connect (PSC). For example, this would be of the form:--psc-network-attachment-uri=projects/test-project/regions/us-central1/networkAttachments/my-na
+    /// </summary>
+    [CliOption("--psc-network-attachment-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? PscNetworkAttachmentUri { get; set; }
+
+    /// <summary>
+    /// Set the Entraid application ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--entra-id-application-id", Format = OptionFormat.EqualsSeparated)]
     public string? EntraIdApplicationId { get; set; }
 
     /// <summary>
-    /// Set the Entraid tenant ID.     This flag argument must be specified if any of the other arguments in     this group are specified.    At most one of these can be specified:     --gce-zone=GCE_ZONE      (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a,      us-central1-b, etc.). WARNING: Instance may be restarted.      Flag --gce-zone is deprecated and will be removed by release 255.0.0.      Use --zone instead.     Or at least one of these can be specified:      --secondary-zone=SECONDARY_ZONE       Preferred secondary Compute Engine zone (e.g. us-central1-a,       us-central1-b, etc.).      --zone=ZONE       Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b,       etc.). WARNING: Instance may be restarted.    Options for configuring read pool auto scale.
+    /// Set the Entraid tenant ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--entra-id-tenant-id", Format = OptionFormat.EqualsSeparated)]
     public string? EntraIdTenantId { get; set; }
 
     /// <summary>
-    /// The cooldown period for automatic read pool scale-in. Minimum time     between scale-in events. Must be an integer value. For example, if the     value is 60, then a scale-in event will not be triggered within 60     seconds of the last scale-in event.
+    /// (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). WARNING: Instance may be restarted. Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
+    /// </summary>
+    [CliOption("--gce-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? GceZone { get; set; }
+
+    /// <summary>
+    /// Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// </summary>
+    [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryZone { get; set; }
+
+    /// <summary>
+    /// Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). WARNING: Instance may be restarted.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
+    /// </summary>
+    [CliFlag("--auto-scale-disable-scale-in")]
+    public bool? AutoScaleDisableScaleIn { get; set; }
+
+    /// <summary>
+    /// Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
+    /// </summary>
+    [CliFlag("--no-auto-scale-disable-scale-in")]
+    public bool? NoAutoScaleDisableScaleIn { get; set; }
+
+    /// <summary>
+    /// Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// </summary>
+    [CliFlag("--auto-scale-enabled")]
+    public bool? AutoScaleEnabled { get; set; }
+
+    /// <summary>
+    /// Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// </summary>
+    [CliFlag("--no-auto-scale-enabled")]
+    public bool? NoAutoScaleEnabled { get; set; }
+
+    /// <summary>
+    /// The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.
     /// </summary>
     [CliOption("--auto-scale-in-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleInCooldownSeconds { get; set; }
@@ -452,15 +896,45 @@ public record GcloudSqlInstancesPatchOptions(
     public int? AutoScaleMinNodeCount { get; set; }
 
     /// <summary>
-    /// The cooldown period for automatic read pool scale-out. Minimum time     between scale-out events. Must be an integer value. For example, if the     value is 60, then a scale-out event will not be triggered within 60     seconds of the last scale-out event.
+    /// The cooldown period for automatic read pool scale-out. Minimum time between scale-out events. Must be an integer value. For example, if the value is 60, then a scale-out event will not be triggered within 60 seconds of the last scale-out event.
     /// </summary>
     [CliOption("--auto-scale-out-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleOutCooldownSeconds { get; set; }
 
     /// <summary>
-    /// Target metrics for read pool auto scaling. Options are:     AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example:     --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8    At most one of these can be specified:     --no-backup      Specified if daily backup should be disabled.     Or at least one of these can be specified:      --backup-location=BACKUP_LOCATION       Choose where to store your backups. Backups are stored in the       closest multi-region location to you by default. Only customize if       needed. Specify empty string to revert to default.      --backup-start-time=BACKUP_START_TIME       Start time of daily backups, specified in the HH:MM format, in the       UTC timezone.      --retained-backups-count=RETAINED_BACKUPS_COUNT       How many backups to keep. The valid range is between 1 and 365.       Default value is 7 for Enterprise edition instances. For       Enterprise_Plus, default value is 15. Applicable only if       --no-backups is not specified.      --retained-transaction-log-days=RETAINED_TRANSACTION_LOG_DAYS       How many days of transaction logs to keep. The valid range is       between 1 and 35. Only use this option when point-in-time recovery       is enabled. If logs are stored on disk, storage size for       transaction logs could increase when the number of days for log       retention increases. For Enterprise, default and max retention       values are 7 and 7 respectively. For Enterprise_Plus, default and       max retention values are 14 and 35.
+    /// Target metrics for read pool auto scaling. Options are: AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example: --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8
     /// </summary>
     [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AutoScaleTargetMetrics { get; set; }
+
+    /// <summary>
+    /// Specified if daily backup should be disabled.
+    /// </summary>
+    [CliFlag("--no-backup")]
+    public bool? NoBackup { get; set; }
+
+    /// <summary>
+    /// Choose where to store your backups. Backups are stored in the closest multi-region location to you by default. Only customize if needed. Specify empty string to revert to default.
+    /// </summary>
+    [CliOption("--backup-location", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupLocation { get; set; }
+
+    /// <summary>
+    /// Start time of daily backups, specified in the HH:MM format, in the UTC timezone.
+    /// </summary>
+    [CliOption("--backup-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupStartTime { get; set; }
+
+    /// <summary>
+    /// How many backups to keep. The valid range is between 1 and 365. Default value is 7 for Enterprise edition instances. For Enterprise_Plus, default value is 15. Applicable only if --no-backups is not specified.
+    /// </summary>
+    [CliOption("--retained-backups-count", Format = OptionFormat.EqualsSeparated)]
+    public int? RetainedBackupsCount { get; set; }
+
+    /// <summary>
+    /// How many days of transaction logs to keep. The valid range is between 1 and 35. Only use this option when point-in-time recovery is enabled. If logs are stored on disk, storage size for transaction logs could increase when the number of days for log retention increases. For Enterprise, default and max retention values are 7 and 7 respectively. For Enterprise_Plus, default and max retention values are 14 and 35.
+    /// </summary>
+    [CliOption("--retained-transaction-log-days", Format = OptionFormat.EqualsSeparated)]
+    public string? RetainedTransactionLogDays { get; set; }
 
 }

@@ -33,6 +33,21 @@ public class GcloudPreviewComputeNetworkAttachments
     #region Commands
 
     /// <summary>
+    /// manage Compute Engine network     attachment resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeNetworkAttachmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeNetworkAttachmentsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Google Compute     Engine network attachment
     /// </summary>
     /// <param name="options">The command options.</param>

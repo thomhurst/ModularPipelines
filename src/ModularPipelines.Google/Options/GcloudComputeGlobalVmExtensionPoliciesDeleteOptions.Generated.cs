@@ -25,19 +25,19 @@ public record GcloudComputeGlobalVmExtensionPoliciesDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Provide the name of a custom rollout plan to be used for the rollout.     One of either --rollout-predefined-plan or --rollout-custom-plan must     be specified, but not both.
+    /// Provide the name of a custom rollout plan to be used for the rollout. One of either --rollout-predefined-plan or --rollout-custom-plan must be specified, but not both.
     /// </summary>
     [CliOption("--rollout-custom-plan", Format = OptionFormat.EqualsSeparated)]
     public string? RolloutCustomPlan { get; set; }
 
     /// <summary>
-    /// Provide the name of a predefined rollout plan from [fast_rollout,     slow_rollout] to be used for the rollout.     One of either --rollout-predefined-plan or --rollout-custom-plan must     be specified, but not both.     ROLLOUT_PREDEFINED_PLAN must be one of: fast_rollout, slow_rollout.
+    /// Provide the name of a predefined rollout plan from [fast_rollout, slow_rollout] to be used for the rollout. One of either --rollout-predefined-plan or --rollout-custom-plan must be specified, but not both. ROLLOUT_PREDEFINED_PLAN must be one of: fast_rollout, slow_rollout.
     /// </summary>
     [CliOption("--rollout-predefined-plan", Format = OptionFormat.EqualsSeparated)]
     public GcloudRolloutPredefinedPlan? RolloutPredefinedPlan { get; set; }
 
     /// <summary>
-    /// The UUID of the rollout retry action. Only set it if this is a retry     for an existing resource.
+    /// The UUID of the rollout retry action. Only set it if this is a retry for an existing resource.
     /// </summary>
     [CliOption("--rollout-retry-uuid", Format = OptionFormat.EqualsSeparated)]
     public string? RolloutRetryUuid { get; set; }

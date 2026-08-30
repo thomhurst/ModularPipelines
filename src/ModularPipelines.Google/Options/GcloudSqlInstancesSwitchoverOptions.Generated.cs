@@ -24,13 +24,13 @@ public record GcloudSqlInstancesSwitchoverOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// (MySQL and PostgreSQL only) Cloud SQL instance operations timeout,     which is the sum of all database operations. Default value is 10     minutes and can be modified to a maximum value of 24h.
+    /// (MySQL and PostgreSQL only) Cloud SQL instance operations timeout, which is the sum of all database operations. Default value is 10 minutes and can be modified to a maximum value of 24h.
     /// </summary>
     [CliOption("--db-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? DbTimeout { get; set; }

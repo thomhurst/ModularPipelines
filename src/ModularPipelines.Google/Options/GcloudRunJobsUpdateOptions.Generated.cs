@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,7 +24,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunJobsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Justification to bypass Binary Authorization policy constraints and     allow the operation. See     https://cloud.google.com/binary-authorization/docs/using-breakglass for     more information. Next update or deploy command will automatically     clear existing breakglass justification.
+    /// Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
     /// </summary>
     [CliOption("--breakglass", Format = OptionFormat.EqualsSeparated)]
     public string? Breakglass { get; set; }
@@ -35,7 +36,7 @@ public record GcloudRunJobsUpdateOptions : GcloudOptions
     public bool? ClearVpcConnector { get; set; }
 
     /// <summary>
-    /// Specifies a container by name. Flags following --container will apply     to the specified container.     Flags that are not container-specific must be specified before     --container.
+    /// Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
     /// </summary>
     [CliOption("--container", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
@@ -47,25 +48,37 @@ public record GcloudRunJobsUpdateOptions : GcloudOptions
     public string? GpuType { get; set; }
 
     /// <summary>
+    /// Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// </summary>
+    [CliFlag("--gpu-zonal-redundancy")]
+    public bool? GpuZonalRedundancy { get; set; }
+
+    /// <summary>
+    /// Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// </summary>
+    [CliFlag("--no-gpu-zonal-redundancy")]
+    public bool? NoGpuZonalRedundancy { get; set; }
+
+    /// <summary>
     /// CMEK key reference to encrypt the container with.
     /// </summary>
     [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
     public string? Key { get; set; }
 
     /// <summary>
-    /// Number of times a task is allowed to restart in case of failure before     being failed permanently. This applies per-task, not per-job. If set to     0, tasks will only run once and never be retried on failure.
+    /// Number of times a task is allowed to restart in case of failure before being failed permanently. This applies per-task, not per-job. If set to 0, tasks will only run once and never be retried on failure.
     /// </summary>
     [CliOption("--max-retries", Format = OptionFormat.EqualsSeparated)]
     public string? MaxRetries { get; set; }
 
     /// <summary>
-    /// Number of tasks that may run concurrently. Must be less than or equal     to the number of tasks. Set to 0 to unset.
+    /// Number of tasks that may run concurrently. Must be less than or equal to the number of tasks. Set to 0 to unset.
     /// </summary>
     [CliOption("--parallelism", Format = OptionFormat.EqualsSeparated)]
     public string? Parallelism { get; set; }
 
     /// <summary>
-    /// Region in which the resource can be found. Alternatively, set the     property [run/region].
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
@@ -77,19 +90,16 @@ public record GcloudRunJobsUpdateOptions : GcloudOptions
     public IEnumerable<string>? RemoveContainers { get; set; }
 
     /// <summary>
-    /// the email address of an IAM service account associated with the     revision of the service. The service account represents the identity of     the running revision, and determines what permissions the revision has.
+    /// the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Set the maximum time (deadline) a job task attempt can run for. In the     case of retries, this deadline applies to each attempt of a task. If     the task attempt does not complete within this time, it will be killed.     It is specified as a duration; for example, "10m5s" is ten minutes, and     five seconds. If you don't specify a unit, seconds is assumed. For     example, "10" is 10 seconds.
+    /// Set the maximum time (deadline) a job task attempt can run for. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
     /// </summary>
     [CliOption("--task-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? TaskTimeout { get; set; }
-
-    [CliOption("--tasks", Format = OptionFormat.EqualsSeparated)]
-    public string? Tasks { get; set; }
 
     /// <summary>
     /// Set a VPC connector for this resource.
@@ -98,37 +108,61 @@ public record GcloudRunJobsUpdateOptions : GcloudOptions
     public string? VpcConnector { get; set; }
 
     /// <summary>
-    /// Specify which of the outbound traffic to send through Direct VPC egress     or the VPC connector for this resource. This resource must have Direct     VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must     be one of:      all       (DEPRECATED) Sends all outbound traffic through Direct VPC egress       or the VPC connector. Provides the same functionality as       'all-traffic'. Prefer to use 'all-traffic' instead.     all-traffic       Sends all outbound traffic through Direct VPC egress or the VPC       connector.     private-ranges-only       Default option. Sends outbound traffic to private IP addresses (RFC       1918 and Private Google Access IPs) through Direct VPC egress or       the VPC connector.       Traffic to other Cloud Run services might require additional       configuration. See       https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services       for more information.    These flags modify the Cloud SQL instances this Service connects to. You   can specify a name of a Cloud SQL instance if it's in the same project and   region as your Cloud Run service; otherwise specify   &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance.    At most one of these can be specified:     --add-cloudsql-instances=[CLOUDSQL-INSTANCES,...]      Append the given values to the current Cloud SQL instances.     --clear-cloudsql-instances      Empty the current Cloud SQL instances.     --remove-cloudsql-instances=[CLOUDSQL-INSTANCES,...]      Remove the given values from the current Cloud SQL instances.     --set-cloudsql-instances=[CLOUDSQL-INSTANCES,...]      Completely replace the current Cloud SQL instances with the given      values.
+    /// Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must be one of: all (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead. all-traffic Sends all outbound traffic through Direct VPC egress or the VPC connector. private-ranges-only Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector. Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
     /// </summary>
     [CliOption("--vpc-egress", Format = OptionFormat.EqualsSeparated)]
     public string? VpcEgress { get; set; }
 
     /// <summary>
-    /// Adds a volume to the Cloud Run resource. To add more than one volume,     specify this flag multiple times. Volumes must have a type key. Volumes     must have a name key if mount-path is not specified. A name key is     optional if mount-path is specified.Only certain values are supported     for type. Depending on the provided type, other keys will be required.     The following types are supported with the specified additional keys:     cloud-storage: A volume representing a Cloud Storage bucket. This     volume type is mounted using Cloud Storage FUSE. See     https://cloud.google.com/storage/docs/gcs-fuse for the details and     limitations of this filesystem. Additional keys:     ◆ bucket: (required) the name of the bucket to use as the source of      this volume     ◆ readonly: (optional) A boolean. If true, this volume will be      read-only from all mounts.     ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags      should be specified without leading dashes and separated by      semicolons.     ◆ mount-path: (optional) The path at which the volume should be      mounted. The mount-path parameter is only supported for single      container services which do not make use of the --container flag. For      multi-container services, specify the mount-path parameter under the      --add-volume-mount flag.     in-memory: An ephemeral volume that stores data in the instance's     memory. With this type of volume, data is not shared between instances     and all data will be lost when the instance it is on is terminated.     Additional keys:     ◆ mount-path: (optional) The path at which the volume should be      mounted. The mount-path parameter is only supported for single      container services which do not make use of the --container flag. For      multi-container services, specify the mount-path parameter under the      --add-volume-mount flag.     ◆ size-limit: (optional) A quantity representing the maximum amount      of memory allocated to this volume, such as "512Mi" or "3G". Data      stored in an in-memory volume consumes the memory allocation of the      container that wrote the data. If size-limit is not specified, the      maximum size will be half the total memory limit of all containers.     nfs: Represents a volume backed by an NFS server. Additional keys:     ◆ location: (required) The location of the NFS Server, in the form      SERVER:/PATH     ◆ mount-path: (optional) The path at which the volume should be      mounted. The mount-path parameter is only supported for single      container services which do not make use of the --container flag. For      multi-container services, specify the mount-path parameter under the      --add-volume-mount flag.     ◆ readonly: (optional) A boolean. If true, this volume will be      read-only from all mounts.
+    /// Append the given values to the current Cloud SQL instances.
+    /// </summary>
+    [CliOption("--add-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddCloudsqlInstances { get; set; }
+
+    /// <summary>
+    /// Empty the current Cloud SQL instances.
+    /// </summary>
+    [CliFlag("--clear-cloudsql-instances")]
+    public bool? ClearCloudsqlInstances { get; set; }
+
+    /// <summary>
+    /// Remove the given values from the current Cloud SQL instances.
+    /// </summary>
+    [CliOption("--remove-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveCloudsqlInstances { get; set; }
+
+    /// <summary>
+    /// Completely replace the current Cloud SQL instances with the given values.
+    /// </summary>
+    [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetCloudsqlInstances { get; set; }
+
+    /// <summary>
+    /// Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a type key. Volumes must have a name key if mount-path is not specified. A name key is optional if mount-path is specified.Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: * bucket: (required) the name of the bucket to use as the source of this volume * readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. * mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. * mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: * mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. * size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: * location: (required) The location of the NFS Server, in the form SERVER:/PATH * mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. * readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
     /// </summary>
     [CliOption("--add-volume", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AddVolume { get; set; }
 
     /// <summary>
-    /// Remove all existing volumes from the Cloud Run resource, including     volumes mounted as secrets
+    /// Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
     /// </summary>
     [CliFlag("--clear-volumes")]
     public bool? ClearVolumes { get; set; }
 
     /// <summary>
-    /// Removes volumes from the Cloud Run resource.   Container Flags     If the --container or --remove-containers flag is specified the following     arguments may only be specified after a --container flag.
+    /// Removes volumes from the Cloud Run resource.
     /// </summary>
     [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolume { get; set; }
 
     /// <summary>
-    /// Adds a mount to the current container. Must contain the keys     volume=NAME and mount-path=/PATH where NAME is the name of a volume on     this resource and PATH is the path within the container's filesystem to     mount this volume.
+    /// Adds a mount to the current container. Must contain the keys volume=NAME and mount-path=/PATH where NAME is the name of a volume on this resource and PATH is the path within the container's filesystem to mount this volume.
     /// </summary>
     [CliOption("--add-volume-mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddVolumeMount { get; set; }
 
     /// <summary>
-    /// Comma-separated arguments passed to the command run by the container     image. If not specified and no '--command' is provided, the container     image's default Cmd is used. Otherwise, if not specified, no arguments     are passed. To reset this field to its default, pass an empty string.
+    /// Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
     /// </summary>
     [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Args { get; set; }
@@ -140,13 +174,13 @@ public record GcloudRunJobsUpdateOptions : GcloudOptions
     public bool? ClearVolumeMounts { get; set; }
 
     /// <summary>
-    /// Entrypoint for the container image. If not specified, the container     image's default Entrypoint is run. To reset this field to its default,     pass an empty string.
+    /// Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string.
     /// </summary>
     [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Command { get; set; }
 
     /// <summary>
-    /// Set a CPU limit in Kubernetes cpu units.     Cloud Run supports values fractional values below 1, 1, 2, 4, and 8.     Some CPU values requires a minimum Memory --memory value.
+    /// Set a CPU limit in Kubernetes cpu units. Cloud Run supports values fractional values below 1, 1, 2, 4, and 8. Some CPU values requires a minimum Memory --memory value.
     /// </summary>
     [CliOption("--cpu", Format = OptionFormat.EqualsSeparated)]
     public string? Cpu { get; set; }
@@ -158,13 +192,13 @@ public record GcloudRunJobsUpdateOptions : GcloudOptions
     public IEnumerable<string>? DependsOn { get; set; }
 
     /// <summary>
-    /// Cloud Run supports values 0 or 1. 1 gpu also requires a minimum 4 --cpu     value and a minimum 16Gi --memory value.
+    /// Cloud Run supports values 0 or 1. 1 gpu also requires a minimum 4 --cpu value and a minimum 16Gi --memory value.
     /// </summary>
     [CliOption("--gpu", Format = OptionFormat.EqualsSeparated)]
     public string? Gpu { get; set; }
 
     /// <summary>
-    /// Name of the container image to deploy (e.g.     us-docker.pkg.dev/cloudrun/container/job:latest).
+    /// Name of the container image to deploy (e.g. us-docker.pkg.dev/cloudrun/container/job:latest).
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
     public string? Image { get; set; }
@@ -176,21 +210,168 @@ public record GcloudRunJobsUpdateOptions : GcloudOptions
     public string? Memory { get; set; }
 
     /// <summary>
-    /// Removes the volume mounted at the specified path from the current     container.
+    /// Removes the volume mounted at the specified path from the current container.
     /// </summary>
     [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolumeMount { get; set; }
 
     /// <summary>
-    /// Comma separated settings for startup probe in the form KEY=VALUE. Each     key stands for a field of the probe described in     https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe.     Currently supported keys are: initialDelaySeconds, timeoutSeconds,     periodSeconds, failureThreshold, httpGet.port, httpGet.path, grpc.port,     grpc.service, tcpSocket.port.     For example, to set a probe with 10s timeout and HTTP probe requests     sent to 8080 port of the container:       $ --startup-probe=timeoutSeconds=10,httpGet.port=8080     To remove existing probe:       $ --startup-probe=""
+    /// Comma separated settings for startup probe in the form KEY=VALUE. Each key stands for a field of the probe described in https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe. Currently supported keys are: initialDelaySeconds, timeoutSeconds, periodSeconds, failureThreshold, httpGet.port, httpGet.path, grpc.port, grpc.service, tcpSocket.port. For example, to set a probe with 10s timeout and HTTP probe requests sent to 8080 port of the container: $ --startup-probe=timeoutSeconds=10,httpGet.port=8080 To remove existing probe: $ --startup-probe=""
     /// </summary>
     [CliOption("--startup-probe", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? StartupProbe { get; set; }
 
     /// <summary>
-    /// Working directory of the container process. If not specified, the     container image's default working directory is used. To reset this     field to its default, pass an empty string.    At most one of these can be specified:     --clear-env-vars      Remove all environment variables.     --env-vars-file=FILE_PATH      Path to a local YAML or ENV file with definitions for all environment      variables. All existing environment variables will be removed before      the new environment variables are added. Example YAML content:        KEY_1: "value1"        KEY_2: "value 2"      Example ENV content:        KEY_1="value1"        KEY_2="value 2"     --set-env-vars=[KEY=VALUE,...]      List of key-value pairs to set as environment variables. All existing      environment variables will be removed first.     Or at least one of these can be specified:      Only --update-env-vars and --remove-env-vars can be used together. If     both are specified, --remove-env-vars will be applied first.      --remove-env-vars=[KEY,...]       List of environment variables to be removed.      --update-env-vars=[KEY=VALUE,...]       List of key-value pairs to set as environment variables.    Specify secrets to mount or provide as environment variables. Keys   starting with a forward slash '/' are mount paths. All other keys   correspond to environment variables. Values should be in the form   SECRET_NAME:SECRET_VERSION. For example:   '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will   mount a volume at '/secrets/api' containing a file 'key' with the latest   version of secret 'mysecret'. An environment variable named ENV will also   be created whose value is version 1 of secret 'othersecret'.    At most one of these can be specified:     --clear-secrets      Remove all secrets.     --set-secrets=[KEY=VALUE,...]      List of key-value pairs to set as secrets. All existing secrets will      be removed first.     Or at least one of these can be specified:      Only --update-secrets and --remove-secrets can be used together. If     both are specified, --remove-secrets will be applied first.      --remove-secrets=[KEY,...]       List of secrets to be removed.      --update-secrets=[KEY=VALUE,...]       List of key-value pairs to set as secrets.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     Or at least one of these can be specified:      --async cannot be used if executing the job after the update.      --execute-now       Execute the job immediately after the creation or update completes.       gcloud exits once the job has started unless the --wait flag is       set.      --wait       Wait until the execution has completed running before exiting. If       not set, gcloud exits successfully when the execution has started.       Implies --execute-now.    At most one of these can be specified:     --binary-authorization=POLICY      Binary Authorization policy to check against. This must be set to      "default".     --clear-binary-authorization      Remove any previously set Binary Authorization policy.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud run jobs update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud run jobs update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --labels=[KEY=VALUE,...]      List of label KEY=VALUE pairs to add.      An alias to --update-labels.     --update-labels=[KEY=VALUE,...]      List of label KEY=VALUE pairs to update. If a label exists, its value      is modified. Otherwise, a new label is created.    At most one of these can be specified:     --clear-network      Disconnect this Cloud Run job from the VPC network it is connected      to.     Or at least one of these can be specified:      Direct VPC egress setting flags group.      --network=NETWORK       The VPC network that the Cloud Run job will be able to send traffic       to. If --subnet is also specified, subnet must be a subnetwork of       the network specified by this --network flag. To clear existing VPC       network settings, use --clear-network.      --subnet=SUBNET       The VPC subnetwork that the Cloud Run job will get IPs from. The       subnetwork must be /26 or larger. If --network is also specified,       subnet must be a subnetwork of the network specified by the       --network flag. If --network is not specified, network will be       looked up from this subnetwork. To clear existing VPC network       settings, use --clear-network.      At most one of these can be specified:       --clear-network-tags        Clears all existing network tags from the Cloud Run job.       --network-tags=[TAG,...]        Applies the given network tags (comma separated) to the Cloud Run        job. To clear existing tags, use --clear-network-tags.
+    /// Working directory of the container process. If not specified, the container image's default working directory is used. To reset this field to its default, pass an empty string.
     /// </summary>
     [CliOption("--workdir", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
+
+    /// <summary>
+    /// Remove all environment variables.
+    /// </summary>
+    [CliFlag("--clear-env-vars")]
+    public bool? ClearEnvVars { get; set; }
+
+    /// <summary>
+    /// Path to a local YAML or ENV file with definitions for all environment variables. All existing environment variables will be removed before the new environment variables are added. Example YAML content: KEY_1: "value1" KEY_2: "value 2" Example ENV content: KEY_1="value1" KEY_2="value 2"
+    /// </summary>
+    [CliOption("--env-vars-file", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvVarsFile { get; set; }
+
+    /// <summary>
+    /// List of key-value pairs to set as environment variables. All existing environment variables will be removed first.
+    /// </summary>
+    [CliOption("--set-env-vars", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
+
+    /// <summary>
+    /// List of environment variables to be removed.
+    /// </summary>
+    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveEnvVars { get; set; }
+
+    /// <summary>
+    /// List of key-value pairs to set as environment variables.
+    /// </summary>
+    [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
+
+    /// <summary>
+    /// Remove all secrets.
+    /// </summary>
+    [CliFlag("--clear-secrets")]
+    public bool? ClearSecrets { get; set; }
+
+    /// <summary>
+    /// List of key-value pairs to set as secrets. All existing secrets will be removed first.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--set-secrets", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? SetSecrets { get; set; }
+
+    /// <summary>
+    /// List of secrets to be removed.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveSecrets { get; set; }
+
+    /// <summary>
+    /// List of key-value pairs to set as secrets.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--update-secrets", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateSecrets { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Execute the job immediately after the creation or update completes. gcloud exits once the job has started unless the --wait flag is set.
+    /// </summary>
+    [CliFlag("--execute-now")]
+    public bool? ExecuteNow { get; set; }
+
+    /// <summary>
+    /// Wait until the execution has completed running before exiting. If not set, gcloud exits successfully when the execution has started. Implies --execute-now.
+    /// </summary>
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
+
+    /// <summary>
+    /// Binary Authorization policy to check against. This must be set to "default".
+    /// </summary>
+    [CliOption("--binary-authorization", Format = OptionFormat.EqualsSeparated)]
+    public string? BinaryAuthorization { get; set; }
+
+    /// <summary>
+    /// Remove any previously set Binary Authorization policy.
+    /// </summary>
+    [CliFlag("--clear-binary-authorization")]
+    public bool? ClearBinaryAuthorization { get; set; }
+
+    /// <summary>
+    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud run jobs update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud run jobs update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. An alias to --update-labels.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// Disconnect this Cloud Run job from the VPC network it is connected to.
+    /// </summary>
+    [CliFlag("--clear-network")]
+    public bool? ClearNetwork { get; set; }
+
+    /// <summary>
+    /// The VPC network that the Cloud Run job will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The VPC subnetwork that the Cloud Run job will get IPs from. The subnetwork must be /26 or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Clears all existing network tags from the Cloud Run job.
+    /// </summary>
+    [CliFlag("--clear-network-tags")]
+    public bool? ClearNetworkTags { get; set; }
+
+    /// <summary>
+    /// Applies the given network tags (comma separated) to the Cloud Run job. To clear existing tags, use --clear-network-tags.
+    /// </summary>
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NetworkTags { get; set; }
+
+    /// <summary>
+    /// Number of tasks that must run to completion for the execution to be considered done.
+    /// </summary>
+    [CliOption("--tasks", Format = OptionFormat.EqualsSeparated)]
+    public string? Tasks { get; set; }
 
 }

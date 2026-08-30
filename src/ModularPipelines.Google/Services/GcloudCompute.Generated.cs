@@ -40,6 +40,7 @@ public class GcloudCompute : IGcloudCompute
     private GcloudComputeHealthAggregationPolicies? _healthAggregationPolicies;
     private GcloudComputeHealthChecks? _healthChecks;
     private GcloudComputeHealthSources? _healthSources;
+    private GcloudComputeHosts? _hosts;
     private GcloudComputeHttpHealthChecks? _httpHealthChecks;
     private GcloudComputeHttpsHealthChecks? _httpsHealthChecks;
     private GcloudComputeImages? _images;
@@ -204,6 +205,11 @@ public class GcloudCompute : IGcloudCompute
     /// gcloud health-sources sub-commands.
     /// </summary>
     public GcloudComputeHealthSources HealthSources => _healthSources ??= new GcloudComputeHealthSources(_command);
+
+    /// <summary>
+    /// gcloud hosts sub-commands.
+    /// </summary>
+    public GcloudComputeHosts Hosts => _hosts ??= new GcloudComputeHosts(_command);
 
     /// <summary>
     /// gcloud http-health-checks sub-commands.

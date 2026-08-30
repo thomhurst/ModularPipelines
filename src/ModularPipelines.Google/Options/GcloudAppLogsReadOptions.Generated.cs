@@ -21,19 +21,34 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("app", "logs", "read")]
 public record GcloudAppLogsReadOptions : GcloudOptions
 {
-    [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
-    public string? Level { get; set; }
-
-    [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
-    public string? Limit { get; set; }
-
-    [CliOption("--logs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Logs { get; set; }
-
+    /// <summary>
+    /// Limit to specific service.
+    /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
+    /// <summary>
+    /// Limit to specific version.
+    /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// Filter entries with severity equal to or higher than a given level. LEVEL must be one of: critical, error, warning, info, debug, any.
+    /// </summary>
+    [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
+    public string? Level { get; set; }
+
+    /// <summary>
+    /// Number of log entries to show.
+    /// </summary>
+    [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
+    public string? Limit { get; set; }
+
+    /// <summary>
+    /// Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc).
+    /// </summary>
+    [CliOption("--logs", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Logs { get; set; }
 
 }

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkforcePoolsProvidersScimTenantsTokensCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Optional, user-specified display name for the SCIM token (max 32     characters).
+    /// Optional, user-specified display name for the SCIM token (max 32 characters).
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }

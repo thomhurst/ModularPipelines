@@ -33,6 +33,21 @@ public class GcloudOracledatabaseCloudExadataInfrastructuresDbServers
     #region Commands
 
     /// <summary>
+    /// manage Db     Server resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudOracleDatabaseCloudExadataInfrastructuresDbServersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDbServersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list     all DbServers
     /// </summary>
     /// <param name="options">The command options.</param>

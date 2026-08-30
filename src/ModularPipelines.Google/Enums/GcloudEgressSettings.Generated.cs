@@ -17,8 +17,9 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudEgressSettings
 {
     [EnumValue("private-ranges-only")]
-    PrivateRangesOnly,
+    PrivateRangesOnly = 0,
 
     [EnumValue("all")]
-    All
+    All = 1,
+
 }

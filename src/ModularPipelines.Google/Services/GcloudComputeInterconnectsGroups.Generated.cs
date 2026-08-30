@@ -33,6 +33,21 @@ public class GcloudComputeInterconnectsGroups
     #region Commands
 
     /// <summary>
+    /// create or manipulate interconnect     groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInterconnectsGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInterconnectsGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add member interconnects     to a Compute Engine interconnect group
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -146,6 +161,21 @@ public class GcloudComputeInterconnectsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMembersAsync(
         GcloudComputeInterconnectsGroupsRemoveMembersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set the IAM policy for     a Compute Engine interconnect group
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicyAsync(
+        GcloudComputeInterconnectsGroupsSetIamPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

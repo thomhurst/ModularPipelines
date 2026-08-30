@@ -43,6 +43,21 @@ public class GcloudNetworkconnectivitySpokesGateways
     #region Commands
 
     /// <summary>
+    /// manage Gateway spokes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkConnectivitySpokesGatewaysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivitySpokesGatewaysOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new Gateway     spoke
     /// </summary>
     /// <param name="options">The command options.</param>

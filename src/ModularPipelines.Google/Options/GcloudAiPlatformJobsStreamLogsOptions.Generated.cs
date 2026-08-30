@@ -29,13 +29,16 @@ public record GcloudAiPlatformJobsStreamLogsOptions(
     [CliFlag("--allow-multiline-logs")]
     public bool? AllowMultilineLogs { get; set; }
 
-    [CliOption("--polling-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? PollingInterval { get; set; }
-
     /// <summary>
     /// If set, display only the logs for this particular task.
     /// </summary>
     [CliOption("--task-name", Format = OptionFormat.EqualsSeparated)]
     public string? TaskName { get; set; }
+
+    /// <summary>
+    /// Number of seconds to wait between efforts to fetch the latest log messages. Overrides the default ml_engine/polling_interval property value for this command invocation.
+    /// </summary>
+    [CliOption("--polling-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? PollingInterval { get; set; }
 
 }

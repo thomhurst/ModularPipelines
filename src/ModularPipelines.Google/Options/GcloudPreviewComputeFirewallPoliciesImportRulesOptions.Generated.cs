@@ -24,13 +24,13 @@ public record GcloudPreviewComputeFirewallPoliciesImportRulesOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Organization in which the organization firewall policy rules import to.     Must be set if FIREWALL_POLICY is short name.
+    /// Organization in which the organization firewall policy rules import to. Must be set if FIREWALL_POLICY is short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// Path to a YAML file containing configuration export data.     Alternatively, you may omit this flag to read from standard input. For     a schema describing the export/import format, see:     $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/FirewallPolicy.yaml.       Note: $CLOUDSDKROOT represents the Google Cloud CLI's installation directory.
+    /// Path to a YAML file containing configuration export data. Alternatively, you may omit this flag to read from standard input. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/FirewallPolicy.yaml. Note: $CLOUDSDKROOT represents the Google Cloud CLI's installation directory.
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }

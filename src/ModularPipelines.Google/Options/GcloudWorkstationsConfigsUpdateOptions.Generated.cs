@@ -23,189 +23,255 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// A Single or Range of ports externally accessible in the workstation. If     not specified defaults to ports 22, 80 and ports 1024-65535.     To specify a single port, both first and last should be same.     Example:       $ gcloud workstations configs update \         --allowed-ports=first=9000,last=9090       $ gcloud workstations configs update --allowed-ports=first=80,last=80     Sets allowed_ports value.      first       Required, sets first value.      last       Required, sets last value.     Shorthand Example:       --allowed-ports=first=int,last=int     JSON Example:       --allowed-ports='{"first": int, "last": int}'     File Example:       --allowed-ports=path_to_file.(yaml|json)
+    /// Accelerator settings A Single or Range of ports externally accessible in the workstation. If not specified defaults to ports 22, 80 and ports 1024-65535. To specify a single port, both first and last should be same. Example: $ gcloud workstations configs update \ --allowed-ports=first=9000,last=9090 $ gcloud workstations configs update --allowed-ports=first=80,last=80 Sets allowed_ports value. first Required, sets first value. last Required, sets last value. Shorthand Example: --allowed-ports=first=int,last=int JSON Example: --allowed-ports='{"first": int, "last": int}' File Example: --allowed-ports=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--allowed-ports", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedPorts { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Accelerator settings Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Size of the boot disk in GB.
+    /// Accelerator settings Size of the boot disk in GB.
     /// </summary>
     [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? BootDiskSize { get; set; }
 
     /// <summary>
-    /// Arguments passed to the entrypoint.     Example:       $ gcloud workstations configs update --container-args=arg_1,arg_2
+    /// Accelerator settings Arguments passed to the entrypoint. Example: $ gcloud workstations configs update --container-args=arg_1,arg_2
     /// </summary>
     [CliOption("--container-args", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerArgs { get; set; }
 
     /// <summary>
-    /// If set, overrides the default ENTRYPOINT specified by the image.     Example:       $ gcloud workstations configs update \         --container-command=executable,parameter_1,parameter_2
+    /// Accelerator settings If set, overrides the default ENTRYPOINT specified by the image. Example: $ gcloud workstations configs update \ --container-command=executable,parameter_1,parameter_2
     /// </summary>
     [CliOption("--container-command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerCommand { get; set; }
 
     /// <summary>
-    /// Environment variables passed to the container.     Example:       $ gcloud workstations configs update \         --container-env=key1=value1,key2=value2
+    /// Accelerator settings Environment variables passed to the container. Example: $ gcloud workstations configs update \ --container-env=key1=value1,key2=value2
     /// </summary>
     [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerEnv { get; set; }
 
     /// <summary>
-    /// If set, overrides the USER specified in the image with the given uid.
+    /// Accelerator settings If set, overrides the USER specified in the image with the given uid.
     /// </summary>
     [CliOption("--container-run-as-user", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerRunAsUser { get; set; }
 
     /// <summary>
-    /// If set, overrides the default DIR specified by the image.
+    /// Accelerator settings If set, overrides the default DIR specified by the image.
     /// </summary>
     [CliOption("--container-working-dir", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerWorkingDir { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have no public IP     address.
+    /// Accelerator settings Default value is false. If set, instances will have no public IP address.
     /// </summary>
     [CliFlag("--disable-public-ip-addresses")]
     public bool? DisablePublicIpAddresses { get; set; }
 
     /// <summary>
-    /// Number of seconds to wait after initially creating or subsequently     shutting down the workstation before converting its disk into a     snapshot to save costs. A value of 0 indicates that the disk will never     be archived.
+    /// Accelerator settings Number of seconds to wait after initially creating or subsequently shutting down the workstation before converting its disk into a snapshot to save costs. A value of 0 indicates that the disk will never be archived.
     /// </summary>
     [CliOption("--disk-archive-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? DiskArchiveTimeout { get; set; }
 
     /// <summary>
-    /// Whether to enable Linux auditd logging on the workstation. When     enabled, a service account must also be specified that has     logging.buckets.write permission on the project.
+    /// Accelerator settings Whether to enable Linux auditd logging on the workstation. When enabled, a service account must also be specified that has logging.buckets.write permission on the project.
     /// </summary>
     [CliFlag("--enable-audit-agent")]
     public bool? EnableAuditAgent { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have confidential     compute enabled.
+    /// Accelerator settings Default value is false. If set, instances will have confidential compute enabled.
     /// </summary>
     [CliFlag("--enable-confidential-compute")]
     public bool? EnableConfidentialCompute { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have nested     virtualization enabled.
+    /// Accelerator settings Default value is false. If set, instances will have nested virtualization enabled.
     /// </summary>
     [CliFlag("--enable-nested-virtualization")]
     public bool? EnableNestedVirtualization { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, creator of a workstation will get     roles/workstations.policyAdmin role along with roles/workstations.user     role on the workstation created by them.
+    /// Accelerator settings Default value is false. If set, creator of a workstation will get roles/workstations.policyAdmin role along with roles/workstations.user role on the workstation created by them.
     /// </summary>
     [CliFlag("--grant-workstation-admin-role-on-create")]
     public bool? GrantWorkstationAdminRoleOnCreate { get; set; }
 
     /// <summary>
-    /// How long (in seconds) to wait before automatically stopping an instance     that hasn't received any user traffic. A value of 0 indicates that this     instance should never time out due to idleness.
+    /// Accelerator settings How long (in seconds) to wait before automatically stopping an instance that hasn't received any user traffic. A value of 0 indicates that this instance should never time out due to idleness.
     /// </summary>
     [CliOption("--idle-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? IdleTimeout { get; set; }
 
     /// <summary>
-    /// Custom metadata to apply to Compute Engine instances.     Example:       $ gcloud workstations configs update \         --instance-metadata=key1=value1,key2=value2
+    /// Accelerator settings Custom metadata to apply to Compute Engine instances. Example: $ gcloud workstations configs update \ --instance-metadata=key1=value1,key2=value2
     /// </summary>
     [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? InstanceMetadata { get; set; }
 
     /// <summary>
-    /// Labels that are applied to the configuration and propagated to the     underlying Compute Engine resources.     Example:       $ gcloud workstations configs update \         --labels=label1=value1,label2=value2
+    /// Accelerator settings Labels that are applied to the configuration and propagated to the underlying Compute Engine resources. Example: $ gcloud workstations configs update \ --labels=label1=value1,label2=value2
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Machine type determines the specifications of the Compute Engine     machines that the workstations created under this configuration will     run on.
+    /// Accelerator settings Machine type determines the specifications of the Compute Engine machines that the workstations created under this configuration will run on.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Maximum number of workstations under this configuration a user can have     workstations.workstation.use permission on.     If not specified, defaults to 0, which indicates a user can have     unlimited number of workstations under this configuration.
+    /// Accelerator settings Maximum number of workstations under this configuration a user can have workstations.workstation.use permission on. If not specified, defaults to 0, which indicates a user can have unlimited number of workstations under this configuration.
     /// </summary>
     [CliOption("--max-usable-workstations-count", Format = OptionFormat.EqualsSeparated)]
     public int? MaxUsableWorkstationsCount { get; set; }
 
     /// <summary>
-    /// Network tags to add to the Google Compute Engine machines backing the     Workstations.     Example:       $ gcloud workstations configs update --network-tags=tag_1,tag_2
+    /// Accelerator settings Network tags to add to the Google Compute Engine machines backing the Workstations. Example: $ gcloud workstations configs update --network-tags=tag_1,tag_2
     /// </summary>
     [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
-    /// Number of instances to pool for faster Workstation startup.
+    /// Accelerator settings Number of instances to pool for faster Workstation startup.
     /// </summary>
     [CliOption("--pool-size", Format = OptionFormat.EqualsSeparated)]
     public int? PoolSize { get; set; }
 
     /// <summary>
-    /// How long (in seconds) to wait before automatically stopping a     workstation after it started. A value of 0 indicates that workstations     using this config should never time out.
+    /// Accelerator settings How long (in seconds) to wait before automatically stopping a workstation after it started. A value of 0 indicates that workstations using this config should never time out.
     /// </summary>
     [CliOption("--running-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? RunningTimeout { get; set; }
 
     /// <summary>
-    /// Email address of the service account that will be used on VM instances     used to support this config. This service account must have permission     to pull the specified container image. If not set, VMs will run without     a service account, in which case the image must be publicly accessible.
+    /// Accelerator settings Email address of the service account that will be used on VM instances used to support this config. This service account must have permission to pull the specified container image. If not set, VMs will run without a service account, in which case the image must be publicly accessible.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Scopes to grant to the service_account. Various scopes are     automatically added based on feature usage. When specified, users of     workstations under this configuration must have     iam.serviceAccounts.actAs on the service account.
+    /// Accelerator settings Scopes to grant to the service_account. Various scopes are automatically added based on feature usage. When specified, users of workstations under this configuration must have iam.serviceAccounts.actAs on the service account.
     /// </summary>
     [CliOption("--service-account-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountScopes { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have integrity     monitoring enabled.
+    /// Accelerator settings Default value is false. If set, instances will have integrity monitoring enabled.
     /// </summary>
     [CliFlag("--shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have Secure Boot     enabled.
+    /// Accelerator settings Default value is false. If set, instances will have Secure Boot enabled.
     /// </summary>
     [CliFlag("--shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
 
     /// <summary>
-    /// Default value is false. If set, instances will have vTPM enabled.
+    /// Accelerator settings Default value is false. If set, instances will have vTPM enabled.
     /// </summary>
     [CliFlag("--shielded-vtpm")]
     public bool? ShieldedVtpm { get; set; }
 
     /// <summary>
-    /// Link to the startup script stored in Cloud Storage. The script is     executed on the workstation VM after it is booted.     Example:       $ gcloud workstations configs update \         --startup-script-uri=gs://{bucket-name}/{object-name}
+    /// Accelerator settings Link to the startup script stored in Cloud Storage. The script is executed on the workstation VM after it is booted. Example: $ gcloud workstations configs update \ --startup-script-uri=gs://{bucket-name}/{object-name}
     /// </summary>
     [CliOption("--startup-script-uri", Format = OptionFormat.EqualsSeparated)]
     public string? StartupScriptUri { get; set; }
 
     /// <summary>
-    /// Resource manager tags to be bound to the instance. Tag keys and values     have the same definition as     https://cloud.google.com/resource-manager/docs/tags/tags-overview     Example:       $ gcloud workstations configs update \         --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\       value2    Accelerator settings
+    /// Accelerator settings Resource manager tags to be bound to the instance. Tag keys and values have the same definition as https://cloud.google.com/resource-manager/docs/tags/tags-overview Example: $ gcloud workstations configs update \ --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\ value2
     /// </summary>
     [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VmTags { get; set; }
 
     /// <summary>
-    /// The number of accelerator cards exposed to the instance.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Accelerator settings The number of accelerator cards exposed to the instance. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--accelerator-count", Format = OptionFormat.EqualsSeparated)]
     public int? AcceleratorCount { get; set; }
 
     /// <summary>
-    /// The type of accelerator resource to attach to the instance, for     example, "nvidia-tesla-p100".    At most one of these can be specified:     --container-custom-image=CONTAINER_CUSTOM_IMAGE      A docker image for the workstation. This image must be accessible by      the service account configured in this configuration      (--service-account). If no service account is defined, this image      must be public.     --container-predefined-image=CONTAINER_PREDEFINED_IMAGE      Code editor on base images. CONTAINER_PREDEFINED_IMAGE must be one      of:       base-image        Base image - no IDE      clion        CLion      codeoss        Code OSS      codeoss-cuda        Code OSS + CUDA toolkit      goland        GoLand      intellij        IntelliJ IDEA Ultimate      phpstorm        PhpStorm      pycharm        PyCharm Professional      rider        Rider      rubymine        RubyMine      webstorm        WebStorm    At most one of these can be specified:     --disable-ssh-to-vm      If set, workstations disable SSH connections to the root VM.     --enable-ssh-to-vm      If set, workstations enable SSH connections to the root VM.    At most one of these can be specified:     --disable-tcp-connections      If set, workstations don't allow plain TCP connections.     --enable-tcp-connections      If set, workstations allow plain TCP connections.    At most one of these can be specified:     --disk-source-snapshot=DISK_SOURCE_SNAPSHOT      Name of the snapshot to use as the source for the home disk.     --pd-source-snapshot=PD_SOURCE_SNAPSHOT      Name of the snapshot to use as the source for the persistent      directory.     Or at least one of these can be specified:      --disk-size=DISK_SIZE       Size of the persistent directory in GB. DISK_SIZE must be one of:       10, 50, 100, 200, 500, 1000.      --disk-type=DISK_TYPE       Type of the persistent directory. DISK_TYPE must be one of:       pd-standard, pd-balanced, pd-ssd, hyperdisk-balanced-ha.     Or at least one of these can be specified:      --pd-disk-size=PD_DISK_SIZE       Size of the persistent directory in GB. PD_DISK_SIZE must be one       of: 10, 50, 100, 200, 500, 1000.      --pd-disk-type=PD_DISK_TYPE; default="pd-standard"       Type of the persistent directory. PD_DISK_TYPE must be one of:       pd-standard, pd-balanced, pd-ssd.
+    /// Accelerator settings The type of accelerator resource to attach to the instance, for example, "nvidia-tesla-p100".
     /// </summary>
     [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudAcceleratorType? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: A docker image for the workstation. This image must be accessible by the service account configured in this configuration (--service-account). If no service account is defined, this image must be public.
+    /// </summary>
+    [CliOption("--container-custom-image", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerCustomImage { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: Code editor on base images. CONTAINER_PREDEFINED_IMAGE must be one of: base-image Base image - no IDE clion CLion codeoss Code OSS codeoss-cuda Code OSS + CUDA toolkit goland GoLand intellij IntelliJ IDEA Ultimate phpstorm PhpStorm pycharm PyCharm Professional rider Rider rubymine RubyMine webstorm WebStorm
+    /// </summary>
+    [CliOption("--container-predefined-image", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerPredefinedImage { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: If set, workstations disable SSH connections to the root VM.
+    /// </summary>
+    [CliFlag("--disable-ssh-to-vm")]
+    public bool? DisableSshToVm { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: If set, workstations enable SSH connections to the root VM.
+    /// </summary>
+    [CliFlag("--enable-ssh-to-vm")]
+    public bool? EnableSshToVm { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: If set, workstations don't allow plain TCP connections.
+    /// </summary>
+    [CliFlag("--disable-tcp-connections")]
+    public bool? DisableTcpConnections { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: If set, workstations allow plain TCP connections.
+    /// </summary>
+    [CliFlag("--enable-tcp-connections")]
+    public bool? EnableTcpConnections { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: Name of the snapshot to use as the source for the home disk.
+    /// </summary>
+    [CliOption("--disk-source-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskSourceSnapshot { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: Name of the snapshot to use as the source for the persistent directory.
+    /// </summary>
+    [CliOption("--pd-source-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? PdSourceSnapshot { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: Or at least one of these can be specified: Size of the persistent directory in GB. DISK_SIZE must be one of: 10, 50, 100, 200, 500, 1000.
+    /// </summary>
+    [CliOption("--disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? DiskSize { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: Or at least one of these can be specified: Type of the persistent directory. DISK_TYPE must be one of: pd-standard, pd-balanced, pd-ssd, hyperdisk-balanced-ha.
+    /// </summary>
+    [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDiskType? DiskType { get; set; }
+
+    /// <summary>
+    /// Accelerator settings At most one of these can be specified: Or at least one of these can be specified: Size of the persistent directory in GB. PD_DISK_SIZE must be one of: 10, 50, 100, 200, 500, 1000.
+    /// </summary>
+    [CliOption("--pd-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PdDiskSize { get; set; }
 
 }

@@ -22,9 +22,6 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "tpus", "queued-resources", "scp")]
 public record GcloudComputeTpusQueuedResourcesScpOptions : GcloudOptions
 {
-    [CliOption("--batch-size", Format = OptionFormat.EqualsSeparated)]
-    public int? BatchSize { get; set; }
-
     /// <summary>
     /// Enable compression.
     /// </summary>
@@ -32,22 +29,19 @@ public record GcloudComputeTpusQueuedResourcesScpOptions : GcloudOptions
     public bool? Compress { get; set; }
 
     /// <summary>
-    /// Print the equivalent scp/ssh command that would be run to stdout,     instead of executing it.
+    /// Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// If enabled, the gcloud command-line tool will regenerate and overwrite     the files associated with a broken SSH key without asking for     confirmation in both interactive and non-interactive environments.     If disabled, the files associated with a broken SSH key will not be     regenerated and will fail in both interactive and non-interactive     environments.
+    /// If enabled, the gcloud command-line tool will regenerate and overwrite the files associated with a broken SSH key without asking for confirmation in both interactive and non-interactive environments. If disabled, the files associated with a broken SSH key will not be regenerated and will fail in both interactive and non-interactive environments.
     /// </summary>
     [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
-    [CliOption("--node", Format = OptionFormat.EqualsSeparated)]
-    public string? Node { get; set; }
-
     /// <summary>
-    /// Suppress the automatic addition of ssh(1)/scp(1) flags. This flag is     useful if you want to take care of authentication yourself or use     specific ssh/scp features.
+    /// Suppress the automatic addition of ssh(1)/scp(1) flags. This flag is useful if you want to take care of authentication yourself or use specific ssh/scp features.
     /// </summary>
     [CliFlag("--plain")]
     public bool? Plain { get; set; }
@@ -65,24 +59,63 @@ public record GcloudComputeTpusQueuedResourcesScpOptions : GcloudOptions
     public IEnumerable<string>? ScpFlag { get; set; }
 
     /// <summary>
-    /// The path to the SSH key file. By default, this is     ~/.ssh/google_compute_engine.
+    /// The path to the SSH key file. By default, this is ~\.ssh\google_compute_engine.
     /// </summary>
     [CliOption("--ssh-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyFile { get; set; }
 
     /// <summary>
-    /// Override the default behavior of StrictHostKeyChecking for the     connection. By default, StrictHostKeyChecking is set to 'no' the first     time you connect to an instance, and will be set to 'yes' for all     subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes,     no, ask.
+    /// Override the default behavior of StrictHostKeyChecking for the connection. By default, StrictHostKeyChecking is set to 'no' the first time you connect to an instance, and will be set to 'yes' for all subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes, no, ask.
     /// </summary>
     [CliOption("--strict-host-key-checking", Format = OptionFormat.EqualsSeparated)]
     public GcloudStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
 
-    [CliOption("--worker", Format = OptionFormat.EqualsSeparated)]
-    public string? Worker { get; set; }
-
     /// <summary>
-    /// Zone of the tpu to scp. If not specified and the compute/zone property     isn't set, you might be prompted to select a zone (interactive mode     only).     To avoid prompting when this flag is omitted, you can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    At most one of these can be specified:     --internal-ip      Connect to TPU VMs using their internal IP addresses rather than      their external IP addresses. Use this to connect from a Google      Compute Engine VM to a TPU VM on the same VPC network, or between two      peered VPC networks.     --tunnel-through-iap      Tunnel the SSH connection through Cloud Identity-Aware Proxy for TCP      forwarding.      This flag must be specified to attempt to connect via IAP tunneling.      If it is not set, and connection to a Cloud TPU VM without external      IP address is attempted from outside the network, then the command      will fail.      To use IAP tunneling, there must be firewall access to the SSH port      for the IAP TCP IP address range for the network the TPU is created      in. See the user guide      (https://cloud.google.com/iap/docs/using-tcp-forwarding) for more      details.      To learn more, see the IAP for TCP forwarding documentation      (https://cloud.google.com/iap/docs/tcp-forwarding-overview).    At most one of these can be specified:     --ssh-key-expiration=SSH_KEY_EXPIRATION      The time when the ssh key will be valid until, such as      "2017-08-29T18:52:51.142Z." This is only valid if the instance is not      using OS Login. See $ gcloud topic datetimes for information on time      formats.     --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER      The maximum length of time an SSH key is valid for once created and      installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for      information on duration formats.
+    /// Zone of the tpu to scp. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Connect to TPU VMs using their internal IP addresses rather than their external IP addresses. Use this to connect from a Google Compute Engine VM to a TPU VM on the same VPC network, or between two peered VPC networks.
+    /// </summary>
+    [CliFlag("--internal-ip")]
+    public bool? InternalIp { get; set; }
+
+    /// <summary>
+    /// Tunnel the SSH connection through Cloud Identity-Aware Proxy for TCP forwarding. This flag must be specified to attempt to connect via IAP tunneling. If it is not set, and connection to a Cloud TPU VM without external IP address is attempted from outside the network, then the command will fail. To use IAP tunneling, there must be firewall access to the SSH port for the IAP TCP IP address range for the network the TPU is created in. See the user guide (https://cloud.google.com/iap/docs/using-tcp-forwarding) for more details. To learn more, see the IAP for TCP forwarding documentation (https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+    /// </summary>
+    [CliFlag("--tunnel-through-iap")]
+    public bool? TunnelThroughIap { get; set; }
+
+    /// <summary>
+    /// The time when the ssh key will be valid until, such as "2017-08-29T18:52:51.142Z." This is only valid if the instance is not using OS Login. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--ssh-key-expiration", Format = OptionFormat.EqualsSeparated)]
+    public string? SshKeyExpiration { get; set; }
+
+    /// <summary>
+    /// The maximum length of time an SSH key is valid for once created and installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
+    public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// Batch size for simultaneous command execution on the client's side. When using a comma-separated list (e.g. '1,4,6') or a range (e.g. '1-3') or ``all`` keyword in --worker flag, it executes the command concurrently in groups of the batch size. This flag takes a value greater than 0 to specify the batch size to control the concurrent connections that can be established with the TPU workers, or the special keyword ``all`` to allow the concurrent command executions on all the specified workers in --worker flag. Maximum value of this flag should not be more than the number of specified workers, otherwise the value will be treated as ``--batch-size=all``.
+    /// </summary>
+    [CliOption("--batch-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BatchSize { get; set; }
+
+    /// <summary>
+    /// TPU node(s) to connect to. The supported value is a single 0-based index of the node(s) in the case of a TPU Pod. It additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified node(s). Note that when targeting multiple nodes, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'.
+    /// </summary>
+    [CliOption("--node", Format = OptionFormat.EqualsSeparated)]
+    public string? Node { get; set; }
+
+    /// <summary>
+    /// TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'.
+    /// </summary>
+    [CliOption("--worker", Format = OptionFormat.EqualsSeparated)]
+    public string? Worker { get; set; }
 
 }

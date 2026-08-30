@@ -22,9 +22,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPubsubSubscriptionsPullOptions : GcloudOptions
 {
     /// <summary>
-    /// Automatically ACK every message pulled from this subscription. Use     --no-auto-ack to disable this flag.
+    /// Automatically ACK every message pulled from this subscription. Use --no-auto-ack to disable this flag.
     /// </summary>
     [CliFlag("--auto-ack")]
     public bool? AutoAck { get; set; }
+
+    /// <summary>
+    /// Automatically ACK every message pulled from this subscription. Use --no-auto-ack to disable this flag.
+    /// </summary>
+    [CliFlag("--no-auto-ack")]
+    public bool? NoAutoAck { get; set; }
 
 }

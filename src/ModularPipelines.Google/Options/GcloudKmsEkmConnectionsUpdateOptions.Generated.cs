@@ -23,37 +23,37 @@ namespace ModularPipelines.Google.Options;
 public record GcloudKmsEkmConnectionsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The filter applied to the endpoints of the resolved service. If no     filter is specified, all endpoints will be considered.
+    /// Specifies the key management mode for the EkmConnection and associated fields. The filter applied to the endpoints of the resolved service. If no filter is specified, all endpoints will be considered.
     /// </summary>
     [CliOption("--endpoint-filter", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointFilter { get; set; }
 
     /// <summary>
-    /// The hostname of the EKM replica used at TLS and HTTP layers.
+    /// Specifies the key management mode for the EkmConnection and associated fields. The hostname of the EKM replica used at TLS and HTTP layers.
     /// </summary>
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
     public string? Hostname { get; set; }
 
     /// <summary>
-    /// A list of filenames of leaf server certificates used to authenticate     HTTPS connections to the EKM replica in PEM format. If files are not in     PEM, the assumed format will be DER.
+    /// Specifies the key management mode for the EkmConnection and associated fields. A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER.
     /// </summary>
     [CliOption("--server-certificates-files", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServerCertificatesFiles { get; set; }
 
     /// <summary>
-    /// The resource name of the Service Directory service pointing to an EKM     replica.    Specifies the key management mode for the EkmConnection and associated   fields.
+    /// Specifies the key management mode for the EkmConnection and associated fields. The resource name of the Service Directory service pointing to an EKM replica.
     /// </summary>
     [CliOption("--service-directory-service", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceDirectoryService { get; set; }
 
     /// <summary>
-    /// Crypto space path for the EkmConnection. Required during EkmConnection     creation if --key-management-mode=cloud-kms.
+    /// Specifies the key management mode for the EkmConnection and associated fields. Crypto space path for the EkmConnection. Required during EkmConnection creation if --key-management-mode=cloud-kms.
     /// </summary>
     [CliOption("--crypto-space-path", Format = OptionFormat.EqualsSeparated)]
     public string? CryptoSpacePath { get; set; }
 
     /// <summary>
-    /// Key management mode of the ekm connection. An EkmConnection in     cloud-kms mode means Cloud KMS will attempt to create and manage the     key material that resides on the EKM for crypto keys created with this     EkmConnection. An EkmConnection in manual mode means the external key     material will not be managed by Cloud KMS. Omitting the flag defaults     to manual. KEY_MANAGEMENT_MODE must be one of: manual, cloud-kms.
+    /// Specifies the key management mode for the EkmConnection and associated fields. Key management mode of the ekm connection. An EkmConnection in cloud-kms mode means Cloud KMS will attempt to create and manage the key material that resides on the EKM for crypto keys created with this EkmConnection. An EkmConnection in manual mode means the external key material will not be managed by Cloud KMS. Omitting the flag defaults to manual. KEY_MANAGEMENT_MODE must be one of: manual, cloud-kms.
     /// </summary>
     [CliOption("--key-management-mode", Format = OptionFormat.EqualsSeparated)]
     public GcloudKeyManagementMode? KeyManagementMode { get; set; }

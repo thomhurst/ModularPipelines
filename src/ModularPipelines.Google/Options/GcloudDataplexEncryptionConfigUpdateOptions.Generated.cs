@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexEncryptionConfigUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Helps user to explicitly enable cmek encryption for dataplex metadata     storage.
+    /// Helps user to explicitly enable cmek encryption for dataplex metadata storage.
     /// </summary>
     [CliFlag("--enable-metastore-encryption")]
     public bool? EnableMetastoreEncryption { get; set; }

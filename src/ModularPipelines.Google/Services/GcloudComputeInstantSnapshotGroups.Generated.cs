@@ -33,6 +33,21 @@ public class GcloudComputeInstantSnapshotGroups
     #region Commands
 
     /// <summary>
+    /// create, list and delete Compute     Engine instant snapshot groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeInstantSnapshotGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInstantSnapshotGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Compute Engine     consistency group of instant snapshots
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -90,6 +105,21 @@ public class GcloudComputeInstantSnapshotGroups
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInstantSnapshotGroupsListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set the IAM policy     binding for a Compute Engine instant snapshot group
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicyAsync(
+        GcloudComputeInstantSnapshotGroupsSetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

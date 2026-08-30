@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEmulatorsSpannerNoticesOptions : GcloudOptions
 {
     /// <summary>
-    /// Use the Cloud Spanner emulator docker image even if the platform has a     native binary available in the gcloud CLI. Currently we only provide a     native binary for Linux. For other systems, you must install Docker for     your platform before starting the emulator.
+    /// Use the Cloud Spanner emulator docker image even if the platform has a native binary available in the gcloud CLI. Currently we only provide a native binary for Linux. For other systems, you must install Docker for your platform before starting the emulator.
     /// </summary>
     [CliFlag("--use-docker")]
     public bool? UseDocker { get; set; }

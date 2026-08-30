@@ -24,13 +24,13 @@ public record GcloudStorageFoldersCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma     separated list of key=value pairs, e.g. header1=value1,header2=value2.     Overrides the default storage/additional_headers property value for     this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
     /// <summary>
-    /// Recursively create all folders in a given path if they do not alraedy     exist.
+    /// Recursively create all folders in a given path if they do not alraedy exist.
     /// </summary>
     [CliFlag("--recursive")]
     public bool? Recursive { get; set; }

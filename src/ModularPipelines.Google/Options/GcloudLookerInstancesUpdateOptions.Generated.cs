@@ -24,10 +24,16 @@ namespace ModularPipelines.Google.Options;
 public record GcloudLookerInstancesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// If specified, accelerated security patch will be enabled. Use     --no-accelerated-security-patch-enabled to disable it.    Email Domain Allowlist for Scheduled Content - Define the email domains to   which your users can deliver Looker (Google Cloud core) content.
+    /// If specified, accelerated security patch will be enabled. Use --no-accelerated-security-patch-enabled to disable it.
     /// </summary>
     [CliFlag("--accelerated-security-patch-enabled")]
     public bool? AcceleratedSecurityPatchEnabled { get; set; }
+
+    /// <summary>
+    /// If specified, accelerated security patch will be enabled. Use --no-accelerated-security-patch-enabled to disable it.
+    /// </summary>
+    [CliFlag("--no-accelerated-security-patch-enabled")]
+    public bool? NoAcceleratedSecurityPatchEnabled { get; set; }
 
     /// <summary>
     /// This specifies the entire allowed email domain list.
@@ -36,19 +42,25 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     public IEnumerable<string>? AllowedEmailDomains { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    Catalog Integration - Catalog Integration is a feature that allows Looker   to integrate with Universal Dataplex Catalog.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If specified, catalog integration will be disabled. Use     --no-catalog-integration-opt-out to re-enable it.
+    /// If specified, catalog integration will be disabled. Use --no-catalog-integration-opt-out to re-enable it.
     /// </summary>
     [CliFlag("--catalog-integration-opt-out")]
     public bool? CatalogIntegrationOptOut { get; set; }
 
     /// <summary>
-    /// The class type of the Looker instance. CLASS_TYPE must be one of: p1,     r1.    Custom Domains - Looker (Google Cloud core) lets you serve your   application through a custom domain. If you use a custom domain, Google   will provide a managed auto-renewing SSL certificate for security.    DNS changes can take up to 24 hours to take effect. Your SSL certificate   will take several minutes to activate. Note that you must get the Type A   DNS Record from the Google Cloud Console and update with your domain   registrar for your custom domain to work properly.
+    /// If specified, catalog integration will be disabled. Use --no-catalog-integration-opt-out to re-enable it.
+    /// </summary>
+    [CliFlag("--no-catalog-integration-opt-out")]
+    public bool? NoCatalogIntegrationOptOut { get; set; }
+
+    /// <summary>
+    /// The class type of the Looker instance. CLASS_TYPE must be one of: p1, r1.
     /// </summary>
     [CliOption("--class-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudClassType? ClassType { get; set; }
@@ -66,19 +78,19 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     public int? LinkedLspProjectNumber { get; set; }
 
     /// <summary>
-    /// This specifies whether public IP is enabled on the Looker instance.    Release Channel - Looker (Google Cloud core) releases updates to your   instance through release channels.
+    /// This specifies whether public IP is enabled on the Looker instance.
     /// </summary>
     [CliFlag("--public-ip-enabled")]
     public bool? PublicIpEnabled { get; set; }
 
     /// <summary>
-    /// The selected release channel for the instance. For more details on     release channels, review     https://cloud.google.com/looker/docs/looker-core-release-process#release_channels.     RELEASE_CHANNEL must be one of:      no-channel       Maintains existing monthly update cadence and features. This       channel will remain available for a limited period to prevent       immediate deployment disruptions.      rapid       Access new features as soon as they are released. Use the Rapid       channel to thoroughly test upcoming versions in your development or       non-production environments before they roll out to production.       Note: This channel is excluded from the Looker SLA.      regular       Maintain a reliable balance between feature availability and       platform stability. Versions in the Regular channel are qualified       over a longer period and are recommended for critical production       workloads.      stable       Versions in the Stable channel prioritize stability and are ideal       for production workloads that require the most conservative update       schedule.    User Allocations - There are ten Standard and two Developer users included   in the cost of the product. You can allocate additional Standard, Viewer,   and Developer users for this instance. It is an optional step and can be   modified later.    With the Standard edition of Looker (Google Cloud core), you can provision   up to 50 total users, distributed across Viewer, Standard, and Developer.
+    /// The selected release channel for the instance. For more details on release channels, review https://cloud.google.com/looker/docs/looker-core-release-process#release_channels. RELEASE_CHANNEL must be one of: no-channel Maintains existing monthly update cadence and features. This channel will remain available for a limited period to prevent immediate deployment disruptions. rapid Access new features as soon as they are released. Use the Rapid channel to thoroughly test upcoming versions in your development or non-production environments before they roll out to production. Note: This channel is excluded from the Looker SLA. regular Maintain a reliable balance between feature availability and platform stability. Versions in the Regular channel are qualified over a longer period and are recommended for critical production workloads. stable Versions in the Stable channel prioritize stability and are ideal for production workloads that require the most conservative update schedule.
     /// </summary>
     [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
     public string? ReleaseChannel { get; set; }
 
     /// <summary>
-    /// Number of additional Developer Users to allocate to the Looker     Instance.
+    /// Number of additional Developer Users to allocate to the Looker Instance.
     /// </summary>
     [CliOption("--add-developer-users", Format = OptionFormat.EqualsSeparated)]
     public string? AddDeveloperUsers { get; set; }
@@ -90,67 +102,127 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     public string? AddStandardUsers { get; set; }
 
     /// <summary>
-    /// Number of additional Viewer Users to allocate to the Looker Instance.    At most one of these can be specified:     --clear-periodic-export-config      Clears all periodic export configuration from the instance.     Or at least one of these can be specified:      Configuration for periodic export. All flags in this group must be     provided to enable or update the configuration.      --periodic-export-gcs-uri=PERIODIC_EXPORT_GCS_URI       Cloud Storage bucket URI for periodic export. Format:       gs://{bucket_name}      --periodic-export-kms-key=PERIODIC_EXPORT_KMS_KEY       Name of the CMEK key in KMS. Format:       projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}      --periodic-export-start-time=PERIODIC_EXPORT_START_TIME       Time in UTC when the periodic export job starts. A valid time of       day must be specified in 24hr format (ex: 13:00, 17:30, 23:45).    Private Service Connect - Private Service Connect allows the Looker   Instance to be reached via a private connection from inside a VPC network,   and for the Looker Instance to connect to managed services via private   connections.    At most one of these can be specified:     --clear-psc-allowed-vpcs      Remove all service attachments from the PSC config of the instance.     --psc-allowed-vpcs=[PSC_ALLOWED_VPCS,...]      List of VPCs that are allowed ingress into the Looker instance.    At most one of these can be specified:     --clear-psc-service-attachments      Remove all allowed VPCs from the PSC config of the instance.     --psc-service-attachment=[attachment=ATTACHMENT],[domain=DOMAIN],[multiple-domains=MULTIPLE-DOMAINS]      Service attachments representing egress connections for the Looker      instance. This flag can be repeated. (Example:      --psc-service-attachment      domain="mydomain.com",attachment="projects/my-project/regions/us-east1/serviceAttachments/sa"      --psc-service-attachments      domain="mydomain2.com",attachment="projects/my-project/regions/us-east1/serviceAttachments/sa2")      You can also assign multiple domains to a single service attachment.      (Example: --psc-service-attachment      multiple-domains="mydomain.com;mydomain2.com",attachment="projects/my-project/regions/us-east1/serviceAttachments/sa")    Deny Maintanence Period - You must allow at least 48 hours of maintenance   availability in a 60-day rolling window. Only contiguous availability   windows of at least two hours are considered. When setting a maintenance   exclusion please be aware that excluding application upgrades cannot   exceed 60-days and excluding infrastructure upgrades cannot exceed   90-days.
+    /// Number of additional Viewer Users to allocate to the Looker Instance.
     /// </summary>
     [CliOption("--add-viewer-users", Format = OptionFormat.EqualsSeparated)]
     public string? AddViewerUsers { get; set; }
 
     /// <summary>
-    /// End date of the deny maintenance period in format: YYYY-MM-DD     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Clears all periodic export configuration from the instance.
+    /// </summary>
+    [CliFlag("--clear-periodic-export-config")]
+    public bool? ClearPeriodicExportConfig { get; set; }
+
+    /// <summary>
+    /// Cloud Storage bucket URI for periodic export. Format: gs://{bucket_name}
+    /// </summary>
+    [CliOption("--periodic-export-gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? PeriodicExportGcsUri { get; set; }
+
+    /// <summary>
+    /// Name of the CMEK key in KMS. Format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}
+    /// </summary>
+    [CliOption("--periodic-export-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? PeriodicExportKmsKey { get; set; }
+
+    /// <summary>
+    /// Time in UTC when the periodic export job starts. A valid time of day must be specified in 24hr format (ex: 13:00, 17:30, 23:45).
+    /// </summary>
+    [CliOption("--periodic-export-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? PeriodicExportStartTime { get; set; }
+
+    /// <summary>
+    /// Remove all service attachments from the PSC config of the instance.
+    /// </summary>
+    [CliFlag("--clear-psc-allowed-vpcs")]
+    public bool? ClearPscAllowedVpcs { get; set; }
+
+    /// <summary>
+    /// List of VPCs that are allowed ingress into the Looker instance.
+    /// </summary>
+    [CliOption("--psc-allowed-vpcs", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PscAllowedVpcs { get; set; }
+
+    /// <summary>
+    /// Remove all allowed VPCs from the PSC config of the instance.
+    /// </summary>
+    [CliFlag("--clear-psc-service-attachments")]
+    public bool? ClearPscServiceAttachments { get; set; }
+
+    /// <summary>
+    /// Service attachments representing egress connections for the Looker instance. This flag can be repeated. (Example: --psc-service-attachment domain="mydomain.com",attachment="projects/my-project/regions/us-east1/serviceAttachments/sa"
+    /// </summary>
+    [CliOption("--psc-service-attachment", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PscServiceAttachment { get; set; }
+
+    /// <summary>
+    /// End date of the deny maintenance period in format: YYYY-MM-DD This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--deny-maintenance-period-end-date", Format = OptionFormat.EqualsSeparated)]
     public string? DenyMaintenancePeriodEndDate { get; set; }
 
     /// <summary>
-    /// Start date of the deny maintenance period in format: YYYY-MM-DD     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// Start date of the deny maintenance period in format: YYYY-MM-DD This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--deny-maintenance-period-start-date", Format = OptionFormat.EqualsSeparated)]
     public string? DenyMaintenancePeriodStartDate { get; set; }
 
     /// <summary>
-    /// Time in UTC when the period starts and ends. A valid time of day must     be specified in 24hr format (ex: 13:00, 17:30, 23:45).     This flag argument must be specified if any of the other arguments in     this group are specified.    Controlled Egress - Controlled egress allows you to egress data from a   Looker (Google Cloud core) instance to a third party service provider.
+    /// Time in UTC when the period starts and ends. A valid time of day must be specified in 24hr format (ex: 13:00, 17:30, 23:45). This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--deny-maintenance-period-time", Format = OptionFormat.EqualsSeparated)]
     public string? DenyMaintenancePeriodTime { get; set; }
 
     /// <summary>
-    /// This specifies whether controlled egress is enabled on the Looker     instance. To disable controlled egress, use the --no-egress-enabled     flag.
+    /// This specifies whether controlled egress is enabled on the Looker instance. To disable controlled egress, use the --no-egress-enabled flag.
     /// </summary>
     [CliFlag("--egress-enabled")]
     public bool? EgressEnabled { get; set; }
 
     /// <summary>
-    /// List of FQDNs that are allowed to egress from the Looker instance.     Example: --egress-fqdns="github.com,my.salesforce.com". To clear all     egress FQDNs, use --egress-fqdns="".
+    /// This specifies whether controlled egress is enabled on the Looker instance. To disable controlled egress, use the --no-egress-enabled flag.
+    /// </summary>
+    [CliFlag("--no-egress-enabled")]
+    public bool? NoEgressEnabled { get; set; }
+
+    /// <summary>
+    /// List of FQDNs that are allowed to egress from the Looker instance. Example: --egress-fqdns="github.com,my.salesforce.com". To clear all egress FQDNs, use --egress-fqdns="".
     /// </summary>
     [CliOption("--egress-fqdns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EgressFqdns { get; set; }
 
     /// <summary>
-    /// This specifies whether marketplace is enabled for controlled egress on     the Looker instance. To disable marketplace for controlled egress, use     the --no-marketplace-enabled flag.    Maintenance Window - Maintenance typically only takes place once every few   months, and requires your instance to be restarted while updates are made,   which disrupts service briefly.
+    /// This specifies whether marketplace is enabled for controlled egress on the Looker instance. To disable marketplace for controlled egress, use the --no-marketplace-enabled flag.
     /// </summary>
     [CliFlag("--marketplace-enabled")]
     public bool? MarketplaceEnabled { get; set; }
 
     /// <summary>
-    /// Day of the week for the maintenance window, in UTC time zone.     MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday,     sunday, thursday, tuesday, wednesday.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// This specifies whether marketplace is enabled for controlled egress on the Looker instance. To disable marketplace for controlled egress, use the --no-marketplace-enabled flag.
+    /// </summary>
+    [CliFlag("--no-marketplace-enabled")]
+    public bool? NoMarketplaceEnabled { get; set; }
+
+    /// <summary>
+    /// Day of the week for the maintenance window, in UTC time zone. MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday, sunday, thursday, tuesday, wednesday. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
     public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
 
     /// <summary>
-    /// Hour of day for maintenance window, in UTC time zone. A valid time of     day must be specified in 24hr format (ex: 13:00, 17:30, 23:45).     Maintenance will be scheduled within 60 minutes. To set the     maintenance-window-time attribute:     ◆ provide the argument --maintenance-window-time on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.    OAuth Application Credentials - Looker Instance OAuth login settings.   Setup an OAuth app that will allow users to authenticate and access the   instance. For more information see:   https://developers.google.com/identity/protocols/oauth2/web-server#creatingcred
+    /// Hour of day for maintenance window, in UTC time zone. A valid time of day must be specified in 24hr format (ex: 13:00, 17:30, 23:45). Maintenance will be scheduled within 60 minutes. To set the maintenance-window-time attribute: * provide the argument --maintenance-window-time on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--maintenance-window-time", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowTime { get; set; }
 
     /// <summary>
-    /// The client ID from an external OAuth application.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// The client ID from an external OAuth application. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--oauth-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? OauthClientId { get; set; }
 
     /// <summary>
-    /// The client secret from an external OAuth application.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// The client secret from an external OAuth application. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [SecretValue]
     [CliOption("--oauth-client-secret", Format = OptionFormat.EqualsSeparated)]

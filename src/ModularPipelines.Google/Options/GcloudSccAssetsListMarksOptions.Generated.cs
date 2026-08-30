@@ -23,14 +23,14 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSccAssetsListMarksOptions : GcloudOptions
 {
     /// <summary>
-    /// Response objects will return a non-null value for page-token to     indicate that there is at least one additional page of data. User can     either directly request that page by specifying the page-token     explicitly or let gcloud fetch one-page-at-a-time.
+    /// Response objects will return a non-null value for page-token to indicate that there is at least one additional page of data. User can either directly request that page by specifying the page-token explicitly or let gcloud fetch one-page-at-a-time.
     /// </summary>
     [SecretValue]
     [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
     public string? PageToken { get; set; }
 
     /// <summary>
-    /// Time used as a reference point when filtering. Absence of this field     will default to the API's version of NOW. See $ gcloud topic datetimes     for information on supported time formats.
+    /// Time used as a reference point when filtering. Absence of this field will default to the API's version of NOW. See $ gcloud topic datetimes for information on supported time formats.
     /// </summary>
     [CliOption("--read-time", Format = OptionFormat.EqualsSeparated)]
     public string? ReadTime { get; set; }

@@ -23,6 +23,9 @@ public record GcloudAppVersionsMigrateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
 ) : GcloudOptions
 {
+    /// <summary>
+    /// If specified, only migrate versions from the given service.
+    /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 

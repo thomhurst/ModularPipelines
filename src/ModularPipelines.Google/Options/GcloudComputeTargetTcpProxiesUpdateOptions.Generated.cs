@@ -24,13 +24,13 @@ public record GcloudComputeTargetTcpProxiesUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// A backend service that will be used for connections to the target TCP     proxy.
+    /// A backend service that will be used for connections to the target TCP proxy.
     /// </summary>
     [CliOption("--backend-service", Format = OptionFormat.EqualsSeparated)]
     public string? BackendService { get; set; }
 
     /// <summary>
-    /// The type of proxy protocol header to be sent to the backend.     PROXY_HEADER must be one of:      NONE       No proxy header is added.     PROXY_V1       Enables PROXY protocol (version 1) for passing client connection       information.
+    /// The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Enables PROXY protocol (version 1) for passing client connection information.
     /// </summary>
     [CliOption("--proxy-header", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyHeader { get; set; }

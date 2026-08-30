@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComplianceManagerCloudControlsDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// The major version of the cloud control to retrieve. If not specified,     the most recently updated revision_id is retrieved.
+    /// The major version of the cloud control to retrieve. If not specified, the most recently updated revision_id is retrieved.
     /// </summary>
     [CliOption("--major-revision-id", Format = OptionFormat.EqualsSeparated)]
     public string? MajorRevisionId { get; set; }

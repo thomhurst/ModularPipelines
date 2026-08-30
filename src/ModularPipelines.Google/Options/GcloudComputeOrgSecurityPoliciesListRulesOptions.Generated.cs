@@ -24,11 +24,14 @@ public record GcloudComputeOrgSecurityPoliciesListRulesOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Organization which the organization security policy belongs to. Must be     set if SECURITY_POLICY is display name.
+    /// Organization which the organization security policy belongs to. Must be set if SECURITY_POLICY is display name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
+    /// <summary>
+    /// (DEPRECATED) Regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out. Flag --regexp is deprecated. Use --filter="name~'REGEXP'" instead.
+    /// </summary>
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
     public string? Regexp { get; set; }
 

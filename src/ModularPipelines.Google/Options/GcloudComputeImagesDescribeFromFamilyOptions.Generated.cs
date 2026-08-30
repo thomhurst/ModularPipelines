@@ -24,7 +24,7 @@ public record GcloudComputeImagesDescribeFromFamilyOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Zone to query. Returns the latest image available in the image family     for the specified zone. If not specified, returns the latest globally     available image.
+    /// Zone to query. Returns the latest image available in the image family for the specified zone. If not specified, returns the latest globally available image.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }

@@ -15,398 +15,406 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud compute commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudCompute
 {
     /// <summary>
     /// gcloud accelerator-types sub-commands.
     /// </summary>
-    GcloudComputeAcceleratorTypes AcceleratorTypes { get; }
+    GcloudComputeAcceleratorTypes AcceleratorTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud addresses sub-commands.
     /// </summary>
-    GcloudComputeAddresses Addresses { get; }
+    GcloudComputeAddresses Addresses => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud advice sub-commands.
     /// </summary>
-    GcloudComputeAdvice Advice { get; }
+    GcloudComputeAdvice Advice => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backend-buckets sub-commands.
     /// </summary>
-    GcloudComputeBackendBuckets BackendBuckets { get; }
+    GcloudComputeBackendBuckets BackendBuckets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backend-services sub-commands.
     /// </summary>
-    GcloudComputeBackendServices BackendServices { get; }
+    GcloudComputeBackendServices BackendServices => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud commitments sub-commands.
     /// </summary>
-    GcloudComputeCommitments Commitments { get; }
+    GcloudComputeCommitments Commitments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud composite-health-checks sub-commands.
     /// </summary>
-    GcloudComputeCompositeHealthChecks CompositeHealthChecks { get; }
+    GcloudComputeCompositeHealthChecks CompositeHealthChecks => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud diagnose sub-commands.
     /// </summary>
-    GcloudComputeDiagnose Diagnose { get; }
+    GcloudComputeDiagnose Diagnose => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud disks sub-commands.
     /// </summary>
-    GcloudComputeDisks Disks { get; }
+    GcloudComputeDisks Disks => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud disk-types sub-commands.
     /// </summary>
-    GcloudComputeDiskTypes DiskTypes { get; }
+    GcloudComputeDiskTypes DiskTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud external-vpn-gateways sub-commands.
     /// </summary>
-    GcloudComputeExternalVpnGateways ExternalVpnGateways { get; }
+    GcloudComputeExternalVpnGateways ExternalVpnGateways => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud firewall-policies sub-commands.
     /// </summary>
-    GcloudComputeFirewallPolicies FirewallPolicies { get; }
+    GcloudComputeFirewallPolicies FirewallPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud firewall-rules sub-commands.
     /// </summary>
-    GcloudComputeFirewallRules FirewallRules { get; }
+    GcloudComputeFirewallRules FirewallRules => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud forwarding-rules sub-commands.
     /// </summary>
-    GcloudComputeForwardingRules ForwardingRules { get; }
+    GcloudComputeForwardingRules ForwardingRules => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud future-reservations sub-commands.
     /// </summary>
-    GcloudComputeFutureReservations FutureReservations { get; }
+    GcloudComputeFutureReservations FutureReservations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud global-vm-extension-policies sub-commands.
     /// </summary>
-    GcloudComputeGlobalVmExtensionPolicies GlobalVmExtensionPolicies { get; }
+    GcloudComputeGlobalVmExtensionPolicies GlobalVmExtensionPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud health-aggregation-policies sub-commands.
     /// </summary>
-    GcloudComputeHealthAggregationPolicies HealthAggregationPolicies { get; }
+    GcloudComputeHealthAggregationPolicies HealthAggregationPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud health-checks sub-commands.
     /// </summary>
-    GcloudComputeHealthChecks HealthChecks { get; }
+    GcloudComputeHealthChecks HealthChecks => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud health-sources sub-commands.
     /// </summary>
-    GcloudComputeHealthSources HealthSources { get; }
+    GcloudComputeHealthSources HealthSources => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// gcloud hosts sub-commands.
+    /// </summary>
+    GcloudComputeHosts Hosts => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud http-health-checks sub-commands.
     /// </summary>
-    GcloudComputeHttpHealthChecks HttpHealthChecks { get; }
+    GcloudComputeHttpHealthChecks HttpHealthChecks => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud https-health-checks sub-commands.
     /// </summary>
-    GcloudComputeHttpsHealthChecks HttpsHealthChecks { get; }
+    GcloudComputeHttpsHealthChecks HttpsHealthChecks => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud images sub-commands.
     /// </summary>
-    GcloudComputeImages Images { get; }
+    GcloudComputeImages Images => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instance-groups sub-commands.
     /// </summary>
-    GcloudComputeInstanceGroups InstanceGroups { get; }
+    GcloudComputeInstanceGroups InstanceGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudComputeInstances Instances { get; }
+    GcloudComputeInstances Instances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instance-templates sub-commands.
     /// </summary>
-    GcloudComputeInstanceTemplates InstanceTemplates { get; }
+    GcloudComputeInstanceTemplates InstanceTemplates => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instant-snapshot-groups sub-commands.
     /// </summary>
-    GcloudComputeInstantSnapshotGroups InstantSnapshotGroups { get; }
+    GcloudComputeInstantSnapshotGroups InstantSnapshotGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud instant-snapshots sub-commands.
     /// </summary>
-    GcloudComputeInstantSnapshots InstantSnapshots { get; }
+    GcloudComputeInstantSnapshots InstantSnapshots => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud interconnects sub-commands.
     /// </summary>
-    GcloudComputeInterconnects Interconnects { get; }
+    GcloudComputeInterconnects Interconnects => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud machine-images sub-commands.
     /// </summary>
-    GcloudComputeMachineImages MachineImages { get; }
+    GcloudComputeMachineImages MachineImages => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud machine-types sub-commands.
     /// </summary>
-    GcloudComputeMachineTypes MachineTypes { get; }
+    GcloudComputeMachineTypes MachineTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud migration sub-commands.
     /// </summary>
-    GcloudComputeMigration Migration { get; }
+    GcloudComputeMigration Migration => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud network-attachments sub-commands.
     /// </summary>
-    GcloudComputeNetworkAttachments NetworkAttachments { get; }
+    GcloudComputeNetworkAttachments NetworkAttachments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud network-edge-security-services sub-commands.
     /// </summary>
-    GcloudComputeNetworkEdgeSecurityServices NetworkEdgeSecurityServices { get; }
+    GcloudComputeNetworkEdgeSecurityServices NetworkEdgeSecurityServices => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud network-endpoint-groups sub-commands.
     /// </summary>
-    GcloudComputeNetworkEndpointGroups NetworkEndpointGroups { get; }
+    GcloudComputeNetworkEndpointGroups NetworkEndpointGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud network-firewall-policies sub-commands.
     /// </summary>
-    GcloudComputeNetworkFirewallPolicies NetworkFirewallPolicies { get; }
+    GcloudComputeNetworkFirewallPolicies NetworkFirewallPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud network-profiles sub-commands.
     /// </summary>
-    GcloudComputeNetworkProfiles NetworkProfiles { get; }
+    GcloudComputeNetworkProfiles NetworkProfiles => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud networks sub-commands.
     /// </summary>
-    GcloudComputeNetworks Networks { get; }
+    GcloudComputeNetworks Networks => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudComputeOperations Operations { get; }
+    GcloudComputeOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud org-security-policies sub-commands.
     /// </summary>
-    GcloudComputeOrgSecurityPolicies OrgSecurityPolicies { get; }
+    GcloudComputeOrgSecurityPolicies OrgSecurityPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud os-config sub-commands.
     /// </summary>
-    GcloudComputeOsConfig OsConfig { get; }
+    GcloudComputeOsConfig OsConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud os-login sub-commands.
     /// </summary>
-    GcloudComputeOsLogin OsLogin { get; }
+    GcloudComputeOsLogin OsLogin => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud packet-mirrorings sub-commands.
     /// </summary>
-    GcloudComputePacketMirrorings PacketMirrorings { get; }
+    GcloudComputePacketMirrorings PacketMirrorings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud preview-features sub-commands.
     /// </summary>
-    GcloudComputePreviewFeatures PreviewFeatures { get; }
+    GcloudComputePreviewFeatures PreviewFeatures => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud project-info sub-commands.
     /// </summary>
-    GcloudComputeProjectInfo ProjectInfo { get; }
+    GcloudComputeProjectInfo ProjectInfo => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud project-zonal-metadata sub-commands.
     /// </summary>
-    GcloudComputeProjectZonalMetadata ProjectZonalMetadata { get; }
+    GcloudComputeProjectZonalMetadata ProjectZonalMetadata => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud public-advertised-prefixes sub-commands.
     /// </summary>
-    GcloudComputePublicAdvertisedPrefixes PublicAdvertisedPrefixes { get; }
+    GcloudComputePublicAdvertisedPrefixes PublicAdvertisedPrefixes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud public-delegated-prefixes sub-commands.
     /// </summary>
-    GcloudComputePublicDelegatedPrefixes PublicDelegatedPrefixes { get; }
+    GcloudComputePublicDelegatedPrefixes PublicDelegatedPrefixes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud regions sub-commands.
     /// </summary>
-    GcloudComputeRegions Regions { get; }
+    GcloudComputeRegions Regions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud reservations sub-commands.
     /// </summary>
-    GcloudComputeReservations Reservations { get; }
+    GcloudComputeReservations Reservations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud resource-policies sub-commands.
     /// </summary>
-    GcloudComputeResourcePolicies ResourcePolicies { get; }
+    GcloudComputeResourcePolicies ResourcePolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud rollout-plans sub-commands.
     /// </summary>
-    GcloudComputeRolloutPlans RolloutPlans { get; }
+    GcloudComputeRolloutPlans RolloutPlans => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud rollouts sub-commands.
     /// </summary>
-    GcloudComputeRollouts Rollouts { get; }
+    GcloudComputeRollouts Rollouts => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud routers sub-commands.
     /// </summary>
-    GcloudComputeRouters Routers { get; }
+    GcloudComputeRouters Routers => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud routes sub-commands.
     /// </summary>
-    GcloudComputeRoutes Routes { get; }
+    GcloudComputeRoutes Routes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud security-policies sub-commands.
     /// </summary>
-    GcloudComputeSecurityPolicies SecurityPolicies { get; }
+    GcloudComputeSecurityPolicies SecurityPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-attachments sub-commands.
     /// </summary>
-    GcloudComputeServiceAttachments ServiceAttachments { get; }
+    GcloudComputeServiceAttachments ServiceAttachments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud shared-vpc sub-commands.
     /// </summary>
-    GcloudComputeSharedVpc SharedVpc { get; }
+    GcloudComputeSharedVpc SharedVpc => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud snapshots sub-commands.
     /// </summary>
-    GcloudComputeSnapshots Snapshots { get; }
+    GcloudComputeSnapshots Snapshots => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud snapshot-settings sub-commands.
     /// </summary>
-    GcloudComputeSnapshotSettings SnapshotSettings { get; }
+    GcloudComputeSnapshotSettings SnapshotSettings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud sole-tenancy sub-commands.
     /// </summary>
-    GcloudComputeSoleTenancy SoleTenancy { get; }
+    GcloudComputeSoleTenancy SoleTenancy => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud ssl-certificates sub-commands.
     /// </summary>
-    GcloudComputeSslCertificates SslCertificates { get; }
+    GcloudComputeSslCertificates SslCertificates => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud ssl-policies sub-commands.
     /// </summary>
-    GcloudComputeSslPolicies SslPolicies { get; }
+    GcloudComputeSslPolicies SslPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud storage-pools sub-commands.
     /// </summary>
-    GcloudComputeStoragePools StoragePools { get; }
+    GcloudComputeStoragePools StoragePools => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud storage-pool-types sub-commands.
     /// </summary>
-    GcloudComputeStoragePoolTypes StoragePoolTypes { get; }
+    GcloudComputeStoragePoolTypes StoragePoolTypes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud target-grpc-proxies sub-commands.
     /// </summary>
-    GcloudComputeTargetGrpcProxies TargetGrpcProxies { get; }
+    GcloudComputeTargetGrpcProxies TargetGrpcProxies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud target-http-proxies sub-commands.
     /// </summary>
-    GcloudComputeTargetHttpProxies TargetHttpProxies { get; }
+    GcloudComputeTargetHttpProxies TargetHttpProxies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud target-https-proxies sub-commands.
     /// </summary>
-    GcloudComputeTargetHttpsProxies TargetHttpsProxies { get; }
+    GcloudComputeTargetHttpsProxies TargetHttpsProxies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud target-instances sub-commands.
     /// </summary>
-    GcloudComputeTargetInstances TargetInstances { get; }
+    GcloudComputeTargetInstances TargetInstances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud target-pools sub-commands.
     /// </summary>
-    GcloudComputeTargetPools TargetPools { get; }
+    GcloudComputeTargetPools TargetPools => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud target-ssl-proxies sub-commands.
     /// </summary>
-    GcloudComputeTargetSslProxies TargetSslProxies { get; }
+    GcloudComputeTargetSslProxies TargetSslProxies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud target-tcp-proxies sub-commands.
     /// </summary>
-    GcloudComputeTargetTcpProxies TargetTcpProxies { get; }
+    GcloudComputeTargetTcpProxies TargetTcpProxies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud target-vpn-gateways sub-commands.
     /// </summary>
-    GcloudComputeTargetVpnGateways TargetVpnGateways { get; }
+    GcloudComputeTargetVpnGateways TargetVpnGateways => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tpus sub-commands.
     /// </summary>
-    GcloudComputeTpus Tpus { get; }
+    GcloudComputeTpus Tpus => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud url-maps sub-commands.
     /// </summary>
-    GcloudComputeUrlMaps UrlMaps { get; }
+    GcloudComputeUrlMaps UrlMaps => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud vpn-gateways sub-commands.
     /// </summary>
-    GcloudComputeVpnGateways VpnGateways { get; }
+    GcloudComputeVpnGateways VpnGateways => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud vpn-tunnels sub-commands.
     /// </summary>
-    GcloudComputeVpnTunnels VpnTunnels { get; }
+    GcloudComputeVpnTunnels VpnTunnels => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    GcloudComputeZones Zones { get; }
+    GcloudComputeZones Zones => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud zone-vm-extension-policies sub-commands.
     /// </summary>
-    GcloudComputeZoneVmExtensionPolicies ZoneVmExtensionPolicies { get; }
+    GcloudComputeZoneVmExtensionPolicies ZoneVmExtensionPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// create and manipulate Compute Engine resources
@@ -415,10 +423,8 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudComputeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudComputeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// populate SSH config files with Host entries     from each instance
@@ -427,10 +433,8 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConfigSshAsync(
-        GcloudComputeConfigSshOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ConfigSshAsync(GcloudComputeConfigSshOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// connect to the serial port of an     instance
@@ -439,10 +443,8 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConnectToSerialPortAsync(
-        GcloudComputeConnectToSerialPortOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ConnectToSerialPortAsync(GcloudComputeConnectToSerialPortOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// copy files to and from Google Compute Engine     virtual machines via scp
@@ -451,10 +453,8 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CopyFilesAsync(
-        GcloudComputeCopyFilesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CopyFilesAsync(GcloudComputeCopyFilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// reset and return a password for a     Windows machine instance
@@ -463,10 +463,8 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ResetWindowsPasswordAsync(
-        GcloudComputeResetWindowsPasswordOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ResetWindowsPasswordAsync(GcloudComputeResetWindowsPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// copy files to and from Google Compute Engine virtual     machines via scp
@@ -475,10 +473,8 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ScpAsync(
-        GcloudComputeScpOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ScpAsync(GcloudComputeScpOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// sign specified URL for use with Cloud CDN Signed     URLs
@@ -487,10 +483,8 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SignUrlAsync(
-        GcloudComputeSignUrlOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SignUrlAsync(GcloudComputeSignUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// SSH into a virtual machine instance
@@ -499,10 +493,8 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SshAsync(
-        GcloudComputeSshOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SshAsync(GcloudComputeSshOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// starts an IAP TCP forwarding tunnel
@@ -511,9 +503,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> StartIapTunnelAsync(
-        GcloudComputeStartIapTunnelOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> StartIapTunnelAsync(GcloudComputeStartIapTunnelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

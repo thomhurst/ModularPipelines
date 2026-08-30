@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubMembershipsSupportAccessGetYamlOptions : GcloudOptions
 {
     /// <summary>
-    /// If specified, the generated RBAC policy will be written to the     designated local file.
+    /// If specified, the generated RBAC policy will be written to the designated local file.
     /// </summary>
     [CliOption("--rbac-output-file", Format = OptionFormat.EqualsSeparated)]
     public string? RbacOutputFile { get; set; }

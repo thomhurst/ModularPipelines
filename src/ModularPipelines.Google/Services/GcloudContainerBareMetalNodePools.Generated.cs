@@ -33,6 +33,21 @@ public class GcloudContainerBareMetalNodePools
     #region Commands
 
     /// <summary>
+    /// create and manage node pools in an     Anthos cluster on bare metal
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerBareMetalNodePoolsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerBareMetalNodePoolsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a node pool in an     Anthos cluster on bare metal
     /// </summary>
     /// <param name="options">The command options.</param>

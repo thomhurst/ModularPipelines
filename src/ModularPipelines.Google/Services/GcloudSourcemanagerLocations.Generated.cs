@@ -33,6 +33,21 @@ public class GcloudSourcemanagerLocations
     #region Commands
 
     /// <summary>
+    /// manage Secure Source Manager locations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSourceManagerLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSourceManagerLocationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Secure Source Manager locations
     /// </summary>
     /// <param name="options">The command options.</param>

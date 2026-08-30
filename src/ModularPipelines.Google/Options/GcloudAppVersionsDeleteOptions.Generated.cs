@@ -23,6 +23,9 @@ public record GcloudAppVersionsDeleteOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Versions
 ) : GcloudOptions
 {
+    /// <summary>
+    /// If specified, only delete versions from the given service.
+    /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 

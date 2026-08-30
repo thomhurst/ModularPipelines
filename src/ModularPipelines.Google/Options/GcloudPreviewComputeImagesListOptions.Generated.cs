@@ -22,11 +22,14 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPreviewComputeImagesListOptions : GcloudOptions
 {
     /// <summary>
-    /// Show images that are in limited preview. The preview image projects     are: (none)
+    /// Show images that are in limited preview. The preview image projects are: (none)
     /// </summary>
     [CliFlag("--preview-images")]
     public bool? PreviewImages { get; set; }
 
+    /// <summary>
+    /// (DEPRECATED) Regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out. Flag --regexp is deprecated. Use --filter="name~'REGEXP'" instead.
+    /// </summary>
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
     public string? Regexp { get; set; }
 
@@ -37,9 +40,15 @@ public record GcloudPreviewComputeImagesListOptions : GcloudOptions
     public bool? ShowDeprecated { get; set; }
 
     /// <summary>
-    /// List images from public image projects. The public image projects that     are available include the following: cos-cloud, debian-cloud,     rocky-linux-cloud, ubuntu-os-cloud, almalinux-cloud, centos-cloud,     fedora-coreos-cloud, opensuse-cloud, oracle-linux-cloud, rhel-cloud,     rhel-sap-cloud, rocky-linux-accelerator-cloud, suse-cloud,     suse-sap-cloud, ubuntu-os-accelerator-images, ubuntu-os-pro-cloud,     windows-cloud, windows-sql-cloud. Enabled by default, use     --no-standard-images to disable.
+    /// List images from public image projects. The public image projects that are available include the following: cos-cloud, debian-cloud, rocky-linux-cloud, ubuntu-os-cloud, almalinux-cloud, centos-cloud, fedora-coreos-cloud, opensuse-cloud, oracle-linux-cloud, rhel-cloud, rhel-sap-cloud, rocky-linux-accelerator-cloud, suse-cloud, suse-sap-cloud, ubuntu-os-accelerator-images, ubuntu-os-pro-cloud, windows-cloud, windows-sql-cloud. Enabled by default, use --no-standard-images to disable.
     /// </summary>
     [CliFlag("--standard-images")]
     public bool? StandardImages { get; set; }
+
+    /// <summary>
+    /// List images from public image projects. The public image projects that are available include the following: cos-cloud, debian-cloud, rocky-linux-cloud, ubuntu-os-cloud, almalinux-cloud, centos-cloud, fedora-coreos-cloud, opensuse-cloud, oracle-linux-cloud, rhel-cloud, rhel-sap-cloud, rocky-linux-accelerator-cloud, suse-cloud, suse-sap-cloud, ubuntu-os-accelerator-images, ubuntu-os-pro-cloud, windows-cloud, windows-sql-cloud. Enabled by default, use --no-standard-images to disable.
+    /// </summary>
+    [CliFlag("--no-standard-images")]
+    public bool? NoStandardImages { get; set; }
 
 }

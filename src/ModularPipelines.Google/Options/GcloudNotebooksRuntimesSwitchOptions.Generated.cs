@@ -23,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNotebooksRuntimesSwitchOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -41,7 +41,7 @@ public record GcloudNotebooksRuntimesSwitchOptions : GcloudOptions
     public int? AcceleratorCoreCount { get; set; }
 
     /// <summary>
-    /// Type of this accelerator. ACCELERATOR_TYPE must be one of:     NVIDIA_TESLA_A100, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100,     NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4,     NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS,     TPU_V2, TPU_V3.
+    /// Type of this accelerator. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_A100, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, TPU_V2, TPU_V3.
     /// </summary>
     [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudAcceleratorType? AcceleratorType { get; set; }

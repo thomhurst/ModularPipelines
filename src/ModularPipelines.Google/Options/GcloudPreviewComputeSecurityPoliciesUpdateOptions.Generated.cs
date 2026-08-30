@@ -37,45 +37,57 @@ public record GcloudPreviewComputeSecurityPoliciesUpdateOptions(
     public bool? EnableLayer7DdosDefense { get; set; }
 
     /// <summary>
-    /// A comma-separated list of custom Content-Type header values to apply     JSON parsing for preconfigured WAF rules. Only applicable when JSON     parsing is enabled, like --json-parsing=STANDARD. When configuring a     Content-Type header value, only the type/subtype needs to be specified,     and the parameters should be excluded.
+    /// A comma-separated list of custom Content-Type header values to apply JSON parsing for preconfigured WAF rules. Only applicable when JSON parsing is enabled, like --json-parsing=STANDARD. When configuring a Content-Type header value, only the type/subtype needs to be specified, and the parameters should be excluded.
     /// </summary>
     [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JsonCustomContentTypes { get; set; }
 
     /// <summary>
-    /// The JSON parsing behavior for this rule. Must be one of the following     values: [DISABLED, STANDARD, STANDARD_WITH_GRAPHQL]. JSON_PARSING must     be one of: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+    /// The JSON parsing behavior for this rule. Must be one of the following values: [DISABLED, STANDARD, STANDARD_WITH_GRAPHQL]. JSON_PARSING must be one of: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
     /// </summary>
     [CliOption("--json-parsing", Format = OptionFormat.EqualsSeparated)]
     public string? JsonParsing { get; set; }
 
     /// <summary>
-    /// The visibility type indicates whether the rules are opaque or     transparent. VISIBILITY_TYPE must be one of: STANDARD, PREMIUM.
+    /// The visibility type indicates whether the rules are opaque or transparent. VISIBILITY_TYPE must be one of: STANDARD, PREMIUM.
     /// </summary>
     [CliOption("--layer7-ddos-defense-rule-visibility", Format = OptionFormat.EqualsSeparated)]
     public GcloudLayer7DdosDefenseRuleVisibility? Layer7DdosDefenseRuleVisibility { get; set; }
 
     /// <summary>
-    /// The level of detail to display for WAF logging. LOG_LEVEL must be one     of: NORMAL, VERBOSE.
+    /// The level of detail to display for WAF logging. LOG_LEVEL must be one of: NORMAL, VERBOSE.
     /// </summary>
     [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
     public string? LogLevel { get; set; }
 
     /// <summary>
-    /// The DDoS protection level for network load balancing and instances with     external IPs. NETWORK_DDOS_PROTECTION must be one of: STANDARD,     ADVANCED, ADVANCED_PREVIEW.
+    /// The DDoS protection level for network load balancing and instances with external IPs. NETWORK_DDOS_PROTECTION must be one of: STANDARD, ADVANCED, ADVANCED_PREVIEW.
     /// </summary>
     [CliOption("--network-ddos-protection", Format = OptionFormat.EqualsSeparated)]
     public GcloudNetworkDdosProtection? NetworkDdosProtection { get; set; }
 
     /// <summary>
-    /// The reCAPTCHA site key to be used for rules using the redirect action     and the google-recaptcha redirect type under the security policy.
+    /// The reCAPTCHA site key to be used for rules using the redirect action and the google-recaptcha redirect type under the security policy.
     /// </summary>
     [CliOption("--recaptcha-redirect-site-key", Format = OptionFormat.EqualsSeparated)]
     public string? RecaptchaRedirectSiteKey { get; set; }
 
     /// <summary>
-    /// A comma-separated list of request header names to use for resolving the     caller's user IP address.    At most one of these can be specified:     --global      If set, the security policy is global.     --region=REGION      Region of the security policy to update. Overrides the default      compute/region property value for this command invocation.
+    /// A comma-separated list of request header names to use for resolving the caller's user IP address.
     /// </summary>
     [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UserIpRequestHeaders { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the security policy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the security policy to update. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
 }

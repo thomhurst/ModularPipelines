@@ -24,9 +24,6 @@ public record GcloudPreviewComputeNetworksCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
-    [CliOption("--bgp-routing-mode", Format = OptionFormat.EqualsSeparated)]
-    public string? BgpRoutingMode { get; set; }
-
     /// <summary>
     /// An optional, textual description for the network.
     /// </summary>
@@ -34,19 +31,31 @@ public record GcloudPreviewComputeNetworksCreateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// When enabling ULA internal IPv6, caller can optionally specify the /48     range they want from the google defined ULA prefix fd20::/20.     ULA_IPV6_RANGE must be a valid /48 ULA IPv6 address and within the     fd20::/20. Operation will fail if the speficied /48 is already in used     by another resource. If the field is not speficied, then a /48 range     will be randomly allocated from fd20::/20 and returned via this field.
+    /// Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
+    /// </summary>
+    [CliFlag("--enable-ula-internal-ipv6")]
+    public bool? EnableUlaInternalIpv6 { get; set; }
+
+    /// <summary>
+    /// Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
+    /// </summary>
+    [CliFlag("--no-enable-ula-internal-ipv6")]
+    public bool? NoEnableUlaInternalIpv6 { get; set; }
+
+    /// <summary>
+    /// When enabling ULA internal IPv6, caller can optionally specify the /48 range they want from the google defined ULA prefix fd20::/20. ULA_IPV6_RANGE must be a valid /48 ULA IPv6 address and within the fd20::/20. Operation will fail if the speficied /48 is already in used by another resource. If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
     /// </summary>
     [CliOption("--internal-ipv6-range", Format = OptionFormat.EqualsSeparated)]
     public string? InternalIpv6Range { get; set; }
 
     /// <summary>
-    /// Maximum transmission unit (MTU) is the size of the largest IP packet     that can be transmitted on this network. Default value is 1460 bytes.     The minimum value is 1300 bytes and the maximum value is 8896 bytes.     The MTU advertised via DHCP to all instances attached to this network.
+    /// Maximum transmission unit (MTU) is the size of the largest IP packet that can be transmitted on this network. Default value is 1460 bytes. The minimum value is 1300 bytes and the maximum value is 8896 bytes. The MTU advertised via DHCP to all instances attached to this network.
     /// </summary>
     [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
     public string? Mtu { get; set; }
 
     /// <summary>
-    /// The Network Firewall Policy enforcement order of this network. If not     specified, defaults to AFTER_CLASSIC_FIREWALL.     NETWORK_FIREWALL_POLICY_ENFORCEMENT_ORDER must be one of:      AFTER_CLASSIC_FIREWALL       Network Firewall Policy is enforced after classic firewall.     BEFORE_CLASSIC_FIREWALL       Network Firewall Policy is enforced before classic firewall.
+    /// The Network Firewall Policy enforcement order of this network. If not specified, defaults to AFTER_CLASSIC_FIREWALL. NETWORK_FIREWALL_POLICY_ENFORCEMENT_ORDER must be one of: AFTER_CLASSIC_FIREWALL Network Firewall Policy is enforced after classic firewall. BEFORE_CLASSIC_FIREWALL Network Firewall Policy is enforced before classic firewall.
     /// </summary>
     [CliOption("--network-firewall-policy-enforcement-order", Format = OptionFormat.EqualsSeparated)]
     public string? NetworkFirewallPolicyEnforcementOrder { get; set; }
@@ -58,33 +67,51 @@ public record GcloudPreviewComputeNetworksCreateOptions(
     public string? NetworkProfile { get; set; }
 
     /// <summary>
-    /// Specifies the IPv4 address range of legacy mode networks. The range     must be specified in CIDR format:     http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing     This flag only works if mode is legacy     (https://cloud.google.com/compute/docs/vpc/legacy).     Using legacy networks is **DEPRECATED**, given that many newer Google     Cloud Platform features are not supported on legacy networks. Please be     advised that legacy networks may not be supported in the future.
+    /// Specifies the IPv4 address range of legacy mode networks. The range must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing This flag only works if mode is legacy (https://cloud.google.com/compute/docs/vpc/legacy). Using legacy networks is **DEPRECATED**, given that many newer Google Cloud Platform features are not supported on legacy networks. Please be advised that legacy networks may not be supported in the future.
     /// </summary>
     [CliOption("--range", Format = OptionFormat.EqualsSeparated)]
     public string? Range { get; set; }
 
     /// <summary>
-    /// A comma-separated list of Resource Manager tags to apply to the     network.
+    /// A comma-separated list of Resource Manager tags to apply to the network.
     /// </summary>
     [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
-    /// The subnet mode of the network. If not specified, defaults to AUTO.     MODE must be one of:      auto       Subnets are created automatically. This is the recommended       selection.     custom       Create subnets manually.     legacy       [Deprecated] Create an old style network that has a range and       cannot have subnets. This is not recommended for new networks.    BGP Best Path Selection flags
+    /// The subnet mode of the network. If not specified, defaults to AUTO. MODE must be one of: auto Subnets are created automatically. This is the recommended selection. custom Create subnets manually. legacy [Deprecated] Create an old style network that has a range and cannot have subnets. This is not recommended for new networks.
     /// </summary>
     [CliOption("--subnet-mode", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetMode { get; set; }
 
     /// <summary>
-    /// The BGP best path selection algorithm to be employed.     BGP_BEST_PATH_SELECTION_MODE must be one of:      LEGACY       Dynamic routes are ranked based on the multiple exit-discriminator       (MED) BGP attribute. When global routing is enabled, the MED of the       routes received from other regions is the original MED plus the       region-to-region cost.     STANDARD       Dynamic routes are ranked based on AS Path, Origin, Neighbor ASN       and MED BGP attributes. When global routing is enabled,       region-to-region cost is used as a tiebreaker. This mode offers       customizations to fine-tune BGP best path routing with additional       flags like --bgp-bps-always-compare-med and       --bgp-bps-inter-region-cost
+    /// The BGP best path selection algorithm to be employed. BGP_BEST_PATH_SELECTION_MODE must be one of: LEGACY Dynamic routes are ranked based on the multiple exit-discriminator (MED) BGP attribute. When global routing is enabled, the MED of the routes received from other regions is the original MED plus the region-to-region cost. STANDARD Dynamic routes are ranked based on AS Path, Origin, Neighbor ASN and MED BGP attributes. When global routing is enabled, region-to-region cost is used as a tiebreaker. This mode offers customizations to fine-tune BGP best path routing with additional flags like --bgp-bps-always-compare-med and --bgp-bps-inter-region-cost
     /// </summary>
     [CliOption("--bgp-best-path-selection-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BgpBestPathSelectionMode { get; set; }
 
     /// <summary>
-    /// Defines the preferred approach for handling inter-region cost in the     selection process. This value can only be set if the     --bgp-best-path-selection-mode is STANDARD. BGP_BPS_INTER_REGION_COST     must be one of:      ADD_COST_TO_MED       Adds inter-region cost to the MED before comparing the MED value.       When multiple routes have the same value after the Add-cost-to-med       comparison, the route selection continues and prefers the route       with lowest cost.     DEFAULT       MED is compared as originally received from peers. When multiple       routes have the same MED, cost is evaluated as the next step.
+    /// Enables/disables the comparison of MED across routes with different Neighbor ASNs. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. Use --bgp-bps-always-compare-med to enable and --no-bgp-bps-always-compare-med to disable.
+    /// </summary>
+    [CliFlag("--bgp-bps-always-compare-med")]
+    public bool? BgpBpsAlwaysCompareMed { get; set; }
+
+    /// <summary>
+    /// Enables/disables the comparison of MED across routes with different Neighbor ASNs. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. Use --bgp-bps-always-compare-med to enable and --no-bgp-bps-always-compare-med to disable.
+    /// </summary>
+    [CliFlag("--no-bgp-bps-always-compare-med")]
+    public bool? NoBgpBpsAlwaysCompareMed { get; set; }
+
+    /// <summary>
+    /// Defines the preferred approach for handling inter-region cost in the selection process. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. BGP_BPS_INTER_REGION_COST must be one of: ADD_COST_TO_MED Adds inter-region cost to the MED before comparing the MED value. When multiple routes have the same value after the Add-cost-to-med comparison, the route selection continues and prefers the route with lowest cost. DEFAULT MED is compared as originally received from peers. When multiple routes have the same MED, cost is evaluated as the next step.
     /// </summary>
     [CliOption("--bgp-bps-inter-region-cost", Format = OptionFormat.EqualsSeparated)]
     public string? BgpBpsInterRegionCost { get; set; }
+
+    /// <summary>
+    /// The BGP routing mode for this network. If not specified, defaults to regional. MODE must be one of: global Cloud Routers in this network advertise subnetworks from all regions to their BGP peers, and program instances in all regions with the router's best learned BGP routes. regional Cloud Routers in this network advertise subnetworks from their local region only to their BGP peers, and program instances in their local region only with the router's best learned BGP routes.
+    /// </summary>
+    [CliOption("--bgp-routing-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpRoutingMode { get; set; }
 
 }

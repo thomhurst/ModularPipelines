@@ -24,13 +24,13 @@ public record GcloudComputePacketMirroringsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Forwarding rule configured as collector. This must be a regional     forwarding rule (in the same region) with load balancing scheme     INTERNAL and isMirroringCollector set to true.     You can provide this as the full URL to the forwarding rule, partial     URL, or name. For example, the following are valid values:     ◆ https://compute.googleapis.com/compute/v1/projects/myproject/      regions/us-central1/forwardingRules/fr-1     ◆ projects/myproject/regions/us-central1/forwardingRules/fr-1     ◆ fr-1
+    /// Forwarding rule configured as collector. This must be a regional forwarding rule (in the same region) with load balancing scheme INTERNAL and isMirroringCollector set to true. You can provide this as the full URL to the forwarding rule, partial URL, or name. For example, the following are valid values: ◆ https://compute.googleapis.com/compute/v1/projects/myproject/ regions/us-central1/forwardingRules/fr-1 ◆ projects/myproject/regions/us-central1/forwardingRules/fr-1 ◆ fr-1
     /// </summary>
     [CliOption("--collector-ilb", Format = OptionFormat.EqualsSeparated)]
     public string? CollectorIlb { get; set; }
@@ -48,15 +48,135 @@ public record GcloudComputePacketMirroringsUpdateOptions(
     public bool? Enable { get; set; }
 
     /// <summary>
-    /// ◆ For ingress, only ingress traffic is mirrored.     ◆ For egress, only egress traffic is mirrored.     ◆ For both (default), both directions are mirrored. DIRECTION must be      one of: both, egress, ingress.
+    /// ◆ For ingress, only ingress traffic is mirrored. ◆ For egress, only egress traffic is mirrored. ◆ For both (default), both directions are mirrored. DIRECTION must be one of: both, egress, ingress.
     /// </summary>
     [CliOption("--filter-direction", Format = OptionFormat.EqualsSeparated)]
     public string? FilterDirection { get; set; }
 
     /// <summary>
-    /// Region of the packet mirroring to update. Overrides the default     compute/region property value for this command invocation.    Update the filter CIDR ranges of this packet mirroring.    At most one of these can be specified:     --add-filter-cidr-ranges=[CIDR_RANGE,...]      List of filter CIDR ranges to add to the packet mirroring.     --clear-filter-cidr-ranges      If specified, clear the existing filter CIDR ranges from the packet      mirroring.     --remove-filter-cidr-ranges=[CIDR_RANGE,...]      List of filter CIDR ranges to remove from the packet mirroring.     --set-filter-cidr-ranges=[CIDR_RANGE,...]      List of filter CIDR ranges to be mirrored on the packet mirroring.    Update the filter protocols of this packet mirroring.    At most one of these can be specified:     --add-filter-protocols=[PROTOCOL,...]      List of filter IP protocols to add to the packet mirroring. PROTOCOL      can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA      protocol number.     --clear-filter-protocols      If specified, clear the existing filter IP protocols from the packet      mirroring.     --remove-filter-protocols=[PROTOCOL,...]      List of filter IP protocols to remove from the packet mirroring.      PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an      IANA protocol number.     --set-filter-protocols=[PROTOCOL,...]      List of filter IP protocols to be mirrored on the packet mirroring.      PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an      IANA protocol number.    Update the mirrored instances of this packet mirroring.    At most one of these can be specified:     --add-mirrored-instances=[INSTANCE,...]      List of instances to add to the packet mirroring.     --clear-mirrored-instances      If specified, clear the existing instances from the packet mirroring.     --remove-mirrored-instances=[INSTANCE,...]      List of instances to remove from the packet mirroring.     --set-mirrored-instances=[INSTANCE,...]      List of instances to be mirrored on the packet mirroring.    Update the mirrored subnets of this packet mirroring.    At most one of these can be specified:     --add-mirrored-subnets=[SUBNET,...]      List of subnets to add to the packet mirroring.     --clear-mirrored-subnets      If specified, clear the existing subnets from the packet mirroring.     --remove-mirrored-subnets=[SUBNET,...]      List of subnets to remove from the packet mirroring.     --set-mirrored-subnets=[SUBNET,...]      List of subnets to be mirrored on the packet mirroring.    Update the mirrored tags of this packet mirroring.      To read more about configuring network tags, read this guide:     https://cloud.google.com/vpc/docs/add-remove-network-tags      The virtual machines with the provided tags must live     in zones contained in the same region as this packet mirroring.    At most one of these can be specified:     --add-mirrored-tags=[TAG,...]      List of tags to add to the packet mirroring.     --clear-mirrored-tags      If specified, clear the existing tags from the packet mirroring.     --remove-mirrored-tags=[TAG,...]      List of tags to remove from the packet mirroring.     --set-mirrored-tags=[TAG,...]      List of tags to be mirrored on the packet mirroring.
+    /// Region of the packet mirroring to update. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: List of filter CIDR ranges to add to the packet mirroring.
+    /// </summary>
+    [CliOption("--add-filter-cidr-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddFilterCidrRanges { get; set; }
+
+    /// <summary>
+    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: If specified, clear the existing filter CIDR ranges from the packet mirroring.
+    /// </summary>
+    [CliFlag("--clear-filter-cidr-ranges")]
+    public bool? ClearFilterCidrRanges { get; set; }
+
+    /// <summary>
+    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: List of filter CIDR ranges to remove from the packet mirroring.
+    /// </summary>
+    [CliOption("--remove-filter-cidr-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveFilterCidrRanges { get; set; }
+
+    /// <summary>
+    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: List of filter CIDR ranges to be mirrored on the packet mirroring.
+    /// </summary>
+    [CliOption("--set-filter-cidr-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetFilterCidrRanges { get; set; }
+
+    /// <summary>
+    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: List of filter IP protocols to add to the packet mirroring. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number.
+    /// </summary>
+    [CliOption("--add-filter-protocols", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddFilterProtocols { get; set; }
+
+    /// <summary>
+    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: If specified, clear the existing filter IP protocols from the packet mirroring.
+    /// </summary>
+    [CliFlag("--clear-filter-protocols")]
+    public bool? ClearFilterProtocols { get; set; }
+
+    /// <summary>
+    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: List of filter IP protocols to remove from the packet mirroring. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number.
+    /// </summary>
+    [CliOption("--remove-filter-protocols", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveFilterProtocols { get; set; }
+
+    /// <summary>
+    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: List of filter IP protocols to be mirrored on the packet mirroring. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number.
+    /// </summary>
+    [CliOption("--set-filter-protocols", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetFilterProtocols { get; set; }
+
+    /// <summary>
+    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: List of instances to add to the packet mirroring.
+    /// </summary>
+    [CliOption("--add-mirrored-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddMirroredInstances { get; set; }
+
+    /// <summary>
+    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: If specified, clear the existing instances from the packet mirroring.
+    /// </summary>
+    [CliFlag("--clear-mirrored-instances")]
+    public bool? ClearMirroredInstances { get; set; }
+
+    /// <summary>
+    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: List of instances to remove from the packet mirroring.
+    /// </summary>
+    [CliOption("--remove-mirrored-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveMirroredInstances { get; set; }
+
+    /// <summary>
+    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: List of instances to be mirrored on the packet mirroring.
+    /// </summary>
+    [CliOption("--set-mirrored-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetMirroredInstances { get; set; }
+
+    /// <summary>
+    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: List of subnets to add to the packet mirroring.
+    /// </summary>
+    [CliOption("--add-mirrored-subnets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddMirroredSubnets { get; set; }
+
+    /// <summary>
+    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: If specified, clear the existing subnets from the packet mirroring.
+    /// </summary>
+    [CliFlag("--clear-mirrored-subnets")]
+    public bool? ClearMirroredSubnets { get; set; }
+
+    /// <summary>
+    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: List of subnets to remove from the packet mirroring.
+    /// </summary>
+    [CliOption("--remove-mirrored-subnets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveMirroredSubnets { get; set; }
+
+    /// <summary>
+    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: List of subnets to be mirrored on the packet mirroring.
+    /// </summary>
+    [CliOption("--set-mirrored-subnets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetMirroredSubnets { get; set; }
+
+    /// <summary>
+    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: List of tags to add to the packet mirroring.
+    /// </summary>
+    [CliOption("--add-mirrored-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddMirroredTags { get; set; }
+
+    /// <summary>
+    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: If specified, clear the existing tags from the packet mirroring.
+    /// </summary>
+    [CliFlag("--clear-mirrored-tags")]
+    public bool? ClearMirroredTags { get; set; }
+
+    /// <summary>
+    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: List of tags to remove from the packet mirroring.
+    /// </summary>
+    [CliOption("--remove-mirrored-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveMirroredTags { get; set; }
+
+    /// <summary>
+    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: List of tags to be mirrored on the packet mirroring.
+    /// </summary>
+    [CliOption("--set-mirrored-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetMirroredTags { get; set; }
 
 }

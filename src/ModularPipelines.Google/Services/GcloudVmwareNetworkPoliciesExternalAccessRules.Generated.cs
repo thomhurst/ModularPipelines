@@ -33,6 +33,21 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
     #region Commands
 
     /// <summary>
+    /// manage VMware Engine     external access firewall rules in Google Cloud VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwareNetworkPoliciesExternalAccessRulesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a     VMware Engine external access firewall rule
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudIpProtocol
 {
     [EnumValue("TCP")]
-    Tcp,
+    Tcp = 0,
 
     [EnumValue("UDP")]
-    Udp,
+    Udp = 1,
 
     [EnumValue("ICMP")]
-    Icmp
+    Icmp = 2
 }

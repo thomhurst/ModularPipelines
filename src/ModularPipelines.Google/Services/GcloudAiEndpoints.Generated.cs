@@ -33,6 +33,21 @@ public class GcloudAiEndpoints
     #region Commands
 
     /// <summary>
+    /// manage Vertex AI endpoints
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAiEndpointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiEndpointsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new Vertex AI endpoint
     /// </summary>
     /// <param name="options">The command options.</param>

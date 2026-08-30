@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,147 +24,354 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Container Flags The following flags apply to the container. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Justification to bypass Binary Authorization policy constraints and     allow the operation. See     https://cloud.google.com/binary-authorization/docs/using-breakglass for     more information. Next update or deploy command will automatically     clear existing breakglass justification.
+    /// Container Flags The following flags apply to the container. Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
     /// </summary>
     [CliOption("--breakglass", Format = OptionFormat.EqualsSeparated)]
     public string? Breakglass { get; set; }
 
     /// <summary>
-    /// Specifies a container by name. Flags following --container will apply     to the specified container.     Flags that are not container-specific must be specified before     --container.
+    /// Container Flags The following flags apply to the container. Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
     /// </summary>
     [CliOption("--container", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
 
     /// <summary>
-    /// Provides an optional, human-readable description of the service.
+    /// Container Flags The following flags apply to the container. Provides an optional, human-readable description of the service.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The GPU type to use.
+    /// Container Flags The following flags apply to the container. The GPU type to use.
     /// </summary>
     [CliOption("--gpu-type", Format = OptionFormat.EqualsSeparated)]
     public string? GpuType { get; set; }
 
     /// <summary>
-    /// The number of instances to run for this WorkerPool. Flag value should     be a positive integer to configure manual scaling with the given     integer as a fixed instance count.
+    /// Container Flags The following flags apply to the container. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// </summary>
+    [CliFlag("--gpu-zonal-redundancy")]
+    public bool? GpuZonalRedundancy { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// </summary>
+    [CliFlag("--no-gpu-zonal-redundancy")]
+    public bool? NoGpuZonalRedundancy { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. The number of instances to run for this WorkerPool. Flag value should be a positive integer to configure manual scaling with the given integer as a fixed instance count.
     /// </summary>
     [CliOption("--instances", Format = OptionFormat.EqualsSeparated)]
     public string? Instances { get; set; }
 
     /// <summary>
-    /// True to avoid assign instances to the worker revision being deployed.     Setting this flag assigns any instances assigned to the LATEST revision     to the specific revision bound to LATEST before the deployment. The     effect is that the revision being deployed will not receive instance     split.     After a deployment with this flag the LATEST revision will not receive     instances on future deployments. To restore assigning instances to the     LATEST revision by default, run the gcloud run worker-pools     update-instance-split command with --to-latest.
+    /// Container Flags The following flags apply to the container. True to avoid assign instances to the worker revision being deployed. Setting this flag assigns any instances assigned to the LATEST revision to the specific revision bound to LATEST before the deployment. The effect is that the revision being deployed will not receive instance split. After a deployment with this flag the LATEST revision will not receive instances on future deployments. To restore assigning instances to the LATEST revision by default, run the gcloud run worker-pools update-instance-split command with --to-latest.
     /// </summary>
     [CliFlag("--no-promote")]
     public bool? NoPromote { get; set; }
 
     /// <summary>
-    /// List of containers to remove.
+    /// Container Flags The following flags apply to the container. List of containers to remove.
     /// </summary>
     [CliOption("--remove-containers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveContainers { get; set; }
 
     /// <summary>
-    /// Specify the suffix of the revision name. Revision names always start     with the service name automatically. For example, specifying     [--revision-suffix=v1] for a service named 'helloworld', would lead to     a revision named 'helloworld-v1'. Set empty string to clear the suffix     and resume server-assigned naming.
+    /// Container Flags The following flags apply to the container. Specify the suffix of the revision name. Revision names always start with the service name automatically. For example, specifying [--revision-suffix=v1] for a service named 'helloworld', would lead to a revision named 'helloworld-v1'. Set empty string to clear the suffix and resume server-assigned naming.
     /// </summary>
     [CliOption("--revision-suffix", Format = OptionFormat.EqualsSeparated)]
     public string? RevisionSuffix { get; set; }
 
     /// <summary>
-    /// the email address of an IAM service account associated with the     revision of the service. The service account represents the identity of     the running revision, and determines what permissions the revision has.
+    /// Container Flags The following flags apply to the container. the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Specify which of the outbound traffic to send through Direct VPC egress     or the VPC connector for this resource. This resource must have Direct     VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must     be one of:      all       (DEPRECATED) Sends all outbound traffic through Direct VPC egress       or the VPC connector. Provides the same functionality as       'all-traffic'. Prefer to use 'all-traffic' instead.     all-traffic       Sends all outbound traffic through Direct VPC egress or the VPC       connector.     private-ranges-only       Default option. Sends outbound traffic to private IP addresses (RFC       1918 and Private Google Access IPs) through Direct VPC egress or       the VPC connector.       Traffic to other Cloud Run services might require additional       configuration. See       https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services       for more information.    These flags modify the Cloud SQL instances this WorkerPool connects to.   You can specify a name of a Cloud SQL instance if it's in the same project   and region as your Cloud Run worker pool; otherwise specify   &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance.    At most one of these can be specified:     --add-cloudsql-instances=[CLOUDSQL-INSTANCES,...]      Append the given values to the current Cloud SQL instances.     --clear-cloudsql-instances      Empty the current Cloud SQL instances.     --remove-cloudsql-instances=[CLOUDSQL-INSTANCES,...]      Remove the given values from the current Cloud SQL instances.     --set-cloudsql-instances=[CLOUDSQL-INSTANCES,...]      Completely replace the current Cloud SQL instances with the given      values.
+    /// Container Flags The following flags apply to the container. Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must be one of: all (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead. all-traffic Sends all outbound traffic through Direct VPC egress or the VPC connector. private-ranges-only Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector. Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
     /// </summary>
     [CliOption("--vpc-egress", Format = OptionFormat.EqualsSeparated)]
     public string? VpcEgress { get; set; }
 
     /// <summary>
-    /// Adds a volume to the Cloud Run resource. To add more than one volume,     specify this flag multiple times. Volumes must have a type key. Volumes     must have a name key if mount-path is not specified. A name key is     optional if mount-path is specified.Only certain values are supported     for type. Depending on the provided type, other keys will be required.     The following types are supported with the specified additional keys:     cloud-storage: A volume representing a Cloud Storage bucket. This     volume type is mounted using Cloud Storage FUSE. See     https://cloud.google.com/storage/docs/gcs-fuse for the details and     limitations of this filesystem. Additional keys:     ◆ bucket: (required) the name of the bucket to use as the source of      this volume     ◆ readonly: (optional) A boolean. If true, this volume will be      read-only from all mounts.     ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags      should be specified without leading dashes and separated by      semicolons.     ◆ mount-path: (optional) The path at which the volume should be      mounted. The mount-path parameter is only supported for single      container services which do not make use of the --container flag. For      multi-container services, specify the mount-path parameter under the      --add-volume-mount flag.     in-memory: An ephemeral volume that stores data in the instance's     memory. With this type of volume, data is not shared between instances     and all data will be lost when the instance it is on is terminated.     Additional keys:     ◆ mount-path: (optional) The path at which the volume should be      mounted. The mount-path parameter is only supported for single      container services which do not make use of the --container flag. For      multi-container services, specify the mount-path parameter under the      --add-volume-mount flag.     ◆ size-limit: (optional) A quantity representing the maximum amount      of memory allocated to this volume, such as "512Mi" or "3G". Data      stored in an in-memory volume consumes the memory allocation of the      container that wrote the data. If size-limit is not specified, the      maximum size will be half the total memory limit of all containers.     nfs: Represents a volume backed by an NFS server. Additional keys:     ◆ location: (required) The location of the NFS Server, in the form      SERVER:/PATH     ◆ mount-path: (optional) The path at which the volume should be      mounted. The mount-path parameter is only supported for single      container services which do not make use of the --container flag. For      multi-container services, specify the mount-path parameter under the      --add-volume-mount flag.     ◆ readonly: (optional) A boolean. If true, this volume will be      read-only from all mounts.
+    /// Container Flags The following flags apply to the container. These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Append the given values to the current Cloud SQL instances.
+    /// </summary>
+    [CliOption("--add-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddCloudsqlInstances { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Empty the current Cloud SQL instances.
+    /// </summary>
+    [CliFlag("--clear-cloudsql-instances")]
+    public bool? ClearCloudsqlInstances { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Remove the given values from the current Cloud SQL instances.
+    /// </summary>
+    [CliOption("--remove-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveCloudsqlInstances { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Completely replace the current Cloud SQL instances with the given values.
+    /// </summary>
+    [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SetCloudsqlInstances { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a type key. Volumes must have a name key if mount-path is not specified. A name key is optional if mount-path is specified.Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: ◆ bucket: (required) the name of the bucket to use as the source of this volume ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: ◆ location: (required) The location of the NFS Server, in the form SERVER:/PATH ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
     /// </summary>
     [CliOption("--add-volume", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AddVolume { get; set; }
 
     /// <summary>
-    /// Remove all existing volumes from the Cloud Run resource, including     volumes mounted as secrets
+    /// Container Flags The following flags apply to the container. Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
     /// </summary>
     [CliFlag("--clear-volumes")]
     public bool? ClearVolumes { get; set; }
 
     /// <summary>
-    /// Removes volumes from the Cloud Run resource.   Container Flags     The following flags apply to the container.
+    /// Container Flags The following flags apply to the container. Removes volumes from the Cloud Run resource.
     /// </summary>
     [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolume { get; set; }
 
     /// <summary>
-    /// Adds a mount to the current container. Must contain the keys     volume=NAME and mount-path=/PATH where NAME is the name of a volume on     this resource and PATH is the path within the container's filesystem to     mount this volume.
+    /// Container Flags The following flags apply to the container. Adds a mount to the current container. Must contain the keys volume=NAME and mount-path=/PATH where NAME is the name of a volume on this resource and PATH is the path within the container's filesystem to mount this volume.
     /// </summary>
     [CliOption("--add-volume-mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddVolumeMount { get; set; }
 
     /// <summary>
-    /// Comma-separated arguments passed to the command run by the container     image. If not specified and no '--command' is provided, the container     image's default Cmd is used. Otherwise, if not specified, no arguments     are passed. To reset this field to its default, pass an empty string.
+    /// Container Flags The following flags apply to the container. Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
     /// </summary>
     [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Args { get; set; }
 
     /// <summary>
-    /// Remove all existing mounts from the current container.
+    /// Container Flags The following flags apply to the container. Remove all existing mounts from the current container.
     /// </summary>
     [CliFlag("--clear-volume-mounts")]
     public bool? ClearVolumeMounts { get; set; }
 
     /// <summary>
-    /// Entrypoint for the container image. If not specified, the container     image's default Entrypoint is run. To reset this field to its default,     pass an empty string.
+    /// Container Flags The following flags apply to the container. Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string.
     /// </summary>
     [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Command { get; set; }
 
     /// <summary>
-    /// Set a CPU limit in Kubernetes cpu units.     Cloud Run supports values fractional values below 1, 1, 2, 4, and 8.     Some CPU values requires a minimum Memory --memory value.
+    /// Container Flags The following flags apply to the container. Set a CPU limit in Kubernetes cpu units. Cloud Run supports values fractional values below 1, 1, 2, 4, and 8. Some CPU values requires a minimum Memory --memory value.
     /// </summary>
     [CliOption("--cpu", Format = OptionFormat.EqualsSeparated)]
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// List of container dependencies to add to the current container.
+    /// Container Flags The following flags apply to the container. List of container dependencies to add to the current container.
     /// </summary>
     [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DependsOn { get; set; }
 
     /// <summary>
-    /// Cloud Run supports values 0 or 1. 1 gpu also requires a minimum 4 --cpu     value and a minimum 16Gi --memory value.
+    /// Container Flags The following flags apply to the container. Cloud Run supports values 0 or 1. 1 gpu also requires a minimum 4 --cpu value and a minimum 16Gi --memory value.
     /// </summary>
     [CliOption("--gpu", Format = OptionFormat.EqualsSeparated)]
     public string? Gpu { get; set; }
 
     /// <summary>
-    /// Set a memory limit. Ex: 1024Mi, 4Gi.
+    /// Container Flags The following flags apply to the container. Set a memory limit. Ex: 1024Mi, 4Gi.
     /// </summary>
     [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
     public string? Memory { get; set; }
 
     /// <summary>
-    /// Removes the volume mounted at the specified path from the current     container.
+    /// Container Flags The following flags apply to the container. Removes the volume mounted at the specified path from the current container.
     /// </summary>
     [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolumeMount { get; set; }
 
     /// <summary>
-    /// Working directory of the container process. If not specified, the     container image's default working directory is used. To reset this     field to its default, pass an empty string.    At most one of these can be specified:     --clear-env-vars      Remove all environment variables.     --env-vars-file=FILE_PATH      Path to a local YAML or ENV file with definitions for all environment      variables. All existing environment variables will be removed before      the new environment variables are added. Example YAML content:        KEY_1: "value1"        KEY_2: "value 2"      Example ENV content:        KEY_1="value1"        KEY_2="value 2"     --set-env-vars=[KEY=VALUE,...]      List of key-value pairs to set as environment variables. All existing      environment variables will be removed first.     Or at least one of these can be specified:      Only --update-env-vars and --remove-env-vars can be used together. If     both are specified, --remove-env-vars will be applied first.      --remove-env-vars=[KEY,...]       List of environment variables to be removed.      --update-env-vars=[KEY=VALUE,...]       List of key-value pairs to set as environment variables.    Specify secrets to provide as environment variables. For example:   '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an   environment variable named ENV whose value is the latest version of secret   'mysecret' and an environment variable OTHER_ENV whose value is version of   1 of secret 'othersecret'.    At most one of these can be specified:     --clear-secrets      Remove all secrets.     --set-secrets=[KEY=VALUE,...]      List of key-value pairs to set as secrets. All existing secrets will      be removed first.     Or at least one of these can be specified:      Only --update-secrets and --remove-secrets can be used together. If     both are specified, --remove-secrets will be applied first.      --remove-secrets=[KEY,...]       List of secrets to be removed.      --update-secrets=[KEY=VALUE,...]       List of key-value pairs to set as secrets.    At most one of these can be specified:     --image=IMAGE      Name of the container image to deploy (e.g.      us-docker.pkg.dev/cloudrun/container/hello:latest).     --source=SOURCE      The location of the source to build. If a Dockerfile is present in      the source code directory, it will be built using that Dockerfile,      otherwise it will use Google Cloud buildpacks. See      https://cloud.google.com/run/docs/deploying-source-code for more      details. The location can be a directory on a local disk or a gzipped      archive file (.tar.gz) in Google Cloud Storage. If the source is a      local directory, this command skips the files specified in the      --ignore-file. If --ignore-file is not specified, use .gcloudignore      file. If a .gcloudignore file is absent and a .gitignore file is      present in the local source directory, gcloud will use a generated      Git-compatible .gcloudignore file that respects your .gitignored      files. The global .gitignore is not respected. For more information      on .gcloudignore, see gcloud topic gcloudignore.    At most one of these can be specified:     --binary-authorization=POLICY      Binary Authorization policy to check against. This must be set to      "default".     --clear-binary-authorization      Remove any previously set Binary Authorization policy.    At most one of these can be specified:     --clear-encryption-key-shutdown-hours      Remove any previously set CMEK key shutdown hours setting.     --encryption-key-shutdown-hours=ENCRYPTION_KEY_SHUTDOWN_HOURS      The number of hours to wait before an automatic shutdown server after      CMEK key revocation is detected.    At most one of these can be specified:     --clear-key      Remove any previously set CMEK key reference.     --key=KEY      CMEK key reference to encrypt the container with.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud run worker-pools deploy --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud run worker-pools deploy --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --labels=[KEY=VALUE,...]      List of label KEY=VALUE pairs to add.      An alias to --update-labels.     --update-labels=[KEY=VALUE,...]      List of label KEY=VALUE pairs to update. If a label exists, its value      is modified. Otherwise, a new label is created.    At most one of these can be specified:     --clear-network      Disconnect this Cloud Run worker from the VPC network it is connected      to.     Or at least one of these can be specified:      Direct VPC egress setting flags group.      --network=NETWORK       The VPC network that the Cloud Run worker will be able to send       traffic to. If --subnet is also specified, subnet must be a       subnetwork of the network specified by this --network flag. To       clear existing VPC network settings, use --clear-network.      --subnet=SUBNET       The VPC subnetwork that the Cloud Run worker will get IPs from. The       subnetwork must be /26 or larger. If --network is also specified,       subnet must be a subnetwork of the network specified by the       --network flag. If --network is not specified, network will be       looked up from this subnetwork. To clear existing VPC network       settings, use --clear-network.      At most one of these can be specified:       --clear-network-tags        Clears all existing network tags from the Cloud Run worker.       --network-tags=[TAG,...]        Applies the given network tags (comma separated) to the Cloud Run        worker. To clear existing tags, use --clear-network-tags.    At most one of these can be specified:     --clear-post-key-revocation-action-type      Remove any previously set post CMEK key revocation action type.     --post-key-revocation-action-type=POST_KEY_REVOCATION_ACTION_TYPE      Action type after CMEK key revocation.      POST_KEY_REVOCATION_ACTION_TYPE must be one of:       prevent-new        No new instances will be started after CMEK key revocation.      shut-down        No new instances will be started and the existing instances will        be shut down after CMEK key revocation.
+    /// Container Flags The following flags apply to the container. Working directory of the container process. If not specified, the container image's default working directory is used. To reset this field to its default, pass an empty string.
     /// </summary>
     [CliOption("--workdir", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Remove all environment variables.
+    /// </summary>
+    [CliFlag("--clear-env-vars")]
+    public bool? ClearEnvVars { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Path to a local YAML or ENV file with definitions for all environment variables. All existing environment variables will be removed before the new environment variables are added. Example YAML content: KEY_1: "value1" KEY_2: "value 2" Example ENV content: KEY_1="value1" KEY_2="value 2"
+    /// </summary>
+    [CliOption("--env-vars-file", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvVarsFile { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of key-value pairs to set as environment variables. All existing environment variables will be removed first.
+    /// </summary>
+    [CliOption("--set-env-vars", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
+    /// </summary>
+    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveEnvVars { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
+    /// </summary>
+    [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: Remove all secrets.
+    /// </summary>
+    [CliFlag("--clear-secrets")]
+    public bool? ClearSecrets { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: List of key-value pairs to set as secrets. All existing secrets will be removed first.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--set-secrets", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? SetSecrets { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveSecrets { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of key-value pairs to set as secrets.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--update-secrets", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateSecrets { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Name of the container image to deploy (e.g. us-docker.pkg.dev/cloudrun/container/hello:latest).
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: The location of the source to build. If a Dockerfile is present in the source code directory, it will be built using that Dockerfile, otherwise it will use Google Cloud buildpacks. See https://cloud.google.com/run/docs/deploying-source-code for more details. The location can be a directory on a local disk or a gzipped archive file (.tar.gz) in Google Cloud Storage. If the source is a local directory, this command skips the files specified in the --ignore-file. If --ignore-file is not specified, use .gcloudignore file. If a .gcloudignore file is absent and a .gitignore file is present in the local source directory, gcloud will use a generated Git-compatible .gcloudignore file that respects your .gitignored files. The global .gitignore is not respected. For more information on .gcloudignore, see gcloud topic gcloudignore.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Binary Authorization policy to check against. This must be set to "default".
+    /// </summary>
+    [CliOption("--binary-authorization", Format = OptionFormat.EqualsSeparated)]
+    public string? BinaryAuthorization { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Remove any previously set Binary Authorization policy.
+    /// </summary>
+    [CliFlag("--clear-binary-authorization")]
+    public bool? ClearBinaryAuthorization { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Remove any previously set CMEK key shutdown hours setting.
+    /// </summary>
+    [CliFlag("--clear-encryption-key-shutdown-hours")]
+    public bool? ClearEncryptionKeyShutdownHours { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: The number of hours to wait before an automatic shutdown server after CMEK key revocation is detected.
+    /// </summary>
+    [CliOption("--encryption-key-shutdown-hours", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionKeyShutdownHours { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Remove any previously set CMEK key reference.
+    /// </summary>
+    [CliFlag("--clear-key")]
+    public bool? ClearKey { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: CMEK key reference to encrypt the container with.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud run worker-pools deploy --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud run worker-pools deploy --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of label KEY=VALUE pairs to add. An alias to --update-labels.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Disconnect this Cloud Run worker from the VPC network it is connected to.
+    /// </summary>
+    [CliFlag("--clear-network")]
+    public bool? ClearNetwork { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. The VPC network that the Cloud Run worker will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. The VPC subnetwork that the Cloud Run worker will get IPs from. The subnetwork must be /26 or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Clears all existing network tags from the Cloud Run worker.
+    /// </summary>
+    [CliFlag("--clear-network-tags")]
+    public bool? ClearNetworkTags { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Run worker. To clear existing tags, use --clear-network-tags.
+    /// </summary>
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NetworkTags { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Remove any previously set post CMEK key revocation action type.
+    /// </summary>
+    [CliFlag("--clear-post-key-revocation-action-type")]
+    public bool? ClearPostKeyRevocationActionType { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Action type after CMEK key revocation. POST_KEY_REVOCATION_ACTION_TYPE must be one of: prevent-new No new instances will be started after CMEK key revocation. shut-down No new instances will be started and the existing instances will be shut down after CMEK key revocation.
+    /// </summary>
+    [CliOption("--post-key-revocation-action-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PostKeyRevocationActionType { get; set; }
 
 }

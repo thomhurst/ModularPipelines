@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationsPreviewOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
@@ -34,13 +34,13 @@ public record GcloudDesignCenterSpacesApplicationsPreviewOptions : GcloudOptions
     public bool? CreateSa { get; set; }
 
     /// <summary>
-    /// The service account to use for this preview.     ◆ If provided, this service account will be used to execute the      preview process, taking precedence over any service_account specified      on the Application resource.     ◆ The caller must have the "iam.serviceAccounts.actAs" permission on      this service account.     ◆ If this field is omitted, the system will use the "service_account"      defined within the Application resource.     ◆ If this field is omitted with --create-sa flag, the system will      create a new and unique service_account and use it for the preview.     ◆ We recommend that you provide a service account here or on the      Application resource. If you don't provide a service account, the      preview will fail.     ◆ If the --create-sa flag is also provided, this value is the ID of a      new service account to be created (e.g., my-new-sa).     Format: projects/{PROJECT}/serviceAccounts/{EMAIL_ADDRESS} (when not     using --create-sa)
+    /// The service account to use for this preview. ◆ If provided, this service account will be used to execute the preview process, taking precedence over any service_account specified on the Application resource. ◆ The caller must have the "iam.serviceAccounts.actAs" permission on this service account. ◆ If this field is omitted, the system will use the "service_account" defined within the Application resource. ◆ If this field is omitted with --create-sa flag, the system will create a new and unique service_account and use it for the preview. ◆ We recommend that you provide a service account here or on the Application resource. If you don't provide a service account, the preview will fail. ◆ If the --create-sa flag is also provided, this value is the ID of a new service account to be created (e.g., my-new-sa). Format: projects/{PROJECT}/serviceAccounts/{EMAIL_ADDRESS} (when not using --create-sa)
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// The user-specified Worker Pool resource in which the Cloud Build job     will execute. Format:     projects/{project}/locations/{location}/workerPools/{workerPoolId} If     this flag is omitted, the worker pool already defined on the     application will be used. If no worker pool is defined on the     application, the default Cloud Build worker pool is used. The worker     pool must exist in the same region as the application.
+    /// The user-specified Worker Pool resource in which the Cloud Build job will execute. Format: projects/{project}/locations/{location}/workerPools/{workerPoolId} If this flag is omitted, the worker pool already defined on the application will be used. If no worker pool is defined on the application, the default Cloud Build worker pool is used. The worker pool must exist in the same region as the application.
     /// </summary>
     [CliOption("--worker-pool", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerPool { get; set; }

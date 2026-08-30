@@ -33,6 +33,21 @@ public class GcloudPreviewComputeMachineTypes
     #region Commands
 
     /// <summary>
+    /// read Compute Engine virtual machine     types
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeMachineTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeMachineTypesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Compute Engine     machine type
     /// </summary>
     /// <param name="options">The command options.</param>

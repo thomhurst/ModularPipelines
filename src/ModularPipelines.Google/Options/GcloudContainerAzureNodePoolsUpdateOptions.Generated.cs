@@ -22,16 +22,22 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAzureNodePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Enable node autorepair feature for a node pool. Use     --no-enable-autorepair to disable.       $ gcloud container azure node-pools update --enable-autorepair
+    /// Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools update --enable-autorepair
     /// </summary>
     [CliFlag("--enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools update --enable-autorepair
+    /// </summary>
+    [CliFlag("--no-enable-autorepair")]
+    public bool? NoEnableAutorepair { get; set; }
 
     /// <summary>
     /// Kubernetes version to use for the node pool.
@@ -46,10 +52,22 @@ public record GcloudContainerAzureNodePoolsUpdateOptions : GcloudOptions
     public string? SshPublicKey { get; set; }
 
     /// <summary>
-    /// Validate the update of the node pool, but don't actually perform it.    Annotations    At most one of these can be specified:     --annotations=ANNOTATION,[ANNOTATION,...]      Annotations for the node pool.     --clear-annotations      Clear the annotations for the node pool.    Node pool autoscaling
+    /// Validate the update of the node pool, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Annotations for the node pool.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Clear the annotations for the node pool.
+    /// </summary>
+    [CliFlag("--clear-annotations")]
+    public bool? ClearAnnotations { get; set; }
 
     /// <summary>
     /// Maximum number of nodes in the node pool.

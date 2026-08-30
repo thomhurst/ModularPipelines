@@ -24,7 +24,7 @@ public record GcloudSqlInstancesGetLatestRecoveryTimeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// The deletion time of the source instance. This is used to identify the     instance if it has been deleted.
+    /// The deletion time of the source instance. This is used to identify the instance if it has been deleted.
     /// </summary>
     [CliOption("--source-instance-deletion-time", Format = OptionFormat.EqualsSeparated)]
     public string? SourceInstanceDeletionTime { get; set; }

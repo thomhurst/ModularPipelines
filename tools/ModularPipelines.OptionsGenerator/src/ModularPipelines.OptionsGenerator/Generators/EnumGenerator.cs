@@ -93,10 +93,11 @@ public class EnumGenerator : ICodeGenerator
         sb.AppendLine($"public enum {enumDef.EnumName}");
         sb.AppendLine("{");
 
-        for (var i = 0; i < enumDef.Values.Count; i++)
+        var values = GetUniqueValues(enumDef.Values);
+        for (var i = 0; i < values.Count; i++)
         {
-            var value = enumDef.Values[i];
-            var isLast = i == enumDef.Values.Count - 1;
+            var value = values[i];
+            var isLast = i == values.Count - 1;
 
             if (!string.IsNullOrEmpty(value.Description))
             {
@@ -119,5 +120,59 @@ public class EnumGenerator : ICodeGenerator
         sb.AppendLine("}");
 
         return sb.ToString();
+    }
+
+    private static IReadOnlyList<CliEnumValue> GetUniqueValues(IReadOnlyList<CliEnumValue> values)
+    {
+        var usedCliValues = new HashSet<string>(StringComparer.Ordinal);
+        var usedMemberNames = new HashSet<string>(StringComparer.Ordinal);
+        var uniqueValues = new List<CliEnumValue>();
+
+        foreach (var value in values)
+        {
+            if (!usedCliValues.Add(value.CliValue))
+            {
+                continue;
+            }
+
+            var memberName = GetUniqueMemberName(value, usedMemberNames);
+            uniqueValues.Add(value with { MemberName = memberName });
+        }
+
+        return uniqueValues;
+    }
+
+    private static string GetUniqueMemberName(CliEnumValue value, HashSet<string> usedMemberNames)
+    {
+        if (usedMemberNames.Add(value.MemberName))
+        {
+            return value.MemberName;
+        }
+
+        var casingSuffix = GetCasingSuffix(value.CliValue);
+        var candidateRoot = value.MemberName + casingSuffix;
+        var candidate = candidateRoot;
+        for (var suffix = 2; !usedMemberNames.Add(candidate); suffix++)
+        {
+            candidate = candidateRoot + suffix;
+        }
+
+        return candidate;
+    }
+
+    private static string GetCasingSuffix(string cliValue)
+    {
+        var letters = cliValue.Where(char.IsLetter).ToArray();
+        if (letters.Length > 0 && letters.All(char.IsUpper))
+        {
+            return "Uppercase";
+        }
+
+        if (letters.Length > 0 && letters.All(char.IsLower))
+        {
+            return "Lowercase";
+        }
+
+        return "Alternative";
     }
 }

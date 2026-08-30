@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMemorystoreInstancesFinishMigrationOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// By default, the FinishMigration operation ensures the target     replication offset to catch up to the source offset as of the time of     the call. Set this field to true to bypass this offset verification     check.
+    /// By default, the FinishMigration operation ensures the target replication offset to catch up to the source offset as of the time of the call. Set this field to true to bypass this offset verification check.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

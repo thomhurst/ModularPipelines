@@ -51,4 +51,23 @@ public class GcloudAccessapproval : IGcloudAccessapproval
     public GcloudAccessapprovalSettings Settings => _settings ??= new GcloudAccessapprovalSettings(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Access Approval requests and settings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAccessApprovalOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAccessApprovalOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

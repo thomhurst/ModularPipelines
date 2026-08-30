@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkbenchSchedulesResumeOptions : GcloudOptions
 {
     /// <summary>
-    /// Enables backfilling missed runs when the schedule is resumed from     PAUSED state. If enabled, all missed runs will be scheduled and new     runs will be scheduled after the backfill is complete.
+    /// Enables backfilling missed runs when the schedule is resumed from PAUSED state. If enabled, all missed runs will be scheduled and new runs will be scheduled after the backfill is complete.
     /// </summary>
     [CliFlag("--enable-catch-up")]
     public bool? EnableCatchUp { get; set; }

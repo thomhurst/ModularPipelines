@@ -33,6 +33,21 @@ public class GcloudComputeTpusTpuVmVersions
     #region Commands
 
     /// <summary>
+    /// explore available runtime versions     for Cloud TPU VM nodes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeTpusTpuVmVersionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeTpusTpuVmVersionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a runtime version     available for Cloud TPU VM nodes
     /// </summary>
     /// <param name="options">The command options.</param>

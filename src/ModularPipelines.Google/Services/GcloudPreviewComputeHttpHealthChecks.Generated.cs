@@ -33,6 +33,21 @@ public class GcloudPreviewComputeHttpHealthChecks
     #region Commands
 
     /// <summary>
+    /// read and manipulate HTTP health     checks for load balanced instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeHttpHealthChecksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeHttpHealthChecksOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a legacy HTTP     health check
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -90,6 +105,21 @@ public class GcloudPreviewComputeHttpHealthChecks
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeHttpHealthChecksListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine HTTP health check
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudPreviewComputeHttpHealthChecksTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeHttpHealthChecksTestIamPermissionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDeleteFrom
 {
     [EnumValue("destination-if-unique")]
-    DestinationIfUnique,
+    DestinationIfUnique = 0,
 
     [EnumValue("source-after-transfer")]
-    SourceAfterTransfer
+    SourceAfterTransfer = 1
 }

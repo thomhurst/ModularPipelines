@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSourceNetworkProtocol
 {
     [EnumValue("HTTP")]
-    Http,
+    Http = 0,
 
     [EnumValue("HTTPS")]
-    Https
+    Https = 1
 }

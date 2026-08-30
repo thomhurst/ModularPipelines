@@ -33,6 +33,21 @@ public class GcloudServicedirectoryEndpoints
     #region Commands
 
     /// <summary>
+    /// manage Service Directory endpoints
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudServiceDirectoryEndpointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudServiceDirectoryEndpointsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates an endpoint
     /// </summary>
     /// <param name="options">The command options.</param>

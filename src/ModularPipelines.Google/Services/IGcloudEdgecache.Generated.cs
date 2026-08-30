@@ -15,27 +15,40 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud edgecache commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudEdgecache
 {
     /// <summary>
     /// gcloud keysets sub-commands.
     /// </summary>
-    GcloudEdgecacheKeysets Keysets { get; }
+    GcloudEdgecacheKeysets Keysets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudEdgecacheOperations Operations { get; }
+    GcloudEdgecacheOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud origins sub-commands.
     /// </summary>
-    GcloudEdgecacheOrigins Origins { get; }
+    GcloudEdgecacheOrigins Origins => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudEdgecacheServices Services { get; }
+    GcloudEdgecacheServices Services => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// manage Media CDN resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudEdgeCacheOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

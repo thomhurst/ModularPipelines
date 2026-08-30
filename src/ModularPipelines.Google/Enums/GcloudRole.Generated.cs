@@ -17,8 +17,17 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudRole
 {
     [EnumValue("SOURCE")]
-    Source,
+    Source = 0,
 
     [EnumValue("DESTINATION")]
-    Destination
+    Destination = 1,
+
+    [EnumValue("admin")]
+    Admin = 2,
+
+    [EnumValue("edit")]
+    Edit = 3,
+
+    [EnumValue("view")]
+    View = 4
 }

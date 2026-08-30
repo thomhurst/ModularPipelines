@@ -7,7 +7,13 @@ title: gcloud CLI reference
 
 `ModularPipelines.Google` provides strongly typed access to the `gcloud` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `gcloud` executable. Install it separately and ensure `gcloud` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Google
@@ -29,7 +35,7 @@ public class RunCommandModule : Module<CommandResult>
         CancellationToken cancellationToken)
     {
         return await context.Tools.Gcloud.InfoAsync(
-            new GcloudInfoOptions
+            new GcloudInfoOptions()
             {
                 Anonymize = true,
             },
@@ -42,6 +48,7 @@ public class RunCommandModule : Module<CommandResult>
 
 | CLI command | Options record |
 | --- | --- |
+| `gcloud access-approval` | `GcloudAccessApprovalOptions` |
 | `gcloud access-approval requests` | `GcloudAccessApprovalRequestsOptions` |
 | `gcloud access-approval requests approve` | `GcloudAccessApprovalRequestsApproveOptions` |
 | `gcloud access-approval requests dismiss` | `GcloudAccessApprovalRequestsDismissOptions` |
@@ -54,6 +61,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud access-approval settings delete` | `GcloudAccessApprovalSettingsDeleteOptions` |
 | `gcloud access-approval settings get` | `GcloudAccessApprovalSettingsGetOptions` |
 | `gcloud access-approval settings update` | `GcloudAccessApprovalSettingsUpdateOptions` |
+| `gcloud access-context-manager` | `GcloudAccessContextManagerOptions` |
 | `gcloud access-context-manager authorized-orgs` | `GcloudAccessContextManagerAuthorizedOrgsOptions` |
 | `gcloud access-context-manager authorized-orgs create` | `GcloudAccessContextManagerAuthorizedOrgsCreateOptions` |
 | `gcloud access-context-manager authorized-orgs delete` | `GcloudAccessContextManagerAuthorizedOrgsDeleteOptions` |
@@ -107,6 +115,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud access-context-manager supported-services` | `GcloudAccessContextManagerSupportedServicesOptions` |
 | `gcloud access-context-manager supported-services describe` | `GcloudAccessContextManagerSupportedServicesDescribeOptions` |
 | `gcloud access-context-manager supported-services list` | `GcloudAccessContextManagerSupportedServicesListOptions` |
+| `gcloud active-directory` | `GcloudActiveDirectoryOptions` |
 | `gcloud active-directory domains` | `GcloudActiveDirectoryDomainsOptions` |
 | `gcloud active-directory domains backups` | `GcloudActiveDirectoryDomainsBackupsOptions` |
 | `gcloud active-directory domains backups create` | `GcloudActiveDirectoryDomainsBackupsCreateOptions` |
@@ -141,6 +150,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud active-directory peerings describe` | `GcloudActiveDirectoryPeeringsDescribeOptions` |
 | `gcloud active-directory peerings list` | `GcloudActiveDirectoryPeeringsListOptions` |
 | `gcloud active-directory peerings update` | `GcloudActiveDirectoryPeeringsUpdateOptions` |
+| `gcloud agent-identity` | `GcloudAgentIdentityOptions` |
 | `gcloud agent-identity access-summaries` | `GcloudAgentIdentityAccessSummariesOptions` |
 | `gcloud agent-identity access-summaries describe` | `GcloudAgentIdentityAccessSummariesDescribeOptions` |
 | `gcloud agent-identity access-summaries list` | `GcloudAgentIdentityAccessSummariesListOptions` |
@@ -165,6 +175,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud agent-identity auth-providers test-iam-permissions` | `GcloudAgentIdentityAuthProvidersTestIamPermissionsOptions` |
 | `gcloud agent-identity auth-providers undelete` | `GcloudAgentIdentityAuthProvidersUndeleteOptions` |
 | `gcloud agent-identity auth-providers update` | `GcloudAgentIdentityAuthProvidersUpdateOptions` |
+| `gcloud agent-registry` | `GcloudAgentRegistryOptions` |
 | `gcloud agent-registry agents` | `GcloudAgentRegistryAgentsOptions` |
 | `gcloud agent-registry agents describe` | `GcloudAgentRegistryAgentsDescribeOptions` |
 | `gcloud agent-registry agents list` | `GcloudAgentRegistryAgentsListOptions` |
@@ -195,6 +206,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud agent-registry services describe` | `GcloudAgentRegistryServicesDescribeOptions` |
 | `gcloud agent-registry services list` | `GcloudAgentRegistryServicesListOptions` |
 | `gcloud agent-registry services update` | `GcloudAgentRegistryServicesUpdateOptions` |
+| `gcloud ai` | `GcloudAiOptions` |
 | `gcloud ai custom-jobs` | `GcloudAiCustomJobsOptions` |
 | `gcloud ai custom-jobs cancel` | `GcloudAiCustomJobsCancelOptions` |
 | `gcloud ai custom-jobs create` | `GcloudAiCustomJobsCreateOptions` |
@@ -270,6 +282,16 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud ai persistent-resources describe` | `GcloudAiPersistentResourcesDescribeOptions` |
 | `gcloud ai persistent-resources list` | `GcloudAiPersistentResourcesListOptions` |
 | `gcloud ai persistent-resources reboot` | `GcloudAiPersistentResourcesRebootOptions` |
+| `gcloud ai semantic-governance-policies` | `GcloudAiSemanticGovernancePoliciesOptions` |
+| `gcloud ai semantic-governance-policies create` | `GcloudAiSemanticGovernancePoliciesCreateOptions` |
+| `gcloud ai semantic-governance-policies delete` | `GcloudAiSemanticGovernancePoliciesDeleteOptions` |
+| `gcloud ai semantic-governance-policies describe` | `GcloudAiSemanticGovernancePoliciesDescribeOptions` |
+| `gcloud ai semantic-governance-policies list` | `GcloudAiSemanticGovernancePoliciesListOptions` |
+| `gcloud ai semantic-governance-policies update` | `GcloudAiSemanticGovernancePoliciesUpdateOptions` |
+| `gcloud ai semantic-governance-policy-engine` | `GcloudAiSemanticGovernancePolicyEngineOptions` |
+| `gcloud ai semantic-governance-policy-engine deprovision` | `GcloudAiSemanticGovernancePolicyEngineDeprovisionOptions` |
+| `gcloud ai semantic-governance-policy-engine describe` | `GcloudAiSemanticGovernancePolicyEngineDescribeOptions` |
+| `gcloud ai semantic-governance-policy-engine update` | `GcloudAiSemanticGovernancePolicyEngineUpdateOptions` |
 | `gcloud ai tensorboards` | `GcloudAiTensorboardsOptions` |
 | `gcloud ai tensorboards create` | `GcloudAiTensorboardsCreateOptions` |
 | `gcloud ai tensorboards delete` | `GcloudAiTensorboardsDeleteOptions` |
@@ -281,6 +303,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud ai tuning-jobs create` | `GcloudAiTuningJobsCreateOptions` |
 | `gcloud ai tuning-jobs describe` | `GcloudAiTuningJobsDescribeOptions` |
 | `gcloud ai tuning-jobs list` | `GcloudAiTuningJobsListOptions` |
+| `gcloud ai-platform` | `GcloudAiPlatformOptions` |
 | `gcloud ai-platform jobs` | `GcloudAiPlatformJobsOptions` |
 | `gcloud ai-platform jobs cancel` | `GcloudAiPlatformJobsCancelOptions` |
 | `gcloud ai-platform jobs describe` | `GcloudAiPlatformJobsDescribeOptions` |
@@ -316,6 +339,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud ai-platform versions list` | `GcloudAiPlatformVersionsListOptions` |
 | `gcloud ai-platform versions set-default` | `GcloudAiPlatformVersionsSetDefaultOptions` |
 | `gcloud ai-platform versions update` | `GcloudAiPlatformVersionsUpdateOptions` |
+| `gcloud alloydb` | `GcloudAlloydbOptions` |
 | `gcloud alloydb backups` | `GcloudAlloydbBackupsOptions` |
 | `gcloud alloydb backups create` | `GcloudAlloydbBackupsCreateOptions` |
 | `gcloud alloydb backups delete` | `GcloudAlloydbBackupsDeleteOptions` |
@@ -357,6 +381,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud alloydb users set-password` | `GcloudAlloydbUsersSetPasswordOptions` |
 | `gcloud alloydb users set-roles` | `GcloudAlloydbUsersSetRolesOptions` |
 | `gcloud alloydb users set-superuser` | `GcloudAlloydbUsersSetSuperuserOptions` |
+| `gcloud anthos` | `GcloudAnthosOptions` |
 | `gcloud anthos auth` | `GcloudAnthosAuthOptions` |
 | `gcloud anthos auth login` | `GcloudAnthosAuthLoginOptions` |
 | `gcloud anthos config` | `GcloudAnthosConfigOptions` |
@@ -371,6 +396,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud anthos config operations describe` | `GcloudAnthosConfigOperationsDescribeOptions` |
 | `gcloud anthos config operations list` | `GcloudAnthosConfigOperationsListOptions` |
 | `gcloud anthos create-login-config` | `GcloudAnthosCreateLoginConfigOptions` |
+| `gcloud api-gateway` | `GcloudApiGatewayOptions` |
 | `gcloud api-gateway api-configs` | `GcloudApiGatewayApiConfigsOptions` |
 | `gcloud api-gateway api-configs create` | `GcloudApiGatewayApiConfigsCreateOptions` |
 | `gcloud api-gateway api-configs delete` | `GcloudApiGatewayApiConfigsDeleteOptions` |
@@ -400,6 +426,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud api-gateway operations describe` | `GcloudApiGatewayOperationsDescribeOptions` |
 | `gcloud api-gateway operations list` | `GcloudApiGatewayOperationsListOptions` |
 | `gcloud api-gateway operations wait` | `GcloudApiGatewayOperationsWaitOptions` |
+| `gcloud apigee` | `GcloudApigeeOptions` |
 | `gcloud apigee apis` | `GcloudApigeeApisOptions` |
 | `gcloud apigee apis deploy` | `GcloudApigeeApisDeployOptions` |
 | `gcloud apigee apis describe` | `GcloudApigeeApisDescribeOptions` |
@@ -424,6 +451,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud apigee products describe` | `GcloudApigeeProductsDescribeOptions` |
 | `gcloud apigee products list` | `GcloudApigeeProductsListOptions` |
 | `gcloud apigee products update` | `GcloudApigeeProductsUpdateOptions` |
+| `gcloud apihub` | `GcloudApihubOptions` |
 | `gcloud apihub addons` | `GcloudApihubAddonsOptions` |
 | `gcloud apihub addons describe` | `GcloudApihubAddonsDescribeOptions` |
 | `gcloud apihub addons list` | `GcloudApihubAddonsListOptions` |
@@ -499,6 +527,8 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud apihub host-project-registrations create` | `GcloudApihubHostProjectRegistrationsCreateOptions` |
 | `gcloud apihub host-project-registrations describe` | `GcloudApihubHostProjectRegistrationsDescribeOptions` |
 | `gcloud apihub host-project-registrations list` | `GcloudApihubHostProjectRegistrationsListOptions` |
+| `gcloud apihub locations` | `GcloudApihubLocationsOptions` |
+| `gcloud apihub locations configure-and-deploy-server` | `GcloudApihubLocationsConfigureAndDeployServerOptions` |
 | `gcloud apihub operations` | `GcloudApihubOperationsOptions` |
 | `gcloud apihub operations cancel` | `GcloudApihubOperationsCancelOptions` |
 | `gcloud apihub operations delete` | `GcloudApihubOperationsDeleteOptions` |
@@ -525,6 +555,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud apihub runtime-project-attachments describe` | `GcloudApihubRuntimeProjectAttachmentsDescribeOptions` |
 | `gcloud apihub runtime-project-attachments list` | `GcloudApihubRuntimeProjectAttachmentsListOptions` |
 | `gcloud apihub runtime-project-attachments lookup` | `GcloudApihubRuntimeProjectAttachmentsLookupOptions` |
+| `gcloud app` | `GcloudAppOptions` |
 | `gcloud app browse` | `GcloudAppBrowseOptions` |
 | `gcloud app create` | `GcloudAppCreateOptions` |
 | `gcloud app deploy` | `GcloudAppDeployOptions` |
@@ -584,6 +615,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud app versions migrate` | `GcloudAppVersionsMigrateOptions` |
 | `gcloud app versions start` | `GcloudAppVersionsStartOptions` |
 | `gcloud app versions stop` | `GcloudAppVersionsStopOptions` |
+| `gcloud apphub` | `GcloudApphubOptions` |
 | `gcloud apphub applications` | `GcloudApphubApplicationsOptions` |
 | `gcloud apphub applications add-iam-policy-binding` | `GcloudApphubApplicationsAddIamPolicyBindingOptions` |
 | `gcloud apphub applications create` | `GcloudApphubApplicationsCreateOptions` |
@@ -630,6 +662,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud apphub service-projects list` | `GcloudApphubServiceProjectsListOptions` |
 | `gcloud apphub service-projects lookup` | `GcloudApphubServiceProjectsLookupOptions` |
 | `gcloud apphub service-projects remove` | `GcloudApphubServiceProjectsRemoveOptions` |
+| `gcloud artifacts` | `GcloudArtifactsOptions` |
 | `gcloud artifacts apt` | `GcloudArtifactsAptOptions` |
 | `gcloud artifacts apt import` | `GcloudArtifactsAptImportOptions` |
 | `gcloud artifacts apt upload` | `GcloudArtifactsAptUploadOptions` |
@@ -736,6 +769,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud artifacts yum` | `GcloudArtifactsYumOptions` |
 | `gcloud artifacts yum import` | `GcloudArtifactsYumImportOptions` |
 | `gcloud artifacts yum upload` | `GcloudArtifactsYumUploadOptions` |
+| `gcloud asset` | `GcloudAssetOptions` |
 | `gcloud asset analyze-iam-policy` | `GcloudAssetAnalyzeIamPolicyOptions` |
 | `gcloud asset analyze-iam-policy-longrunning` | `GcloudAssetAnalyzeIamPolicyLongrunningOptions` |
 | `gcloud asset analyze-move` | `GcloudAssetAnalyzeMoveOptions` |
@@ -763,6 +797,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud asset saved-queries update` | `GcloudAssetSavedQueriesUpdateOptions` |
 | `gcloud asset search-all-iam-policies` | `GcloudAssetSearchAllIamPoliciesOptions` |
 | `gcloud asset search-all-resources` | `GcloudAssetSearchAllResourcesOptions` |
+| `gcloud assured` | `GcloudAssuredOptions` |
 | `gcloud assured operations` | `GcloudAssuredOperationsOptions` |
 | `gcloud assured operations describe` | `GcloudAssuredOperationsDescribeOptions` |
 | `gcloud assured operations list` | `GcloudAssuredOperationsListOptions` |
@@ -777,6 +812,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud assured workloads violations acknowledge` | `GcloudAssuredWorkloadsViolationsAcknowledgeOptions` |
 | `gcloud assured workloads violations describe` | `GcloudAssuredWorkloadsViolationsDescribeOptions` |
 | `gcloud assured workloads violations list` | `GcloudAssuredWorkloadsViolationsListOptions` |
+| `gcloud audit-manager` | `GcloudAuditManagerOptions` |
 | `gcloud audit-manager audit-reports` | `GcloudAuditManagerAuditReportsOptions` |
 | `gcloud audit-manager audit-reports generate` | `GcloudAuditManagerAuditReportsGenerateOptions` |
 | `gcloud audit-manager audit-scopes` | `GcloudAuditManagerAuditScopesOptions` |
@@ -785,6 +821,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud audit-manager enrollments add` | `GcloudAuditManagerEnrollmentsAddOptions` |
 | `gcloud audit-manager operations` | `GcloudAuditManagerOperationsOptions` |
 | `gcloud audit-manager operations describe` | `GcloudAuditManagerOperationsDescribeOptions` |
+| `gcloud auth` | `GcloudAuthOptions` |
 | `gcloud auth activate-service-account` | `GcloudAuthActivateServiceAccountOptions` |
 | `gcloud auth application-default` | `GcloudAuthApplicationDefaultOptions` |
 | `gcloud auth application-default login` | `GcloudAuthApplicationDefaultLoginOptions` |
@@ -802,6 +839,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud auth print-access-token` | `GcloudAuthPrintAccessTokenOptions` |
 | `gcloud auth print-identity-token` | `GcloudAuthPrintIdentityTokenOptions` |
 | `gcloud auth revoke` | `GcloudAuthRevokeOptions` |
+| `gcloud backup-dr` | `GcloudBackupDrOptions` |
 | `gcloud backup-dr backup-plan-associations` | `GcloudBackupDrBackupPlanAssociationsOptions` |
 | `gcloud backup-dr backup-plan-associations create` | `GcloudBackupDrBackupPlanAssociationsCreateOptions` |
 | `gcloud backup-dr backup-plan-associations delete` | `GcloudBackupDrBackupPlanAssociationsDeleteOptions` |
@@ -855,6 +893,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud backup-dr resource-backup-config list` | `GcloudBackupDrResourceBackupConfigListOptions` |
 | `gcloud backup-dr service-config` | `GcloudBackupDrServiceConfigOptions` |
 | `gcloud backup-dr service-config init` | `GcloudBackupDrServiceConfigInitOptions` |
+| `gcloud batch` | `GcloudBatchOptions` |
 | `gcloud batch jobs` | `GcloudBatchJobsOptions` |
 | `gcloud batch jobs cancel` | `GcloudBatchJobsCancelOptions` |
 | `gcloud batch jobs delete` | `GcloudBatchJobsDeleteOptions` |
@@ -864,6 +903,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud batch tasks` | `GcloudBatchTasksOptions` |
 | `gcloud batch tasks describe` | `GcloudBatchTasksDescribeOptions` |
 | `gcloud batch tasks list` | `GcloudBatchTasksListOptions` |
+| `gcloud beyondcorp` | `GcloudBeyondcorpOptions` |
 | `gcloud beyondcorp operations` | `GcloudBeyondcorpOperationsOptions` |
 | `gcloud beyondcorp operations describe` | `GcloudBeyondcorpOperationsDescribeOptions` |
 | `gcloud beyondcorp operations list` | `GcloudBeyondcorpOperationsListOptions` |
@@ -887,6 +927,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud beyondcorp security-gateways remove-iam-policy-binding` | `GcloudBeyondcorpSecurityGatewaysRemoveIamPolicyBindingOptions` |
 | `gcloud beyondcorp security-gateways set-iam-policy` | `GcloudBeyondcorpSecurityGatewaysSetIamPolicyOptions` |
 | `gcloud beyondcorp security-gateways update` | `GcloudBeyondcorpSecurityGatewaysUpdateOptions` |
+| `gcloud biglake` | `GcloudBiglakeOptions` |
 | `gcloud biglake data-product-sharing` | `GcloudBiglakeDataProductSharingOptions` |
 | `gcloud biglake data-product-sharing publish` | `GcloudBiglakeDataProductSharingPublishOptions` |
 | `gcloud biglake delta-sharing` | `GcloudBiglakeDeltaSharingOptions` |
@@ -929,6 +970,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud biglake iceberg tables register` | `GcloudBiglakeIcebergTablesRegisterOptions` |
 | `gcloud biglake iceberg tables set-iam-policy` | `GcloudBiglakeIcebergTablesSetIamPolicyOptions` |
 | `gcloud biglake iceberg tables update` | `GcloudBiglakeIcebergTablesUpdateOptions` |
+| `gcloud bigtable` | `GcloudBigtableOptions` |
 | `gcloud bigtable app-profiles` | `GcloudBigtableAppProfilesOptions` |
 | `gcloud bigtable app-profiles create` | `GcloudBigtableAppProfilesCreateOptions` |
 | `gcloud bigtable app-profiles delete` | `GcloudBigtableAppProfilesDeleteOptions` |
@@ -1024,6 +1066,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud bigtable tables set-iam-policy` | `GcloudBigtableTablesSetIamPolicyOptions` |
 | `gcloud bigtable tables undelete` | `GcloudBigtableTablesUndeleteOptions` |
 | `gcloud bigtable tables update` | `GcloudBigtableTablesUpdateOptions` |
+| `gcloud billing` | `GcloudBillingOptions` |
 | `gcloud billing accounts` | `GcloudBillingAccountsOptions` |
 | `gcloud billing accounts add-iam-policy-binding` | `GcloudBillingAccountsAddIamPolicyBindingOptions` |
 | `gcloud billing accounts describe` | `GcloudBillingAccountsDescribeOptions` |
@@ -1042,6 +1085,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud billing projects link` | `GcloudBillingProjectsLinkOptions` |
 | `gcloud billing projects list` | `GcloudBillingProjectsListOptions` |
 | `gcloud billing projects unlink` | `GcloudBillingProjectsUnlinkOptions` |
+| `gcloud bms` | `GcloudBmsOptions` |
 | `gcloud bms instances` | `GcloudBmsInstancesOptions` |
 | `gcloud bms instances describe` | `GcloudBmsInstancesDescribeOptions` |
 | `gcloud bms instances disable-serial-console` | `GcloudBmsInstancesDisableSerialConsoleOptions` |
@@ -1089,11 +1133,13 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud bms volumes snapshots describe` | `GcloudBmsVolumesSnapshotsDescribeOptions` |
 | `gcloud bms volumes snapshots list` | `GcloudBmsVolumesSnapshotsListOptions` |
 | `gcloud bms volumes update` | `GcloudBmsVolumesUpdateOptions` |
+| `gcloud bq` | `GcloudBqOptions` |
 | `gcloud bq migration-workflows` | `GcloudBqMigrationWorkflowsOptions` |
 | `gcloud bq migration-workflows create` | `GcloudBqMigrationWorkflowsCreateOptions` |
 | `gcloud bq migration-workflows delete` | `GcloudBqMigrationWorkflowsDeleteOptions` |
 | `gcloud bq migration-workflows describe` | `GcloudBqMigrationWorkflowsDescribeOptions` |
 | `gcloud bq migration-workflows list` | `GcloudBqMigrationWorkflowsListOptions` |
+| `gcloud builds` | `GcloudBuildsOptions` |
 | `gcloud builds cancel` | `GcloudBuildsCancelOptions` |
 | `gcloud builds connections` | `GcloudBuildsConnectionsOptions` |
 | `gcloud builds connections add-iam-policy-binding` | `GcloudBuildsConnectionsAddIamPolicyBindingOptions` |
@@ -1156,6 +1202,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud builds worker-pools describe` | `GcloudBuildsWorkerPoolsDescribeOptions` |
 | `gcloud builds worker-pools list` | `GcloudBuildsWorkerPoolsListOptions` |
 | `gcloud builds worker-pools update` | `GcloudBuildsWorkerPoolsUpdateOptions` |
+| `gcloud certificate-manager` | `GcloudCertificateManagerOptions` |
 | `gcloud certificate-manager certificates` | `GcloudCertificateManagerCertificatesOptions` |
 | `gcloud certificate-manager certificates create` | `GcloudCertificateManagerCertificatesCreateOptions` |
 | `gcloud certificate-manager certificates delete` | `GcloudCertificateManagerCertificatesDeleteOptions` |
@@ -1198,13 +1245,16 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud certificate-manager trust-configs list` | `GcloudCertificateManagerTrustConfigsListOptions` |
 | `gcloud certificate-manager trust-configs update` | `GcloudCertificateManagerTrustConfigsUpdateOptions` |
 | `gcloud cheat-sheet` | `GcloudCheatSheetOptions` |
+| `gcloud cloud-shell` | `GcloudCloudShellOptions` |
 | `gcloud cloud-shell get-mount-command` | `GcloudCloudShellGetMountCommandOptions` |
 | `gcloud cloud-shell scp` | `GcloudCloudShellScpOptions` |
 | `gcloud cloud-shell ssh` | `GcloudCloudShellSshOptions` |
+| `gcloud cloudlocationfinder` | `GcloudCloudlocationfinderOptions` |
 | `gcloud cloudlocationfinder cloud-locations` | `GcloudCloudlocationfinderCloudLocationsOptions` |
 | `gcloud cloudlocationfinder cloud-locations describe` | `GcloudCloudlocationfinderCloudLocationsDescribeOptions` |
 | `gcloud cloudlocationfinder cloud-locations list` | `GcloudCloudlocationfinderCloudLocationsListOptions` |
 | `gcloud cloudlocationfinder cloud-locations search` | `GcloudCloudlocationfinderCloudLocationsSearchOptions` |
+| `gcloud colab` | `GcloudColabOptions` |
 | `gcloud colab executions` | `GcloudColabExecutionsOptions` |
 | `gcloud colab executions create` | `GcloudColabExecutionsCreateOptions` |
 | `gcloud colab executions delete` | `GcloudColabExecutionsDeleteOptions` |
@@ -1235,6 +1285,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud colab schedules pause` | `GcloudColabSchedulesPauseOptions` |
 | `gcloud colab schedules resume` | `GcloudColabSchedulesResumeOptions` |
 | `gcloud colab schedules update` | `GcloudColabSchedulesUpdateOptions` |
+| `gcloud compliance-manager` | `GcloudComplianceManagerOptions` |
 | `gcloud compliance-manager cloud-control-deployments` | `GcloudComplianceManagerCloudControlDeploymentsOptions` |
 | `gcloud compliance-manager cloud-control-deployments describe` | `GcloudComplianceManagerCloudControlDeploymentsDescribeOptions` |
 | `gcloud compliance-manager cloud-control-deployments list` | `GcloudComplianceManagerCloudControlDeploymentsListOptions` |
@@ -1259,6 +1310,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compliance-manager operations describe` | `GcloudComplianceManagerOperationsDescribeOptions` |
 | `gcloud compliance-manager operations list` | `GcloudComplianceManagerOperationsListOptions` |
 | `gcloud compliance-manager operations wait` | `GcloudComplianceManagerOperationsWaitOptions` |
+| `gcloud components` | `GcloudComponentsOptions` |
 | `gcloud components install` | `GcloudComponentsInstallOptions` |
 | `gcloud components list` | `GcloudComponentsListOptions` |
 | `gcloud components reinstall` | `GcloudComponentsReinstallOptions` |
@@ -1268,6 +1320,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud components repositories list` | `GcloudComponentsRepositoriesListOptions` |
 | `gcloud components repositories remove` | `GcloudComponentsRepositoriesRemoveOptions` |
 | `gcloud components update` | `GcloudComponentsUpdateOptions` |
+| `gcloud composer` | `GcloudComposerOptions` |
 | `gcloud composer environments` | `GcloudComposerEnvironmentsOptions` |
 | `gcloud composer environments check-upgrade` | `GcloudComposerEnvironmentsCheckUpgradeOptions` |
 | `gcloud composer environments create` | `GcloudComposerEnvironmentsCreateOptions` |
@@ -1318,6 +1371,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud composer operations describe` | `GcloudComposerOperationsDescribeOptions` |
 | `gcloud composer operations list` | `GcloudComposerOperationsListOptions` |
 | `gcloud composer operations wait` | `GcloudComposerOperationsWaitOptions` |
+| `gcloud compute` | `GcloudComputeOptions` |
 | `gcloud compute accelerator-types` | `GcloudComputeAcceleratorTypesOptions` |
 | `gcloud compute accelerator-types describe` | `GcloudComputeAcceleratorTypesDescribeOptions` |
 | `gcloud compute accelerator-types list` | `GcloudComputeAcceleratorTypesListOptions` |
@@ -1363,6 +1417,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute backend-services remove-iam-policy-binding` | `GcloudComputeBackendServicesRemoveIamPolicyBindingOptions` |
 | `gcloud compute backend-services remove-service-bindings` | `GcloudComputeBackendServicesRemoveServiceBindingsOptions` |
 | `gcloud compute backend-services set-iam-policy` | `GcloudComputeBackendServicesSetIamPolicyOptions` |
+| `gcloud compute backend-services test-iam-permissions` | `GcloudComputeBackendServicesTestIamPermissionsOptions` |
 | `gcloud compute backend-services update` | `GcloudComputeBackendServicesUpdateOptions` |
 | `gcloud compute backend-services update-backend` | `GcloudComputeBackendServicesUpdateBackendOptions` |
 | `gcloud compute commitments` | `GcloudComputeCommitmentsOptions` |
@@ -1377,6 +1432,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute composite-health-checks describe` | `GcloudComputeCompositeHealthChecksDescribeOptions` |
 | `gcloud compute composite-health-checks get-health` | `GcloudComputeCompositeHealthChecksGetHealthOptions` |
 | `gcloud compute composite-health-checks list` | `GcloudComputeCompositeHealthChecksListOptions` |
+| `gcloud compute composite-health-checks test-iam-permissions` | `GcloudComputeCompositeHealthChecksTestIamPermissionsOptions` |
 | `gcloud compute composite-health-checks update` | `GcloudComputeCompositeHealthChecksUpdateOptions` |
 | `gcloud compute config-ssh` | `GcloudComputeConfigSshOptions` |
 | `gcloud compute connect-to-serial-port` | `GcloudComputeConnectToSerialPortOptions` |
@@ -1410,6 +1466,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute disks start-async-replication` | `GcloudComputeDisksStartAsyncReplicationOptions` |
 | `gcloud compute disks stop-async-replication` | `GcloudComputeDisksStopAsyncReplicationOptions` |
 | `gcloud compute disks stop-group-async-replication` | `GcloudComputeDisksStopGroupAsyncReplicationOptions` |
+| `gcloud compute disks test-iam-permissions` | `GcloudComputeDisksTestIamPermissionsOptions` |
 | `gcloud compute disks update` | `GcloudComputeDisksUpdateOptions` |
 | `gcloud compute disks update-kms-key` | `GcloudComputeDisksUpdateKmsKeyOptions` |
 | `gcloud compute external-vpn-gateways` | `GcloudComputeExternalVpnGatewaysOptions` |
@@ -1440,6 +1497,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute firewall-policies rules describe` | `GcloudComputeFirewallPoliciesRulesDescribeOptions` |
 | `gcloud compute firewall-policies rules update` | `GcloudComputeFirewallPoliciesRulesUpdateOptions` |
 | `gcloud compute firewall-policies set-iam-policy` | `GcloudComputeFirewallPoliciesSetIamPolicyOptions` |
+| `gcloud compute firewall-policies test-iam-permissions` | `GcloudComputeFirewallPoliciesTestIamPermissionsOptions` |
 | `gcloud compute firewall-policies update` | `GcloudComputeFirewallPoliciesUpdateOptions` |
 | `gcloud compute firewall-rules` | `GcloudComputeFirewallRulesOptions` |
 | `gcloud compute firewall-rules create` | `GcloudComputeFirewallRulesCreateOptions` |
@@ -1504,11 +1562,16 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute health-sources list` | `GcloudComputeHealthSourcesListOptions` |
 | `gcloud compute health-sources test-iam-permissions` | `GcloudComputeHealthSourcesTestIamPermissionsOptions` |
 | `gcloud compute health-sources update` | `GcloudComputeHealthSourcesUpdateOptions` |
+| `gcloud compute hosts` | `GcloudComputeHostsOptions` |
+| `gcloud compute hosts describe` | `GcloudComputeHostsDescribeOptions` |
+| `gcloud compute hosts get-version` | `GcloudComputeHostsGetVersionOptions` |
+| `gcloud compute hosts list` | `GcloudComputeHostsListOptions` |
 | `gcloud compute http-health-checks` | `GcloudComputeHttpHealthChecksOptions` |
 | `gcloud compute http-health-checks create` | `GcloudComputeHttpHealthChecksCreateOptions` |
 | `gcloud compute http-health-checks delete` | `GcloudComputeHttpHealthChecksDeleteOptions` |
 | `gcloud compute http-health-checks describe` | `GcloudComputeHttpHealthChecksDescribeOptions` |
 | `gcloud compute http-health-checks list` | `GcloudComputeHttpHealthChecksListOptions` |
+| `gcloud compute http-health-checks test-iam-permissions` | `GcloudComputeHttpHealthChecksTestIamPermissionsOptions` |
 | `gcloud compute http-health-checks update` | `GcloudComputeHttpHealthChecksUpdateOptions` |
 | `gcloud compute https-health-checks` | `GcloudComputeHttpsHealthChecksOptions` |
 | `gcloud compute https-health-checks create` | `GcloudComputeHttpsHealthChecksCreateOptions` |
@@ -1531,6 +1594,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute images remove-iam-policy-binding` | `GcloudComputeImagesRemoveIamPolicyBindingOptions` |
 | `gcloud compute images remove-labels` | `GcloudComputeImagesRemoveLabelsOptions` |
 | `gcloud compute images set-iam-policy` | `GcloudComputeImagesSetIamPolicyOptions` |
+| `gcloud compute images test-iam-permissions` | `GcloudComputeImagesTestIamPermissionsOptions` |
 | `gcloud compute images update` | `GcloudComputeImagesUpdateOptions` |
 | `gcloud compute instance-groups` | `GcloudComputeInstanceGroupsOptions` |
 | `gcloud compute instance-groups describe` | `GcloudComputeInstanceGroupsDescribeOptions` |
@@ -1668,6 +1732,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute instances stop` | `GcloudComputeInstancesStopOptions` |
 | `gcloud compute instances suspend` | `GcloudComputeInstancesSuspendOptions` |
 | `gcloud compute instances tail-serial-port-output` | `GcloudComputeInstancesTailSerialPortOutputOptions` |
+| `gcloud compute instances test-iam-permissions` | `GcloudComputeInstancesTestIamPermissionsOptions` |
 | `gcloud compute instances update` | `GcloudComputeInstancesUpdateOptions` |
 | `gcloud compute instances update-access-config` | `GcloudComputeInstancesUpdateAccessConfigOptions` |
 | `gcloud compute instances update-container` | `GcloudComputeInstancesUpdateContainerOptions` |
@@ -1677,6 +1742,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute instant-snapshot-groups delete` | `GcloudComputeInstantSnapshotGroupsDeleteOptions` |
 | `gcloud compute instant-snapshot-groups describe` | `GcloudComputeInstantSnapshotGroupsDescribeOptions` |
 | `gcloud compute instant-snapshot-groups list` | `GcloudComputeInstantSnapshotGroupsListOptions` |
+| `gcloud compute instant-snapshot-groups set-iam-policy` | `GcloudComputeInstantSnapshotGroupsSetIamPolicyOptions` |
 | `gcloud compute instant-snapshot-groups test-iam-permissions` | `GcloudComputeInstantSnapshotGroupsTestIamPermissionsOptions` |
 | `gcloud compute instant-snapshots` | `GcloudComputeInstantSnapshotsOptions` |
 | `gcloud compute instant-snapshots add-labels` | `GcloudComputeInstantSnapshotsAddLabelsOptions` |
@@ -1707,6 +1773,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute interconnects attachments groups get-operational-status` | `GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions` |
 | `gcloud compute interconnects attachments groups list` | `GcloudComputeInterconnectsAttachmentsGroupsListOptions` |
 | `gcloud compute interconnects attachments groups remove-members` | `GcloudComputeInterconnectsAttachmentsGroupsRemoveMembersOptions` |
+| `gcloud compute interconnects attachments groups set-iam-policy` | `GcloudComputeInterconnectsAttachmentsGroupsSetIamPolicyOptions` |
 | `gcloud compute interconnects attachments groups test-iam-permissions` | `GcloudComputeInterconnectsAttachmentsGroupsTestIamPermissionsOptions` |
 | `gcloud compute interconnects attachments groups update` | `GcloudComputeInterconnectsAttachmentsGroupsUpdateOptions` |
 | `gcloud compute interconnects attachments l2-forwarding` | `GcloudComputeInterconnectsAttachmentsL2ForwardingOptions` |
@@ -1740,6 +1807,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute interconnects groups get-operational-status` | `GcloudComputeInterconnectsGroupsGetOperationalStatusOptions` |
 | `gcloud compute interconnects groups list` | `GcloudComputeInterconnectsGroupsListOptions` |
 | `gcloud compute interconnects groups remove-members` | `GcloudComputeInterconnectsGroupsRemoveMembersOptions` |
+| `gcloud compute interconnects groups set-iam-policy` | `GcloudComputeInterconnectsGroupsSetIamPolicyOptions` |
 | `gcloud compute interconnects groups update` | `GcloudComputeInterconnectsGroupsUpdateOptions` |
 | `gcloud compute interconnects list` | `GcloudComputeInterconnectsListOptions` |
 | `gcloud compute interconnects locations` | `GcloudComputeInterconnectsLocationsOptions` |
@@ -1837,6 +1905,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute network-firewall-policies rules describe` | `GcloudComputeNetworkFirewallPoliciesRulesDescribeOptions` |
 | `gcloud compute network-firewall-policies rules update` | `GcloudComputeNetworkFirewallPoliciesRulesUpdateOptions` |
 | `gcloud compute network-firewall-policies set-iam-policy` | `GcloudComputeNetworkFirewallPoliciesSetIamPolicyOptions` |
+| `gcloud compute network-firewall-policies test-iam-permissions` | `GcloudComputeNetworkFirewallPoliciesTestIamPermissionsOptions` |
 | `gcloud compute network-firewall-policies update` | `GcloudComputeNetworkFirewallPoliciesUpdateOptions` |
 | `gcloud compute network-profiles` | `GcloudComputeNetworkProfilesOptions` |
 | `gcloud compute network-profiles describe` | `GcloudComputeNetworkProfilesDescribeOptions` |
@@ -1866,6 +1935,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute networks subnets list-usable` | `GcloudComputeNetworksSubnetsListUsableOptions` |
 | `gcloud compute networks subnets remove-iam-policy-binding` | `GcloudComputeNetworksSubnetsRemoveIamPolicyBindingOptions` |
 | `gcloud compute networks subnets set-iam-policy` | `GcloudComputeNetworksSubnetsSetIamPolicyOptions` |
+| `gcloud compute networks subnets test-iam-permissions` | `GcloudComputeNetworksSubnetsTestIamPermissionsOptions` |
 | `gcloud compute networks subnets update` | `GcloudComputeNetworksSubnetsUpdateOptions` |
 | `gcloud compute networks update` | `GcloudComputeNetworksUpdateOptions` |
 | `gcloud compute networks vpc-access` | `GcloudComputeNetworksVpcAccessOptions` |
@@ -1961,6 +2031,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute packet-mirrorings delete` | `GcloudComputePacketMirroringsDeleteOptions` |
 | `gcloud compute packet-mirrorings describe` | `GcloudComputePacketMirroringsDescribeOptions` |
 | `gcloud compute packet-mirrorings list` | `GcloudComputePacketMirroringsListOptions` |
+| `gcloud compute packet-mirrorings test-iam-permissions` | `GcloudComputePacketMirroringsTestIamPermissionsOptions` |
 | `gcloud compute packet-mirrorings update` | `GcloudComputePacketMirroringsUpdateOptions` |
 | `gcloud compute preview-features` | `GcloudComputePreviewFeaturesOptions` |
 | `gcloud compute preview-features describe` | `GcloudComputePreviewFeaturesDescribeOptions` |
@@ -2004,6 +2075,10 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute reservations delete` | `GcloudComputeReservationsDeleteOptions` |
 | `gcloud compute reservations describe` | `GcloudComputeReservationsDescribeOptions` |
 | `gcloud compute reservations get-iam-policy` | `GcloudComputeReservationsGetIamPolicyOptions` |
+| `gcloud compute reservations hosts` | `GcloudComputeReservationsHostsOptions` |
+| `gcloud compute reservations hosts describe` | `GcloudComputeReservationsHostsDescribeOptions` |
+| `gcloud compute reservations hosts get-version` | `GcloudComputeReservationsHostsGetVersionOptions` |
+| `gcloud compute reservations hosts list` | `GcloudComputeReservationsHostsListOptions` |
 | `gcloud compute reservations list` | `GcloudComputeReservationsListOptions` |
 | `gcloud compute reservations perform-maintenance` | `GcloudComputeReservationsPerformMaintenanceOptions` |
 | `gcloud compute reservations remove-iam-policy-binding` | `GcloudComputeReservationsRemoveIamPolicyBindingOptions` |
@@ -2035,6 +2110,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute resource-policies get-iam-policy` | `GcloudComputeResourcePoliciesGetIamPolicyOptions` |
 | `gcloud compute resource-policies list` | `GcloudComputeResourcePoliciesListOptions` |
 | `gcloud compute resource-policies set-iam-policy` | `GcloudComputeResourcePoliciesSetIamPolicyOptions` |
+| `gcloud compute resource-policies test-iam-permissions` | `GcloudComputeResourcePoliciesTestIamPermissionsOptions` |
 | `gcloud compute resource-policies update` | `GcloudComputeResourcePoliciesUpdateOptions` |
 | `gcloud compute resource-policies update instance-schedule` | `GcloudComputeResourcePoliciesUpdateInstanceScheduleOptions` |
 | `gcloud compute resource-policies update snapshot-schedule` | `GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions` |
@@ -2152,6 +2228,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute snapshots remove-iam-policy-binding` | `GcloudComputeSnapshotsRemoveIamPolicyBindingOptions` |
 | `gcloud compute snapshots remove-labels` | `GcloudComputeSnapshotsRemoveLabelsOptions` |
 | `gcloud compute snapshots set-iam-policy` | `GcloudComputeSnapshotsSetIamPolicyOptions` |
+| `gcloud compute snapshots test-iam-permissions` | `GcloudComputeSnapshotsTestIamPermissionsOptions` |
 | `gcloud compute snapshots update` | `GcloudComputeSnapshotsUpdateOptions` |
 | `gcloud compute snapshots update-kms-key` | `GcloudComputeSnapshotsUpdateKmsKeyOptions` |
 | `gcloud compute sole-tenancy` | `GcloudComputeSoleTenancyOptions` |
@@ -2253,6 +2330,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute target-ssl-proxies delete` | `GcloudComputeTargetSslProxiesDeleteOptions` |
 | `gcloud compute target-ssl-proxies describe` | `GcloudComputeTargetSslProxiesDescribeOptions` |
 | `gcloud compute target-ssl-proxies list` | `GcloudComputeTargetSslProxiesListOptions` |
+| `gcloud compute target-ssl-proxies test-iam-permissions` | `GcloudComputeTargetSslProxiesTestIamPermissionsOptions` |
 | `gcloud compute target-ssl-proxies update` | `GcloudComputeTargetSslProxiesUpdateOptions` |
 | `gcloud compute target-tcp-proxies` | `GcloudComputeTargetTcpProxiesOptions` |
 | `gcloud compute target-tcp-proxies create` | `GcloudComputeTargetTcpProxiesCreateOptions` |
@@ -2327,6 +2405,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute vpn-gateways describe` | `GcloudComputeVpnGatewaysDescribeOptions` |
 | `gcloud compute vpn-gateways get-status` | `GcloudComputeVpnGatewaysGetStatusOptions` |
 | `gcloud compute vpn-gateways list` | `GcloudComputeVpnGatewaysListOptions` |
+| `gcloud compute vpn-gateways test-iam-permissions` | `GcloudComputeVpnGatewaysTestIamPermissionsOptions` |
 | `gcloud compute vpn-gateways update` | `GcloudComputeVpnGatewaysUpdateOptions` |
 | `gcloud compute vpn-tunnels` | `GcloudComputeVpnTunnelsOptions` |
 | `gcloud compute vpn-tunnels create` | `GcloudComputeVpnTunnelsCreateOptions` |
@@ -2342,6 +2421,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute zones` | `GcloudComputeZonesOptions` |
 | `gcloud compute zones describe` | `GcloudComputeZonesDescribeOptions` |
 | `gcloud compute zones list` | `GcloudComputeZonesListOptions` |
+| `gcloud config` | `GcloudConfigOptions` |
 | `gcloud config configurations` | `GcloudConfigConfigurationsOptions` |
 | `gcloud config configurations activate` | `GcloudConfigConfigurationsActivateOptions` |
 | `gcloud config configurations create` | `GcloudConfigConfigurationsCreateOptions` |
@@ -2353,6 +2433,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud config list` | `GcloudConfigListOptions` |
 | `gcloud config set` | `GcloudConfigSetOptions` |
 | `gcloud config unset` | `GcloudConfigUnsetOptions` |
+| `gcloud container` | `GcloudContainerOptions` |
 | `gcloud container ai` | `GcloudContainerAiOptions` |
 | `gcloud container ai profiles` | `GcloudContainerAiProfilesOptions` |
 | `gcloud container ai profiles benchmarks` | `GcloudContainerAiProfilesBenchmarksOptions` |
@@ -2881,6 +2962,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud container workload profiles` | `GcloudContainerWorkloadProfilesOptions` |
 | `gcloud container workload profiles manifests` | `GcloudContainerWorkloadProfilesManifestsOptions` |
 | `gcloud container workload profiles manifests create` | `GcloudContainerWorkloadProfilesManifestsCreateOptions` |
+| `gcloud data-catalog` | `GcloudDataCatalogOptions` |
 | `gcloud data-catalog entries` | `GcloudDataCatalogEntriesOptions` |
 | `gcloud data-catalog entries create` | `GcloudDataCatalogEntriesCreateOptions` |
 | `gcloud data-catalog entries delete` | `GcloudDataCatalogEntriesDeleteOptions` |
@@ -2938,6 +3020,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud data-catalog taxonomies policy-tags set-iam-policy` | `GcloudDataCatalogTaxonomiesPolicyTagsSetIamPolicyOptions` |
 | `gcloud data-catalog taxonomies remove-iam-policy-binding` | `GcloudDataCatalogTaxonomiesRemoveIamPolicyBindingOptions` |
 | `gcloud data-catalog taxonomies set-iam-policy` | `GcloudDataCatalogTaxonomiesSetIamPolicyOptions` |
+| `gcloud database-migration` | `GcloudDatabaseMigrationOptions` |
 | `gcloud database-migration connection-profiles` | `GcloudDatabaseMigrationConnectionProfilesOptions` |
 | `gcloud database-migration connection-profiles create` | `GcloudDatabaseMigrationConnectionProfilesCreateOptions` |
 | `gcloud database-migration connection-profiles create alloydb` | `GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions` |
@@ -2997,6 +3080,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud database-migration private-connections delete` | `GcloudDatabaseMigrationPrivateConnectionsDeleteOptions` |
 | `gcloud database-migration private-connections describe` | `GcloudDatabaseMigrationPrivateConnectionsDescribeOptions` |
 | `gcloud database-migration private-connections list` | `GcloudDatabaseMigrationPrivateConnectionsListOptions` |
+| `gcloud dataflow` | `GcloudDataflowOptions` |
 | `gcloud dataflow flex-template` | `GcloudDataflowFlexTemplateOptions` |
 | `gcloud dataflow flex-template build` | `GcloudDataflowFlexTemplateBuildOptions` |
 | `gcloud dataflow flex-template run` | `GcloudDataflowFlexTemplateRunOptions` |
@@ -3006,6 +3090,8 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud dataflow jobs describe` | `GcloudDataflowJobsDescribeOptions` |
 | `gcloud dataflow jobs drain` | `GcloudDataflowJobsDrainOptions` |
 | `gcloud dataflow jobs list` | `GcloudDataflowJobsListOptions` |
+| `gcloud dataflow jobs pause` | `GcloudDataflowJobsPauseOptions` |
+| `gcloud dataflow jobs resume` | `GcloudDataflowJobsResumeOptions` |
 | `gcloud dataflow jobs run` | `GcloudDataflowJobsRunOptions` |
 | `gcloud dataflow jobs show` | `GcloudDataflowJobsShowOptions` |
 | `gcloud dataflow jobs update-options` | `GcloudDataflowJobsUpdateOptionsOptions` |
@@ -3016,6 +3102,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud dataflow snapshots list` | `GcloudDataflowSnapshotsListOptions` |
 | `gcloud dataflow yaml` | `GcloudDataflowYamlOptions` |
 | `gcloud dataflow yaml run` | `GcloudDataflowYamlRunOptions` |
+| `gcloud datalineage` | `GcloudDatalineageOptions` |
 | `gcloud datalineage config` | `GcloudDatalineageConfigOptions` |
 | `gcloud datalineage config describe` | `GcloudDatalineageConfigDescribeOptions` |
 | `gcloud datalineage config update` | `GcloudDatalineageConfigUpdateOptions` |
@@ -3036,6 +3123,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud datalineage runs describe` | `GcloudDatalineageRunsDescribeOptions` |
 | `gcloud datalineage runs list` | `GcloudDatalineageRunsListOptions` |
 | `gcloud datalineage runs update` | `GcloudDatalineageRunsUpdateOptions` |
+| `gcloud dataplex` | `GcloudDataplexOptions` |
 | `gcloud dataplex aspect-types` | `GcloudDataplexAspectTypesOptions` |
 | `gcloud dataplex aspect-types add-iam-policy-binding` | `GcloudDataplexAspectTypesAddIamPolicyBindingOptions` |
 | `gcloud dataplex aspect-types create` | `GcloudDataplexAspectTypesCreateOptions` |
@@ -3183,6 +3271,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud dataplex zones remove-iam-policy-binding` | `GcloudDataplexZonesRemoveIamPolicyBindingOptions` |
 | `gcloud dataplex zones set-iam-policy` | `GcloudDataplexZonesSetIamPolicyOptions` |
 | `gcloud dataplex zones update` | `GcloudDataplexZonesUpdateOptions` |
+| `gcloud dataproc` | `GcloudDataprocOptions` |
 | `gcloud dataproc autoscaling-policies` | `GcloudDataprocAutoscalingPoliciesOptions` |
 | `gcloud dataproc autoscaling-policies delete` | `GcloudDataprocAutoscalingPoliciesDeleteOptions` |
 | `gcloud dataproc autoscaling-policies describe` | `GcloudDataprocAutoscalingPoliciesDescribeOptions` |
@@ -3274,6 +3363,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud dataproc workflow-templates set-dag-timeout` | `GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions` |
 | `gcloud dataproc workflow-templates set-iam-policy` | `GcloudDataprocWorkflowTemplatesSetIamPolicyOptions` |
 | `gcloud dataproc workflow-templates set-managed-cluster` | `GcloudDataprocWorkflowTemplatesSetManagedClusterOptions` |
+| `gcloud datastore` | `GcloudDatastoreOptions` |
 | `gcloud datastore export` | `GcloudDatastoreExportOptions` |
 | `gcloud datastore import` | `GcloudDatastoreImportOptions` |
 | `gcloud datastore indexes` | `GcloudDatastoreIndexesOptions` |
@@ -3286,6 +3376,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud datastore operations delete` | `GcloudDatastoreOperationsDeleteOptions` |
 | `gcloud datastore operations describe` | `GcloudDatastoreOperationsDescribeOptions` |
 | `gcloud datastore operations list` | `GcloudDatastoreOperationsListOptions` |
+| `gcloud datastream` | `GcloudDatastreamOptions` |
 | `gcloud datastream connection-profiles` | `GcloudDatastreamConnectionProfilesOptions` |
 | `gcloud datastream connection-profiles create` | `GcloudDatastreamConnectionProfilesCreateOptions` |
 | `gcloud datastream connection-profiles delete` | `GcloudDatastreamConnectionProfilesDeleteOptions` |
@@ -3324,6 +3415,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud datastream streams describe` | `GcloudDatastreamStreamsDescribeOptions` |
 | `gcloud datastream streams list` | `GcloudDatastreamStreamsListOptions` |
 | `gcloud datastream streams update` | `GcloudDatastreamStreamsUpdateOptions` |
+| `gcloud deploy` | `GcloudDeployOptions` |
 | `gcloud deploy apply` | `GcloudDeployApplyOptions` |
 | `gcloud deploy automation-runs` | `GcloudDeployAutomationRunsOptions` |
 | `gcloud deploy automation-runs cancel` | `GcloudDeployAutomationRunsCancelOptions` |
@@ -3392,6 +3484,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud deploy targets remove-iam-policy-binding` | `GcloudDeployTargetsRemoveIamPolicyBindingOptions` |
 | `gcloud deploy targets rollback` | `GcloudDeployTargetsRollbackOptions` |
 | `gcloud deploy targets set-iam-policy` | `GcloudDeployTargetsSetIamPolicyOptions` |
+| `gcloud deployment-manager` | `GcloudDeploymentManagerOptions` |
 | `gcloud deployment-manager deployments` | `GcloudDeploymentManagerDeploymentsOptions` |
 | `gcloud deployment-manager deployments cancel-preview` | `GcloudDeploymentManagerDeploymentsCancelPreviewOptions` |
 | `gcloud deployment-manager deployments create` | `GcloudDeploymentManagerDeploymentsCreateOptions` |
@@ -3412,6 +3505,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud deployment-manager resources list` | `GcloudDeploymentManagerResourcesListOptions` |
 | `gcloud deployment-manager types` | `GcloudDeploymentManagerTypesOptions` |
 | `gcloud deployment-manager types list` | `GcloudDeploymentManagerTypesListOptions` |
+| `gcloud design-center` | `GcloudDesignCenterOptions` |
 | `gcloud design-center locations` | `GcloudDesignCenterLocationsOptions` |
 | `gcloud design-center locations describe` | `GcloudDesignCenterLocationsDescribeOptions` |
 | `gcloud design-center locations list` | `GcloudDesignCenterLocationsListOptions` |
@@ -3496,6 +3590,13 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud design-center spaces shared-templates revisions list` | `GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions` |
 | `gcloud design-center spaces test-iam-permissions` | `GcloudDesignCenterSpacesTestIamPermissionsOptions` |
 | `gcloud design-center spaces update` | `GcloudDesignCenterSpacesUpdateOptions` |
+| `gcloud developer-connect` | `GcloudDeveloperConnectOptions` |
+| `gcloud developer-connect account-connectors` | `GcloudDeveloperConnectAccountConnectorsOptions` |
+| `gcloud developer-connect account-connectors create` | `GcloudDeveloperConnectAccountConnectorsCreateOptions` |
+| `gcloud developer-connect account-connectors delete` | `GcloudDeveloperConnectAccountConnectorsDeleteOptions` |
+| `gcloud developer-connect account-connectors describe` | `GcloudDeveloperConnectAccountConnectorsDescribeOptions` |
+| `gcloud developer-connect account-connectors list` | `GcloudDeveloperConnectAccountConnectorsListOptions` |
+| `gcloud developer-connect account-connectors update` | `GcloudDeveloperConnectAccountConnectorsUpdateOptions` |
 | `gcloud developer-connect connections` | `GcloudDeveloperConnectConnectionsOptions` |
 | `gcloud developer-connect connections create` | `GcloudDeveloperConnectConnectionsCreateOptions` |
 | `gcloud developer-connect connections delete` | `GcloudDeveloperConnectConnectionsDeleteOptions` |
@@ -3524,6 +3625,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud developer-connect operations describe` | `GcloudDeveloperConnectOperationsDescribeOptions` |
 | `gcloud developer-connect operations list` | `GcloudDeveloperConnectOperationsListOptions` |
 | `gcloud developer-connect operations wait` | `GcloudDeveloperConnectOperationsWaitOptions` |
+| `gcloud dns` | `GcloudDnsOptions` |
 | `gcloud dns dns-keys` | `GcloudDnsDnsKeysOptions` |
 | `gcloud dns dns-keys describe` | `GcloudDnsDnsKeysDescribeOptions` |
 | `gcloud dns dns-keys list` | `GcloudDnsDnsKeysListOptions` |
@@ -3577,6 +3679,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud dns response-policies rules update` | `GcloudDnsResponsePoliciesRulesUpdateOptions` |
 | `gcloud dns response-policies update` | `GcloudDnsResponsePoliciesUpdateOptions` |
 | `gcloud docker` | `GcloudDockerOptions` |
+| `gcloud domains` | `GcloudDomainsOptions` |
 | `gcloud domains list-user-verified` | `GcloudDomainsListUserVerifiedOptions` |
 | `gcloud domains registrations` | `GcloudDomainsRegistrationsOptions` |
 | `gcloud domains registrations authorization-code` | `GcloudDomainsRegistrationsAuthorizationCodeOptions` |
@@ -3603,6 +3706,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud domains registrations search-domains` | `GcloudDomainsRegistrationsSearchDomainsOptions` |
 | `gcloud domains registrations update` | `GcloudDomainsRegistrationsUpdateOptions` |
 | `gcloud domains verify` | `GcloudDomainsVerifyOptions` |
+| `gcloud edge-cache` | `GcloudEdgeCacheOptions` |
 | `gcloud edge-cache keysets` | `GcloudEdgeCacheKeysetsOptions` |
 | `gcloud edge-cache keysets create` | `GcloudEdgeCacheKeysetsCreateOptions` |
 | `gcloud edge-cache keysets delete` | `GcloudEdgeCacheKeysetsDeleteOptions` |
@@ -3630,6 +3734,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud edge-cache services invalidate-cache` | `GcloudEdgeCacheServicesInvalidateCacheOptions` |
 | `gcloud edge-cache services list` | `GcloudEdgeCacheServicesListOptions` |
 | `gcloud edge-cache services update` | `GcloudEdgeCacheServicesUpdateOptions` |
+| `gcloud edge-cloud` | `GcloudEdgeCloudOptions` |
 | `gcloud edge-cloud container` | `GcloudEdgeCloudContainerOptions` |
 | `gcloud edge-cloud container clusters` | `GcloudEdgeCloudContainerClustersOptions` |
 | `gcloud edge-cloud container clusters create` | `GcloudEdgeCloudContainerClustersCreateOptions` |
@@ -3700,12 +3805,16 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud edge-cloud networking subnets list` | `GcloudEdgeCloudNetworkingSubnetsListOptions` |
 | `gcloud edge-cloud networking zones` | `GcloudEdgeCloudNetworkingZonesOptions` |
 | `gcloud edge-cloud networking zones init` | `GcloudEdgeCloudNetworkingZonesInitOptions` |
+| `gcloud edge-cloud zones` | `GcloudEdgeCloudZonesOptions` |
+| `gcloud edge-cloud zones list` | `GcloudEdgeCloudZonesListOptions` |
+| `gcloud emulators` | `GcloudEmulatorsOptions` |
 | `gcloud emulators firestore` | `GcloudEmulatorsFirestoreOptions` |
 | `gcloud emulators firestore start` | `GcloudEmulatorsFirestoreStartOptions` |
 | `gcloud emulators spanner` | `GcloudEmulatorsSpannerOptions` |
 | `gcloud emulators spanner env-init` | `GcloudEmulatorsSpannerEnvInitOptions` |
 | `gcloud emulators spanner notices` | `GcloudEmulatorsSpannerNoticesOptions` |
 | `gcloud emulators spanner start` | `GcloudEmulatorsSpannerStartOptions` |
+| `gcloud endpoints` | `GcloudEndpointsOptions` |
 | `gcloud endpoints configs` | `GcloudEndpointsConfigsOptions` |
 | `gcloud endpoints configs describe` | `GcloudEndpointsConfigsDescribeOptions` |
 | `gcloud endpoints configs list` | `GcloudEndpointsConfigsListOptions` |
@@ -3723,12 +3832,14 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud endpoints services list` | `GcloudEndpointsServicesListOptions` |
 | `gcloud endpoints services remove-iam-policy-binding` | `GcloudEndpointsServicesRemoveIamPolicyBindingOptions` |
 | `gcloud endpoints services undelete` | `GcloudEndpointsServicesUndeleteOptions` |
+| `gcloud essential-contacts` | `GcloudEssentialContactsOptions` |
 | `gcloud essential-contacts compute` | `GcloudEssentialContactsComputeOptions` |
 | `gcloud essential-contacts create` | `GcloudEssentialContactsCreateOptions` |
 | `gcloud essential-contacts delete` | `GcloudEssentialContactsDeleteOptions` |
 | `gcloud essential-contacts describe` | `GcloudEssentialContactsDescribeOptions` |
 | `gcloud essential-contacts list` | `GcloudEssentialContactsListOptions` |
 | `gcloud essential-contacts update` | `GcloudEssentialContactsUpdateOptions` |
+| `gcloud eventarc` | `GcloudEventarcOptions` |
 | `gcloud eventarc audit-logs-provider` | `GcloudEventarcAuditLogsProviderOptions` |
 | `gcloud eventarc audit-logs-provider method-names` | `GcloudEventarcAuditLogsProviderMethodNamesOptions` |
 | `gcloud eventarc audit-logs-provider method-names list` | `GcloudEventarcAuditLogsProviderMethodNamesListOptions` |
@@ -3786,6 +3897,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud eventarc triggers list` | `GcloudEventarcTriggersListOptions` |
 | `gcloud eventarc triggers update` | `GcloudEventarcTriggersUpdateOptions` |
 | `gcloud feedback` | `GcloudFeedbackOptions` |
+| `gcloud filestore` | `GcloudFilestoreOptions` |
 | `gcloud filestore backups` | `GcloudFilestoreBackupsOptions` |
 | `gcloud filestore backups create` | `GcloudFilestoreBackupsCreateOptions` |
 | `gcloud filestore backups delete` | `GcloudFilestoreBackupsDeleteOptions` |
@@ -3820,6 +3932,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud filestore regions list` | `GcloudFilestoreRegionsListOptions` |
 | `gcloud filestore zones` | `GcloudFilestoreZonesOptions` |
 | `gcloud filestore zones list` | `GcloudFilestoreZonesListOptions` |
+| `gcloud firebase` | `GcloudFirebaseOptions` |
 | `gcloud firebase test` | `GcloudFirebaseTestOptions` |
 | `gcloud firebase test android` | `GcloudFirebaseTestAndroidOptions` |
 | `gcloud firebase test android list-device-capacities` | `GcloudFirebaseTestAndroidListDeviceCapacitiesOptions` |
@@ -3848,6 +3961,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud firebase test network-profiles` | `GcloudFirebaseTestNetworkProfilesOptions` |
 | `gcloud firebase test network-profiles describe` | `GcloudFirebaseTestNetworkProfilesDescribeOptions` |
 | `gcloud firebase test network-profiles list` | `GcloudFirebaseTestNetworkProfilesListOptions` |
+| `gcloud firestore` | `GcloudFirestoreOptions` |
 | `gcloud firestore backups` | `GcloudFirestoreBackupsOptions` |
 | `gcloud firestore backups delete` | `GcloudFirestoreBackupsDeleteOptions` |
 | `gcloud firestore backups describe` | `GcloudFirestoreBackupsDescribeOptions` |
@@ -3900,6 +4014,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud firestore user-creds enable` | `GcloudFirestoreUserCredsEnableOptions` |
 | `gcloud firestore user-creds list` | `GcloudFirestoreUserCredsListOptions` |
 | `gcloud firestore user-creds reset-password` | `GcloudFirestoreUserCredsResetPasswordOptions` |
+| `gcloud functions` | `GcloudFunctionsOptions` |
 | `gcloud functions add-iam-policy-binding` | `GcloudFunctionsAddIamPolicyBindingOptions` |
 | `gcloud functions add-invoker-policy-binding` | `GcloudFunctionsAddInvokerPolicyBindingOptions` |
 | `gcloud functions call` | `GcloudFunctionsCallOptions` |
@@ -3920,6 +4035,8 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud functions runtimes` | `GcloudFunctionsRuntimesOptions` |
 | `gcloud functions runtimes list` | `GcloudFunctionsRuntimesListOptions` |
 | `gcloud functions set-iam-policy` | `GcloudFunctionsSetIamPolicyOptions` |
+| `gcloud functions upgrade` | `GcloudFunctionsUpgradeOptions` |
+| `gcloud gemini` | `GcloudGeminiOptions` |
 | `gcloud gemini code-repository-indexes` | `GcloudGeminiCodeRepositoryIndexesOptions` |
 | `gcloud gemini code-repository-indexes create` | `GcloudGeminiCodeRepositoryIndexesCreateOptions` |
 | `gcloud gemini code-repository-indexes delete` | `GcloudGeminiCodeRepositoryIndexesDeleteOptions` |
@@ -4024,6 +4141,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud gemini release-channel-settings setting-bindings list` | `GcloudGeminiReleaseChannelSettingsSettingBindingsListOptions` |
 | `gcloud gemini release-channel-settings setting-bindings update` | `GcloudGeminiReleaseChannelSettingsSettingBindingsUpdateOptions` |
 | `gcloud gemini release-channel-settings update` | `GcloudGeminiReleaseChannelSettingsUpdateOptions` |
+| `gcloud healthcare` | `GcloudHealthcareOptions` |
 | `gcloud healthcare consent-stores` | `GcloudHealthcareConsentStoresOptions` |
 | `gcloud healthcare consent-stores add-iam-policy-binding` | `GcloudHealthcareConsentStoresAddIamPolicyBindingOptions` |
 | `gcloud healthcare consent-stores check-data-access` | `GcloudHealthcareConsentStoresCheckDataAccessOptions` |
@@ -4100,6 +4218,14 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud healthcare operations` | `GcloudHealthcareOperationsOptions` |
 | `gcloud healthcare operations describe` | `GcloudHealthcareOperationsDescribeOptions` |
 | `gcloud healthcare operations list` | `GcloudHealthcareOperationsListOptions` |
+| `gcloud iam` | `GcloudIamOptions` |
+| `gcloud iam access-policies` | `GcloudIamAccessPoliciesOptions` |
+| `gcloud iam access-policies create` | `GcloudIamAccessPoliciesCreateOptions` |
+| `gcloud iam access-policies delete` | `GcloudIamAccessPoliciesDeleteOptions` |
+| `gcloud iam access-policies describe` | `GcloudIamAccessPoliciesDescribeOptions` |
+| `gcloud iam access-policies list` | `GcloudIamAccessPoliciesListOptions` |
+| `gcloud iam access-policies search-policy-bindings` | `GcloudIamAccessPoliciesSearchPolicyBindingsOptions` |
+| `gcloud iam access-policies update` | `GcloudIamAccessPoliciesUpdateOptions` |
 | `gcloud iam list-grantable-roles` | `GcloudIamListGrantableRolesOptions` |
 | `gcloud iam list-testable-permissions` | `GcloudIamListTestablePermissionsOptions` |
 | `gcloud iam oauth-clients` | `GcloudIamOauthClientsOptions` |
@@ -4280,6 +4406,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud iam workload-identity-pools set-iam-policy` | `GcloudIamWorkloadIdentityPoolsSetIamPolicyOptions` |
 | `gcloud iam workload-identity-pools undelete` | `GcloudIamWorkloadIdentityPoolsUndeleteOptions` |
 | `gcloud iam workload-identity-pools update` | `GcloudIamWorkloadIdentityPoolsUpdateOptions` |
+| `gcloud iap` | `GcloudIapOptions` |
 | `gcloud iap oauth-brands` | `GcloudIapOauthBrandsOptions` |
 | `gcloud iap oauth-brands create` | `GcloudIapOauthBrandsCreateOptions` |
 | `gcloud iap oauth-brands describe` | `GcloudIapOauthBrandsDescribeOptions` |
@@ -4311,6 +4438,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud iap web get-iam-policy` | `GcloudIapWebGetIamPolicyOptions` |
 | `gcloud iap web remove-iam-policy-binding` | `GcloudIapWebRemoveIamPolicyBindingOptions` |
 | `gcloud iap web set-iam-policy` | `GcloudIapWebSetIamPolicyOptions` |
+| `gcloud identity` | `GcloudIdentityOptions` |
 | `gcloud identity groups` | `GcloudIdentityGroupsOptions` |
 | `gcloud identity groups create` | `GcloudIdentityGroupsCreateOptions` |
 | `gcloud identity groups delete` | `GcloudIdentityGroupsDeleteOptions` |
@@ -4327,6 +4455,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud identity groups memberships search-transitive-memberships` | `GcloudIdentityGroupsMembershipsSearchTransitiveMembershipsOptions` |
 | `gcloud identity groups search` | `GcloudIdentityGroupsSearchOptions` |
 | `gcloud identity groups update` | `GcloudIdentityGroupsUpdateOptions` |
+| `gcloud ids` | `GcloudIdsOptions` |
 | `gcloud ids endpoints` | `GcloudIdsEndpointsOptions` |
 | `gcloud ids endpoints create` | `GcloudIdsEndpointsCreateOptions` |
 | `gcloud ids endpoints delete` | `GcloudIdsEndpointsDeleteOptions` |
@@ -4334,6 +4463,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud ids endpoints list` | `GcloudIdsEndpointsListOptions` |
 | `gcloud ids endpoints update` | `GcloudIdsEndpointsUpdateOptions` |
 | `gcloud info` | `GcloudInfoOptions` |
+| `gcloud infra-manager` | `GcloudInfraManagerOptions` |
 | `gcloud infra-manager automigrationconfig` | `GcloudInfraManagerAutomigrationconfigOptions` |
 | `gcloud infra-manager automigrationconfig describe` | `GcloudInfraManagerAutomigrationconfigDescribeOptions` |
 | `gcloud infra-manager automigrationconfig disable-auto-migration` | `GcloudInfraManagerAutomigrationconfigDisableAutoMigrationOptions` |
@@ -4371,6 +4501,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud infra-manager terraform-versions describe` | `GcloudInfraManagerTerraformVersionsDescribeOptions` |
 | `gcloud infra-manager terraform-versions list` | `GcloudInfraManagerTerraformVersionsListOptions` |
 | `gcloud init` | `GcloudInitOptions` |
+| `gcloud kms` | `GcloudKmsOptions` |
 | `gcloud kms asymmetric-decrypt` | `GcloudKmsAsymmetricDecryptOptions` |
 | `gcloud kms asymmetric-sign` | `GcloudKmsAsymmetricSignOptions` |
 | `gcloud kms autokey-config` | `GcloudKmsAutokeyConfigOptions` |
@@ -4470,6 +4601,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud kms single-tenant-hsm proposal describe` | `GcloudKmsSingleTenantHsmProposalDescribeOptions` |
 | `gcloud kms single-tenant-hsm proposal execute` | `GcloudKmsSingleTenantHsmProposalExecuteOptions` |
 | `gcloud kms single-tenant-hsm proposal list` | `GcloudKmsSingleTenantHsmProposalListOptions` |
+| `gcloud logging` | `GcloudLoggingOptions` |
 | `gcloud logging buckets` | `GcloudLoggingBucketsOptions` |
 | `gcloud logging buckets create` | `GcloudLoggingBucketsCreateOptions` |
 | `gcloud logging buckets delete` | `GcloudLoggingBucketsDeleteOptions` |
@@ -4536,6 +4668,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud logging views set-iam-policy` | `GcloudLoggingViewsSetIamPolicyOptions` |
 | `gcloud logging views update` | `GcloudLoggingViewsUpdateOptions` |
 | `gcloud logging write` | `GcloudLoggingWriteOptions` |
+| `gcloud looker` | `GcloudLookerOptions` |
 | `gcloud looker backups` | `GcloudLookerBackupsOptions` |
 | `gcloud looker backups create` | `GcloudLookerBackupsCreateOptions` |
 | `gcloud looker backups delete` | `GcloudLookerBackupsDeleteOptions` |
@@ -4557,6 +4690,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud looker operations list` | `GcloudLookerOperationsListOptions` |
 | `gcloud looker regions` | `GcloudLookerRegionsOptions` |
 | `gcloud looker regions list` | `GcloudLookerRegionsListOptions` |
+| `gcloud lustre` | `GcloudLustreOptions` |
 | `gcloud lustre instances` | `GcloudLustreInstancesOptions` |
 | `gcloud lustre instances create` | `GcloudLustreInstancesCreateOptions` |
 | `gcloud lustre instances delete` | `GcloudLustreInstancesDeleteOptions` |
@@ -4572,6 +4706,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud lustre operations describe` | `GcloudLustreOperationsDescribeOptions` |
 | `gcloud lustre operations list` | `GcloudLustreOperationsListOptions` |
 | `gcloud lustre operations wait` | `GcloudLustreOperationsWaitOptions` |
+| `gcloud managed-kafka` | `GcloudManagedKafkaOptions` |
 | `gcloud managed-kafka acls` | `GcloudManagedKafkaAclsOptions` |
 | `gcloud managed-kafka acls add-acl-entry` | `GcloudManagedKafkaAclsAddAclEntryOptions` |
 | `gcloud managed-kafka acls create` | `GcloudManagedKafkaAclsCreateOptions` |
@@ -4616,6 +4751,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud managed-kafka topics describe` | `GcloudManagedKafkaTopicsDescribeOptions` |
 | `gcloud managed-kafka topics list` | `GcloudManagedKafkaTopicsListOptions` |
 | `gcloud managed-kafka topics update` | `GcloudManagedKafkaTopicsUpdateOptions` |
+| `gcloud memcache` | `GcloudMemcacheOptions` |
 | `gcloud memcache instances` | `GcloudMemcacheInstancesOptions` |
 | `gcloud memcache instances apply-parameters` | `GcloudMemcacheInstancesApplyParametersOptions` |
 | `gcloud memcache instances create` | `GcloudMemcacheInstancesCreateOptions` |
@@ -4632,11 +4768,15 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud memcache regions` | `GcloudMemcacheRegionsOptions` |
 | `gcloud memcache regions describe` | `GcloudMemcacheRegionsDescribeOptions` |
 | `gcloud memcache regions list` | `GcloudMemcacheRegionsListOptions` |
+| `gcloud memorystore` | `GcloudMemorystoreOptions` |
 | `gcloud memorystore acl-policies` | `GcloudMemorystoreAclPoliciesOptions` |
 | `gcloud memorystore acl-policies create` | `GcloudMemorystoreAclPoliciesCreateOptions` |
 | `gcloud memorystore acl-policies delete` | `GcloudMemorystoreAclPoliciesDeleteOptions` |
 | `gcloud memorystore acl-policies describe` | `GcloudMemorystoreAclPoliciesDescribeOptions` |
 | `gcloud memorystore acl-policies list` | `GcloudMemorystoreAclPoliciesListOptions` |
+| `gcloud memorystore acl-policies revisions` | `GcloudMemorystoreAclPoliciesRevisionsOptions` |
+| `gcloud memorystore acl-policies revisions describe` | `GcloudMemorystoreAclPoliciesRevisionsDescribeOptions` |
+| `gcloud memorystore acl-policies revisions list` | `GcloudMemorystoreAclPoliciesRevisionsListOptions` |
 | `gcloud memorystore acl-policies update` | `GcloudMemorystoreAclPoliciesUpdateOptions` |
 | `gcloud memorystore backup-collections` | `GcloudMemorystoreBackupCollectionsOptions` |
 | `gcloud memorystore backup-collections backups` | `GcloudMemorystoreBackupCollectionsBackupsOptions` |
@@ -4666,6 +4806,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud memorystore operations delete` | `GcloudMemorystoreOperationsDeleteOptions` |
 | `gcloud memorystore operations describe` | `GcloudMemorystoreOperationsDescribeOptions` |
 | `gcloud memorystore operations list` | `GcloudMemorystoreOperationsListOptions` |
+| `gcloud metastore` | `GcloudMetastoreOptions` |
 | `gcloud metastore federations` | `GcloudMetastoreFederationsOptions` |
 | `gcloud metastore federations add-iam-policy-binding` | `GcloudMetastoreFederationsAddIamPolicyBindingOptions` |
 | `gcloud metastore federations create` | `GcloudMetastoreFederationsCreateOptions` |
@@ -4713,6 +4854,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud metastore services restore` | `GcloudMetastoreServicesRestoreOptions` |
 | `gcloud metastore services set-iam-policy` | `GcloudMetastoreServicesSetIamPolicyOptions` |
 | `gcloud metastore services update` | `GcloudMetastoreServicesUpdateOptions` |
+| `gcloud migration` | `GcloudMigrationOptions` |
 | `gcloud migration vms` | `GcloudMigrationVmsOptions` |
 | `gcloud migration vms image-imports` | `GcloudMigrationVmsImageImportsOptions` |
 | `gcloud migration vms image-imports create` | `GcloudMigrationVmsImageImportsCreateOptions` |
@@ -4726,6 +4868,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud migration vms machine-image-imports list` | `GcloudMigrationVmsMachineImageImportsListOptions` |
 | `gcloud migration vms target-projects` | `GcloudMigrationVmsTargetProjectsOptions` |
 | `gcloud migration vms target-projects list` | `GcloudMigrationVmsTargetProjectsListOptions` |
+| `gcloud ml` | `GcloudMlOptions` |
 | `gcloud ml language` | `GcloudMlLanguageOptions` |
 | `gcloud ml language analyze-entities` | `GcloudMlLanguageAnalyzeEntitiesOptions` |
 | `gcloud ml language analyze-entity-sentiment` | `GcloudMlLanguageAnalyzeEntitySentimentOptions` |
@@ -4759,6 +4902,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud ml vision detect-text-tiff` | `GcloudMlVisionDetectTextTiffOptions` |
 | `gcloud ml vision detect-web` | `GcloudMlVisionDetectWebOptions` |
 | `gcloud ml vision suggest-crop` | `GcloudMlVisionSuggestCropOptions` |
+| `gcloud model-armor` | `GcloudModelArmorOptions` |
 | `gcloud model-armor floorsettings` | `GcloudModelArmorFloorsettingsOptions` |
 | `gcloud model-armor floorsettings describe` | `GcloudModelArmorFloorsettingsDescribeOptions` |
 | `gcloud model-armor floorsettings update` | `GcloudModelArmorFloorsettingsUpdateOptions` |
@@ -4770,6 +4914,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud model-armor templates sanitize-model-response` | `GcloudModelArmorTemplatesSanitizeModelResponseOptions` |
 | `gcloud model-armor templates sanitize-user-prompt` | `GcloudModelArmorTemplatesSanitizeUserPromptOptions` |
 | `gcloud model-armor templates update` | `GcloudModelArmorTemplatesUpdateOptions` |
+| `gcloud monitoring` | `GcloudMonitoringOptions` |
 | `gcloud monitoring dashboards` | `GcloudMonitoringDashboardsOptions` |
 | `gcloud monitoring dashboards create` | `GcloudMonitoringDashboardsCreateOptions` |
 | `gcloud monitoring dashboards delete` | `GcloudMonitoringDashboardsDeleteOptions` |
@@ -4801,6 +4946,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud monitoring uptime list-configs` | `GcloudMonitoringUptimeListConfigsOptions` |
 | `gcloud monitoring uptime list-ips` | `GcloudMonitoringUptimeListIpsOptions` |
 | `gcloud monitoring uptime update` | `GcloudMonitoringUptimeUpdateOptions` |
+| `gcloud netapp` | `GcloudNetappOptions` |
 | `gcloud netapp active-directories` | `GcloudNetappActiveDirectoriesOptions` |
 | `gcloud netapp active-directories create` | `GcloudNetappActiveDirectoriesCreateOptions` |
 | `gcloud netapp active-directories delete` | `GcloudNetappActiveDirectoriesDeleteOptions` |
@@ -4862,6 +5008,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud netapp volumes delete` | `GcloudNetappVolumesDeleteOptions` |
 | `gcloud netapp volumes describe` | `GcloudNetappVolumesDescribeOptions` |
 | `gcloud netapp volumes establish-peering` | `GcloudNetappVolumesEstablishPeeringOptions` |
+| `gcloud netapp volumes get-split-status` | `GcloudNetappVolumesGetSplitStatusOptions` |
 | `gcloud netapp volumes list` | `GcloudNetappVolumesListOptions` |
 | `gcloud netapp volumes quota-rules` | `GcloudNetappVolumesQuotaRulesOptions` |
 | `gcloud netapp volumes quota-rules create` | `GcloudNetappVolumesQuotaRulesCreateOptions` |
@@ -4888,7 +5035,9 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud netapp volumes snapshots describe` | `GcloudNetappVolumesSnapshotsDescribeOptions` |
 | `gcloud netapp volumes snapshots list` | `GcloudNetappVolumesSnapshotsListOptions` |
 | `gcloud netapp volumes snapshots update` | `GcloudNetappVolumesSnapshotsUpdateOptions` |
+| `gcloud netapp volumes start-split` | `GcloudNetappVolumesStartSplitOptions` |
 | `gcloud netapp volumes update` | `GcloudNetappVolumesUpdateOptions` |
+| `gcloud network-connectivity` | `GcloudNetworkConnectivityOptions` |
 | `gcloud network-connectivity hubs` | `GcloudNetworkConnectivityHubsOptions` |
 | `gcloud network-connectivity hubs accept-spoke` | `GcloudNetworkConnectivityHubsAcceptSpokeOptions` |
 | `gcloud network-connectivity hubs accept-spoke-update` | `GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions` |
@@ -4998,6 +5147,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud network-connectivity transports remote-profiles describe` | `GcloudNetworkConnectivityTransportsRemoteProfilesDescribeOptions` |
 | `gcloud network-connectivity transports remote-profiles list` | `GcloudNetworkConnectivityTransportsRemoteProfilesListOptions` |
 | `gcloud network-connectivity transports update` | `GcloudNetworkConnectivityTransportsUpdateOptions` |
+| `gcloud network-management` | `GcloudNetworkManagementOptions` |
 | `gcloud network-management connectivity-tests` | `GcloudNetworkManagementConnectivityTestsOptions` |
 | `gcloud network-management connectivity-tests create` | `GcloudNetworkManagementConnectivityTestsCreateOptions` |
 | `gcloud network-management connectivity-tests delete` | `GcloudNetworkManagementConnectivityTestsDeleteOptions` |
@@ -5035,6 +5185,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud network-management vpc-flow-logs-configs query-org-vpc-flow-logs-configs` | `GcloudNetworkManagementVpcFlowLogsConfigsQueryOrgVpcFlowLogsConfigsOptions` |
 | `gcloud network-management vpc-flow-logs-configs show-effective-flow-logs-configs` | `GcloudNetworkManagementVpcFlowLogsConfigsShowEffectiveFlowLogsConfigsOptions` |
 | `gcloud network-management vpc-flow-logs-configs update` | `GcloudNetworkManagementVpcFlowLogsConfigsUpdateOptions` |
+| `gcloud network-security` | `GcloudNetworkSecurityOptions` |
 | `gcloud network-security address-groups` | `GcloudNetworkSecurityAddressGroupsOptions` |
 | `gcloud network-security address-groups add-items` | `GcloudNetworkSecurityAddressGroupsAddItemsOptions` |
 | `gcloud network-security address-groups clone-items` | `GcloudNetworkSecurityAddressGroupsCloneItemsOptions` |
@@ -5228,6 +5379,13 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud network-security url-lists export` | `GcloudNetworkSecurityUrlListsExportOptions` |
 | `gcloud network-security url-lists import` | `GcloudNetworkSecurityUrlListsImportOptions` |
 | `gcloud network-security url-lists list` | `GcloudNetworkSecurityUrlListsListOptions` |
+| `gcloud network-services` | `GcloudNetworkServicesOptions` |
+| `gcloud network-services agent-connectivity-templates` | `GcloudNetworkServicesAgentConnectivityTemplatesOptions` |
+| `gcloud network-services agent-connectivity-templates delete` | `GcloudNetworkServicesAgentConnectivityTemplatesDeleteOptions` |
+| `gcloud network-services agent-connectivity-templates describe` | `GcloudNetworkServicesAgentConnectivityTemplatesDescribeOptions` |
+| `gcloud network-services agent-connectivity-templates export` | `GcloudNetworkServicesAgentConnectivityTemplatesExportOptions` |
+| `gcloud network-services agent-connectivity-templates import` | `GcloudNetworkServicesAgentConnectivityTemplatesImportOptions` |
+| `gcloud network-services agent-connectivity-templates list` | `GcloudNetworkServicesAgentConnectivityTemplatesListOptions` |
 | `gcloud network-services agent-gateways` | `GcloudNetworkServicesAgentGatewaysOptions` |
 | `gcloud network-services agent-gateways delete` | `GcloudNetworkServicesAgentGatewaysDeleteOptions` |
 | `gcloud network-services agent-gateways describe` | `GcloudNetworkServicesAgentGatewaysDescribeOptions` |
@@ -5354,6 +5512,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud network-services tls-routes export` | `GcloudNetworkServicesTlsRoutesExportOptions` |
 | `gcloud network-services tls-routes import` | `GcloudNetworkServicesTlsRoutesImportOptions` |
 | `gcloud network-services tls-routes list` | `GcloudNetworkServicesTlsRoutesListOptions` |
+| `gcloud notebooks` | `GcloudNotebooksOptions` |
 | `gcloud notebooks environments` | `GcloudNotebooksEnvironmentsOptions` |
 | `gcloud notebooks environments create` | `GcloudNotebooksEnvironmentsCreateOptions` |
 | `gcloud notebooks environments delete` | `GcloudNotebooksEnvironmentsDeleteOptions` |
@@ -5392,6 +5551,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud notebooks runtimes start` | `GcloudNotebooksRuntimesStartOptions` |
 | `gcloud notebooks runtimes stop` | `GcloudNotebooksRuntimesStopOptions` |
 | `gcloud notebooks runtimes switch` | `GcloudNotebooksRuntimesSwitchOptions` |
+| `gcloud observability` | `GcloudObservabilityOptions` |
 | `gcloud observability scopes` | `GcloudObservabilityScopesOptions` |
 | `gcloud observability scopes describe` | `GcloudObservabilityScopesDescribeOptions` |
 | `gcloud observability scopes update` | `GcloudObservabilityScopesUpdateOptions` |
@@ -5401,6 +5561,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud observability trace-scopes describe` | `GcloudObservabilityTraceScopesDescribeOptions` |
 | `gcloud observability trace-scopes list` | `GcloudObservabilityTraceScopesListOptions` |
 | `gcloud observability trace-scopes update` | `GcloudObservabilityTraceScopesUpdateOptions` |
+| `gcloud oracle-database` | `GcloudOracleDatabaseOptions` |
 | `gcloud oracle-database autonomous-database-backups` | `GcloudOracleDatabaseAutonomousDatabaseBackupsOptions` |
 | `gcloud oracle-database autonomous-database-backups list` | `GcloudOracleDatabaseAutonomousDatabaseBackupsListOptions` |
 | `gcloud oracle-database autonomous-database-character-sets` | `GcloudOracleDatabaseAutonomousDatabaseCharacterSetsOptions` |
@@ -5516,6 +5677,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud oracle-database pluggable-databases` | `GcloudOracleDatabasePluggableDatabasesOptions` |
 | `gcloud oracle-database pluggable-databases describe` | `GcloudOracleDatabasePluggableDatabasesDescribeOptions` |
 | `gcloud oracle-database pluggable-databases list` | `GcloudOracleDatabasePluggableDatabasesListOptions` |
+| `gcloud org-policies` | `GcloudOrgPoliciesOptions` |
 | `gcloud org-policies delete` | `GcloudOrgPoliciesDeleteOptions` |
 | `gcloud org-policies delete-custom-constraint` | `GcloudOrgPoliciesDeleteCustomConstraintOptions` |
 | `gcloud org-policies describe` | `GcloudOrgPoliciesDescribeOptions` |
@@ -5525,12 +5687,14 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud org-policies reset` | `GcloudOrgPoliciesResetOptions` |
 | `gcloud org-policies set-custom-constraint` | `GcloudOrgPoliciesSetCustomConstraintOptions` |
 | `gcloud org-policies set-policy` | `GcloudOrgPoliciesSetPolicyOptions` |
+| `gcloud organizations` | `GcloudOrganizationsOptions` |
 | `gcloud organizations add-iam-policy-binding` | `GcloudOrganizationsAddIamPolicyBindingOptions` |
 | `gcloud organizations describe` | `GcloudOrganizationsDescribeOptions` |
 | `gcloud organizations get-iam-policy` | `GcloudOrganizationsGetIamPolicyOptions` |
 | `gcloud organizations list` | `GcloudOrganizationsListOptions` |
 | `gcloud organizations remove-iam-policy-binding` | `GcloudOrganizationsRemoveIamPolicyBindingOptions` |
 | `gcloud organizations set-iam-policy` | `GcloudOrganizationsSetIamPolicyOptions` |
+| `gcloud pam` | `GcloudPamOptions` |
 | `gcloud pam check-onboarding-status` | `GcloudPamCheckOnboardingStatusOptions` |
 | `gcloud pam entitlements` | `GcloudPamEntitlementsOptions` |
 | `gcloud pam entitlements create` | `GcloudPamEntitlementsCreateOptions` |
@@ -5553,6 +5717,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud pam operations describe` | `GcloudPamOperationsDescribeOptions` |
 | `gcloud pam operations list` | `GcloudPamOperationsListOptions` |
 | `gcloud pam operations wait` | `GcloudPamOperationsWaitOptions` |
+| `gcloud parametermanager` | `GcloudParametermanagerOptions` |
 | `gcloud parametermanager parameters` | `GcloudParametermanagerParametersOptions` |
 | `gcloud parametermanager parameters create` | `GcloudParametermanagerParametersCreateOptions` |
 | `gcloud parametermanager parameters delete` | `GcloudParametermanagerParametersDeleteOptions` |
@@ -5566,12 +5731,17 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud parametermanager parameters versions list` | `GcloudParametermanagerParametersVersionsListOptions` |
 | `gcloud parametermanager parameters versions render` | `GcloudParametermanagerParametersVersionsRenderOptions` |
 | `gcloud parametermanager parameters versions update` | `GcloudParametermanagerParametersVersionsUpdateOptions` |
+| `gcloud parametermanager templates` | `GcloudParameterManagerTemplatesOptions` |
+| `gcloud parametermanager templates versions` | `GcloudParameterManagerTemplatesVersionsOptions` |
+| `gcloud policy-intelligence` | `GcloudPolicyIntelligenceOptions` |
 | `gcloud policy-intelligence query-activity` | `GcloudPolicyIntelligenceQueryActivityOptions` |
 | `gcloud policy-intelligence simulate` | `GcloudPolicyIntelligenceSimulateOptions` |
 | `gcloud policy-intelligence simulate orgpolicy` | `GcloudPolicyIntelligenceSimulateOrgpolicyOptions` |
 | `gcloud policy-intelligence troubleshoot-policy` | `GcloudPolicyIntelligenceTroubleshootPolicyOptions` |
 | `gcloud policy-intelligence troubleshoot-policy iam` | `GcloudPolicyIntelligenceTroubleshootPolicyIamOptions` |
+| `gcloud policy-troubleshoot` | `GcloudPolicyTroubleshootOptions` |
 | `gcloud policy-troubleshoot iam` | `GcloudPolicyTroubleshootIamOptions` |
+| `gcloud preview` | `GcloudPreviewOptions` |
 | `gcloud preview compute` | `GcloudPreviewComputeOptions` |
 | `gcloud preview compute accelerator-types` | `GcloudPreviewComputeAcceleratorTypesOptions` |
 | `gcloud preview compute accelerator-types describe` | `GcloudPreviewComputeAcceleratorTypesDescribeOptions` |
@@ -5617,6 +5787,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute backend-services remove-iam-policy-binding` | `GcloudPreviewComputeBackendServicesRemoveIamPolicyBindingOptions` |
 | `gcloud preview compute backend-services remove-service-bindings` | `GcloudPreviewComputeBackendServicesRemoveServiceBindingsOptions` |
 | `gcloud preview compute backend-services set-iam-policy` | `GcloudPreviewComputeBackendServicesSetIamPolicyOptions` |
+| `gcloud preview compute backend-services test-iam-permissions` | `GcloudPreviewComputeBackendServicesTestIamPermissionsOptions` |
 | `gcloud preview compute backend-services update` | `GcloudPreviewComputeBackendServicesUpdateOptions` |
 | `gcloud preview compute backend-services update-backend` | `GcloudPreviewComputeBackendServicesUpdateBackendOptions` |
 | `gcloud preview compute commitments` | `GcloudPreviewComputeCommitmentsOptions` |
@@ -5657,6 +5828,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute disks start-async-replication` | `GcloudPreviewComputeDisksStartAsyncReplicationOptions` |
 | `gcloud preview compute disks stop-async-replication` | `GcloudPreviewComputeDisksStopAsyncReplicationOptions` |
 | `gcloud preview compute disks stop-group-async-replication` | `GcloudPreviewComputeDisksStopGroupAsyncReplicationOptions` |
+| `gcloud preview compute disks test-iam-permissions` | `GcloudPreviewComputeDisksTestIamPermissionsOptions` |
 | `gcloud preview compute disks update` | `GcloudPreviewComputeDisksUpdateOptions` |
 | `gcloud preview compute disks update-kms-key` | `GcloudPreviewComputeDisksUpdateKmsKeyOptions` |
 | `gcloud preview compute external-vpn-gateways` | `GcloudPreviewComputeExternalVpnGatewaysOptions` |
@@ -5687,6 +5859,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute firewall-policies rules describe` | `GcloudPreviewComputeFirewallPoliciesRulesDescribeOptions` |
 | `gcloud preview compute firewall-policies rules update` | `GcloudPreviewComputeFirewallPoliciesRulesUpdateOptions` |
 | `gcloud preview compute firewall-policies set-iam-policy` | `GcloudPreviewComputeFirewallPoliciesSetIamPolicyOptions` |
+| `gcloud preview compute firewall-policies test-iam-permissions` | `GcloudPreviewComputeFirewallPoliciesTestIamPermissionsOptions` |
 | `gcloud preview compute firewall-policies update` | `GcloudPreviewComputeFirewallPoliciesUpdateOptions` |
 | `gcloud preview compute firewall-rules` | `GcloudPreviewComputeFirewallRulesOptions` |
 | `gcloud preview compute firewall-rules create` | `GcloudPreviewComputeFirewallRulesCreateOptions` |
@@ -5736,6 +5909,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute http-health-checks delete` | `GcloudPreviewComputeHttpHealthChecksDeleteOptions` |
 | `gcloud preview compute http-health-checks describe` | `GcloudPreviewComputeHttpHealthChecksDescribeOptions` |
 | `gcloud preview compute http-health-checks list` | `GcloudPreviewComputeHttpHealthChecksListOptions` |
+| `gcloud preview compute http-health-checks test-iam-permissions` | `GcloudPreviewComputeHttpHealthChecksTestIamPermissionsOptions` |
 | `gcloud preview compute http-health-checks update` | `GcloudPreviewComputeHttpHealthChecksUpdateOptions` |
 | `gcloud preview compute https-health-checks` | `GcloudPreviewComputeHttpsHealthChecksOptions` |
 | `gcloud preview compute https-health-checks create` | `GcloudPreviewComputeHttpsHealthChecksCreateOptions` |
@@ -5758,6 +5932,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute images remove-iam-policy-binding` | `GcloudPreviewComputeImagesRemoveIamPolicyBindingOptions` |
 | `gcloud preview compute images remove-labels` | `GcloudPreviewComputeImagesRemoveLabelsOptions` |
 | `gcloud preview compute images set-iam-policy` | `GcloudPreviewComputeImagesSetIamPolicyOptions` |
+| `gcloud preview compute images test-iam-permissions` | `GcloudPreviewComputeImagesTestIamPermissionsOptions` |
 | `gcloud preview compute images update` | `GcloudPreviewComputeImagesUpdateOptions` |
 | `gcloud preview compute instance-groups` | `GcloudPreviewComputeInstanceGroupsOptions` |
 | `gcloud preview compute instance-groups describe` | `GcloudPreviewComputeInstanceGroupsDescribeOptions` |
@@ -5895,6 +6070,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute instances stop` | `GcloudPreviewComputeInstancesStopOptions` |
 | `gcloud preview compute instances suspend` | `GcloudPreviewComputeInstancesSuspendOptions` |
 | `gcloud preview compute instances tail-serial-port-output` | `GcloudPreviewComputeInstancesTailSerialPortOutputOptions` |
+| `gcloud preview compute instances test-iam-permissions` | `GcloudPreviewComputeInstancesTestIamPermissionsOptions` |
 | `gcloud preview compute instances update` | `GcloudPreviewComputeInstancesUpdateOptions` |
 | `gcloud preview compute instances update-access-config` | `GcloudPreviewComputeInstancesUpdateAccessConfigOptions` |
 | `gcloud preview compute instances update-container` | `GcloudPreviewComputeInstancesUpdateContainerOptions` |
@@ -5929,6 +6105,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute interconnects attachments groups get-operational-status` | `GcloudPreviewComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions` |
 | `gcloud preview compute interconnects attachments groups list` | `GcloudPreviewComputeInterconnectsAttachmentsGroupsListOptions` |
 | `gcloud preview compute interconnects attachments groups remove-members` | `GcloudPreviewComputeInterconnectsAttachmentsGroupsRemoveMembersOptions` |
+| `gcloud preview compute interconnects attachments groups set-iam-policy` | `GcloudPreviewComputeInterconnectsAttachmentsGroupsSetIamPolicyOptions` |
 | `gcloud preview compute interconnects attachments groups test-iam-permissions` | `GcloudPreviewComputeInterconnectsAttachmentsGroupsTestIamPermissionsOptions` |
 | `gcloud preview compute interconnects attachments groups update` | `GcloudPreviewComputeInterconnectsAttachmentsGroupsUpdateOptions` |
 | `gcloud preview compute interconnects attachments l2-forwarding` | `GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingOptions` |
@@ -5962,6 +6139,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute interconnects groups get-operational-status` | `GcloudPreviewComputeInterconnectsGroupsGetOperationalStatusOptions` |
 | `gcloud preview compute interconnects groups list` | `GcloudPreviewComputeInterconnectsGroupsListOptions` |
 | `gcloud preview compute interconnects groups remove-members` | `GcloudPreviewComputeInterconnectsGroupsRemoveMembersOptions` |
+| `gcloud preview compute interconnects groups set-iam-policy` | `GcloudPreviewComputeInterconnectsGroupsSetIamPolicyOptions` |
 | `gcloud preview compute interconnects groups update` | `GcloudPreviewComputeInterconnectsGroupsUpdateOptions` |
 | `gcloud preview compute interconnects list` | `GcloudPreviewComputeInterconnectsListOptions` |
 | `gcloud preview compute interconnects locations` | `GcloudPreviewComputeInterconnectsLocationsOptions` |
@@ -6046,6 +6224,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute network-firewall-policies rules describe` | `GcloudPreviewComputeNetworkFirewallPoliciesRulesDescribeOptions` |
 | `gcloud preview compute network-firewall-policies rules update` | `GcloudPreviewComputeNetworkFirewallPoliciesRulesUpdateOptions` |
 | `gcloud preview compute network-firewall-policies set-iam-policy` | `GcloudPreviewComputeNetworkFirewallPoliciesSetIamPolicyOptions` |
+| `gcloud preview compute network-firewall-policies test-iam-permissions` | `GcloudPreviewComputeNetworkFirewallPoliciesTestIamPermissionsOptions` |
 | `gcloud preview compute network-firewall-policies update` | `GcloudPreviewComputeNetworkFirewallPoliciesUpdateOptions` |
 | `gcloud preview compute network-profiles` | `GcloudPreviewComputeNetworkProfilesOptions` |
 | `gcloud preview compute network-profiles describe` | `GcloudPreviewComputeNetworkProfilesDescribeOptions` |
@@ -6074,6 +6253,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute networks subnets list-usable` | `GcloudPreviewComputeNetworksSubnetsListUsableOptions` |
 | `gcloud preview compute networks subnets remove-iam-policy-binding` | `GcloudPreviewComputeNetworksSubnetsRemoveIamPolicyBindingOptions` |
 | `gcloud preview compute networks subnets set-iam-policy` | `GcloudPreviewComputeNetworksSubnetsSetIamPolicyOptions` |
+| `gcloud preview compute networks subnets test-iam-permissions` | `GcloudPreviewComputeNetworksSubnetsTestIamPermissionsOptions` |
 | `gcloud preview compute networks subnets update` | `GcloudPreviewComputeNetworksSubnetsUpdateOptions` |
 | `gcloud preview compute networks update` | `GcloudPreviewComputeNetworksUpdateOptions` |
 | `gcloud preview compute networks vpc-access` | `GcloudPreviewComputeNetworksVpcAccessOptions` |
@@ -6116,6 +6296,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute packet-mirrorings delete` | `GcloudPreviewComputePacketMirroringsDeleteOptions` |
 | `gcloud preview compute packet-mirrorings describe` | `GcloudPreviewComputePacketMirroringsDescribeOptions` |
 | `gcloud preview compute packet-mirrorings list` | `GcloudPreviewComputePacketMirroringsListOptions` |
+| `gcloud preview compute packet-mirrorings test-iam-permissions` | `GcloudPreviewComputePacketMirroringsTestIamPermissionsOptions` |
 | `gcloud preview compute packet-mirrorings update` | `GcloudPreviewComputePacketMirroringsUpdateOptions` |
 | `gcloud preview compute preview-features` | `GcloudPreviewComputePreviewFeaturesOptions` |
 | `gcloud preview compute preview-features describe` | `GcloudPreviewComputePreviewFeaturesDescribeOptions` |
@@ -6188,6 +6369,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute resource-policies get-iam-policy` | `GcloudPreviewComputeResourcePoliciesGetIamPolicyOptions` |
 | `gcloud preview compute resource-policies list` | `GcloudPreviewComputeResourcePoliciesListOptions` |
 | `gcloud preview compute resource-policies set-iam-policy` | `GcloudPreviewComputeResourcePoliciesSetIamPolicyOptions` |
+| `gcloud preview compute resource-policies test-iam-permissions` | `GcloudPreviewComputeResourcePoliciesTestIamPermissionsOptions` |
 | `gcloud preview compute resource-policies update` | `GcloudPreviewComputeResourcePoliciesUpdateOptions` |
 | `gcloud preview compute resource-policies update instance-schedule` | `GcloudPreviewComputeResourcePoliciesUpdateInstanceScheduleOptions` |
 | `gcloud preview compute resource-policies update snapshot-schedule` | `GcloudPreviewComputeResourcePoliciesUpdateSnapshotScheduleOptions` |
@@ -6295,6 +6477,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute snapshots remove-iam-policy-binding` | `GcloudPreviewComputeSnapshotsRemoveIamPolicyBindingOptions` |
 | `gcloud preview compute snapshots remove-labels` | `GcloudPreviewComputeSnapshotsRemoveLabelsOptions` |
 | `gcloud preview compute snapshots set-iam-policy` | `GcloudPreviewComputeSnapshotsSetIamPolicyOptions` |
+| `gcloud preview compute snapshots test-iam-permissions` | `GcloudPreviewComputeSnapshotsTestIamPermissionsOptions` |
 | `gcloud preview compute snapshots update` | `GcloudPreviewComputeSnapshotsUpdateOptions` |
 | `gcloud preview compute snapshots update-kms-key` | `GcloudPreviewComputeSnapshotsUpdateKmsKeyOptions` |
 | `gcloud preview compute sole-tenancy` | `GcloudPreviewComputeSoleTenancyOptions` |
@@ -6397,6 +6580,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute target-ssl-proxies delete` | `GcloudPreviewComputeTargetSslProxiesDeleteOptions` |
 | `gcloud preview compute target-ssl-proxies describe` | `GcloudPreviewComputeTargetSslProxiesDescribeOptions` |
 | `gcloud preview compute target-ssl-proxies list` | `GcloudPreviewComputeTargetSslProxiesListOptions` |
+| `gcloud preview compute target-ssl-proxies test-iam-permissions` | `GcloudPreviewComputeTargetSslProxiesTestIamPermissionsOptions` |
 | `gcloud preview compute target-ssl-proxies update` | `GcloudPreviewComputeTargetSslProxiesUpdateOptions` |
 | `gcloud preview compute target-tcp-proxies` | `GcloudPreviewComputeTargetTcpProxiesOptions` |
 | `gcloud preview compute target-tcp-proxies create` | `GcloudPreviewComputeTargetTcpProxiesCreateOptions` |
@@ -6432,6 +6616,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute vpn-gateways describe` | `GcloudPreviewComputeVpnGatewaysDescribeOptions` |
 | `gcloud preview compute vpn-gateways get-status` | `GcloudPreviewComputeVpnGatewaysGetStatusOptions` |
 | `gcloud preview compute vpn-gateways list` | `GcloudPreviewComputeVpnGatewaysListOptions` |
+| `gcloud preview compute vpn-gateways test-iam-permissions` | `GcloudPreviewComputeVpnGatewaysTestIamPermissionsOptions` |
 | `gcloud preview compute vpn-gateways update` | `GcloudPreviewComputeVpnGatewaysUpdateOptions` |
 | `gcloud preview compute vpn-tunnels` | `GcloudPreviewComputeVpnTunnelsOptions` |
 | `gcloud preview compute vpn-tunnels create` | `GcloudPreviewComputeVpnTunnelsCreateOptions` |
@@ -6455,6 +6640,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview config unset` | `GcloudPreviewConfigUnsetOptions` |
 | `gcloud preview init` | `GcloudPreviewInitOptions` |
 | `gcloud preview survey` | `GcloudPreviewSurveyOptions` |
+| `gcloud privateca` | `GcloudPrivatecaOptions` |
 | `gcloud privateca certificates` | `GcloudPrivatecaCertificatesOptions` |
 | `gcloud privateca certificates create` | `GcloudPrivatecaCertificatesCreateOptions` |
 | `gcloud privateca certificates describe` | `GcloudPrivatecaCertificatesDescribeOptions` |
@@ -6509,6 +6695,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud privateca templates replicate` | `GcloudPrivatecaTemplatesReplicateOptions` |
 | `gcloud privateca templates set-iam-policy` | `GcloudPrivatecaTemplatesSetIamPolicyOptions` |
 | `gcloud privateca templates update` | `GcloudPrivatecaTemplatesUpdateOptions` |
+| `gcloud projects` | `GcloudProjectsOptions` |
 | `gcloud projects add-iam-policy-binding` | `GcloudProjectsAddIamPolicyBindingOptions` |
 | `gcloud projects create` | `GcloudProjectsCreateOptions` |
 | `gcloud projects delete` | `GcloudProjectsDeleteOptions` |
@@ -6521,8 +6708,10 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud projects set-iam-policy` | `GcloudProjectsSetIamPolicyOptions` |
 | `gcloud projects undelete` | `GcloudProjectsUndeleteOptions` |
 | `gcloud projects update` | `GcloudProjectsUpdateOptions` |
+| `gcloud publicca` | `GcloudPubliccaOptions` |
 | `gcloud publicca external-account-keys` | `GcloudPubliccaExternalAccountKeysOptions` |
 | `gcloud publicca external-account-keys create` | `GcloudPubliccaExternalAccountKeysCreateOptions` |
+| `gcloud pubsub` | `GcloudPubsubOptions` |
 | `gcloud pubsub lite-operations` | `GcloudPubsubLiteOperationsOptions` |
 | `gcloud pubsub lite-operations describe` | `GcloudPubsubLiteOperationsDescribeOptions` |
 | `gcloud pubsub lite-operations list` | `GcloudPubsubLiteOperationsListOptions` |
@@ -6597,6 +6786,20 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud pubsub topics remove-iam-policy-binding` | `GcloudPubsubTopicsRemoveIamPolicyBindingOptions` |
 | `gcloud pubsub topics set-iam-policy` | `GcloudPubsubTopicsSetIamPolicyOptions` |
 | `gcloud pubsub topics update` | `GcloudPubsubTopicsUpdateOptions` |
+| `gcloud quotas` | `GcloudQuotasOptions` |
+| `gcloud quotas adjuster` | `GcloudQuotasAdjusterOptions` |
+| `gcloud quotas adjuster settings` | `GcloudQuotasAdjusterSettingsOptions` |
+| `gcloud quotas adjuster settings describe` | `GcloudQuotasAdjusterSettingsDescribeOptions` |
+| `gcloud quotas adjuster settings update` | `GcloudQuotasAdjusterSettingsUpdateOptions` |
+| `gcloud quotas info` | `GcloudQuotasInfoOptions` |
+| `gcloud quotas info describe` | `GcloudQuotasInfoDescribeOptions` |
+| `gcloud quotas info list` | `GcloudQuotasInfoListOptions` |
+| `gcloud quotas preferences` | `GcloudQuotasPreferencesOptions` |
+| `gcloud quotas preferences create` | `GcloudQuotasPreferencesCreateOptions` |
+| `gcloud quotas preferences describe` | `GcloudQuotasPreferencesDescribeOptions` |
+| `gcloud quotas preferences list` | `GcloudQuotasPreferencesListOptions` |
+| `gcloud quotas preferences update` | `GcloudQuotasPreferencesUpdateOptions` |
+| `gcloud recaptcha` | `GcloudRecaptchaOptions` |
 | `gcloud recaptcha firewall-policies` | `GcloudRecaptchaFirewallPoliciesOptions` |
 | `gcloud recaptcha firewall-policies create` | `GcloudRecaptchaFirewallPoliciesCreateOptions` |
 | `gcloud recaptcha firewall-policies delete` | `GcloudRecaptchaFirewallPoliciesDeleteOptions` |
@@ -6614,6 +6817,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud recaptcha keys migrate` | `GcloudRecaptchaKeysMigrateOptions` |
 | `gcloud recaptcha keys remove-ip-override` | `GcloudRecaptchaKeysRemoveIpOverrideOptions` |
 | `gcloud recaptcha keys update` | `GcloudRecaptchaKeysUpdateOptions` |
+| `gcloud recommender` | `GcloudRecommenderOptions` |
 | `gcloud recommender insight-type-config` | `GcloudRecommenderInsightTypeConfigOptions` |
 | `gcloud recommender insight-type-config describe` | `GcloudRecommenderInsightTypeConfigDescribeOptions` |
 | `gcloud recommender insight-type-config update` | `GcloudRecommenderInsightTypeConfigUpdateOptions` |
@@ -6631,11 +6835,15 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud recommender recommender-config` | `GcloudRecommenderRecommenderConfigOptions` |
 | `gcloud recommender recommender-config describe` | `GcloudRecommenderRecommenderConfigDescribeOptions` |
 | `gcloud recommender recommender-config update` | `GcloudRecommenderRecommenderConfigUpdateOptions` |
+| `gcloud redis` | `GcloudRedisOptions` |
 | `gcloud redis acl-policies` | `GcloudRedisAclPoliciesOptions` |
 | `gcloud redis acl-policies create` | `GcloudRedisAclPoliciesCreateOptions` |
 | `gcloud redis acl-policies delete` | `GcloudRedisAclPoliciesDeleteOptions` |
 | `gcloud redis acl-policies describe` | `GcloudRedisAclPoliciesDescribeOptions` |
 | `gcloud redis acl-policies list` | `GcloudRedisAclPoliciesListOptions` |
+| `gcloud redis acl-policies revisions` | `GcloudRedisAclPoliciesRevisionsOptions` |
+| `gcloud redis acl-policies revisions describe` | `GcloudRedisAclPoliciesRevisionsDescribeOptions` |
+| `gcloud redis acl-policies revisions list` | `GcloudRedisAclPoliciesRevisionsListOptions` |
 | `gcloud redis acl-policies update` | `GcloudRedisAclPoliciesUpdateOptions` |
 | `gcloud redis clusters` | `GcloudRedisClustersOptions` |
 | `gcloud redis clusters add-cluster-endpoints` | `GcloudRedisClustersAddClusterEndpointsOptions` |
@@ -6681,6 +6889,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud redis regions list` | `GcloudRedisRegionsListOptions` |
 | `gcloud redis zones` | `GcloudRedisZonesOptions` |
 | `gcloud redis zones list` | `GcloudRedisZonesListOptions` |
+| `gcloud resource-manager` | `GcloudResourceManagerOptions` |
 | `gcloud resource-manager capabilities` | `GcloudResourceManagerCapabilitiesOptions` |
 | `gcloud resource-manager capabilities describe` | `GcloudResourceManagerCapabilitiesDescribeOptions` |
 | `gcloud resource-manager capabilities update` | `GcloudResourceManagerCapabilitiesUpdateOptions` |
@@ -6735,6 +6944,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud resource-manager tags values remove-iam-policy-binding` | `GcloudResourceManagerTagsValuesRemoveIamPolicyBindingOptions` |
 | `gcloud resource-manager tags values set-iam-policy` | `GcloudResourceManagerTagsValuesSetIamPolicyOptions` |
 | `gcloud resource-manager tags values update` | `GcloudResourceManagerTagsValuesUpdateOptions` |
+| `gcloud run` | `GcloudRunOptions` |
 | `gcloud run compose` | `GcloudRunComposeOptions` |
 | `gcloud run compose up` | `GcloudRunComposeUpOptions` |
 | `gcloud run deploy` | `GcloudRunDeployOptions` |
@@ -6812,6 +7022,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud run worker-pools set-iam-policy` | `GcloudRunWorkerPoolsSetIamPolicyOptions` |
 | `gcloud run worker-pools update` | `GcloudRunWorkerPoolsUpdateOptions` |
 | `gcloud run worker-pools update-instance-split` | `GcloudRunWorkerPoolsUpdateInstanceSplitOptions` |
+| `gcloud scc` | `GcloudSccOptions` |
 | `gcloud scc assets` | `GcloudSccAssetsOptions` |
 | `gcloud scc assets describe` | `GcloudSccAssetsDescribeOptions` |
 | `gcloud scc assets get-parent` | `GcloudSccAssetsGetParentOptions` |
@@ -6914,6 +7125,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud scc sources` | `GcloudSccSourcesOptions` |
 | `gcloud scc sources describe` | `GcloudSccSourcesDescribeOptions` |
 | `gcloud scc sources list` | `GcloudSccSourcesListOptions` |
+| `gcloud scheduler` | `GcloudSchedulerOptions` |
 | `gcloud scheduler cmek-config` | `GcloudSchedulerCmekConfigOptions` |
 | `gcloud scheduler cmek-config describe` | `GcloudSchedulerCmekConfigDescribeOptions` |
 | `gcloud scheduler cmek-config update` | `GcloudSchedulerCmekConfigUpdateOptions` |
@@ -6937,10 +7149,12 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud scheduler locations list` | `GcloudSchedulerLocationsListOptions` |
 | `gcloud scheduler operations` | `GcloudSchedulerOperationsOptions` |
 | `gcloud scheduler operations describe` | `GcloudSchedulerOperationsDescribeOptions` |
+| `gcloud secrets` | `GcloudSecretsOptions` |
 | `gcloud secrets add-iam-policy-binding` | `GcloudSecretsAddIamPolicyBindingOptions` |
 | `gcloud secrets create` | `GcloudSecretsCreateOptions` |
 | `gcloud secrets delete` | `GcloudSecretsDeleteOptions` |
 | `gcloud secrets describe` | `GcloudSecretsDescribeOptions` |
+| `gcloud secrets enable-managed-rotation` | `GcloudSecretsEnableManagedRotationOptions` |
 | `gcloud secrets get-iam-policy` | `GcloudSecretsGetIamPolicyOptions` |
 | `gcloud secrets list` | `GcloudSecretsListOptions` |
 | `gcloud secrets locations` | `GcloudSecretsLocationsOptions` |
@@ -6951,6 +7165,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud secrets replication get` | `GcloudSecretsReplicationGetOptions` |
 | `gcloud secrets replication set` | `GcloudSecretsReplicationSetOptions` |
 | `gcloud secrets replication update` | `GcloudSecretsReplicationUpdateOptions` |
+| `gcloud secrets rotate-secret` | `GcloudSecretsRotateSecretOptions` |
 | `gcloud secrets set-iam-policy` | `GcloudSecretsSetIamPolicyOptions` |
 | `gcloud secrets update` | `GcloudSecretsUpdateOptions` |
 | `gcloud secrets versions` | `GcloudSecretsVersionsOptions` |
@@ -6961,6 +7176,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud secrets versions disable` | `GcloudSecretsVersionsDisableOptions` |
 | `gcloud secrets versions enable` | `GcloudSecretsVersionsEnableOptions` |
 | `gcloud secrets versions list` | `GcloudSecretsVersionsListOptions` |
+| `gcloud service-directory` | `GcloudServiceDirectoryOptions` |
 | `gcloud service-directory endpoints` | `GcloudServiceDirectoryEndpointsOptions` |
 | `gcloud service-directory endpoints create` | `GcloudServiceDirectoryEndpointsCreateOptions` |
 | `gcloud service-directory endpoints delete` | `GcloudServiceDirectoryEndpointsDeleteOptions` |
@@ -6991,6 +7207,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud service-directory services resolve` | `GcloudServiceDirectoryServicesResolveOptions` |
 | `gcloud service-directory services set-iam-policy` | `GcloudServiceDirectoryServicesSetIamPolicyOptions` |
 | `gcloud service-directory services update` | `GcloudServiceDirectoryServicesUpdateOptions` |
+| `gcloud service-extensions` | `GcloudServiceExtensionsOptions` |
 | `gcloud service-extensions authz-extensions` | `GcloudServiceExtensionsAuthzExtensionsOptions` |
 | `gcloud service-extensions authz-extensions delete` | `GcloudServiceExtensionsAuthzExtensionsDeleteOptions` |
 | `gcloud service-extensions authz-extensions describe` | `GcloudServiceExtensionsAuthzExtensionsDescribeOptions` |
@@ -7022,6 +7239,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud service-extensions wasm-plugins describe` | `GcloudServiceExtensionsWasmPluginsDescribeOptions` |
 | `gcloud service-extensions wasm-plugins list` | `GcloudServiceExtensionsWasmPluginsListOptions` |
 | `gcloud service-extensions wasm-plugins update` | `GcloudServiceExtensionsWasmPluginsUpdateOptions` |
+| `gcloud service-health` | `GcloudServiceHealthOptions` |
 | `gcloud service-health events` | `GcloudServiceHealthEventsOptions` |
 | `gcloud service-health events describe` | `GcloudServiceHealthEventsDescribeOptions` |
 | `gcloud service-health events list` | `GcloudServiceHealthEventsListOptions` |
@@ -7031,6 +7249,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud service-health organization-impacts` | `GcloudServiceHealthOrganizationImpactsOptions` |
 | `gcloud service-health organization-impacts describe` | `GcloudServiceHealthOrganizationImpactsDescribeOptions` |
 | `gcloud service-health organization-impacts list` | `GcloudServiceHealthOrganizationImpactsListOptions` |
+| `gcloud services` | `GcloudServicesOptions` |
 | `gcloud services api-keys` | `GcloudServicesApiKeysOptions` |
 | `gcloud services api-keys create` | `GcloudServicesApiKeysCreateOptions` |
 | `gcloud services api-keys delete` | `GcloudServicesApiKeysDeleteOptions` |
@@ -7061,6 +7280,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud services vpc-peerings operations describe` | `GcloudServicesVpcPeeringsOperationsDescribeOptions` |
 | `gcloud services vpc-peerings operations wait` | `GcloudServicesVpcPeeringsOperationsWaitOptions` |
 | `gcloud services vpc-peerings update` | `GcloudServicesVpcPeeringsUpdateOptions` |
+| `gcloud source` | `GcloudSourceOptions` |
 | `gcloud source project-configs` | `GcloudSourceProjectConfigsOptions` |
 | `gcloud source project-configs describe` | `GcloudSourceProjectConfigsDescribeOptions` |
 | `gcloud source project-configs update` | `GcloudSourceProjectConfigsUpdateOptions` |
@@ -7073,6 +7293,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud source repos list` | `GcloudSourceReposListOptions` |
 | `gcloud source repos set-iam-policy` | `GcloudSourceReposSetIamPolicyOptions` |
 | `gcloud source repos update` | `GcloudSourceReposUpdateOptions` |
+| `gcloud source-manager` | `GcloudSourceManagerOptions` |
 | `gcloud source-manager instances` | `GcloudSourceManagerInstancesOptions` |
 | `gcloud source-manager instances add-iam-policy-binding` | `GcloudSourceManagerInstancesAddIamPolicyBindingOptions` |
 | `gcloud source-manager instances create` | `GcloudSourceManagerInstancesCreateOptions` |
@@ -7097,6 +7318,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud source-manager repos remove-iam-policy-binding` | `GcloudSourceManagerReposRemoveIamPolicyBindingOptions` |
 | `gcloud source-manager repos set-iam-policy` | `GcloudSourceManagerReposSetIamPolicyOptions` |
 | `gcloud source-manager repos update` | `GcloudSourceManagerReposUpdateOptions` |
+| `gcloud spanner` | `GcloudSpannerOptions` |
 | `gcloud spanner backup-schedules` | `GcloudSpannerBackupSchedulesOptions` |
 | `gcloud spanner backup-schedules add-iam-policy-binding` | `GcloudSpannerBackupSchedulesAddIamPolicyBindingOptions` |
 | `gcloud spanner backup-schedules create` | `GcloudSpannerBackupSchedulesCreateOptions` |
@@ -7181,6 +7403,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud spanner samples list` | `GcloudSpannerSamplesListOptions` |
 | `gcloud spanner samples run` | `GcloudSpannerSamplesRunOptions` |
 | `gcloud spanner samples workload` | `GcloudSpannerSamplesWorkloadOptions` |
+| `gcloud sql` | `GcloudSqlOptions` |
 | `gcloud sql backups` | `GcloudSqlBackupsOptions` |
 | `gcloud sql backups create` | `GcloudSqlBackupsCreateOptions` |
 | `gcloud sql backups delete` | `GcloudSqlBackupsDeleteOptions` |
@@ -7274,6 +7497,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud sql users list` | `GcloudSqlUsersListOptions` |
 | `gcloud sql users set-password` | `GcloudSqlUsersSetPasswordOptions` |
 | `gcloud sql users set-password-policy` | `GcloudSqlUsersSetPasswordPolicyOptions` |
+| `gcloud storage` | `GcloudStorageOptions` |
 | `gcloud storage batch-operations` | `GcloudStorageBatchOperationsOptions` |
 | `gcloud storage batch-operations bucket-operations` | `GcloudStorageBatchOperationsBucketOperationsOptions` |
 | `gcloud storage batch-operations bucket-operations describe` | `GcloudStorageBatchOperationsBucketOperationsDescribeOptions` |
@@ -7379,7 +7603,17 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud storage rsync` | `GcloudStorageRsyncOptions` |
 | `gcloud storage service-agent` | `GcloudStorageServiceAgentOptions` |
 | `gcloud storage sign-url` | `GcloudStorageSignUrlOptions` |
+| `gcloud support` | `GcloudSupportOptions` |
+| `gcloud support support-event-subscriptions` | `GcloudSupportSupportEventSubscriptionsOptions` |
+| `gcloud support support-event-subscriptions create` | `GcloudSupportSupportEventSubscriptionsCreateOptions` |
+| `gcloud support support-event-subscriptions delete` | `GcloudSupportSupportEventSubscriptionsDeleteOptions` |
+| `gcloud support support-event-subscriptions describe` | `GcloudSupportSupportEventSubscriptionsDescribeOptions` |
+| `gcloud support support-event-subscriptions expunge` | `GcloudSupportSupportEventSubscriptionsExpungeOptions` |
+| `gcloud support support-event-subscriptions list` | `GcloudSupportSupportEventSubscriptionsListOptions` |
+| `gcloud support support-event-subscriptions undelete` | `GcloudSupportSupportEventSubscriptionsUndeleteOptions` |
+| `gcloud support support-event-subscriptions update` | `GcloudSupportSupportEventSubscriptionsUpdateOptions` |
 | `gcloud survey` | `GcloudSurveyOptions` |
+| `gcloud tasks` | `GcloudTasksOptions` |
 | `gcloud tasks buffer` | `GcloudTasksBufferOptions` |
 | `gcloud tasks cmek-config` | `GcloudTasksCmekConfigOptions` |
 | `gcloud tasks cmek-config describe` | `GcloudTasksCmekConfigDescribeOptions` |
@@ -7406,6 +7640,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud tasks queues set-iam-policy` | `GcloudTasksQueuesSetIamPolicyOptions` |
 | `gcloud tasks queues update` | `GcloudTasksQueuesUpdateOptions` |
 | `gcloud tasks run` | `GcloudTasksRunOptions` |
+| `gcloud telco-automation` | `GcloudTelcoAutomationOptions` |
 | `gcloud telco-automation operations` | `GcloudTelcoAutomationOperationsOptions` |
 | `gcloud telco-automation operations describe` | `GcloudTelcoAutomationOperationsDescribeOptions` |
 | `gcloud telco-automation operations wait` | `GcloudTelcoAutomationOperationsWaitOptions` |
@@ -7414,6 +7649,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud telco-automation orchestration-cluster delete` | `GcloudTelcoAutomationOrchestrationClusterDeleteOptions` |
 | `gcloud telco-automation orchestration-cluster describe` | `GcloudTelcoAutomationOrchestrationClusterDescribeOptions` |
 | `gcloud telco-automation orchestration-cluster list` | `GcloudTelcoAutomationOrchestrationClusterListOptions` |
+| `gcloud transcoder` | `GcloudTranscoderOptions` |
 | `gcloud transcoder jobs` | `GcloudTranscoderJobsOptions` |
 | `gcloud transcoder jobs create` | `GcloudTranscoderJobsCreateOptions` |
 | `gcloud transcoder jobs delete` | `GcloudTranscoderJobsDeleteOptions` |
@@ -7424,6 +7660,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud transcoder templates delete` | `GcloudTranscoderTemplatesDeleteOptions` |
 | `gcloud transcoder templates describe` | `GcloudTranscoderTemplatesDescribeOptions` |
 | `gcloud transcoder templates list` | `GcloudTranscoderTemplatesListOptions` |
+| `gcloud transfer` | `GcloudTransferOptions` |
 | `gcloud transfer agent-pools` | `GcloudTransferAgentPoolsOptions` |
 | `gcloud transfer agent-pools create` | `GcloudTransferAgentPoolsCreateOptions` |
 | `gcloud transfer agent-pools delete` | `GcloudTransferAgentPoolsDeleteOptions` |
@@ -7449,6 +7686,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud transfer operations monitor` | `GcloudTransferOperationsMonitorOptions` |
 | `gcloud transfer operations pause` | `GcloudTransferOperationsPauseOptions` |
 | `gcloud transfer operations resume` | `GcloudTransferOperationsResumeOptions` |
+| `gcloud vector-search` | `GcloudVectorSearchOptions` |
 | `gcloud vector-search collections` | `GcloudVectorSearchCollectionsOptions` |
 | `gcloud vector-search collections create` | `GcloudVectorSearchCollectionsCreateOptions` |
 | `gcloud vector-search collections data-objects` | `GcloudVectorSearchCollectionsDataObjectsOptions` |
@@ -7480,6 +7718,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud vector-search operations describe` | `GcloudVectorSearchOperationsDescribeOptions` |
 | `gcloud vector-search operations list` | `GcloudVectorSearchOperationsListOptions` |
 | `gcloud vector-search operations wait` | `GcloudVectorSearchOperationsWaitOptions` |
+| `gcloud vmware` | `GcloudVmwareOptions` |
 | `gcloud vmware announcements` | `GcloudVmwareAnnouncementsOptions` |
 | `gcloud vmware announcements list` | `GcloudVmwareAnnouncementsListOptions` |
 | `gcloud vmware datastores` | `GcloudVmwareDatastoresOptions` |
@@ -7570,6 +7809,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud vmware private-clouds management-dns-zone-bindings list` | `GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions` |
 | `gcloud vmware private-clouds management-dns-zone-bindings repair` | `GcloudVmwarePrivateCloudsManagementDnsZoneBindingsRepairOptions` |
 | `gcloud vmware private-clouds management-dns-zone-bindings update` | `GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions` |
+| `gcloud vmware private-clouds migrate-management-vms` | `GcloudVmwarePrivateCloudsMigrateManagementVmsOptions` |
 | `gcloud vmware private-clouds nsx` | `GcloudVmwarePrivateCloudsNsxOptions` |
 | `gcloud vmware private-clouds nsx credentials` | `GcloudVmwarePrivateCloudsNsxCredentialsOptions` |
 | `gcloud vmware private-clouds nsx credentials describe` | `GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions` |
@@ -7595,6 +7835,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud vmware private-connections routes` | `GcloudVmwarePrivateConnectionsRoutesOptions` |
 | `gcloud vmware private-connections routes list` | `GcloudVmwarePrivateConnectionsRoutesListOptions` |
 | `gcloud vmware private-connections update` | `GcloudVmwarePrivateConnectionsUpdateOptions` |
+| `gcloud workbench` | `GcloudWorkbenchOptions` |
 | `gcloud workbench executions` | `GcloudWorkbenchExecutionsOptions` |
 | `gcloud workbench executions create` | `GcloudWorkbenchExecutionsCreateOptions` |
 | `gcloud workbench executions delete` | `GcloudWorkbenchExecutionsDeleteOptions` |
@@ -7628,6 +7869,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud workbench schedules pause` | `GcloudWorkbenchSchedulesPauseOptions` |
 | `gcloud workbench schedules resume` | `GcloudWorkbenchSchedulesResumeOptions` |
 | `gcloud workbench schedules update` | `GcloudWorkbenchSchedulesUpdateOptions` |
+| `gcloud workflows` | `GcloudWorkflowsOptions` |
 | `gcloud workflows delete` | `GcloudWorkflowsDeleteOptions` |
 | `gcloud workflows deploy` | `GcloudWorkflowsDeployOptions` |
 | `gcloud workflows describe` | `GcloudWorkflowsDescribeOptions` |
@@ -7641,8 +7883,10 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud workflows executions wait-last` | `GcloudWorkflowsExecutionsWaitLastOptions` |
 | `gcloud workflows list` | `GcloudWorkflowsListOptions` |
 | `gcloud workflows run` | `GcloudWorkflowsRunOptions` |
+| `gcloud workload-identity` | `GcloudWorkloadIdentityOptions` |
 | `gcloud workload-identity service-agents` | `GcloudWorkloadIdentityServiceAgentsOptions` |
 | `gcloud workload-identity service-agents generate` | `GcloudWorkloadIdentityServiceAgentsGenerateOptions` |
+| `gcloud workspace-add-ons` | `GcloudWorkspaceAddOnsOptions` |
 | `gcloud workspace-add-ons deployments` | `GcloudWorkspaceAddOnsDeploymentsOptions` |
 | `gcloud workspace-add-ons deployments create` | `GcloudWorkspaceAddOnsDeploymentsCreateOptions` |
 | `gcloud workspace-add-ons deployments delete` | `GcloudWorkspaceAddOnsDeploymentsDeleteOptions` |
@@ -7653,6 +7897,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud workspace-add-ons deployments replace` | `GcloudWorkspaceAddOnsDeploymentsReplaceOptions` |
 | `gcloud workspace-add-ons deployments uninstall` | `GcloudWorkspaceAddOnsDeploymentsUninstallOptions` |
 | `gcloud workspace-add-ons get-authorization` | `GcloudWorkspaceAddOnsGetAuthorizationOptions` |
+| `gcloud workstations` | `GcloudWorkstationsOptions` |
 | `gcloud workstations clusters` | `GcloudWorkstationsClustersOptions` |
 | `gcloud workstations clusters create` | `GcloudWorkstationsClustersCreateOptions` |
 | `gcloud workstations clusters delete` | `GcloudWorkstationsClustersDeleteOptions` |

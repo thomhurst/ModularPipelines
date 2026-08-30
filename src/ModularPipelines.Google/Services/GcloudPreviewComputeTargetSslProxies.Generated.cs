@@ -33,6 +33,21 @@ public class GcloudPreviewComputeTargetSslProxies
     #region Commands
 
     /// <summary>
+    /// list, create, and delete target     SSL proxies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudPreviewComputeTargetSslProxiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeTargetSslProxiesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a target SSL     proxy
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -90,6 +105,21 @@ public class GcloudPreviewComputeTargetSslProxies
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeTargetSslProxiesListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine target SSL proxy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudPreviewComputeTargetSslProxiesTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeTargetSslProxiesTestIamPermissionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -33,6 +33,21 @@ public class GcloudServiceextensionsWasmPlugins
     #region Commands
 
     /// <summary>
+    /// interact with and manage Service     Extensions WasmPlugins
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudServiceExtensionsWasmPluginsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudServiceExtensionsWasmPluginsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a WasmPlugin     resource
     /// </summary>
     /// <param name="options">The command options.</param>

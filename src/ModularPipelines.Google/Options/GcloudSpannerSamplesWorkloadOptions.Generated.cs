@@ -23,9 +23,6 @@ public record GcloudSpannerSamplesWorkloadOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Appname
 ) : GcloudOptions
 {
-    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
-    public string? Duration { get; set; }
-
     /// <summary>
     /// Port of the running backend service.
     /// </summary>
@@ -37,5 +34,11 @@ public record GcloudSpannerSamplesWorkloadOptions(
     /// </summary>
     [CliOption("--target-qps", Format = OptionFormat.EqualsSeparated)]
     public string? TargetQps { get; set; }
+
+    /// <summary>
+    /// Duration of time allowed to run before stopping the workload.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
 
 }

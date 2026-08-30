@@ -33,6 +33,21 @@ public class GcloudNetworksecuritySecurityProfileGroups
     #region Commands
 
     /// <summary>
+    /// Security Profile Groups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkSecuritySecurityProfileGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecuritySecurityProfileGroupsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new     Security Profile Group
     /// </summary>
     /// <param name="options">The command options.</param>

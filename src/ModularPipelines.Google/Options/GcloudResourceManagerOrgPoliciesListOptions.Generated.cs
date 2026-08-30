@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudResourceManagerOrgPoliciesListOptions : GcloudOptions
 {
     /// <summary>
-    /// Show available constraints. For more information about constraints, see     https://cloud.google.com/resource-manager/docs/organization-policy/understanding-constraints
+    /// Show available constraints. For more information about constraints, see https://cloud.google.com/resource-manager/docs/organization-policy/understanding-constraints
     /// </summary>
     [CliFlag("--show-unset")]
     public bool? ShowUnset { get; set; }

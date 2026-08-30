@@ -43,6 +43,21 @@ public class GcloudDatabasemigrationConnectionProfiles
     #region Commands
 
     /// <summary>
+    /// manage Database Migration     Service connection profiles
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudDatabaseMigrationConnectionProfilesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationConnectionProfilesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete a Database     Migration Service connection profile
     /// </summary>
     /// <param name="options">The command options.</param>

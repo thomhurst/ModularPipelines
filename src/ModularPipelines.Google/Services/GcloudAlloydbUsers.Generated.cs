@@ -33,6 +33,21 @@ public class GcloudAlloydbUsers
     #region Commands
 
     /// <summary>
+    /// provide commands for managing AlloyDB users
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAlloydbUsersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAlloydbUsersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a user in a given cluster
     /// </summary>
     /// <param name="options">The command options.</param>

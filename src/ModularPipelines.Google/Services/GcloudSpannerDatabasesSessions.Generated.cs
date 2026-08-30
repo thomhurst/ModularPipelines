@@ -33,6 +33,21 @@ public class GcloudSpannerDatabasesSessions
     #region Commands
 
     /// <summary>
+    /// manage the sessions for Cloud Spanner     databases
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSpannerDatabasesSessionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesSessionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete a Cloud Spanner session
     /// </summary>
     /// <param name="options">The command options.</param>

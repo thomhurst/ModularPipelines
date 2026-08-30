@@ -33,6 +33,21 @@ public class GcloudBuildsTriggersCreate
     #region Commands
 
     /// <summary>
+    /// create build triggers for Google Cloud     Build
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBuildsTriggersCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBuildsTriggersCreateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a build trigger for     a 2nd-gen Bitbucket Cloud repository
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -69,12 +84,21 @@ public class GcloudBuildsTriggersCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BitbucketserverAsync(
+    public virtual async Task<CommandResult> BitbucketServerAsync(
         GcloudBuildsTriggersCreateBitbucketserverOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBuildsTriggersCreateBitbucketserverOptions(), executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use BitbucketServerAsync instead.")]
+    public virtual async Task<CommandResult> BitbucketserverAsync(
+        GcloudBuildsTriggersCreateBitbucketserverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await BitbucketServerAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

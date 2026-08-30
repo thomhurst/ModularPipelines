@@ -33,6 +33,21 @@ public class GcloudResourceManagerTagsBindings
     #region Commands
 
     /// <summary>
+    /// create and manipulate TagBindings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudResourceManagerTagsBindingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudResourceManagerTagsBindingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a TagBinding     resource
     /// </summary>
     /// <param name="options">The command options.</param>

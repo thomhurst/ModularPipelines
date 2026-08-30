@@ -33,6 +33,21 @@ public class GcloudArtifactsRules
     #region Commands
 
     /// <summary>
+    /// manage Artifact Registry rules
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudArtifactsRulesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsRulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create an Artifact Registry rule
     /// </summary>
     /// <param name="options">The command options.</param>

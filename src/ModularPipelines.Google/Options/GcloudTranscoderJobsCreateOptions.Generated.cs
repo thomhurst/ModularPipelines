@@ -24,45 +24,63 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTranscoderJobsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Processing priority of a batch mode transcoder job. This value will     override batch mode priority in job config.
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Processing priority of a batch mode transcoder job. This value will override batch mode priority in job config.
     /// </summary>
     [CliOption("--batch-mode-priority", Format = OptionFormat.EqualsSeparated)]
     public string? BatchModePriority { get; set; }
 
     /// <summary>
-    /// Google Cloud Storage URI. This value will override input URI in job     config.
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Google Cloud Storage URI. This value will override input URI in job config.
     /// </summary>
     [CliOption("--input-uri", Format = OptionFormat.EqualsSeparated)]
     public string? InputUri { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Location resource - Transcoder location This represents a Cloud resource.   (NOTE) Some attributes are not given arguments in this group but can be   set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ set the property transcoder/location with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ set the property transcoder/location.
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property transcoder/location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Processing mode of transcode job. This value will override mode in job     config. MODE must be one of: PROCESSING_MODE_INTERACTIVE,     PROCESSING_MODE_BATCH.
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Processing mode of transcode job. This value will override mode in job config. MODE must be one of: PROCESSING_MODE_INTERACTIVE, PROCESSING_MODE_BATCH.
     /// </summary>
     [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
     public string? Mode { get; set; }
 
     /// <summary>
-    /// Optimization strategy of transcode job. This value will override     optimization in job config. OPTIMIZATION must be one of: AUTODETECT,     DISABLED.
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Optimization strategy of transcode job. This value will override optimization in job config. OPTIMIZATION must be one of: AUTODETECT, DISABLED.
     /// </summary>
     [CliOption("--optimization", Format = OptionFormat.EqualsSeparated)]
     public GcloudOptimization? Optimization { get; set; }
 
     /// <summary>
-    /// Google Cloud Storage directory URI (followed by a trailing forward     slash). This value will override output URI in job config.    At most one of these can be specified:     --file=FILE      Path to job config.     --json=JSON      Job config in json format.     --template-id=TEMPLATE_ID      Job template id.
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Google Cloud Storage directory URI (followed by a trailing forward slash). This value will override output URI in job config.
     /// </summary>
     [CliOption("--output-uri", Format = OptionFormat.EqualsSeparated)]
     public string? OutputUri { get; set; }
+
+    /// <summary>
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Path to job config.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Job config in json format.
+    /// </summary>
+    [CliOption("--json", Format = OptionFormat.EqualsSeparated)]
+    public string? Json { get; set; }
+
+    /// <summary>
+    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Job template id.
+    /// </summary>
+    [CliOption("--template-id", Format = OptionFormat.EqualsSeparated)]
+    public string? TemplateId { get; set; }
 
 }

@@ -15,18 +15,31 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud policyintelligence commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudPolicyintelligence
 {
     /// <summary>
     /// gcloud simulate sub-commands.
     /// </summary>
-    GcloudPolicyintelligenceSimulate Simulate { get; }
+    GcloudPolicyintelligenceSimulate Simulate => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud troubleshoot-policy sub-commands.
     /// </summary>
-    GcloudPolicyintelligenceTroubleshootPolicy TroubleshootPolicy { get; }
+    GcloudPolicyintelligenceTroubleshootPolicy TroubleshootPolicy => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// a platform to help better understand, use, and     manage policies at scale
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudPolicyIntelligenceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// query activities on cloud     resource
@@ -35,9 +48,7 @@ public interface IGcloudPolicyintelligence
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> QueryActivityAsync(
-        GcloudPolicyIntelligenceQueryActivityOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> QueryActivityAsync(GcloudPolicyIntelligenceQueryActivityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -33,6 +33,21 @@ public class GcloudContainerHubMembershipsSupportAccess
     #region Commands
 
     /// <summary>
+    /// membership used for     support access
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudContainerHubMembershipsSupportAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerHubMembershipsSupportAccessOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe support     access for the specified membership
     /// </summary>
     /// <param name="options">The command options.</param>

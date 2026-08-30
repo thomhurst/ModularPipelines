@@ -33,6 +33,21 @@ public class GcloudOrgpolicies : IGcloudOrgpolicies
     #region Commands
 
     /// <summary>
+    /// create and manage Organization Policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudOrgPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOrgPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// deletes a custom constraint
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -30,19 +30,19 @@ public record GcloudPreviewComputeNetworkEdgeSecurityServicesCreateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// Region of the network edge security service to create. Overrides the     default compute/region property value for this command invocation.
+    /// Region of the network edge security service to create. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// The security policy that will be set for this network edge security     service. To remove the policy from this network edge security service     set the policy to an empty string.
+    /// The security policy that will be set for this network edge security service. To remove the policy from this network edge security service set the policy to an empty string.
     /// </summary>
     [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicy { get; set; }
 
     /// <summary>
-    /// Region of the security policy to operate on. Overrides the default     compute/region property value for this command invocation.
+    /// Region of the security policy to operate on. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--security-policy-region", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicyRegion { get; set; }

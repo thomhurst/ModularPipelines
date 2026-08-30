@@ -33,6 +33,21 @@ public class GcloudAuditmanagerEnrollments
     #region Commands
 
     /// <summary>
+    /// command group for Audit Manager     Enrollments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAuditManagerEnrollmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuditManagerEnrollmentsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// enroll a new scope
     /// </summary>
     /// <param name="options">The command options.</param>

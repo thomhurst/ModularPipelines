@@ -33,6 +33,21 @@ public class GcloudOracledatabaseGoldengateDeploymentEnvironments
     #region Commands
 
     /// <summary>
+    /// manage     Goldengate Deployment Environment resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudOracleDatabaseGoldengateDeploymentEnvironmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseGoldengateDeploymentEnvironmentsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list all     Goldengate deployment environments
     /// </summary>
     /// <param name="options">The command options.</param>

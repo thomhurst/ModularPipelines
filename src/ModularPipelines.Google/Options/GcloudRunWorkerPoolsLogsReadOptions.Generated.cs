@@ -23,22 +23,28 @@ public record GcloudRunWorkerPoolsLogsReadOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkerPool
 ) : GcloudOptions
 {
-    [CliOption("--freshness", Format = OptionFormat.EqualsSeparated)]
-    public string? Freshness { get; set; }
-
     /// <summary>
-    /// Filter expression that specifies the log entries to return. Detailed     information about filters can be found at:     https://cloud.google.com/logging/docs/view/logging-query-language
+    /// Filter expression that specifies the log entries to return. Detailed information about filters can be found at: https://cloud.google.com/logging/docs/view/logging-query-language
     /// </summary>
     [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
     public string? LogFilter { get; set; }
 
-    [CliOption("--order", Format = OptionFormat.EqualsSeparated)]
-    public string? Order { get; set; }
-
     /// <summary>
-    /// Region in which the resource can be found. Alternatively, set the     property [run/region].
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--freshness", Format = OptionFormat.EqualsSeparated)]
+    public string? Freshness { get; set; }
+
+    /// <summary>
+    /// Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc.
+    /// </summary>
+    [CliOption("--order", Format = OptionFormat.EqualsSeparated)]
+    public string? Order { get; set; }
 
 }

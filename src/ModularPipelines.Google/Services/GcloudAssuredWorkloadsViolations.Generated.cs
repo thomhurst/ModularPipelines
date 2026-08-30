@@ -33,6 +33,21 @@ public class GcloudAssuredWorkloadsViolations
     #region Commands
 
     /// <summary>
+    /// read and list Assured Workloads     Violations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAssuredWorkloadsViolationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAssuredWorkloadsViolationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// acknowledge an existing     Assured Workloads compliance violation
     /// </summary>
     /// <param name="options">The command options.</param>

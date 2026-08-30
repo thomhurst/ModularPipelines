@@ -24,43 +24,49 @@ public record GcloudSqlExportSqlOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Include SQL statements (DROP &lt;object&gt;) required to drop database     objects prior to import; corresponds to the clean flag for pg_dump.     Only applies to PostgreSQL non-parallel exports.
+    /// Include SQL statements (DROP &lt;object&gt;) required to drop database objects prior to import; corresponds to the clean flag for pg_dump. Only applies to PostgreSQL non-parallel exports.
     /// </summary>
     [CliFlag("--clean")]
     public bool? Clean { get; set; }
 
+    /// <summary>
+    /// Database(s) from which the export is made. Information on requirements can be found here: https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/instances/export#exportContext.databases
+    /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Database { get; set; }
 
     /// <summary>
-    /// Include an SQL statement (IF EXISTS) with each drop statement produced     by the clean flag; corresponds to the if-exists flag for pg_dump. Only     applies to PostgreSQL non-parallel exports.
+    /// Include an SQL statement (IF EXISTS) with each drop statement produced by the clean flag; corresponds to the if-exists flag for pg_dump. Only applies to PostgreSQL non-parallel exports.
     /// </summary>
     [CliFlag("--if-exists")]
     public bool? IfExists { get; set; }
 
     /// <summary>
-    /// Offload an export to a temporary instance. Doing so reduces strain on     source instances and allows other operations to be performed while the     export is in progress.
+    /// Offload an export to a temporary instance. Doing so reduces strain on source instances and allows other operations to be performed while the export is in progress.
     /// </summary>
     [CliFlag("--offload")]
     public bool? Offload { get; set; }
 
     /// <summary>
-    /// Perform a parallel export. This flag is only applicable to MySQL and     Postgres. When this flag is used, the URI specifies a folder in the     Cloud Storage bucket. After the parallel export completes, you will     have multiple files in that folder.
+    /// Perform a parallel export. This flag is only applicable to MySQL and Postgres. When this flag is used, the URI specifies a folder in the Cloud Storage bucket. After the parallel export completes, you will have multiple files in that folder.
     /// </summary>
     [CliFlag("--parallel")]
     public bool? Parallel { get; set; }
 
+    /// <summary>
+    /// Tables to export from the specified database. If you specify tables, specify one and only one database. For PostgreSQL instances, only one table can be exported at a time.
+    /// </summary>
     [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Table { get; set; }
 
     /// <summary>
-    /// Specifies the number of threads to use for the parallel export. If     --parallel is specified and this flag is not provided, Cloud SQL uses a     default thread count to optimize performance.
+    /// Specifies the number of threads to use for the parallel export. If --parallel is specified and this flag is not provided, Cloud SQL uses a default thread count to optimize performance.
     /// </summary>
     [CliOption("--threads", Format = OptionFormat.EqualsSeparated)]
     public string? Threads { get; set; }

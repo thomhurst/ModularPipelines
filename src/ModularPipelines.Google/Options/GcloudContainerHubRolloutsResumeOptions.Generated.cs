@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubRolloutsResumeOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Offset to shift the schedule by when resuming a paused rollout, e.g.     8h, 7d12h.     See $ gcloud topic datetimes for information on duration formats.
+    /// Offset to shift the schedule by when resuming a paused rollout, e.g. 8h, 7d12h. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--schedule-offset", Format = OptionFormat.EqualsSeparated)]
     public string? ScheduleOffset { get; set; }

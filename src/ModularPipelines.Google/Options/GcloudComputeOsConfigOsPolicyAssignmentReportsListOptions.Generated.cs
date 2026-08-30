@@ -22,9 +22,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeOsConfigOsPolicyAssignmentReportsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Location of the OS policy assignment reports to list, will default to     the user's compute/zone property if not specified.    Specify which instance or OS policy assignment to list reports for.    At most one of these can be specified:     --assignment-id=ASSIGNMENT_ID      An OSPolicyAssignment ID. If not provided, OSPolicyAssignmentReports      for all instances in the project and location will be listed.     --instance=INSTANCE      Either instance name or instance ID. If not provided,      OSPolicyAssignmentReports for all instances in the project and      location will be listed.
+    /// Location of the OS policy assignment reports to list, will default to the user's compute/zone property if not specified.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Specify which instance or OS policy assignment to list reports for. At most one of these can be specified: An OSPolicyAssignment ID. If not provided, OSPolicyAssignmentReports for all instances in the project and location will be listed.
+    /// </summary>
+    [CliOption("--assignment-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AssignmentId { get; set; }
+
+    /// <summary>
+    /// Specify which instance or OS policy assignment to list reports for. At most one of these can be specified: Either instance name or instance ID. If not provided, OSPolicyAssignmentReports for all instances in the project and location will be listed.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
 
 }

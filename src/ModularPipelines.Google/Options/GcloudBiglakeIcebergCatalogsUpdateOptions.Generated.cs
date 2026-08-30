@@ -23,14 +23,10 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Catalog type to update the catalog with. Currently only updating to a     BigLake or Lakehouse catalog type is supported. CATALOG_TYPE must be     one of:      biglake       BigLake Iceberg catalog. Catalog type which allows namespaces and       tables within a catalog to be mapped to locations beyond the       catalog's designated default. Note: biglake and lakehouse catalog       types are the same.     lakehouse       BigLake Iceberg catalog. Catalog type which allows namespaces and       tables within a catalog to be mapped to locations beyond the       catalog's designated default. Note: biglake and lakehouse catalog       types are the same.
+    /// Catalog type to update the catalog with. Currently only updating to a BigLake or Lakehouse catalog type is supported. CATALOG_TYPE must be one of: biglake BigLake Iceberg catalog. Catalog type which allows namespaces and tables within a catalog to be mapped to locations beyond the catalog's designated default. Note: biglake and lakehouse catalog types are the same. lakehouse BigLake Iceberg catalog. Catalog type which allows namespaces and tables within a catalog to be mapped to locations beyond the catalog's designated default. Note: biglake and lakehouse catalog types are the same.
     /// </summary>
     [CliOption("--catalog-type", Format = OptionFormat.EqualsSeparated)]
     public string? CatalogType { get; set; }
-
-    [SecretValue]
-    [CliOption("--credential-mode", Format = OptionFormat.EqualsSeparated)]
-    public string? CredentialMode { get; set; }
 
     /// <summary>
     /// Description of the resource.
@@ -39,9 +35,15 @@ public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Additional Google Cloud Storage buckets and locations (e.g.,     gs://my-other-bucket/...) that are permitted for use by resources     within a catalog. This field is currently only used for BigLake     catalogs.If restricted_locations is empty and unrestricted catalog     creation is enabled, all accessible locations are allowed. Otherwise,     only default_location and locations in this list are allowed.
+    /// Additional Google Cloud Storage buckets and locations (e.g., gs://my-other-bucket/...) that are permitted for use by resources within a catalog. This field is currently only used for BigLake catalogs.If restricted_locations is empty and unrestricted catalog creation is enabled, all accessible locations are allowed. Otherwise, only default_location and locations in this list are allowed.
     /// </summary>
     [CliOption("--restricted-locations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RestrictedLocations { get; set; }
+
+    /// <summary>
+    /// Credential mode to create the catalog with. CREDENTIAL_MODE must be one of: end-user Use end user credentials to access the catalog. vended-credentials Use vended credentials to access the catalog.
+    /// </summary>
+    [CliOption("--credential-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialMode { get; set; }
 
 }

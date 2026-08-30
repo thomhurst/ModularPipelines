@@ -33,6 +33,21 @@ public class GcloudComputeOrgSecurityPoliciesAssociations
     #region Commands
 
     /// <summary>
+    /// read and manipulate     Compute Engine organization security policy associations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeOrgSecurityPoliciesAssociationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOrgSecurityPoliciesAssociationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new     association between a security policy and an organization or folder     resource
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -33,6 +33,21 @@ public class GcloudNetworkservicesTlsRoutes
     #region Commands
 
     /// <summary>
+    /// manage Network Services TlsRoutes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkServicesTlsRoutesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkServicesTlsRoutesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete tls route
     /// </summary>
     /// <param name="options">The command options.</param>

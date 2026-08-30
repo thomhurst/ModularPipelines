@@ -17,14 +17,14 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudMode
 {
     [EnumValue("federation-only")]
-    FederationOnly,
+    FederationOnly = 0,
 
     [EnumValue("mode-unspecified")]
-    ModeUnspecified,
+    ModeUnspecified = 1,
 
     [EnumValue("system-trust-domain")]
-    SystemTrustDomain,
+    SystemTrustDomain = 2,
 
     [EnumValue("trust-domain")]
-    TrustDomain
+    TrustDomain = 3
 }

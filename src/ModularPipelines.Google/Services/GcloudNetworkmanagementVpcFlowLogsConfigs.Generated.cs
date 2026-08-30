@@ -33,6 +33,21 @@ public class GcloudNetworkmanagementVpcFlowLogsConfigs
     #region Commands
 
     /// <summary>
+    /// manage the VPC Flow Logs     configurations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkManagementVpcFlowLogsConfigsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// creates a new VPC     Flow Logs configuration
     /// </summary>
     /// <param name="options">The command options.</param>

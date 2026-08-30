@@ -27,27 +27,33 @@ public record GcloudTransferJobsListOptions : GcloudOptions
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
     public string? Limit { get; set; }
 
-    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
-    public int? PageSize { get; set; }
-
     /// <summary>
-    /// The names of the jobs you want to list. Separate multiple job names     with commas (e.g., --job-names=foo,bar). If not specified, all jobs     will be listed.
+    /// The names of the jobs you want to list. Separate multiple job names with commas (e.g., --job-names=foo,bar). If not specified, all jobs will be listed.
     /// </summary>
     [CliOption("--job-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JobNames { get; set; }
 
     /// <summary>
-    /// List only jobs with the statuses you specify. Options include     'enabled', 'disabled', 'deleted' (case insensitive). Separate multiple     statuses with commas (e.g., --job-statuses=enabled,deleted). If not     specified, all jobs will be listed.
+    /// List only jobs with the statuses you specify. Options include 'enabled', 'disabled', 'deleted' (case insensitive). Separate multiple statuses with commas (e.g., --job-statuses=enabled,deleted). If not specified, all jobs will be listed.
     /// </summary>
     [CliOption("--job-statuses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JobStatuses { get; set; }
 
     /// <summary>
-    /// Include additional table columns (job name, source, destination,     frequency, lastest operation name, job status) in command output. Tip:     increase the size of your terminal before running the command.
+    /// Include additional table columns (job name, source, destination, frequency, lastest operation name, job status) in command output. Tip: increase the size of your terminal before running the command.
     /// </summary>
     [CliFlag("--expand-table")]
     public bool? ExpandTable { get; set; }
 
+    /// <summary>
+    /// Retrieve batches of this many items from the API.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// The type of the job you want to list. JOB_TYPE must be one of: transfer, replication.
+    /// </summary>
     [CliOption("--job-type", Format = OptionFormat.EqualsSeparated)]
     public string? JobType { get; set; }
 

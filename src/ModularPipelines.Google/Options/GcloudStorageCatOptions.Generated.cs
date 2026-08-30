@@ -24,14 +24,20 @@ public record GcloudStorageCatOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma     separated list of key=value pairs, e.g. header1=value1,header2=value2.     Overrides the default storage/additional_headers property value for     this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
+    /// <summary>
+    /// Prints the header before each object.
+    /// </summary>
     [CliFlag("--display-url")]
     public bool? DisplayUrl { get; set; }
 
+    /// <summary>
+    /// Causes gcloud storage to output just the specified byte range of the object. In a case where "start" = 'x', and "end" = 'y', ranges take the form: x-y (e.g., -r 256-5939), x- (e.g., -r 256-), -y (e.g., -r -5) When offsets start at 0, x-y means to return bytes x through y (inclusive), x- means to return bytes x through the end of the object, and -y changes the role of y. If -y is present, then it returns the last y bytes of the object. If the bytes are out of range of the object, then nothing is printed
+    /// </summary>
     [CliOption("--range", Format = OptionFormat.EqualsSeparated)]
     public string? Range { get; set; }
 

@@ -33,6 +33,21 @@ public class GcloudAiplatformVersions
     #region Commands
 
     /// <summary>
+    /// AI Platform Versions commands
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudAiPlatformVersionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiPlatformVersionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new AI Platform version
     /// </summary>
     /// <param name="options">The command options.</param>

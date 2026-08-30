@@ -15,68 +15,81 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ai commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudAi
 {
     /// <summary>
     /// gcloud custom-jobs sub-commands.
     /// </summary>
-    GcloudAiCustomJobs CustomJobs { get; }
+    GcloudAiCustomJobs CustomJobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud endpoints sub-commands.
     /// </summary>
-    GcloudAiEndpoints Endpoints { get; }
+    GcloudAiEndpoints Endpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud hp-tuning-jobs sub-commands.
     /// </summary>
-    GcloudAiHpTuningJobs HpTuningJobs { get; }
+    GcloudAiHpTuningJobs HpTuningJobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud index-endpoints sub-commands.
     /// </summary>
-    GcloudAiIndexEndpoints IndexEndpoints { get; }
+    GcloudAiIndexEndpoints IndexEndpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud indexes sub-commands.
     /// </summary>
-    GcloudAiIndexes Indexes { get; }
+    GcloudAiIndexes Indexes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud model-garden sub-commands.
     /// </summary>
-    GcloudAiModelGarden ModelGarden { get; }
+    GcloudAiModelGarden ModelGarden => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud model-monitoring-jobs sub-commands.
     /// </summary>
-    GcloudAiModelMonitoringJobs ModelMonitoringJobs { get; }
+    GcloudAiModelMonitoringJobs ModelMonitoringJobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud models sub-commands.
     /// </summary>
-    GcloudAiModels Models { get; }
+    GcloudAiModels Models => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAiOperations Operations { get; }
+    GcloudAiOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud persistent-resources sub-commands.
     /// </summary>
-    GcloudAiPersistentResources PersistentResources { get; }
+    GcloudAiPersistentResources PersistentResources => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// gcloud semantic-governance-policies sub-commands.
+    /// </summary>
+    GcloudAiSemanticGovernancePolicies SemanticGovernancePolicies => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// gcloud semantic-governance-policy-engine sub-commands.
+    /// </summary>
+    GcloudAiSemanticGovernancePolicyEngine SemanticGovernancePolicyEngine => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tensorboards sub-commands.
     /// </summary>
-    GcloudAiTensorboards Tensorboards { get; }
+    GcloudAiTensorboards Tensorboards => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tuning-jobs sub-commands.
     /// </summary>
-    GcloudAiTuningJobs TuningJobs { get; }
+    GcloudAiTuningJobs TuningJobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage entities in Vertex AI
@@ -85,9 +98,7 @@ public interface IGcloudAi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudAiOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudAiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

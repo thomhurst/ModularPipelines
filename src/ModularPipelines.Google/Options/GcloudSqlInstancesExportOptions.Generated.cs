@@ -24,14 +24,20 @@ public record GcloudSqlInstancesExportOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
+    /// <summary>
+    /// Database(s) from which the export is made. Information on requirements can be found here: https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/instances/export#exportContext.databases
+    /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Database { get; set; }
 
+    /// <summary>
+    /// Tables to export from the specified database. If you specify tables, specify one and only one database. For Postgres instances, only one table can be exported at a time.
+    /// </summary>
     [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Table { get; set; }
 

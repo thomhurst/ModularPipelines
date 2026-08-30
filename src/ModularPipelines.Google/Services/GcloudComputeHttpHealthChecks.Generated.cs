@@ -33,6 +33,21 @@ public class GcloudComputeHttpHealthChecks
     #region Commands
 
     /// <summary>
+    /// read and manipulate HTTP health checks     for load balanced instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudComputeHttpHealthChecksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeHttpHealthChecksOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a legacy HTTP health     check
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -90,6 +105,21 @@ public class GcloudComputeHttpHealthChecks
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeHttpHealthChecksListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine HTTP health check
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissionsAsync(
+        GcloudComputeHttpHealthChecksTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeHttpHealthChecksTestIamPermissionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

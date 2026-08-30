@@ -15,43 +15,46 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dns commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudDns
 {
     /// <summary>
     /// gcloud dns-keys sub-commands.
     /// </summary>
-    GcloudDnsDnsKeys DnsKeys { get; }
+    GcloudDnsDnsKeys DnsKeys => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud managed-zones sub-commands.
     /// </summary>
-    GcloudDnsManagedZones ManagedZones { get; }
+    GcloudDnsManagedZones ManagedZones => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDnsOperations Operations { get; }
+    GcloudDnsOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud policies sub-commands.
     /// </summary>
-    GcloudDnsPolicies Policies { get; }
+    GcloudDnsPolicies Policies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud project-info sub-commands.
     /// </summary>
-    GcloudDnsProjectInfo ProjectInfo { get; }
+    GcloudDnsProjectInfo ProjectInfo => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud record-sets sub-commands.
     /// </summary>
-    GcloudDnsRecordSets RecordSets { get; }
+    GcloudDnsRecordSets RecordSets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud response-policies sub-commands.
     /// </summary>
-    GcloudDnsResponsePolicies ResponsePolicies { get; }
+    GcloudDnsResponsePolicies ResponsePolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// sets
@@ -60,9 +63,7 @@ public interface IGcloudDns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudDnsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudDnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

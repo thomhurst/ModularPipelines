@@ -30,7 +30,7 @@ public record GcloudPreviewComputeOrgSecurityPoliciesMoveOptions(
     public string? Folder { get; set; }
 
     /// <summary>
-    /// Organization in which the organization security policy is to be moved.     Must be set if SECURITY_POLICY is the short name.
+    /// Organization in which the organization security policy is to be moved. Must be set if SECURITY_POLICY is the short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }

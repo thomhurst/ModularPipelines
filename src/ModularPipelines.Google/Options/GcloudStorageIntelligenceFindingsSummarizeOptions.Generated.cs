@@ -22,9 +22,27 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageIntelligenceFindingsSummarizeOptions : GcloudOptions
 {
     /// <summary>
-    /// The resource scope for the summary. If not specified, summaries are     aggregated at the level of the parent resource. RESOURCE_SCOPE must be     one of: PROJECT, PARENT.    At most one of these can be specified:     --organization=ORGANIZATION      The organization to scope the summary to.     --project=PROJECT      The project to scope the summary to.     --sub-folder=SUB_FOLDER      The sub-folder to scope the summary to.
+    /// The resource scope for the summary. If not specified, summaries are aggregated at the level of the parent resource. RESOURCE_SCOPE must be one of: PROJECT, PARENT.
     /// </summary>
     [CliOption("--resource-scope", Format = OptionFormat.EqualsSeparated)]
     public string? ResourceScope { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The organization to scope the summary to.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The project to scope the summary to.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The sub-folder to scope the summary to.
+    /// </summary>
+    [CliOption("--sub-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? SubFolder { get; set; }
 
 }

@@ -23,19 +23,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSccAssetsUpdateMarksOptions : GcloudOptions
 {
     /// <summary>
-    /// SecurityMarks resource to be passed as the request body. It's a     key=value pair separated by comma (,). For example:     --security-marks="key1=val1,key2=val2".
+    /// SecurityMarks resource to be passed as the request body. It's a key=value pair separated by comma (,). For example: --security-marks="key1=val1,key2=val2".
     /// </summary>
     [CliOption("--security-marks", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? SecurityMarks { get; set; }
 
     /// <summary>
-    /// Time at which the updated SecurityMarks take effect. See $ gcloud topic     datetimes for information on supported time formats.
+    /// Time at which the updated SecurityMarks take effect. See $ gcloud topic datetimes for information on supported time formats.
     /// </summary>
     [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// Use update-mask if you want to selectively update marks represented by     --security-marks flag. For example:     --update-mask="marks.key1,marks.key2". If you want to override all the     marks for the given asset either skip the update-mask flag or provide     an empty value (--update-mask '') for it.
+    /// Use update-mask if you want to selectively update marks represented by --security-marks flag. For example: --update-mask="marks.key1,marks.key2". If you want to override all the marks for the given asset either skip the update-mask flag or provide an empty value (--update-mask '') for it.
     /// </summary>
     [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMask { get; set; }

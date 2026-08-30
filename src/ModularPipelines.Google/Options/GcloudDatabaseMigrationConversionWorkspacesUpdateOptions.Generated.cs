@@ -28,25 +28,73 @@ public record GcloudDatabaseMigrationConversionWorkspacesUpdateOptions : GcloudO
     public bool? NoAsync { get; set; }
 
     /// <summary>
-    /// A user-friendly name for the conversion workspace. The display name can     include letters, numbers, spaces, and hyphens, and must start with a     letter. The maximum length allowed is 60 characters.
+    /// Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
+    /// </summary>
+    [CliFlag("--auto-conversion")]
+    public bool? AutoConversion { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
+    /// </summary>
+    [CliFlag("--no-auto-conversion")]
+    public bool? NoAutoConversion { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
+    /// </summary>
+    [CliFlag("--conversion-assistance")]
+    public bool? ConversionAssistance { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
+    /// </summary>
+    [CliFlag("--no-conversion-assistance")]
+    public bool? NoConversionAssistance { get; set; }
+
+    /// <summary>
+    /// A user-friendly name for the conversion workspace. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter. The maximum length allowed is 60 characters.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Specifies endpoint mode for a given command. Regional endpoints provide     enhanced data residency and reliability by ensuring your request is     handled entirely within the specified Google Cloud region. This differs     from global endpoints, which may process parts of the request outside     the target region. Overrides the default regional/endpoint_mode     property value for this command invocation. ENDPOINT_MODE must be one     of:      global       (Default) Use global rather than regional endpoints.     regional       Only use regional endpoints. An error will be raised if a regional       endpoint is not available for a given command.     regional-preferred       Use regional endpoints when available, otherwise use global       endpoints. Recommended for most users.
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
     /// </summary>
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointMode { get; set; }
 
     /// <summary>
-    /// Filter the source entities based on AIP-160     (https://google.aip.dev/160) standard. This filter will be applied to     all subsequent operations on the source entities, such as convert and     describe-entities.
+    /// Filter the source entities based on AIP-160 (https://google.aip.dev/160) standard. This filter will be applied to all subsequent operations on the source entities, such as convert and describe-entities.
     /// </summary>
     [CliOption("--global-filter", Format = OptionFormat.EqualsSeparated)]
     public string? GlobalFilter { get; set; }
 
     /// <summary>
-    /// The database name to use when seeding from a connection profile. If not     specified, the database name from the connection profile is used.     Currently only supported for SQL Server source seeding.
+    /// Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
+    /// </summary>
+    [CliFlag("--pattern-matching")]
+    public bool? PatternMatching { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
+    /// </summary>
+    [CliFlag("--no-pattern-matching")]
+    public bool? NoPatternMatching { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
+    /// </summary>
+    [CliFlag("--quality-assessment")]
+    public bool? QualityAssessment { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
+    /// </summary>
+    [CliFlag("--no-quality-assessment")]
+    public bool? NoQualityAssessment { get; set; }
+
+    /// <summary>
+    /// The database name to use when seeding from a connection profile. If not specified, the database name from the connection profile is used. Currently only supported for SQL Server source seeding.
     /// </summary>
     [CliOption("--source-database-name-override", Format = OptionFormat.EqualsSeparated)]
     public string? SourceDatabaseNameOverride { get; set; }

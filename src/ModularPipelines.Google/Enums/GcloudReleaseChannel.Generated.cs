@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudReleaseChannel
 {
     [EnumValue("none")]
-    None,
+    None = 0,
 
     [EnumValue("regular")]
-    Regular
+    Regular = 1
 }

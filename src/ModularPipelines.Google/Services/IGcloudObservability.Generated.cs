@@ -15,18 +15,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud observability commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudObservability
 {
     /// <summary>
     /// gcloud scopes sub-commands.
     /// </summary>
-    GcloudObservabilityScopes Scopes { get; }
+    GcloudObservabilityScopes Scopes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud trace-scopes sub-commands.
     /// </summary>
-    GcloudObservabilityTraceScopes TraceScopes { get; }
+    GcloudObservabilityTraceScopes TraceScopes => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Observability resources
@@ -35,9 +38,7 @@ public interface IGcloudObservability
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudObservabilityOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudObservabilityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

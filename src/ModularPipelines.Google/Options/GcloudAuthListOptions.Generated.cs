@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAuthListOptions : GcloudOptions
 {
     /// <summary>
-    /// List only credentials for one account. Use --filter="account~PATTERN"     to select accounts that match PATTERN.
+    /// List only credentials for one account. Use --filter="account~PATTERN" to select accounts that match PATTERN.
     /// </summary>
     [CliOption("--filter-account", Format = OptionFormat.EqualsSeparated)]
     public int? FilterAccount { get; set; }

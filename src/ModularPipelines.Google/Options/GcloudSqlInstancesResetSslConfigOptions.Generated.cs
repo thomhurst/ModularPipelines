@@ -24,13 +24,13 @@ public record GcloudSqlInstancesResetSslConfigOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Selectively refresh the SSL materials. MODE must be one of:      ALL       Refresh all TLS configs. This is the default behaviour.     SYNC_FROM_PRIMARY       Refreshes the replication-related TLS configuration settings       provided by the primary instance. Not applicable to on-premises       replication instances.
+    /// Selectively refresh the SSL materials. MODE must be one of: ALL Refresh all TLS configs. This is the default behaviour. SYNC_FROM_PRIMARY Refreshes the replication-related TLS configuration settings provided by the primary instance. Not applicable to on-premises replication instances.
     /// </summary>
     [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
     public string? Mode { get; set; }

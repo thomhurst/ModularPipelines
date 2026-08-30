@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSpannerDatabasesSessionsListOptions : GcloudOptions
 {
     /// <summary>
-    /// An expression for filtering the results of the request on the server.     Filter rules are case insensitive. The fields eligible for filtering     are: * labels.key where key is the name of a label.
+    /// An expression for filtering the results of the request on the server. Filter rules are case insensitive. The fields eligible for filtering are: * labels.key where key is the name of a label.
     /// </summary>
     [CliOption("--server-filter", Format = OptionFormat.EqualsSeparated)]
     public string? ServerFilter { get; set; }

@@ -23,25 +23,24 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAuthPrintIdentityTokenOptions : GcloudOptions
 {
     /// <summary>
-    /// Intended recipient of the token. Currently, only one audience can be     specified.
+    /// Parameters for Google Compute Engine instance identity tokens. Intended recipient of the token. Currently, only one audience can be specified.
     /// </summary>
     [CliOption("--audiences", Format = OptionFormat.EqualsSeparated)]
     public string? Audiences { get; set; }
 
     /// <summary>
-    /// Specify whether or not service account email is included in the     identity token. If specified, the token will contain 'email' and     'email_verified' claims. This flag should only be used for impersonate     service account.    Parameters for Google Compute Engine instance identity tokens.
+    /// Parameters for Google Compute Engine instance identity tokens. Specify whether or not service account email is included in the identity token. If specified, the token will contain 'email' and 'email_verified' claims. This flag should only be used for impersonate service account.
     /// </summary>
     [CliFlag("--include-email")]
     public bool? IncludeEmail { get; set; }
 
     /// <summary>
-    /// Specify whether or not license codes for images associated with this     instance are included in the identity token payload. Default is False.     This flag does not have effect unless --token-format=full.
+    /// Parameters for Google Compute Engine instance identity tokens. Specify whether or not license codes for images associated with this instance are included in the identity token payload. Default is False. This flag does not have effect unless --token-format=full.
     /// </summary>
     [CliFlag("--include-license")]
     public bool? IncludeLicense { get; set; }
 
-    [SecretValue]
-    [CliOption("--token-format", Format = OptionFormat.EqualsSeparated)]
+    [Obsolete("TokenFormat is no longer supported by the installed CLI and has no effect.")]
     public string? TokenFormat { get; set; }
 
 }

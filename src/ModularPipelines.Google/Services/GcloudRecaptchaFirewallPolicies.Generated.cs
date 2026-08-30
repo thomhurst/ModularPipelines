@@ -33,6 +33,21 @@ public class GcloudRecaptchaFirewallPolicies
     #region Commands
 
     /// <summary>
+    /// managed reCAPTCHA Firewall Policies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudRecaptchaFirewallPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRecaptchaFirewallPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Firewall Policy
     /// </summary>
     /// <param name="options">The command options.</param>

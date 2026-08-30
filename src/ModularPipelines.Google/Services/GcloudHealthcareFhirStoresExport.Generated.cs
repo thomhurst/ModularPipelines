@@ -33,6 +33,21 @@ public class GcloudHealthcareFhirStoresExport
     #region Commands
 
     /// <summary>
+    /// manage Cloud Healthcare API FHIR     store exports
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudHealthcareFhirStoresExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudHealthcareFhirStoresExportOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// export Cloud Healthcare API FHIR     resources to BigQuery
     /// </summary>
     /// <param name="options">The command options.</param>

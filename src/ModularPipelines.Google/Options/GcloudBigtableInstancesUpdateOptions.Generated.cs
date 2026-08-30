@@ -29,7 +29,7 @@ public record GcloudBigtableInstancesUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The edition of the instance. EDITION must be one of: ENTERPRISE,     ENTERPRISE_PLUS.
+    /// The edition of the instance. EDITION must be one of: ENTERPRISE, ENTERPRISE_PLUS.
     /// </summary>
     [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
     public GcloudEdition? Edition { get; set; }

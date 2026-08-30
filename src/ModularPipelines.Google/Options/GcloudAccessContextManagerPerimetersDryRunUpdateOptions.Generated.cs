@@ -22,15 +22,135 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerPerimetersDryRunUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The etag for the version of the Access Policy that this operation is to     be performed on. If, at the time of the operation, the etag for the     Access Policy stored in Access Context Manager is different from the     specified etag, then the commit operation will not be performed and the     call will fail. If etag is not provided, the operation will be     performed as if a valid etag is provided.    These flags modify the member Access Level of this Service Perimeter.    At most one of these can be specified:     --add-access-levels=[ACCESS-LEVELS,...]      Append the given values to the current Access Level.     --clear-access-levels      Empty the current Access Level.     --remove-access-levels=[ACCESS-LEVELS,...]      Remove the given values from the current Access Level.    These flags modify the member Resources of this Service Perimeter.    At most one of these can be specified:     --add-resources=[RESOURCES,...]      Append the given values to the current Resources.     --clear-resources      Empty the current Resources.     --remove-resources=[RESOURCES,...]      Remove the given values from the current Resources.    These flags modify the member Restricted Services of this Service   Perimeter.    At most one of these can be specified:     --add-restricted-services=[RESTRICTED-SERVICES,...]      Append the given values to the current Restricted Services.     --clear-restricted-services      Empty the current Restricted Services.     --remove-restricted-services=[RESTRICTED-SERVICES,...]      Remove the given values from the current Restricted Services.    These flags modify the enforced EgressPolicies of this ServicePerimeter.    At most one of these can be specified:     --clear-egress-policies      Empties existing enforced Egress Policies.     --set-egress-policies=YAML_FILE      Path to a file containing a list of Egress Policies.      This file contains a list of YAML-compliant objects representing      Egress Policies described in the API reference.      For more information about the alpha version, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters      For more information about non-alpha versions, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters    These flags modify the enforced IngressPolicies of this ServicePerimeter.    At most one of these can be specified:     --clear-ingress-policies      Empties existing enforced Ingress Policies.     --set-ingress-policies=YAML_FILE      Path to a file containing a list of Ingress Policies.      This file contains a list of YAML-compliant objects representing      Ingress Policies described in the API reference.      For more information about the alpha version, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters      For more information about non-alpha versions, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters    These flags modify the VpcAccessibleServices of this ServicePerimeter   config.    At most one of these can be specified:     --clear-vpc-accessible-services      Empties existing enforced VpcAccessibleServices.     --set-vpc-accessible-services=YAML_FILE      Path to a file containing a VpcAccessibleServices object.      This file contains a YAML-compliant object representing      VpcAccessibleServices described in the API reference.      For more information about the alpha version, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters      For more information about non-alpha versions, see:      https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters     Or at least one of these can be specified:      --enable-vpc-accessible-services       When specified restrict API calls within the Service Perimeter to       the set of vpc allowed services. To disable use       '--no-enable-vpc-accessible-services'.      These flags modify the member vpc allowed services of this perimeter.     Services allowed to be called within the Perimeter when VPC Accessible     Services is enabled      At most one of these can be specified:       --add-vpc-allowed-services=[VPC_SERVICE,...]        Append the given values to the current vpc allowed services.       --clear-vpc-allowed-services        Empty the current vpc allowed services.       --remove-vpc-allowed-services=[VPC_SERVICE,...]        Remove the given values from the current vpc allowed services.
+    /// The etag for the version of the Access Policy that this operation is to be performed on. If, at the time of the operation, the etag for the Access Policy stored in Access Context Manager is different from the specified etag, then the commit operation will not be performed and the call will fail. If etag is not provided, the operation will be performed as if a valid etag is provided.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// Append the given values to the current Access Level.
+    /// </summary>
+    [CliOption("--add-access-levels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddAccessLevels { get; set; }
+
+    /// <summary>
+    /// Empty the current Access Level.
+    /// </summary>
+    [CliFlag("--clear-access-levels")]
+    public bool? ClearAccessLevels { get; set; }
+
+    /// <summary>
+    /// Remove the given values from the current Access Level.
+    /// </summary>
+    [CliOption("--remove-access-levels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAccessLevels { get; set; }
+
+    /// <summary>
+    /// Append the given values to the current Resources.
+    /// </summary>
+    [CliOption("--add-resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddResources { get; set; }
+
+    /// <summary>
+    /// Empty the current Resources.
+    /// </summary>
+    [CliFlag("--clear-resources")]
+    public bool? ClearResources { get; set; }
+
+    /// <summary>
+    /// Remove the given values from the current Resources.
+    /// </summary>
+    [CliOption("--remove-resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveResources { get; set; }
+
+    /// <summary>
+    /// Append the given values to the current Restricted Services.
+    /// </summary>
+    [CliOption("--add-restricted-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddRestrictedServices { get; set; }
+
+    /// <summary>
+    /// Empty the current Restricted Services.
+    /// </summary>
+    [CliFlag("--clear-restricted-services")]
+    public bool? ClearRestrictedServices { get; set; }
+
+    /// <summary>
+    /// Remove the given values from the current Restricted Services.
+    /// </summary>
+    [CliOption("--remove-restricted-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveRestrictedServices { get; set; }
+
+    /// <summary>
+    /// Empties existing enforced Egress Policies.
+    /// </summary>
+    [CliFlag("--clear-egress-policies")]
+    public bool? ClearEgressPolicies { get; set; }
+
+    /// <summary>
+    /// Path to a file containing a list of Egress Policies. This file contains a list of YAML-compliant objects representing Egress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--set-egress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? SetEgressPolicies { get; set; }
+
+    /// <summary>
+    /// Empties existing enforced Ingress Policies.
+    /// </summary>
+    [CliFlag("--clear-ingress-policies")]
+    public bool? ClearIngressPolicies { get; set; }
+
+    /// <summary>
+    /// Path to a file containing a list of Ingress Policies. This file contains a list of YAML-compliant objects representing Ingress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--set-ingress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? SetIngressPolicies { get; set; }
+
+    /// <summary>
+    /// Empties existing enforced VpcAccessibleServices.
+    /// </summary>
+    [CliFlag("--clear-vpc-accessible-services")]
+    public bool? ClearVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// Path to a file containing a VpcAccessibleServices object. This file contains a YAML-compliant object representing VpcAccessibleServices described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--set-vpc-accessible-services", Format = OptionFormat.EqualsSeparated)]
+    public string? SetVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// When specified restrict API calls within the Service Perimeter to the set of vpc allowed services. To disable use '--no-enable-vpc-accessible-services'.
+    /// </summary>
+    [CliFlag("--enable-vpc-accessible-services")]
+    public bool? EnableVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// When specified restrict API calls within the Service Perimeter to the set of vpc allowed services. To disable use '--no-enable-vpc-accessible-services'.
+    /// </summary>
+    [CliFlag("--no-enable-vpc-accessible-services")]
+    public bool? NoEnableVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// Append the given values to the current vpc allowed services.
+    /// </summary>
+    [CliOption("--add-vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddVpcAllowedServices { get; set; }
+
+    /// <summary>
+    /// Empty the current vpc allowed services.
+    /// </summary>
+    [CliFlag("--clear-vpc-allowed-services")]
+    public bool? ClearVpcAllowedServices { get; set; }
+
+    /// <summary>
+    /// Remove the given values from the current vpc allowed services.
+    /// </summary>
+    [CliOption("--remove-vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveVpcAllowedServices { get; set; }
 
 }

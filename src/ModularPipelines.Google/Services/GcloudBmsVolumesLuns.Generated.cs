@@ -33,6 +33,21 @@ public class GcloudBmsVolumesLuns
     #region Commands
 
     /// <summary>
+    /// manage bare metal logical unit numbers (LUNs) in     Bare Metal Solution
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBmsVolumesLunsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBmsVolumesLunsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// describe a Bare Metal Solution LUN
     /// </summary>
     /// <param name="options">The command options.</param>

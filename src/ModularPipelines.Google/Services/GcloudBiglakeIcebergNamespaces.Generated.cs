@@ -33,6 +33,21 @@ public class GcloudBiglakeIcebergNamespaces
     #region Commands
 
     /// <summary>
+    /// manage BigLake Iceberg REST catalog     namespaces
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudBiglakeIcebergNamespacesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBiglakeIcebergNamespacesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a BigLake Iceberg REST     namespace
     /// </summary>
     /// <param name="options">The command options.</param>

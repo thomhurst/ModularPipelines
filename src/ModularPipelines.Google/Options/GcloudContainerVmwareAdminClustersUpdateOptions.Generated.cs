@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerVmwareAdminClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Platform version required for upgrading an admin cluster or a user     cluster. If the current platform version is lower than the required     version, the platform version will be updated to the required version.     If it is not installed in the platform, download the required version     bundle.
+    /// Platform version required for upgrading an admin cluster or a user cluster. If the current platform version is lower than the required version, the platform version will be updated to the required version. If it is not installed in the platform, download the required version bundle.
     /// </summary>
     [CliOption("--required-platform-version", Format = OptionFormat.EqualsSeparated)]
     public string? RequiredPlatformVersion { get; set; }

@@ -24,19 +24,19 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// This defines the service attachment's connection preference.     CONNECTION_PREFERENCE must be one of:      ACCEPT_AUTOMATIC       Always accept connection requests from consumers automatically.     ACCEPT_MANUAL       Only accept connection requests from consumers with the approval of       the service provider.
+    /// This defines the service attachment's connection preference. CONNECTION_PREFERENCE must be one of: ACCEPT_AUTOMATIC Always accept connection requests from consumers automatically. ACCEPT_MANUAL Only accept connection requests from consumers with the approval of the service provider.
     /// </summary>
     [CliOption("--connection-preference", Format = OptionFormat.EqualsSeparated)]
     public string? ConnectionPreference { get; set; }
 
     /// <summary>
-    /// Specifies which consumer projects/networks/endpoints are allowed to     connect to the service attachment. A connection limit is required for     each accepted project/network (optional for endpoints). For a given     service attachment, consumer accept and reject lists must contain     entries of the same type: all projects, all networks or all endpoints.     For example:     ◆ --consumer-accept-list myProjectId1=20 - Accepts a consumer project      myProjectId1 with connection limit 20.     ◆ --consumer-accept-list      projects/myProjectId1/global/networks/myNet1=20 - Accepts a consumer      network myNet1 with connection limit 20.     ◆ --consumer-accept-list      projects/myProjectId1/regions/myRegion1/forwardingRules/8167352512 -      Accepts a consumer endpoint with ID 8167352512.     ◆ PROJECT_OR_NETWORK_OR_ENDPOINT - Consumer project ID/number or      network URL or endpoint URL.     ◆ CONNECTION_LIMIT - The maximum number of allowed connections. This      field is optional for endpoints.
+    /// Specifies which consumer projects/networks/endpoints are allowed to connect to the service attachment. A connection limit is required for each accepted project/network (optional for endpoints). For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks or all endpoints. For example: * --consumer-accept-list myProjectId1=20 - Accepts a consumer project myProjectId1 with connection limit 20. * --consumer-accept-list projects/myProjectId1/global/networks/myNet1=20 - Accepts a consumer network myNet1 with connection limit 20. * --consumer-accept-list projects/myProjectId1/regions/myRegion1/forwardingRules/8167352512 - Accepts a consumer endpoint with ID 8167352512. * PROJECT_OR_NETWORK_OR_ENDPOINT - Consumer project ID/number or network URL or endpoint URL. * CONNECTION_LIMIT - The maximum number of allowed connections. This field is optional for endpoints.
     /// </summary>
     [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ConsumerAcceptList { get; set; }
 
     /// <summary>
-    /// Specifies a comma-separated list of projects/networks/endpoints that     are not allowed to connect to this service attachment. The project can     be specified using its project ID or project number and the network or     endpoint can be specified using its URL. For a given service     attachment, consumer accept and reject lists must contain entries of     the same type: all projects, all networks, or all endpoints.
+    /// Specifies a comma-separated list of projects/networks/endpoints that are not allowed to connect to this service attachment. The project can be specified using its project ID or project number and the network or endpoint can be specified using its URL. For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks, or all endpoints.
     /// </summary>
     [CliOption("--consumer-reject-list", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ConsumerRejectList { get; set; }
@@ -46,6 +46,18 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// If True, then enable the proxy protocol which is for supplying client TCP/IP address data in TCP connections that traverse proxies on their way to destination servers. Use --enable-proxy-protocol to enable and --no-enable-proxy-protocol to disable.
+    /// </summary>
+    [CliFlag("--enable-proxy-protocol")]
+    public bool? EnableProxyProtocol { get; set; }
+
+    /// <summary>
+    /// If True, then enable the proxy protocol which is for supplying client TCP/IP address data in TCP connections that traverse proxies on their way to destination servers. Use --enable-proxy-protocol to enable and --no-enable-proxy-protocol to disable.
+    /// </summary>
+    [CliFlag("--no-enable-proxy-protocol")]
+    public bool? NoEnableProxyProtocol { get; set; }
 
     /// <summary>
     /// The number of NAT IP addresses to be allocated per connected endpoint.
@@ -60,25 +72,37 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     public IEnumerable<string>? NatSubnets { get; set; }
 
     /// <summary>
-    /// Region of the subnetworks to operate on. If not specified, it will be     set to the region of the service attachment. Overrides the default     compute/region property value for this command invocation.
+    /// Region of the subnetworks to operate on. If not specified, it will be set to the region of the service attachment. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--nat-subnets-region", Format = OptionFormat.EqualsSeparated)]
     public string? NatSubnetsRegion { get; set; }
 
     /// <summary>
-    /// The number of consumer spokes that connected Private Service Connect     endpoints can be propagated to through Network Connectivity Center.     This limit lets the service producer limit how many propagated Private     Service Connect connections can be established to this service     attachment from a single consumer.     If the connection preference of the service attachment is     ACCEPT_MANUAL, the limit applies to each project or network that is     listed in the consumer accept list. If the connection preference of the     service attachment is ACCEPT_AUTOMATIC, the limit applies to each     project that contains a connected endpoint.     If unspecified, the default propagated connection limit is 250.
+    /// The number of consumer spokes that connected Private Service Connect endpoints can be propagated to through Network Connectivity Center. This limit lets the service producer limit how many propagated Private Service Connect connections can be established to this service attachment from a single consumer. If the connection preference of the service attachment is ACCEPT_MANUAL, the limit applies to each project or network that is listed in the consumer accept list. If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint. If unspecified, the default propagated connection limit is 250.
     /// </summary>
     [CliOption("--propagated-connection-limit", Format = OptionFormat.EqualsSeparated)]
     public string? PropagatedConnectionLimit { get; set; }
 
     /// <summary>
-    /// Region of the service attachment to update. If not specified, you might     be prompted to select a region (interactive mode only).     To avoid prompting when this flag is omitted, you can set the     compute/region property:       $ gcloud config set compute/region REGION     A list of regions can be fetched by running:       $ gcloud compute regions list     To unset the property, run:       $ gcloud config unset compute/region     Alternatively, the region can be stored in the environment variable     CLOUDSDK_COMPUTE_REGION.
+    /// Determines whether to apply changes to consumer accept or reject lists to existing connections or only to new connections. If false, existing endpoints with a connection status of ACCEPTED or REJECTED are not updated. If true, existing endpoints with a connection status of ACCEPTED or REJECTED are updated based on the connection policy update. For example, if a project or network is removed from the --consumer-accept-list and added to --consumer-reject-list, all the endpoints in that project or network with the ACCEPTED state are set to REJECTED. Use --reconcile-connections to enable and --no-reconcile-connections to disable.
+    /// </summary>
+    [CliFlag("--reconcile-connections")]
+    public bool? ReconcileConnections { get; set; }
+
+    /// <summary>
+    /// Determines whether to apply changes to consumer accept or reject lists to existing connections or only to new connections. If false, existing endpoints with a connection status of ACCEPTED or REJECTED are not updated. If true, existing endpoints with a connection status of ACCEPTED or REJECTED are updated based on the connection policy update. For example, if a project or network is removed from the --consumer-accept-list and added to --consumer-reject-list, all the endpoints in that project or network with the ACCEPTED state are set to REJECTED. Use --reconcile-connections to enable and --no-reconcile-connections to disable.
+    /// </summary>
+    [CliFlag("--no-reconcile-connections")]
+    public bool? NoReconcileConnections { get; set; }
+
+    /// <summary>
+    /// Region of the service attachment to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// If set to true, this flag cleans up the service attachment's consumer     accept and reject lists by removing entries for Private Service Connect     endpoints that are no longer connected.     The cleanup process compares the resource ID of each endpoint in the     lists against the currently connected endpoints. In rare cases, an     obsolete entry will be left untouched if its resource ID collides with     another connected endpoint from a different project.     This flag only affects endpoint-based accept/reject entries,     project-based and network-based entries are left unchanged.
+    /// If set to true, this flag cleans up the service attachment's consumer accept and reject lists by removing entries for Private Service Connect endpoints that are no longer connected. The cleanup process compares the resource ID of each endpoint in the lists against the currently connected endpoints. In rare cases, an obsolete entry will be left untouched if its resource ID collides with another connected endpoint from a different project. This flag only affects endpoint-based accept/reject entries, project-based and network-based entries are left unchanged.
     /// </summary>
     [CliFlag("--remove-obsolete-endpoint-accept-reject-entries")]
     public bool? RemoveObsoleteEndpointAcceptRejectEntries { get; set; }

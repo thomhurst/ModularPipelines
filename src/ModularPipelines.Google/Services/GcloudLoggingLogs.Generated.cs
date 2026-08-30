@@ -33,6 +33,21 @@ public class GcloudLoggingLogs
     #region Commands
 
     /// <summary>
+    /// manages your project's logs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudLoggingLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLoggingLogsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// delete all entries from a log in the global     _Default log bucket
     /// </summary>
     /// <param name="options">The command options.</param>

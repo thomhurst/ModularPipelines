@@ -57,4 +57,23 @@ public class GcloudSqlSsl
     public GcloudSqlSslServerCerts ServerCerts => _serverCerts ??= new GcloudSqlSslServerCerts(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// provide commands for managing SSL certificates of Cloud     SQL instances
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudSqlSslOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSqlSslOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

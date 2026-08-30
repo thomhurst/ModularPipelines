@@ -17,8 +17,9 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudTrackingMode
 {
     [EnumValue("PER_CONNECTION")]
-    PerConnection,
+    PerConnection = 0,
 
     [EnumValue("PER_SESSION")]
-    PerSession
+    PerSession = 1,
+
 }

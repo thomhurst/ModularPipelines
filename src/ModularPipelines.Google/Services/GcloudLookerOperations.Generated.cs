@@ -33,6 +33,21 @@ public class GcloudLookerOperations
     #region Commands
 
     /// <summary>
+    /// manage Looker operations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudLookerOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLookerOperationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// cancel a Looker import or export     operation
     /// </summary>
     /// <param name="options">The command options.</param>

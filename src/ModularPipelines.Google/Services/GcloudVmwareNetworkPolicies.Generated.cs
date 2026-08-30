@@ -43,6 +43,21 @@ public class GcloudVmwareNetworkPolicies
     #region Commands
 
     /// <summary>
+    /// manage VMware Engine network policies in     Google Cloud VMware Engine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudVmwareNetworkPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwareNetworkPoliciesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a VMware Engine network     policy
     /// </summary>
     /// <param name="options">The command options.</param>

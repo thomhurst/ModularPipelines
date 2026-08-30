@@ -15,18 +15,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud beyondcorp commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudBeyondcorp
 {
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudBeyondcorpOperations Operations { get; }
+    GcloudBeyondcorpOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud security-gateways sub-commands.
     /// </summary>
-    GcloudBeyondcorpSecurityGateways SecurityGateways { get; }
+    GcloudBeyondcorpSecurityGateways SecurityGateways => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Beyondcorp resources
@@ -35,9 +38,7 @@ public interface IGcloudBeyondcorp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        GcloudBeyondcorpOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(GcloudBeyondcorpOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

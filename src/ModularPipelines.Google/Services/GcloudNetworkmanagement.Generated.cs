@@ -57,4 +57,23 @@ public class GcloudNetworkmanagement : IGcloudNetworkmanagement
     public GcloudNetworkmanagementVpcFlowLogsConfigs VpcFlowLogsConfigs => _vpcFlowLogsConfigs ??= new GcloudNetworkmanagementVpcFlowLogsConfigs(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Network Management resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GcloudNetworkManagementOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

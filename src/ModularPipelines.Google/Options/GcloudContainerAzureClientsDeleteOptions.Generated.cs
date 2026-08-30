@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAzureClientsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Allow idempotent deletion of client. The request will still succeed in     case the client does not exist.
+    /// Allow idempotent deletion of client. The request will still succeed in case the client does not exist.
     /// </summary>
     [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }

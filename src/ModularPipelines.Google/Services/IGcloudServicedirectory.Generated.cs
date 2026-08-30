@@ -15,27 +15,40 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud servicedirectory commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IGcloudServicedirectory
 {
     /// <summary>
     /// gcloud endpoints sub-commands.
     /// </summary>
-    GcloudServicedirectoryEndpoints Endpoints { get; }
+    GcloudServicedirectoryEndpoints Endpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudServicedirectoryLocations Locations { get; }
+    GcloudServicedirectoryLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud namespaces sub-commands.
     /// </summary>
-    GcloudServicedirectoryNamespaces Namespaces { get; }
+    GcloudServicedirectoryNamespaces Namespaces => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudServicedirectoryServices Services { get; }
+    GcloudServicedirectoryServices Services => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// command groups for Service Directory
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(GcloudServiceDirectoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

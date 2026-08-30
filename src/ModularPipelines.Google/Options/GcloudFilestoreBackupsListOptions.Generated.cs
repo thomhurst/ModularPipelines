@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFilestoreBackupsListOptions : GcloudOptions
 {
     /// <summary>
-    /// The region of the Backups to display. If unspecified, all backups will     be listed.
+    /// The region of the Backups to display. If unspecified, all backups will be listed.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
