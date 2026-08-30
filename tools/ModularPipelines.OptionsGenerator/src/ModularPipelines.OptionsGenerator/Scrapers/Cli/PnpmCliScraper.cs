@@ -418,6 +418,8 @@ public partial class PnpmCliScraper : CliScraperBase
             cleanName == "save-optional" ||
             cleanName == "save-peer" ||
             cleanName == "save-exact" ||
+            cleanName == "dry-run" ||
+            cleanName == "json" ||
             cleanName == "global" ||
             cleanName == "recursive" ||
             cleanName == "offline" ||

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Node.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Node.Options;
 
@@ -29,14 +30,14 @@ public record PnpmStagePublishOptions : PnpmOptions
     /// <summary>
     /// Does everything stage publish would do except uploading to the registry.
     /// </summary>
-    [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// Show information in JSON format for list, view, publish, and download.
     /// </summary>
-    [CliOption("--json")]
-    public string? Json { get; set; }
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// One-time password for approve and reject.

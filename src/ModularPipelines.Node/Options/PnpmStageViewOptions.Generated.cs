@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Node.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Node.Options;
 
