@@ -27,4 +27,16 @@ public class ChocolateyOptionsTests : TestBase
 
         await Assert.That(arguments).IsEquivalentTo(["sample", "Owner=team", "Port=443"]);
     }
+
+    [Test]
+    public async Task Pack_Nuspec_Path_Precedes_Property_Value()
+    {
+        var arguments = BuildArguments(new ChocoPackOptions
+        {
+            PathToNuspec = "sample.nuspec",
+            PropertyValue = "Version=1",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["sample.nuspec", "Version=1"]);
+    }
 }

@@ -71,6 +71,8 @@ ModularPipelines.Chocolatey.Options.ChocoNewOptions.NameArgument.init -> void
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.PropertyValuePropertyNValueN.set -> void
 ModularPipelines.Chocolatey.Options.ChocoPackOptions.PropertyValue.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoPackOptions.PropertyValue.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.PathToNuspec.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.PathToNuspec.set -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ChocoUninstallOptions(string! Pkg) -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Pkg.get -> string!
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Pkg.init -> void
@@ -79,8 +81,6 @@ ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ChocoUpgradeOptions(stri
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Pkg.get -> string!
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Pkg.init -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Pkg2PkgN.set -> void
-*REMOVED*ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Name.get -> string?
-*REMOVED*ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Name.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Deconstruct(out string! Pkg) -> void
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.Deconstruct(out string! NameArgument) -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Deconstruct(out string! Pkg) -> void

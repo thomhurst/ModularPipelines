@@ -160,6 +160,59 @@ public class ChocolateyCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Pack_Operands_Are_Reindexed_After_The_Options_Marker()
+    {
+        const string helpText = """
+            Chocolatey v2.7.4
+            Pack Command
+
+            Usage
+
+                choco pack [<path to nuspec>] [<options/switches>] [<property=value>]
+
+            Options and Switches
+            ====================
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(
+            ["choco", "pack"],
+            helpText);
+
+        await Assert.That(command!.PositionalArguments
+                .Select(argument => (argument.PropertyName, argument.PositionIndex)))
+            .IsEquivalentTo([("PathToNuspec", 0), ("PropertyValue", 1)]);
+    }
+
+    [Test]
+    public async Task Template_Name_Option_Is_Preserved()
+    {
+        const string helpText = """
+            Chocolatey v2.7.4
+            Template Command
+
+            Usage
+
+                choco template [list]|info [<options/switches>]
+
+            Options and Switches
+            ====================
+
+             -n, --name=VALUE
+                 The name of the template to get information about.
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(
+            ["choco", "template"],
+            helpText);
+
+        var name = command!.Options.Single(option => option.PropertyName == "Name");
+        using (Assert.Multiple())
+        {
+            await Assert.That(name.SwitchName).IsEqualTo("--name");
+            await Assert.That(name.ShortForm).IsEqualTo("-n");
+            await Assert.That(name.CSharpType).IsEqualTo("string?");
+        }
+    }
+
     private sealed class TestChocolateyCliScraper : ChocolateyCliScraper
     {
         public TestChocolateyCliScraper()

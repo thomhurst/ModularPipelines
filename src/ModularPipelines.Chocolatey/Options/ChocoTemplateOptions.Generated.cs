@@ -112,4 +112,10 @@ public record ChocoTemplateOptions : ChocoOptions
     [CliFlag("--ignore-http-cache")]
     public bool? IgnoreHttpCache { get; set; }
 
+    /// <summary>
+    /// The name of the template to get information about.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
 }
