@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "terraform",
-  "toolVersion": "Terraform v1.15.9 on linux_amd64",
-  "commandCount": 63,
-  "commandTreeSha256": "2e97e8421eb879e3a92a004a96fb9d0bb1cbb9cfd55669c08a78723a768e6d64",
+  "toolVersion": "Terraform v1.16.0 on linux_amd64",
+  "commandCount": 68,
+  "commandTreeSha256": "68f2991aabc4276d9134b5e632ec9fd9e0613705bb3edfc0c0b5b39c4f665dc7",
   "commands": [
     "terraform apply",
     "terraform console",
@@ -47,6 +47,10 @@
     "terraform stacks deployment-run list",
     "terraform stacks deployment-run show",
     "terraform stacks deployment-run watch",
+    "terraform stacks deployment-step",
+    "terraform stacks deployment-step artifacts",
+    "terraform stacks deployment-step show",
+    "terraform stacks diagnostics",
     "terraform stacks fmt",
     "terraform stacks init",
     "terraform stacks list",
@@ -66,6 +70,7 @@
     "terraform untaint",
     "terraform validate",
     "terraform workspace delete",
+    "terraform workspace list",
     "terraform workspace new",
     "terraform workspace select"
   ],
@@ -75,6 +80,7 @@
     "terraform stacks configuration",
     "terraform stacks deployment-group",
     "terraform stacks deployment-run",
+    "terraform stacks deployment-step",
     "terraform state",
     "terraform workspace"
   ],

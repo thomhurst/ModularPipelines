@@ -50,4 +50,10 @@ public record TerraformGraphOptions : TerraformOptions
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
 
+    /// <summary>
+    /// Output format for the graph. Supported values are dot (default) and mermaid.
+    /// </summary>
+    [CliOption("-format", Format = OptionFormat.EqualsSeparated)]
+    public string? Format { get; set; }
+
 }

@@ -37,6 +37,11 @@ public interface ITerraformStacks
     TerraformStacksDeploymentRun DeploymentRun => throw new System.NotSupportedException();
 
     /// <summary>
+    /// terraform deployment-step sub-commands.
+    /// </summary>
+    TerraformStacksDeploymentStep DeploymentStep => throw new System.NotSupportedException();
+
+    /// <summary>
     /// The available commands for execution are listed below.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -54,6 +59,16 @@ public interface ITerraformStacks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> CreateAsync(TerraformStacksCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Show diagnostics for either a stack configuration or a deployment step.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DiagnosticsAsync(TerraformStacksDiagnosticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

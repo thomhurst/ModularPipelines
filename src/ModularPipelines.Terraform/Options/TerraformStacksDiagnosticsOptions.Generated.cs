@@ -13,15 +13,21 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Create or update the dependency lock file (.terraform.lock.hcl) for the
+/// Show diagnostics for either a stack configuration or a deployment step.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stacks", "providers-lock")]
-public record TerraformStacksProvidersLockOptions : TerraformOptions
+[CliSubCommand("stacks", "diagnostics")]
+public record TerraformStacksDiagnosticsOptions : TerraformOptions
 {
     /// <summary>
-    /// Output results in JSON format instead of the default
+    /// The ID of the stack configuration or deployment step to retrieve diagnostics for. Supported prefixes are "stc-" for configuration IDs and "sds-" for step IDs.
+    /// </summary>
+    [CliFlag("-id")]
+    public bool? Id { get; set; }
+
+    /// <summary>
+    /// Output results in JSON format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }

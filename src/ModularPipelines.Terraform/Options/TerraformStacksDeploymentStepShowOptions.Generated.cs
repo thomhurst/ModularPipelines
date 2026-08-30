@@ -13,15 +13,21 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Create or update the dependency lock file (.terraform.lock.hcl) for the
+/// Show the details of a single deployment step, including its deployment steps.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stacks", "providers-lock")]
-public record TerraformStacksProvidersLockOptions : TerraformOptions
+[CliSubCommand("stacks", "deployment-step", "show")]
+public record TerraformStacksDeploymentStepShowOptions : TerraformOptions
 {
     /// <summary>
-    /// Output results in JSON format instead of the default
+    /// The ID of the deployment step to show. (required)
+    /// </summary>
+    [CliFlag("-deployment-step-id")]
+    public bool? DeploymentStepId { get; set; }
+
+    /// <summary>
+    /// Output results in JSON format instead of the default human-readable text format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }

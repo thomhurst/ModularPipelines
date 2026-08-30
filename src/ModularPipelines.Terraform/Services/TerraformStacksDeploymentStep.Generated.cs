@@ -6,7 +6,6 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -15,17 +14,17 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Services;
 
 /// <summary>
-/// terraform workspace commands.
+/// terraform deployment-step commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class TerraformWorkspace : ITerraformWorkspace
+public class TerraformStacksDeploymentStep
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TerraformWorkspace"/> class.
+    /// Initializes a new instance of the <see cref="TerraformStacksDeploymentStep"/> class.
     /// </summary>
-    public TerraformWorkspace(ICommandContext command)
+    public TerraformStacksDeploymentStep(ICommandContext command)
     {
         _command = command;
     }
@@ -33,63 +32,48 @@ public class TerraformWorkspace : ITerraformWorkspace
     #region Commands
 
     /// <summary>
-    /// Delete a Terraform workspace
+    /// show                            Show details of a deployment step in the current configuration.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteAsync(
-        TerraformWorkspaceDeleteOptions? options = null,
+    public virtual async Task<CommandResult> ExecuteAsync(
+        TerraformStacksDeploymentStepOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformWorkspaceDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformStacksDeploymentStepOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
-    /// List Terraform workspaces.
+    /// Retrieve the raw artifact data for a deployment step. The data is returned
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAsync(
-        TerraformWorkspaceListOptions? options = null,
+    public virtual async Task<CommandResult> ArtifactsAsync(
+        TerraformStacksDeploymentStepArtifactsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformWorkspaceListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformStacksDeploymentStepArtifactsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
-    /// Create a new Terraform workspace.
+    /// Show the details of a single deployment step, including its deployment steps.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> NewAsync(
-        TerraformWorkspaceNewOptions? options = null,
+    public virtual async Task<CommandResult> ShowAsync(
+        TerraformStacksDeploymentStepShowOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformWorkspaceNewOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Select a different Terraform workspace.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SelectAsync(
-        TerraformWorkspaceSelectOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformWorkspaceSelectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformStacksDeploymentStepShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion
