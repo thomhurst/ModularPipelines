@@ -57,10 +57,11 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         var temporaryArchivePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.zip");
         try
         {
-            CreateDirectoryArchive(
+            await CreateDirectoryArchiveAsync(
                 directoryPath,
                 temporaryArchivePath,
-                _options.CompressionLevel);
+                _options.CompressionLevel,
+                cancellationToken);
             await using var stream = File.OpenRead(temporaryArchivePath);
             return await _store.UploadAsync(descriptor, stream, cancellationToken);
         }
@@ -70,11 +71,13 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         }
     }
 
-    internal static void CreateDirectoryArchive(
+    internal static async Task CreateDirectoryArchiveAsync(
         string directoryPath,
         string archivePath,
-        CompressionLevel compressionLevel)
+        CompressionLevel compressionLevel,
+        CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var sourceDirectory = Path.GetFullPath(directoryPath);
         var fullArchivePath = Path.GetFullPath(archivePath);
         var pathComparison = OperatingSystem.IsWindows()
@@ -88,6 +91,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
                      "*",
                      SearchOption.AllDirectories))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var entryName = Path.GetRelativePath(sourceDirectory, directory)
                 .Replace(Path.DirectorySeparatorChar, '/')
                 .TrimEnd('/') + "/";
@@ -99,6 +103,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
                      "*",
                      SearchOption.AllDirectories))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             if (string.Equals(Path.GetFullPath(file), fullArchivePath, pathComparison)
                 || string.Equals(ResolveSymbolicLinks(file), resolvedArchivePath, pathComparison))
             {
@@ -107,7 +112,18 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
 
             var entryName = Path.GetRelativePath(sourceDirectory, file)
                 .Replace(Path.DirectorySeparatorChar, '/');
-            archive.CreateEntryFromFile(file, entryName, compressionLevel);
+            var entry = archive.CreateEntry(entryName, compressionLevel);
+            entry.LastWriteTime = File.GetLastWriteTime(file);
+            await using var sourceStream = new FileStream(
+                file,
+                new FileStreamOptions
+                {
+                    Access = FileAccess.Read,
+                    Mode = FileMode.Open,
+                    Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
+                });
+            await using var entryStream = entry.Open();
+            await sourceStream.CopyToAsync(entryStream, cancellationToken);
         }
     }
 

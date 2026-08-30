@@ -235,10 +235,11 @@ public class ArtifactContextApiTests
 
         try
         {
-            ArtifactContextImpl.CreateDirectoryArchive(
+            await ArtifactContextImpl.CreateDirectoryArchiveAsync(
                 sourceDirectory,
                 archivePath,
-                CompressionLevel.Fastest);
+                CompressionLevel.Fastest,
+                CancellationToken.None);
 
             using var archive = ZipFile.OpenRead(archivePath);
             await Assert.That(archive.Entries.Select(static entry => entry.FullName))
@@ -262,10 +263,11 @@ public class ArtifactContextApiTests
 
         try
         {
-            ArtifactContextImpl.CreateDirectoryArchive(
+            await ArtifactContextImpl.CreateDirectoryArchiveAsync(
                 sourceLink,
                 archivePath,
-                CompressionLevel.Fastest);
+                CompressionLevel.Fastest,
+                CancellationToken.None);
 
             using var archive = ZipFile.OpenRead(archivePath);
             await Assert.That(archive.Entries.Select(static entry => entry.FullName))
@@ -275,6 +277,37 @@ public class ArtifactContextApiTests
         {
             Directory.Delete(sourceLink);
             linkDirectory.Delete();
+            sourceDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Directory_Archive_Observes_Cancellation_During_Compression()
+    {
+        var sourceDirectory = Directory.CreateTempSubdirectory("artifact-archive-cancellation-");
+        var archivePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.zip");
+        var payloadPath = Path.Combine(sourceDirectory.FullName, "payload.bin");
+
+        try
+        {
+            await using (var payload = File.Create(payloadPath))
+            {
+                payload.SetLength(64 * 1024 * 1024);
+            }
+
+            using var cancellationTokenSource = new CancellationTokenSource();
+            var archiveTask = ArtifactContextImpl.CreateDirectoryArchiveAsync(
+                sourceDirectory.FullName,
+                archivePath,
+                CompressionLevel.Optimal,
+                cancellationTokenSource.Token);
+            cancellationTokenSource.Cancel();
+
+            await Assert.ThrowsAsync<OperationCanceledException>(() => archiveTask);
+        }
+        finally
+        {
+            File.Delete(archivePath);
             sourceDirectory.Delete(recursive: true);
         }
     }
