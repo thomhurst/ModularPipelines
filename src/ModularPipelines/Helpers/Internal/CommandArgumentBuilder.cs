@@ -33,19 +33,31 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object optionsObject,
         ref bool emittedOptionTerminator,
         out int? emittedOptionTerminatorIndex,
-        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands = null)
+        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands = null,
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>>? materializedRequiredOperands = null)
     {
+        var optionsType = optionsObject.GetType();
         var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
-        var propertyValues = commandModel.ToDictionary(
-            static part => part,
-            part => part.Getter(optionsObject));
         var argumentValues = arguments.ToDictionary(
             static argument => argument,
-            argument => (IReadOnlyList<string>) GetValues(propertyValues[argument]));
+            argument => materializedRequiredOperands?.TryGetValue(argument, out var values) == true
+                ? values
+                : GetValues(argument.Getter(optionsObject)));
+        if (manualRequiredOperands is not null)
+        {
+            foreach (var (argument, value) in manualRequiredOperands)
+            {
+                if (argumentValues.TryGetValue(argument, out var values) && values.Count == 0)
+                {
+                    argumentValues[argument] = [value];
+                }
+            }
+        }
+
         var renderedOptionValues = flagsAndOptions.ToDictionary(
             static part => part,
-            part => RenderOption(part, propertyValues[part], optionsObject.GetType()));
+            part => RenderOption(part, part.Getter(optionsObject), optionsType));
         ValidateOptionTerminatorOrdering(
             arguments,
             renderedOptionValues,
@@ -62,9 +74,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                     arguments,
                     renderedOptionValues,
                     argumentValues,
-                    optionsObject.GetType(),
-                    ref emittedOptionTerminator,
-                    manualRequiredOperands));
+                    optionsType,
+                    ref emittedOptionTerminator));
         }
 
         var rendered = new List<string>();
@@ -100,8 +111,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IReadOnlyDictionary<PropertyCommandLinePart, IReadOnlyList<string>> renderedOptionValues,
         IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
         Type optionsType,
-        ref bool emittedOptionTerminator,
-        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands)
+        ref bool emittedOptionTerminator)
     {
         var rendered = new List<string>();
         int? optionTerminatorIndex = null;
@@ -118,8 +128,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 argumentValues,
                 optionsType,
                 ref emittedOptionTerminator,
-                ref optionTerminatorIndex,
-                manualRequiredOperands);
+                ref optionTerminatorIndex);
             AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
         }
         else
@@ -139,8 +148,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 argumentValues,
                 optionsType,
                 ref emittedOptionTerminator,
-                ref optionTerminatorIndex,
-                manualRequiredOperands);
+                ref optionTerminatorIndex);
         }
 
         return new RenderedPhase(rendered, optionTerminatorIndex);
@@ -152,8 +160,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
         Type optionsType,
         ref bool emittedOptionTerminator,
-        ref int? optionTerminatorIndex,
-        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands)
+        ref int? optionTerminatorIndex)
     {
         if (argumentParts is null)
         {
@@ -163,12 +170,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         foreach (var argumentPart in argumentParts)
         {
             var values = argumentValues[argumentPart];
-            if (values.Count == 0
-                && manualRequiredOperands?.TryGetValue(argumentPart, out var manualValue) == true)
-            {
-                values = [manualValue];
-            }
-
             if (argumentPart.Attribute.Required
                 && values.Count == 0)
             {

@@ -37,6 +37,21 @@ public class PulumiOptionsTests : TestBase
     }
 
     [Test]
+    public async Task Legacy_Env_Run_Consumes_Manual_Option_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new PulumiEnvRunOptions("development")
+        {
+            Arguments = ["--", "bash", "-c", "echo hello"],
+            ArgumentsContainOptionTerminator = true,
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("pulumi env run development -- bash -c echo hello");
+    }
+
+    [Test]
     public async Task Legacy_Logout_Local_Flag_Uses_Local_Backend_Url()
     {
         var builder = await GetService<ICommandLineBuilder>();
