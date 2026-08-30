@@ -36,8 +36,8 @@ public record AzNetworkVirtualApplianceMigrationPrepareOptions(
     /// <summary>
     /// The marketplace version to migrate to. Only applicable when --migration-type is
     /// </summary>
-    [CliFlag("--marketplace-version")]
-    public bool? MarketplaceVersion { get; set; }
+    [CliOption("--marketplace-version")]
+    public string? MarketplaceVersion { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

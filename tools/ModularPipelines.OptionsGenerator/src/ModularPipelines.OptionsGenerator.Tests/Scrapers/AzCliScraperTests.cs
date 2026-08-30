@@ -442,6 +442,45 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Current_Azure_Help_Infers_Operand_Cardinality()
+    {
+        const string helpText = """
+            Command
+                az service update : Update a service.
+
+            Optional Arguments
+                --all                 : List all subscriptions from all clouds.
+                --marketplace-version : The marketplace version to migrate to.
+                --remove              : Remove a property or an element from a list. Example: `--remove property.list <indexToRemove>`.
+                --set                 : Update an object by specifying a property path and value to set. Example: `--set property=value`.
+                --user-assigned       : Accepts space-separated list of identity resource IDs. If --user-assigned is specified without any resource IDs, all identities are removed.
+                --vnet                : Name or resource ID of the regional virtual network. If there are multiple vnets of the same name, use the resource ID.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "service", "update"],
+            helpText);
+        var options = command!.Options.ToDictionary(option => option.SwitchName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options["--all"].IsFlag).IsTrue();
+            await Assert.That(options["--all"].CSharpType).IsEqualTo("bool?");
+            await Assert.That(options["--marketplace-version"].IsFlag).IsFalse();
+            await Assert.That(options["--marketplace-version"].CSharpType).IsEqualTo("string?");
+            await Assert.That(options["--remove"].CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(options["--remove"].GroupValues).IsTrue();
+            await Assert.That(options["--set"].CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(options["--set"].GroupValues).IsTrue();
+            await Assert.That(options["--user-assigned"].ValueArity)
+                .IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(options["--user-assigned"].PropertyType)
+                .IsEqualTo("IEnumerable<CliOptionValue>?");
+            await Assert.That(options["--vnet"].CSharpType).IsEqualTo("string?");
+        }
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

@@ -30,7 +30,7 @@ public record AzAppservicePlanManagedInstanceNetworkAddOptions : AzOptions
     /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the app service plan will be used. Must be used with --subnet argument.
     /// </summary>
     [CliOption("--vnet")]
-    public IEnumerable<string>? Vnet { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

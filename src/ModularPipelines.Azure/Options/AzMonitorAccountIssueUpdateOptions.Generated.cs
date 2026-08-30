@@ -29,7 +29,7 @@ public record AzMonitorAccountIssueUpdateOptions : AzOptions
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
-    [CliOption("--add")]
+    [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
 
     /// <summary>
@@ -41,14 +41,14 @@ public record AzMonitorAccountIssueUpdateOptions : AzOptions
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
-    [CliFlag("--remove")]
-    public bool? Remove { get; set; }
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
     /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
-    [CliFlag("--set")]
-    public bool? Set { get; set; }
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
     /// The issue background information  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

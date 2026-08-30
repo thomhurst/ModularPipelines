@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzAppservicePlanIdentityRemoveOptions : AzOptions
     /// <summary>
     /// Remove user-assigned managed identities from this app service plan. Accepts space-separated list of identity resource IDs. If --user- assigned is specified without any resource IDs, all user-assigned managed identities are removed from this app service plan.
     /// </summary>
-    [CliOption("--user-assigned", GroupValues = true)]
-    public IEnumerable<string>? UserAssigned { get; set; }
+    [CliOption("--user-assigned", GroupValues = true, ValueArity = CliOptionValueArity.Optional)]
+    public IEnumerable<CliOptionValue>? UserAssigned { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
