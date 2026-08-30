@@ -67,7 +67,7 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     /// Your own service account that you use to deploy an application.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
     /// The type of the application. TYPE must be one of: helm-app Application type is helm application. terraform-app Application type is terraform application.
@@ -223,13 +223,13 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     /// Set composite_application_parameters_service_account_map to new value. A map from a component's URI to the deployment service account for composite application. key format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/components/{component} value format: projects/{project}/serviceAccounts/{email_address}. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --composite-application-parameters-service-account-map=string=string JSON Example: --composite-application-parameters-service-account-map='{"string": "string"}' File Example: --composite-application-parameters-service-account-map=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--composite-application-parameters-service-account-map", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<int>? CompositeApplicationParametersServiceAccountMap { get; set; }
+    public string? CompositeApplicationParametersServiceAccountMap { get; set; }
 
     /// <summary>
     /// Update composite_application_parameters_service_account_map value or add key value pair. A map from a component's URI to the deployment service account for composite application. key format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/components/{component} value format: projects/{project}/serviceAccounts/{email_address}. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-composite-application-parameters-service-account-map=string=string JSON Example: --update-composite-application-parameters-service-account-map='{"string": "string"}' File Example: --update-composite-application-parameters-service-account-map=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-composite-application-parameters-service-account-map", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<int>? UpdateCompositeApplicationParametersServiceAccountMap { get; set; }
+    public string? UpdateCompositeApplicationParametersServiceAccountMap { get; set; }
 
     /// <summary>
     /// Clear composite_application_parameters_service_account_map value and set to empty map.
@@ -241,7 +241,7 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     /// Remove existing value from map composite_application_parameters_service_account_map. Sets remove_composite_application_parameters_service_account_map value. Shorthand Example: --remove-composite-application-parameters-service-account-map=string,string JSON Example: --remove-composite-application-parameters-service-account-map=["string"] File Example: --remove-composite-application-parameters-service-account-map=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-composite-application-parameters-service-account-map", Format = OptionFormat.EqualsSeparated)]
-    public int? RemoveCompositeApplicationParametersServiceAccountMap { get; set; }
+    public string? RemoveCompositeApplicationParametersServiceAccountMap { get; set; }
 
     /// <summary>
     /// Set application.deploymentTarget back to default value.
@@ -259,7 +259,7 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     /// The kubernetes service account that is created within the namespace provided above. Example: default or node-sa
     /// </summary>
     [CliOption("--gke-deployment-target-kubernetes-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? GkeDeploymentTargetKubernetesServiceAccount { get; set; }
+    public string? GkeDeploymentTargetKubernetesServiceAccount { get; set; }
 
     /// <summary>
     /// Whether to create the provided KSA. If true, the KSA will be created in the namespace provided above. If false, the KSA is expected to already exist in the namespace provided above. Use --gke-deployment-target-kubernetes-service-account-creation to enable and --no-gke-deployment-target-kubernetes-service-account-creation to disable.

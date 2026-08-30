@@ -1182,13 +1182,13 @@ public record GcloudContainerClustersCreateOptions(
     /// Sets maximum limit for a single type of accelerators (e.g. GPUs) in cluster. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The maximum number of accelerators to which the cluster can be scaled. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--max-accelerator", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<int>? MaxAccelerator { get; set; }
+    public string? MaxAccelerator { get; set; }
 
     /// <summary>
     /// Sets minimum limit for a single type of accelerators (e.g. GPUs) in cluster. Defaults to 0 for all accelerator types if it isn't set. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The minimum number of accelerators to which the cluster can be scaled.
     /// </summary>
     [CliOption("--min-accelerator", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<int>? MinAccelerator { get; set; }
+    public string? MinAccelerator { get; set; }
 
     /// <summary>
     /// Enables autoscaling for a node pool. Enables autoscaling in the node pool specified by --node-pool or the default node pool if --node-pool is not provided. If not already, --max-nodes or --total-max-nodes must also be set.

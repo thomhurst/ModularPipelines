@@ -436,10 +436,13 @@ public partial class GcloudCliScraper : CliScraperBase
         => NumericHintPattern().IsMatch(hint);
 
     private static bool IsTextualIdentifierOption(string switchName)
-        => switchName.Equals("--billing-account", StringComparison.OrdinalIgnoreCase);
+        => switchName.Equals("--billing-account", StringComparison.OrdinalIgnoreCase)
+            || (switchName.Contains("service-account", StringComparison.OrdinalIgnoreCase)
+                && !switchName.EndsWith("-project-number", StringComparison.OrdinalIgnoreCase));
 
     private static bool IsCompositeValueHint(string valueHint)
-        => valueHint.StartsWith('[') && valueHint.Contains('=');
+        => (valueHint.StartsWith('[') && valueHint.Contains('='))
+            || valueHint.Count(character => character == '=') > 1;
 
     private static bool IsFilePathHint(string switchName, string valueHint)
         => switchName.EndsWith("-file", StringComparison.OrdinalIgnoreCase)

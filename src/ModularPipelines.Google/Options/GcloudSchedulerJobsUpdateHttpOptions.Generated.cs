@@ -58,7 +58,7 @@ public record GcloudSchedulerJobsUpdateHttpOptions : GcloudOptions
     /// The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the job. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. The token must be OAuth if the target is a Google APIs service with URL *.googleapis.com. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--oauth-service-account-email", Format = OptionFormat.EqualsSeparated)]
-    public int? OauthServiceAccountEmail { get; set; }
+    public string? OauthServiceAccountEmail { get; set; }
 
     /// <summary>
     /// The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the job. If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used.
@@ -71,7 +71,7 @@ public record GcloudSchedulerJobsUpdateHttpOptions : GcloudOptions
     /// The service account email to be used for generating an OpenId Connect token to be included in the request sent to the target when executing the job. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. The OIDC token is generally used except for Google APIs hosted on *.googleapis.com: these APIs expect an OAuth token. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--oidc-service-account-email", Format = OptionFormat.EqualsSeparated)]
-    public int? OidcServiceAccountEmail { get; set; }
+    public string? OidcServiceAccountEmail { get; set; }
 
     /// <summary>
     /// The audience to be used when generating an OpenId Connect token to be included in the request sent to the target when executing the job. If not specified, the URI specified in target will be used.

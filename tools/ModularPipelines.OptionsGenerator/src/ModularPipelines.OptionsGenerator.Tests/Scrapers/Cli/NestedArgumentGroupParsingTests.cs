@@ -408,10 +408,16 @@ public partial class NestedArgumentGroupParsingTests
             FLAGS
                  --billing-account=BILLING_ACCOUNT
                     Billing account of the resource.
+                 --oauth-service-account-email=OAUTH_SERVICE_ACCOUNT_EMAIL
+                    IAM service-account email address.
                  --lint-response-summary=COUNT
                     Shorthand Example: --lint-response-summary=count=int,severity=string. JSON Example: --lint-response-summary='[{"count": int}]'. File Example: --lint-response-summary=path_to_file.json.
                  --autoprovisioning-standard-rollout-policy=[BATCH_NODE_COUNT=...,...]
                     Standard rollout policy options for blue-green upgrade.
+                 --max-accelerator=type=TYPE,count=COUNT
+                    Sets the accelerator type and count.
+                 --composite-application-parameters-service-account-map=SERVICE_ACCOUNT_MAP
+                    Shorthand Example: --composite-application-parameters-service-account-map=string=string. JSON Example: --composite-application-parameters-service-account-map='{"string":"string"}'.
 
             GCLOUD WIDE FLAGS
                  --project=PROJECT_ID
@@ -427,12 +433,21 @@ public partial class NestedArgumentGroupParsingTests
                 option.SwitchName == "--billing-account").CSharpType)
                 .IsEqualTo("string?");
             await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--oauth-service-account-email").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option =>
                 option.SwitchName == "--lint-response-summary").CSharpType)
                 .IsEqualTo("string?");
             var rolloutPolicy = command.Options.Single(option =>
                 option.SwitchName == "--autoprovisioning-standard-rollout-policy");
             await Assert.That(rolloutPolicy.CSharpType).IsEqualTo("string?");
             await Assert.That(rolloutPolicy.AcceptsMultipleValues).IsFalse();
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--max-accelerator").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--composite-application-parameters-service-account-map").CSharpType)
+                .IsEqualTo("string?");
         }
     }
 
