@@ -214,6 +214,41 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Description_Negation_Of_Value_Option_Is_A_Flag()
+    {
+        const string helpText = """
+            NAME
+                gcloud compute disks update - update a disk
+
+            SYNOPSIS
+                gcloud compute disks update
+
+            FLAGS
+                 --boot-disk-size=SIZE
+                    Set the boot disk size, or use --no-boot-disk-size to unset it.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "compute", "disks", "update"],
+            helpText);
+        var positive = command!.Options.Single(option => option.SwitchName == "--boot-disk-size");
+        var negative = command.Options.Single(option => option.SwitchName == "--no-boot-disk-size");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(positive.IsFlag).IsFalse();
+            await Assert.That(negative.PropertyName).IsEqualTo("NoBootDiskSize");
+            await Assert.That(negative.CSharpType).IsEqualTo("bool?");
+            await Assert.That(negative.IsFlag).IsTrue();
+            await Assert.That(negative.ValueSeparator).IsEqualTo(" ");
+            await Assert.That(negative.IsNumeric).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Numeric_Hints_Require_Whole_Tokens()
     {
         const string helpText = """
@@ -330,6 +365,74 @@ public partial class NestedArgumentGroupParsingTests
             {
                 await Assert.That(option.CSharpType).IsEqualTo("string?");
             }
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Models_Declared_Value_Lists_As_Collections()
+    {
+        const string helpText = """
+            NAME
+                gcloud storage diagnose - diagnose storage performance
+
+            SYNOPSIS
+                gcloud storage diagnose
+
+            FLAGS
+                 --object-sizes=SIZES
+                    List of object sizes to use for the tests. Sizes should be provided for each object specified using --object-count flag.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "storage", "diagnose"],
+            helpText);
+        var objectSizes = command!.Options.Single(option => option.SwitchName == "--object-sizes");
+
+        await Assert.That(objectSizes.AcceptsMultipleValues).IsTrue();
+        await Assert.That(objectSizes.CSharpType).IsEqualTo("IEnumerable<int>?");
+    }
+
+    [Test]
+    public async Task Gcloud_Keeps_Identifiers_And_Composite_Values_Textual()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --billing-account=BILLING_ACCOUNT
+                    Billing account of the resource.
+                 --lint-response-summary=COUNT
+                    Shorthand Example: --lint-response-summary=count=int,severity=string. JSON Example: --lint-response-summary='[{"count": int}]'. File Example: --lint-response-summary=path_to_file.json.
+                 --autoprovisioning-standard-rollout-policy=[BATCH_NODE_COUNT=...,...]
+                    Standard rollout policy options for blue-green upgrade.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "update"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option =>
+                option.SwitchName == "--billing-account").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--lint-response-summary").CSharpType)
+                .IsEqualTo("string?");
+            var rolloutPolicy = command.Options.Single(option =>
+                option.SwitchName == "--autoprovisioning-standard-rollout-policy");
+            await Assert.That(rolloutPolicy.CSharpType).IsEqualTo("string?");
+            await Assert.That(rolloutPolicy.AcceptsMultipleValues).IsFalse();
         }
     }
 

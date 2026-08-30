@@ -151,13 +151,13 @@ public record GcloudApihubApisVersionsSpecsUpdateOptions : GcloudOptions
     /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Update lint_response_summary. At most one of these can be specified: Set lint_response_summary to new value. Summary of all issue types and counts for each severity level. count Count of issues with the given severity. severity Severity of the issue. Shorthand Example: --lint-response-summary=count=int,severity=string --lint-response-summary=count=int,severity=string JSON Example: --lint-response-summary='[{"count": int, "severity": "string"}]' File Example: --lint-response-summary=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--lint-response-summary", Format = OptionFormat.EqualsSeparated)]
-    public int? LintResponseSummary { get; set; }
+    public string? LintResponseSummary { get; set; }
 
     /// <summary>
     /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Update lint_response_summary. At most one of these can be specified: Or at least one of these can be specified: Add new value to lint_response_summary list. Summary of all issue types and counts for each severity level. count Count of issues with the given severity. severity Severity of the issue. Shorthand Example: --add-lint-response-summary=count=int,severity=string --add-lint-response-summary=count=int,severity=string JSON Example: --add-lint-response-summary='[{"count": int, "severity": "string"}]' File Example: --add-lint-response-summary=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-lint-response-summary", Format = OptionFormat.EqualsSeparated)]
-    public int? AddLintResponseSummary { get; set; }
+    public string? AddLintResponseSummary { get; set; }
 
     /// <summary>
     /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Update lint_response_summary. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear lint_response_summary value and set to empty list.
@@ -169,7 +169,7 @@ public record GcloudApihubApisVersionsSpecsUpdateOptions : GcloudOptions
     /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Update lint_response_summary. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from lint_response_summary list. Summary of all issue types and counts for each severity level. count Count of issues with the given severity. severity Severity of the issue. Shorthand Example: --remove-lint-response-summary=count=int,severity=string --remove-lint-response-summary=count=int,severity=string JSON Example: --remove-lint-response-summary='[{"count": int, "severity": "string"}]' File Example: --remove-lint-response-summary=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-lint-response-summary", Format = OptionFormat.EqualsSeparated)]
-    public int? RemoveLintResponseSummary { get; set; }
+    public string? RemoveLintResponseSummary { get; set; }
 
     /// <summary>
     /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Set googleCloudApihubV1Spec.specType back to default value.

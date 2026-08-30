@@ -93,7 +93,7 @@ public record GcloudLoggingSinksUpdateOptions(
     /// Billing account of the sink to update.
     /// </summary>
     [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
-    public int? BillingAccount { get; set; }
+    public string? BillingAccount { get; set; }
 
     /// <summary>
     /// Folder of the sink to update.

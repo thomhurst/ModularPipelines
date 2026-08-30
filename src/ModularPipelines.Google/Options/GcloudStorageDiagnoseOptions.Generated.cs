@@ -64,7 +64,7 @@ public record GcloudStorageDiagnoseOptions(
     /// List of object sizes to use for the tests. Sizes should be provided for each object specified using --object-count flag.
     /// </summary>
     [CliOption("--object-sizes", Format = OptionFormat.EqualsSeparated)]
-    public int? ObjectSizes { get; set; }
+    public IEnumerable<int>? ObjectSizes { get; set; }
 
     /// <summary>
     /// Generate and export a diagnostic bundle. The following information will be bundled and exported into a gzipped tarball (.tar.gz): * Latest gcloud CLI logs. * Output of running the gcloud storage diagnose command. * Output of running the gcloud info --anonymize command. Note: This command generates a bundle containing system information like disk counter detlas, CPU information and system configurations. Please exercise caution while sharing. This flag argument must be specified if any of the other arguments in this group are specified.

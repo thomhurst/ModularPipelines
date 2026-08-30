@@ -27,7 +27,7 @@ public record GcloudLoggingLocationsDescribeOptions(
     /// At most one of these can be specified: At most one of these can be specified: Billing account of the location to describe.
     /// </summary>
     [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
-    public int? BillingAccount { get; set; }
+    public string? BillingAccount { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: At most one of these can be specified: Folder of the location to describe.

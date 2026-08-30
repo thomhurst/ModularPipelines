@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -289,13 +290,20 @@ public partial class GcloudCliScraper : CliScraperBase
         var valueHint = argument.ValueHint ?? string.Empty;
         var description = argument.Documentation;
         var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
+        var isCompositeValue = IsCompositeValueHint(valueHint);
         var acceptsMultipleValues = !isFlag
+            && !isCompositeValue
             && (valueHint.Contains("...")
+                || DescriptionDeclaresValueList(description)
                 || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
-        var isNumeric = !IsFilePathHint(longForm, valueHint)
+        var isNumeric = !IsTextualIdentifierOption(longForm)
+                        && !IsFilePathHint(longForm, valueHint)
+                        && !isCompositeValue
+                        && !DescriptionDeclaresStructuredValue(description)
                         && !DescriptionDeclaresTextualCategories(description)
                         && IsNumericHint(valueHint);
-        var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
+        var isKeyValue = !isCompositeValue
+                         && (valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,"));
         var enumDefinition = TryDetectEnum(propertyName, description);
 
         var option = new CliOptionDefinition
@@ -325,12 +333,34 @@ public partial class GcloudCliScraper : CliScraperBase
         if (argument.IsNegatable
             || DescriptionMentionsSwitch(description, negativeSwitch))
         {
-            yield return option with
-            {
-                SwitchName = negativeSwitch,
-                PropertyName = $"No{propertyName}",
-            };
+            yield return CreateNegatedOption(option, negativeSwitch);
         }
+    }
+
+    private static CliOptionDefinition CreateNegatedOption(
+        CliOptionDefinition option,
+        string negativeSwitch)
+    {
+        var propertyName = $"No{option.PropertyName}";
+        return option with
+        {
+            SwitchName = negativeSwitch,
+            PropertyName = propertyName,
+            CSharpType = "bool?",
+            Description = $"Negates {option.SwitchName}. {option.Description}",
+            IsFlag = true,
+            ValueArity = CliOptionValueArity.Required,
+            AcceptsMultipleValues = false,
+            GroupValues = false,
+            IsCollection = false,
+            IsKeyValue = false,
+            IsNumeric = false,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag: true),
+            SecretValueKeys = [],
+            ValueSeparator = " ",
+            EnumDefinition = null,
+            ValidationConstraints = null,
+        };
     }
 
     private static bool DescriptionMentionsSwitch(string? description, string switchName) =>
@@ -405,6 +435,12 @@ public partial class GcloudCliScraper : CliScraperBase
     private static bool IsNumericHint(string hint)
         => NumericHintPattern().IsMatch(hint);
 
+    private static bool IsTextualIdentifierOption(string switchName)
+        => switchName.Equals("--billing-account", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsCompositeValueHint(string valueHint)
+        => valueHint.StartsWith('[') && valueHint.Contains('=');
+
     private static bool IsFilePathHint(string switchName, string valueHint)
         => switchName.EndsWith("-file", StringComparison.OrdinalIgnoreCase)
             || switchName.EndsWith("-path", StringComparison.OrdinalIgnoreCase)
@@ -413,6 +449,13 @@ public partial class GcloudCliScraper : CliScraperBase
     private static bool DescriptionDeclaresTextualCategories(string? description)
         => !string.IsNullOrEmpty(description)
             && TextualCategoriesPattern().IsMatch(description);
+
+    private static bool DescriptionDeclaresStructuredValue(string? description)
+        => description?.Contains("JSON Example:", StringComparison.OrdinalIgnoreCase) is true
+           || description?.Contains("File Example:", StringComparison.OrdinalIgnoreCase) is true;
+
+    private static bool DescriptionDeclaresValueList(string? description)
+        => description?.StartsWith("List of ", StringComparison.OrdinalIgnoreCase) is true;
 
     private static CliEnumDefinition? TryDetectEnum(string propertyName, string? description)
     {

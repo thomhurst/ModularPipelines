@@ -29,7 +29,7 @@ public record GcloudLoggingWriteOptions(
     /// Billing account of the log entries to write.
     /// </summary>
     [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
-    public int? BillingAccount { get; set; }
+    public string? BillingAccount { get; set; }
 
     /// <summary>
     /// Folder of the log entries to write.

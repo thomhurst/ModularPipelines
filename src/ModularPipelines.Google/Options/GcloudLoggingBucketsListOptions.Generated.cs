@@ -31,7 +31,7 @@ public record GcloudLoggingBucketsListOptions : GcloudOptions
     /// At most one of these can be specified: Billing account of the buckets to list.
     /// </summary>
     [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
-    public int? BillingAccount { get; set; }
+    public string? BillingAccount { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Folder of the buckets to list.

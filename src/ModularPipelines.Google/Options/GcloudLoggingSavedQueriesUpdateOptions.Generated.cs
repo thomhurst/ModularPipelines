@@ -57,7 +57,7 @@ public record GcloudLoggingSavedQueriesUpdateOptions(
     /// At most one of these can be specified: Billing account of the saved query to update.
     /// </summary>
     [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
-    public int? BillingAccount { get; set; }
+    public string? BillingAccount { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Folder of the saved query to update.

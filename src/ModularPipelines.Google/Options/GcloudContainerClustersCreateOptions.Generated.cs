@@ -1128,7 +1128,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Standard rollout policy options for blue-green upgrade. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect. Batch sizes are specified by one of, batch-node-count or batch-percent. The duration between batches is specified by batch-soak-duration. Example:
     /// </summary>
     [CliOption("--autoprovisioning-standard-rollout-policy", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<int>? AutoprovisioningStandardRolloutPolicy { get; set; }
+    public string? AutoprovisioningStandardRolloutPolicy { get; set; }
 
     /// <summary>
     /// Whether to use blue-green upgrade for the autoprovisioned node pool.

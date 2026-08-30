@@ -75,7 +75,7 @@ public record GcloudLoggingSinksCreateOptions(
     /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Billing account of the sink to create.
     /// </summary>
     [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
-    public int? BillingAccount { get; set; }
+    public string? BillingAccount { get; set; }
 
     /// <summary>
     /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Folder of the sink to create.
