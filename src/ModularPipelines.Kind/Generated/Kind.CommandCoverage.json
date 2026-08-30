@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "kind",
-  "toolVersion": "kind version 0.33.0-alpha\u002Bfed268827e21ca",
+  "toolVersion": "kind version 0.34.0-alpha\u002B440e1abb2bdc24",
   "commandCount": 17,
   "commandTreeSha256": "a31e4891e1c87ea5e6da505fb24f5fd2529e7fd0762e6ecd515001187472577b",
   "commands": [
