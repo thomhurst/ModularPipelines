@@ -35,12 +35,18 @@ public static class GhExtensions
         services.TryAddScoped<IGhCache, GhCache>();
         services.TryAddScoped<IGhCodespace, GhCodespace>();
         services.TryAddScoped<IGhConfig, GhConfig>();
+        services.TryAddScoped<IGhDiscussion, GhDiscussion>();
         services.TryAddScoped<IGhExtension, GhExtension>();
         services.TryAddScoped<IGhGist, GhGist>();
         services.TryAddScoped<IGhGpgkey, GhGpgkey>();
+        services.TryAddScoped<IGhIssue, GhIssue>();
         services.TryAddScoped<IGhLabel, GhLabel>();
+        services.TryAddScoped<IGhOrg, GhOrg>();
+        services.TryAddScoped<IGhPr, GhPr>();
         services.TryAddScoped<IGhPreview, GhPreview>();
         services.TryAddScoped<IGhProject, GhProject>();
+        services.TryAddScoped<IGhRelease, GhRelease>();
+        services.TryAddScoped<IGhRepo, GhRepo>();
         services.TryAddScoped<IGhRuleset, GhRuleset>();
         services.TryAddScoped<IGhRun, GhRun>();
         services.TryAddScoped<IGhSearch, GhSearch>();
@@ -53,7 +59,7 @@ public static class GhExtensions
     }
 
     /// <summary>
-    /// Gets the gh service from the pipeline context.
+    /// Gets the gh service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGh"/> service for executing gh commands.</returns>

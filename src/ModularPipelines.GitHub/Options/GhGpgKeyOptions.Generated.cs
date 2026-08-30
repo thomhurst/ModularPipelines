@@ -20,4 +20,10 @@ namespace ModularPipelines.GitHub.Options;
 [CliSubCommand("gpg-key")]
 public record GhGpgKeyOptions : GhOptions
 {
+    /// <summary>
+    /// Show help for command
+    /// </summary>
+    [CliFlag("--help")]
+    public bool? Help { get; set; }
+
 }

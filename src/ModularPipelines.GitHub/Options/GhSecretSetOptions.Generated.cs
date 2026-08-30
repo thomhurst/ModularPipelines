@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.GitHub.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.GitHub.Options;
 
@@ -18,8 +19,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "set")]
-public record GhSecretSetOptions : GhOptions
+public record GhSecretSetOptions(
+    [property: SecretValue, CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecretName
+) : GhOptions
 {
+    public GhSecretSetOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Set the application for a secret: {actions|agents|codespaces|dependabot}
     /// </summary>

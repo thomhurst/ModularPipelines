@@ -18,6 +18,21 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist", "rename")]
-public record GhGistRenameOptions : GhOptions
+public record GhGistRenameOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IdOrUrl,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OldFilename,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewFilename
+) : GhOptions
 {
+    public GhGistRenameOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Show help for command
+    /// </summary>
+    [CliFlag("--help")]
+    public bool? Help { get; set; }
+
 }

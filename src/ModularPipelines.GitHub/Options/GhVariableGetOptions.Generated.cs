@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("variable", "get")]
-public record GhVariableGetOptions : GhOptions
+public record GhVariableGetOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string VariableName
+) : GhOptions
 {
+    public GhVariableGetOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Get a variable for an environment
     /// </summary>

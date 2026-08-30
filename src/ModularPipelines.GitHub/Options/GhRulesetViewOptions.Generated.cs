@@ -50,4 +50,10 @@ public record GhRulesetViewOptions : GhOptions
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
 
+    /// <summary>
+    /// The &lt;ruleset-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? RulesetId { get; set; }
+
 }

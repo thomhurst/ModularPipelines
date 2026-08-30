@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("variable", "delete")]
-public record GhVariableDeleteOptions : GhOptions
+public record GhVariableDeleteOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string VariableName
+) : GhOptions
 {
+    public GhVariableDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Delete a variable for an environment
     /// </summary>

@@ -18,6 +18,31 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist", "clone")]
-public record GhGistCloneOptions : GhOptions
+public record GhGistCloneOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Gist
+) : GhOptions
 {
+    public GhGistCloneOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Show help for command
+    /// </summary>
+    [CliFlag("--help")]
+    public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;gitflags&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? Gitflags { get; set; }
+
+    /// <summary>
+    /// The &lt;directory&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Directory { get; set; }
+
 }

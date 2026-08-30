@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("variable", "set")]
-public record GhVariableSetOptions : GhOptions
+public record GhVariableSetOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string VariableName
+) : GhOptions
 {
+    public GhVariableSetOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The value for the variable (reads from standard input if not specified)
     /// </summary>

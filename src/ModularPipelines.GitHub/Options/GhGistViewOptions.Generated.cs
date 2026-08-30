@@ -21,6 +21,12 @@ namespace ModularPipelines.GitHub.Options;
 public record GhGistViewOptions : GhOptions
 {
     /// <summary>
+    /// Allow printing terminal escape sequences
+    /// </summary>
+    [CliFlag("--allow-escape-sequences")]
+    public bool? AllowEscapeSequences { get; set; }
+
+    /// <summary>
     /// Display a single file from the gist
     /// </summary>
     [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
@@ -49,5 +55,11 @@ public record GhGistViewOptions : GhOptions
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? IdOrUrl { get; set; }
 
 }
