@@ -236,9 +236,16 @@ public partial class ChocolateyCliScraper : CliScraperBase
 
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
         CliCommandDefinition command,
-        UsageSynopsisParseResult usage) =>
-        command.CommandParts is ["config"]
-            ? usage with
+        UsageSynopsisParseResult usage)
+    {
+        usage = usage with
+        {
+            PositionalArguments = NormalizePositionalArguments(usage.PositionalArguments),
+        };
+
+        if (command.CommandParts is ["config"])
+        {
+            return usage with
             {
                 HasOperandTokens = true,
                 PositionalArguments =
@@ -253,8 +260,47 @@ public partial class ChocolateyCliScraper : CliScraperBase
                     },
                 ],
                 UnparsedOperandTokens = [],
-            }
-            : usage;
+            };
+        }
+
+        if (command.CommandParts is
+            ["cache" or "feature" or "find" or "list" or "pin" or "rule" or "search" or "source" or "sources" or "template"])
+        {
+            return usage with
+            {
+                PositionalArguments = usage.PositionalArguments
+                    .Select(static argument => argument.PositionIndex == 0
+                        ? argument with
+                        {
+                            CSharpType = $"{argument.CSharpType.TrimEnd('?')}?",
+                            IsRequired = false,
+                        }
+                        : argument)
+                    .ToArray(),
+            };
+        }
+
+        return usage;
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizePositionalArguments(
+        IEnumerable<CliPositionalArgument> arguments) =>
+        arguments
+            .Where(static argument => argument.PropertyName is not ("OptionsOrSwitches" or "OptionsSwitches"))
+            .Select(static (argument, index) =>
+            {
+                var normalized = argument.PropertyName is "Pkg2PkgN" or "PropertyValuePropertyNValueN"
+                    ? argument with
+                    {
+                        CSharpType = "IEnumerable<string>?",
+                        IsRequired = false,
+                        IsVariadic = true,
+                    }
+                    : argument;
+
+                return normalized with { PositionIndex = index };
+            })
+            .ToArray();
 
     /// <summary>
     /// Extracts description from help text.

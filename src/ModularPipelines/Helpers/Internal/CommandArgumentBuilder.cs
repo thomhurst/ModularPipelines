@@ -32,7 +32,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         object optionsObject,
         ref bool emittedOptionTerminator,
-        out int? emittedOptionTerminatorIndex)
+        out int? emittedOptionTerminatorIndex,
+        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands = null)
     {
         var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
@@ -62,7 +63,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                     renderedOptionValues,
                     argumentValues,
                     optionsObject.GetType(),
-                    ref emittedOptionTerminator));
+                    ref emittedOptionTerminator,
+                    manualRequiredOperands));
         }
 
         var rendered = new List<string>();
@@ -98,7 +100,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IReadOnlyDictionary<PropertyCommandLinePart, IReadOnlyList<string>> renderedOptionValues,
         IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
         Type optionsType,
-        ref bool emittedOptionTerminator)
+        ref bool emittedOptionTerminator,
+        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands)
     {
         var rendered = new List<string>();
         int? optionTerminatorIndex = null;
@@ -115,7 +118,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 argumentValues,
                 optionsType,
                 ref emittedOptionTerminator,
-                ref optionTerminatorIndex);
+                ref optionTerminatorIndex,
+                manualRequiredOperands);
             AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
         }
         else
@@ -135,7 +139,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 argumentValues,
                 optionsType,
                 ref emittedOptionTerminator,
-                ref optionTerminatorIndex);
+                ref optionTerminatorIndex,
+                manualRequiredOperands);
         }
 
         return new RenderedPhase(rendered, optionTerminatorIndex);
@@ -147,7 +152,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
         Type optionsType,
         ref bool emittedOptionTerminator,
-        ref int? optionTerminatorIndex)
+        ref int? optionTerminatorIndex,
+        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands)
     {
         if (argumentParts is null)
         {
@@ -157,7 +163,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         foreach (var argumentPart in argumentParts)
         {
             var values = argumentValues[argumentPart];
-            if (argumentPart.Attribute.Required && values.Count == 0)
+            if (values.Count == 0
+                && manualRequiredOperands?.TryGetValue(argumentPart, out var manualValue) == true)
+            {
+                values = [manualValue];
+            }
+
+            if (argumentPart.Attribute.Required
+                && values.Count == 0)
             {
                 throw new ArgumentException(
                     $"Required CLI argument '{optionsType.Name}.{argumentPart.PropertyName}' cannot be null or empty.",
@@ -555,7 +568,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         };
     }
 
-    private static List<string> GetValues(object? rawValue)
+    internal static List<string> GetValues(object? rawValue)
     {
         var result = new List<string>();
 

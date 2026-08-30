@@ -124,4 +124,10 @@ public record ChocoConfigOptions : ChocoOptions
     [CliOption("--value", Format = OptionFormat.EqualsSeparated)]
     public string? Value { get; set; }
 
+    /// <summary>
+    /// Configuration action: list, get, set, or unset.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Action { get; set; }
+
 }

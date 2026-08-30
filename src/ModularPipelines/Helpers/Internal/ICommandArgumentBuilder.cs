@@ -38,10 +38,14 @@ internal interface ICommandArgumentBuilder
     /// <param name="emittedOptionTerminatorIndex">
     /// The index of the terminator emitted by this render, or <see langword="null"/> when none was emitted.
     /// </param>
+    /// <param name="manualRequiredOperands">
+    /// Manual values mapped to the required structured operands they supply.
+    /// </param>
     /// <returns>A list of string arguments ready to be passed to a CLI tool.</returns>
     IReadOnlyList<string> BuildArguments(
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         object optionsObject,
         ref bool emittedOptionTerminator,
-        out int? emittedOptionTerminatorIndex);
+        out int? emittedOptionTerminatorIndex,
+        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands = null);
 }

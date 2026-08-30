@@ -19,8 +19,15 @@ namespace ModularPipelines.Chocolatey.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
-public record ChocoInstallOptions : ChocoOptions
+public record ChocoInstallOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pkg
+) : ChocoOptions
 {
+    public ChocoInstallOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
     /// </summary>
@@ -148,5 +155,11 @@ public record ChocoInstallOptions : ChocoOptions
     /// </summary>
     [CliFlag("--include-configured-sources")]
     public bool? IncludeConfiguredSources { get; set; }
+
+    /// <summary>
+    /// The &lt;pkg2&gt; &lt;pkgN&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Pkg2PkgN { get; set; }
 
 }
