@@ -31,7 +31,7 @@ public record AzNetworkVirtualApplianceMigrationExecuteOptions(
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait")]
-    public string? NoWaitValue { get; set; }
+    public bool? NoWait { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -50,12 +50,5 @@ public record AzNetworkVirtualApplianceMigrationExecuteOptions(
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
-
-    [Obsolete("Use NoWaitValue instead.")]
-    public bool? NoWait
-    {
-        get => bool.TryParse(NoWaitValue, out var value) ? value : null;
-        set => NoWaitValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

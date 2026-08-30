@@ -584,6 +584,79 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Expanded_Boolean_Value_List_Is_A_Boolean_Option()
+    {
+        const string helpText = """
+            Command
+                az network virtual-appliance migration prepare : Prepare a migration.
+
+            Optional Arguments
+                --no-wait : Do not wait for completion. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "network", "virtual-appliance", "migration", "prepare"],
+            helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
+    public async Task Acr_Task_Value_Shapes_Preserve_Cardinality_And_Secrets()
+    {
+        const string helpText = """
+            Command
+                az acr task create : Create a task.
+
+            Optional Arguments
+                --assign-identity : Assign managed identities to the task. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned identity.
+                --git-access-token : The access token used to access the source control provider.
+                --schedule         : Schedule for a timer trigger represented as a cron expression. Multiples supported by passing --schedule multiple times.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "acr", "task", "create"], helpText);
+        var identity = command!.Options.Single(option => option.SwitchName == "--assign-identity");
+        var token = command.Options.Single(option => option.SwitchName == "--git-access-token");
+        var schedule = command.Options.Single(option => option.SwitchName == "--schedule");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(identity.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(identity.GroupValues).IsTrue();
+            await Assert.That(schedule.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(schedule.GroupValues).IsFalse();
+            await Assert.That(token.CSharpType).IsEqualTo("string?");
+            await Assert.That(token.IsSecret).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Stack_Child_Scope_Is_A_Presence_Only_Flag()
+    {
+        const string helpText = """
+            Command
+                az stack group create : Create a stack.
+
+            Optional Arguments
+                --cs --deny-settings-apply-to-child-scopes : DenySettings will be applied to child scopes.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "stack", "group", "create"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsTrue();
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

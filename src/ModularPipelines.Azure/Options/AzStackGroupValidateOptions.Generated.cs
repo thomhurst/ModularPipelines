@@ -39,8 +39,8 @@ public record AzStackGroupValidateOptions(
     /// <summary>
     /// DenySettings will be applied to child scopes.
     /// </summary>
-    [CliOption("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
-    public string? Cs { get; set; }
+    [CliFlag("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
+    public bool? Cs { get; set; }
 
     /// <summary>
     /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.

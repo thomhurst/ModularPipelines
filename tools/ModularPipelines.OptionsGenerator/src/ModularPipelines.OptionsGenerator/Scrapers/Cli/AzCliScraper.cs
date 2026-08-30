@@ -346,7 +346,8 @@ public partial class AzCliScraper : CliScraperBase
             IsFlag = isFlag,
             IsRequired = isRequired,
             AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
-            GroupValues = HelpDeclaresGroupedValues(description)
+            GroupValues = IsGroupedAzureValueOption(longFlag)
+                          || HelpDeclaresGroupedValues(description)
                           || IsGroupedAzureGenericUpdateOption(longFlag, description),
             IsKeyValue = false,
             IsNumeric = csharpType == "int?",
@@ -372,6 +373,13 @@ public partial class AzCliScraper : CliScraperBase
             return true;
         }
 
+        if (switchName.Equals("cs", StringComparison.OrdinalIgnoreCase)
+            && description.Contains("DenySettings will be applied to child scopes", StringComparison.OrdinalIgnoreCase)
+            && string.IsNullOrEmpty(valueHint))
+        {
+            return true;
+        }
+
         if (explicitBooleanValue || HelpDeclaresOptionValue(switchName, description))
         {
             return false;
@@ -387,6 +395,7 @@ public partial class AzCliScraper : CliScraperBase
         || AzEmbeddedValueDescriptionPattern().IsMatch(description)
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
         || HelpDeclaresSpaceSeparatedList(description)
+        || DescriptionDeclaresRepeatableOption(description)
         || description.Contains("key=value", StringComparison.OrdinalIgnoreCase)
         || IsAzureGenericUpdateOption(switchName);
 
@@ -401,6 +410,9 @@ public partial class AzCliScraper : CliScraperBase
     private static bool IsGroupedAzureGenericUpdateOption(string switchName, string description) =>
         IsAzureGenericUpdateOption(switchName)
         && !DescriptionDeclaresRepeatableOption(description);
+
+    private static bool IsGroupedAzureValueOption(string switchName) =>
+        switchName.Equals("assign-identity", StringComparison.OrdinalIgnoreCase);
 
     private static CliOptionValueArity GetValueArity(bool isFlag, string description) =>
         !isFlag && HelpDeclaresOptionalValue(description)
@@ -426,6 +438,11 @@ public partial class AzCliScraper : CliScraperBase
         var lowerDesc = description.ToLowerInvariant();
 
         if (IsAzureGenericUpdateOption(switchName))
+        {
+            return "IEnumerable<string>?";
+        }
+
+        if (IsGroupedAzureValueOption(switchName))
         {
             return "IEnumerable<string>?";
         }
@@ -588,7 +605,7 @@ public partial class AzCliScraper : CliScraperBase
     [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<required>Required)\])?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
-    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|denysettings|accepts?)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|denysettings|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();
 
     [GeneratedRegex(@"\b(?:resource ID|secret URI|URI or path|key-value pairs|accepted values?|allowed values?)\b", RegexOptions.IgnoreCase)]

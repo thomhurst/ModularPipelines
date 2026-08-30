@@ -1131,7 +1131,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private static partial Regex CommandSectionHeadingPattern();
 
     [GeneratedRegex(
-        @"(?:[\[{(<]\s*true\s*(?:\||/|or)\s*false\s*[\]})>]|(?:boolean|bool)\s+value|true\s+or\s+false|allowed\s+values?\s*:\s*(?:true\s*,\s*false|false\s*,\s*true)(?=\s*(?:[.)]|$)))",
+        @"(?:[\[{(<]\s*true\s*(?:\||/|or)\s*false\s*[\]})>]|(?:boolean|bool)\s+value|true\s+or\s+false|allowed\s+values?\s*:\s*(?:(?:true\s*,\s*false|false\s*,\s*true)|(?:0\s*,\s*1\s*,\s*f\s*,\s*false\s*,\s*n\s*,\s*no\s*,\s*t\s*,\s*true\s*,\s*y\s*,\s*yes))(?=\s*(?:[.)]|$)))",
         RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitBooleanValuePattern();
 
@@ -1146,6 +1146,7 @@ public abstract partial class CliScraperBase : ICliScraper
         + @"repeatable"
         + @"|(?:can|may|must|should)\s+be\s+repeated"
         + @"|(?:is|are)\s+repeated"
+        + @"|multiples?\s+(?:are\s+)?supported\s+by\s+passing\s+--?[\w-]+\s+multiple\s+times"
         + @"|\A" + RepeatableItemCountPattern
         + @"|(?:can|may|must|should)\s+be\s+"
         + @"(?:specified|supplied|provided|used|passed|set|given)\s+"

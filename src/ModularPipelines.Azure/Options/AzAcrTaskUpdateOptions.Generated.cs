@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -163,8 +164,9 @@ public record AzAcrTaskUpdateOptions(
     /// <summary>
     /// The access token used to access the source control provider.
     /// </summary>
-    [CliFlag("--git-access-token")]
-    public bool? GitAccessToken { get; set; }
+    [CliOption("--git-access-token")]
+    [SecretValue]
+    public string? GitAccessTokenValue { get; set; }
 
     /// <summary>
     /// Indicates whether the source control pull request trigger is enabled. The trigger is disabled by default.  Allowed values: false, true.
@@ -219,6 +221,13 @@ public record AzAcrTaskUpdateOptions(
     {
         get => bool.TryParse(TargetValue, out var value) ? value : null;
         set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use GitAccessTokenValue instead.")]
+    public bool? GitAccessToken
+    {
+        get => bool.TryParse(GitAccessTokenValue, out var value) ? value : null;
+        set => GitAccessTokenValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
     }
 
 }

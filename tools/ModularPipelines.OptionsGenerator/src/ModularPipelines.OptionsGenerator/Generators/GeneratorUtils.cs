@@ -918,6 +918,10 @@ public static partial class GeneratorUtils
         {
             sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);");
         }
+        else if (HasRequiredParameters(command))
+        {
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);");
+        }
         else
         {
             sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");

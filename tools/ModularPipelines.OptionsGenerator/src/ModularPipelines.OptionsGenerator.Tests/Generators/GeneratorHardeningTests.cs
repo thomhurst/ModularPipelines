@@ -5732,6 +5732,35 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task GenerateServiceMethod_Does_Not_Construct_Required_Optional_Options()
+    {
+        var command = Command(
+            "ToolExecuteOptions",
+            "ToolOptions",
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--name",
+                    PropertyName = "Name",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+            ]) with
+        {
+            PreserveOptionalOptionsParameter = true,
+        };
+        var sb = new StringBuilder();
+
+        GeneratorUtils.GenerateServiceMethod(sb, "Execute", command);
+
+        var generated = sb.ToString();
+        await Assert.That(generated).Contains("ToolExecuteOptions? options = null");
+        await Assert.That(generated).Contains("options ?? throw new ArgumentNullException(nameof(options))");
+        await Assert.That(generated).DoesNotContain("new ToolExecuteOptions()");
+    }
+
+    [Test]
     public async Task GenerateServiceMethod_Emits_Obsolete_Forwarding_Alias()
     {
         const string obsoleteMessage = "Use \"CreateOrUpdate\".\r\nPath:\tC:\\tool";

@@ -26,7 +26,7 @@ public record AzNetworkVirtualApplianceMigrationPrepareOptions(
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait")]
-    public string? NoWait { get; set; }
+    public bool? NoWait { get; set; }
 
     /// <summary>
     /// The marketplace version to migrate to. Only applicable when --migration-type is

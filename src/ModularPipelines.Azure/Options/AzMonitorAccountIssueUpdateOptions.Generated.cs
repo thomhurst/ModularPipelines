@@ -36,7 +36,7 @@ public record AzMonitorAccountIssueUpdateOptions : AzOptions
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--force-string")]
-    public string? ForceString { get; set; }
+    public bool? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

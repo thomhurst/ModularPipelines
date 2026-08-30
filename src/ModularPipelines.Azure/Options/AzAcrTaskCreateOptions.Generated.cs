@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -37,8 +38,8 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// Assign managed identities to the task. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned identity. Please see https://aka.ms/acr/tasks/task-create-managed-identity for more information.
     /// </summary>
-    [CliOption("--assign-identity")]
-    public string? AssignIdentityValue { get; set; }
+    [CliOption("--assign-identity", GroupValues = true)]
+    public IEnumerable<string>? AssignIdentityValue { get; set; }
 
     /// <summary>
     /// Auth mode of the source registry.  Allowed values:
@@ -175,8 +176,9 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// The access token used to access the source control provider.
     /// </summary>
-    [CliFlag("--git-access-token")]
-    public bool? GitAccessToken { get; set; }
+    [CliOption("--git-access-token")]
+    [SecretValue]
+    public string? GitAccessTokenValue { get; set; }
 
     /// <summary>
     /// Indicates whether the source control pull request trigger is enabled. The trigger is disabled by default.  Allowed values: false, true.
@@ -187,8 +189,8 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// Schedule for a timer trigger represented as a cron expression. An optional trigger name can be specified using `--schedule name:schedule` format. Multiples supported by passing --schedule multiple times.
     /// </summary>
-    [CliFlag("--schedule")]
-    public bool? Schedule { get; set; }
+    [CliOption("--schedule")]
+    public IEnumerable<string>? ScheduleValues { get; set; }
 
     /// <summary>
     /// The name of the source trigger.  Default: defaultSourceTriggerName.
@@ -199,8 +201,8 @@ public record AzAcrTaskCreateOptions(
     [Obsolete("Use AssignIdentityValue instead.")]
     public bool? AssignIdentity
     {
-        get => bool.TryParse(AssignIdentityValue, out var value) ? value : null;
-        set => AssignIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => bool.TryParse(AssignIdentityValue?.FirstOrDefault(), out var value) ? value : null;
+        set => AssignIdentityValue = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
     [Obsolete("Use AuthModeValue instead.")]
@@ -250,6 +252,20 @@ public record AzAcrTaskCreateOptions(
     {
         get => bool.TryParse(TargetValue, out var value) ? value : null;
         set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use GitAccessTokenValue instead.")]
+    public bool? GitAccessToken
+    {
+        get => bool.TryParse(GitAccessTokenValue, out var value) ? value : null;
+        set => GitAccessTokenValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ScheduleValues instead.")]
+    public bool? Schedule
+    {
+        get => bool.TryParse(ScheduleValues?.FirstOrDefault(), out var value) ? value : null;
+        set => ScheduleValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
 }
