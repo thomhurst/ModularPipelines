@@ -190,6 +190,12 @@ public class AwsCliScraperTests
 
             await Assert.That(argumentsByCommand["ls"].Single().PropertyName).IsEqualTo("S3Uri");
             await Assert.That(argumentsByCommand["ls"].Single().IsRequired).IsFalse();
+
+            var futureArguments = argumentsByCommand["future-command"];
+            await Assert.That(futureArguments.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["Source", "Destination"]);
+            await Assert.That(futureArguments[0].IsRequired).IsTrue();
+            await Assert.That(futureArguments[1].IsRequired).IsFalse();
         }
     }
 
@@ -355,7 +361,8 @@ public class AwsCliScraperTests
 
     private sealed class AwsS3HelpExecutor : ICliCommandExecutor
     {
-        private static readonly string[] Commands = ["cp", "ls", "mb", "mv", "presign", "rb", "rm", "sync", "website"];
+        private static readonly string[] Commands =
+            ["cp", "future-command", "ls", "mb", "mv", "presign", "rb", "rm", "sync", "website"];
 
         public Task<CliCommandResult> ExecuteAsync(
             string command,
@@ -367,6 +374,13 @@ public class AwsCliScraperTests
             {
                 "help" => "AVAILABLE SERVICES\n       o s3",
                 "s3 help" => $"AVAILABLE COMMANDS\n{string.Join('\n', Commands.Select(name => $"       o {name}"))}",
+                "s3 future-command help" => """
+                    SYNOPSIS
+                           aws s3 future-command <source> [destination]
+
+                    OPTIONS
+                           --quiet (boolean)
+                    """,
                 _ when arguments.StartsWith("s3 ", StringComparison.Ordinal) => "OPTIONS\n       --quiet (boolean)\n",
                 _ => string.Empty,
             };

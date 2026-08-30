@@ -208,7 +208,7 @@ public partial class AwsCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = $"https://awscli.amazonaws.com/v2/documentation/api/latest/reference/{string.Join("/", commandParts)}/index.html",
             Options = options,
-            PositionalArguments = GetS3PositionalArguments(commandParts),
+            PositionalArguments = GetS3PositionalArguments(commandPath, commandParts, helpText, options),
             SubDomainGroup = subDomain,
             Enums = enums
         };
@@ -455,7 +455,11 @@ public partial class AwsCliScraper : CliScraperBase
         return null;
     }
 
-    private static IReadOnlyList<CliPositionalArgument> GetS3PositionalArguments(string[] commandParts) =>
+    private IReadOnlyList<CliPositionalArgument> GetS3PositionalArguments(
+        string[] commandPath,
+        string[] commandParts,
+        string helpText,
+        IReadOnlyList<CliOptionDefinition> options) =>
         commandParts switch
         {
             ["s3", "cp" or "mv" or "sync"] =>
@@ -478,6 +482,7 @@ public partial class AwsCliScraper : CliScraperBase
             [
                 RequiredPathArgument("S3Uri", 0, "S3 URI to operate on."),
             ],
+            ["s3", ..] => GetPositionalArguments(ParseUsageSynopsis(commandPath, helpText), options),
             _ => [],
         };
 
