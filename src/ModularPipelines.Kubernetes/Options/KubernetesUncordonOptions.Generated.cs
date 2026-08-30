@@ -19,7 +19,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uncordon")]
 public record KubernetesUncordonOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Node
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Node
 ) : KubernetesOptions
 {
     public KubernetesUncordonOptions()

@@ -81,10 +81,7 @@ public record KubernetesEventsOptions : KubernetesOptions
     [CliFlag("--watch", ShortForm = "-w")]
     public bool? Watch { get; set; }
 
-    /// <summary>
-    /// The (-o operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    [Obsolete("O is no longer supported by the installed CLI and has no effect.")]
     public string? O { get; set; }
 
 }

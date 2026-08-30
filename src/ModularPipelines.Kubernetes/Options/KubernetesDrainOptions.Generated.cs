@@ -19,7 +19,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drain")]
 public record KubernetesDrainOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Node
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Node
 ) : KubernetesOptions
 {
     public KubernetesDrainOptions()

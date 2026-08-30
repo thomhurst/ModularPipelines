@@ -20,7 +20,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "restart")]
 public record KubernetesRolloutRestartOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Resource
 ) : KubernetesOptions
 {
     public KubernetesRolloutRestartOptions()

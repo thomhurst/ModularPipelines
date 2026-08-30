@@ -26,12 +26,18 @@ public class KubectlCliScraper : CobraCliScraper
         CliCommandDefinition command,
         UsageSynopsisParseResult usage)
     {
-        var positionalArguments = GetPositionalArguments(usage, command.Options);
+        var positionalArguments = ApplyPositionalArgumentFixes(
+            command.CommandParts,
+            GetPositionalArguments(usage, command.Options));
+        var unparsedOperandTokens = command.CommandParts is ["events"]
+            ? []
+            : usage.UnparsedOperandTokens;
         return usage with
         {
             HasOperandTokens = positionalArguments.Count > 0
-                               || usage.UnparsedOperandTokens.Count > 0,
+                               || unparsedOperandTokens.Count > 0,
             PositionalArguments = positionalArguments,
+            UnparsedOperandTokens = unparsedOperandTokens,
         };
     }
 
@@ -54,19 +60,26 @@ public class KubectlCliScraper : CobraCliScraper
         IReadOnlyList<CliPositionalArgument> positionalArguments) =>
         commandParts switch
         {
-            ["annotate"] => CollapseNumberedRepeat(
-                positionalArguments,
-                "Key_1Val_1",
-                "KeyNValN",
+            ["annotate"] => AllowOmittedValue(
+                CollapseNumberedRepeat(
+                    positionalArguments,
+                    "Key_1Val_1",
+                    "KeyNValN",
+                    "Annotations"),
                 "Annotations"),
             ["auth", "can-i"] => AllowOmittedValue(positionalArguments, "Verb"),
+            ["cordon" or "drain" or "uncordon"] => AllowOmittedValue(positionalArguments, "Node"),
             ["debug"] => NormalizeDebugArguments(positionalArguments),
+            ["events"] => RemoveArgument(positionalArguments, "O"),
             ["label"] => NormalizeLabelArguments(positionalArguments),
+            ["logs"] => AllowOmittedValue(positionalArguments, "Pod"),
             ["port-forward"] => CollapseNumberedRepeat(
                 positionalArguments,
                 "LocalPortRemotePort",
                 "LocalPortNRemotePortN",
                 "LocalPortRemotePort"),
+            ["rollout", "history" or "pause" or "restart" or "resume" or "status" or "undo"] =>
+                AllowOmittedValue(positionalArguments, "Resource", "TypeName"),
             ["taint"] => NormalizeTaintArguments(positionalArguments),
             _ => positionalArguments,
         };
@@ -132,17 +145,23 @@ public class KubectlCliScraper : CobraCliScraper
 
     private static IReadOnlyList<CliPositionalArgument> AllowOmittedValue(
         IReadOnlyList<CliPositionalArgument> arguments,
-        string propertyName) =>
+        params string[] propertyNames) =>
         arguments
-            .Select(argument => argument.PropertyName.Equals(
-                propertyName,
-                StringComparison.OrdinalIgnoreCase)
+            .Select(argument => propertyNames.Contains(
+                argument.PropertyName,
+                StringComparer.OrdinalIgnoreCase)
                 ? argument with
                 {
                     IsValidationRequired = false,
                 }
                 : argument)
             .ToArray();
+
+    private static IReadOnlyList<CliPositionalArgument> RemoveArgument(
+        IReadOnlyList<CliPositionalArgument> arguments,
+        string propertyName) =>
+        CliPositionalArgument.MergeDuplicates(arguments.Where(argument =>
+            !argument.PropertyName.Equals(propertyName, StringComparison.OrdinalIgnoreCase)));
 
     private static IReadOnlyList<CliPositionalArgument> CollapseNumberedRepeat(
         IReadOnlyList<CliPositionalArgument> arguments,

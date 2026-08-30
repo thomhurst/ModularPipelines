@@ -19,7 +19,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs")]
 public record KubernetesLogsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Pod
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Pod
 ) : KubernetesOptions
 {
     public KubernetesLogsOptions()

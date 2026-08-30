@@ -20,7 +20,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "undo")]
 public record KubernetesRolloutUndoOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TypeName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TypeName
 ) : KubernetesOptions
 {
     public KubernetesRolloutUndoOptions()

@@ -19,7 +19,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "status")]
 public record KubernetesRolloutStatusOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TypeName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TypeName
 ) : KubernetesOptions
 {
     public KubernetesRolloutStatusOptions()

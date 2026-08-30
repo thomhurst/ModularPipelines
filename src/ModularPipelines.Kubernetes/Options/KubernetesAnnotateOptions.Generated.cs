@@ -20,7 +20,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("annotate")]
 public record KubernetesAnnotateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Annotations
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Annotations
 ) : KubernetesOptions
 {
     public KubernetesAnnotateOptions()
