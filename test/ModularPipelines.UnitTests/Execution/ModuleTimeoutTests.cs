@@ -244,13 +244,13 @@ public class ModuleTimeoutTests : TestBase
         using var unrelatedCancellation = new CancellationTokenSource();
 
         var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-            timeoutToken =>
+            async timeoutToken =>
             {
                 using var linkedCancellation = CancellationTokenSource.CreateLinkedTokenSource(
                     timeoutToken,
                     unrelatedCancellation.Token);
-                timeoutToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
-                return Task.FromCanceled<bool>(linkedCancellation.Token);
+                await Task.Delay(Timeout.InfiniteTimeSpan, linkedCancellation.Token);
+                return true;
             },
             TimeSpan.FromMilliseconds(10),
             CancellationToken.None);
