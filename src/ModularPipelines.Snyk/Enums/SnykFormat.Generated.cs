@@ -17,23 +17,23 @@ namespace ModularPipelines.Snyk.Enums;
 public enum SnykFormat
 {
     [EnumValue("cyclonedx1.4+json")]
-    Cyclonedx14Json,
+    Cyclonedx14Json = 0,
 
     [EnumValue("cyclonedx1.4+xml")]
-    Cyclonedx14Xml,
+    Cyclonedx14Xml = 1,
 
     [EnumValue("cyclonedx1.5+json")]
-    Cyclonedx15Json,
+    Cyclonedx15Json = 2,
 
     [EnumValue("cyclonedx1.5+xml")]
-    Cyclonedx15Xml,
+    Cyclonedx15Xml = 3,
 
     [EnumValue("cyclonedx1.6+json")]
-    Cyclonedx16Json,
+    Cyclonedx16Json = 4,
 
     [EnumValue("cyclonedx1.6+xml")]
-    Cyclonedx16Xml,
+    Cyclonedx16Xml = 5,
 
     [EnumValue("spdx2.3+json")]
-    Spdx23Json
+    Spdx23Json = 6
 }
