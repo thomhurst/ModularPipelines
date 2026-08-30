@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Secrets;
 

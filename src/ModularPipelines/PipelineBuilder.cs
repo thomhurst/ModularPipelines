@@ -25,6 +25,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.PipelineCli;
 using ModularPipelines.Plugins;
+using ModularPipelines.Secrets;
 using ModularPipelines.Validation;
 
 namespace ModularPipelines;

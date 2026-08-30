@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Options;
 

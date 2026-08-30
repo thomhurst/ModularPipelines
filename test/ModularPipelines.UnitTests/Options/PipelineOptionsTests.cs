@@ -10,6 +10,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
 using Spectre.Console;
 
