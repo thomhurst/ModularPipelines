@@ -346,7 +346,7 @@ public partial class YarnCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = GetPositionalArguments(commandParts, usage.PositionalArguments),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
@@ -354,6 +354,22 @@ public partial class YarnCliScraper : CliScraperBase
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
+        IReadOnlyList<string> commandParts,
+        IReadOnlyList<CliPositionalArgument> arguments)
+    {
+        if (commandParts.Count != 1
+            || !commandParts[0].Equals("dlx", StringComparison.OrdinalIgnoreCase))
+        {
+            return arguments;
+        }
+
+        return [.. arguments.Select(argument => argument with
+        {
+            Phase = CommandLinePhase.Passthrough,
+        })];
     }
 
     /// <summary>

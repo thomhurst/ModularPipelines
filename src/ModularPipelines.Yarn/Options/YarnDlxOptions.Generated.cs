@@ -19,7 +19,7 @@ namespace ModularPipelines.Yarn.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dlx")]
 public record YarnDlxOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Command
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Command
 ) : YarnOptions
 {
     /// <summary>

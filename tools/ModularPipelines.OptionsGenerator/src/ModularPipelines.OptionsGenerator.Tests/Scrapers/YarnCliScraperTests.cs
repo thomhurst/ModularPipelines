@@ -107,6 +107,8 @@ public class YarnCliScraperTests
                 .IsEquivalentTo(["Package", "Quiet"]);
             await Assert.That(package.CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(package.AcceptsMultipleValues).IsTrue();
+            await Assert.That(command.PositionalArguments.Single().Phase)
+                .IsEqualTo(CommandLinePhase.Passthrough);
         }
     }
 
