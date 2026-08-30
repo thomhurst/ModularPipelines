@@ -2,7 +2,13 @@
 
 `ModularPipelines.Go` provides strongly typed access to the `go` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `go` executable. Install it separately and ensure `go` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Go
@@ -44,10 +50,28 @@ public class RunCommandModule : Module<CommandResult>
 
 ## Commands[​](#commands "Direct link to Commands")
 
-| CLI command   | Options record      |
-| ------------- | ------------------- |
-| `go build`    | `GoBuildOptions`    |
-| `go fix`      | `GoFixOptions`      |
-| `go generate` | `GoGenerateOptions` |
-| `go test`     | `GoTestOptions`     |
-| `go vet`      | `GoVetOptions`      |
+| CLI command       | Options record         |
+| ----------------- | ---------------------- |
+| `go build`        | `GoBuildOptions`       |
+| `go clean`        | `GoCleanOptions`       |
+| `go env`          | `GoEnvOptions`         |
+| `go fix`          | `GoFixOptions`         |
+| `go fmt`          | `GoFmtOptions`         |
+| `go generate`     | `GoGenerateOptions`    |
+| `go get`          | `GoGetOptions`         |
+| `go install`      | `GoInstallOptions`     |
+| `go list`         | `GoListOptions`        |
+| `go mod`          | `GoModOptions`         |
+| `go mod download` | `GoModDownloadOptions` |
+| `go mod edit`     | `GoModEditOptions`     |
+| `go mod init`     | `GoModInitOptions`     |
+| `go mod why`      | `GoModWhyOptions`      |
+| `go run`          | `GoRunOptions`         |
+| `go telemetry`    | `GoTelemetryOptions`   |
+| `go test`         | `GoTestOptions`        |
+| `go tool`         | `GoToolOptions`        |
+| `go vet`          | `GoVetOptions`         |
+| `go work`         | `GoWorkOptions`        |
+| `go work edit`    | `GoWorkEditOptions`    |
+| `go work init`    | `GoWorkInitOptions`    |
+| `go work use`     | `GoWorkUseOptions`     |
