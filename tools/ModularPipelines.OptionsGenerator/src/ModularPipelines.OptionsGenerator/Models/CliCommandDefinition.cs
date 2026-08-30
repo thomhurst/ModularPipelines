@@ -257,19 +257,23 @@ public record CliCompatibilityProperty
 /// <summary>
 /// Supported conversions for generated compatibility-property forwarding.
 /// </summary>
+/// <remarks>
+/// Numeric values are a compatibility contract. Do not renumber existing members;
+/// assign new members an unused value and update the ordinal contract test.
+/// </remarks>
 public enum CliCompatibilityForwardingKind
 {
-    Direct,
-    ScalarToCollection,
-    NullableInt32ToString,
-    NullableBooleanToString,
-    NullableBooleanToLocalBackendString,
-    NullableStringToRequiredString,
-    NullableInt32ToRequiredString,
-    NullableInt32ToStringCollection,
-    NullableStringToCliOptionValue,
-    NullableInt32ToCliOptionValue,
-    NullableBooleanToStringCollection,
+    Direct = 0,
+    ScalarToCollection = 1,
+    NullableInt32ToString = 2,
+    NullableBooleanToString = 3,
+    NullableStringToRequiredString = 4,
+    NullableInt32ToRequiredString = 5,
+    NullableInt32ToStringCollection = 6,
+    NullableStringToCliOptionValue = 7,
+    NullableInt32ToCliOptionValue = 8,
+    NullableBooleanToStringCollection = 9,
+    NullableBooleanToLocalBackendString = 10,
 }
 
 /// <summary>
