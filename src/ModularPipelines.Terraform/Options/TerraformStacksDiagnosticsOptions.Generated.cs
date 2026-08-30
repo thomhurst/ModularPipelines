@@ -23,13 +23,20 @@ public record TerraformStacksDiagnosticsOptions : TerraformOptions
     /// <summary>
     /// The ID of the stack configuration or deployment step to retrieve diagnostics for. Supported prefixes are "stc-" for configuration IDs and "sds-" for step IDs.
     /// </summary>
-    [CliFlag("-id")]
-    public bool? Id { get; set; }
+    [CliOption("-id", Format = OptionFormat.EqualsSeparated)]
+    public string? IdValue { get; set; }
 
     /// <summary>
     /// Output results in JSON format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
+
+    [Obsolete("Use IdValue instead.")]
+    public bool? Id
+    {
+        get => bool.TryParse(IdValue, out var value) ? value : null;
+        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

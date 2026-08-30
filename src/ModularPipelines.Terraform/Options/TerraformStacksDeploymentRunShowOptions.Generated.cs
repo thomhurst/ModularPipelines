@@ -23,13 +23,20 @@ public record TerraformStacksDeploymentRunShowOptions : TerraformOptions
     /// <summary>
     /// The ID of the deployment run to show. (required)
     /// </summary>
-    [CliFlag("-deployment-run-id")]
-    public bool? DeploymentRunId { get; set; }
+    [CliOption("-deployment-run-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentRunIdValue { get; set; }
 
     /// <summary>
     /// Output results in JSON format instead of the default human-readable text format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
+
+    [Obsolete("Use DeploymentRunIdValue instead.")]
+    public bool? DeploymentRunId
+    {
+        get => bool.TryParse(DeploymentRunIdValue, out var value) ? value : null;
+        set => DeploymentRunIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

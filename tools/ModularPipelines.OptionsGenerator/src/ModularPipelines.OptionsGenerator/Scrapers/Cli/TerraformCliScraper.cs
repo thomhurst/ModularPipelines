@@ -330,7 +330,8 @@ public partial class TerraformCliScraper : CliScraperBase
             }
 
             // Determine type based on value hint
-            var isFlag = string.IsNullOrEmpty(valueHint);
+            var isFlag = string.IsNullOrEmpty(valueHint) &&
+                         !DescriptionIdentifiesValue(commandParts, description);
             var isBoolean = valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
                             valueHint.Equals("false", StringComparison.OrdinalIgnoreCase) ||
                             valueHint.Equals("bool", StringComparison.OrdinalIgnoreCase);
@@ -370,6 +371,11 @@ public partial class TerraformCliScraper : CliScraperBase
         var scalarType = isFlag ? "bool?" : isInteger ? "int?" : "string?";
         return AsCSharpType(scalarType, acceptsMultipleValues);
     }
+
+    private static bool DescriptionIdentifiesValue(
+        IReadOnlyList<string> commandParts,
+        string description) =>
+        commandParts is ["stacks", ..] && TerraformStacksValueDescriptionPattern().IsMatch(description);
 
     /// <summary>
     /// Checks if a value hint indicates a numeric type.
@@ -486,6 +492,9 @@ public partial class TerraformCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s*-(?<flag>[\w-]+)(?:=(?<value>\S+))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex TerraformOptionPattern();
+
+    [GeneratedRegex(@"^(?:The (?:ID|name|artifact type|directory)|A comma-separated list)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex TerraformStacksValueDescriptionPattern();
 
     #endregion
 }
