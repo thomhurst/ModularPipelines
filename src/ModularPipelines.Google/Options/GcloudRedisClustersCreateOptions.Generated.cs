@@ -78,6 +78,12 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
+    /// Enable deletion protection for the Redis Cluster. Use --deletion-protection/--no-deletion-protection to enable/disable it.
+    /// </summary>
+    [CliFlag("--no-deletion-protection")]
+    public bool? NoDeletionProtection { get; set; }
+
+    /// <summary>
     /// The resource name of the customer-managed encryption key (CMEK) to use for the cluster. It must use this format: projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/CRYPTO_KEY. The key must be in the same region as the cluster. Otherwise, the create operation fails.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
@@ -192,13 +198,13 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: URIs of Google Cloud Storage objects to import from. For example, gs://bucket/folder/file1.rdb,gs://bucket/folder/file2.rdb.
+    /// URIs of Google Cloud Storage objects to import from. For example, gs://bucket/folder/file1.rdb,gs://bucket/folder/file2.rdb.
     /// </summary>
     [CliOption("--import-gcs-object-uris", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ImportGcsObjectUris { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Managed backup to import from. For example, projects/PROJECT_ID/locations/REGION/backupCollections/BACKUP_COLLECTION_ID/backups/BACKUP_ID.
+    /// Managed backup to import from. For example, projects/PROJECT_ID/locations/REGION/backupCollections/BACKUP_COLLECTION_ID/backups/BACKUP_ID.
     /// </summary>
     [CliOption("--import-managed-backup", Format = OptionFormat.EqualsSeparated)]
     public string? ImportManagedBackup { get; set; }

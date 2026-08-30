@@ -24,39 +24,45 @@ public record GcloudPreviewComputeSslPoliciesCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --min-tls-version=MIN_TLS_VERSION; default="1.0" Minimum TLS version. MIN_TLS_VERSION must be one of: 1.0 TLS 1.0. 1.1 TLS 1.1. 1.2 TLS 1.2. 1.3 TLS 1.3. A comma-separated list of custom features, required when the profile being used is CUSTOM. Using CUSTOM profile allows customization of the features that are part of the SSL policy. This flag allows specifying those custom features. The list of all supported custom features can be obtained using: gcloud compute ssl-policies list-available-features
+    /// A comma-separated list of custom features, required when the profile being used is CUSTOM. Using CUSTOM profile allows customization of the features that are part of the SSL policy. This flag allows specifying those custom features. The list of all supported custom features can be obtained using: gcloud compute ssl-policies list-available-features
     /// </summary>
     [CliOption("--custom-features", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomFeatures { get; set; }
 
     /// <summary>
-    /// --min-tls-version=MIN_TLS_VERSION; default="1.0" Minimum TLS version. MIN_TLS_VERSION must be one of: 1.0 TLS 1.0. 1.1 TLS 1.1. 1.2 TLS 1.2. 1.3 TLS 1.3. An optional, textual description for the SSL policy.
+    /// An optional, textual description for the SSL policy.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// --min-tls-version=MIN_TLS_VERSION; default="1.0" Minimum TLS version. MIN_TLS_VERSION must be one of: 1.0 TLS 1.0. 1.1 TLS 1.1. 1.2 TLS 1.2. 1.3 TLS 1.3. Whether to use post-quantum key exchange. POST_QUANTUM_KEY_EXCHANGE must be one of: DEFAULT Post-quantum key exchange is disabled until it becomes enabled by default on load balancers. DEFERRED Post-quantum key exchange with clients is temporarily disabled. ENABLED Post-quantum key exchange is enabled.
+    /// Whether to use post-quantum key exchange. POST_QUANTUM_KEY_EXCHANGE must be one of: DEFAULT Post-quantum key exchange is disabled until it becomes enabled by default on load balancers. DEFERRED Post-quantum key exchange with clients is temporarily disabled. ENABLED Post-quantum key exchange is enabled.
     /// </summary>
     [CliOption("--post-quantum-key-exchange", Format = OptionFormat.EqualsSeparated)]
     public string? PostQuantumKeyExchange { get; set; }
 
     /// <summary>
-    /// --min-tls-version=MIN_TLS_VERSION; default="1.0" Minimum TLS version. MIN_TLS_VERSION must be one of: 1.0 TLS 1.0. 1.1 TLS 1.1. 1.2 TLS 1.2. 1.3 TLS 1.3. --profile=PROFILE; default="COMPATIBLE" SSL policy profile. Changing profile from CUSTOM to COMPATIBLE|MODERN|RESTRICTED|FIPS_202205 will clear the custom-features field. PROFILE must be one of: COMPATIBLE Compatible profile. Allows the broadest set of clients, even those which support only out-of-date SSL features, to negotiate SSL with the load balancer. CUSTOM Custom profile. Allows customization by selecting only the features which are required. The list of all available features can be obtained using: gcloud compute ssl-policies list-available-features FIPS_202205 FIPS_202205 profile. Supports a reduced set of SSL features, intended to meet stricter compliance requirements. MODERN Modern profile. Supports a wide set of SSL features, allowing modern clients to negotiate SSL. RESTRICTED Restricted profile. Supports a reduced set of SSL features, intended to meet stricter compliance requirements. At most one of these can be specified: If set, the SSL policy is global.
+    /// If set, the SSL policy is global.
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
 
     /// <summary>
-    /// --min-tls-version=MIN_TLS_VERSION; default="1.0" Minimum TLS version. MIN_TLS_VERSION must be one of: 1.0 TLS 1.0. 1.1 TLS 1.1. 1.2 TLS 1.2. 1.3 TLS 1.3. --profile=PROFILE; default="COMPATIBLE" SSL policy profile. Changing profile from CUSTOM to COMPATIBLE|MODERN|RESTRICTED|FIPS_202205 will clear the custom-features field. PROFILE must be one of: COMPATIBLE Compatible profile. Allows the broadest set of clients, even those which support only out-of-date SSL features, to negotiate SSL with the load balancer. CUSTOM Custom profile. Allows customization by selecting only the features which are required. The list of all available features can be obtained using: gcloud compute ssl-policies list-available-features FIPS_202205 FIPS_202205 profile. Supports a reduced set of SSL features, intended to meet stricter compliance requirements. MODERN Modern profile. Supports a wide set of SSL features, allowing modern clients to negotiate SSL. RESTRICTED Restricted profile. Supports a reduced set of SSL features, intended to meet stricter compliance requirements. At most one of these can be specified: Region of the SSL policy to create. Overrides the default compute/region property value for this command invocation.
+    /// Region of the SSL policy to create. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
-    [Obsolete("MinTlsVersion is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Minimum TLS version. MIN_TLS_VERSION must be one of: 1.0 TLS 1.0. 1.1 TLS 1.1. 1.2 TLS 1.2. 1.3 TLS 1.3.
+    /// </summary>
+    [CliOption("--min-tls-version", Format = OptionFormat.EqualsSeparated)]
     public string? MinTlsVersion { get; set; }
 
-    [Obsolete("Profile is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// SSL policy profile. Changing profile from CUSTOM to COMPATIBLE|MODERN|RESTRICTED|FIPS_202205 will clear the custom-features field. PROFILE must be one of: COMPATIBLE Compatible profile. Allows the broadest set of clients, even those which support only out-of-date SSL features, to negotiate SSL with the load balancer. CUSTOM Custom profile. Allows customization by selecting only the features which are required. The list of all available features can be obtained using: gcloud compute ssl-policies list-available-features FIPS_202205 FIPS_202205 profile. Supports a reduced set of SSL features, intended to meet stricter compliance requirements. MODERN Modern profile. Supports a wide set of SSL features, allowing modern clients to negotiate SSL. RESTRICTED Restricted profile. Supports a reduced set of SSL features, intended to meet stricter compliance requirements.
+    /// </summary>
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public string? Profile { get; set; }
 
 }

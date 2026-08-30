@@ -22,12 +22,9 @@ public enum GcloudNetworkInterface
     [EnumValue("VIRTIO_NET")]
     VirtioNet = 1,
 
-    [EnumValue("never")]
-    Never = 2,
+    [EnumValue("PREMIUM")]
+    Premium = 2,
 
-    [EnumValue("on-failure")]
-    OnFailure = 3,
-
-    [EnumValue("always")]
-    Always = 4
+    [EnumValue("STANDARD")]
+    Standard = 3
 }

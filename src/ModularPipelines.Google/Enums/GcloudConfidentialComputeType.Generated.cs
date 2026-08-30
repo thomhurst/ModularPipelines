@@ -16,12 +16,13 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudConfidentialComputeType
 {
-    [EnumValue("never")]
-    Never = 0,
 
-    [EnumValue("on-failure")]
-    OnFailure = 1,
+    [EnumValue("SEV")]
+    Sev = 0,
 
-    [EnumValue("always")]
-    Always = 2
+    [EnumValue("SEV_SNP")]
+    SevSnp = 1,
+
+    [EnumValue("TDX")]
+    Tdx = 2
 }

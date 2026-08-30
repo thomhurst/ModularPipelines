@@ -32,5 +32,8 @@ public enum GcloudDiskType
     HyperdiskExtreme = 4,
 
     [EnumValue("hyperdisk-throughput")]
-    HyperdiskThroughput = 5
+    HyperdiskThroughput = 5,
+
+    [EnumValue("hyperdisk-balanced-ha")]
+    HyperdiskBalancedHa = 6
 }

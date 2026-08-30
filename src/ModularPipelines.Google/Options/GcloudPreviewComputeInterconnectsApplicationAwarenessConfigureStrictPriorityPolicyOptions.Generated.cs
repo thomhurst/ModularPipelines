@@ -30,6 +30,12 @@ public record GcloudPreviewComputeInterconnectsApplicationAwarenessConfigureStri
     public bool? Enabled { get; set; }
 
     /// <summary>
+    /// Enable or disable application awareness on the interconnect. Application awareness enablement will fail if the application awareness configuration is not specified. Use --no-enabled to disable it.
+    /// </summary>
+    [CliFlag("--no-enabled")]
+    public bool? NoEnabled { get; set; }
+
+    /// <summary>
     /// Add profile description for application awareness.
     /// </summary>
     [CliOption("--profile-description", Format = OptionFormat.EqualsSeparated)]

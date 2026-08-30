@@ -37,6 +37,12 @@ public record GcloudStorageBucketsAnywhereCachesCreateOptions(
     public bool? EnableIngestOnWrite { get; set; }
 
     /// <summary>
+    /// Enables the Ingest-on-Write feature on the bucket. Use --enable-ingest-on-write to enable and --no-enable-ingest-on-write to disable.
+    /// </summary>
+    [CliFlag("--no-enable-ingest-on-write")]
+    public bool? NoEnableIngestOnWrite { get; set; }
+
+    /// <summary>
     /// Cache entry time-to-live. Default to 24h if not provided.
     /// </summary>
     [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]

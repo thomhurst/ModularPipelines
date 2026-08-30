@@ -49,10 +49,22 @@ public record GcloudPreviewComputeFirewallRulesUpdateOptions(
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// Enable logging for the firewall rule. Logs will be exported to StackDriver. Firewall logging is disabled by default. To enable logging for an existing rule, run: $ gcloud preview compute firewall-rules update MY-RULE \ --enable-logging To disable logging on an existing rule, run: $ gcloud preview compute firewall-rules update MY-RULE \ --no-enable-logging Use --enable-logging to enable and --no-enable-logging to disable.
+    /// Disable a firewall rule and stop it from being enforced in the network. If a firewall rule is disabled, the associated network behaves as if the rule did not exist. To enable a disabled rule, use: $ gcloud preview compute firewall-rules update MY-RULE --no-disabled
+    /// </summary>
+    [CliFlag("--no-disabled")]
+    public bool? NoDisabled { get; set; }
+
+    /// <summary>
+    /// Enable logging for the firewall rule. Logs will be exported to StackDriver. Firewall logging is disabled by default. To enable logging for an existing rule, run: $ gcloud preview compute firewall-rules update MY-RULE \ --enable-logging To disable logging on an existing rule, run: $ gcloud preview compute firewall-rules update MY-RULE \
     /// </summary>
     [CliFlag("--enable-logging")]
     public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// Adds or removes metadata fields to or from the reported firewall logs. Can only be specified if --enable-logging is true. LOGGING_METADATA must be one of: exclude-all, include-all.

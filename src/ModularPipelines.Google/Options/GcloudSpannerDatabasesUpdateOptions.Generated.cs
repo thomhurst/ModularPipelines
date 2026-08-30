@@ -28,19 +28,25 @@ public record GcloudSpannerDatabasesUpdateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Removes all KMS key references and reverts the database to Google-managed encryption.
+    /// Removes all KMS key references and reverts the database to Google-managed encryption.
     /// </summary>
     [CliFlag("--clear-kms-keys")]
     public bool? ClearKmsKeys { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Enable database deletion protection on this database. Use --enable-drop-protection to enable and --no-enable-drop-protection to disable.
+    /// Enable database deletion protection on this database. Use --enable-drop-protection to enable and --no-enable-drop-protection to disable.
     /// </summary>
     [CliFlag("--enable-drop-protection")]
     public bool? EnableDropProtection { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Update KMS key references for this database. Users should always provide the full set of required KMS key references.
+    /// Enable database deletion protection on this database. Use --enable-drop-protection to enable and --no-enable-drop-protection to disable.
+    /// </summary>
+    [CliFlag("--no-enable-drop-protection")]
+    public bool? NoEnableDropProtection { get; set; }
+
+    /// <summary>
+    /// Update KMS key references for this database. Users should always provide the full set of required KMS key references.
     /// </summary>
     [CliOption("--kms-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KmsKeys { get; set; }

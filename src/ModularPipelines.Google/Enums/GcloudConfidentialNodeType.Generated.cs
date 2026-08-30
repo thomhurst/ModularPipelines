@@ -23,5 +23,8 @@ public enum GcloudConfidentialNodeType
     SevSnp = 1,
 
     [EnumValue("tdx")]
-    Tdx = 2
+    Tdx = 2,
+
+    [EnumValue("disabled")]
+    Disabled = 3
 }

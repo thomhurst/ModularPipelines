@@ -22,9 +22,4 @@ public enum GcloudAction
     [EnumValue("DENY")]
     Deny = 1,
 
-    [EnumValue("allow")]
-    AllowLowercase = 2,
-
-    [EnumValue("deny")]
-    DenyLowercase = 3
 }

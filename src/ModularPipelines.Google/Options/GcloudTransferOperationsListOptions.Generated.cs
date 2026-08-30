@@ -22,36 +22,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTransferOperationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// --page-size=PAGE_SIZE; default=256 Retrieve batches of this many items from the API. Return the first items from the API up to this limit.
+    /// Return the first items from the API up to this limit.
     /// </summary>
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
     public string? Limit { get; set; }
 
     /// <summary>
-    /// --page-size=PAGE_SIZE; default=256 Retrieve batches of this many items from the API. The names of the jobs whose operations you want to list. Separate multiple job names with commas (e.g., --job-names=foo,bar). If not specified, operations for all jobs are listed.
+    /// The names of the jobs whose operations you want to list. Separate multiple job names with commas (e.g., --job-names=foo,bar). If not specified, operations for all jobs are listed.
     /// </summary>
     [CliOption("--job-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JobNames { get; set; }
 
     /// <summary>
-    /// --page-size=PAGE_SIZE; default=256 Retrieve batches of this many items from the API. The names of operations you want to list. Separate multiple operation names with commas (e.g., --operation-names-name=foo,bar). If not specified, all operations are listed.
+    /// The names of operations you want to list. Separate multiple operation names with commas (e.g., --operation-names-name=foo,bar). If not specified, all operations are listed.
     /// </summary>
     [CliOption("--operation-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OperationNames { get; set; }
 
     /// <summary>
-    /// --page-size=PAGE_SIZE; default=256 Retrieve batches of this many items from the API. List only transfer operations with the statuses you specify. Options include 'in_progress', 'paused', 'success','failed', 'aborted'. Separate multiple statuses with commas (e.g., --operation-statuses=failed,aborted).
+    /// List only transfer operations with the statuses you specify. Options include 'in_progress', 'paused', 'success','failed', 'aborted'. Separate multiple statuses with commas (e.g., --operation-statuses=failed,aborted).
     /// </summary>
     [CliOption("--operation-statuses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OperationStatuses { get; set; }
 
     /// <summary>
-    /// --page-size=PAGE_SIZE; default=256 Retrieve batches of this many items from the API. Include additional table columns (operation name, start time, status, data copied, status, has errors, job name) in command output. Tip: increase the size of your terminal before running the command.
+    /// Include additional table columns (operation name, start time, status, data copied, status, has errors, job name) in command output. Tip: increase the size of your terminal before running the command.
     /// </summary>
     [CliFlag("--expand-table")]
     public bool? ExpandTable { get; set; }
 
-    [Obsolete("PageSize is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Retrieve batches of this many items from the API.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
     public int? PageSize { get; set; }
 
 }

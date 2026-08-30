@@ -29,4 +29,10 @@ public record GcloudConfigConfigurationsCreateOptions(
     [CliFlag("--activate")]
     public bool? Activate { get; set; }
 
+    /// <summary>
+    /// If true, activate this configuration upon create. Enabled by default, use --no-activate to disable.
+    /// </summary>
+    [CliFlag("--no-activate")]
+    public bool? NoActivate { get; set; }
+
 }

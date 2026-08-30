@@ -30,6 +30,12 @@ public record GcloudVmwareNetworkPoliciesUpdateOptions(
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
     /// Updated description for the network policy.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
@@ -48,9 +54,21 @@ public record GcloudVmwareNetworkPoliciesUpdateOptions(
     public bool? ExternalIpAccess { get; set; }
 
     /// <summary>
+    /// Enable or disable network service that allows external IP addresses to be assigned to VMware workloads. To enable this service, internet-access must also be enabled. Use --no-external-ip-access to disable.
+    /// </summary>
+    [CliFlag("--no-external-ip-access")]
+    public bool? NoExternalIpAccess { get; set; }
+
+    /// <summary>
     /// Enable or disable network service that allows VMware workloads to access the internet. Use --no-internet-access to disable.
     /// </summary>
     [CliFlag("--internet-access")]
     public bool? InternetAccess { get; set; }
+
+    /// <summary>
+    /// Enable or disable network service that allows VMware workloads to access the internet. Use --no-internet-access to disable.
+    /// </summary>
+    [CliFlag("--no-internet-access")]
+    public bool? NoInternetAccess { get; set; }
 
 }

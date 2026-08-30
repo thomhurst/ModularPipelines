@@ -28,6 +28,12 @@ public record GcloudVmwarePrivateCloudsExternalAddressesUpdateOptions : GcloudOp
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
     /// Updated description for this external address
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]

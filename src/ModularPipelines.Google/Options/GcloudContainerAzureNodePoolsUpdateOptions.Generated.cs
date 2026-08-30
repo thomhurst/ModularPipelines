@@ -22,55 +22,61 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAzureNodePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Node pool autoscaling Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools update --enable-autorepair
+    /// Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools update --enable-autorepair
     /// </summary>
     [CliFlag("--enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Kubernetes version to use for the node pool.
+    /// Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools update --enable-autorepair
+    /// </summary>
+    [CliFlag("--no-enable-autorepair")]
+    public bool? NoEnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Kubernetes version to use for the node pool.
     /// </summary>
     [CliOption("--node-version", Format = OptionFormat.EqualsSeparated)]
     public string? NodeVersion { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling SSH public key to use for authentication.
+    /// SSH public key to use for authentication.
     /// </summary>
     [CliOption("--ssh-public-key", Format = OptionFormat.EqualsSeparated)]
     public string? SshPublicKey { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Validate the update of the node pool, but don't actually perform it.
+    /// Validate the update of the node pool, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Annotations At most one of these can be specified: Annotations for the node pool.
+    /// Annotations for the node pool.
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Annotations At most one of these can be specified: Clear the annotations for the node pool.
+    /// Clear the annotations for the node pool.
     /// </summary>
     [CliFlag("--clear-annotations")]
     public bool? ClearAnnotations { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Maximum number of nodes in the node pool.
+    /// Maximum number of nodes in the node pool.
     /// </summary>
     [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? MaxNodes { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Minimum number of nodes in the node pool.
+    /// Minimum number of nodes in the node pool.
     /// </summary>
     [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? MinNodes { get; set; }

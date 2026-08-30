@@ -78,74 +78,74 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions : 
     public GcloudSslType? SslType { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Cloud Storage bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Cloud Storage bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--gcs-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? GcsBucket { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Cloud Storage prefix path within the bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations.
+    /// Cloud Storage prefix path within the bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations.
     /// </summary>
     [CliOption("--gcs-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? GcsPrefix { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Database provider, for managed databases. PROVIDER must be one of: CLOUDSQL, RDS.
+    /// Database provider, for managed databases. PROVIDER must be one of: CLOUDSQL, RDS.
     /// </summary>
     [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
     public GcloudProvider? Provider { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: IP or hostname of the database. When `--psc-service-attachment` is also specified, this field value should be: 1. For Cloud SQL PSC enabled instance - the dns_name field (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.). 2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// IP or hostname of the database. When `--psc-service-attachment` is also specified, this field value should be: 1. For Cloud SQL PSC enabled instance - the dns_name field (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.). 2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Network port of the database. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Network port of the database. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute:
+    /// ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute:
     /// </summary>
     [CliOption("--private-connection", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateConnection { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Service attachment resource - Resource ID of the service attachment. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the service_attachment or fully qualified identifier for the service_attachment. To set the service_attachment attribute:
+    /// ID of the service_attachment or fully qualified identifier for the service_attachment. To set the service_attachment attribute:
     /// </summary>
     [CliOption("--psc-service-attachment", Format = OptionFormat.EqualsSeparated)]
     public string? PscServiceAttachment { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. use static ip connectivity
+    /// use static ip connectivity
     /// </summary>
     [CliFlag("--static-ip-connectivity")]
     public bool? StaticIpConnectivity { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Hostname for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Hostname for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--forward-ssh-hostname", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshHostname { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Username for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Username for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--forward-ssh-username", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshUsername { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: --forward-ssh-port=FORWARD_SSH_PORT; default=22 Port for the SSH tunnel, default value is 22. Exactly one of these must be specified: SSH password.
+    /// SSH password.
     /// </summary>
     [SecretValue]
     [CliOption("--forward-ssh-password", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshPassword { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: --forward-ssh-port=FORWARD_SSH_PORT; default=22 Port for the SSH tunnel, default value is 22. Exactly one of these must be specified: SSH private key..
+    /// SSH private key..
     /// </summary>
     [SecretValue]
     [CliOption("--forward-ssh-private-key", Format = OptionFormat.EqualsSeparated)]
@@ -170,16 +170,22 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions : 
     public string? CloudsqlProjectId { get; set; }
 
     /// <summary>
-    /// Exactly one of these must be specified: Password for the user that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it, and the field is not returned on request.
+    /// Password for the user that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it, and the field is not returned on request.
     /// </summary>
     [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
     /// <summary>
-    /// Exactly one of these must be specified: Prompt for the password used to connect to the database.
+    /// Prompt for the password used to connect to the database.
     /// </summary>
     [CliFlag("--prompt-for-password")]
     public bool? PromptForPassword { get; set; }
+
+    /// <summary>
+    /// Port for the SSH tunnel, default value is 22.
+    /// </summary>
+    [CliOption("--forward-ssh-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPort { get; set; }
 
 }

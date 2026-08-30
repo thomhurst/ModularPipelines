@@ -23,57 +23,63 @@ namespace ModularPipelines.Google.Options;
 public record GcloudLoggingReadOptions : GcloudOptions
 {
     /// <summary>
-    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: At most one of these can be specified: Billing account of the log entries to read.
+    /// Billing account of the log entries to read.
     /// </summary>
     [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBillingAccount? BillingAccount { get; set; }
+    public int? BillingAccount { get; set; }
 
     /// <summary>
-    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: At most one of these can be specified: Folder of the log entries to read.
+    /// Folder of the log entries to read.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
-    public GcloudFolder? Folder { get; set; }
+    public string? Folder { get; set; }
 
     /// <summary>
-    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: At most one of these can be specified: Organization of the log entries to read.
+    /// Organization of the log entries to read.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
-    public GcloudOrganization? Organization { get; set; }
+    public string? Organization { get; set; }
 
     /// <summary>
-    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: At most one of these can be specified: Project of the log entries to read. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// Project of the log entries to read. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public GcloudProject? Project { get; set; }
+    public string? Project { get; set; }
 
     /// <summary>
-    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: At most one of these can be specified: Resource name(s) to read logs from. A resource can either be an top-level resource (e.g., "projects/my-project") or a full log view resource path (e.g., "projects/my-project/locations/my-location/buckets/my-bucket/views/my-view"). Multiple resources can be specified, separated by a comma.
+    /// Resource name(s) to read logs from. A resource can either be an top-level resource (e.g., "projects/my-project") or a full log view resource path (e.g., "projects/my-project/locations/my-location/buckets/my-bucket/views/my-view"). Multiple resources can be specified, separated by a comma.
     /// </summary>
     [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)]
-    public GcloudResourceNames? ResourceNames { get; set; }
+    public string? ResourceNames { get; set; }
 
     /// <summary>
-    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: These arguments are used in conjunction with the parent to construct a view resource. Id of the log bucket. If this argument is provided then --location and --view must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Id of the log bucket. If this argument is provided then --location and --view must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBucket? Bucket { get; set; }
+    public string? Bucket { get; set; }
 
     /// <summary>
-    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: These arguments are used in conjunction with the parent to construct a view resource. Location of the log bucket. If this argument is provided then --bucket and --view must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Location of the log bucket. If this argument is provided then --bucket and --view must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLocation? Location { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>
-    /// --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: --freshness=FRESHNESS; default="1d" Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats. --order=ORDER; default="desc" Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc. At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: These arguments are used in conjunction with the parent to construct a view resource. Id of the view. If this argument is provided then --location and --bucket must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Id of the view. If this argument is provided then --location and --bucket must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
-    public GcloudView? View { get; set; }
+    public string? View { get; set; }
 
-    [Obsolete("Freshness is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--freshness", Format = OptionFormat.EqualsSeparated)]
     public string? Freshness { get; set; }
 
-    [Obsolete("Order is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc.
+    /// </summary>
+    [CliOption("--order", Format = OptionFormat.EqualsSeparated)]
     public string? Order { get; set; }
 
 }

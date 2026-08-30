@@ -22,9 +22,6 @@ public enum GcloudDirectVpcEgress
     [EnumValue("all")]
     All = 1,
 
-    [EnumValue("secure-always")]
-    SecureAlways = 2,
-
-    [EnumValue("secure-optional")]
-    SecureOptional = 3
+    [EnumValue("all-traffic")]
+    AllTraffic = 2
 }

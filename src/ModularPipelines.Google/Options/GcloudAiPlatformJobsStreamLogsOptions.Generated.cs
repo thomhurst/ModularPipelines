@@ -24,18 +24,21 @@ public record GcloudAiPlatformJobsStreamLogsOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=60 Number of seconds to wait between efforts to fetch the latest log messages. Overrides the default ml_engine/polling_interval property value for this command invocation. Output multiline log messages as single records.
+    /// Output multiline log messages as single records.
     /// </summary>
     [CliFlag("--allow-multiline-logs")]
     public bool? AllowMultilineLogs { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=60 Number of seconds to wait between efforts to fetch the latest log messages. Overrides the default ml_engine/polling_interval property value for this command invocation. If set, display only the logs for this particular task.
+    /// If set, display only the logs for this particular task.
     /// </summary>
     [CliOption("--task-name", Format = OptionFormat.EqualsSeparated)]
     public string? TaskName { get; set; }
 
-    [Obsolete("PollingInterval is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Number of seconds to wait between efforts to fetch the latest log messages. Overrides the default ml_engine/polling_interval property value for this command invocation.
+    /// </summary>
+    [CliOption("--polling-interval", Format = OptionFormat.EqualsSeparated)]
     public string? PollingInterval { get; set; }
 
 }

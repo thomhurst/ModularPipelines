@@ -24,42 +24,45 @@ public record GcloudSccNotificationsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --location=LOCATION; default="global" Required if either data residency is enabled or the notificationConfig was created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notification is stored. If data residency is not enabled, include /locations/``LOCATION'' in the full name or specify the --location flag only if the notificationConfig resource was created by using the Security Command Center API v2, in which case, the only valid location is global. The text that will be used to describe a notification configuration.
+    /// The text that will be used to describe a notification configuration.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// --location=LOCATION; default="global" Required if either data residency is enabled or the notificationConfig was created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notification is stored. If data residency is not enabled, include /locations/``LOCATION'' in the full name or specify the --location flag only if the notificationConfig resource was created by using the Security Command Center API v2, in which case, the only valid location is global. The filter string which will applied to events of findings of a notification configuration.
+    /// The filter string which will applied to events of findings of a notification configuration.
     /// </summary>
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// --location=LOCATION; default="global" Required if either data residency is enabled or the notificationConfig was created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notification is stored. If data residency is not enabled, include /locations/``LOCATION'' in the full name or specify the --location flag only if the notificationConfig resource was created by using the Security Command Center API v2, in which case, the only valid location is global. The Pub/Sub topic which will receive notifications. Its format is "projects/[project_id]/topics/[topic]".
+    /// The Pub/Sub topic which will receive notifications. Its format is "projects/[project_id]/topics/[topic]".
     /// </summary>
     [CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)]
     public string? PubsubTopic { get; set; }
 
     /// <summary>
-    /// --location=LOCATION; default="global" Required if either data residency is enabled or the notificationConfig was created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notification is stored. If data residency is not enabled, include /locations/``LOCATION'' in the full name or specify the --location flag only if the notificationConfig resource was created by using the Security Command Center API v2, in which case, the only valid location is global. At most one of these can be specified: Folder where the notification config resides. Formatted as folders/456 or just 456.
+    /// Folder where the notification config resides. Formatted as folders/456 or just 456.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// --location=LOCATION; default="global" Required if either data residency is enabled or the notificationConfig was created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notification is stored. If data residency is not enabled, include /locations/``LOCATION'' in the full name or specify the --location flag only if the notificationConfig resource was created by using the Security Command Center API v2, in which case, the only valid location is global. At most one of these can be specified: Organization where the notification config resides. Formatted as organizations/123 or just 123.
+    /// Organization where the notification config resides. Formatted as organizations/123 or just 123.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// --location=LOCATION; default="global" Required if either data residency is enabled or the notificationConfig was created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notification is stored. If data residency is not enabled, include /locations/``LOCATION'' in the full name or specify the --location flag only if the notificationConfig resource was created by using the Security Command Center API v2, in which case, the only valid location is global. At most one of these can be specified: Project (ID or number) where the notification config resides. Formatted as projects/789 or just 789.
+    /// Project (ID or number) where the notification config resides. Formatted as projects/789 or just 789.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
 
-    [Obsolete("Location is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Required if either data residency is enabled or the notificationConfig was created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notification is stored. If data residency is not enabled, include /locations/``LOCATION'' in the full name or specify the --location flag only if the notificationConfig resource was created by using the Security Command Center API v2, in which case, the only valid location is global.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
 }

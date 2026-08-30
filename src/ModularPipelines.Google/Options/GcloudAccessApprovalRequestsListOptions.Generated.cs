@@ -22,24 +22,27 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessApprovalRequestsListOptions : GcloudOptions
 {
     /// <summary>
-    /// --state=STATE; default="pending" filter for request state At most one of these can be specified: --state=STATE; default="pending" filter for request state At most one of these can be specified: Folder number. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
+    /// Folder number. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// --state=STATE; default="pending" filter for request state At most one of these can be specified: --state=STATE; default="pending" filter for request state At most one of these can be specified: Organization number. Either --project, --folder, or --organization must be provided. If none are provided then it uses config property [core/project].
+    /// Organization number. Either --project, --folder, or --organization must be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// --state=STATE; default="pending" filter for request state At most one of these can be specified: --state=STATE; default="pending" filter for request state At most one of these can be specified: Project number or id. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
+    /// Project number or id. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
 
-    [Obsolete("State is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// filter for request state
+    /// </summary>
+    [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
     public string? State { get; set; }
 
 }

@@ -26,5 +26,17 @@ public enum GcloudDataDiskType
     PdBalanced = 2,
 
     [EnumValue("PD_EXTREME")]
-    PdExtreme = 3
+    PdExtreme = 3,
+
+    [EnumValue("HYPERDISK_BALANCED")]
+    HyperdiskBalanced = 4,
+
+    [EnumValue("HYPERDISK_ML")]
+    HyperdiskMl = 5,
+
+    [EnumValue("HYPERDISK_EXTREME")]
+    HyperdiskExtreme = 6,
+
+    [EnumValue("HYPERDISK_THROUGHPUT")]
+    HyperdiskThroughput = 7
 }

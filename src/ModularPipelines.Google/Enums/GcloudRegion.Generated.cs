@@ -28,18 +28,4 @@ public enum GcloudRegion
     [EnumValue("us-west1")]
     UsWest1 = 3,
 
-    [EnumValue("INTERNAL")]
-    Internal = 4,
-
-    [EnumValue("EXTERNAL")]
-    External = 5,
-
-    [EnumValue("INTERNAL_SELF_MANAGED")]
-    InternalSelfManaged = 6,
-
-    [EnumValue("EXTERNAL_MANAGED")]
-    ExternalManaged = 7,
-
-    [EnumValue("INTERNAL_MANAGED")]
-    InternalManaged = 8
 }

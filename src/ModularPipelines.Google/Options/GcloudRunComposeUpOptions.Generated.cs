@@ -28,6 +28,12 @@ public record GcloudRunComposeUpOptions : GcloudOptions
     public bool? AllowUnauthenticated { get; set; }
 
     /// <summary>
+    /// Whether to enable allowing unauthenticated access to the service. This may take a few moments to take effect. Use --allow-unauthenticated to enable and --no-allow-unauthenticated to disable.
+    /// </summary>
+    [CliFlag("--no-allow-unauthenticated")]
+    public bool? NoAllowUnauthenticated { get; set; }
+
+    /// <summary>
     /// If set to true, only validates the configuration. The configuration is not applied.
     /// </summary>
     [CliFlag("--dry-run")]
@@ -40,13 +46,13 @@ public record GcloudRunComposeUpOptions : GcloudOptions
     public string? Region { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Force build of images.
+    /// Force build of images.
     /// </summary>
     [CliFlag("--build")]
     public bool? Build { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Skip building from source if applicable.
+    /// Skip building from source if applicable.
     /// </summary>
     [CliFlag("--no-build")]
     public bool? NoBuild { get; set; }

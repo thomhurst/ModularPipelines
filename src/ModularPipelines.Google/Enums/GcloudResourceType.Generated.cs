@@ -22,21 +22,12 @@ public enum GcloudResourceType
     [EnumValue("backend-services")]
     BackendServices = 1,
 
-    [EnumValue("iap_web")]
-    IapWeb = 2,
-
-    [EnumValue("compute")]
-    Compute = 3,
-
-    [EnumValue("organization")]
-    Organization = 4,
-
-    [EnumValue("folder")]
-    Folder = 5,
-
     [EnumValue("forwarding-rule")]
     ForwardingRule = 6,
 
     [EnumValue("cloud-run")]
-    CloudRun = 7
+    CloudRun = 7,
+
+    [EnumValue("agent-registry")]
+    AgentRegistry = 8
 }

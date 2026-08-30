@@ -59,6 +59,12 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public bool? GpuZonalRedundancy { get; set; }
 
     /// <summary>
+    /// Container Flags The following flags apply to the container. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// </summary>
+    [CliFlag("--no-gpu-zonal-redundancy")]
+    public bool? NoGpuZonalRedundancy { get; set; }
+
+    /// <summary>
     /// Container Flags The following flags apply to the container. The number of instances to run for this WorkerPool. Flag value should be a positive integer to configure manual scaling with the given integer as a fixed instance count.
     /// </summary>
     [CliOption("--instances", Format = OptionFormat.EqualsSeparated)]

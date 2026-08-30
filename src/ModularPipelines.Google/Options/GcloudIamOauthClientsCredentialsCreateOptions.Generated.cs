@@ -28,6 +28,12 @@ public record GcloudIamOauthClientsCredentialsCreateOptions : GcloudOptions
     public bool? Disabled { get; set; }
 
     /// <summary>
+    /// Disables the OAuth client credential. You cannot use a disabled OAuth client credential for OAuth. Include --no-disabled to enable a disabled OAuth client credential.
+    /// </summary>
+    [CliFlag("--no-disabled")]
+    public bool? NoDisabled { get; set; }
+
+    /// <summary>
     /// A display name for the OAuth client credential. Cannot exceed 32 characters.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]

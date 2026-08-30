@@ -22,12 +22,4 @@ public enum GcloudEngine
     [EnumValue("lightning")]
     Lightning = 1,
 
-    [EnumValue("any")]
-    Any = 2,
-
-    [EnumValue("none")]
-    None = 3,
-
-    [EnumValue("specific")]
-    Specific = 4
 }

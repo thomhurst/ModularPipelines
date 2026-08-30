@@ -53,6 +53,12 @@ public record GcloudFirebaseTestIosRunOptions : GcloudOptions
     public bool? RecordVideo { get; set; }
 
     /// <summary>
+    /// Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+    /// </summary>
+    [CliFlag("--no-record-video")]
+    public bool? NoRecordVideo { get; set; }
+
+    /// <summary>
     /// The name of a Google Cloud Storage bucket where raw test results will be stored (default: "test-lab-&lt;random-UUID&gt;"). Note that the bucket must be owned by a billing-enabled project, and that using a non-default bucket will result in billing charges for the storage used.
     /// </summary>
     [CliOption("--results-bucket", Format = OptionFormat.EqualsSeparated)]

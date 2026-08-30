@@ -232,13 +232,15 @@ public partial class GcloudCliScraper : CliScraperBase
 
         foreach (var argument in argumentGroup.FlattenArguments())
         {
-            var option = CreateOption(argument);
-            if (option is null || !seenOptions.Add(option.SwitchName))
+            foreach (var option in CreateOptions(argument))
             {
-                continue;
-            }
+                if (!seenOptions.Add(option.SwitchName))
+                {
+                    continue;
+                }
 
-            options.Add(NormalizeRepeatability(option, helpText, commandParts));
+                options.Add(NormalizeRepeatability(option, helpText, commandParts));
+            }
         }
 
         return (options, [argumentGroup]);
@@ -270,18 +272,18 @@ public partial class GcloudCliScraper : CliScraperBase
         };
     }
 
-    private static CliOptionDefinition? CreateOption(CliArgumentDefinition argument)
+    private static IEnumerable<CliOptionDefinition> CreateOptions(CliArgumentDefinition argument)
     {
         var longForm = argument.SwitchName;
         if (string.IsNullOrEmpty(longForm))
         {
-            return null;
+            yield break;
         }
 
         var propertyName = NormalizePropertyName(longForm);
         if (propertyName is null)
         {
-            return null;
+            yield break;
         }
 
         var valueHint = argument.ValueHint ?? string.Empty;
@@ -294,7 +296,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
         var enumDefinition = TryDetectEnum(propertyName, description);
 
-        return new CliOptionDefinition
+        var option = new CliOptionDefinition
         {
             SwitchName = longForm,
             PropertyName = propertyName,
@@ -314,7 +316,27 @@ public partial class GcloudCliScraper : CliScraperBase
             EnumDefinition = enumDefinition,
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, description)
         };
+
+        yield return option;
+
+        var negativeSwitch = $"--no-{longForm[2..]}";
+        if (argument.IsNegatable
+            || DescriptionMentionsSwitch(description, negativeSwitch))
+        {
+            yield return option with
+            {
+                SwitchName = negativeSwitch,
+                PropertyName = $"No{propertyName}",
+            };
+        }
     }
+
+    private static bool DescriptionMentionsSwitch(string? description, string switchName) =>
+        !string.IsNullOrEmpty(description)
+        && Regex.IsMatch(
+            description,
+            $@"(?<![\w-]){Regex.Escape(switchName)}(?![\w-])",
+            RegexOptions.IgnoreCase);
 
     private static CliArgumentDefinition? ParseGcloudArgument(string line)
     {
@@ -483,7 +505,7 @@ public partial class GcloudCliScraper : CliScraperBase
     /// --option=VALUE
     /// </summary>
     [GeneratedRegex(
-        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s]+))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?$")]
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s;]+))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
     private static partial Regex GcloudFlagPattern();
 
     #endregion

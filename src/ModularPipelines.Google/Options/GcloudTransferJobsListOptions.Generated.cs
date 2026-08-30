@@ -22,33 +22,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTransferJobsListOptions : GcloudOptions
 {
     /// <summary>
-    /// --page-size=PAGE_SIZE; default=256 Retrieve batches of this many items from the API. Return the first items from the API up to this limit.
+    /// Return the first items from the API up to this limit.
     /// </summary>
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
     public string? Limit { get; set; }
 
     /// <summary>
-    /// --page-size=PAGE_SIZE; default=256 Retrieve batches of this many items from the API. The names of the jobs you want to list. Separate multiple job names with commas (e.g., --job-names=foo,bar). If not specified, all jobs will be listed.
+    /// The names of the jobs you want to list. Separate multiple job names with commas (e.g., --job-names=foo,bar). If not specified, all jobs will be listed.
     /// </summary>
     [CliOption("--job-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JobNames { get; set; }
 
     /// <summary>
-    /// --page-size=PAGE_SIZE; default=256 Retrieve batches of this many items from the API. List only jobs with the statuses you specify. Options include 'enabled', 'disabled', 'deleted' (case insensitive). Separate multiple statuses with commas (e.g., --job-statuses=enabled,deleted). If not specified, all jobs will be listed.
+    /// List only jobs with the statuses you specify. Options include 'enabled', 'disabled', 'deleted' (case insensitive). Separate multiple statuses with commas (e.g., --job-statuses=enabled,deleted). If not specified, all jobs will be listed.
     /// </summary>
     [CliOption("--job-statuses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JobStatuses { get; set; }
 
     /// <summary>
-    /// --page-size=PAGE_SIZE; default=256 Retrieve batches of this many items from the API. Include additional table columns (job name, source, destination, frequency, lastest operation name, job status) in command output. Tip: increase the size of your terminal before running the command.
+    /// Include additional table columns (job name, source, destination, frequency, lastest operation name, job status) in command output. Tip: increase the size of your terminal before running the command.
     /// </summary>
     [CliFlag("--expand-table")]
     public bool? ExpandTable { get; set; }
 
-    [Obsolete("PageSize is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Retrieve batches of this many items from the API.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
     public int? PageSize { get; set; }
 
-    [Obsolete("JobType is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The type of the job you want to list. JOB_TYPE must be one of: transfer, replication.
+    /// </summary>
+    [CliOption("--job-type", Format = OptionFormat.EqualsSeparated)]
     public string? JobType { get; set; }
 
 }

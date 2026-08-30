@@ -25,18 +25,12 @@ public enum GcloudProtocol
     [EnumValue("UNSPECIFIED")]
     Unspecified = 2,
 
-    [EnumValue("INTERNAL")]
-    Internal = 3,
+    [EnumValue("TLS")]
+    Tls = 3,
 
-    [EnumValue("EXTERNAL")]
-    External = 4,
+    [EnumValue("RELP")]
+    Relp = 4,
 
-    [EnumValue("INTERNAL_SELF_MANAGED")]
-    InternalSelfManaged = 5,
-
-    [EnumValue("EXTERNAL_MANAGED")]
-    ExternalManaged = 6,
-
-    [EnumValue("INTERNAL_MANAGED")]
-    InternalManaged = 7
+    [EnumValue("SSL")]
+    Ssl = 5
 }

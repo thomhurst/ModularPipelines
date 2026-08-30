@@ -27,4 +27,10 @@ public record GcloudFunctionsEventTypesListOptions : GcloudOptions
     [CliFlag("--gen2")]
     public bool? Gen2 { get; set; }
 
+    /// <summary>
+    /// If enabled, this command will use Cloud Functions (Second generation). If disabled with --no-gen2, Cloud Functions (First generation) will be used. If not specified, the value of this flag will be taken from the functions/gen2 configuration property.
+    /// </summary>
+    [CliFlag("--no-gen2")]
+    public bool? NoGen2 { get; set; }
+
 }

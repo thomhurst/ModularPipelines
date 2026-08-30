@@ -23,97 +23,115 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Description of the asset
+    /// Description of the asset
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Display Name
+    /// Display Name
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Read access mode. RESOURCE_READ_ACCESS_MODE must be one of: DIRECT Data is accessed directly using storage APIs MANAGED Data is accessed through a managed interface using BigQuery APIs.
+    /// Read access mode. RESOURCE_READ_ACCESS_MODE must be one of: DIRECT Data is accessed directly using storage APIs MANAGED Data is accessed through a managed interface using BigQuery APIs.
     /// </summary>
     [CliOption("--resource-read-access-mode", Format = OptionFormat.EqualsSeparated)]
     public string? ResourceReadAccessMode { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Validate the update action, but don't actually perform it.
+    /// Validate the update action, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
+    /// Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
     /// </summary>
     [CliFlag("--discovery-enabled")]
     public bool? DiscoveryEnabled { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+    /// Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
+    /// </summary>
+    [CliFlag("--no-discovery-enabled")]
+    public bool? NoDiscoveryEnabled { get; set; }
+
+    /// <summary>
+    /// The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
     /// </summary>
     [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DiscoveryExcludePatterns { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+    /// The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
     /// </summary>
     [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DiscoveryIncludePatterns { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery jobs periodically. Discovery jobs must be scheduled at least 30 minutes apart.
+    /// Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery jobs periodically. Discovery jobs must be scheduled at least 30 minutes apart.
     /// </summary>
     [CliOption("--discovery-schedule", Format = OptionFormat.EqualsSeparated)]
     public string? DiscoverySchedule { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The delimiter being used to separate values. This defaults to ','.
+    /// The delimiter being used to separate values. This defaults to ','.
     /// </summary>
     [CliOption("--csv-delimiter", Format = OptionFormat.EqualsSeparated)]
     public string? CsvDelimiter { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
+    /// Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
     /// </summary>
     [CliFlag("--csv-disable-type-inference")]
     public bool? CsvDisableTypeInference { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The character encoding of the data. The default is UTF-8.
+    /// Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
+    /// </summary>
+    [CliFlag("--no-csv-disable-type-inference")]
+    public bool? NoCsvDisableTypeInference { get; set; }
+
+    /// <summary>
+    /// The character encoding of the data. The default is UTF-8.
     /// </summary>
     [CliOption("--csv-encoding", Format = OptionFormat.EqualsSeparated)]
     public string? CsvEncoding { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The number of rows to interpret as header rows that should be skipped when reading data rows.
+    /// The number of rows to interpret as header rows that should be skipped when reading data rows.
     /// </summary>
     [CliOption("--csv-header-rows", Format = OptionFormat.EqualsSeparated)]
     public string? CsvHeaderRows { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
+    /// Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
     /// </summary>
     [CliFlag("--json-disable-type-inference")]
     public bool? JsonDisableTypeInference { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The character encoding of the data. The default is UTF-8.
+    /// Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
+    /// </summary>
+    [CliFlag("--no-json-disable-type-inference")]
+    public bool? NoJsonDisableTypeInference { get; set; }
+
+    /// <summary>
+    /// The character encoding of the data. The default is UTF-8.
     /// </summary>
     [CliOption("--json-encoding", Format = OptionFormat.EqualsSeparated)]
     public string? JsonEncoding { get; set; }

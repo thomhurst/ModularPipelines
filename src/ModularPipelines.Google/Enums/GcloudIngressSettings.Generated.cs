@@ -25,9 +25,4 @@ public enum GcloudIngressSettings
     [EnumValue("internal-and-gclb")]
     InternalAndGclb = 2,
 
-    [EnumValue("secure-always")]
-    SecureAlways = 3,
-
-    [EnumValue("secure-optional")]
-    SecureOptional = 4
 }

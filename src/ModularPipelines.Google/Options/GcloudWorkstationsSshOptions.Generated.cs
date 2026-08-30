@@ -22,30 +22,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsSshOptions : GcloudOptions
 {
     /// <summary>
-    /// --local-host-port=LOCAL_HOST_PORT; default="localhost:0" LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen. --port=PORT; default=22 The port on the workstation to which traffic should be sent. A command to run on the workstation. Runs the command on the target workstation and then exits.
+    /// A command to run on the workstation. Runs the command on the target workstation and then exits.
     /// </summary>
     [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
     public string? Command { get; set; }
 
     /// <summary>
-    /// --local-host-port=LOCAL_HOST_PORT; default="localhost:0" LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen. --port=PORT; default=22 The port on the workstation to which traffic should be sent. Additional flags to be passed to ssh(1). It is recommended that flags be passed using an assignment operator and quotes. Example: $ gcloud workstations ssh --ssh-flag="-vvv" \ --ssh-flag="-L 80:localhost:80"
+    /// Additional flags to be passed to ssh(1). It is recommended that flags be passed using an assignment operator and quotes. Example: $ gcloud workstations ssh --ssh-flag="-vvv" \ --ssh-flag="-L 80:localhost:80"
     /// </summary>
     [CliOption("--ssh-flag", Format = OptionFormat.EqualsSeparated)]
     public string? SshFlag { get; set; }
 
     /// <summary>
-    /// --local-host-port=LOCAL_HOST_PORT; default="localhost:0" LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen. --port=PORT; default=22 The port on the workstation to which traffic should be sent. If set, automatically starts the workstation if it is currently stopped.
+    /// If set, automatically starts the workstation if it is currently stopped.
     /// </summary>
     [CliFlag("--start-workstation")]
     public bool? StartWorkstation { get; set; }
 
-    [Obsolete("LocalHostPort is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen.
+    /// </summary>
+    [CliOption("--local-host-port", Format = OptionFormat.EqualsSeparated)]
     public string? LocalHostPort { get; set; }
 
-    [Obsolete("Port is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The port on the workstation to which traffic should be sent.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
 
-    [Obsolete("User is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The username with which to SSH.
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 
 }

@@ -24,30 +24,33 @@ public record GcloudFirestoreExportOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --database=DATABASE; default="(default)" The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore export --database='foo' Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// --database=DATABASE; default="(default)" The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore export --database='foo' List specifying which collection groups will be included in the operation. When omitted, all collection groups are included. For example, to operate on only the customers and orders collections groups: $ gcloud firestore export --collection-ids='customers','orders'
+    /// List specifying which collection groups will be included in the operation. When omitted, all collection groups are included. For example, to operate on only the customers and orders collections groups: $ gcloud firestore export --collection-ids='customers','orders'
     /// </summary>
     [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CollectionIds { get; set; }
 
     /// <summary>
-    /// --database=DATABASE; default="(default)" The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore export --database='foo' List specifying which namespaces will be included in the operation. When omitted, all namespaces are included. This is only supported for Datastore Mode databases. For example, to operate on only the customers and orders namespaces: $ gcloud firestore export --namespaces-ids='customers','orders'
+    /// List specifying which namespaces will be included in the operation. When omitted, all namespaces are included. This is only supported for Datastore Mode databases. For example, to operate on only the customers and orders namespaces: $ gcloud firestore export --namespaces-ids='customers','orders'
     /// </summary>
     [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NamespaceIds { get; set; }
 
     /// <summary>
-    /// --database=DATABASE; default="(default)" The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore export --database='foo' The version of the database to export. The timestamp must be in the past, rounded to the minute and not older than earliestVersionTime. If specified, then the exported documents will represent a consistent view of the database at the provided time. Otherwise, there are no guarantees about the consistency of the exported documents. For example, to operate on snapshot time 2023-05-26T10:20:00.00Z: $ gcloud firestore export --snapshot-time='2023-05-26T10:20:00.00Z'
+    /// The version of the database to export. The timestamp must be in the past, rounded to the minute and not older than earliestVersionTime. If specified, then the exported documents will represent a consistent view of the database at the provided time. Otherwise, there are no guarantees about the consistency of the exported documents. For example, to operate on snapshot time 2023-05-26T10:20:00.00Z: $ gcloud firestore export --snapshot-time='2023-05-26T10:20:00.00Z'
     /// </summary>
     [CliOption("--snapshot-time", Format = OptionFormat.EqualsSeparated)]
     public string? SnapshotTime { get; set; }
 
-    [Obsolete("Database is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore export --database='foo'
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
 }

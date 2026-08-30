@@ -28,6 +28,12 @@ public record GcloudVmwarePrivateCloudsClustersUpdateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
     /// (DEPRECATED) Information about the type and number of nodes associated with the cluster. type (required): canonical identifier of the node type. count (required): number of nodes of this type in the cluster. custom_core_count: can be passed, but the value will be ignored. Updating custom core count is not supported. The --node-type-config option is deprecated; please use --update-nodes-config and --remove-nodes-config instead.
     /// </summary>
     [CliOption("--node-type-config", Format = OptionFormat.EqualsSeparated)]
@@ -52,31 +58,31 @@ public record GcloudVmwarePrivateCloudsClustersUpdateOptions : GcloudOptions
     public int? UpdateNodesConfig { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A YAML file containing the autoscaling settings to be applied to the cluster
+    /// A YAML file containing the autoscaling settings to be applied to the cluster
     /// </summary>
     [CliOption("--autoscaling-settings-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingSettingsFromFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Cool down period (in minutes) between consecutive cluster expansions/contractions
+    /// Cool down period (in minutes) between consecutive cluster expansions/contractions
     /// </summary>
     [CliOption("--autoscaling-cool-down-period", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingCoolDownPeriod { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Maximum number of nodes in the cluster
+    /// Maximum number of nodes in the cluster
     /// </summary>
     [CliOption("--autoscaling-max-cluster-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoscalingMaxClusterNodeCount { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Minimum number of nodes in the cluster
+    /// Minimum number of nodes in the cluster
     /// </summary>
     [CliOption("--autoscaling-min-cluster-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoscalingMinClusterNodeCount { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling policy to be applied to the cluster
+    /// Autoscaling policy to be applied to the cluster
     /// </summary>
     [CliOption("--update-autoscaling-policy", Format = OptionFormat.EqualsSeparated)]
     public int? UpdateAutoscalingPolicy { get; set; }

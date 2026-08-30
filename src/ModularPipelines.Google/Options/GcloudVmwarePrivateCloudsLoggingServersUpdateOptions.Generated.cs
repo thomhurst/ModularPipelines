@@ -29,6 +29,12 @@ public record GcloudVmwarePrivateCloudsLoggingServersUpdateOptions : GcloudOptio
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
     /// Fully-qualified domain name (FQDN) or IP Address of the logging server.
     /// </summary>
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]

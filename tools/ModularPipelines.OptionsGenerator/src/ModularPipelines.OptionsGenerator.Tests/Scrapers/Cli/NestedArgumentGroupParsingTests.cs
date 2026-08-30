@@ -121,6 +121,99 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Does_Not_Inherit_Previous_Option_Documentation_Into_Sibling_Groups()
+    {
+        const string helpText = """
+            NAME
+                gcloud functions deploy - deploy a function
+
+            SYNOPSIS
+                gcloud functions deploy
+
+            FLAGS
+                 --security-level=SECURITY_LEVEL; default="secure-always"
+                    SECURITY_LEVEL must be one of: secure-always, secure-optional.
+
+                 At most one of these can be specified:
+
+                   --clear-max-instances
+                      Clear the maximum instances setting.
+
+                   --max-instances=MAX_INSTANCES
+                      Set the maximum number of instances.
+
+                 At most one of these can be specified:
+
+                   --clear-min-instances
+                      Clear the minimum instances setting.
+
+                   --min-instances=MIN_INSTANCES
+                      Set the minimum number of instances.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "functions", "deploy"],
+            helpText);
+        var maxInstances = command!.Options.Single(option => option.SwitchName == "--max-instances");
+        var minInstances = command.Options.Single(option => option.SwitchName == "--min-instances");
+
+        await Assert.That(maxInstances.Description!).DoesNotContain("--security-level");
+        await Assert.That(maxInstances.EnumDefinition).IsNull();
+        await Assert.That(minInstances.Description!).DoesNotContain("--security-level");
+        await Assert.That(minInstances.EnumDefinition).IsNull();
+    }
+
+    [Test]
+    public async Task Gcloud_Emits_Both_Forms_Of_Negatable_Flags()
+    {
+        const string helpText = """
+            NAME
+                gcloud run deploy - deploy a service
+
+            SYNOPSIS
+                gcloud run deploy
+
+            FLAGS
+                 --[no-]allow-unauthenticated
+                    Use --allow-unauthenticated to enable and
+                    --no-allow-unauthenticated to disable.
+
+                 --launch-browser
+                    Enabled by default, use --no-launch-browser to disable.
+
+                 --use
+                    This does not control --no-use-orchestrator.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "run", "deploy"],
+            helpText);
+
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo([
+                "--allow-unauthenticated",
+                "--no-allow-unauthenticated",
+                "--launch-browser",
+                "--no-launch-browser",
+                "--use",
+            ]);
+        await Assert.That(command.Options.Select(option => option.PropertyName))
+            .IsEquivalentTo([
+                "AllowUnauthenticated",
+                "NoAllowUnauthenticated",
+                "LaunchBrowser",
+                "NoLaunchBrowser",
+                "Use",
+            ]);
+    }
+
+    [Test]
     public async Task Gcloud_Models_Repeatable_Options_As_Collections()
     {
         const string helpText = """

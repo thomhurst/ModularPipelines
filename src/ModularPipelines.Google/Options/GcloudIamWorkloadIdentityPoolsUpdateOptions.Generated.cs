@@ -47,33 +47,39 @@ public record GcloudIamWorkloadIdentityPoolsUpdateOptions : GcloudOptions
     public string? InlineTrustConfigFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: YAML file with configuration for certificate issuance. Example file format: inlineCertificateIssuanceConfig: caPools: us-east1: projects/1234/locations/us-east1/caPools/capoolname us-west1: projects/1234/locations/us-west1/caPools/capoolname keyAlgorithm: ECDSA_P256 lifetime: 86400s rotationWindowPercentage: 50
+    /// YAML file with configuration for certificate issuance. Example file format: inlineCertificateIssuanceConfig: caPools: us-east1: projects/1234/locations/us-east1/caPools/capoolname us-west1: projects/1234/locations/us-west1/caPools/capoolname keyAlgorithm: ECDSA_P256 lifetime: 86400s rotationWindowPercentage: 50
     /// </summary>
     [CliOption("--inline-certificate-issuance-config-file", Format = OptionFormat.EqualsSeparated)]
     public string? InlineCertificateIssuanceConfigFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Lifetime of the workload certificates issued by the CA pool.
+    /// Lifetime of the workload certificates issued by the CA pool.
     /// </summary>
     [CliOption("--certificate-lifetime", Format = OptionFormat.EqualsSeparated)]
     public string? CertificateLifetime { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Key algorithm to use when generating the key pair. This key pair will be used to create the certificate. KEY_ALGORITHM must be one of: ecdsa-p256, ecdsa-p384, key-algorithm-unspecified, rsa-2048, rsa-3072, rsa-4096.
+    /// Key algorithm to use when generating the key pair. This key pair will be used to create the certificate. KEY_ALGORITHM must be one of: ecdsa-p256, ecdsa-p384, key-algorithm-unspecified, rsa-2048, rsa-3072, rsa-4096.
     /// </summary>
     [CliOption("--key-algorithm", Format = OptionFormat.EqualsSeparated)]
     public GcloudKeyAlgorithm? KeyAlgorithm { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Rotation window percentage indicating when certificate rotation should be initiated based on remaining lifetime.
+    /// Rotation window percentage indicating when certificate rotation should be initiated based on remaining lifetime.
     /// </summary>
     [CliOption("--rotation-window-percentage", Format = OptionFormat.EqualsSeparated)]
     public string? RotationWindowPercentage { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Use the default shared certificate authorities (CAs) to issue certificates. If enabled, Google Cloud automatically provisions certificates from a default shared CA in the same region as the workload. Enabling this flag clears any existing CA pools configuration. Use --use-default-shared-ca to enable and --no-use-default-shared-ca to disable.
+    /// Use the default shared certificate authorities (CAs) to issue certificates. If enabled, Google Cloud automatically provisions certificates from a default shared CA in the same region as the workload. Enabling this flag clears any existing CA pools configuration. Use --use-default-shared-ca to enable and --no-use-default-shared-ca to disable.
     /// </summary>
     [CliFlag("--use-default-shared-ca")]
     public bool? UseDefaultSharedCa { get; set; }
+
+    /// <summary>
+    /// Use the default shared certificate authorities (CAs) to issue certificates. If enabled, Google Cloud automatically provisions certificates from a default shared CA in the same region as the workload. Enabling this flag clears any existing CA pools configuration. Use --use-default-shared-ca to enable and --no-use-default-shared-ca to disable.
+    /// </summary>
+    [CliFlag("--no-use-default-shared-ca")]
+    public bool? NoUseDefaultSharedCa { get; set; }
 
 }

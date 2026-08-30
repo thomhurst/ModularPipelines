@@ -22,18 +22,4 @@ public enum GcloudTrackingMode
     [EnumValue("PER_SESSION")]
     PerSession = 1,
 
-    [EnumValue("INTERNAL")]
-    Internal = 2,
-
-    [EnumValue("EXTERNAL")]
-    External = 3,
-
-    [EnumValue("INTERNAL_SELF_MANAGED")]
-    InternalSelfManaged = 4,
-
-    [EnumValue("EXTERNAL_MANAGED")]
-    ExternalManaged = 5,
-
-    [EnumValue("INTERNAL_MANAGED")]
-    InternalManaged = 6
 }

@@ -24,146 +24,173 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSchedulerJobsUpdateHttpOptions : GcloudOptions
 {
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. The deadline for job attempts. If the request handler doesn't respond by this dealine, the request is cancelled and the attempt is marked as failed. For example, 20s.
+    /// The deadline for job attempts. If the request handler doesn't respond by this dealine, the request is cancelled and the attempt is marked as failed. For example, 20s.
     /// </summary>
     [CliOption("--attempt-deadline", Format = OptionFormat.EqualsSeparated)]
     public string? AttemptDeadline { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. Human-readable description of the job.
+    /// Human-readable description of the job.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. Schedule on which the job will be executed. As a general rule, execution n + 1 of a job will not begin until execution n has finished. Cloud Scheduler will never allow two simultaneously outstanding executions. For example, this implies that if the n+1 execution is scheduled to run at 16:00 but the n execution takes until 16:15, the n+1 execution will not start until 16:15. A scheduled start time will be delayed if the previous execution has not ended when its scheduled time occurs. Learn more about the cron job format (https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). If --retry-count &gt; 0 and a job attempt fails, the job will be tried a total of --retry-count times, with exponential backoff, until the job succeeds or the number of retries is exhausted. Note that the next scheduled execution time might be skipped if the retries continue through that time. For more information, see Retry jobs (https://cloud.google.com/scheduler/docs/configuring/retry-jobs).
+    /// Schedule on which the job will be executed. As a general rule, execution n + 1 of a job will not begin until execution n has finished. Cloud Scheduler will never allow two simultaneously outstanding executions. For example, this implies that if the n+1 execution is scheduled to run at 16:00 but the n execution takes until 16:15, the n+1 execution will not start until 16:15. A scheduled start time will be delayed if the previous execution has not ended when its scheduled time occurs. Learn more about the cron job format (https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). If --retry-count &gt; 0 and a job attempt fails, the job will be tried a total of --retry-count times, with exponential backoff, until the job succeeds or the number of retries is exhausted. Note that the next scheduled execution time might be skipped if the retries continue through that time. For more information, see Retry jobs (https://cloud.google.com/scheduler/docs/configuring/retry-jobs).
     /// </summary>
     [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
     public string? Schedule { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. The full URI path that the request will be sent to. This string must begin with either "http://" or "https://". For example, http://acme.com or https://acme.com/sales:8080. Cloud Scheduler will encode some characters for safety and compatibility. The maximum allowed URL length is 2083 characters after encoding.
+    /// The full URI path that the request will be sent to. This string must begin with either "http://" or "https://". For example, http://acme.com or https://acme.com/sales:8080. Cloud Scheduler will encode some characters for safety and compatibility. The maximum allowed URL length is 2083 characters after encoding.
     /// </summary>
     [CliOption("--uri", Format = OptionFormat.EqualsSeparated)]
     public string? Uri { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. How the request sent to the target when executing the job should be authenticated. At most one of these can be specified: Clear the auth token fields: --oidc-service-account-email, --oidc-token-audience, --oauth-service-account-email, and --oauth-token-scope.
+    /// Clear the auth token fields: --oidc-service-account-email, --oidc-token-audience, --oauth-service-account-email, and --oauth-token-scope.
     /// </summary>
     [CliFlag("--clear-auth-token")]
     public bool? ClearAuthToken { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. How the request sent to the target when executing the job should be authenticated. At most one of these can be specified: Or at least one of these can be specified: OAuth2 The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the job. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. The token must be OAuth if the target is a Google APIs service with URL *.googleapis.com. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the job. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. The token must be OAuth if the target is a Google APIs service with URL *.googleapis.com. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--oauth-service-account-email", Format = OptionFormat.EqualsSeparated)]
-    public GcloudOauthServiceAccountEmail? OauthServiceAccountEmail { get; set; }
+    public int? OauthServiceAccountEmail { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. How the request sent to the target when executing the job should be authenticated. At most one of these can be specified: Or at least one of these can be specified: OAuth2 The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the job. If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used.
+    /// The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the job. If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used.
     /// </summary>
     [SecretValue]
     [CliOption("--oauth-token-scope", Format = OptionFormat.EqualsSeparated)]
-    public GcloudOauthTokenScope? OauthTokenScope { get; set; }
+    public string? OauthTokenScope { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. How the request sent to the target when executing the job should be authenticated. At most one of these can be specified: Or at least one of these can be specified: OpenId Connect The service account email to be used for generating an OpenId Connect token to be included in the request sent to the target when executing the job. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. The OIDC token is generally used except for Google APIs hosted on *.googleapis.com: these APIs expect an OAuth token. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// The service account email to be used for generating an OpenId Connect token to be included in the request sent to the target when executing the job. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. The OIDC token is generally used except for Google APIs hosted on *.googleapis.com: these APIs expect an OAuth token. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--oidc-service-account-email", Format = OptionFormat.EqualsSeparated)]
-    public GcloudOidcServiceAccountEmail? OidcServiceAccountEmail { get; set; }
+    public int? OidcServiceAccountEmail { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. How the request sent to the target when executing the job should be authenticated. At most one of these can be specified: Or at least one of these can be specified: OpenId Connect The audience to be used when generating an OpenId Connect token to be included in the request sent to the target when executing the job. If not specified, the URI specified in target will be used.
+    /// The audience to be used when generating an OpenId Connect token to be included in the request sent to the target when executing the job. If not specified, the URI specified in target will be used.
     /// </summary>
     [SecretValue]
     [CliOption("--oidc-token-audience", Format = OptionFormat.EqualsSeparated)]
-    public GcloudOidcTokenAudience? OidcTokenAudience { get; set; }
+    public string? OidcTokenAudience { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Clear the list of HTTP headers.
+    /// Clear the list of HTTP headers.
     /// </summary>
     [CliFlag("--clear-headers")]
     public bool? ClearHeaders { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Or at least one of these can be specified: KEY1,KEY2 list of HTTP headers to remove from the request. --remove-headers Accept-Language,Accept
+    /// KEY1,KEY2 list of HTTP headers to remove from the request. --remove-headers Accept-Language,Accept
     /// </summary>
     [CliOption("--remove-headers", Format = OptionFormat.EqualsSeparated)]
-    public GcloudRemoveHeaders? RemoveHeaders { get; set; }
+    public string? RemoveHeaders { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Or at least one of these can be specified: KEY=VALUE pairs of HTTP headers to include in the request. Cannot be repeated. For example: --update-headers Accept-Language=en-us,Accept=text/plain
+    /// KEY=VALUE pairs of HTTP headers to include in the request. Cannot be repeated. For example: --update-headers Accept-Language=en-us,Accept=text/plain
     /// </summary>
     [CliOption("--update-headers", Format = OptionFormat.EqualsSeparated)]
-    public GcloudUpdateHeaders? UpdateHeaders { get; set; }
+    public string? UpdateHeaders { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Clear the field corresponding to --max-backoff.
+    /// Clear the field corresponding to --max-backoff.
     /// </summary>
     [CliFlag("--clear-max-backoff")]
     public bool? ClearMaxBackoff { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. --max-backoff=MAX_BACKOFF; default="3600s" Maximum amount of time to wait before retrying a job after it fails. For example, 60s. Default is 3600s (1 hour). At most one of these can be specified: Clear the field corresponding to --max-doublings.
+    /// Clear the field corresponding to --max-doublings.
     /// </summary>
     [CliFlag("--clear-max-doublings")]
     public bool? ClearMaxDoublings { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. --max-doublings=MAX_DOUBLINGS; default=5 Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant. At most one of these can be specified: Clear the field corresponding to --max-retry-attempts.
+    /// Clear the field corresponding to --max-retry-attempts.
     /// </summary>
     [CliFlag("--clear-max-retry-attempts")]
     public bool? ClearMaxRetryAttempts { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. --max-doublings=MAX_DOUBLINGS; default=5 Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant. At most one of these can be specified: Number of times to retry the request if it fails or times out. Must be in range 0-5 inclusive. Default is 0.
+    /// Number of times to retry the request if it fails or times out. Must be in range 0-5 inclusive. Default is 0.
     /// </summary>
     [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMaxRetryAttempts? MaxRetryAttempts { get; set; }
+    public string? MaxRetryAttempts { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Clear the field corresponding to --max-retry-duration.
+    /// Clear the field corresponding to --max-retry-duration.
     /// </summary>
     [CliFlag("--clear-max-retry-duration")]
     public bool? ClearMaxRetryDuration { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Time limit for retrying a failed job, measured from when the job was first run. If specified with --max-retry-attempts greater than 0, the job will be retried until both limits are reached. Default is 0 seconds (which means unlimited); however, if --max-retry-attempts is also 0, a job attempt won't be retried if it fails.
+    /// Time limit for retrying a failed job, measured from when the job was first run. If specified with --max-retry-attempts greater than 0, the job will be retried until both limits are reached. Default is 0 seconds (which means unlimited); however, if --max-retry-attempts is also 0, a job attempt won't be retried if it fails.
     /// </summary>
     [CliOption("--max-retry-duration", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMaxRetryDuration? MaxRetryDuration { get; set; }
+    public string? MaxRetryDuration { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Clear the field corresponding to --message-body or --message-body-from-file.
+    /// Clear the field corresponding to --message-body or --message-body-from-file.
     /// </summary>
     [CliFlag("--clear-message-body")]
     public bool? ClearMessageBody { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST).
+    /// Data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST).
     /// </summary>
     [CliOption("--message-body", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMessageBody? MessageBody { get; set; }
+    public string? MessageBody { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Path to file containing the data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST). Use a full or relative path to a local file containing the value of message_body.
+    /// Path to file containing the data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST). Use a full or relative path to a local file containing the value of message_body.
     /// </summary>
     [CliOption("--message-body-from-file", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMessageBodyFromFile? MessageBodyFromFile { get; set; }
+    public string? MessageBodyFromFile { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. At most one of these can be specified: Clear the field corresponding to --min-backoff.
+    /// Clear the field corresponding to --min-backoff.
     /// </summary>
     [CliFlag("--clear-min-backoff")]
     public bool? ClearMinBackoff { get; set; }
 
     /// <summary>
-    /// --http-method=HTTP_METHOD; default="post" HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put. --min-backoff=MIN_BACKOFF; default="5s" Minimum amount of time to wait before retrying a job after it fails. For example, 10s. Default is 5s. At most one of these can be specified: Clear the field corresponding to --time-zone.
+    /// Clear the field corresponding to --time-zone.
     /// </summary>
     [CliFlag("--clear-time-zone")]
     public bool? ClearTimeZone { get; set; }
 
-    [Obsolete("HttpMethod is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put.
+    /// </summary>
+    [CliOption("--http-method", Format = OptionFormat.EqualsSeparated)]
     public string? HttpMethod { get; set; }
+
+    /// <summary>
+    /// Maximum amount of time to wait before retrying a job after it fails. For example, 60s. Default is 3600s (1 hour).
+    /// </summary>
+    [CliOption("--max-backoff", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxBackoff { get; set; }
+
+    /// <summary>
+    /// Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant.
+    /// </summary>
+    [CliOption("--max-doublings", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxDoublings { get; set; }
+
+    /// <summary>
+    /// Minimum amount of time to wait before retrying a job after it fails. For example, 10s. Default is 5s.
+    /// </summary>
+    [CliOption("--min-backoff", Format = OptionFormat.EqualsSeparated)]
+    public string? MinBackoff { get; set; }
+
+    /// <summary>
+    /// Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc".
+    /// </summary>
+    [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZone { get; set; }
 
 }

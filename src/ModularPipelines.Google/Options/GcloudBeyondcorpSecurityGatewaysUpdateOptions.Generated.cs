@@ -22,151 +22,157 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBeyondcorpSecurityGatewaysUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. An arbitrary user-provided name for the SecurityGateway. Cannot exceed 64 characters.
+    /// An arbitrary user-provided name for the SecurityGateway. Cannot exceed 64 characters.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Set googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.proxyProtocolConfig back to default value.
+    /// Set googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.proxyProtocolConfig back to default value.
     /// </summary>
     [CliFlag("--clear-proxy-protocol-config")]
     public bool? ClearProxyProtocolConfig { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Client IP configuration. The client IP address is included if true. Use --proxy-protocol-config-client-ip to enable and --no-proxy-protocol-config-client-ip to disable.
+    /// Client IP configuration. The client IP address is included if true. Use --proxy-protocol-config-client-ip to enable and --no-proxy-protocol-config-client-ip to disable.
     /// </summary>
     [CliFlag("--proxy-protocol-config-client-ip")]
     public bool? ProxyProtocolConfigClientIp { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. The security gateway identity configuration. PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY must be (only one value is supported): resource-name Resource name for gateway identity, in the format: projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}
+    /// Client IP configuration. The client IP address is included if true. Use --proxy-protocol-config-client-ip to enable and --no-proxy-protocol-config-client-ip to disable.
+    /// </summary>
+    [CliFlag("--no-proxy-protocol-config-client-ip")]
+    public bool? NoProxyProtocolConfigClientIp { get; set; }
+
+    /// <summary>
+    /// The security gateway identity configuration. PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY must be (only one value is supported): resource-name Resource name for gateway identity, in the format: projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}
     /// </summary>
     [CliOption("--proxy-protocol-config-gateway-identity", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyProtocolConfigGatewayIdentity { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Default output type for all enabled headers. CONTEXTUAL_HEADERS_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
+    /// Default output type for all enabled headers. CONTEXTUAL_HEADERS_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
     /// </summary>
     [CliOption("--contextual-headers-output-type", Format = OptionFormat.EqualsSeparated)]
     public string? ContextualHeadersOutputType { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. The output type details for the delegated device. DEVICE_INFO_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
+    /// The output type details for the delegated device. DEVICE_INFO_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
     /// </summary>
     [CliOption("--device-info-output-type", Format = OptionFormat.EqualsSeparated)]
     public string? DeviceInfoOutputType { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. The output type of the delegated group information. GROUP_INFO_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
+    /// The output type of the delegated group information. GROUP_INFO_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
     /// </summary>
     [CliOption("--group-info-output-type", Format = OptionFormat.EqualsSeparated)]
     public string? GroupInfoOutputType { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. The delegated user's information. USER_INFO_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
+    /// The delegated user's information. USER_INFO_OUTPUT_TYPE must be one of: json JSON output type. none Explicitly disable header output. protobuf Protobuf output type.
     /// </summary>
     [CliOption("--user-info-output-type", Format = OptionFormat.EqualsSeparated)]
     public string? UserInfoOutputType { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Set proxy_protocol_config_allowed_client_headers to new value.
+    /// Set proxy_protocol_config_allowed_client_headers to new value.
     /// </summary>
     [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: Add new value to proxy_protocol_config_allowed_client_headers list.
+    /// Add new value to proxy_protocol_config_allowed_client_headers list.
     /// </summary>
     [CliOption("--add-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear proxy_protocol_config_allowed_client_headers value and set to empty list.
+    /// Clear proxy_protocol_config_allowed_client_headers value and set to empty list.
     /// </summary>
     [CliFlag("--clear-proxy-protocol-config-allowed-client-headers")]
     public bool? ClearProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from proxy_protocol_config_allowed_client_headers list.
+    /// Remove existing value from proxy_protocol_config_allowed_client_headers list.
     /// </summary>
     [CliOption("--remove-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Set proxy_protocol_config_metadata_headers to new value. Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --proxy-protocol-config-metadata-headers=string=string JSON Example: --proxy-protocol-config-metadata-headers='{"string": "string"}' File Example: --proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
+    /// Set proxy_protocol_config_metadata_headers to new value. Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --proxy-protocol-config-metadata-headers=string=string JSON Example: --proxy-protocol-config-metadata-headers='{"string": "string"}' File Example: --proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProxyProtocolConfigMetadataHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Or at least one of these can be specified: Update proxy_protocol_config_metadata_headers value or add key value pair. Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-proxy-protocol-config-metadata-headers=string=string JSON Example: --update-proxy-protocol-config-metadata-headers='{"string": "string"}' File Example: --update-proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
+    /// Update proxy_protocol_config_metadata_headers value or add key value pair. Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-proxy-protocol-config-metadata-headers=string=string JSON Example: --update-proxy-protocol-config-metadata-headers='{"string": "string"}' File Example: --update-proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateProxyProtocolConfigMetadataHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear proxy_protocol_config_metadata_headers value and set to empty map.
+    /// Clear proxy_protocol_config_metadata_headers value and set to empty map.
     /// </summary>
     [CliFlag("--clear-proxy-protocol-config-metadata-headers")]
     public bool? ClearProxyProtocolConfigMetadataHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map proxy_protocol_config_metadata_headers. Sets remove_proxy_protocol_config_metadata_headers value. Shorthand Example: --remove-proxy-protocol-config-metadata-headers=string,string JSON Example: --remove-proxy-protocol-config-metadata-headers=["string"] File Example: --remove-proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
+    /// Remove existing value from map proxy_protocol_config_metadata_headers. Sets remove_proxy_protocol_config_metadata_headers value. Shorthand Example: --remove-proxy-protocol-config-metadata-headers=string,string JSON Example: --remove-proxy-protocol-config-metadata-headers=["string"] File Example: --remove-proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveProxyProtocolConfigMetadataHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update hubs. At most one of these can be specified: Set hubs to new value. Map of Hubs that represents regional data path deployment with Google Cloud Platform region as a key. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --hubs=string JSON Example: --hubs='{"string": {}}' File Example: --hubs=path_to_file.(yaml|json)
+    /// Set hubs to new value. Map of Hubs that represents regional data path deployment with Google Cloud Platform region as a key. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --hubs=string JSON Example: --hubs='{"string": {}}' File Example: --hubs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--hubs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Hubs { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update hubs. At most one of these can be specified: Or at least one of these can be specified: Update hubs value or add key value pair. Map of Hubs that represents regional data path deployment with Google Cloud Platform region as a key. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-hubs=string JSON Example: --update-hubs='{"string": {}}' File Example: --update-hubs=path_to_file.(yaml|json)
+    /// Update hubs value or add key value pair. Map of Hubs that represents regional data path deployment with Google Cloud Platform region as a key. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-hubs=string JSON Example: --update-hubs='{"string": {}}' File Example: --update-hubs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-hubs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateHubs { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update hubs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear hubs value and set to empty map.
+    /// Clear hubs value and set to empty map.
     /// </summary>
     [CliFlag("--clear-hubs")]
     public bool? ClearHubs { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update hubs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map hubs. Sets remove_hubs value. Shorthand Example: --remove-hubs=string,string JSON Example: --remove-hubs=["string"] File Example: --remove-hubs=path_to_file.(yaml|json)
+    /// Remove existing value from map hubs. Sets remove_hubs value. Shorthand Example: --remove-hubs=string,string JSON Example: --remove-hubs=["string"] File Example: --remove-hubs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-hubs", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveHubs { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Settings related to the Service Discovery. Shorthand Example: --service-discovery=apiGateway={resourceOverride={path=string}} JSON Example: --service-discovery='{"apiGateway": {"resourceOverride": {"path": "string"}}}' File Example: --service-discovery=path_to_file.(yaml|json)
+    /// Settings related to the Service Discovery. Shorthand Example: --service-discovery=apiGateway={resourceOverride={path=string}} JSON Example: --service-discovery='{"apiGateway": {"resourceOverride": {"path": "string"}}}' File Example: --service-discovery=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--service-discovery", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceDiscovery { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Or at least one of these can be specified: Settings related to the Service Discovery. If Service Discovery is done through API, defines its settings. API operation descriptor. Set googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery back to default value.
+    /// Set googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery back to default value.
     /// </summary>
     [CliFlag("--clear-service-discovery")]
     public bool? ClearServiceDiscovery { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Or at least one of these can be specified: Settings related to the Service Discovery. If Service Discovery is done through API, defines its settings. API operation descriptor. Contains the URI path fragment where HTTP request is sent.
+    /// Contains the URI path fragment where HTTP request is sent.
     /// </summary>
     [CliOption("--resource-override-path", Format = OptionFormat.EqualsSeparated)]
     public string? ResourceOverridePath { get; set; }

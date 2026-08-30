@@ -35,5 +35,68 @@ public enum GcloudMaintenanceWindowDay
     Tuesday = 5,
 
     [EnumValue("wednesday")]
-    Wednesday = 6
+    Wednesday = 6,
+
+    [EnumValue("fri")]
+    Fri = 7,
+
+    [EnumValue("mon")]
+    Mon = 8,
+
+    [EnumValue("sat")]
+    Sat = 9,
+
+    [EnumValue("sun")]
+    Sun = 10,
+
+    [EnumValue("thu")]
+    Thu = 11,
+
+    [EnumValue("tue")]
+    Tue = 12,
+
+    [EnumValue("wed")]
+    Wed = 13,
+
+    [EnumValue("SUNDAY")]
+    Sunday = 14,
+
+    [EnumValue("MONDAY")]
+    Monday = 15,
+
+    [EnumValue("TUESDAY")]
+    Tuesday = 16,
+
+    [EnumValue("WEDNESDAY")]
+    Wednesday = 17,
+
+    [EnumValue("THURSDAY")]
+    Thursday = 18,
+
+    [EnumValue("FRIDAY")]
+    Friday = 19,
+
+    [EnumValue("SATURDAY")]
+    Saturday = 20,
+
+    [EnumValue("SUN")]
+    Sun = 21,
+
+    [EnumValue("MON")]
+    Mon = 22,
+
+    [EnumValue("TUE")]
+    Tue = 23,
+
+    [EnumValue("WED")]
+    Wed = 24,
+
+    [EnumValue("THU")]
+    Thu = 25,
+
+    [EnumValue("FRI")]
+    Fri = 26,
+
+    [EnumValue("SAT")]
+    Sat = 27
 }

@@ -72,6 +72,12 @@ public record GcloudComputeInterconnectsAttachmentsDedicatedUpdateOptions(
     public bool? EnableAdmin { get; set; }
 
     /// <summary>
+    /// Administrative status of the interconnect attachment. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
+    /// </summary>
+    [CliFlag("--no-enable-admin")]
+    public bool? NoEnableAdmin { get; set; }
+
+    /// <summary>
     /// Maximum transmission unit (MTU) is the size of the largest IP packet passing through this interconnect attachment. Must be one of 1440, 1460, 1500, or 8896. If not specified, the value will default to 1440.
     /// </summary>
     [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]

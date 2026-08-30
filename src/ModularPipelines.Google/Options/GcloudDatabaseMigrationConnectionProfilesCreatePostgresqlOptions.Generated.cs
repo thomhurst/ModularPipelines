@@ -85,26 +85,26 @@ public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions :
     public string? Port { get; set; }
 
     /// <summary>
-    /// Authentication method. At most one of these can be specified: Use IAM database authentication to connect to the database. The username will be overridden by the DMS service agent principal. This flag is only supported for PostgreSQL Destinations.
+    /// Use IAM database authentication to connect to the database. The username will be overridden by the DMS service agent principal. This flag is only supported for PostgreSQL Destinations.
     /// </summary>
     [CliFlag("--enable-iam-authentication")]
     public bool? EnableIamAuthentication { get; set; }
 
     /// <summary>
-    /// Authentication method. At most one of these can be specified: Or at least one of these can be specified: Username that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Username that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
     /// <summary>
-    /// Authentication method. At most one of these can be specified: Or at least one of these can be specified: Exactly one of these must be specified: Password for the user that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it, and the field is not returned on request.
+    /// Password for the user that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it, and the field is not returned on request.
     /// </summary>
     [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
     /// <summary>
-    /// Authentication method. At most one of these can be specified: Or at least one of these can be specified: Exactly one of these must be specified: Prompt for the password used to connect to the database.
+    /// Prompt for the password used to connect to the database.
     /// </summary>
     [CliFlag("--prompt-for-password")]
     public bool? PromptForPassword { get; set; }
@@ -134,47 +134,53 @@ public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions :
     public string? PrivateKey { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute:
+    /// ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute:
     /// </summary>
     [CliOption("--private-connection", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateConnection { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Service attachment resource - Resource ID of the service attachment. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the service_attachment or fully qualified identifier for the service_attachment. To set the service_attachment attribute:
+    /// ID of the service_attachment or fully qualified identifier for the service_attachment. To set the service_attachment attribute:
     /// </summary>
     [CliOption("--psc-service-attachment", Format = OptionFormat.EqualsSeparated)]
     public string? PscServiceAttachment { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. use static ip connectivity
+    /// use static ip connectivity
     /// </summary>
     [CliFlag("--static-ip-connectivity")]
     public bool? StaticIpConnectivity { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Hostname for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Hostname for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--forward-ssh-hostname", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshHostname { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Username for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Username for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--forward-ssh-username", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshUsername { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: --forward-ssh-port=FORWARD_SSH_PORT; default=22 Port for the SSH tunnel, default value is 22. Exactly one of these must be specified: SSH password.
+    /// SSH password.
     /// </summary>
     [SecretValue]
     [CliOption("--forward-ssh-password", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshPassword { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: --forward-ssh-port=FORWARD_SSH_PORT; default=22 Port for the SSH tunnel, default value is 22. Exactly one of these must be specified: SSH private key..
+    /// SSH private key..
     /// </summary>
     [SecretValue]
     [CliOption("--forward-ssh-private-key", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshPrivateKey { get; set; }
+
+    /// <summary>
+    /// Port for the SSH tunnel, default value is 22.
+    /// </summary>
+    [CliOption("--forward-ssh-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPort { get; set; }
 
 }

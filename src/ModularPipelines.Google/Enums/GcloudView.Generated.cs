@@ -22,9 +22,4 @@ public enum GcloudView
     [EnumValue("FULL")]
     Full = 1,
 
-    [EnumValue("desc")]
-    Desc = 2,
-
-    [EnumValue("asc")]
-    Asc = 3
 }

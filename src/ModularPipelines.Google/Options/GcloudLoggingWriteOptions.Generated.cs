@@ -26,39 +26,48 @@ public record GcloudLoggingWriteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --monitored-resource-labels=[KEY=VALUE, ...,...] Monitored Resource labels to add to the payload --monitored-resource-type=MONITORED_RESOURCE_TYPE; default="global" Monitored Resource type to add to the payload --payload-type=PAYLOAD_TYPE; default="text" Type of the log entry payload. PAYLOAD_TYPE must be one of: text, json. --severity=SEVERITY; default="DEFAULT" Severity level of the log entry. SEVERITY must be one of: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY. At most one of these can be specified: --monitored-resource-labels=[KEY=VALUE, ...,...] Monitored Resource labels to add to the payload --monitored-resource-type=MONITORED_RESOURCE_TYPE; default="global" Monitored Resource type to add to the payload --payload-type=PAYLOAD_TYPE; default="text" Type of the log entry payload. PAYLOAD_TYPE must be one of: text, json. --severity=SEVERITY; default="DEFAULT" Severity level of the log entry. SEVERITY must be one of: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY. At most one of these can be specified: Billing account of the log entries to write.
+    /// Billing account of the log entries to write.
     /// </summary>
     [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBillingAccount? BillingAccount { get; set; }
+    public int? BillingAccount { get; set; }
 
     /// <summary>
-    /// --monitored-resource-labels=[KEY=VALUE, ...,...] Monitored Resource labels to add to the payload --monitored-resource-type=MONITORED_RESOURCE_TYPE; default="global" Monitored Resource type to add to the payload --payload-type=PAYLOAD_TYPE; default="text" Type of the log entry payload. PAYLOAD_TYPE must be one of: text, json. --severity=SEVERITY; default="DEFAULT" Severity level of the log entry. SEVERITY must be one of: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY. At most one of these can be specified: --monitored-resource-labels=[KEY=VALUE, ...,...] Monitored Resource labels to add to the payload --monitored-resource-type=MONITORED_RESOURCE_TYPE; default="global" Monitored Resource type to add to the payload --payload-type=PAYLOAD_TYPE; default="text" Type of the log entry payload. PAYLOAD_TYPE must be one of: text, json. --severity=SEVERITY; default="DEFAULT" Severity level of the log entry. SEVERITY must be one of: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY. At most one of these can be specified: Folder of the log entries to write.
+    /// Folder of the log entries to write.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
-    public GcloudFolder? Folder { get; set; }
+    public string? Folder { get; set; }
 
     /// <summary>
-    /// --monitored-resource-labels=[KEY=VALUE, ...,...] Monitored Resource labels to add to the payload --monitored-resource-type=MONITORED_RESOURCE_TYPE; default="global" Monitored Resource type to add to the payload --payload-type=PAYLOAD_TYPE; default="text" Type of the log entry payload. PAYLOAD_TYPE must be one of: text, json. --severity=SEVERITY; default="DEFAULT" Severity level of the log entry. SEVERITY must be one of: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY. At most one of these can be specified: --monitored-resource-labels=[KEY=VALUE, ...,...] Monitored Resource labels to add to the payload --monitored-resource-type=MONITORED_RESOURCE_TYPE; default="global" Monitored Resource type to add to the payload --payload-type=PAYLOAD_TYPE; default="text" Type of the log entry payload. PAYLOAD_TYPE must be one of: text, json. --severity=SEVERITY; default="DEFAULT" Severity level of the log entry. SEVERITY must be one of: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY. At most one of these can be specified: Organization of the log entries to write.
+    /// Organization of the log entries to write.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
-    public GcloudOrganization? Organization { get; set; }
+    public string? Organization { get; set; }
 
     /// <summary>
-    /// --monitored-resource-labels=[KEY=VALUE, ...,...] Monitored Resource labels to add to the payload --monitored-resource-type=MONITORED_RESOURCE_TYPE; default="global" Monitored Resource type to add to the payload --payload-type=PAYLOAD_TYPE; default="text" Type of the log entry payload. PAYLOAD_TYPE must be one of: text, json. --severity=SEVERITY; default="DEFAULT" Severity level of the log entry. SEVERITY must be one of: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY. At most one of these can be specified: --monitored-resource-labels=[KEY=VALUE, ...,...] Monitored Resource labels to add to the payload --monitored-resource-type=MONITORED_RESOURCE_TYPE; default="global" Monitored Resource type to add to the payload --payload-type=PAYLOAD_TYPE; default="text" Type of the log entry payload. PAYLOAD_TYPE must be one of: text, json. --severity=SEVERITY; default="DEFAULT" Severity level of the log entry. SEVERITY must be one of: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY. At most one of these can be specified: Project of the log entries to write. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// Project of the log entries to write. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public GcloudProject? Project { get; set; }
+    public string? Project { get; set; }
 
     [Obsolete("MonitoredResourceLabels is no longer supported by the installed CLI and has no effect.")]
     public IReadOnlyList<KeyValue>? MonitoredResourceLabels { get; set; }
 
-    [Obsolete("MonitoredResourceType is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Monitored Resource type to add to the payload
+    /// </summary>
+    [CliOption("--monitored-resource-type", Format = OptionFormat.EqualsSeparated)]
     public string? MonitoredResourceType { get; set; }
 
-    [Obsolete("PayloadType is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Type of the log entry payload. PAYLOAD_TYPE must be one of: text, json.
+    /// </summary>
+    [CliOption("--payload-type", Format = OptionFormat.EqualsSeparated)]
     public string? PayloadType { get; set; }
 
-    [Obsolete("Severity is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Severity level of the log entry. SEVERITY must be one of: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY.
+    /// </summary>
+    [CliOption("--severity", Format = OptionFormat.EqualsSeparated)]
     public string? Severity { get; set; }
 
 }

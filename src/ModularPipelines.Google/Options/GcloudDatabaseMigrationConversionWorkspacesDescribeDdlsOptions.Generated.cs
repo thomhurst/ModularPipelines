@@ -23,24 +23,27 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationConversionWorkspacesDescribeDdlsOptions : GcloudOptions
 {
     /// <summary>
-    /// --tree-type=TREE_TYPE; default="DRAFT" Tree type for database entities. TREE_TYPE must be one of: SOURCE, DRAFT. Request a specific commit id. If not specified, the entities from the latest commit are returned.
+    /// Request a specific commit id. If not specified, the entities from the latest commit are returned.
     /// </summary>
     [CliOption("--commit-id", Format = OptionFormat.EqualsSeparated)]
     public string? CommitId { get; set; }
 
     /// <summary>
-    /// --tree-type=TREE_TYPE; default="DRAFT" Tree type for database entities. TREE_TYPE must be one of: SOURCE, DRAFT. Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
     /// </summary>
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointMode { get; set; }
 
     /// <summary>
-    /// --tree-type=TREE_TYPE; default="DRAFT" Tree type for database entities. TREE_TYPE must be one of: SOURCE, DRAFT. Whether to retrieve the latest committed version of the entities or the latest version. This field is ignored if a specific commit_id is specified.
+    /// Whether to retrieve the latest committed version of the entities or the latest version. This field is ignored if a specific commit_id is specified.
     /// </summary>
     [CliFlag("--uncommitted")]
     public bool? Uncommitted { get; set; }
 
-    [Obsolete("TreeType is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Tree type for database entities. TREE_TYPE must be one of: SOURCE, DRAFT.
+    /// </summary>
+    [CliOption("--tree-type", Format = OptionFormat.EqualsSeparated)]
     public string? TreeType { get; set; }
 
 }

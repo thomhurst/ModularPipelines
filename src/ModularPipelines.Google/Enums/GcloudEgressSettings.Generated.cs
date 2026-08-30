@@ -22,9 +22,4 @@ public enum GcloudEgressSettings
     [EnumValue("all")]
     All = 1,
 
-    [EnumValue("secure-always")]
-    SecureAlways = 2,
-
-    [EnumValue("secure-optional")]
-    SecureOptional = 3
 }

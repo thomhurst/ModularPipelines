@@ -26,126 +26,147 @@ public record GcloudComputeNetworksSubnetsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. Adds secondary IP ranges that are associated with internal range resources. For example, --add-secondary-ranges-with-reserved-internal-range range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE adds a secondary range with the reserved internal range resource. ◆ RANGE_NAME - Name of the secondary range. ◆ INTERNAL_RANGE_URL - URL of an internal range resource.
+    /// Adds secondary IP ranges that are associated with internal range resources. For example, --add-secondary-ranges-with-reserved-internal-range range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE adds a secondary range with the reserved internal range resource. * RANGE_NAME - Name of the secondary range. * INTERNAL_RANGE_URL - URL of an internal range resource.
     /// </summary>
     [CliOption("--add-secondary-ranges-with-reserved-internal-range", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddSecondaryRangesWithReservedInternalRange { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. The /64 external IPv6 CIDR range to assign to this subnet. The range must be associated with an IPv6 BYOIP sub-prefix that is defined by the --ip-collection flag. If you specify --ip-collection but not --external-ipv6-prefix, a random /64 range is allocated from the sub-prefix. For example, --external-ipv6-prefix=2600:1901:0:0:0:0:0:0/64
+    /// The /64 external IPv6 CIDR range to assign to this subnet. The range must be associated with an IPv6 BYOIP sub-prefix that is defined by the --ip-collection flag. If you specify --ip-collection but not --external-ipv6-prefix, a random /64 range is allocated from the sub-prefix. For example, --external-ipv6-prefix=2600:1901:0:0:0:0:0:0/64
     /// </summary>
     [CliOption("--external-ipv6-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? ExternalIpv6Prefix { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. The /64 internal IPv6 CIDR range to assign to this subnet. The range must be associated with an IPv6 BYOIP sub-prefix that is defined by the --ip-collection flag. If you specify --ip-collection but not --internal-ipv6-prefix, a random /64 range is allocated from the sub-prefix. For example, --internal-ipv6-prefix 2600:1901:0:0:0:0:0:0/64
+    /// The /64 internal IPv6 CIDR range to assign to this subnet. The range must be associated with an IPv6 BYOIP sub-prefix that is defined by the --ip-collection flag. If you specify --ip-collection but not --internal-ipv6-prefix, a random /64 range is allocated from the sub-prefix. For example, --internal-ipv6-prefix 2600:1901:0:0:0:0:0:0/64
     /// </summary>
     [CliOption("--internal-ipv6-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? InternalIpv6Prefix { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. Resource reference to a public delegated prefix. The PublicDelegatedPrefix must be a sub-prefix in EXTERNAL_IPV6_SUBNETWORK_CREATION or INTERNAL_IPV6_SUBNETWORK_CREATION mode.
+    /// Resource reference to a public delegated prefix. The PublicDelegatedPrefix must be a sub-prefix in EXTERNAL_IPV6_SUBNETWORK_CREATION or INTERNAL_IPV6_SUBNETWORK_CREATION mode.
     /// </summary>
     [CliOption("--ip-collection", Format = OptionFormat.EqualsSeparated)]
     public string? IpCollection { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. IPv6 access type can be specified only when the subnet is created, or when the subnet is first updated to have a stack type of IPV4_IPV6. Once set, the access type is immutable. IPV6_ACCESS_TYPE must be one of: EXTERNAL VMs in this subnet can have external IPv6. INTERNAL VMs in this subnet can have internal IPv6.
+    /// IPv6 access type can be specified only when the subnet is created, or when the subnet is first updated to have a stack type of IPV4_IPV6. Once set, the access type is immutable. IPV6_ACCESS_TYPE must be one of: EXTERNAL VMs in this subnet can have external IPv6. INTERNAL VMs in this subnet can have internal IPv6.
     /// </summary>
     [CliOption("--ipv6-access-type", Format = OptionFormat.EqualsSeparated)]
     public string? Ipv6AccessType { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. Can only be specified if VPC Flow Logs for this subnetwork is enabled. Toggles the aggregation interval for collecting flow logs. Increasing the interval time will reduce the amount of generated flow logs for long lasting connections. Default is an interval of 5 seconds per connection. LOGGING_AGGREGATION_INTERVAL must be one of: interval-10-min, interval-15-min, interval-1-min, interval-30-sec, interval-5-min, interval-5-sec.
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Toggles the aggregation interval for collecting flow logs. Increasing the interval time will reduce the amount of generated flow logs for long lasting connections. Default is an interval of 5 seconds per connection. LOGGING_AGGREGATION_INTERVAL must be one of: interval-10-min, interval-15-min, interval-1-min, interval-30-sec, interval-5-min, interval-5-sec.
     /// </summary>
     [CliOption("--logging-aggregation-interval", Format = OptionFormat.EqualsSeparated)]
     public GcloudLoggingAggregationInterval? LoggingAggregationInterval { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. Can only be specified if VPC Flow Logs for this subnetwork is enabled. Export filter used to define which logs should be generated.
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Export filter used to define which logs should be generated.
     /// </summary>
     [CliOption("--logging-filter-expr", Format = OptionFormat.EqualsSeparated)]
     public string? LoggingFilterExpr { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. Can only be specified if VPC Flow logs for this subnetwork is enabled. The value of the field must be in [0, 1]. Set the sampling rate of VPC flow logs within the subnetwork where 1.0 means all collected logs are reported and 0.0 means no logs are reported. Default is 0.5 which means half of all collected logs are reported.
+    /// Can only be specified if VPC Flow logs for this subnetwork is enabled. The value of the field must be in [0, 1]. Set the sampling rate of VPC flow logs within the subnetwork where 1.0 means all collected logs are reported and 0.0 means no logs are reported. Default is 0.5 which means half of all collected logs are reported.
     /// </summary>
     [CliOption("--logging-flow-sampling", Format = OptionFormat.EqualsSeparated)]
     public string? LoggingFlowSampling { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. Can only be specified if VPC Flow Logs for this subnetwork is enabled. Configures whether metadata fields should be added to the reported logs. Default is to exclude all metadata. LOGGING_METADATA must be one of: custom, exclude-all, include-all.
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Configures whether metadata fields should be added to the reported logs. Default is to exclude all metadata. LOGGING_METADATA must be one of: custom, exclude-all, include-all.
     /// </summary>
     [CliOption("--logging-metadata", Format = OptionFormat.EqualsSeparated)]
     public string? LoggingMetadata { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. Can only be specified if VPC Flow Logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA. The comma-separated list of metadata fields that should be added to reported logs.
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA. The comma-separated list of metadata fields that should be added to reported logs.
     /// </summary>
     [CliOption("--logging-metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LoggingMetadataFields { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. Region of the subnetwork to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// Region of the subnetwork to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. The stack type for this subnet. Determines if IPv6 is enabled on the subnet. STACK_TYPE must be one of: IPV4_IPV6 New VMs in this subnet can have both IPv4 and IPv6 addresses IPV4_ONLY New VMs in this subnet will only be assigned IPv4 addresses
+    /// The stack type for this subnet. Determines if IPv6 is enabled on the subnet. STACK_TYPE must be one of: IPV4_IPV6 New VMs in this subnet can have both IPv4 and IPv6 addresses IPV4_ONLY New VMs in this subnet will only be assigned IPv4 addresses
     /// </summary>
     [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
     public string? StackType { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. At most one of these can be specified: Adds secondary IP ranges to the subnetwork for use in IP aliasing. For example, --add-secondary-ranges range1=192.168.64.0/24 adds a secondary range 192.168.64.0/24 with name range1. ▸ RANGE_NAME - Name of the secondary range. ▸ RANGE - IP range in CIDR format.
+    /// Adds secondary IP ranges to the subnetwork for use in IP aliasing. For example, --add-secondary-ranges range1=192.168.64.0/24 adds a secondary range 192.168.64.0/24 with name range1. + RANGE_NAME - Name of the secondary range. + RANGE - IP range in CIDR format.
     /// </summary>
     [CliOption("--add-secondary-ranges", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AddSecondaryRanges { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. At most one of these can be specified: Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
+    /// Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
     /// </summary>
     [CliFlag("--allow-cidr-routes-overlap")]
     public bool? AllowCidrRoutesOverlap { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. At most one of these can be specified: Enable/disable VPC Flow Logs for this subnet. If the subnet does not support VPC Flow Logs, this flag has no effect. For more information, see https://cloud.google.com/vpc/docs/using-flow-logs. Use --enable-flow-logs to enable and --no-enable-flow-logs to disable.
+    /// Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
+    /// </summary>
+    [CliFlag("--no-allow-cidr-routes-overlap")]
+    public bool? NoAllowCidrRoutesOverlap { get; set; }
+
+    /// <summary>
+    /// Enable/disable VPC Flow Logs for this subnet. If the subnet does not support VPC Flow Logs, this flag has no effect. For more information, see https://cloud.google.com/vpc/docs/using-flow-logs. Use --enable-flow-logs to enable and --no-enable-flow-logs to disable.
     /// </summary>
     [CliFlag("--enable-flow-logs")]
     public bool? EnableFlowLogs { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. At most one of these can be specified: Enable/disable access to Google Cloud APIs from this subnet for instances without a public ip address. Use --enable-private-ip-google-access to enable and --no-enable-private-ip-google-access to disable.
+    /// Enable/disable VPC Flow Logs for this subnet. If the subnet does not support VPC Flow Logs, this flag has no effect. For more information, see https://cloud.google.com/vpc/docs/using-flow-logs. Use --enable-flow-logs to enable and --no-enable-flow-logs to disable.
+    /// </summary>
+    [CliFlag("--no-enable-flow-logs")]
+    public bool? NoEnableFlowLogs { get; set; }
+
+    /// <summary>
+    /// Enable/disable access to Google Cloud APIs from this subnet for instances without a public ip address. Use --enable-private-ip-google-access to enable and --no-enable-private-ip-google-access to disable.
     /// </summary>
     [CliFlag("--enable-private-ip-google-access")]
     public bool? EnablePrivateIpGoogleAccess { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. At most one of these can be specified: The private IPv6 google access type for the VMs in this subnet. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: disable, enable-bidirectional-access, enable-outbound-vm-access.
+    /// Enable/disable access to Google Cloud APIs from this subnet for instances without a public ip address. Use --enable-private-ip-google-access to enable and --no-enable-private-ip-google-access to disable.
+    /// </summary>
+    [CliFlag("--no-enable-private-ip-google-access")]
+    public bool? NoEnablePrivateIpGoogleAccess { get; set; }
+
+    /// <summary>
+    /// The private IPv6 google access type for the VMs in this subnet. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: disable, enable-bidirectional-access, enable-outbound-vm-access.
     /// </summary>
     [CliOption("--private-ipv6-google-access-type", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateIpv6GoogleAccessType { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. At most one of these can be specified: The purpose of the subnetwork can be changed in a few scenarios. PURPOSE must be one of: PRIVATE The default subnet type. Only PEER_MIGRATION subnets can be changed to PRIVATE. REGIONAL_MANAGED_PROXY The proxy-only subnet for regional HTTP(S) load balancers. Only INTERNAL_HTTPS_LOAD_BALANCER subnets can be changed to REGIONAL_MANAGED_PROXY.
+    /// The purpose of the subnetwork can be changed in a few scenarios. PURPOSE must be one of: PRIVATE The default subnet type. Only PEER_MIGRATION subnets can be changed to PRIVATE. REGIONAL_MANAGED_PROXY The proxy-only subnet for regional HTTP(S) load balancers. Only INTERNAL_HTTPS_LOAD_BALANCER subnets can be changed to REGIONAL_MANAGED_PROXY.
     /// </summary>
     [CliOption("--purpose", Format = OptionFormat.EqualsSeparated)]
     public string? Purpose { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. At most one of these can be specified: Removes secondary ranges from the subnetwork. For example, --remove-secondary-ranges range2,range3 removes the secondary ranges with names range2 and range3.
+    /// Removes secondary ranges from the subnetwork. For example, --remove-secondary-ranges range2,range3 removes the secondary ranges with names range2 and range3.
     /// </summary>
     [CliOption("--remove-secondary-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveSecondaryRanges { get; set; }
 
     /// <summary>
-    /// --drain-timeout=DRAIN_TIMEOUT; default="0s" The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used. At most one of these can be specified: The role is set to ACTIVE to update a BACKUP reserved address range to be the new ACTIVE address range. Note that the only supported value for this flag is ACTIVE since setting an address range to BACKUP is not supported. This field is only valid when updating a reserved IP address range used for the purpose of Internal HTTP(S) Load Balancer. ROLE must be (only one value is supported): ACTIVE The ACTIVE subnet that is currently used.
+    /// The role is set to ACTIVE to update a BACKUP reserved address range to be the new ACTIVE address range. Note that the only supported value for this flag is ACTIVE since setting an address range to BACKUP is not supported. This field is only valid when updating a reserved IP address range used for the purpose of Internal HTTP(S) Load Balancer. ROLE must be (only one value is supported): ACTIVE The ACTIVE subnet that is currently used.
     /// </summary>
     [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
     public string? Role { get; set; }
 
-    [Obsolete("DrainTimeout is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used.
+    /// </summary>
+    [CliOption("--drain-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? DrainTimeout { get; set; }
 
 }

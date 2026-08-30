@@ -26,48 +26,63 @@ public record GcloudPrivatecaPoolsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --publishing-encoding-format=PUBLISHING_ENCODING_FORMAT; default="pem" The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem. The full resource name of the Cloud KMS key to use for encrypting certificate data at rest. The key must be in the same region as the CA pool.
+    /// The full resource name of the Cloud KMS key to use for encrypting certificate data at rest. The key must be in the same region as the CA pool.
     /// </summary>
     [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionKey { get; set; }
 
     /// <summary>
-    /// --publishing-encoding-format=PUBLISHING_ENCODING_FORMAT; default="pem" The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem. A YAML file describing this CA Pool's issuance policy.
+    /// A YAML file describing this CA Pool's issuance policy.
     /// </summary>
     [CliOption("--issuance-policy", Format = OptionFormat.EqualsSeparated)]
     public string? IssuancePolicy { get; set; }
 
     /// <summary>
-    /// --publishing-encoding-format=PUBLISHING_ENCODING_FORMAT; default="pem" The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem. If this is enabled, the following will happen: 1) The CA certificates will be written to a known location within the CA distribution point. 2) The AIA extension in all issued certificates will point to the CA cert URL in that distribution point. If this gets disabled, the AIA extension will not be written to any future certificates issued by this CA. However, an existing bucket will not be deleted, and the CA certificates will not be removed from that bucket. Note that the same bucket may be used for the CRLs if --publish-crl is set. Enabled by default, use --no-publish-ca-cert to disable.
+    /// If this is enabled, the following will happen: 1) The CA certificates will be written to a known location within the CA distribution point. 2) The AIA extension in all issued certificates will point to the CA cert URL in that distribution point. If this gets disabled, the AIA extension will not be written to any future certificates issued by this CA. However, an existing bucket will not be deleted, and the CA certificates will not be removed from that bucket. Note that the same bucket may be used for the CRLs if --publish-crl is set. Enabled by default, use --no-publish-ca-cert to disable.
     /// </summary>
     [CliFlag("--publish-ca-cert")]
     public bool? PublishCaCert { get; set; }
 
     /// <summary>
-    /// --publishing-encoding-format=PUBLISHING_ENCODING_FORMAT; default="pem" The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem. If this gets enabled, the following will happen: 1) CRLs will be written to a known location within the CA distribution point. 2) The CDP extension in all future issued certificates will point to the CRL URL in that distribution point. If this gets disabled, the CDP extension will not be written to any future certificates issued by CAs in this pool, and new CRLs will not be published to that bucket (which affects existing certs). However, an existing bucket will not be deleted, and any existing CRLs will not be removed from that bucket. Note that the same bucket may be used for the CA cert if --publish-ca-cert is set. CRL publication is not supported for CAs in the DevOps tier. Enabled by default, use --no-publish-crl to disable.
+    /// If this is enabled, the following will happen: 1) The CA certificates will be written to a known location within the CA distribution point. 2) The AIA extension in all issued certificates will point to the CA cert URL in that distribution point. If this gets disabled, the AIA extension will not be written to any future certificates issued by this CA. However, an existing bucket will not be deleted, and the CA certificates will not be removed from that bucket. Note that the same bucket may be used for the CRLs if --publish-crl is set. Enabled by default, use --no-publish-ca-cert to disable.
+    /// </summary>
+    [CliFlag("--no-publish-ca-cert")]
+    public bool? NoPublishCaCert { get; set; }
+
+    /// <summary>
+    /// If this gets enabled, the following will happen: 1) CRLs will be written to a known location within the CA distribution point. 2) The CDP extension in all future issued certificates will point to the CRL URL in that distribution point. If this gets disabled, the CDP extension will not be written to any future certificates issued by CAs in this pool, and new CRLs will not be published to that bucket (which affects existing certs). However, an existing bucket will not be deleted, and any existing CRLs will not be removed from that bucket. Note that the same bucket may be used for the CA cert if --publish-ca-cert is set. CRL publication is not supported for CAs in the DevOps tier. Enabled by default, use --no-publish-crl to disable.
     /// </summary>
     [CliFlag("--publish-crl")]
     public bool? PublishCrl { get; set; }
 
     /// <summary>
-    /// --publishing-encoding-format=PUBLISHING_ENCODING_FORMAT; default="pem" The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// If this gets enabled, the following will happen: 1) CRLs will be written to a known location within the CA distribution point. 2) The CDP extension in all future issued certificates will point to the CRL URL in that distribution point. If this gets disabled, the CDP extension will not be written to any future certificates issued by CAs in this pool, and new CRLs will not be published to that bucket (which affects existing certs). However, an existing bucket will not be deleted, and any existing CRLs will not be removed from that bucket. Note that the same bucket may be used for the CA cert if --publish-ca-cert is set. CRL publication is not supported for CAs in the DevOps tier. Enabled by default, use --no-publish-crl to disable.
+    /// </summary>
+    [CliFlag("--no-publish-crl")]
+    public bool? NoPublishCrl { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// --publishing-encoding-format=PUBLISHING_ENCODING_FORMAT; default="pem" The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem. At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud privateca pools update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud privateca pools update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud privateca pools update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud privateca pools update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// --publishing-encoding-format=PUBLISHING_ENCODING_FORMAT; default="pem" The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public GcloudRemoveLabels? RemoveLabels { get; set; }
+    public string? RemoveLabels { get; set; }
 
-    [Obsolete("PublishingEncodingFormat is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem.
+    /// </summary>
+    [CliOption("--publishing-encoding-format", Format = OptionFormat.EqualsSeparated)]
     public string? PublishingEncodingFormat { get; set; }
 
 }

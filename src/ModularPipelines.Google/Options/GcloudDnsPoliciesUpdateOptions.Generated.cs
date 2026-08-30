@@ -40,6 +40,12 @@ public record GcloudDnsPoliciesUpdateOptions : GcloudOptions
     public bool? EnableDns64AllQueries { get; set; }
 
     /// <summary>
+    /// Specifies whether to allow networks bound to this policy to use DNS64 for IPv6-only VM instances. Use --enable-dns64-all-queries to enable and --no-enable-dns64-all-queries to disable.
+    /// </summary>
+    [CliFlag("--no-enable-dns64-all-queries")]
+    public bool? NoEnableDns64AllQueries { get; set; }
+
+    /// <summary>
     /// Specifies whether to allow networks bound to this policy to receive DNS queries sent by VMs or applications over VPN connections. Defaults to False.
     /// </summary>
     [CliFlag("--enable-inbound-forwarding")]

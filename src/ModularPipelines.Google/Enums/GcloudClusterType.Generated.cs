@@ -25,12 +25,4 @@ public enum GcloudClusterType
     [EnumValue("zero-scale")]
     ZeroScale = 2,
 
-    [EnumValue("any")]
-    Any = 3,
-
-    [EnumValue("none")]
-    None = 4,
-
-    [EnumValue("specific")]
-    Specific = 5
 }

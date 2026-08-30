@@ -30,7 +30,7 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     public string? ConnectionPreference { get; set; }
 
     /// <summary>
-    /// Specifies which consumer projects/networks/endpoints are allowed to connect to the service attachment. A connection limit is required for each accepted project/network (optional for endpoints). For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks or all endpoints. For example: ◆ --consumer-accept-list myProjectId1=20 - Accepts a consumer project myProjectId1 with connection limit 20. ◆ --consumer-accept-list projects/myProjectId1/global/networks/myNet1=20 - Accepts a consumer network myNet1 with connection limit 20. ◆ --consumer-accept-list projects/myProjectId1/regions/myRegion1/forwardingRules/8167352512 - Accepts a consumer endpoint with ID 8167352512. ◆ PROJECT_OR_NETWORK_OR_ENDPOINT - Consumer project ID/number or network URL or endpoint URL. ◆ CONNECTION_LIMIT - The maximum number of allowed connections. This field is optional for endpoints.
+    /// Specifies which consumer projects/networks/endpoints are allowed to connect to the service attachment. A connection limit is required for each accepted project/network (optional for endpoints). For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks or all endpoints. For example: * --consumer-accept-list myProjectId1=20 - Accepts a consumer project myProjectId1 with connection limit 20. * --consumer-accept-list projects/myProjectId1/global/networks/myNet1=20 - Accepts a consumer network myNet1 with connection limit 20. * --consumer-accept-list projects/myProjectId1/regions/myRegion1/forwardingRules/8167352512 - Accepts a consumer endpoint with ID 8167352512. * PROJECT_OR_NETWORK_OR_ENDPOINT - Consumer project ID/number or network URL or endpoint URL. * CONNECTION_LIMIT - The maximum number of allowed connections. This field is optional for endpoints.
     /// </summary>
     [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ConsumerAcceptList { get; set; }
@@ -52,6 +52,12 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     /// </summary>
     [CliFlag("--enable-proxy-protocol")]
     public bool? EnableProxyProtocol { get; set; }
+
+    /// <summary>
+    /// If True, then enable the proxy protocol which is for supplying client TCP/IP address data in TCP connections that traverse proxies on their way to destination servers. Use --enable-proxy-protocol to enable and --no-enable-proxy-protocol to disable.
+    /// </summary>
+    [CliFlag("--no-enable-proxy-protocol")]
+    public bool? NoEnableProxyProtocol { get; set; }
 
     /// <summary>
     /// The number of NAT IP addresses to be allocated per connected endpoint.
@@ -82,6 +88,12 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     /// </summary>
     [CliFlag("--reconcile-connections")]
     public bool? ReconcileConnections { get; set; }
+
+    /// <summary>
+    /// Determines whether to apply changes to consumer accept or reject lists to existing connections or only to new connections. If false, existing endpoints with a connection status of ACCEPTED or REJECTED are not updated. If true, existing endpoints with a connection status of ACCEPTED or REJECTED are updated based on the connection policy update. For example, if a project or network is removed from the --consumer-accept-list and added to --consumer-reject-list, all the endpoints in that project or network with the ACCEPTED state are set to REJECTED. Use --reconcile-connections to enable and --no-reconcile-connections to disable.
+    /// </summary>
+    [CliFlag("--no-reconcile-connections")]
+    public bool? NoReconcileConnections { get; set; }
 
     /// <summary>
     /// Region of the service attachment to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.

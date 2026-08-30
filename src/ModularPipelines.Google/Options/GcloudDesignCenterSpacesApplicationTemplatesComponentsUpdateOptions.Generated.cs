@@ -22,169 +22,181 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload The component display name.
+    /// The component display name.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Whether the component is exported as a separate terraform root module in a composite application template. If this is false, then native components will be exported as a submodule of a separate terraform root module. Use --use-as-root-module to enable and --no-use-as-root-module to disable.
+    /// Whether the component is exported as a separate terraform root module in a composite application template. If this is false, then native components will be exported as a submodule of a separate terraform root module. Use --use-as-root-module to enable and --no-use-as-root-module to disable.
     /// </summary>
     [CliFlag("--use-as-root-module")]
     public bool? UseAsRootModule { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$.
+    /// Whether the component is exported as a separate terraform root module in a composite application template. If this is false, then native components will be exported as a submodule of a separate terraform root module. Use --use-as-root-module to enable and --no-use-as-root-module to disable.
+    /// </summary>
+    [CliFlag("--no-use-as-root-module")]
+    public bool? NoUseAsRootModule { get; set; }
+
+    /// <summary>
+    /// The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$.
     /// </summary>
     [CliOption("--application-info-apphub-id", Format = OptionFormat.EqualsSeparated)]
     public string? ApplicationInfoApphubId { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1.
+    /// Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1.
     /// </summary>
     [CliOption("--application-info-deployment-region", Format = OptionFormat.EqualsSeparated)]
     public string? ApplicationInfoDeploymentRegion { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Display name for the application. The number of characters should be less than 64 characters.
+    /// Display name for the application. The number of characters should be less than 64 characters.
     /// </summary>
     [CliOption("--application-info-display-name", Format = OptionFormat.EqualsSeparated)]
     public string? ApplicationInfoDisplayName { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Set component.applicationInfo back to default value.
+    /// Set component.applicationInfo back to default value.
     /// </summary>
     [CliFlag("--clear-application-info")]
     public bool? ClearApplicationInfo { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Scope Type. SCOPE_TYPE must be one of: global Global type. regional Regional type.
+    /// Scope Type. SCOPE_TYPE must be one of: global Global type. regional Regional type.
     /// </summary>
     [CliOption("--scope-type", Format = OptionFormat.EqualsSeparated)]
     public string? ScopeType { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Consumer provided attributes. Update attributes_business_owners. At most one of these can be specified: Set attributes_business_owners to new value. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-business-owners=channel={uri=string},displayName=string,email=string --attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-business-owners=path_to_file.(yaml|json)
+    /// Set attributes_business_owners to new value. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-business-owners=channel={uri=string},displayName=string,email=string --attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-business-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--attributes-business-owners", Format = OptionFormat.EqualsSeparated)]
     public string? AttributesBusinessOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Consumer provided attributes. Update attributes_business_owners. At most one of these can be specified: Or at least one of these can be specified: Add new value to attributes_business_owners list. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-business-owners=channel={uri=string},displayName=string,email=string --add-attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-business-owners=path_to_file.(yaml|json)
+    /// Add new value to attributes_business_owners list. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-business-owners=channel={uri=string},displayName=string,email=string --add-attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-business-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-attributes-business-owners", Format = OptionFormat.EqualsSeparated)]
     public string? AddAttributesBusinessOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Consumer provided attributes. Update attributes_business_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes_business_owners value and set to empty list.
+    /// Clear attributes_business_owners value and set to empty list.
     /// </summary>
     [CliFlag("--clear-attributes-business-owners")]
     public bool? ClearAttributesBusinessOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Consumer provided attributes. Update attributes_business_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from attributes_business_owners list. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-business-owners=channel={uri=string},displayName=string,email=string --remove-attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-business-owners=path_to_file.(yaml|json)
+    /// Remove existing value from attributes_business_owners list. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-business-owners=channel={uri=string},displayName=string,email=string --remove-attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-business-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-attributes-business-owners", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveAttributesBusinessOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update attributes_developer_owners. At most one of these can be specified: Set attributes_developer_owners to new value. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-developer-owners=channel={uri=string},displayName=string,email=string --attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-developer-owners=path_to_file.(yaml|json)
+    /// Set attributes_developer_owners to new value. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-developer-owners=channel={uri=string},displayName=string,email=string --attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-developer-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--attributes-developer-owners", Format = OptionFormat.EqualsSeparated)]
     public string? AttributesDeveloperOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update attributes_developer_owners. At most one of these can be specified: Or at least one of these can be specified: Add new value to attributes_developer_owners list. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-developer-owners=channel={uri=string},displayName=string,email=string --add-attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-developer-owners=path_to_file.(yaml|json)
+    /// Add new value to attributes_developer_owners list. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-developer-owners=channel={uri=string},displayName=string,email=string --add-attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-developer-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-attributes-developer-owners", Format = OptionFormat.EqualsSeparated)]
     public string? AddAttributesDeveloperOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update attributes_developer_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes_developer_owners value and set to empty list.
+    /// Clear attributes_developer_owners value and set to empty list.
     /// </summary>
     [CliFlag("--clear-attributes-developer-owners")]
     public bool? ClearAttributesDeveloperOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update attributes_developer_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from attributes_developer_owners list. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-developer-owners=channel={uri=string},displayName=string,email=string --remove-attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-developer-owners=path_to_file.(yaml|json)
+    /// Remove existing value from attributes_developer_owners list. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-developer-owners=channel={uri=string},displayName=string,email=string --remove-attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-developer-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-attributes-developer-owners", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveAttributesDeveloperOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update attributes_operator_owners. At most one of these can be specified: Set attributes_operator_owners to new value. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-operator-owners=channel={uri=string},displayName=string,email=string --attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-operator-owners=path_to_file.(yaml|json)
+    /// Set attributes_operator_owners to new value. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-operator-owners=channel={uri=string},displayName=string,email=string --attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-operator-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--attributes-operator-owners", Format = OptionFormat.EqualsSeparated)]
     public string? AttributesOperatorOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update attributes_operator_owners. At most one of these can be specified: Or at least one of these can be specified: Add new value to attributes_operator_owners list. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-operator-owners=channel={uri=string},displayName=string,email=string --add-attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-operator-owners=path_to_file.(yaml|json)
+    /// Add new value to attributes_operator_owners list. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-operator-owners=channel={uri=string},displayName=string,email=string --add-attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-operator-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-attributes-operator-owners", Format = OptionFormat.EqualsSeparated)]
     public string? AddAttributesOperatorOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update attributes_operator_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes_operator_owners value and set to empty list.
+    /// Clear attributes_operator_owners value and set to empty list.
     /// </summary>
     [CliFlag("--clear-attributes-operator-owners")]
     public bool? ClearAttributesOperatorOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update attributes_operator_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from attributes_operator_owners list. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-operator-owners=channel={uri=string},displayName=string,email=string --remove-attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-operator-owners=path_to_file.(yaml|json)
+    /// Remove existing value from attributes_operator_owners list. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-operator-owners=channel={uri=string},displayName=string,email=string --remove-attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-operator-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-attributes-operator-owners", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveAttributesOperatorOwners { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
+    /// Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
     /// </summary>
     [CliOption("--criticality-level", Format = OptionFormat.EqualsSeparated)]
     public string? CriticalityLevel { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
+    /// Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
     /// </summary>
     [CliFlag("--criticality-mission-critical")]
     public bool? CriticalityMissionCritical { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Criticality Type. CRITICALITY_TYPE must be one of: high High impact. low Low impact. medium Medium impact. mission-critical Mission critical service, application or workload.
+    /// Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
+    /// </summary>
+    [CliFlag("--no-criticality-mission-critical")]
+    public bool? NoCriticalityMissionCritical { get; set; }
+
+    /// <summary>
+    /// Criticality Type. CRITICALITY_TYPE must be one of: high High impact. low Low impact. medium Medium impact. mission-critical Mission critical service, application or workload.
     /// </summary>
     [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
     public string? CriticalityType { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
+    /// Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
     /// </summary>
     [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
     public string? Environment { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Environment Type. ENVIRONMENT_TYPE must be one of: development Development environment. production Production environment. staging Staging environment. test Test environment.
+    /// Environment Type. ENVIRONMENT_TYPE must be one of: development Development environment. production Production environment. staging Staging environment. test Test environment.
     /// </summary>
     [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
     public string? EnvironmentType { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update parameters. At most one of these can be specified: Set parameters to new value. The component parameters. key The key of the parameter. value The value of the parameter. Shorthand Example: --parameters=key=string,value={...} --parameters=key=string,value={...} JSON Example: --parameters='[{"key": "string", "value": {...}}]' File Example: --parameters=path_to_file.(yaml|json)
+    /// Set parameters to new value. The component parameters. key The key of the parameter. value The value of the parameter. Shorthand Example: --parameters=key=string,value={...} --parameters=key=string,value={...} JSON Example: --parameters='[{"key": "string", "value": {...}}]' File Example: --parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--parameters", Format = OptionFormat.EqualsSeparated)]
     public string? Parameters { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to parameters list. The component parameters. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-parameters=key=string,value={...} --add-parameters=key=string,value={...} JSON Example: --add-parameters='[{"key": "string", "value": {...}}]' File Example: --add-parameters=path_to_file.(yaml|json)
+    /// Add new value to parameters list. The component parameters. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-parameters=key=string,value={...} --add-parameters=key=string,value={...} JSON Example: --add-parameters='[{"key": "string", "value": {...}}]' File Example: --add-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-parameters", Format = OptionFormat.EqualsSeparated)]
     public string? AddParameters { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear parameters value and set to empty list.
+    /// Clear parameters value and set to empty list.
     /// </summary>
     [CliFlag("--clear-parameters")]
     public bool? ClearParameters { get; set; }
 
     /// <summary>
-    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from parameters list. The component parameters. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-parameters=key=string,value={...} --remove-parameters=key=string,value={...} JSON Example: --remove-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-parameters=path_to_file.(yaml|json)
+    /// Remove existing value from parameters list. The component parameters. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-parameters=key=string,value={...} --remove-parameters=key=string,value={...} JSON Example: --remove-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-parameters", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveParameters { get; set; }

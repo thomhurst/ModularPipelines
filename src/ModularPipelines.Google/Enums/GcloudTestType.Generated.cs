@@ -28,12 +28,4 @@ public enum GcloudTestType
     [EnumValue("UPLOAD_THROUGHPUT")]
     UploadThroughput = 3,
 
-    [EnumValue("FILE")]
-    File = 4,
-
-    [EnumValue("SLICED")]
-    Sliced = 5,
-
-    [EnumValue("STREAMING")]
-    Streaming = 6
 }

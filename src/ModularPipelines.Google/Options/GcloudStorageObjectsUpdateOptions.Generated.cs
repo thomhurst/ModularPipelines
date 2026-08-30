@@ -22,67 +22,85 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageObjectsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Perform the operation on all object versions.
+    /// Perform the operation on all object versions.
     /// </summary>
     [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
+    /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
     /// </summary>
     [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Enables or disables an event-based hold on objects. Use --event-based-hold to enable and --no-event-based-hold to disable.
+    /// Enables or disables an event-based hold on objects. Use --event-based-hold to enable and --no-event-based-hold to disable.
     /// </summary>
     [CliFlag("--event-based-hold")]
     public bool? EventBasedHold { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Read the list of objects to update from stdin. No need to enter a source argument if this flag is present. Example: "storage objects update -I --content-type=new-type"
+    /// Enables or disables an event-based hold on objects. Use --event-based-hold to enable and --no-event-based-hold to disable.
+    /// </summary>
+    [CliFlag("--no-event-based-hold")]
+    public bool? NoEventBasedHold { get; set; }
+
+    /// <summary>
+    /// Read the list of objects to update from stdin. No need to enter a source argument if this flag is present. Example: "storage objects update -I --content-type=new-type"
     /// </summary>
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Specify the storage class of the object. Using this flag triggers a rewrite of underlying object data.
+    /// Specify the storage class of the object. Using this flag triggers a rewrite of underlying object data.
     /// </summary>
     [CliOption("--storage-class", Format = OptionFormat.EqualsSeparated)]
     public string? StorageClass { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Enables or disables a temporary hold on objects. Use --temporary-hold to enable and --no-temporary-hold to disable.
+    /// Enables or disables a temporary hold on objects. Use --temporary-hold to enable and --no-temporary-hold to disable.
     /// </summary>
     [CliFlag("--temporary-hold")]
     public bool? TemporaryHold { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Path to a local JSON or YAML formatted file containing a valid policy. See the ObjectAccessControls resource (https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls) for a representation of JSON formatted files. The output of gcloud storage [buckets|objects] describe --format="multi(acl:format=json)" is a valid file and can be edited for more fine-grained control.
+    /// Enables or disables a temporary hold on objects. Use --temporary-hold to enable and --no-temporary-hold to disable.
+    /// </summary>
+    [CliFlag("--no-temporary-hold")]
+    public bool? NoTemporaryHold { get; set; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. See the ObjectAccessControls resource (https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls) for a representation of JSON formatted files. The output of gcloud storage [buckets|objects] describe --format="multi(acl:format=json)" is a valid file and can be edited for more fine-grained control.
     /// </summary>
     [CliOption("--acl-file", Format = OptionFormat.EqualsSeparated)]
     public string? AclFile { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER
+    /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER
     /// </summary>
     [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddAclGrant { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--preserve-acl")]
     public bool? PreserveAcl { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. --canned-acl=PREDEFINED_ACL, --predefined-acl=PREDEFINED_ACL, -a PREDEFINED_ACL Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage, --remove-acl-grant=ENTITY, where ENTITY has a valid ACL entity format, such as user-tim@gmail.com, group-admins, allUsers, etc.
+    /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// </summary>
+    [CliFlag("--no-preserve-acl")]
+    public bool? NoPreserveAcl { get; set; }
+
+    /// <summary>
+    /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage, --remove-acl-grant=ENTITY, where ENTITY has a valid ACL entity format, such as user-tim@gmail.com, group-admins, allUsers, etc.
     /// </summary>
     [CliOption("--remove-acl-grant", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveAclGrant { get; set; }

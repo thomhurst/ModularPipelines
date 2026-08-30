@@ -23,78 +23,81 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions
 {
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. Enable compression.
+    /// Enable compression.
     /// </summary>
     [CliFlag("--compress")]
     public bool? Compress { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
+    /// Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. If enabled, the gcloud command-line tool will regenerate and overwrite the files associated with a broken SSH key without asking for confirmation in both interactive and non-interactive environments. If disabled, the files associated with a broken SSH key will not be regenerated and will fail in both interactive and non-interactive environments.
+    /// If enabled, the gcloud command-line tool will regenerate and overwrite the files associated with a broken SSH key without asking for confirmation in both interactive and non-interactive environments. If disabled, the files associated with a broken SSH key will not be regenerated and will fail in both interactive and non-interactive environments.
     /// </summary>
     [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. Connect to TPU VMs using their internal IP addresses rather than their external IP addresses. Use this to connect from a Google Compute Engine VM to a TPU VM on the same VPC network, or between two peered VPC networks.
+    /// Connect to TPU VMs using their internal IP addresses rather than their external IP addresses. Use this to connect from a Google Compute Engine VM to a TPU VM on the same VPC network, or between two peered VPC networks.
     /// </summary>
     [CliFlag("--internal-ip")]
     public bool? InternalIp { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. Suppress the automatic addition of ssh(1)/scp(1) flags. This flag is useful if you want to take care of authentication yourself or use specific ssh/scp features.
+    /// Suppress the automatic addition of ssh(1)/scp(1) flags. This flag is useful if you want to take care of authentication yourself or use specific ssh/scp features.
     /// </summary>
     [CliFlag("--plain")]
     public bool? Plain { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. Upload directories recursively.
+    /// Upload directories recursively.
     /// </summary>
     [CliFlag("--recurse")]
     public bool? Recurse { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. Additional flags to be passed to scp(1). This flag may be repeated.
+    /// Additional flags to be passed to scp(1). This flag may be repeated.
     /// </summary>
     [CliOption("--scp-flag", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ScpFlag { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. The path to the SSH key file. By default, this is ~/.ssh/google_compute_engine.
+    /// The path to the SSH key file. By default, this is ~\.ssh\google_compute_engine.
     /// </summary>
     [CliOption("--ssh-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyFile { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. Override the default behavior of StrictHostKeyChecking for the connection. By default, StrictHostKeyChecking is set to 'no' the first time you connect to an instance, and will be set to 'yes' for all subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes, no, ask.
+    /// Override the default behavior of StrictHostKeyChecking for the connection. By default, StrictHostKeyChecking is set to 'no' the first time you connect to an instance, and will be set to 'yes' for all subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes, no, ask.
     /// </summary>
     [CliOption("--strict-host-key-checking", Format = OptionFormat.EqualsSeparated)]
     public GcloudStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. Zone of the tpu to scp. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// Zone of the tpu to scp. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. At most one of these can be specified: The time when the ssh key will be valid until, such as "2017-08-29T18:52:51.142Z." This is only valid if the instance is not using OS Login. See $ gcloud topic datetimes for information on time formats.
+    /// The time when the ssh key will be valid until, such as "2017-08-29T18:52:51.142Z." This is only valid if the instance is not using OS Login. See $ gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--ssh-key-expiration", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpiration { get; set; }
 
     /// <summary>
-    /// --worker=WORKER; default="0" TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'. At most one of these can be specified: The maximum length of time an SSH key is valid for once created and installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for information on duration formats.
+    /// The maximum length of time an SSH key is valid for once created and installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
 
-    [Obsolete("Worker is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'.
+    /// </summary>
+    [CliOption("--worker", Format = OptionFormat.EqualsSeparated)]
     public string? Worker { get; set; }
 
 }

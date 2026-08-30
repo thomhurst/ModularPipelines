@@ -24,60 +24,63 @@ public record GcloudSqlConnectOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --port=PORT; default=9470 Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost. The PostgreSQL or SQL Server database to connect to.
+    /// The PostgreSQL or SQL Server database to connect to.
     /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=9470 Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost. Enable verbose debug logs for Cloud SQL Proxy.
+    /// Enable verbose debug logs for Cloud SQL Proxy.
     /// </summary>
     [CliFlag("--debug-logs")]
     public bool? DebugLogs { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=9470 Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost. Run connection test for Cloud SQL Proxy.
+    /// Run connection test for Cloud SQL Proxy.
     /// </summary>
     [CliFlag("--run-connection-test")]
     public bool? RunConnectionTest { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=9470 Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost. Skip SSL certificate verification for MySQL instances.
+    /// Skip SSL certificate verification for MySQL instances.
     /// </summary>
     [CliFlag("--skip-ssl")]
     public bool? SkipSsl { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=9470 Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost. User selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Enables IAM database authentication for connections to MySQL and Postgres instances.
+    /// Enables IAM database authentication for connections to MySQL and Postgres instances.
     /// </summary>
     [CliFlag("--auto-iam-authn")]
     public bool? AutoIamAuthn { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=9470 Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost. User selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Cloud SQL instance user to connect as.
+    /// Cloud SQL instance user to connect as.
     /// </summary>
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=9470 Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost. IP address selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Connect to the Cloud SQL instance with auto IP detection.
+    /// Connect to the Cloud SQL instance with auto IP detection.
     /// </summary>
     [CliFlag("--auto-ip")]
     public bool? AutoIp { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=9470 Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost. IP address selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Connect to the Cloud SQL instance using private IP.
+    /// Connect to the Cloud SQL instance using private IP.
     /// </summary>
     [CliFlag("--private-ip")]
     public bool? PrivateIp { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=9470 Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost. IP address selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Connect to the Cloud SQL instance using Private Service Connect.
+    /// Connect to the Cloud SQL instance using Private Service Connect.
     /// </summary>
     [CliFlag("--psc")]
     public bool? Psc { get; set; }
 
-    [Obsolete("Port is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
 
 }

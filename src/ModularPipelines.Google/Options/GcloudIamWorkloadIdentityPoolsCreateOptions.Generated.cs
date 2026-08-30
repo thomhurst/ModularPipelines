@@ -53,15 +53,21 @@ public record GcloudIamWorkloadIdentityPoolsCreateOptions : GcloudOptions
     public GcloudMode? Mode { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: YAML file with configuration for certificate issuance. Example file format: inlineCertificateIssuanceConfig: caPools: us-east1: projects/1234/locations/us-east1/caPools/capoolname us-west1: projects/1234/locations/us-west1/caPools/capoolname keyAlgorithm: ECDSA_P256 lifetime: 86400s rotationWindowPercentage: 50
+    /// YAML file with configuration for certificate issuance. Example file format: inlineCertificateIssuanceConfig: caPools: us-east1: projects/1234/locations/us-east1/caPools/capoolname us-west1: projects/1234/locations/us-west1/caPools/capoolname keyAlgorithm: ECDSA_P256 lifetime: 86400s rotationWindowPercentage: 50
     /// </summary>
     [CliOption("--inline-certificate-issuance-config-file", Format = OptionFormat.EqualsSeparated)]
     public string? InlineCertificateIssuanceConfigFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Use the default shared certificate authorities (CAs) to issue certificates. If enabled, Google Cloud automatically provisions certificates from a default shared CA in the same region as the workload. Enabling this flag clears any existing CA pools configuration. Use --use-default-shared-ca to enable and --no-use-default-shared-ca to disable.
+    /// Use the default shared certificate authorities (CAs) to issue certificates. If enabled, Google Cloud automatically provisions certificates from a default shared CA in the same region as the workload. Enabling this flag clears any existing CA pools configuration. Use --use-default-shared-ca to enable and --no-use-default-shared-ca to disable.
     /// </summary>
     [CliFlag("--use-default-shared-ca")]
     public bool? UseDefaultSharedCa { get; set; }
+
+    /// <summary>
+    /// Use the default shared certificate authorities (CAs) to issue certificates. If enabled, Google Cloud automatically provisions certificates from a default shared CA in the same region as the workload. Enabling this flag clears any existing CA pools configuration. Use --use-default-shared-ca to enable and --no-use-default-shared-ca to disable.
+    /// </summary>
+    [CliFlag("--no-use-default-shared-ca")]
+    public bool? NoUseDefaultSharedCa { get; set; }
 
 }

@@ -23,5 +23,11 @@ public enum GcloudPrivateIpv6GoogleAccessType
     Disabled = 1,
 
     [EnumValue("outbound-only")]
-    OutboundOnly = 2
+    OutboundOnly = 2,
+
+    [EnumValue("inherit-subnetwork")]
+    InheritSubnetwork = 3,
+
+    [EnumValue("outbound")]
+    Outbound = 4
 }

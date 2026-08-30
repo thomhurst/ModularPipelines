@@ -23,54 +23,57 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPreviewComputeConnectToSerialPortOptions : GcloudOptions
 {
     /// <summary>
-    /// --port=PORT; default=1 The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port. If provided, the ssh command is printed to standard out rather than being executed.
+    /// If provided, the ssh command is printed to standard out rather than being executed.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=1 The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port. Optional arguments can be passed to the serial port connection by passing key-value pairs to this flag, such as max-connections=N or replay-lines=N. See https://cloud.google.com/compute/docs/instances/interacting-with-serial-console for additional options.
+    /// Optional arguments can be passed to the serial port connection by passing key-value pairs to this flag, such as max-connections=N or replay-lines=N. See https://cloud.google.com/compute/docs/instances/interacting-with-serial-console for additional options.
     /// </summary>
     [CliOption("--extra-args", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ExtraArgs { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=1 The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port. If enabled, the gcloud command-line tool will regenerate and overwrite the files associated with a broken SSH key without asking for confirmation in both interactive and non-interactive environments. If disabled, the files associated with a broken SSH key will not be regenerated and will fail in both interactive and non-interactive environments.
+    /// If enabled, the gcloud command-line tool will regenerate and overwrite the files associated with a broken SSH key without asking for confirmation in both interactive and non-interactive environments. If disabled, the files associated with a broken SSH key will not be regenerated and will fail in both interactive and non-interactive environments.
     /// </summary>
     [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=1 The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port. If provided, the region in which the serial console connection will occur. Must be the region of the VM to connect to.
+    /// If provided, the region in which the serial console connection will occur. Must be the region of the VM to connect to.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=1 The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port. The path to the SSH key file. By default, this is ~/.ssh/google_compute_engine.
+    /// The path to the SSH key file. By default, this is ~\.ssh\google_compute_engine.
     /// </summary>
     [CliOption("--ssh-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyFile { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=1 The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port. Zone of the instance to connect to. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// Zone of the instance to connect to. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=1 The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port. At most one of these can be specified: The time when the ssh key will be valid until, such as "2017-08-29T18:52:51.142Z." This is only valid if the instance is not using OS Login. See $ gcloud topic datetimes for information on time formats.
+    /// The time when the ssh key will be valid until, such as "2017-08-29T18:52:51.142Z." This is only valid if the instance is not using OS Login. See $ gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--ssh-key-expiration", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpiration { get; set; }
 
     /// <summary>
-    /// --port=PORT; default=1 The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port. At most one of these can be specified: The maximum length of time an SSH key is valid for once created and installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for information on duration formats.
+    /// The maximum length of time an SSH key is valid for once created and installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
 
-    [Obsolete("Port is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
 
 }

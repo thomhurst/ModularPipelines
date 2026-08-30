@@ -37,12 +37,4 @@ public enum GcloudMetricSources
     [EnumValue("YARN")]
     Yarn = 6,
 
-    [EnumValue("any")]
-    Any = 7,
-
-    [EnumValue("none")]
-    None = 8,
-
-    [EnumValue("specific")]
-    Specific = 9
 }

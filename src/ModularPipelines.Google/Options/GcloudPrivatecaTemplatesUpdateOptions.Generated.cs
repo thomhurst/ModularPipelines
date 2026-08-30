@@ -32,10 +32,22 @@ public record GcloudPrivatecaTemplatesUpdateOptions(
     public bool? CopySans { get; set; }
 
     /// <summary>
+    /// If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
+    /// </summary>
+    [CliFlag("--no-copy-sans")]
+    public bool? NoCopySans { get; set; }
+
+    /// <summary>
     /// If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
     /// </summary>
     [CliFlag("--copy-subject")]
     public bool? CopySubject { get; set; }
+
+    /// <summary>
+    /// If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
+    /// </summary>
+    [CliFlag("--no-copy-subject")]
+    public bool? NoCopySubject { get; set; }
 
     /// <summary>
     /// A text description for the Certificate Template.
@@ -59,46 +71,46 @@ public record GcloudPrivatecaTemplatesUpdateOptions(
     /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public GcloudUpdateLabels? UpdateLabels { get; set; }
+    public string? UpdateLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud privateca templates update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud privateca templates update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud privateca templates update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud privateca templates update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Constraints on requested X.509 extensions. At most one of these can be specified: If this is set, all extensions, whether known or specified by OID, that are specified in the certificate request will be copied into the signed certificate.
+    /// If this is set, all extensions, whether known or specified by OID, that are specified in the certificate request will be copied into the signed certificate.
     /// </summary>
     [CliFlag("--copy-all-requested-extensions")]
     public bool? CopyAllRequestedExtensions { get; set; }
 
     /// <summary>
-    /// Constraints on requested X.509 extensions. At most one of these can be specified: Or at least one of these can be specified: Specify exact x509 extensions to copy by OID or known extension. Constraints on unknown extensions by their OIDs. At most one of these can be specified: If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate.
+    /// If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate.
     /// </summary>
     [CliOption("--copy-extensions-by-oid", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CopyExtensionsByOid { get; set; }
 
     /// <summary>
-    /// Constraints on requested X.509 extensions. At most one of these can be specified: Or at least one of these can be specified: Specify exact x509 extensions to copy by OID or known extension. Constraints on unknown extensions by their OIDs. At most one of these can be specified: If this is set, then all existing OID extensions will be removed from the template, prohibiting any extensions specified by OIDs to be specified by the requester.
+    /// If this is set, then all existing OID extensions will be removed from the template, prohibiting any extensions specified by OIDs to be specified by the requester.
     /// </summary>
     [CliFlag("--drop-oid-extensions")]
     public bool? DropOidExtensions { get; set; }
 
     /// <summary>
-    /// Constraints on requested X.509 extensions. At most one of these can be specified: Constraints on known extensions. At most one of these can be specified: If this is set, then the given extensions will be copied from the certificate request into the signed certificate. KNOWN_EXTENSIONS must be one of: base-key-usage, extended-key-usage, ca-options, policy-ids, aia-ocsp-servers.
+    /// If this is set, then the given extensions will be copied from the certificate request into the signed certificate. KNOWN_EXTENSIONS must be one of: base-key-usage, extended-key-usage, ca-options, policy-ids, aia-ocsp-servers.
     /// </summary>
     [CliOption("--copy-known-extensions", Format = OptionFormat.EqualsSeparated)]
     public GcloudCopyKnownExtensions? CopyKnownExtensions { get; set; }
 
     /// <summary>
-    /// Constraints on requested X.509 extensions. At most one of these can be specified: Constraints on known extensions. At most one of these can be specified: If this is set, then all known extensions will be removed from the template, prohibiting any known x509 extensions to be specified by the requester.
+    /// If this is set, then all known extensions will be removed from the template, prohibiting any known x509 extensions to be specified by the requester.
     /// </summary>
     [CliFlag("--drop-known-extensions")]
     public bool? DropKnownExtensions { get; set; }

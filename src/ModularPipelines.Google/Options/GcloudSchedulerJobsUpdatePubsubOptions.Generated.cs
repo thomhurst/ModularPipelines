@@ -41,81 +41,105 @@ public record GcloudSchedulerJobsUpdatePubsubOptions : GcloudOptions
     public string? Topic { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Clear the field corresponding to --attributes.
+    /// Clear the field corresponding to --attributes.
     /// </summary>
     [CliFlag("--clear-attributes")]
     public bool? ClearAttributes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attribute keys to remove with the form "KEY1,KEY2".
+    /// Comma-separated list of attribute keys to remove with the form "KEY1,KEY2".
     /// </summary>
     [CliOption("--remove-attributes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveAttributes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attributes. Each attribute has the form "NAME=VALUE". You can specify up to 100 attributes.
+    /// Comma-separated list of attributes. Each attribute has the form "NAME=VALUE". You can specify up to 100 attributes.
     /// </summary>
     [CliOption("--update-attributes", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateAttributes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Clear the field corresponding to --max-backoff.
+    /// Clear the field corresponding to --max-backoff.
     /// </summary>
     [CliFlag("--clear-max-backoff")]
     public bool? ClearMaxBackoff { get; set; }
 
     /// <summary>
-    /// --max-backoff=MAX_BACKOFF; default="3600s" Maximum amount of time to wait before retrying a job after it fails. For example, 60s. Default is 3600s (1 hour). At most one of these can be specified: Clear the field corresponding to --max-doublings.
+    /// Clear the field corresponding to --max-doublings.
     /// </summary>
     [CliFlag("--clear-max-doublings")]
     public bool? ClearMaxDoublings { get; set; }
 
     /// <summary>
-    /// --max-doublings=MAX_DOUBLINGS; default=5 Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant. At most one of these can be specified: Clear the field corresponding to --max-retry-attempts.
+    /// Clear the field corresponding to --max-retry-attempts.
     /// </summary>
     [CliFlag("--clear-max-retry-attempts")]
     public bool? ClearMaxRetryAttempts { get; set; }
 
     /// <summary>
-    /// --max-doublings=MAX_DOUBLINGS; default=5 Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant. At most one of these can be specified: Number of times to retry the request if it fails or times out. Must be in range 0-5 inclusive. Default is 0.
+    /// Number of times to retry the request if it fails or times out. Must be in range 0-5 inclusive. Default is 0.
     /// </summary>
     [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
     public string? MaxRetryAttempts { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Clear the field corresponding to --max-retry-duration.
+    /// Clear the field corresponding to --max-retry-duration.
     /// </summary>
     [CliFlag("--clear-max-retry-duration")]
     public bool? ClearMaxRetryDuration { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Time limit for retrying a failed job, measured from when the job was first run. If specified with --max-retry-attempts greater than 0, the job will be retried until both limits are reached. Default is 0 seconds (which means unlimited); however, if --max-retry-attempts is also 0, a job attempt won't be retried if it fails.
+    /// Time limit for retrying a failed job, measured from when the job was first run. If specified with --max-retry-attempts greater than 0, the job will be retried until both limits are reached. Default is 0 seconds (which means unlimited); however, if --max-retry-attempts is also 0, a job attempt won't be retried if it fails.
     /// </summary>
     [CliOption("--max-retry-duration", Format = OptionFormat.EqualsSeparated)]
     public string? MaxRetryDuration { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Clear the field corresponding to --min-backoff.
+    /// Clear the field corresponding to --min-backoff.
     /// </summary>
     [CliFlag("--clear-min-backoff")]
     public bool? ClearMinBackoff { get; set; }
 
     /// <summary>
-    /// --min-backoff=MIN_BACKOFF; default="5s" Minimum amount of time to wait before retrying a job after it fails. For example, 10s. Default is 5s. At most one of these can be specified: Clear the field corresponding to --time-zone.
+    /// Clear the field corresponding to --time-zone.
     /// </summary>
     [CliFlag("--clear-time-zone")]
     public bool? ClearTimeZone { get; set; }
 
     /// <summary>
-    /// --time-zone=TIME_ZONE; default="Etc/UTC" Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc". Body of the message to publish to the given topic name. Information on message formatting and size limits can be found at: https://cloud.google.com/pubsub/docs/publisher#publish At most one of these can be specified: Body of the message.
+    /// Body of the message.
     /// </summary>
     [CliOption("--message-body", Format = OptionFormat.EqualsSeparated)]
     public string? MessageBody { get; set; }
 
     /// <summary>
-    /// --time-zone=TIME_ZONE; default="Etc/UTC" Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc". Body of the message to publish to the given topic name. Information on message formatting and size limits can be found at: https://cloud.google.com/pubsub/docs/publisher#publish At most one of these can be specified: Path to a file containing the body of the message. Use a full or relative path to a local file containing the value of message_body.
+    /// Path to a file containing the body of the message. Use a full or relative path to a local file containing the value of message_body.
     /// </summary>
     [CliOption("--message-body-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? MessageBodyFromFile { get; set; }
+
+    /// <summary>
+    /// Maximum amount of time to wait before retrying a job after it fails. For example, 60s. Default is 3600s (1 hour).
+    /// </summary>
+    [CliOption("--max-backoff", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxBackoff { get; set; }
+
+    /// <summary>
+    /// Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant.
+    /// </summary>
+    [CliOption("--max-doublings", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxDoublings { get; set; }
+
+    /// <summary>
+    /// Minimum amount of time to wait before retrying a job after it fails. For example, 10s. Default is 5s.
+    /// </summary>
+    [CliOption("--min-backoff", Format = OptionFormat.EqualsSeparated)]
+    public string? MinBackoff { get; set; }
+
+    /// <summary>
+    /// Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc".
+    /// </summary>
+    [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZone { get; set; }
 
 }

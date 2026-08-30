@@ -29,5 +29,14 @@ public enum GcloudState
     Started = 3,
 
     [EnumValue("unknown")]
-    Unknown = 4
+    Unknown = 4,
+
+    [EnumValue("active")]
+    Active = 5,
+
+    [EnumValue("inactive")]
+    Inactive = 6,
+
+    [EnumValue("state-unspecified")]
+    StateUnspecified = 7
 }

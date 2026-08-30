@@ -22,9 +22,4 @@ public enum GcloudDockerRegistry
     [EnumValue("container-registry")]
     ContainerRegistry = 1,
 
-    [EnumValue("secure-always")]
-    SecureAlways = 2,
-
-    [EnumValue("secure-optional")]
-    SecureOptional = 3
 }

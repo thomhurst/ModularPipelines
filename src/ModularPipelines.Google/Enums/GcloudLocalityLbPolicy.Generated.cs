@@ -46,18 +46,4 @@ public enum GcloudLocalityLbPolicy
     [EnumValue("WEIGHTED_GCP_RENDEZVOUS")]
     WeightedGcpRendezvous = 9,
 
-    [EnumValue("INTERNAL")]
-    Internal = 10,
-
-    [EnumValue("EXTERNAL")]
-    External = 11,
-
-    [EnumValue("INTERNAL_SELF_MANAGED")]
-    InternalSelfManaged = 12,
-
-    [EnumValue("EXTERNAL_MANAGED")]
-    ExternalManaged = 13,
-
-    [EnumValue("INTERNAL_MANAGED")]
-    InternalManaged = 14
 }

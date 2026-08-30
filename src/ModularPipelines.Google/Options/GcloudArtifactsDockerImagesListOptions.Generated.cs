@@ -22,21 +22,27 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsDockerImagesListOptions : GcloudOptions
 {
     /// <summary>
-    /// --occurrence-filter=OCCURRENCE_FILTER; default='kind="BUILD" OR kind="IMAGE" OR kind="DISCOVERY" OR kind="SBOM_REFERENCE"' A filter for the occurrences which will be summarized. If specified, tags associated with each image digest are displayed up to a maximum of 100 tags per version.
+    /// If specified, tags associated with each image digest are displayed up to a maximum of 100 tags per version.
     /// </summary>
     [CliFlag("--include-tags")]
     public bool? IncludeTags { get; set; }
 
     /// <summary>
-    /// --occurrence-filter=OCCURRENCE_FILTER; default='kind="BUILD" OR kind="IMAGE" OR kind="DISCOVERY" OR kind="SBOM_REFERENCE"' A filter for the occurrences which will be summarized. Show summaries of the various occurrence types.
+    /// Show summaries of the various occurrence types.
     /// </summary>
     [CliFlag("--show-occurrences")]
     public bool? ShowOccurrences { get; set; }
 
-    [Obsolete("OccurrenceFilter is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// A filter for the occurrences which will be summarized.
+    /// </summary>
+    [CliOption("--occurrence-filter", Format = OptionFormat.EqualsSeparated)]
     public string? OccurrenceFilter { get; set; }
 
-    [Obsolete("ShowOccurrencesFrom is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The number of the most recent images for which to summarize occurrences.
+    /// </summary>
+    [CliOption("--show-occurrences-from", Format = OptionFormat.EqualsSeparated)]
     public string? ShowOccurrencesFrom { get; set; }
 
 }

@@ -40,6 +40,12 @@ public record GcloudAppDeployOptions : GcloudOptions
     public bool? Cache { get; set; }
 
     /// <summary>
+    /// Enable caching mechanisms involved in the deployment process, particularly in the build step. Enabled by default, use --no-cache to disable.
+    /// </summary>
+    [CliFlag("--no-cache")]
+    public bool? NoCache { get; set; }
+
+    /// <summary>
     /// Override the .gcloudignore file and use the specified file instead.
     /// </summary>
     [CliOption("--ignore-file", Format = OptionFormat.EqualsSeparated)]
@@ -58,6 +64,12 @@ public record GcloudAppDeployOptions : GcloudOptions
     public bool? Promote { get; set; }
 
     /// <summary>
+    /// Promote the deployed version to receive all traffic. Overrides the default app/promote_by_default property value for this command invocation. Use --no-promote to disable.
+    /// </summary>
+    [CliFlag("--no-promote")]
+    public bool? NoPromote { get; set; }
+
+    /// <summary>
     /// The service account that this deployed version will run as. If this argument is not specified, the App Engine default service account will be used for your current deployed version.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
@@ -68,6 +80,12 @@ public record GcloudAppDeployOptions : GcloudOptions
     /// </summary>
     [CliFlag("--stop-previous-version")]
     public bool? StopPreviousVersion { get; set; }
+
+    /// <summary>
+    /// Stop the previously running version when deploying a new version that receives all traffic. Note that if the version is running on an instance of an auto-scaled service in the App Engine Standard environment, using --stop-previous-version will not work and the previous version will continue to run because auto-scaled service instances are always running. Overrides the default app/stop_previous_version property value for this command invocation. Use --no-stop-previous-version to disable.
+    /// </summary>
+    [CliFlag("--no-stop-previous-version")]
+    public bool? NoStopPreviousVersion { get; set; }
 
     /// <summary>
     /// The version of the app that will be created or replaced by this deployment. If you do not specify a version, one will be generated for you.

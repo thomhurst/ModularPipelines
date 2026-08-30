@@ -49,15 +49,33 @@ public record GcloudPrivatecaPoolsCreateOptions(
     public bool? PublishCaCert { get; set; }
 
     /// <summary>
+    /// If this is enabled, the following will happen: 1) The CA certificates will be written to a known location within the CA distribution point. 2) The AIA extension in all issued certificates will point to the CA cert URL in that distribition point. Note that the same bucket may be used for the CRLs if --publish-crl is set. Enabled by default, use --no-publish-ca-cert to disable.
+    /// </summary>
+    [CliFlag("--no-publish-ca-cert")]
+    public bool? NoPublishCaCert { get; set; }
+
+    /// <summary>
     /// If this gets enabled, the following will happen: 1) CRLs will be written to a known location within the CA distribution point. 2) The CDP extension in all future issued certificates will point to the CRL URL in that distribution point. Note that the same bucket may be used for the CA cert if --publish-ca-cert is set. CRL publication is not supported for CAs in the DevOps tier. Enabled by default, use --no-publish-crl to disable.
     /// </summary>
     [CliFlag("--publish-crl")]
     public bool? PublishCrl { get; set; }
 
-    [Obsolete("PublishingEncodingFormat is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// If this gets enabled, the following will happen: 1) CRLs will be written to a known location within the CA distribution point. 2) The CDP extension in all future issued certificates will point to the CRL URL in that distribution point. Note that the same bucket may be used for the CA cert if --publish-ca-cert is set. CRL publication is not supported for CAs in the DevOps tier. Enabled by default, use --no-publish-crl to disable.
+    /// </summary>
+    [CliFlag("--no-publish-crl")]
+    public bool? NoPublishCrl { get; set; }
+
+    /// <summary>
+    /// The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem.
+    /// </summary>
+    [CliOption("--publishing-encoding-format", Format = OptionFormat.EqualsSeparated)]
     public string? PublishingEncodingFormat { get; set; }
 
-    [Obsolete("Tier is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The tier for the Certificate Authority. TIER must be one of: devops, enterprise.
+    /// </summary>
+    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
     public string? Tier { get; set; }
 
 }

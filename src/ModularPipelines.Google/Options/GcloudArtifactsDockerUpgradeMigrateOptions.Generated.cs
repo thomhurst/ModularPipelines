@@ -22,84 +22,93 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsDockerUpgradeMigrateOptions : GcloudOptions
 {
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Send only a percent of reads to Artifact Registry. The rest of reads and all writes are sent to Container Registry.
+    /// Send only a percent of reads to Artifact Registry. The rest of reads and all writes are sent to Container Registry.
     /// </summary>
     [CliOption("--canary-reads", Format = OptionFormat.EqualsSeparated)]
     public string? CanaryReads { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Only perform image copying
+    /// Only perform image copying
     /// </summary>
     [CliFlag("--copy-only")]
     public bool? CopyOnly { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Container Registry host + project to copy from. This flag is only used when migrating to pkg.dev repos. Example: gcr.io/my-project
+    /// Container Registry host + project to copy from. This flag is only used when migrating to pkg.dev repos. Example: gcr.io/my-project
     /// </summary>
     [CliOption("--from-gcr", Format = OptionFormat.EqualsSeparated)]
     public string? FromGcr { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this During the IAM update step, the tool applies all iam policies in the given directory.
+    /// During the IAM update step, the tool applies all iam policies in the given directory.
     /// </summary>
     [CliOption("--input-iam-policy-dir", Format = OptionFormat.EqualsSeparated)]
     public string? InputIamPolicyDir { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Only copy the N most recently uploaded versions of each image. More than N images may be copied if new images are uploaded during migration.
+    /// Only copy the N most recently uploaded versions of each image. More than N images may be copied if new images are uploaded during migration.
     /// </summary>
     [CliOption("--last-uploaded-versions", Format = OptionFormat.EqualsSeparated)]
     public string? LastUploadedVersions { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Outputs Artifact Registry-equivalent bindings to this directory during IAM update step and then exits the tool. After any neccesary modifications are made, the tool can be rerun with --input-iam-policy-dir to continue migration with the generated bindings.
+    /// Outputs Artifact Registry-equivalent bindings to this directory during IAM update step and then exits the tool. After any neccesary modifications are made, the tool can be rerun with --input-iam-policy-dir to continue migration with the generated bindings.
     /// </summary>
     [CliOption("--output-iam-policy-dir", Format = OptionFormat.EqualsSeparated)]
     public string? OutputIamPolicyDir { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this The location of the pkg-dev repository you are migrating to. If not specified, migration is always done to the same multi-region as GCR. Setting this flag can cause cross-regional copying and lead to billing charges.
+    /// The location of the pkg-dev repository you are migrating to. If not specified, migration is always done to the same multi-region as GCR. Setting this flag can cause cross-regional copying and lead to billing charges.
     /// </summary>
     [CliOption("--pkg-dev-location", Format = OptionFormat.EqualsSeparated)]
     public string? PkgDevLocation { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Comma seperated list of Container Registry projects to migrate to Artifact Registry gcr.io repositories.
+    /// Comma seperated list of Container Registry projects to migrate to Artifact Registry gcr.io repositories.
     /// </summary>
     [CliOption("--projects", Format = OptionFormat.EqualsSeparated)]
     public string? Projects { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Only copy images pulled or pushed in the last NUM_DAYS days. NUM_DAYS must be between 30 and 90 inclusive.
+    /// Only copy images pulled or pushed in the last NUM_DAYS days. NUM_DAYS must be between 30 and 90 inclusive.
     /// </summary>
     [CliOption("--recent-images", Format = OptionFormat.EqualsSeparated)]
     public string? RecentImages { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Migrate without changing iam-policy. Users without Artifact Registry permissions will not have access to migrated images.
+    /// Migrate without changing iam-policy. Users without Artifact Registry permissions will not have access to migrated images.
     /// </summary>
     [CliFlag("--skip-iam-update")]
     public bool? SkipIamUpdate { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Skip the initial copy of recent images before enabling redirection.
+    /// Skip the initial copy of recent images before enabling redirection.
     /// </summary>
     [CliFlag("--skip-pre-copy")]
     public bool? SkipPreCopy { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Artifact Registry pkg.dev project ID and repository ID to copy to. Example: my-project/my-repo
+    /// Artifact Registry pkg.dev project ID and repository ID to copy to. Example: my-project/my-repo
     /// </summary>
     [CliOption("--to-pkg-dev", Format = OptionFormat.EqualsSeparated)]
     public string? ToPkgDev { get; set; }
 
     /// <summary>
-    /// --max-threads=MAX_THREADS; default=8 Max number of images to copy simultaneously. Consider quota usage when increasing this Use analyzeIAMPolicy to get IAM bindings. If false, tooling iterates through IAM bindings itself, which is slower, but doesn't require anlayzeIAMPolicy quota. Enabled by default, use --no-use-analyze-iam to disable.
+    /// Use analyzeIAMPolicy to get IAM bindings. If false, tooling iterates through IAM bindings itself, which is slower, but doesn't require anlayzeIAMPolicy quota. Enabled by default, use --no-use-analyze-iam to disable.
     /// </summary>
     [CliFlag("--use-analyze-iam")]
     public bool? UseAnalyzeIam { get; set; }
 
-    [Obsolete("MaxThreads is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Use analyzeIAMPolicy to get IAM bindings. If false, tooling iterates through IAM bindings itself, which is slower, but doesn't require anlayzeIAMPolicy quota. Enabled by default, use --no-use-analyze-iam to disable.
+    /// </summary>
+    [CliFlag("--no-use-analyze-iam")]
+    public bool? NoUseAnalyzeIam { get; set; }
+
+    /// <summary>
+    /// Max number of images to copy simultaneously. Consider quota usage when increasing this
+    /// </summary>
+    [CliOption("--max-threads", Format = OptionFormat.EqualsSeparated)]
     public string? MaxThreads { get; set; }
 
 }

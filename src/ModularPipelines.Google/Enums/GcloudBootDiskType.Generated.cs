@@ -28,12 +28,9 @@ public enum GcloudBootDiskType
     [EnumValue("PD_EXTREME")]
     PdExtreme = 3,
 
-    [EnumValue("never")]
-    Never = 4,
+    [EnumValue("HYPERDISK_BALANCED")]
+    HyperdiskBalanced = 4,
 
-    [EnumValue("on-failure")]
-    OnFailure = 5,
-
-    [EnumValue("always")]
-    Always = 6
+    [EnumValue("HYPERDISK_ML")]
+    HyperdiskMl = 5
 }

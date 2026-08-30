@@ -22,9 +22,4 @@ public enum GcloudRuntimeUpdatePolicy
     [EnumValue("on-deploy")]
     OnDeploy = 1,
 
-    [EnumValue("secure-always")]
-    SecureAlways = 2,
-
-    [EnumValue("secure-optional")]
-    SecureOptional = 3
 }

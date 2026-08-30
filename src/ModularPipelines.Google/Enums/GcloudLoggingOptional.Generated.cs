@@ -25,18 +25,4 @@ public enum GcloudLoggingOptional
     [EnumValue("CUSTOM")]
     Custom = 2,
 
-    [EnumValue("INTERNAL")]
-    Internal = 3,
-
-    [EnumValue("EXTERNAL")]
-    External = 4,
-
-    [EnumValue("INTERNAL_SELF_MANAGED")]
-    InternalSelfManaged = 5,
-
-    [EnumValue("EXTERNAL_MANAGED")]
-    ExternalManaged = 6,
-
-    [EnumValue("INTERNAL_MANAGED")]
-    InternalManaged = 7
 }

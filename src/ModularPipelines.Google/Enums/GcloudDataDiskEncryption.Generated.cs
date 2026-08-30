@@ -22,12 +22,4 @@ public enum GcloudDataDiskEncryption
     [EnumValue("CMEK")]
     Cmek = 1,
 
-    [EnumValue("none")]
-    None = 2,
-
-    [EnumValue("any")]
-    Any = 3,
-
-    [EnumValue("specific")]
-    Specific = 4
 }

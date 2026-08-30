@@ -20,5 +20,14 @@ public enum GcloudRole
     Source = 0,
 
     [EnumValue("DESTINATION")]
-    Destination = 1
+    Destination = 1,
+
+    [EnumValue("admin")]
+    Admin = 2,
+
+    [EnumValue("edit")]
+    Edit = 3,
+
+    [EnumValue("view")]
+    View = 4
 }

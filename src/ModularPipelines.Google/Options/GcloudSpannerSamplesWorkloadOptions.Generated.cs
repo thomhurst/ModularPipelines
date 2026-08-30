@@ -24,18 +24,21 @@ public record GcloudSpannerSamplesWorkloadOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --duration=DURATION; default="1h" Duration of time allowed to run before stopping the workload. --duration=DURATION; default="1h" Duration of time allowed to run before stopping the workload. Port of the running backend service.
+    /// Port of the running backend service.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
 
     /// <summary>
-    /// --duration=DURATION; default="1h" Duration of time allowed to run before stopping the workload. --duration=DURATION; default="1h" Duration of time allowed to run before stopping the workload. Target requests per second.
+    /// Target requests per second.
     /// </summary>
     [CliOption("--target-qps", Format = OptionFormat.EqualsSeparated)]
     public string? TargetQps { get; set; }
 
-    [Obsolete("Duration is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Duration of time allowed to run before stopping the workload.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
     public string? Duration { get; set; }
 
 }

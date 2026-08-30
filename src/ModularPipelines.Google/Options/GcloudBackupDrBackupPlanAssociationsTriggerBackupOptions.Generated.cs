@@ -29,19 +29,25 @@ public record GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions : GcloudO
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
     /// Labels to be applied to the backup.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Name of an existing backup rule to use for creating an on-demand backup.
+    /// Name of an existing backup rule to use for creating an on-demand backup.
     /// </summary>
     [CliOption("--backup-rule-id", Format = OptionFormat.EqualsSeparated)]
     public string? BackupRuleId { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Duration for which backup data will be retained.
+    /// Duration for which backup data will be retained.
     /// </summary>
     [CliOption("--custom-retention-days", Format = OptionFormat.EqualsSeparated)]
     public string? CustomRetentionDays { get; set; }

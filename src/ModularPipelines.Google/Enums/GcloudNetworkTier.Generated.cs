@@ -20,5 +20,8 @@ public enum GcloudNetworkTier
     Premium = 0,
 
     [EnumValue("STANDARD")]
-    Standard = 1
+    Standard = 1,
+
+    [EnumValue("FIXED_STANDARD")]
+    FixedStandard = 2
 }

@@ -27,7 +27,16 @@ public record GcloudNetworkSecurityInterceptDeploymentGroupsDeleteOptions : Gclo
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [Obsolete("MaxWait is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
     public string? MaxWait { get; set; }
 
 }

@@ -22,18 +22,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPubsubLiteSubscriptionsSubscribeOptions : GcloudOptions
 {
     /// <summary>
-    /// --num-messages=NUM_MESSAGES; default=1 The number of messages to stream before exiting. This value must be less than or equal to 1000. Automatically ACK every message received on this subscription.
+    /// Automatically ACK every message received on this subscription.
     /// </summary>
     [CliFlag("--auto-ack")]
     public bool? AutoAck { get; set; }
 
     /// <summary>
-    /// --num-messages=NUM_MESSAGES; default=1 The number of messages to stream before exiting. This value must be less than or equal to 1000. The partitions this subscriber should connect to to receive messages. If empty, partitions will be automatically assigned.
+    /// The partitions this subscriber should connect to to receive messages. If empty, partitions will be automatically assigned.
     /// </summary>
     [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Partitions { get; set; }
 
-    [Obsolete("NumMessages is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The number of messages to stream before exiting. This value must be less than or equal to 1000.
+    /// </summary>
+    [CliOption("--num-messages", Format = OptionFormat.EqualsSeparated)]
     public string? NumMessages { get; set; }
 
 }

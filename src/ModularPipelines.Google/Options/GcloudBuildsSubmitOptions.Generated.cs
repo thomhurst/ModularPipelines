@@ -24,126 +24,135 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBuildsSubmitOptions : GcloudOptions
 {
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. If set, disable layer caching when building with Kaniko. This has the same effect as setting the builds/kaniko_cache_ttl property to 0 for this build. This can be useful in cases where Dockerfile builds are non-deterministic and a non-deterministic result should not be cached.
+    /// If set, disable layer caching when building with Kaniko. This has the same effect as setting the builds/kaniko_cache_ttl property to 0 for this build. This can be useful in cases where Dockerfile builds are non-deterministic and a non-deterministic result should not be cached.
     /// </summary>
     [CliFlag("--no-cache")]
     public bool? NoCache { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. How default buckets are setup. DEFAULT_BUCKETS_BEHAVIOR must be one of: default-logs-bucket-behavior-unspecified, legacy-bucket, regional-user-owned-bucket.
+    /// How default buckets are setup. DEFAULT_BUCKETS_BEHAVIOR must be one of: default-logs-bucket-behavior-unspecified, legacy-bucket, regional-user-owned-bucket.
     /// </summary>
     [CliOption("--default-buckets-behavior", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultBucketsBehavior { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Directory, relative to the source root, in which to run the build. This is used when the build source is a 2nd-gen Cloud Build repository resource, or a Developer Connect GitRepositoryLink resource. This must be a relative path. If a step's dir is specified and is an absolute path, this value is ignored for that step's execution.
+    /// Directory, relative to the source root, in which to run the build. This is used when the build source is a 2nd-gen Cloud Build repository resource, or a Developer Connect GitRepositoryLink resource. This must be a relative path. If a step's dir is specified and is an absolute path, this value is ignored for that step's execution.
     /// </summary>
     [CliOption("--dir", Format = OptionFormat.EqualsSeparated)]
     public string? Dir { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Machine disk size (GB) to run the build.
+    /// Machine disk size (GB) to run the build.
     /// </summary>
     [CliOption("--disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? DiskSize { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. A directory in Google Cloud Storage to hold build logs. If this field is not set, gs://[PROJECT_NUMBER].cloudbuild-logs.googleusercontent.com/ will be created and used or gs://[PROJECT_NUMBER]-[builds/region]-cloudbuild-logs is used when you set --default-buckets-behavior to REGIONAL_USER_OWNED_BUCKET.
+    /// A directory in Google Cloud Storage to hold build logs. If this field is not set, gs://[PROJECT_NUMBER].cloudbuild-logs.googleusercontent.com/ will be created and used or gs://[PROJECT_NUMBER]-[builds/region]-cloudbuild-logs is used when you set --default-buckets-behavior to REGIONAL_USER_OWNED_BUCKET.
     /// </summary>
     [CliOption("--gcs-log-dir", Format = OptionFormat.EqualsSeparated)]
     public string? GcsLogDir { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. A directory in Google Cloud Storage to copy the source used for staging the build. If the specified bucket does not exist, Cloud Build will create one. If you don't set this field, gs://[PROJECT_ID]_cloudbuild/source is used or gs://[PROJECT_ID]_[builds/region]_cloudbuild/source is used when you set --default-buckets-behavior to REGIONAL_USER_OWNED_BUCKET and builds/region is not global.
+    /// A directory in Google Cloud Storage to copy the source used for staging the build. If the specified bucket does not exist, Cloud Build will create one. If you don't set this field, gs://[PROJECT_ID]_cloudbuild/source is used or gs://[PROJECT_ID]_[builds/region]_cloudbuild/source is used when you set --default-buckets-behavior to REGIONAL_USER_OWNED_BUCKET and builds/region is not global.
     /// </summary>
     [CliOption("--gcs-source-staging-dir", Format = OptionFormat.EqualsSeparated)]
     public string? GcsSourceStagingDir { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's dir is specified and is an absolute path, this value is ignored for that step's execution.
+    /// Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's dir is specified and is an absolute path, this value is ignored for that step's execution.
     /// </summary>
     [CliOption("--git-source-dir", Format = OptionFormat.EqualsSeparated)]
     public string? GitSourceDir { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref to run the build. Cloud Build uses git fetch to fetch the revision from the Git repository; therefore make sure that the string you provide for revision is parsable by the command. For information on string values accepted by git fetch, see https://git-scm.com/docs/gitrevisions#_specifying_revisions. For information on git fetch, see https://git-scm.com/docs/git-fetch.
+    /// Revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref to run the build. Cloud Build uses git fetch to fetch the revision from the Git repository; therefore make sure that the string you provide for revision is parsable by the command. For information on string values accepted by git fetch, see https://git-scm.com/docs/gitrevisions#_specifying_revisions. For information on git fetch, see https://git-scm.com/docs/git-fetch.
     /// </summary>
     [CliOption("--git-source-revision", Format = OptionFormat.EqualsSeparated)]
     public string? GitSourceRevision { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Override the .gcloudignore file and use the specified file instead.
+    /// Override the .gcloudignore file and use the specified file instead.
     /// </summary>
     [CliOption("--ignore-file", Format = OptionFormat.EqualsSeparated)]
     public string? IgnoreFile { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Machine type used to run the build. MACHINE_TYPE must be one of: e2-highcpu-32, e2-highcpu-8, e2-medium, e2-standard-2, n1-highcpu-32, n1-highcpu-8.
+    /// Machine type used to run the build. MACHINE_TYPE must be one of: e2-highcpu-32, e2-highcpu-8, e2-medium, e2-standard-2, n1-highcpu-32, n1-highcpu-8.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudMachineType? MachineType { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. The region of the Cloud Build Service to use. Must be set to a supported region name (e.g. us-central1). If unset, builds/region, which is the default region to use when working with Cloud Build resources, is used. If builds/region is unset, region is set to global. Note: Region must be specified in 2nd gen repo; global is not supported.
+    /// The region of the Cloud Build Service to use. Must be set to a supported region name (e.g. us-central1). If unset, builds/region, which is the default region to use when working with Cloud Build resources, is used. If builds/region is unset, region is set to global. Note: Region must be specified in 2nd gen repo; global is not supported.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref to run the build. This is used when the build source is a 2nd-gen Cloud Build repository resource, or a Developer Connect GitRepositoryLink resource. Cloud Build uses git fetch to fetch the revision from the Git repository; therefore make sure that the string you provide for revision is parsable by the command. For information on string values accepted by git fetch, see https://git-scm.com/docs/gitrevisions#_specifying_revisions. For information on git fetch, see https://git-scm.com/docs/git-fetch.
+    /// Revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref to run the build. This is used when the build source is a 2nd-gen Cloud Build repository resource, or a Developer Connect GitRepositoryLink resource. Cloud Build uses git fetch to fetch the revision from the Git repository; therefore make sure that the string you provide for revision is parsable by the command. For information on string values accepted by git fetch, see https://git-scm.com/docs/gitrevisions#_specifying_revisions. For information on git fetch, see https://git-scm.com/docs/git-fetch.
     /// </summary>
     [CliOption("--revision", Format = OptionFormat.EqualsSeparated)]
     public string? Revision { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. The service account to use with this build. If unset, the default service account will be used.
+    /// The service account to use with this build. If unset, the default service account will be used.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccount { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Parameters to be substituted in the build specification. For example (using some nonsensical substitution keys; all keys must begin with an underscore): $ gcloud builds submit . --config config.yaml \ --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10 This will result in a build where every occurrence of ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and similarly for ${_NUM_CANDIES} and "10". Only the following built-in variables can be specified with the --substitutions flag: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA. For more details, see: https://cloud.google.com/cloud-build/docs/api/build-requests#substitutions
+    /// Parameters to be substituted in the build specification. For example (using some nonsensical substitution keys; all keys must begin with an underscore): $ gcloud builds submit . --config config.yaml \ --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10 This will result in a build where every occurrence of ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and similarly for ${_NUM_CANDIES} and "10". Only the following built-in variables can be specified with the --substitutions flag: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA. For more details, see: https://cloud.google.com/cloud-build/docs/api/build-requests#substitutions
     /// </summary>
     [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Substitutions { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. If set, build logs not streamed to stdout.
+    /// If set, build logs not streamed to stdout.
     /// </summary>
     [CliFlag("--suppress-logs")]
     public bool? SuppressLogs { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Maximum time a build is run before it is failed as TIMEOUT. It is specified as a duration; for example, "2h15m5s" is two hours, fifteen minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds. Overrides the default builds/timeout property value for this command invocation.
+    /// Maximum time a build is run before it is failed as TIMEOUT. It is specified as a duration; for example, "2h15m5s" is two hours, fifteen minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds. Overrides the default builds/timeout property value for this command invocation.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. Specify a worker pool for the build to run in. Format: projects/{project}/locations/{region}/workerPools/{workerPool}.
+    /// Specify a worker pool for the build to run in. Format: projects/{project}/locations/{region}/workerPools/{workerPool}.
     /// </summary>
     [CliOption("--worker-pool", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerPool { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. At most one of these can be specified: --config=CONFIG; default="cloudbuild.yaml" The YAML or JSON file to use as the build configuration file. Uses CNCF buildpack (https://buildpacks.io/) to create the app image. The app "image" key/value must be provided. The app image name must be in the gcr.io or pkg.dev namespace. To specify your own builder image use the optional "builder" key/value argument. By default gcr.io/buildpacks/builder is used. To pass environment variables to the builder use the optional "env" key/value argument where value is a list of key values using escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping) if necessary.
+    /// Uses CNCF buildpack (https://buildpacks.io/) to create the app image. The app "image" key/value must be provided. The app image name must be in the gcr.io or pkg.dev namespace. To specify your own builder image use the optional "builder" key/value argument. By default gcr.io/buildpacks/builder is used. To pass environment variables to the builder use the optional "env" key/value argument where value is a list of key values using escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping) if necessary.
     /// </summary>
     [CliOption("--pack", Format = OptionFormat.EqualsSeparated)]
     public string? Pack { get; set; }
 
     /// <summary>
-    /// --polling-interval=POLLING_INTERVAL; default=1 Amount of time in seconds to wait between polling build status. Worker pool only flags. At most one of these can be specified: --config=CONFIG; default="cloudbuild.yaml" The YAML or JSON file to use as the build configuration file. The tag to use with a "docker build" image creation. Cloud Build will run a remote "docker build -t $TAG .", where $TAG is the tag provided by this flag. The tag must be in the gcr.io or pkg.dev namespace. Specify a tag if you want Cloud Build to build using a Dockerfile instead of a build config file. If you specify a tag in this command, your source must include a Dockerfile. For instructions on building using a Dockerfile see https://cloud.google.com/cloud-build/docs/quickstart-build.
+    /// The tag to use with a "docker build" image creation. Cloud Build will run a remote "docker build -t $TAG .", where $TAG is the tag provided by this flag. The tag must be in the gcr.io or pkg.dev namespace. Specify a tag if you want Cloud Build to build using a Dockerfile instead of a build config file. If you specify a tag in this command, your source must include a Dockerfile. For instructions on building using a Dockerfile see https://cloud.google.com/cloud-build/docs/quickstart-build.
     /// </summary>
     [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
     public string? Tag { get; set; }
 
-    [Obsolete("PollingInterval is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Amount of time in seconds to wait between polling build status.
+    /// </summary>
+    [CliOption("--polling-interval", Format = OptionFormat.EqualsSeparated)]
     public string? PollingInterval { get; set; }
+
+    /// <summary>
+    /// The YAML or JSON file to use as the build configuration file.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
 
 }

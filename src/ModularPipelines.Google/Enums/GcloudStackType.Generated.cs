@@ -20,5 +20,8 @@ public enum GcloudStackType
     Ipv4 = 0,
 
     [EnumValue("ipv4-ipv6")]
-    Ipv4Ipv6 = 1
+    Ipv4Ipv6 = 1,
+
+    [EnumValue("ipv4-only")]
+    Ipv4Only = 2
 }

@@ -23,37 +23,43 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBackupDrBackupsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Update Backup Flags Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Update Backup Flags At most one of these can be specified: Remove all labels from the backup. If the backup has no labels, this operation is a no-op.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Remove all labels from the backup. If the backup has no labels, this operation is a no-op.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Update Backup Flags At most one of these can be specified: A list of label keys to remove from the backup. If a label does not exist, it is silently ignored.
+    /// A list of label keys to remove from the backup. If a label does not exist, it is silently ignored.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Update Backup Flags At most one of these can be specified: A list of labels to apply to the backup. Keys must start with a lowercase letter and contain only lowercase letters, numbers, and hyphens, and must be between 1 and 63 characters long. Values must contain only lowercase letters, numbers, and hyphens, and must be between 0 and 63 characters long. For example: --update-labels=env=prod,team=storage
+    /// A list of labels to apply to the backup. Keys must start with a lowercase letter and contain only lowercase letters, numbers, and hyphens, and must be between 1 and 63 characters long. Values must contain only lowercase letters, numbers, and hyphens, and must be between 0 and 63 characters long. For example: --update-labels=env=prod,team=storage
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Update Backup Flags Backups cannot be deleted until this time or later. This period can be extended, but not shortened. It should be specified in the format of "YYYY-MM-DD". ◆ For backup configured with a backup appliance, there are additional restrictions: 1. Enforced retention cannot be extended past the expiry time. 2. Enforced retention can only be updated for finalized backups.
+    /// Backups cannot be deleted until this time or later. This period can be extended, but not shortened. It should be specified in the format of "YYYY-MM-DD". * For backup configured with a backup appliance, there are additional restrictions: 1. Enforced retention cannot be extended past the expiry time. 2. Enforced retention can only be updated for finalized backups.
     /// </summary>
     [CliOption("--enforced-retention-end-time", Format = OptionFormat.EqualsSeparated)]
     public string? EnforcedRetentionEndTime { get; set; }
 
     /// <summary>
-    /// Update Backup Flags The date when this backup is automatically expired. This date can be extended, but not shortened. It should be specified in the format of "YYYY-MM-DD".
+    /// The date when this backup is automatically expired. This date can be extended, but not shortened. It should be specified in the format of "YYYY-MM-DD".
     /// </summary>
     [CliOption("--expire-time", Format = OptionFormat.EqualsSeparated)]
     public string? ExpireTime { get; set; }

@@ -20,5 +20,26 @@ public enum GcloudType
     Bridge = 0,
 
     [EnumValue("regular")]
-    Regular = 1
+    Regular = 1,
+
+    [EnumValue("CLOUD_ARMOR")]
+    CloudArmor = 2,
+
+    [EnumValue("CLOUD_ARMOR_EDGE")]
+    CloudArmorEdge = 3,
+
+    [EnumValue("CLOUD_ARMOR_NETWORK")]
+    CloudArmorNetwork = 4,
+
+    [EnumValue("ONE_TIME")]
+    OneTime = 5,
+
+    [EnumValue("CONTINUOUS")]
+    Continuous = 6,
+
+    [EnumValue("datastore-mode")]
+    DatastoreMode = 7,
+
+    [EnumValue("firestore-native")]
+    FirestoreNative = 8
 }

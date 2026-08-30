@@ -28,6 +28,12 @@ public record GcloudAppBrowseOptions : GcloudOptions
     public bool? LaunchBrowser { get; set; }
 
     /// <summary>
+    /// Launch a browser if possible. When disabled, only displays the URL. Enabled by default, use --no-launch-browser to disable.
+    /// </summary>
+    [CliFlag("--no-launch-browser")]
+    public bool? NoLaunchBrowser { get; set; }
+
+    /// <summary>
     /// The service that should be opened. If not specified, use the default service. May be used in conjunction with --version.
     /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]

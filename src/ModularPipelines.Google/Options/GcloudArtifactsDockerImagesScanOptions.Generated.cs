@@ -24,30 +24,33 @@ public record GcloudArtifactsDockerImagesScanOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --location=LOCATION; default="us" The API location in which to perform package analysis. Consider choosing a location closest to where you are located. Proximity to the container image does not affect response time. LOCATION must be one of: asia Perform analysis in Asia europe Perform analysis in Europe us Perform analysis in the US (DEPRECATED) A comma-separated list of package types to scan in addition to OS packages. This flag is deprecated as scanning for all package types is now the default. To skip scanning for specific package types, use --skip-package-types. ADDITIONAL_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package.
+    /// (DEPRECATED) A comma-separated list of package types to scan in addition to OS packages. This flag is deprecated as scanning for all package types is now the default. To skip scanning for specific package types, use --skip-package-types. ADDITIONAL_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package.
     /// </summary>
     [CliOption("--additional-package-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AdditionalPackageTypes { get; set; }
 
     /// <summary>
-    /// --location=LOCATION; default="us" The API location in which to perform package analysis. Consider choosing a location closest to where you are located. Proximity to the container image does not affect response time. LOCATION must be one of: asia Perform analysis in Asia europe Perform analysis in Europe us Perform analysis in the US Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// --location=LOCATION; default="us" The API location in which to perform package analysis. Consider choosing a location closest to where you are located. Proximity to the container image does not affect response time. LOCATION must be one of: asia Perform analysis in Asia europe Perform analysis in Europe us Perform analysis in the US Whether the container image is located remotely or on your local machine.
+    /// Whether the container image is located remotely or on your local machine.
     /// </summary>
     [CliFlag("--remote")]
     public bool? Remote { get; set; }
 
     /// <summary>
-    /// --location=LOCATION; default="us" The API location in which to perform package analysis. Consider choosing a location closest to where you are located. Proximity to the container image does not affect response time. LOCATION must be one of: asia Perform analysis in Asia europe Perform analysis in Europe us Perform analysis in the US A comma-separated list of package types to skip when scanning. SKIP_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package.
+    /// A comma-separated list of package types to skip when scanning. SKIP_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package.
     /// </summary>
     [CliOption("--skip-package-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SkipPackageTypes { get; set; }
 
-    [Obsolete("Location is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The API location in which to perform package analysis. Consider choosing a location closest to where you are located. Proximity to the container image does not affect response time. LOCATION must be one of: asia Perform analysis in Asia europe Perform analysis in Europe us Perform analysis in the US
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
 }

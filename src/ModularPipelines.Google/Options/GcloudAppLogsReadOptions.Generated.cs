@@ -22,24 +22,33 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAppLogsReadOptions : GcloudOptions
 {
     /// <summary>
-    /// --level=LEVEL; default="any" Filter entries with severity equal to or higher than a given level. LEVEL must be one of: critical, error, warning, info, debug, any. --limit=LIMIT; default=200 Number of log entries to show. --logs=APP_LOG,[APP_LOG,...]; default="stderr,stdout,crash.log,nginx.request,request_log" Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc). --level=LEVEL; default="any" Filter entries with severity equal to or higher than a given level. LEVEL must be one of: critical, error, warning, info, debug, any. --limit=LIMIT; default=200 Number of log entries to show. --logs=APP_LOG,[APP_LOG,...]; default="stderr,stdout,crash.log,nginx.request,request_log" Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc). Limit to specific service.
+    /// Limit to specific service.
     /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
     /// <summary>
-    /// --level=LEVEL; default="any" Filter entries with severity equal to or higher than a given level. LEVEL must be one of: critical, error, warning, info, debug, any. --limit=LIMIT; default=200 Number of log entries to show. --logs=APP_LOG,[APP_LOG,...]; default="stderr,stdout,crash.log,nginx.request,request_log" Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc). --level=LEVEL; default="any" Filter entries with severity equal to or higher than a given level. LEVEL must be one of: critical, error, warning, info, debug, any. --limit=LIMIT; default=200 Number of log entries to show. --logs=APP_LOG,[APP_LOG,...]; default="stderr,stdout,crash.log,nginx.request,request_log" Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc). Limit to specific version.
+    /// Limit to specific version.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
-    [Obsolete("Level is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Filter entries with severity equal to or higher than a given level. LEVEL must be one of: critical, error, warning, info, debug, any.
+    /// </summary>
+    [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
     public string? Level { get; set; }
 
-    [Obsolete("Limit is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Number of log entries to show.
+    /// </summary>
+    [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
     public string? Limit { get; set; }
 
-    [Obsolete("Logs is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc).
+    /// </summary>
+    [CliOption("--logs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Logs { get; set; }
 
 }
