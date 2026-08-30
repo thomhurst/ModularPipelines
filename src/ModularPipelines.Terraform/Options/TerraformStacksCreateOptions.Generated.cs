@@ -23,26 +23,26 @@ public record TerraformStacksCreateOptions : TerraformOptions
     /// <summary>
     /// The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)
     /// </summary>
-    [CliFlag("-organization-name")]
-    public bool? OrganizationName { get; set; }
+    [CliOption("-organization-name", Format = OptionFormat.EqualsSeparated)]
+    public string? OrganizationNameValue { get; set; }
 
     /// <summary>
     /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided. (required)
     /// </summary>
-    [CliFlag("-project-name")]
-    public bool? ProjectName { get; set; }
+    [CliOption("-project-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProjectNameValue { get; set; }
 
     /// <summary>
     /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided. (required)
     /// </summary>
-    [CliFlag("-stack-name")]
-    public bool? StackName { get; set; }
+    [CliOption("-stack-name", Format = OptionFormat.EqualsSeparated)]
+    public string? StackNameValue { get; set; }
 
     /// <summary>
     /// The directory within the configuration that contains the stack to be deployed. Defaults to the root of the configuration.
     /// </summary>
-    [CliFlag("-working-directory")]
-    public bool? WorkingDirectory { get; set; }
+    [CliOption("-working-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkingDirectoryValue { get; set; }
 
     /// <summary>
     /// Generate boilerplate configuration
@@ -55,5 +55,33 @@ public record TerraformStacksCreateOptions : TerraformOptions
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
+
+    [Obsolete("Use OrganizationNameValue instead.")]
+    public bool? OrganizationName
+    {
+        get => bool.TryParse(OrganizationNameValue, out var value) ? value : null;
+        set => OrganizationNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ProjectNameValue instead.")]
+    public bool? ProjectName
+    {
+        get => bool.TryParse(ProjectNameValue, out var value) ? value : null;
+        set => ProjectNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StackNameValue instead.")]
+    public bool? StackName
+    {
+        get => bool.TryParse(StackNameValue, out var value) ? value : null;
+        set => StackNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use WorkingDirectoryValue instead.")]
+    public bool? WorkingDirectory
+    {
+        get => bool.TryParse(WorkingDirectoryValue, out var value) ? value : null;
+        set => WorkingDirectoryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

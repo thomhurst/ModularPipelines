@@ -33,6 +33,12 @@ public record TerraformConsoleOptions : TerraformOptions
     public bool? Plan { get; set; }
 
     /// <summary>
+    /// Provide a module instance address which declares the scope to use when evaluating expressions against the planned or current state. Defaults to the root module.
+    /// </summary>
+    [CliOption("-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? Scope { get; set; }
+
+    /// <summary>
     /// Set variables in the Terraform configuration from a file. If "terraform.tfvars" or any ".auto.tfvars" files are present, they will be automatically loaded.
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]

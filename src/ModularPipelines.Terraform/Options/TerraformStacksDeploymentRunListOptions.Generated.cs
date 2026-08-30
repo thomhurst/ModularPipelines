@@ -23,37 +23,72 @@ public record TerraformStacksDeploymentRunListOptions : TerraformOptions
     /// <summary>
     /// The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided.
     /// </summary>
-    [CliFlag("-organization-name")]
-    public bool? OrganizationName { get; set; }
+    [CliOption("-organization-name", Format = OptionFormat.EqualsSeparated)]
+    public string? OrganizationNameValue { get; set; }
 
     /// <summary>
     /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided.
     /// </summary>
-    [CliFlag("-project-name")]
-    public bool? ProjectName { get; set; }
+    [CliOption("-project-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProjectNameValue { get; set; }
 
     /// <summary>
     /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided.
     /// </summary>
-    [CliFlag("-stack-name")]
-    public bool? StackName { get; set; }
+    [CliOption("-stack-name", Format = OptionFormat.EqualsSeparated)]
+    public string? StackNameValue { get; set; }
 
     /// <summary>
     /// The name of the deployment group to list the deployment runs of within the latest configuration of the stack specified in -stack-name. Requires the args -organization-name, -project-name, and -stack-name to be provided.
     /// </summary>
-    [CliFlag("-deployment-group-name")]
-    public bool? DeploymentGroupName { get; set; }
+    [CliOption("-deployment-group-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentGroupNameValue { get; set; }
 
     /// <summary>
     /// The id of the deployment group to list the deployment runs of. Has precedence over -deployment-group-name.
     /// </summary>
-    [CliFlag("-deployment-group-id")]
-    public bool? DeploymentGroupId { get; set; }
+    [CliOption("-deployment-group-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentGroupIdValue { get; set; }
 
     /// <summary>
     /// Output results in JSON format instead of the default human-readable text format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
+
+    [Obsolete("Use OrganizationNameValue instead.")]
+    public bool? OrganizationName
+    {
+        get => bool.TryParse(OrganizationNameValue, out var value) ? value : null;
+        set => OrganizationNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ProjectNameValue instead.")]
+    public bool? ProjectName
+    {
+        get => bool.TryParse(ProjectNameValue, out var value) ? value : null;
+        set => ProjectNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StackNameValue instead.")]
+    public bool? StackName
+    {
+        get => bool.TryParse(StackNameValue, out var value) ? value : null;
+        set => StackNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DeploymentGroupNameValue instead.")]
+    public bool? DeploymentGroupName
+    {
+        get => bool.TryParse(DeploymentGroupNameValue, out var value) ? value : null;
+        set => DeploymentGroupNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DeploymentGroupIdValue instead.")]
+    public bool? DeploymentGroupId
+    {
+        get => bool.TryParse(DeploymentGroupIdValue, out var value) ? value : null;
+        set => DeploymentGroupIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

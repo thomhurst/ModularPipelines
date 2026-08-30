@@ -13,17 +13,11 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Create or update the dependency lock file (.terraform.lock.hcl) for the
+/// show                            Show details of a deployment step in the current configuration.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stacks", "providers-lock")]
-public record TerraformStacksProvidersLockOptions : TerraformOptions
+[CliSubCommand("stacks", "deployment-step")]
+public record TerraformStacksDeploymentStepOptions : TerraformOptions
 {
-    /// <summary>
-    /// Output results in JSON format instead of the default
-    /// </summary>
-    [CliFlag("-json")]
-    public bool? Json { get; set; }
-
 }

@@ -33,4 +33,10 @@ public record TerraformStateShowOptions(
     [CliOption("-state", Format = OptionFormat.EqualsSeparated)]
     public string? State { get; set; }
 
+    /// <summary>
+    /// If specified, output the resource state in a machine-readable form.
+    /// </summary>
+    [CliFlag("-json")]
+    public bool? Json { get; set; }
+
 }

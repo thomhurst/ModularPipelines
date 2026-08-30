@@ -23,25 +23,46 @@ public record TerraformStacksConfigurationShowOptions : TerraformOptions
     /// <summary>
     /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided.
     /// </summary>
-    [CliFlag("-project-name")]
-    public bool? ProjectName { get; set; }
+    [CliOption("-project-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProjectNameValue { get; set; }
 
     /// <summary>
     /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided.
     /// </summary>
-    [CliFlag("-stack-name")]
-    public bool? StackName { get; set; }
+    [CliOption("-stack-name", Format = OptionFormat.EqualsSeparated)]
+    public string? StackNameValue { get; set; }
 
     /// <summary>
     /// The ID of the configuration to show. Has precedence over the latest configuration of the stack provided in named args.
     /// </summary>
-    [CliFlag("-configuration-id")]
-    public bool? ConfigurationId { get; set; }
+    [CliOption("-configuration-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigurationIdValue { get; set; }
 
     /// <summary>
     /// Output results in JSON format instead of the default human-readable text format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
+
+    [Obsolete("Use ProjectNameValue instead.")]
+    public bool? ProjectName
+    {
+        get => bool.TryParse(ProjectNameValue, out var value) ? value : null;
+        set => ProjectNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StackNameValue instead.")]
+    public bool? StackName
+    {
+        get => bool.TryParse(StackNameValue, out var value) ? value : null;
+        set => StackNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ConfigurationIdValue instead.")]
+    public bool? ConfigurationId
+    {
+        get => bool.TryParse(ConfigurationIdValue, out var value) ? value : null;
+        set => ConfigurationIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

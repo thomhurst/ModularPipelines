@@ -23,25 +23,46 @@ public record TerraformStacksConfigurationListOptions : TerraformOptions
     /// <summary>
     /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided.
     /// </summary>
-    [CliFlag("-project-name")]
-    public bool? ProjectName { get; set; }
+    [CliOption("-project-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProjectNameValue { get; set; }
 
     /// <summary>
     /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided.
     /// </summary>
-    [CliFlag("-stack-name")]
-    public bool? StackName { get; set; }
+    [CliOption("-stack-name", Format = OptionFormat.EqualsSeparated)]
+    public string? StackNameValue { get; set; }
 
     /// <summary>
     /// The ID of the stack to list configurations for. Has precedence over the -stack-name.
     /// </summary>
-    [CliFlag("-stack-id")]
-    public bool? StackId { get; set; }
+    [CliOption("-stack-id", Format = OptionFormat.EqualsSeparated)]
+    public string? StackIdValue { get; set; }
 
     /// <summary>
     /// Output results in JSON format instead of the default human-readable text format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
+
+    [Obsolete("Use ProjectNameValue instead.")]
+    public bool? ProjectName
+    {
+        get => bool.TryParse(ProjectNameValue, out var value) ? value : null;
+        set => ProjectNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StackNameValue instead.")]
+    public bool? StackName
+    {
+        get => bool.TryParse(StackNameValue, out var value) ? value : null;
+        set => StackNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StackIdValue instead.")]
+    public bool? StackId
+    {
+        get => bool.TryParse(StackIdValue, out var value) ? value : null;
+        set => StackIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

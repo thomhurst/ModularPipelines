@@ -13,18 +13,18 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Show the details of a single deployment run, including its deployment steps.
+/// Show the details of a single deployment step, including its deployment steps.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stacks", "deployment-run", "show")]
-public record TerraformStacksDeploymentRunShowOptions : TerraformOptions
+[CliSubCommand("stacks", "deployment-step", "show")]
+public record TerraformStacksDeploymentStepShowOptions : TerraformOptions
 {
     /// <summary>
-    /// The ID of the deployment run to show. (required)
+    /// The ID of the deployment step to show. (required)
     /// </summary>
-    [CliOption("-deployment-run-id", Format = OptionFormat.EqualsSeparated)]
-    public string? DeploymentRunIdValue { get; set; }
+    [CliOption("-deployment-step-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentStepIdValue { get; set; }
 
     /// <summary>
     /// Output results in JSON format instead of the default human-readable text format.
@@ -32,11 +32,11 @@ public record TerraformStacksDeploymentRunShowOptions : TerraformOptions
     [CliFlag("-json")]
     public bool? Json { get; set; }
 
-    [Obsolete("Use DeploymentRunIdValue instead.")]
-    public bool? DeploymentRunId
+    [Obsolete("Use DeploymentStepIdValue instead.")]
+    public bool? DeploymentStepId
     {
-        get => bool.TryParse(DeploymentRunIdValue, out var value) ? value : null;
-        set => DeploymentRunIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => bool.TryParse(DeploymentStepIdValue, out var value) ? value : null;
+        set => DeploymentStepIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
     }
 
 }

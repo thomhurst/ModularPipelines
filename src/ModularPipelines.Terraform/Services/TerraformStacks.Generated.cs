@@ -24,6 +24,7 @@ public class TerraformStacks : ITerraformStacks
     private TerraformStacksConfiguration? _configuration;
     private TerraformStacksDeploymentGroup? _deploymentGroup;
     private TerraformStacksDeploymentRun? _deploymentRun;
+    private TerraformStacksDeploymentStep? _deploymentStep;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TerraformStacks"/> class.
@@ -49,6 +50,11 @@ public class TerraformStacks : ITerraformStacks
     /// terraform deployment-run sub-commands.
     /// </summary>
     public TerraformStacksDeploymentRun DeploymentRun => _deploymentRun ??= new TerraformStacksDeploymentRun(_command);
+
+    /// <summary>
+    /// terraform deployment-step sub-commands.
+    /// </summary>
+    public TerraformStacksDeploymentStep DeploymentStep => _deploymentStep ??= new TerraformStacksDeploymentStep(_command);
 
     #endregion
 
@@ -82,6 +88,21 @@ public class TerraformStacks : ITerraformStacks
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformStacksCreateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show diagnostics for either a stack configuration or a deployment step.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DiagnosticsAsync(
+        TerraformStacksDiagnosticsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformStacksDiagnosticsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

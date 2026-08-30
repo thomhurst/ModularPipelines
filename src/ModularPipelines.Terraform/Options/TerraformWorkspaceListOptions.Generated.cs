@@ -13,15 +13,15 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Create or update the dependency lock file (.terraform.lock.hcl) for the
+/// List Terraform workspaces.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stacks", "providers-lock")]
-public record TerraformStacksProvidersLockOptions : TerraformOptions
+[CliSubCommand("workspace", "list")]
+public record TerraformWorkspaceListOptions : TerraformOptions
 {
     /// <summary>
-    /// Output results in JSON format instead of the default
+    /// If specified, machine readable output will be printed in JSON format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
