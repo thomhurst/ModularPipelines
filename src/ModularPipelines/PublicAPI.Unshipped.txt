@@ -802,6 +802,12 @@
 *REMOVED*ModularPipelines.Modules.NonGenericModuleAdapter.NonGenericModuleAdapter() -> void
 *REMOVED*ModularPipelines.Modules.SyncModule<T>
 *REMOVED*ModularPipelines.Modules.SyncModule<T>.SyncModule() -> void
+*REMOVED*ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.FreeBSD = 3 -> ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.Linux = 1 -> ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.MacOS = 2 -> ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.Unknown = 4 -> ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.Windows = 0 -> ModularPipelines.OperatingSystemIdentifier
 *REMOVED*ModularPipelines.Options.CommandExecutionOptions.LogSettings.get -> ModularPipelines.Options.CommandLoggingOptions?
 *REMOVED*ModularPipelines.Options.CommandExecutionOptions.LogSettings.init -> void
 *REMOVED*ModularPipelines.Options.CommandLoggingOptions.IncludeTimestamps.get -> bool

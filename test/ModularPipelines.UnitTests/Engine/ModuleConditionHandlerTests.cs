@@ -188,6 +188,21 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Discovery_Does_Not_Construct_Worker_Only_Grouped_Attributes()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreByCategory(new WorkerOnlyGroupedAttributeModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
     public async Task Distributed_Master_Graph_Defers_Routable_Os_Condition()
     {
         var handler = CreateHandler(new DistributedOptions
@@ -700,6 +715,26 @@ public class ModuleConditionHandlerTests
         public override IReadOnlyList<IRunCondition> Conditions => [];
 
         public override ConditionLogic Logic => ConditionLogic.All;
+    }
+
+    [WorkerOnlyGrouped]
+    private sealed class WorkerOnlyGroupedAttributeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class WorkerOnlyGroupedAttribute : RunIfAnyAttribute, IGroupedConditionAttribute
+    {
+        public WorkerOnlyGroupedAttribute() =>
+            throw new InvalidOperationException("Worker-only grouped attribute was constructed on the master");
+
+        public Type ConditionGroupType => typeof(WorkerOnlyGroupedAttribute);
+
+        public override string ConditionNames => nameof(WorkerOnlyGroupedAttribute);
+
+        public override Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
     [RunIf<OnUnix>]

@@ -3,6 +3,8 @@
 *REMOVED*ModularPipelines.GitHub.Attributes.SkipIfDependabotAttribute.Logic.get -> ModularPipelines.Conditions.ConditionLogic
 *REMOVED*ModularPipelines.GitHub.Attributes.SkipIfNoGitHubToken.EvaluateAsync(ModularPipelines.Context.IPipelineContext! pipelineContext) -> System.Threading.Tasks.Task<bool>!
 *REMOVED*ModularPipelines.GitHub.Attributes.SkipIfNoGitHubToken.Logic.get -> ModularPipelines.Conditions.ConditionLogic
+*REMOVED*ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.RunnerOperatingSystem.get -> ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.RunnerOperatingSystem.init -> void
 *REMOVED*ModularPipelines.GitHub.Services.GhAgenttask.GhAgenttask(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.GitHub.Services.GhAttestation.GhAttestation(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.GitHub.Services.GhAuth.GhAuth(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void

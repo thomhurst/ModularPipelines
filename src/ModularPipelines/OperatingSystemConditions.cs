@@ -219,7 +219,8 @@ internal static class OperatingSystemConditions
 
         foreach (var alternatives in attributes
                      .Where(static attribute =>
-                         typeof(IGroupedConditionAttribute).IsAssignableFrom(attribute.AttributeType))
+                         typeof(IGroupedConditionAttribute).IsAssignableFrom(attribute.AttributeType)
+                         && typeof(IPlanningConditionAttribute).IsAssignableFrom(attribute.AttributeType))
                      .GroupBy(static attribute =>
                          CustomAttributeMetadata.Create<IGroupedConditionAttribute>(attribute)
                              .ConditionGroupType))

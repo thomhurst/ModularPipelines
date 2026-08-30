@@ -994,27 +994,24 @@ public class ValidationModule : Module<bool> { }
 
 ```csharp
 // Run only on specific platforms
-[RunIf<OnWindows>]
+[RunIfAll<OnWindows>]
 public class WindowsModule : Module<string> { }
 
-[RunIf<OnLinux>]
+[RunIfAll<OnLinux>]
 public class LinuxModule : Module<string> { }
 
-[RunIf<OnMacOS>]
+[RunIfAll<OnMacOS>]
 public class MacModule : Module<string> { }
-
-[RunIf<OnFreeBSD>]
-public class FreeBsdModule : Module<string> { }
 
 // Skip based on custom condition
 [SkipIf<IsNotMainBranchCondition>]
 public class MainBranchModule : Module<string> { }
 
 // Combine conditions
-[RunIfAll<OnCI, IsMainBranch>]
+[RunIfAll<IsCI, IsMainBranch>]
 public class CIMainModule : Module<string> { }
 
-[RunIfAny<OnCI, ForceRun>]
+[RunIfAny<IsCI, ForceRun>]
 public class FlexibleModule : Module<string> { }
 ```
 
