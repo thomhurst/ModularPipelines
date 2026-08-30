@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "gradle",
-  "toolVersion": "------------------------------------------------------------ Gradle 9.7.1 ------------------------------------------------------------  Build time:    2026-08-19 14:16:09 UTC Revision:      92f0512e7f06d84621afba191f75e265363890cf  Kotlin:        2.4.0 Groovy:        4.0.32 Ant:           Apache Ant(TM) version 1.10.17 compiled on April 6 2026 Launcher JVM:  17.0.20 (Eclipse Adoptium 17.0.20\u002B8) Daemon JVM:    /usr/lib/jvm/temurin-17-jdk-amd64 (no Daemon JVM specified, using current Java home) OS",
+  "toolVersion": "------------------------------------------------------------ Gradle 9.7.1 ------------------------------------------------------------  Build time:    2026-08-19 14:16:09 UTC Revision:      92f0512e7f06d84621afba191f75e265363890cf  Kotlin:        2.4.0 Groovy:        4.0.32 Ant:           Apache Ant(TM) version 1.10.17 compiled on April 6 2026 Launcher JVM:  17.0.20.1 (Eclipse Adoptium 17.0.20.1\u002B1) Daemon JVM:    /usr/lib/jvm/temurin-17-jdk-amd64 (no Daemon JVM specified, using current Java home",
   "commandCount": 1,
   "commandTreeSha256": "0e687aaa28b03552c11dca346c7c8914e62b3e2ada613a7288c28c9e7e9ddeb4",
   "commands": [
