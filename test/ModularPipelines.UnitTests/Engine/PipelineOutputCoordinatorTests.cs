@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Console;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Executors;
@@ -104,7 +105,8 @@ public class PipelineOutputCoordinatorTests
             {
                 Console = new PipelineConsoleOptions { ModuleOutputFlushInterval = TimeSpan.Zero },
             }),
-            Mock.Of<ILogger<PipelineOutputCoordinator>>());
+            Mock.Of<ILogger<PipelineOutputCoordinator>>(),
+            TimeProvider.System);
         var scope = await coordinator.InitializeAsync();
 
         await scope.DisposeAsync();
@@ -147,7 +149,8 @@ public class PipelineOutputCoordinatorTests
             {
                 Console = new PipelineConsoleOptions { ModuleOutputFlushInterval = TimeSpan.Zero },
             }),
-            Mock.Of<ILogger<PipelineOutputCoordinator>>());
+            Mock.Of<ILogger<PipelineOutputCoordinator>>(),
+            TimeProvider.System);
         var scope = await coordinator.InitializeAsync();
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () => await scope.DisposeAsync());
@@ -189,7 +192,8 @@ public class PipelineOutputCoordinatorTests
             {
                 Console = new PipelineConsoleOptions { ModuleOutputFlushInterval = TimeSpan.Zero },
             }),
-            Mock.Of<ILogger<PipelineOutputCoordinator>>());
+            Mock.Of<ILogger<PipelineOutputCoordinator>>(),
+            TimeProvider.System);
         var scope = await coordinator.InitializeAsync();
 
         var exception = await Assert.ThrowsAsync<AggregateException>(async () =>
@@ -206,50 +210,58 @@ public class PipelineOutputCoordinatorTests
     }
 
     [Test]
+    [Timeout(30_000)]
     public async Task RunningScope_PeriodicallyFlushesInProgressOutput()
     {
-        var flushObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var consoleCoordinator = new Mock<IConsoleCoordinator>();
-        consoleCoordinator
-            .Setup(x => x.FlushInProgressModuleOutputAsync(It.IsAny<CancellationToken>()))
-            .Callback(() => flushObserved.TrySetResult())
-            .Returns(Task.CompletedTask);
-        consoleCoordinator
-            .Setup(x => x.FlushPendingWritesAsync())
-            .ReturnsAsync([]);
-        consoleCoordinator
-            .Setup(x => x.FlushModuleOutputAsync())
-            .Returns(Task.CompletedTask);
-        var outputCoordinator = new Mock<IOutputCoordinator>();
-        outputCoordinator
-            .Setup(x => x.FlushDeferredAsync(It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
-        outputCoordinator
-            .Setup(x => x.WaitForPendingFlushesAsync(It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
-        var coordinator = new PipelineOutputCoordinator(
-            new RecordingProgressExecutor([]),
-            Mock.Of<IConsolePrinter>(),
-            Mock.Of<IInternalSummaryLogger>(),
-            Mock.Of<IExceptionBuffer>(),
-            consoleCoordinator.Object,
-            outputCoordinator.Object,
-            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
-            {
-                Console = new PipelineConsoleOptions
+        for (var iteration = 0; iteration < 25; iteration++)
+        {
+            var timeProvider = new FakeTimeProvider();
+            var flushObserved = new TaskCompletionSource(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            var consoleCoordinator = new Mock<IConsoleCoordinator>();
+            consoleCoordinator
+                .Setup(x => x.FlushInProgressModuleOutputAsync(It.IsAny<CancellationToken>()))
+                .Callback(() => flushObserved.TrySetResult())
+                .Returns(Task.CompletedTask);
+            consoleCoordinator
+                .Setup(x => x.FlushPendingWritesAsync())
+                .ReturnsAsync([]);
+            consoleCoordinator
+                .Setup(x => x.FlushModuleOutputAsync())
+                .Returns(Task.CompletedTask);
+            var outputCoordinator = new Mock<IOutputCoordinator>();
+            outputCoordinator
+                .Setup(x => x.FlushDeferredAsync(It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+            outputCoordinator
+                .Setup(x => x.WaitForPendingFlushesAsync(It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+            var coordinator = new PipelineOutputCoordinator(
+                new RecordingProgressExecutor([]),
+                Mock.Of<IConsolePrinter>(),
+                Mock.Of<IInternalSummaryLogger>(),
+                Mock.Of<IExceptionBuffer>(),
+                consoleCoordinator.Object,
+                outputCoordinator.Object,
+                Microsoft.Extensions.Options.Options.Create(new PipelineOptions
                 {
-                    ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(10),
-                },
-            }),
-            Mock.Of<ILogger<PipelineOutputCoordinator>>());
+                    Console = new PipelineConsoleOptions
+                    {
+                        ModuleOutputFlushInterval = TimeSpan.FromSeconds(1),
+                    },
+                }),
+                Mock.Of<ILogger<PipelineOutputCoordinator>>(),
+                timeProvider);
 
-        var scope = await coordinator.InitializeAsync();
-        await flushObserved.Task.WaitAsync(TimeSpan.FromSeconds(1));
-        await scope.DisposeAsync();
+            var scope = await coordinator.InitializeAsync();
+            timeProvider.Advance(TimeSpan.FromSeconds(1));
+            await flushObserved.Task;
+            await scope.DisposeAsync();
 
-        consoleCoordinator.Verify(
-            x => x.FlushInProgressModuleOutputAsync(It.IsAny<CancellationToken>()),
-            Times.AtLeastOnce);
+            consoleCoordinator.Verify(
+                x => x.FlushInProgressModuleOutputAsync(It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
     }
 
     [Test]
@@ -284,7 +296,8 @@ public class PipelineOutputCoordinatorTests
                     ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(milliseconds),
                 },
             }),
-            Mock.Of<ILogger<PipelineOutputCoordinator>>());
+            Mock.Of<ILogger<PipelineOutputCoordinator>>(),
+            TimeProvider.System);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () =>
             await coordinator.InitializeAsync());
