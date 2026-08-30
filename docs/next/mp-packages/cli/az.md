@@ -2,7 +2,13 @@
 
 `ModularPipelines.Azure` provides strongly typed access to the `az` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `az` executable. Install it separately and ensure `az` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Azure
@@ -204,6 +210,8 @@ public class RunCommandModule : Module<CommandResult>
 | `az aks disable-addons`                                                            | `AzAksDisableAddonsOptions`                                                    |
 | `az aks enable-addons`                                                             | `AzAksEnableAddonsOptions`                                                     |
 | `az aks get-credentials`                                                           | `AzAksGetCredentialsOptions`                                                   |
+| `az aks identity-binding create`                                                   | `AzAksIdentityBindingCreateOptions`                                            |
+| `az aks identity-binding delete`                                                   | `AzAksIdentityBindingDeleteOptions`                                            |
 | `az aks install-cli`                                                               | `AzAksInstallCliOptions`                                                       |
 | `az aks list`                                                                      | `AzAksListOptions`                                                             |
 | `az aks maintenanceconfiguration add`                                              | `AzAksMaintenanceconfigurationAddOptions`                                      |
@@ -399,7 +407,13 @@ public class RunCommandModule : Module<CommandResult>
 | `az appservice list-locations`                                                     | `AzAppserviceListLocationsOptions`                                             |
 | `az appservice plan create`                                                        | `AzAppservicePlanCreateOptions`                                                |
 | `az appservice plan delete`                                                        | `AzAppservicePlanDeleteOptions`                                                |
+| `az appservice plan identity assign`                                               | `AzAppservicePlanIdentityAssignOptions`                                        |
+| `az appservice plan identity remove`                                               | `AzAppservicePlanIdentityRemoveOptions`                                        |
+| `az appservice plan identity set-default`                                          | `AzAppservicePlanIdentitySetDefaultOptions`                                    |
 | `az appservice plan list`                                                          | `AzAppservicePlanListOptions`                                                  |
+| `az appservice plan managed-instance instance connect`                             | `AzAppservicePlanManagedInstanceInstanceConnectOptions`                        |
+| `az appservice plan managed-instance network add`                                  | `AzAppservicePlanManagedInstanceNetworkAddOptions`                             |
+| `az appservice plan managed-instance storage-mount add`                            | `AzAppservicePlanManagedInstanceStorageMountAddOptions`                        |
 | `az appservice plan update`                                                        | `AzAppservicePlanUpdateOptions`                                                |
 | `az aro create`                                                                    | `AzAroCreateOptions`                                                           |
 | `az aro delete`                                                                    | `AzAroDeleteOptions`                                                           |
@@ -1409,6 +1423,9 @@ public class RunCommandModule : Module<CommandResult>
 | `az mariadb server vnet-rule update`                                               | `AzMariadbServerVnetRuleUpdateOptions`                                         |
 | `az mariadb server-logs list`                                                      | `AzMariadbServerLogsListOptions`                                               |
 | `az monitor account delete`                                                        | `AzMonitorAccountDeleteOptions`                                                |
+| `az monitor account issue create`                                                  | `AzMonitorAccountIssueCreateOptions`                                           |
+| `az monitor account issue delete`                                                  | `AzMonitorAccountIssueDeleteOptions`                                           |
+| `az monitor account issue update`                                                  | `AzMonitorAccountIssueUpdateOptions`                                           |
 | `az monitor account list`                                                          | `AzMonitorAccountListOptions`                                                  |
 | `az monitor action-group create`                                                   | `AzMonitorActionGroupCreateOptions`                                            |
 | `az monitor action-group identity remove`                                          | `AzMonitorActionGroupIdentityRemoveOptions`                                    |
@@ -2028,6 +2045,10 @@ public class RunCommandModule : Module<CommandResult>
 | `az network virtual-appliance identity remove`                                     | `AzNetworkVirtualApplianceIdentityRemoveOptions`                               |
 | `az network virtual-appliance inbound-security-rule create`                        | `AzNetworkVirtualApplianceInboundSecurityRuleCreateOptions`                    |
 | `az network virtual-appliance list`                                                | `AzNetworkVirtualApplianceListOptions`                                         |
+| `az network virtual-appliance migration abort`                                     | `AzNetworkVirtualApplianceMigrationAbortOptions`                               |
+| `az network virtual-appliance migration commit`                                    | `AzNetworkVirtualApplianceMigrationCommitOptions`                              |
+| `az network virtual-appliance migration execute`                                   | `AzNetworkVirtualApplianceMigrationExecuteOptions`                             |
+| `az network virtual-appliance migration prepare`                                   | `AzNetworkVirtualApplianceMigrationPrepareOptions`                             |
 | `az network virtual-appliance reimage`                                             | `AzNetworkVirtualApplianceReimageOptions`                                      |
 | `az network virtual-appliance restart`                                             | `AzNetworkVirtualApplianceRestartOptions`                                      |
 | `az network virtual-appliance show`                                                | `AzNetworkVirtualApplianceShowOptions`                                         |
@@ -2542,6 +2563,15 @@ public class RunCommandModule : Module<CommandResult>
 | `az stack sub export`                                                              | `AzStackSubExportOptions`                                                      |
 | `az stack sub show`                                                                | `AzStackSubShowOptions`                                                        |
 | `az stack sub validate`                                                            | `AzStackSubValidateOptions`                                                    |
+| `az stack-whatif group create`                                                     | `AzStackWhatifGroupCreateOptions`                                              |
+| `az stack-whatif group delete`                                                     | `AzStackWhatifGroupDeleteOptions`                                              |
+| `az stack-whatif group show`                                                       | `AzStackWhatifGroupShowOptions`                                                |
+| `az stack-whatif mg create`                                                        | `AzStackWhatifMgCreateOptions`                                                 |
+| `az stack-whatif mg delete`                                                        | `AzStackWhatifMgDeleteOptions`                                                 |
+| `az stack-whatif mg show`                                                          | `AzStackWhatifMgShowOptions`                                                   |
+| `az stack-whatif sub create`                                                       | `AzStackWhatifSubCreateOptions`                                                |
+| `az stack-whatif sub delete`                                                       | `AzStackWhatifSubDeleteOptions`                                                |
+| `az stack-whatif sub show`                                                         | `AzStackWhatifSubShowOptions`                                                  |
 | `az staticwebapp appsettings delete`                                               | `AzStaticwebappAppsettingsDeleteOptions`                                       |
 | `az staticwebapp appsettings list`                                                 | `AzStaticwebappAppsettingsListOptions`                                         |
 | `az staticwebapp appsettings set`                                                  | `AzStaticwebappAppsettingsSetOptions`                                          |
