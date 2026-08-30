@@ -116,7 +116,11 @@ public class ModuleOutputBufferTests
             consoleCoordinator.Object,
             Mock.Of<IOutputCoordinator>());
 
-        logger.Write(new Table().AddColumn("Value").AddRow(secret));
+        logger.Write(new Table
+        {
+            Title = new TableTitle(secret),
+            Caption = new TableTitle(secret),
+        }.AddColumn("Value").AddRow(secret));
         logger.WriteMarkupLine($"[green]{secret}[/]");
         secrets = [secret];
         version++;

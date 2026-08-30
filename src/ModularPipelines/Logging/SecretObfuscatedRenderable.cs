@@ -16,9 +16,9 @@ internal sealed class SecretObfuscatedRenderable(
     ISecretObfuscator secretObfuscator,
     bool isObfuscatedBeforeRender = false) : IRenderable
 {
-    private readonly PreparedRenderable _prepared = isObfuscatedBeforeRender
-        ? Prepared(inner)
-        : PrepareRenderable(inner, secretObfuscator);
+    private readonly IRenderable _source = isObfuscatedBeforeRender
+        ? inner
+        : SnapshotRenderable(inner, secretObfuscator);
 
     internal bool RequiresPostRenderObfuscation => isObfuscatedBeforeRender;
 
@@ -29,8 +29,9 @@ internal sealed class SecretObfuscatedRenderable(
 
     public Measurement Measure(RenderOptions options, int maxWidth)
     {
-        var innerMeasurement = _prepared.Renderable.Measure(options, maxWidth);
-        var segments = GetSegments(options, maxWidth, out var originalSegments);
+        var prepared = GetPrepared();
+        var innerMeasurement = prepared.Renderable.Measure(options, maxWidth);
+        var segments = GetSegments(prepared, options, maxWidth, out var originalSegments);
         return MeasureSegments(
             segments,
             originalSegments,
@@ -40,27 +41,36 @@ internal sealed class SecretObfuscatedRenderable(
     }
 
     public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) =>
-        GetSegments(options, maxWidth);
+        GetSegments(GetPrepared(), options, maxWidth);
 
     internal IRenderable Snapshot(RenderOptions options, int maxWidth)
     {
-        var innerMeasurement = _prepared.Renderable.Measure(options, maxWidth);
-        var segments = GetSegments(options, maxWidth, out var originalSegments);
+        var prepared = GetPrepared();
+        var innerMeasurement = prepared.Renderable.Measure(options, maxWidth);
+        var segments = GetSegments(prepared, options, maxWidth, out var originalSegments);
         return new SegmentSnapshotRenderable(segments, originalSegments, innerMeasurement);
     }
 
-    private Segment[] GetSegments(RenderOptions options, int maxWidth) =>
-        GetSegments(options, maxWidth, out _);
+    private PreparedRenderable GetPrepared() => isObfuscatedBeforeRender
+        ? Prepared(_source)
+        : PrepareRenderable(_source, secretObfuscator);
 
     private Segment[] GetSegments(
+        PreparedRenderable prepared,
+        RenderOptions options,
+        int maxWidth) =>
+        GetSegments(prepared, options, maxWidth, out _);
+
+    private Segment[] GetSegments(
+        PreparedRenderable prepared,
         RenderOptions options,
         int maxWidth,
         out Segment[] originalSegments)
     {
         originalSegments = SanitizeControlCodes(
-            _prepared.Renderable.Render(options, maxWidth).ToArray());
+            prepared.Renderable.Render(options, maxWidth).ToArray());
         var segments = originalSegments;
-        if (_prepared.IsObfuscatedBeforeRender)
+        if (prepared.IsObfuscatedBeforeRender)
         {
             return ObfuscateLinks(segments);
         }
@@ -198,31 +208,62 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static PreparedRenderable PrepareRenderable(
         IRenderable renderable,
-        ISecretObfuscator secretObfuscator) => renderable switch
+        ISecretObfuscator secretObfuscator,
+        bool snapshot = false) => renderable switch
         {
-            Align align => Prepared(PrepareAlign(align, secretObfuscator)),
-            BarChart barChart => Prepared(PrepareBarChart(barChart, secretObfuscator)),
+            Align align => Prepared(PrepareAlign(align, secretObfuscator, snapshot)),
+            BarChart barChart => Prepared(PrepareBarChart(barChart, secretObfuscator, snapshot)),
             BreakdownChart breakdownChart => Prepared(PrepareBreakdownChart(
                 breakdownChart,
-                secretObfuscator)),
-            Columns columns => Prepared(PrepareColumns(columns, secretObfuscator)),
-            FigletText figletText => Prepared(PrepareFigletText(figletText, secretObfuscator)),
-            Grid grid => Prepared(PrepareGrid(grid, secretObfuscator)),
-            Layout layout => Prepared(PrepareLayout(layout, secretObfuscator)),
-            Padder padder => Prepared(PreparePadder(padder, secretObfuscator)),
-            Panel panel => Prepared(PreparePanel(panel, secretObfuscator)),
-            Rule rule => Prepared(PrepareRule(rule, secretObfuscator)),
-            Rows rows => Prepared(PrepareRows(rows, secretObfuscator)),
-            Table table => Prepared(PrepareTable(table, secretObfuscator)),
-            Tree tree => Prepared(PrepareTree(tree, secretObfuscator)),
+                secretObfuscator,
+                snapshot)),
+            Columns columns => Prepared(PrepareColumns(columns, secretObfuscator, snapshot)),
+            FigletText figletText => Prepared(PrepareFigletText(figletText, secretObfuscator, snapshot)),
+            Grid grid => Prepared(PrepareGrid(grid, secretObfuscator, snapshot)),
+            Layout layout => Prepared(PrepareLayout(layout, secretObfuscator, snapshot)),
+            Padder padder => Prepared(PreparePadder(padder, secretObfuscator, snapshot)),
+            Panel panel => Prepared(PreparePanel(panel, secretObfuscator, snapshot)),
+            Rule rule => Prepared(PrepareRule(rule, secretObfuscator, snapshot)),
+            Rows rows => Prepared(PrepareRows(rows, secretObfuscator, snapshot)),
+            Table table => Prepared(PrepareTable(table, secretObfuscator, snapshot)),
+            Tree tree => Prepared(PrepareTree(tree, secretObfuscator, snapshot)),
             _ => new PreparedRenderable(renderable, IsObfuscatedBeforeRender: false),
         };
+
+    private static IRenderable SnapshotRenderable(
+        IRenderable renderable,
+        ISecretObfuscator secretObfuscator) =>
+        PrepareRenderable(renderable, secretObfuscator, snapshot: true).Renderable;
+
+    private static IRenderable PrepareChild(
+        IRenderable renderable,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => snapshot
+        ? SnapshotRenderable(renderable, secretObfuscator)
+        : new SecretObfuscatedRenderable(renderable, secretObfuscator);
+
+    private static string PrepareMarkup(
+        string value,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => snapshot
+        ? value
+        : ObfuscatedMarkup.CreateSafeSource(value, secretObfuscator);
+
+    private static string PreparePlainText(
+        string value,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => snapshot
+        ? value
+        : secretObfuscator.Obfuscate(value, null);
 
     private static PreparedRenderable Prepared(IRenderable renderable) =>
         new(renderable, IsObfuscatedBeforeRender: true);
 
-    private static Align PrepareAlign(Align align, ISecretObfuscator secretObfuscator) =>
-        new(new SecretObfuscatedRenderable(GetAlignChild(align), secretObfuscator),
+    private static Align PrepareAlign(
+        Align align,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) =>
+        new(PrepareChild(GetAlignChild(align), secretObfuscator, snapshot),
             align.Horizontal,
             align.Vertical)
         {
@@ -232,22 +273,26 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static BarChart PrepareBarChart(
         BarChart barChart,
-        ISecretObfuscator secretObfuscator)
+        ISecretObfuscator secretObfuscator,
+        bool snapshot)
     {
         var preparedChart = new BarChart
         {
             Culture = barChart.Culture,
             Label = barChart.Label is null
                 ? null
-                : ObfuscatedMarkup.CreateSafeSource(barChart.Label, secretObfuscator),
+                : PrepareMarkup(barChart.Label, secretObfuscator, snapshot),
             LabelAlignment = barChart.LabelAlignment,
             MaxValue = barChart.MaxValue,
             ShowValues = barChart.ShowValues,
-            ValueFormatter = PrepareValueFormatter(barChart.ValueFormatter, secretObfuscator),
+            ValueFormatter = PrepareValueFormatter(
+                barChart.ValueFormatter,
+                secretObfuscator,
+                snapshot),
             Width = barChart.Width,
         };
         preparedChart.Data.AddRange(barChart.Data.Select(item => new BarChartItem(
-            ObfuscatedMarkup.CreateSafeSource(item.Label, secretObfuscator),
+            PrepareMarkup(item.Label, secretObfuscator, snapshot),
             item.Value,
             item.Color)));
         return preparedChart;
@@ -255,7 +300,8 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static BreakdownChart PrepareBreakdownChart(
         BreakdownChart breakdownChart,
-        ISecretObfuscator secretObfuscator)
+        ISecretObfuscator secretObfuscator,
+        bool snapshot)
     {
         var preparedChart = new BreakdownChart
         {
@@ -267,11 +313,12 @@ internal sealed class SecretObfuscatedRenderable(
             ValueColor = breakdownChart.ValueColor,
             ValueFormatter = PrepareValueFormatter(
                 breakdownChart.ValueFormatter,
-                secretObfuscator),
+                secretObfuscator,
+                snapshot),
             Width = breakdownChart.Width,
         };
         preparedChart.Data.AddRange(breakdownChart.Data.Select(item => new BreakdownChartItem(
-            ObfuscatedMarkup.CreateSafeSource(item.Label, secretObfuscator),
+            PrepareMarkup(item.Label, secretObfuscator, snapshot),
             item.Value,
             item.Color)));
         return preparedChart;
@@ -279,17 +326,22 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static Func<double, System.Globalization.CultureInfo, string>? PrepareValueFormatter(
         Func<double, System.Globalization.CultureInfo, string>? formatter,
-        ISecretObfuscator secretObfuscator) => formatter is null
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => formatter is null
         ? null
-        : (value, culture) => ObfuscatedMarkup.CreateSafeSource(
-            formatter(value, culture),
-            secretObfuscator);
+        : snapshot
+            ? formatter
+            : (value, culture) => PrepareMarkup(
+                formatter(value, culture),
+                secretObfuscator,
+                snapshot: false);
 
     private static Columns PrepareColumns(
         Columns columns,
-        ISecretObfuscator secretObfuscator) => new(
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => new(
         GetColumnItems(columns).Select(
-            item => new SecretObfuscatedRenderable(item, secretObfuscator)))
+            item => PrepareChild(item, secretObfuscator, snapshot)))
         {
             Expand = columns.Expand,
             Padding = columns.Padding,
@@ -297,9 +349,10 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static FigletText PrepareFigletText(
         FigletText figletText,
-        ISecretObfuscator secretObfuscator) => new(
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => new(
         GetFigletFont(figletText),
-        secretObfuscator.Obfuscate(GetFigletText(figletText), null))
+        PreparePlainText(GetFigletText(figletText), secretObfuscator, snapshot))
         {
             Color = figletText.Color,
             Justification = figletText.Justification,
@@ -307,7 +360,10 @@ internal sealed class SecretObfuscatedRenderable(
             Pad = figletText.Pad,
         };
 
-    private static Grid PrepareGrid(Grid grid, ISecretObfuscator secretObfuscator)
+    private static Grid PrepareGrid(
+        Grid grid,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot)
     {
         var preparedGrid = new Grid
         {
@@ -328,7 +384,7 @@ internal sealed class SecretObfuscatedRenderable(
         foreach (var row in grid.Rows)
         {
             preparedGrid.AddRow(row.Select(
-                    cell => new SecretObfuscatedRenderable(cell, secretObfuscator))
+                    cell => PrepareChild(cell, secretObfuscator, snapshot))
                 .ToArray());
         }
 
@@ -337,8 +393,9 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static Padder PreparePadder(
         Padder padder,
-        ISecretObfuscator secretObfuscator) => new(
-        new SecretObfuscatedRenderable(GetPadderChild(padder), secretObfuscator),
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => new(
+        PrepareChild(GetPadderChild(padder), secretObfuscator, snapshot),
         padder.Padding)
         {
             Expand = padder.Expand,
@@ -346,20 +403,21 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static Layout PrepareLayout(
         Layout layout,
-        ISecretObfuscator secretObfuscator)
+        ISecretObfuscator secretObfuscator,
+        bool snapshot)
     {
         var preparedLayout = new Layout
         {
             IsVisible = layout.IsVisible,
             Name = layout.Name is null
                 ? null
-                : ObfuscatedMarkup.CreateSafeSource(layout.Name, secretObfuscator),
+                : PrepareMarkup(layout.Name, secretObfuscator, snapshot),
             Ratio = layout.Ratio,
             Size = layout.Size,
         };
         if (GetLayoutRenderable(layout) is { } renderable)
         {
-            preparedLayout.Update(new SecretObfuscatedRenderable(renderable, secretObfuscator));
+            preparedLayout.Update(PrepareChild(renderable, secretObfuscator, snapshot));
         }
 
         if (layout.MinimumSize > 0)
@@ -368,7 +426,7 @@ internal sealed class SecretObfuscatedRenderable(
         }
 
         var children = GetLayoutChildren(layout)
-            .Select(child => PrepareLayout(child, secretObfuscator))
+            .Select(child => PrepareLayout(child, secretObfuscator, snapshot))
             .ToArray();
 
         if (children.Length == 0)
@@ -387,40 +445,50 @@ internal sealed class SecretObfuscatedRenderable(
 
     private static Panel PreparePanel(
         Panel panel,
-        ISecretObfuscator secretObfuscator) => new(
-        new SecretObfuscatedRenderable(GetPanelChild(panel), secretObfuscator))
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => new(
+        PrepareChild(GetPanelChild(panel), secretObfuscator, snapshot))
         {
             Border = panel.Border,
             BorderStyle = panel.BorderStyle,
             Expand = panel.Expand,
-            Header = ObfuscateHeader(panel.Header, secretObfuscator),
+            Header = ObfuscateHeader(panel.Header, secretObfuscator, snapshot),
             Height = panel.Height,
             Padding = panel.Padding,
             UseSafeBorder = panel.UseSafeBorder,
             Width = panel.Width,
         };
 
-    private static Rows PrepareRows(Rows rows, ISecretObfuscator secretObfuscator) => new(
+    private static Rows PrepareRows(
+        Rows rows,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => new(
         GetRowChildren(rows).Select(
-            child => new SecretObfuscatedRenderable(child, secretObfuscator)))
+            child => PrepareChild(child, secretObfuscator, snapshot)))
     {
         Expand = rows.Expand,
     };
 
-    private static Rule PrepareRule(Rule rule, ISecretObfuscator secretObfuscator) => new()
+    private static Rule PrepareRule(
+        Rule rule,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => new()
     {
         Border = rule.Border,
         Justification = rule.Justification,
         Style = rule.Style,
         Title = rule.Title is null
             ? null
-            : ObfuscatedMarkup.CreateSafeSource(rule.Title, secretObfuscator),
+            : PrepareMarkup(rule.Title, secretObfuscator, snapshot),
     };
 
-    private static IRenderable PrepareTable(Table table, ISecretObfuscator secretObfuscator)
+    private static IRenderable PrepareTable(
+        Table table,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot)
     {
-        var title = ObfuscateTitle(table.Title, secretObfuscator);
-        var caption = ObfuscateTitle(table.Caption, secretObfuscator);
+        var title = ObfuscateTitle(table.Title, secretObfuscator, snapshot);
+        var caption = ObfuscateTitle(table.Caption, secretObfuscator, snapshot);
         var preparedTable = new Table
         {
             Border = table.Border,
@@ -438,12 +506,12 @@ internal sealed class SecretObfuscatedRenderable(
         foreach (var column in table.Columns)
         {
             preparedTable.AddColumn(new TableColumn(
-                new SecretObfuscatedRenderable(column.Header, secretObfuscator))
+                PrepareChild(column.Header, secretObfuscator, snapshot))
             {
                 Alignment = column.Alignment,
                 Footer = column.Footer is null
                     ? null
-                    : new SecretObfuscatedRenderable(column.Footer, secretObfuscator),
+                    : PrepareChild(column.Footer, secretObfuscator, snapshot),
                 NoWrap = column.NoWrap,
                 Padding = column.Padding,
                 Width = column.Width,
@@ -453,11 +521,11 @@ internal sealed class SecretObfuscatedRenderable(
         foreach (var row in table.Rows)
         {
             preparedTable.Rows.Add(row.Select(
-                cell => new SecretObfuscatedRenderable(cell, secretObfuscator)));
+                cell => PrepareChild(cell, secretObfuscator, snapshot)));
         }
 
         var titleWidth = GetTitleWidth(title, caption);
-        return table.Width is null && titleWidth is not null
+        return !snapshot && table.Width is null && titleWidth is not null
             ? new AutoSizedTable(preparedTable, titleWidth.Value)
             : preparedTable;
     }
@@ -472,51 +540,59 @@ internal sealed class SecretObfuscatedRenderable(
         return contentWidth == 0 ? null : contentWidth + 2;
     }
 
-    private static Tree PrepareTree(Tree tree, ISecretObfuscator secretObfuscator)
+    private static Tree PrepareTree(
+        Tree tree,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot)
     {
         var root = GetTreeRoot(tree);
-        var preparedTree = new Tree(new SecretObfuscatedRenderable(
+        var preparedTree = new Tree(PrepareChild(
             GetTreeNodeRenderable(root),
-            secretObfuscator))
+            secretObfuscator,
+            snapshot))
         {
             Expanded = tree.Expanded,
             Guide = tree.Guide,
             Style = tree.Style,
         };
         preparedTree.Nodes.AddRange(root.Nodes.Select(
-            node => PrepareTreeNode(node, secretObfuscator)));
+            node => PrepareTreeNode(node, secretObfuscator, snapshot)));
         return preparedTree;
     }
 
     private static TreeNode PrepareTreeNode(
         TreeNode node,
-        ISecretObfuscator secretObfuscator)
+        ISecretObfuscator secretObfuscator,
+        bool snapshot)
     {
-        var preparedNode = new TreeNode(new SecretObfuscatedRenderable(
+        var preparedNode = new TreeNode(PrepareChild(
             GetTreeNodeRenderable(node),
-            secretObfuscator))
+            secretObfuscator,
+            snapshot))
         {
             Expanded = node.Expanded,
         };
         preparedNode.Nodes.AddRange(node.Nodes.Select(
-            child => PrepareTreeNode(child, secretObfuscator)));
+            child => PrepareTreeNode(child, secretObfuscator, snapshot)));
         return preparedNode;
     }
 
     private static TableTitle? ObfuscateTitle(
         TableTitle? title,
-        ISecretObfuscator secretObfuscator) => title is null
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => title is null
         ? null
         : new TableTitle(
-            ObfuscatedMarkup.CreateSafeSource(title.Text, secretObfuscator),
+            PrepareMarkup(title.Text, secretObfuscator, snapshot),
             title.Style);
 
     private static PanelHeader? ObfuscateHeader(
         PanelHeader? header,
-        ISecretObfuscator secretObfuscator) => header is null
+        ISecretObfuscator secretObfuscator,
+        bool snapshot) => header is null
         ? null
         : new PanelHeader(
-            ObfuscatedMarkup.CreateSafeSource(header.Text, secretObfuscator),
+            PrepareMarkup(header.Text, secretObfuscator, snapshot),
             header.Justification);
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_renderable")]
