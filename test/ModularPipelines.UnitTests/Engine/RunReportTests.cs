@@ -3321,12 +3321,11 @@ public class RunReportTests
                     workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
 
                 var report = await service.CompleteAsync(new PipelineSummary(
-                        [firstModule, secondModule],
-                        [],
-                        TimeSpan.Zero,
-                        runStartedAt,
-                        runStartedAt))
-                    .WaitAsync(TimeSpan.FromSeconds(2));
+                    [firstModule, secondModule],
+                    [],
+                    TimeSpan.Zero,
+                    runStartedAt,
+                    runStartedAt));
 
                 using (Assert.Multiple())
                 {
