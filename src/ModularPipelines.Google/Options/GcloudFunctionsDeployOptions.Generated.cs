@@ -208,7 +208,7 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     /// IAM service account whose credentials will be used for the build step. Must be of the format projects/${PROJECT_ID}/serviceAccounts/${ACCOUNT_EMAIL_ADDRESS}. If not provided, the function will use the project's default service account for Cloud Build.
     /// </summary>
     [CliOption("--build-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? BuildServiceAccount { get; set; }
+    public string? BuildServiceAccount { get; set; }
 
     /// <summary>
     /// Clears the build service account field.

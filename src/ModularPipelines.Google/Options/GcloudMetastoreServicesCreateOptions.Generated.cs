@@ -117,7 +117,7 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions
     /// The instance size of the service. INSTANCE_SIZE must be one of: extra-large Extra large instance size, maps to a scaling factor of 6.0. extra-small Extra small instance size, maps to a scaling factor of 0.1. large Large instance size, maps to a scaling factor of 3.0. medium Medium instance size, maps to a scaling factor of 1.0. small Small instance size, maps to a scaling factor of 0.5.
     /// </summary>
     [CliOption("--instance-size", Format = OptionFormat.EqualsSeparated)]
-    public int? InstanceSize { get; set; }
+    public string? InstanceSize { get; set; }
 
     /// <summary>
     /// The scaling factor of the service. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0].

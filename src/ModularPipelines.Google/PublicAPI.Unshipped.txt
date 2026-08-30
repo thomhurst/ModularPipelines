@@ -9154,9 +9154,9 @@ ModularPipelines.Google.Options.GcloudApihubLocationsConfigureAndDeployServerOpt
 ModularPipelines.Google.Options.GcloudApihubLocationsOptions
 ModularPipelines.Google.Options.GcloudApihubLocationsOptions.GcloudApihubLocationsOptions() -> void
 ModularPipelines.Google.Options.GcloudApihubLocationsOptions.GcloudApihubLocationsOptions(ModularPipelines.Google.Options.GcloudApihubLocationsOptions! original) -> void
-ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.Actions.get -> int?
+ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.Actions.get -> string?
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.Actions.set -> void
-ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.AddActions.get -> int?
+ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.AddActions.get -> string?
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.AddActions.set -> void
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.AdditionalConfig.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.AdditionalConfig.set -> void
@@ -9176,7 +9176,7 @@ ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.Oauth2
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.Oauth2ClientCredentialsConfigId.set -> void
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.Oauth2ClientCredentialsConfigSecretVersion.get -> string?
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.Oauth2ClientCredentialsConfigSecretVersion.set -> void
-ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.RemoveActions.get -> int?
+ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.RemoveActions.get -> string?
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.RemoveActions.set -> void
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.RemoveAdditionalConfig.get -> string?
 ModularPipelines.Google.Options.GcloudApihubPluginsInstancesUpdateOptions.RemoveAdditionalConfig.set -> void
@@ -13719,7 +13719,7 @@ ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.BinaryAuthorization
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.BinaryAuthorization.set -> void
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.BuildEnvVarsFile.get -> string?
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.BuildEnvVarsFile.set -> void
-ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.BuildServiceAccount.get -> int?
+ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.BuildServiceAccount.get -> string?
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.BuildServiceAccount.set -> void
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.BuildWorkerPool.get -> string?
 ModularPipelines.Google.Options.GcloudFunctionsDeployOptions.BuildWorkerPool.set -> void
@@ -14686,7 +14686,7 @@ ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.HiveMetasto
 ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.HiveMetastoreConfigs.set -> void
 ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.HiveMetastoreConfigsFromFile.get -> string?
 ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.HiveMetastoreConfigsFromFile.set -> void
-ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.InstanceSize.get -> int?
+ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.InstanceSize.get -> string?
 ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.InstanceSize.set -> void
 ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.MaxScalingFactor.get -> string?
 ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.MaxScalingFactor.set -> void

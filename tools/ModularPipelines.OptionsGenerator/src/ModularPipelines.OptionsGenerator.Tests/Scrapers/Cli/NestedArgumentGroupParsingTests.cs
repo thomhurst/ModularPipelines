@@ -299,6 +299,41 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Structured_And_Categorical_Values_Remain_Textual()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --actions=ACTIONS
+                    Shorthand Example: --actions=actionId=string. File Example: --actions=path_to_file.yaml.
+                 --build-service-account=BUILD_SERVICE_ACCOUNT
+                    Must be of the format projects/${PROJECT_ID}/serviceAccounts/${ACCOUNT_EMAIL_ADDRESS}.
+                 --instance-size=INSTANCE_SIZE
+                    INSTANCE_SIZE must be one of: extra-small Extra small instance size, maps to 0.1. small Small instance size, maps to 0.5.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "update"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            foreach (var option in command!.Options)
+            {
+                await Assert.That(option.CSharpType).IsEqualTo("string?");
+            }
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Models_Repeatable_Options_As_Collections()
     {
         const string helpText = """

@@ -292,7 +292,9 @@ public partial class GcloudCliScraper : CliScraperBase
         var acceptsMultipleValues = !isFlag
             && (valueHint.Contains("...")
                 || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
-        var isNumeric = !IsFilePathHint(longForm, valueHint) && IsNumericHint(valueHint);
+        var isNumeric = !IsFilePathHint(longForm, valueHint)
+                        && !DescriptionDeclaresTextualCategories(description)
+                        && IsNumericHint(valueHint);
         var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
         var enumDefinition = TryDetectEnum(propertyName, description);
 
@@ -408,6 +410,10 @@ public partial class GcloudCliScraper : CliScraperBase
             || switchName.EndsWith("-path", StringComparison.OrdinalIgnoreCase)
             || FilePathHintPattern().IsMatch(valueHint);
 
+    private static bool DescriptionDeclaresTextualCategories(string? description)
+        => !string.IsNullOrEmpty(description)
+            && TextualCategoriesPattern().IsMatch(description);
+
     private static CliEnumDefinition? TryDetectEnum(string propertyName, string? description)
     {
         if (string.IsNullOrEmpty(description))
@@ -518,6 +524,11 @@ public partial class GcloudCliScraper : CliScraperBase
         @"(?<![A-Za-z0-9])(?:file|filename|filepath|path)(?![A-Za-z0-9])",
         RegexOptions.IgnoreCase)]
     private static partial Regex FilePathHintPattern();
+
+    [GeneratedRegex(
+        @"\bmust be one of:\s*[A-Za-z][A-Za-z0-9_-]*\b",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex TextualCategoriesPattern();
 
     #endregion
 }
