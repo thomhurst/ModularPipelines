@@ -78,19 +78,23 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
                             _logger.LogInformation("Circuit breaker HALF-OPEN - Testing if CLI commands are healthy...");
                             break;
                     }
+
+                    return ValueTask.CompletedTask;
                 };
             })
             .Retry(options =>
             {
                 options.MaxRetries = maxRetries;
-                options.Backoff = Backoff.Exponential(baseDelay, jitter: false);
+                options.Backoff = Backoff.Exponential(baseDelay, jitter: Jitter.None);
                 options.OnRetry = retryEvent =>
                 {
                     _logger.LogWarning(
                         "CLI command failed (attempt {Attempt}/{MaxAttempts}), retrying in {Delay}ms...",
-                        retryEvent.Attempt,
+                        retryEvent.AttemptNumber,
                         maxRetries,
                         retryEvent.Delay.TotalMilliseconds);
+
+                    return ValueTask.CompletedTask;
                 };
             });
     }
