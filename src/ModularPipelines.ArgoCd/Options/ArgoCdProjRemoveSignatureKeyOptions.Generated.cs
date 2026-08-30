@@ -15,6 +15,7 @@ namespace ModularPipelines.ArgoCd.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
+[Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
 [CliSubCommand("proj", "remove-signature-key")]
 public record ArgoCdProjRemoveSignatureKeyOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,

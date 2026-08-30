@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "argocd",
-  "toolVersion": "argocd: v3.5.1\u002B109ca7c   BuildDate: 2026-08-12T11:51:48Z   GitCommit: 109ca7ca71139e514114499d294a492e7910a965   GitTreeState: clean   GoVersion: go1.26.4   Compiler: gc   Platform: linux/amd64",
+  "toolVersion": "argocd: v3.5.2\u002Be258ee2   BuildDate: 2026-08-27T09:34:36Z   GitCommit: e258ee23c3e52266d407572f4bcdfe7d9ed36cb5   GitTreeState: clean   GoVersion: go1.26.4   Compiler: gc   Platform: linux/amd64",
   "commandCount": 165,
   "commandTreeSha256": "f12af4288e7a39a4ac683d429edf0cf75b10df027963bc60b408a2f2ea0df4b2",
   "commands": [
