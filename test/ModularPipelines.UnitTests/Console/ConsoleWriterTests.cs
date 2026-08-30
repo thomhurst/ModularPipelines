@@ -19,13 +19,16 @@ namespace ModularPipelines.UnitTests.Console;
 [TUnit.Core.NotInParallel]
 public class ConsoleWriterTests
 {
-    private sealed class ControlRenderable(string value) : IRenderable
+    private sealed class ControlRenderable(params string[] values) : IRenderable
     {
         public Measurement Measure(RenderOptions options, int maxWidth) => new(0, 0);
 
         public IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
         {
-            yield return Segment.Control(value);
+            foreach (var value in values)
+            {
+                yield return Segment.Control(value);
+            }
         }
     }
 
@@ -473,6 +476,21 @@ public class ConsoleWriterTests
         var renderable = new SecretObfuscatedRenderable(
             new ControlRenderable("\u001b[31m"),
             CreateSecretObfuscator("31"));
+
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .ToArray();
+
+        await Assert.That(segments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Write_RemovesRelatedControlSequencesTogether()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new ControlRenderable("\u001b[?25l", "\u001b[?25h"),
+            CreateSecretObfuscator("25h"));
 
         var segments = renderable.Render(
                 RenderOptions.Create(AnsiConsole.Console),

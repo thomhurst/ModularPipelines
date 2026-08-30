@@ -42,7 +42,8 @@ internal sealed class SecretObfuscatedRenderable(
 
     private Segment[] GetSegments(RenderOptions options, int maxWidth)
     {
-        var segments = _prepared.Renderable.Render(options, maxWidth).ToArray();
+        var segments = SanitizeControlCodes(
+            _prepared.Renderable.Render(options, maxWidth).ToArray());
         if (_prepared.IsObfuscatedBeforeRender)
         {
             return ObfuscateLinks(segments);
@@ -111,7 +112,7 @@ internal sealed class SecretObfuscatedRenderable(
         {
             if (segment.IsControlCode)
             {
-                AddSafeControlCode(output, segment);
+                output.Add(segment);
                 continue;
             }
 
@@ -143,7 +144,7 @@ internal sealed class SecretObfuscatedRenderable(
         {
             if (segment.IsControlCode)
             {
-                AddSafeControlCode(output, segment);
+                output.Add(segment);
                 continue;
             }
 
@@ -551,7 +552,7 @@ internal sealed class SecretObfuscatedRenderable(
         {
             if (segment.IsControlCode)
             {
-                AddSafeControlCode(output, segment);
+                output.Add(segment);
             }
             else
             {
@@ -564,14 +565,16 @@ internal sealed class SecretObfuscatedRenderable(
         return [.. output];
     }
 
-    private void AddSafeControlCode(List<Segment> output, Segment segment)
-    {
-        var obfuscatedMetadata = ObfuscateMetadata(segment.Text);
-        if (string.Equals(obfuscatedMetadata, segment.Text, StringComparison.Ordinal))
-        {
-            output.Add(segment);
-        }
-    }
+    private Segment[] SanitizeControlCodes(Segment[] segments) =>
+        segments.Any(segment => segment.IsControlCode && !IsSafeControlCode(segment))
+            ? [.. segments.Where(static segment => !segment.IsControlCode)]
+            : segments;
+
+    private bool IsSafeControlCode(Segment segment) =>
+        string.Equals(
+            ObfuscateMetadata(segment.Text),
+            segment.Text,
+            StringComparison.Ordinal);
 
     private Link? ObfuscateLink(Link? link)
     {
