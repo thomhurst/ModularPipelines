@@ -114,6 +114,21 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
+    [RunIf<CustomUnixConditionGroup>]
+    private sealed class CustomUnixConditionGroupModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            Context.IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class CustomUnixConditionGroup : ConditionGroup
+    {
+        public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnMacOS()];
+
+        public override ConditionLogic Logic => ConditionLogic.Any;
+    }
+
     [RequiresCapability("linux")]
     [RunIfAny<OnWindows, OnMacOS>]
     private sealed class ConflictingExplicitOperatingSystemModule : Module<string>
@@ -337,6 +352,30 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(new MixedWorkerOnlyAlternativeModule());
 
         await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
+    }
+
+    [Test]
+    public async Task CreateAssignment_Routes_Custom_Operating_System_Condition_Group()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(CustomUnixConditionGroupModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new CustomUnixConditionGroupModule());
+        var requiredCapability = assignment.RequiredCapabilities.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
+                .DoesNotContain(requiredCapability);
+        }
     }
 
     [Test]
