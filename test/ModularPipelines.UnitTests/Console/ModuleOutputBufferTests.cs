@@ -21,7 +21,7 @@ namespace ModularPipelines.UnitTests.Console;
 public class ModuleOutputBufferTests
 {
     [Test]
-    public async Task DirectConsole_UsesConfiguredRenderableWidth()
+    public async Task DirectConsole_UsesConfiguredRenderableDimensions()
     {
         using var profileWriter = new StringWriter();
         var configuredConsole = AnsiConsole.Create(new AnsiConsoleSettings
@@ -29,6 +29,7 @@ public class ModuleOutputBufferTests
             Out = new AnsiConsoleOutput(profileWriter),
         });
         configuredConsole.Profile.Width = 24;
+        configuredConsole.Profile.Height = 12;
         using var outputWriter = new StringWriter();
         var buffer = new ModuleOutputBuffer(
             typeof(ModuleOutputBufferTests),
@@ -37,6 +38,7 @@ public class ModuleOutputBufferTests
         var directConsole = buffer.GetDirectConsole(outputWriter);
 
         await Assert.That(directConsole.Profile.Width).IsEqualTo(24);
+        await Assert.That(directConsole.Profile.Height).IsEqualTo(12);
     }
 
     [Test]

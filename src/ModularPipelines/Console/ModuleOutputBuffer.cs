@@ -1001,6 +1001,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             Out = new AnsiConsoleOutput(writer),
         });
         console.Profile.Width = sourceProfile.Width;
+        console.Profile.Height = sourceProfile.Height;
         console.Profile.Capabilities = sourceProfile.Capabilities;
         return console;
     }
