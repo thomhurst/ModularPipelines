@@ -132,6 +132,15 @@ internal partial class Yarn : IYarn
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> DlxAsync(
+        YarnDlxOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ExecAsync(
         YarnExecOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -453,6 +462,15 @@ internal partial class Yarn : IYarn
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new YarnWhyOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> WorkspaceAsync(
+        YarnWorkspaceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

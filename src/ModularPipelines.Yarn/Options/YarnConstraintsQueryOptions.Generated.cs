@@ -12,9 +12,18 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will output all matches to the given prolog query.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("constraints query")]
 public record YarnConstraintsQueryOptions : YarnOptions
 {
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

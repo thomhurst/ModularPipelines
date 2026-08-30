@@ -12,9 +12,36 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// Duplicates are defined as descriptors with overlapping ranges being resolved and
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dedupe")]
 public record YarnDedupeOptions : YarnOptions
 {
+    /// <summary>
+    /// The strategy to use when deduping dependencies
+    /// </summary>
+    [CliOption("--strategy", ShortForm = "-s")]
+    public string? Strategy { get; set; }
+
+    /// <summary>
+    /// Exit with exit code 1 when duplicates are found, without persisting the dependency tree
+    /// </summary>
+    [CliFlag("--check", ShortForm = "-c")]
+    public bool? Check { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Change what artifacts installs generate
+    /// </summary>
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
+
 }

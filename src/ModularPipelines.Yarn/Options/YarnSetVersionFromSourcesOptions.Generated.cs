@@ -12,9 +12,60 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will clone the Yarn repository into a temporary folder, then build
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("set version from sources")]
 public record YarnSetVersionFromSourcesOptions : YarnOptions
 {
+    /// <summary>
+    /// The path where the repository should be cloned to
+    /// </summary>
+    [CliOption("--path")]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// The repository that should be cloned
+    /// </summary>
+    [CliOption("--repository")]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// The branch of the repository that should be cloned
+    /// </summary>
+    [CliOption("--branch")]
+    public string? Branch { get; set; }
+
+    /// <summary>
+    /// An array of additional plugins that should be included in the bundle
+    /// </summary>
+    [CliOption("--plugin")]
+    public IEnumerable<string>? Plugin { get; set; }
+
+    /// <summary>
+    /// If set, the bundle will be built but not added to the project
+    /// </summary>
+    [CliFlag("--dry-run", ShortForm = "-n")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Build a bundle for development (debugging) - non-minified and non-mangled
+    /// </summary>
+    [CliFlag("--no-minify")]
+    public bool? NoMinify { get; set; }
+
+    /// <summary>
+    /// Always clone the repository instead of trying to fetch the latest commits
+    /// </summary>
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// Skip updating the contrib plugins
+    /// </summary>
+    [CliFlag("--skip-plugins")]
+    public bool? SkipPlugins { get; set; }
+
 }

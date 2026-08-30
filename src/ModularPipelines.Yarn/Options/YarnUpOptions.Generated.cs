@@ -12,9 +12,60 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command upgrades the packages matching the list of specified patterns to
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("up")]
 public record YarnUpOptions : YarnOptions
 {
+    /// <summary>
+    /// Offer various choices, depending on the detected upgrade paths
+    /// </summary>
+    [CliFlag("--interactive", ShortForm = "-i")]
+    public bool? Interactive { get; set; }
+
+    /// <summary>
+    /// Store dependency tags as-is instead of resolving them
+    /// </summary>
+    [CliFlag("--fixed", ShortForm = "-F")]
+    public bool? Fixed { get; set; }
+
+    /// <summary>
+    /// Don't use any semver modifier on the resolved range
+    /// </summary>
+    [CliFlag("--exact", ShortForm = "-E")]
+    public bool? Exact { get; set; }
+
+    /// <summary>
+    /// Use the `~` semver modifier on the resolved range
+    /// </summary>
+    [CliFlag("--tilde", ShortForm = "-T")]
+    public bool? Tilde { get; set; }
+
+    /// <summary>
+    /// Use the `^` semver modifier on the resolved range
+    /// </summary>
+    [CliFlag("--caret", ShortForm = "-C")]
+    public bool? Caret { get; set; }
+
+    /// <summary>
+    /// Resolve again ALL resolutions for those packages
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-R")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// Disable the minimum release age check for this command
+    /// </summary>
+    [CliFlag("--no-time-gate")]
+    public bool? NoTimeGate { get; set; }
+
+    /// <summary>
+    /// Change what artifacts installs generate
+    /// </summary>
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
+
 }

@@ -12,9 +12,61 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will pack the active workspace into a fresh archive and upload it
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("npm publish")]
 public record YarnNpmPublishOptions : YarnOptions
 {
+    /// <summary>
+    /// The access for the published package (public or restricted)
+    /// </summary>
+    [CliOption("--access")]
+    public string? Access { get; set; }
+
+    /// <summary>
+    /// The tag on the registry that the package should be attached to
+    /// </summary>
+    [CliOption("--tag")]
+    public string? Tag { get; set; }
+
+    /// <summary>
+    /// Warn and exit when republishing an already existing version of a package
+    /// </summary>
+    [CliFlag("--tolerate-republish")]
+    public bool? TolerateRepublish { get; set; }
+
+    /// <summary>
+    /// The OTP token to use with the command
+    /// </summary>
+    [SecretValue]
+    [CliOption("--otp")]
+    public string? Otp { get; set; }
+
+    /// <summary>
+    /// Generate provenance for the package. Only available in GitHub Actions and GitLab CI. Can be set globally through the `npmPublishProvenance` setting or the `YARN_NPM_CONFIG_PROVENANCE` environment variable, or per-package through the `publishConfig.provenance` field in package.json.
+    /// </summary>
+    [CliFlag("--provenance")]
+    public bool? Provenance { get; set; }
+
+    /// <summary>
+    /// Show what would be published without actually publishing
+    /// </summary>
+    [CliFlag("--dry-run", ShortForm = "-n")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Output the result in JSON format
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Stage the package for later approval instead of publishing it immediately
+    /// </summary>
+    [CliFlag("--staged")]
+    public bool? Staged { get; set; }
+
 }

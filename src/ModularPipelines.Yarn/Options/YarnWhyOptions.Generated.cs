@@ -12,9 +12,37 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command prints the exact reasons why a package appears in the dependency
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("why")]
-public record YarnWhyOptions : YarnOptions
+public record YarnWhyOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
+) : YarnOptions
 {
+    public YarnWhyOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// List, for each workspace, what are all the paths that lead to the dependency
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-R")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Also print the peer dependencies that match the specified name
+    /// </summary>
+    [CliFlag("--peers")]
+    public bool? Peers { get; set; }
+
 }
