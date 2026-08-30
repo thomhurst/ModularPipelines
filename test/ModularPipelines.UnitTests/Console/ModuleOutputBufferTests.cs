@@ -86,6 +86,54 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_MasksLeafSourcesBeforeOverflow()
+    {
+        var secret = string.Concat(Enumerable.Repeat("late-registered-secret-", 8));
+        long version = 0;
+        IReadOnlyList<string> secrets = [];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator,
+            renderableSecretProvider: secretProvider.Object);
+        buffer.WriteRenderable(
+            new SecretObfuscatedRenderable(
+                new Text(secret) { Overflow = Overflow.Ellipsis },
+                secretObfuscator),
+            secret,
+            appendNewLine: true);
+        buffer.WriteRenderable(
+            new SecretObfuscatedRenderable(
+                new Markup($"[green]{secret}[/]") { Overflow = Overflow.Ellipsis },
+                secretObfuscator),
+            secret,
+            appendNewLine: false);
+
+        secrets = [secret];
+        version++;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("**********");
+        await Assert.That(output).DoesNotContain(secret[..20]);
+    }
+
+    [Test]
     public async Task Flush_RelayoutsCompositeWhenLateSecretMaskExpands()
     {
         const string secret = "tiny";

@@ -72,33 +72,10 @@ internal sealed class SecretObfuscatedRenderable(
         var segments = originalSegments;
         if (prepared.IsObfuscatedBeforeRender)
         {
-            return ObfuscateLinks(segments);
+            return ObfuscateLinks(segments, secretObfuscator);
         }
 
-        var visibleText = string.Concat(
-            segments.Where(static segment => !segment.IsControlCode).Select(static segment => segment.Text));
-
-        if (visibleText.Length == 0)
-        {
-            return ObfuscateLinks(segments);
-        }
-
-        if (secretObfuscator is SecretObfuscator concreteObfuscator)
-        {
-            var preserveMasks = concreteObfuscator.CanSafelyPreserveRegisteredMasks();
-            return ReflowSegments(
-                MapSegments(
-                    segments,
-                    concreteObfuscator.ObfuscateWithSourceMap(visibleText, preserveMasks)),
-                maxWidth);
-        }
-
-        return ReflowSegments(
-            MapFallbackSegments(
-                segments,
-                secretObfuscator.Obfuscate(visibleText, null),
-                visibleText.Length),
-            maxWidth);
+        return ReflowSegments(ObfuscateSegments(segments, secretObfuscator), maxWidth);
     }
 
     private static Segment[] ReflowSegments(Segment[] segments, int maxWidth)
@@ -127,9 +104,10 @@ internal sealed class SecretObfuscatedRenderable(
         return [.. output];
     }
 
-    private Segment[] MapSegments(
+    private static Segment[] MapSegments(
         Segment[] segments,
-        SecretObfuscator.MappedObfuscatedOutput mappedOutput)
+        SecretObfuscator.MappedObfuscatedOutput mappedOutput,
+        ISecretObfuscator secretObfuscator)
     {
         var output = new List<Segment>(segments.Length);
         var outputBytes = Encoding.UTF8.GetBytes(mappedOutput.Value);
@@ -152,17 +130,18 @@ internal sealed class SecretObfuscatedRenderable(
                 output.Add(new Segment(
                     Encoding.UTF8.GetString(outputBytes, outputStart, outputEnd - outputStart),
                     segment.Style,
-                    ObfuscateLink(segment.Link)));
+                    ObfuscateLink(segment.Link, secretObfuscator)));
             }
         }
 
         return [.. output];
     }
 
-    private Segment[] MapFallbackSegments(
+    private static Segment[] MapFallbackSegments(
         Segment[] segments,
         string obfuscatedText,
-        int sourceLength)
+        int sourceLength,
+        ISecretObfuscator secretObfuscator)
     {
         var output = new List<Segment>(segments.Length);
         var sourceOffset = 0;
@@ -184,7 +163,7 @@ internal sealed class SecretObfuscatedRenderable(
                 output.Add(new Segment(
                     obfuscatedText[outputStart..outputEnd],
                     segment.Style,
-                    ObfuscateLink(segment.Link)));
+                    ObfuscateLink(segment.Link, secretObfuscator)));
             }
         }
 
@@ -221,11 +200,23 @@ internal sealed class SecretObfuscatedRenderable(
             FigletText figletText => Prepared(PrepareFigletText(figletText, secretObfuscator, snapshot)),
             Grid grid => Prepared(PrepareGrid(grid, secretObfuscator, snapshot)),
             Layout layout => Prepared(PrepareLayout(layout, secretObfuscator, snapshot)),
+            Markup markup => Prepared(PrepareParagraph(
+                GetMarkupParagraph(markup),
+                secretObfuscator,
+                snapshot)),
             Padder padder => Prepared(PreparePadder(padder, secretObfuscator, snapshot)),
+            Paragraph paragraph => Prepared(PrepareParagraph(
+                paragraph,
+                secretObfuscator,
+                snapshot)),
             Panel panel => Prepared(PreparePanel(panel, secretObfuscator, snapshot)),
             Rule rule => Prepared(PrepareRule(rule, secretObfuscator, snapshot)),
             Rows rows => Prepared(PrepareRows(rows, secretObfuscator, snapshot)),
             Table table => Prepared(PrepareTable(table, secretObfuscator, snapshot)),
+            Text text => Prepared(PrepareParagraph(
+                GetTextParagraph(text),
+                secretObfuscator,
+                snapshot)),
             Tree tree => Prepared(PrepareTree(tree, secretObfuscator, snapshot)),
             _ => new PreparedRenderable(renderable, IsObfuscatedBeforeRender: false),
         };
@@ -255,6 +246,64 @@ internal sealed class SecretObfuscatedRenderable(
         bool snapshot) => snapshot
         ? value
         : secretObfuscator.Obfuscate(value, null);
+
+    private static Paragraph PrepareParagraph(
+        Paragraph paragraph,
+        ISecretObfuscator secretObfuscator,
+        bool snapshot)
+    {
+        var sourceSegments = GetParagraphLines(paragraph)
+            .SelectMany(static (line, index) => index == 0
+                ? line
+                : new[] { Segment.LineBreak }.Concat(line))
+            .ToArray();
+        var preparedSegments = snapshot
+            ? sourceSegments
+            : ObfuscateSegments(sourceSegments, secretObfuscator);
+        var preparedParagraph = new Paragraph
+        {
+            Justification = paragraph.Justification,
+            Overflow = paragraph.Overflow,
+        };
+        foreach (var segment in preparedSegments)
+        {
+            if (segment.IsLineBreak)
+            {
+                preparedParagraph.Append("\n");
+                continue;
+            }
+
+            preparedParagraph.Append(segment.Text, segment.Style, segment.Link);
+        }
+
+        return preparedParagraph;
+    }
+
+    private static Segment[] ObfuscateSegments(
+        Segment[] segments,
+        ISecretObfuscator secretObfuscator)
+    {
+        var visibleText = GetVisibleText(segments);
+        if (visibleText.Length == 0)
+        {
+            return ObfuscateLinks(segments, secretObfuscator);
+        }
+
+        if (secretObfuscator is SecretObfuscator concreteObfuscator)
+        {
+            var preserveMasks = concreteObfuscator.CanSafelyPreserveRegisteredMasks();
+            return MapSegments(
+                segments,
+                concreteObfuscator.ObfuscateWithSourceMap(visibleText, preserveMasks),
+                secretObfuscator);
+        }
+
+        return MapFallbackSegments(
+            segments,
+            secretObfuscator.Obfuscate(visibleText, null),
+            visibleText.Length,
+            secretObfuscator);
+    }
 
     private static PreparedRenderable Prepared(IRenderable renderable) =>
         new(renderable, IsObfuscatedBeforeRender: true);
@@ -598,6 +647,15 @@ internal sealed class SecretObfuscatedRenderable(
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_renderable")]
     private static extern ref readonly IRenderable GetAlignChild(Align align);
 
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_paragraph")]
+    private static extern ref readonly Paragraph GetMarkupParagraph(Markup markup);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_lines")]
+    private static extern ref readonly List<SegmentLine> GetParagraphLines(Paragraph paragraph);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_paragraph")]
+    private static extern ref readonly Paragraph GetTextParagraph(Text text);
+
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_items")]
     private static extern ref readonly List<IRenderable> GetColumnItems(Columns columns);
 
@@ -637,7 +695,9 @@ internal sealed class SecretObfuscatedRenderable(
         BindingFlags.Instance | BindingFlags.NonPublic)
         ?? throw new MissingFieldException(typeof(Layout).FullName, "_splitter");
 
-    private Segment[] ObfuscateLinks(Segment[] segments)
+    private static Segment[] ObfuscateLinks(
+        Segment[] segments,
+        ISecretObfuscator secretObfuscator)
     {
         var output = new List<Segment>(segments.Length);
         foreach (var segment in segments)
@@ -650,7 +710,10 @@ internal sealed class SecretObfuscatedRenderable(
             {
                 output.Add(segment.Link is null
                     ? segment
-                    : new Segment(segment.Text, segment.Style, ObfuscateLink(segment.Link)));
+                    : new Segment(
+                        segment.Text,
+                        segment.Style,
+                        ObfuscateLink(segment.Link, secretObfuscator)));
             }
         }
 
@@ -664,24 +727,28 @@ internal sealed class SecretObfuscatedRenderable(
 
     private bool IsSafeControlCode(Segment segment) =>
         string.Equals(
-            ObfuscateMetadata(segment.Text),
+            ObfuscateMetadata(segment.Text, secretObfuscator),
             segment.Text,
             StringComparison.Ordinal);
 
-    private Link? ObfuscateLink(Link? link)
+    private static Link? ObfuscateLink(
+        Link? link,
+        ISecretObfuscator secretObfuscator)
     {
         if (link is null)
         {
             return null;
         }
 
-        var obfuscatedUrl = ObfuscateMetadata(link.Url);
+        var obfuscatedUrl = ObfuscateMetadata(link.Url, secretObfuscator);
         return string.Equals(obfuscatedUrl, link.Url, StringComparison.Ordinal)
             ? link
             : new Link(obfuscatedUrl);
     }
 
-    private string ObfuscateMetadata(string value) =>
+    private static string ObfuscateMetadata(
+        string value,
+        ISecretObfuscator secretObfuscator) =>
         secretObfuscator is SecretObfuscator concreteObfuscator
             ? concreteObfuscator.ObfuscateWithSourceMap(
                 value,
