@@ -372,11 +372,32 @@ internal sealed class SecretObfuscatedRenderable(
         bool snapshot) => formatter is null
         ? null
         : snapshot
-            ? formatter
+            ? SnapshotValueFormatter(formatter)
             : (value, culture) => PrepareMarkup(
                 formatter(value, culture),
                 secretObfuscator,
                 snapshot: false);
+
+    private static Func<double, System.Globalization.CultureInfo, string> SnapshotValueFormatter(
+        Func<double, System.Globalization.CultureInfo, string> formatter)
+    {
+        var values = new Dictionary<double, string>();
+        var snapshotLock = new object();
+        return (value, culture) =>
+        {
+            lock (snapshotLock)
+            {
+                if (values.TryGetValue(value, out var formattedValue))
+                {
+                    return formattedValue;
+                }
+
+                formattedValue = formatter(value, culture);
+                values.Add(value, formattedValue);
+                return formattedValue;
+            }
+        };
+    }
 
     private static Columns PrepareColumns(
         Columns columns,

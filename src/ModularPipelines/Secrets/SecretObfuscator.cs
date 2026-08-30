@@ -152,11 +152,7 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             : StringComparison.Ordinal;
         if (!preserveExistingMasks && !CanSafelyPreserveMasks(secretCache.Secrets))
         {
-            const string safeMask = "[MASKED]";
-            maskValue = secretCache.Secrets.Any(secret =>
-                !string.IsNullOrEmpty(secret) && safeMask.Contains(secret, comparison))
-                ? string.Empty
-                : safeMask;
+            maskValue = GetSafeFallbackMask(secretCache.Secrets, comparison);
         }
 
         return ObfuscateMatchesWithSourceMap(
@@ -280,6 +276,46 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
 
     private static string GetMaskValue(SecretMaskingOptions options) =>
         string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
+
+    private static string GetSafeFallbackMask(
+        IReadOnlyList<string> secrets,
+        StringComparison comparison)
+    {
+        string[] preferredMasks = ["[MASKED]", "[REDACTED]", "**********", "##########"];
+        foreach (var candidate in preferredMasks)
+        {
+            if (IsSafeMask(candidate, secrets, comparison))
+            {
+                return candidate;
+            }
+        }
+
+        for (var codePoint = char.MinValue; codePoint <= char.MaxValue; codePoint++)
+        {
+            var character = (char)codePoint;
+            if (char.IsControl(character)
+                || char.IsSurrogate(character)
+                || char.IsWhiteSpace(character))
+            {
+                continue;
+            }
+
+            var candidate = new string(character, 10);
+            if (IsSafeMask(candidate, secrets, comparison))
+            {
+                return candidate;
+            }
+        }
+
+        throw new InvalidOperationException("No non-secret masking characters remain available.");
+    }
+
+    private static bool IsSafeMask(
+        string candidate,
+        IReadOnlyList<string> secrets,
+        StringComparison comparison) =>
+        secrets.All(secret =>
+            string.IsNullOrEmpty(secret) || !candidate.Contains(secret, comparison));
 
     private static SecretCache CreateSecretCache(
         IEnumerable<string> secrets,

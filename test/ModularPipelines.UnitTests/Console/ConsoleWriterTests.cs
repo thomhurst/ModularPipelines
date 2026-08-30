@@ -859,6 +859,40 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_SnapshotsChartValueFormatterResults()
+    {
+        var formattedValue = "write-time";
+        var formatterCalls = 0;
+        var chart = new BreakdownChart
+        {
+            ValueFormatter = (_, _) =>
+            {
+                formatterCalls++;
+                return formattedValue;
+            },
+            Width = 24,
+        }.AddItem("item", 100, Color.Red);
+        var renderable = new SecretObfuscatedRenderable(
+            chart,
+            CreateSecretObfuscator("unrelated"));
+        var options = RenderOptions.Create(AnsiConsole.Console);
+
+        var writeTimeOutput = string.Concat(renderable.Render(options, 24)
+            .Select(static segment => segment.Text));
+        formattedValue = "flush-time";
+        var flushOutput = string.Concat(renderable.Render(options, 24)
+            .Select(static segment => segment.Text));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writeTimeOutput).Contains("write-time");
+            await Assert.That(flushOutput).Contains("write-time");
+            await Assert.That(flushOutput).DoesNotContain("flush-time");
+            await Assert.That(formatterCalls).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task Write_EscapesConfiguredMaskInTableTitle()
     {
         var obfuscator = CreateSecretObfuscator("secret", "[REDACTED]");
@@ -1029,18 +1063,22 @@ public class ConsoleWriterTests
         var secretProvider = new Mock<ISecretProvider>();
         secretProvider.SetupGet(x => x.Version).Returns(0);
         secretProvider.Setup(x => x.GetSnapshot())
-            .Returns(new SecretSnapshot(0, ["REDACT"]));
+            .Returns(new SecretSnapshot(0, ["MASK"]));
         var obfuscator = new SecretObfuscator(
             secretProvider.Object,
             Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
             {
-                MaskValue = "[REDACTED]",
+                MaskValue = "[MASK]",
             }));
         var output = CaptureFallbackOutput(
-            writer => writer.Write(new Text("[REDACTED]")),
+            writer => writer.Write(new Text("MASK")),
             obfuscator);
 
-        await Assert.That(output).DoesNotContain("REDACT");
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).IsNotEmpty();
+            await Assert.That(output).DoesNotContain("MASK");
+        }
     }
 
     [Test]
