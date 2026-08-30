@@ -4,7 +4,7 @@
 
 The recommended way to configure module skipping is through the `Configure(ModuleConfigurationBuilder)` method with the fluent builder API:
 
-Attribute conditions (`[SkipIf<T>]`, `[RunIfAll<T>]`, and `[RunIfAny<T>]`) remain supported. Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so both invoke skipped hooks and lifecycle notifications.
+Attribute conditions (`[SkipIf<T>]`, `[RunIf<T>]`, `[RunIfAll<T1, ..., T4>]`, and `[RunIfAny<T1, ..., T4>]`) remain supported; the grouped forms accept two to four conditions. Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so both invoke skipped hooks and lifecycle notifications.
 
 `PlanAsync()` and `--dry-run` also evaluate these conditions before execution. Conditions must be side-effect-free and must not rely on being evaluated exactly once. If a fluent condition reads an awaited module result, that result does not exist during planning; the plan reports the module's skip decision as unknown and continues without executing modules.
 

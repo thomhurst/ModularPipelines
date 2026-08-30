@@ -32,12 +32,12 @@ This means modules with `[RequiresCapability("linux")]` will only run on Linux w
 
 ### Auto-Detected OS from Platform Conditions[​](#auto-detected-os-from-platform-conditions "Direct link to Auto-Detected OS from Platform Conditions")
 
-When a module has a `[RunIfAll<OnLinux>]`, `[RunIfAll<OnWindows>]`, or `[RunIfAll<OnMacOS>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIfAll<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
+When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
 
 ```
 // The "linux" capability is auto-detected — no [RequiresCapability] needed
 
-[RunIfAll<OnLinux>]
+[RunIf<OnLinux>]
 
 public class LinuxBuildModule : Module<string>
 
@@ -136,9 +136,9 @@ public class RestoreModule : Module<string> { ... }
 
 
 
-// Only on Linux workers (auto-detected from [RunIfAll<OnLinux>])
+// Only on Linux workers (auto-detected from [RunIf<OnLinux>])
 
-[RunIfAll<OnLinux>]
+[RunIf<OnLinux>]
 
 [DependsOn<RestoreModule>]
 
@@ -146,9 +146,9 @@ public class LinuxBuildModule : Module<string> { ... }
 
 
 
-// Only on Windows workers (auto-detected from [RunIfAll<OnWindows>])
+// Only on Windows workers (auto-detected from [RunIf<OnWindows>])
 
-[RunIfAll<OnWindows>]
+[RunIf<OnWindows>]
 
 [DependsOn<RestoreModule>]
 

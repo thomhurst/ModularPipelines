@@ -1647,12 +1647,12 @@ This means modules with `[RequiresCapability("linux")]` will only run on Linux w
 
 ### Auto-Detected OS from Platform Conditions[​](#auto-detected-os-from-platform-conditions "Direct link to Auto-Detected OS from Platform Conditions")
 
-When a module has a `[RunIfAll<OnLinux>]`, `[RunIfAll<OnWindows>]`, or `[RunIfAll<OnMacOS>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIfAll<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
+When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
 
 ```
 // The "linux" capability is auto-detected — no [RequiresCapability] needed
 
-[RunIfAll<OnLinux>]
+[RunIf<OnLinux>]
 
 public class LinuxBuildModule : Module<string>
 
@@ -1751,9 +1751,9 @@ public class RestoreModule : Module<string> { ... }
 
 
 
-// Only on Linux workers (auto-detected from [RunIfAll<OnLinux>])
+// Only on Linux workers (auto-detected from [RunIf<OnLinux>])
 
-[RunIfAll<OnLinux>]
+[RunIf<OnLinux>]
 
 [DependsOn<RestoreModule>]
 
@@ -1761,9 +1761,9 @@ public class LinuxBuildModule : Module<string> { ... }
 
 
 
-// Only on Windows workers (auto-detected from [RunIfAll<OnWindows>])
+// Only on Windows workers (auto-detected from [RunIf<OnWindows>])
 
-[RunIfAll<OnWindows>]
+[RunIf<OnWindows>]
 
 [DependsOn<RestoreModule>]
 
@@ -7385,19 +7385,20 @@ public class ServiceIsAvailable : IRunCondition
 Apply the condition with an attribute that states its intent:
 
 ```
-[RunIfAll<ServiceIsAvailable>]
+[RunIf<ServiceIsAvailable>]
 
 public class DeployModule : Module
 ```
 
+* `[RunIf<T>]` runs when its condition is `true`.
 * `[SkipIf<T1, ..., T4>]` skips when any condition is `true`.
-* `[RunIfAll<T1, ..., T4>]` runs only when every condition is `true`.
-* `[RunIfAny<T1, ..., T4>]` runs when at least one condition is `true`.
+* `[RunIfAll<T1, T2, ..., T4>]` runs only when all two to four conditions are `true`.
+* `[RunIfAny<T1, T2, ..., T4>]` runs when at least one condition is `true`.
 
-When a condition needs constructor state, derive an attribute from `SkipIfAttribute`, `RunIfAllAttribute`, or `RunIfAnyAttribute`:
+When one required condition needs constructor state, derive an attribute from `RunIfAttribute`. Use `SkipIfAttribute`, `RunIfAllAttribute`, or `RunIfAnyAttribute` for the other condition logics:
 
 ```
-public sealed class RunIfRegionAttribute(string region) : RunIfAllAttribute
+public sealed class RunIfRegionAttribute(string region) : RunIfAttribute
 
 {
 
@@ -7418,26 +7419,26 @@ public class RegionalDeployModule : Module<None>
 
 The base class also provides a cancellation-aware overload. Override it when the condition performs cancellable asynchronous work.
 
-Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIfAll`, then `RunIfAny`. Attribute conditions and fluent `.WithSkipWhen(...)` conditions run in the same execution pipeline after dependency waiting. Both invoke skipped hooks and lifecycle notifications.
+Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIf`/`RunIfAll`, then `RunIfAny`. Attribute conditions and fluent `.WithSkipWhen(...)` conditions run in the same execution pipeline after dependency waiting. Both invoke skipped hooks and lifecycle notifications.
 
 Fluent dependencies are validated before execution conditions are evaluated. Every dependency declared with `DependsOn<T>()` must therefore be registered, even when an attribute condition will skip the consuming module on the current platform or environment.
 
-Built-in platform conditions include `OnLinux`, `OnWindows`, and `OnMacOS`:
+Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`:
 
 ```
-[RunIfAll<OnLinux>]
+[RunIf<OnLinux>]
 
 public class LinuxModule : Module
 ```
 
-Parameterized built-ins cover environment variables and operating systems:
+Parameterized built-ins cover environment variables. Combine platform conditions when a module can run on alternative operating systems:
 
 ```
 [RunIfEnvironmentVariable("NUGET_API_KEY")]
 
 [SkipIfEnvironmentVariable("CI", "true")]
 
-[RunIfOperatingSystem(OperatingSystemIdentifier.Linux, OperatingSystemIdentifier.MacOS)]
+[RunIfAny<OnLinux, OnMacOS>]
 
 public class PublishModule : Module<None>
 ```
@@ -7896,7 +7897,7 @@ public class DeployModule : Module<DeployResult>
 
 The recommended way to configure module skipping is through the `Configure(ModuleConfigurationBuilder)` method with the fluent builder API:
 
-Attribute conditions (`[SkipIf<T>]`, `[RunIfAll<T>]`, and `[RunIfAny<T>]`) remain supported. Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so both invoke skipped hooks and lifecycle notifications.
+Attribute conditions (`[SkipIf<T>]`, `[RunIf<T>]`, `[RunIfAll<T1, ..., T4>]`, and `[RunIfAny<T1, ..., T4>]`) remain supported; the grouped forms accept two to four conditions. Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so both invoke skipped hooks and lifecycle notifications.
 
 `PlanAsync()` and `--dry-run` also evaluate these conditions before execution. Conditions must be side-effect-free and must not rely on being evaluated exactly once. If a fluent condition reads an awaited module result, that result does not exist during planning; the plan reports the module's skip decision as unknown and continues without executing modules.
 

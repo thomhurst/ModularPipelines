@@ -25,19 +25,20 @@ public class ServiceIsAvailable : IRunCondition
 Apply the condition with an attribute that states its intent:
 
 ```
-[RunIfAll<ServiceIsAvailable>]
+[RunIf<ServiceIsAvailable>]
 
 public class DeployModule : Module
 ```
 
+* `[RunIf<T>]` runs when its condition is `true`.
 * `[SkipIf<T1, ..., T4>]` skips when any condition is `true`.
-* `[RunIfAll<T1, ..., T4>]` runs only when every condition is `true`.
-* `[RunIfAny<T1, ..., T4>]` runs when at least one condition is `true`.
+* `[RunIfAll<T1, T2, ..., T4>]` runs only when all two to four conditions are `true`.
+* `[RunIfAny<T1, T2, ..., T4>]` runs when at least one condition is `true`.
 
-When a condition needs constructor state, derive an attribute from `SkipIfAttribute`, `RunIfAllAttribute`, or `RunIfAnyAttribute`:
+When one required condition needs constructor state, derive an attribute from `RunIfAttribute`. Use `SkipIfAttribute`, `RunIfAllAttribute`, or `RunIfAnyAttribute` for the other condition logics:
 
 ```
-public sealed class RunIfRegionAttribute(string region) : RunIfAllAttribute
+public sealed class RunIfRegionAttribute(string region) : RunIfAttribute
 
 {
 
@@ -58,26 +59,26 @@ public class RegionalDeployModule : Module<None>
 
 The base class also provides a cancellation-aware overload. Override it when the condition performs cancellable asynchronous work.
 
-Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIfAll`, then `RunIfAny`. Attribute conditions and fluent `.WithSkipWhen(...)` conditions run in the same execution pipeline after dependency waiting. Both invoke skipped hooks and lifecycle notifications.
+Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIf`/`RunIfAll`, then `RunIfAny`. Attribute conditions and fluent `.WithSkipWhen(...)` conditions run in the same execution pipeline after dependency waiting. Both invoke skipped hooks and lifecycle notifications.
 
 Fluent dependencies are validated before execution conditions are evaluated. Every dependency declared with `DependsOn<T>()` must therefore be registered, even when an attribute condition will skip the consuming module on the current platform or environment.
 
-Built-in platform conditions include `OnLinux`, `OnWindows`, and `OnMacOS`:
+Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`:
 
 ```
-[RunIfAll<OnLinux>]
+[RunIf<OnLinux>]
 
 public class LinuxModule : Module
 ```
 
-Parameterized built-ins cover environment variables and operating systems:
+Parameterized built-ins cover environment variables. Combine platform conditions when a module can run on alternative operating systems:
 
 ```
 [RunIfEnvironmentVariable("NUGET_API_KEY")]
 
 [SkipIfEnvironmentVariable("CI", "true")]
 
-[RunIfOperatingSystem(OperatingSystemIdentifier.Linux, OperatingSystemIdentifier.MacOS)]
+[RunIfAny<OnLinux, OnMacOS>]
 
 public class PublishModule : Module<None>
 ```
