@@ -986,7 +986,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <summary>
     /// Returns whether an option description requires an explicit Boolean value.
     /// </summary>
-    protected static bool HelpDeclaresExplicitBooleanValue(string description) =>
+    protected internal static bool HelpDeclaresExplicitBooleanValue(string description) =>
         ExplicitBooleanValuePattern().IsMatch(description);
 
     /// <summary>

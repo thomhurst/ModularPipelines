@@ -174,7 +174,7 @@ public record WingetUpgradeOptions : WingetOptions
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
     [CliOption("--authentication-mode")]
-    public string? AuthenticationModeValue { get; set; }
+    public string? AuthenticationMode { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication
@@ -224,11 +224,11 @@ public record WingetUpgradeOptions : WingetOptions
     [CliOption("--query", ShortForm = "-q")]
     public string? Query { get; set; }
 
-    [Obsolete("Use AuthenticationModeValue instead.")]
-    public bool? AuthenticationMode
+    [Obsolete("Use AuthenticationMode instead.")]
+    public string? AuthenticationModeValue
     {
-        get => bool.TryParse(AuthenticationModeValue, out var value) ? value : null;
-        set => AuthenticationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+        get => AuthenticationMode;
+        set => AuthenticationMode = value;
     }
 
 }
