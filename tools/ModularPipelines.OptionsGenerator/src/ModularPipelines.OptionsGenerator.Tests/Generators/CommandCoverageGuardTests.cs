@@ -180,6 +180,51 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
+    public async Task ExclusionsAndConditionallyAvailableCommands_CannotOverlap()
+    {
+        var outputDirectory = CreateOutputDirectory();
+        var tool = Tool(Command("fake community")) with
+        {
+            CommandCoverage = new CliCommandCoveragePolicy
+            {
+                Exclusions =
+                [
+                    new CliCommandCoverageExclusion
+                    {
+                        Command = "fake  enterprise",
+                        Reason = "Unsupported by the generated API.",
+                    },
+                ],
+                ConditionallyAvailableCommands =
+                [
+                    new CliConditionallyAvailableCommand
+                    {
+                        Command = "FAKE enterprise",
+                        Reason = "Requires an enterprise license.",
+                    },
+                ],
+            },
+        };
+
+        try
+        {
+            void Evaluate() => CommandCoverageGuard.Evaluate(
+                tool,
+                outputDirectory,
+                approveShrinkage: false);
+
+            await Assert.That(Evaluate)
+                .Throws<InvalidOperationException>()
+                .And.HasMessageContaining("both excluded and conditionally available")
+                .And.HasMessageContaining("fake enterprise");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Fingerprint_IsStableAcrossDiscoveryOrderAndWhitespace()
     {
         var outputDirectory = CreateOutputDirectory();

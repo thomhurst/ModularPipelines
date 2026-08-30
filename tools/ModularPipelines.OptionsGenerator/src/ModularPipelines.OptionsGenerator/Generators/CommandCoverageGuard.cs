@@ -43,6 +43,17 @@ internal static class CommandCoverageGuard
                 tool.CommandCoverage.ConditionallyAvailableCommands)
             .Select(command => NormalizeCommand(command.Command))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var conflictingCommands = excludedCommands
+            .Intersect(conditionallyAvailableCommands, StringComparer.OrdinalIgnoreCase)
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (conflictingCommands.Length > 0)
+        {
+            throw new InvalidOperationException(
+                "Commands cannot be both excluded and conditionally available: "
+                + string.Join(", ", conflictingCommands));
+        }
+
         var allowedMissingCommands = excludedCommands
             .Concat(conditionallyAvailableCommands)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
