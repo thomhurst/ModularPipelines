@@ -121,6 +121,12 @@ public record CliPositionalArgument
     public bool AllowRenderingPhaseMigrationFromBaseline { get; init; }
 
     /// <summary>
+    /// Overrides whether command rendering validates that this operand has a value.
+    /// Constructor requiredness remains controlled by <see cref="IsRequired"/> for API compatibility.
+    /// </summary>
+    internal bool? IsValidationRequired { get; init; }
+
+    /// <summary>
     /// Whether this positional argument contains a secret value that should be obfuscated in logs.
     /// </summary>
     public bool IsSecret { get; init; }

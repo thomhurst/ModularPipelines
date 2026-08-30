@@ -19,8 +19,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "undo")]
-public record KubernetesRolloutUndoOptions : KubernetesOptions
+public record KubernetesRolloutUndoOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TypeName
+) : KubernetesOptions
 {
+    public KubernetesRolloutUndoOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>

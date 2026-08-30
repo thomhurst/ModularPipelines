@@ -2370,6 +2370,34 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task OptionsClassGenerator_Allows_Required_Constructor_Operand_To_Skip_Validation()
+    {
+        var command = Command("ToolDiffOptions", "ToolOptions", ["diff"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Target",
+                    CSharpType = "string?",
+                    PositionIndex = 0,
+                    IsRequired = true,
+                    IsValidationRequired = false,
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("string Target");
+            await Assert.That(generated).Contains("CliArgument(0, Phase = CommandLinePhase.EarlyOperand)");
+            await Assert.That(generated).DoesNotContain("Required = true");
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Retains_Removed_Optional_Positional_Operands()
     {
         var preserved = GeneratedApiCompatibilityPreserver.Preserve(

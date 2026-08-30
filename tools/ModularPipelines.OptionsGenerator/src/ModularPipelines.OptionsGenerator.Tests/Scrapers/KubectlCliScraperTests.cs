@@ -64,6 +64,199 @@ public class KubectlCliScraperTests
     }
 
     [Test]
+    public async Task Auth_Can_I_Allows_List_Without_Verb()
+    {
+        const string helpText = """
+            Usage:
+              kubectl auth can-i VERB [TYPE | TYPE/NAME | NONRESOURCEURL] [options]
+            """;
+
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", "auth", "can-i"],
+            helpText);
+
+        var verb = command!.PositionalArguments.Single(argument => argument.PropertyName == "Verb");
+        await Assert.That(verb.IsRequired).IsTrue();
+        await Assert.That(verb.IsValidationRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Annotate_Allows_List_Without_Annotations()
+    {
+        const string helpText = """
+            Usage:
+              kubectl annotate [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [options]
+
+            Options:
+              -f, --filename stringArray   Files identifying resources.
+                  --list                    Display annotations.
+            """;
+
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", "annotate"],
+            helpText);
+
+        var annotations = command!.PositionalArguments.Single(argument =>
+            argument.PropertyName == "Annotations");
+        await Assert.That(annotations.IsRequired).IsTrue();
+        await Assert.That(annotations.IsValidationRequired).IsFalse();
+    }
+
+    [Test]
+    [Arguments("cordon")]
+    [Arguments("drain")]
+    [Arguments("uncordon")]
+    public async Task Node_Commands_Allow_Selector_Without_Node(string commandName)
+    {
+        var helpText = $"Usage:\n  kubectl {commandName} NODE [options]";
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", commandName],
+            helpText);
+
+        var node = command!.PositionalArguments.Single(argument => argument.PropertyName == "Node");
+        await Assert.That(node.IsRequired).IsTrue();
+        await Assert.That(node.IsValidationRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Logs_Allows_Selector_Without_Pod()
+    {
+        const string helpText = "Usage:\n  kubectl logs POD [options]";
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", "logs"],
+            helpText);
+
+        var pod = command!.PositionalArguments.Single(argument => argument.PropertyName == "Pod");
+        await Assert.That(pod.IsRequired).IsTrue();
+        await Assert.That(pod.IsValidationRequired).IsFalse();
+    }
+
+    [Test]
+    [Arguments("history", "(TYPE NAME | TYPE/NAME)", "TypeName")]
+    [Arguments("pause", "RESOURCE", "Resource")]
+    [Arguments("restart", "RESOURCE", "Resource")]
+    [Arguments("resume", "RESOURCE", "Resource")]
+    [Arguments("status", "(TYPE NAME | TYPE/NAME)", "TypeName")]
+    [Arguments("undo", "(TYPE NAME | TYPE/NAME)", "TypeName")]
+    public async Task Rollout_Commands_Allow_File_Without_Resource(
+        string commandName,
+        string usageOperand,
+        string propertyName)
+    {
+        var helpText = $"Usage:\n  kubectl rollout {commandName} {usageOperand} [options]";
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", "rollout", commandName],
+            helpText);
+
+        var resource = command!.PositionalArguments.Single(argument =>
+            argument.PropertyName == propertyName);
+        await Assert.That(resource.IsRequired).IsTrue();
+        await Assert.That(resource.IsValidationRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Events_Does_Not_Treat_Output_Short_Form_As_Operand()
+    {
+        const string helpText = """
+            Usage:
+              kubectl events [(-o|--output=)json|yaml|name] [options]
+
+            Options:
+              -o, --output string   Output format.
+            """;
+        var scraper = new TestKubectlCliScraper();
+        var command = await scraper.Parse(
+            ["kubectl", "events"],
+            helpText);
+        var usage = scraper.Normalize(
+            command!,
+            UsageSynopsisParser.Parse(helpText, ["kubectl", "events"]));
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+        await Assert.That(usage.HasOperandTokens).IsFalse();
+        await Assert.That(usage.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
+    public async Task Debug_Command_Is_Optional_With_Variadic_Arguments()
+    {
+        const string helpText = """
+            Usage:
+              kubectl debug (POD | TYPE[[.VERSION].GROUP]/NAME) [ -- COMMAND [args...] ] [options]
+            """;
+
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", "debug"],
+            helpText);
+
+        var passthrough = command!.PositionalArguments
+            .Where(argument => argument.Phase == ModularPipelines.Attributes.CommandLinePhase.Passthrough)
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(passthrough.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["CommandArgs", "Args"]);
+            await Assert.That(passthrough.Any(argument =>
+                argument.IsValidationRequired ?? argument.IsRequired)).IsFalse();
+            await Assert.That(passthrough.Single(argument => argument.PropertyName == "Args").IsVariadic)
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Label_Uses_One_Required_Variadic_Labels_Operand()
+    {
+        const string helpText = """
+            Usage:
+              kubectl label [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [options]
+
+            Options:
+              -f, --filename stringArray   Files identifying resources.
+            """;
+
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", "label"],
+            helpText);
+
+        var labels = command!.PositionalArguments.Single(argument => argument.PropertyName == "Key_1Val_1");
+        var trailingLabel = command.PositionalArguments.Single(argument => argument.PropertyName == "KeyNValN");
+        using (Assert.Multiple())
+        {
+            await Assert.That(labels.IsRequired).IsTrue();
+            await Assert.That(labels.IsVariadic).IsTrue();
+            await Assert.That(labels.CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(trailingLabel.IsValidationRequired).IsFalse();
+            await Assert.That(command.PositionalArguments.Count(argument =>
+                argument.IsValidationRequired ?? argument.IsRequired))
+                .IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Taint_Allows_All_Without_Node_Name()
+    {
+        const string helpText = """
+            Usage:
+              kubectl taint NODE NAME KEY_1=VAL_1:TAINT_EFFECT_1 ... KEY_N=VAL_N:TAINT_EFFECT_N [options]
+            """;
+
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", "taint"],
+            helpText);
+
+        var name = command!.PositionalArguments.Single(argument => argument.PropertyName == "Name");
+        var taints = command.PositionalArguments.Single(argument => argument.PropertyName == "Taints");
+        using (Assert.Multiple())
+        {
+            await Assert.That(name.IsRequired).IsTrue();
+            await Assert.That(name.IsValidationRequired).IsFalse();
+            await Assert.That(taints.IsRequired).IsTrue();
+            await Assert.That(taints.IsVariadic).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Kuberc_Set_Option_Values_Do_Not_Keep_Operand_Usage()
     {
         const string helpText = """

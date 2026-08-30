@@ -18,8 +18,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drain")]
-public record KubernetesDrainOptions : KubernetesOptions
+public record KubernetesDrainOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Node
+) : KubernetesOptions
 {
+    public KubernetesDrainOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Return large lists in chunks rather than all at once. Pass 0 to disable.
     /// </summary>

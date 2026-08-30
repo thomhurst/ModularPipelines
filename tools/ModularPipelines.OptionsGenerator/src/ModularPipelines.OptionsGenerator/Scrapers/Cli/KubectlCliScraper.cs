@@ -26,12 +26,18 @@ public class KubectlCliScraper : CobraCliScraper
         CliCommandDefinition command,
         UsageSynopsisParseResult usage)
     {
-        var positionalArguments = GetPositionalArguments(usage, command.Options);
+        var positionalArguments = ApplyPositionalArgumentFixes(
+            command.CommandParts,
+            GetPositionalArguments(usage, command.Options));
+        var unparsedOperandTokens = command.CommandParts is ["events"]
+            ? []
+            : usage.UnparsedOperandTokens;
         return usage with
         {
             HasOperandTokens = positionalArguments.Count > 0
-                               || usage.UnparsedOperandTokens.Count > 0,
+                               || unparsedOperandTokens.Count > 0,
             PositionalArguments = positionalArguments,
+            UnparsedOperandTokens = unparsedOperandTokens,
         };
     }
 
@@ -54,23 +60,108 @@ public class KubectlCliScraper : CobraCliScraper
         IReadOnlyList<CliPositionalArgument> positionalArguments) =>
         commandParts switch
         {
-            ["annotate"] => CollapseNumberedRepeat(
-                positionalArguments,
-                "Key_1Val_1",
-                "KeyNValN",
+            ["annotate"] => AllowOmittedValue(
+                CollapseNumberedRepeat(
+                    positionalArguments,
+                    "Key_1Val_1",
+                    "KeyNValN",
+                    "Annotations"),
                 "Annotations"),
+            ["auth", "can-i"] => AllowOmittedValue(positionalArguments, "Verb"),
+            ["cordon" or "drain" or "uncordon"] => AllowOmittedValue(positionalArguments, "Node"),
+            ["debug"] => NormalizeDebugArguments(positionalArguments),
+            ["events"] => RemoveArgument(positionalArguments, "O"),
+            ["label"] => NormalizeLabelArguments(positionalArguments),
+            ["logs"] => AllowOmittedValue(positionalArguments, "Pod"),
             ["port-forward"] => CollapseNumberedRepeat(
                 positionalArguments,
                 "LocalPortRemotePort",
                 "LocalPortNRemotePortN",
                 "LocalPortRemotePort"),
-            ["taint"] => CollapseNumberedRepeat(
-                positionalArguments,
+            ["rollout", "history" or "pause" or "restart" or "resume" or "status" or "undo"] =>
+                AllowOmittedValue(positionalArguments, "Resource", "TypeName"),
+            ["taint"] => NormalizeTaintArguments(positionalArguments),
+            _ => positionalArguments,
+        };
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizeDebugArguments(
+        IReadOnlyList<CliPositionalArgument> arguments)
+    {
+        var combined = arguments.FirstOrDefault(argument =>
+            argument.PropertyName.Equals("CommandArgs", StringComparison.OrdinalIgnoreCase));
+        if (combined is null)
+        {
+            return arguments;
+        }
+
+        return CliPositionalArgument.MergeDuplicates(
+        [
+            .. arguments.Where(argument => !ReferenceEquals(argument, combined)),
+            combined with
+            {
+                IsVariadic = false,
+                IsValidationRequired = false,
+            },
+            combined with
+            {
+                PropertyName = "Args",
+                CSharpType = "IEnumerable<string>?",
+                PositionIndex = combined.PositionIndex + 1,
+                IsRequired = false,
+                IsVariadic = true,
+                PrependOptionTerminator = false,
+            },
+        ]);
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizeLabelArguments(
+        IReadOnlyList<CliPositionalArgument> arguments) =>
+        arguments
+            .Select(argument => argument.PropertyName switch
+            {
+                "Key_1Val_1" => argument with
+                {
+                    CSharpType = "IEnumerable<string>",
+                    IsRequired = true,
+                    IsVariadic = true,
+                },
+                "KeyNValN" => argument with
+                {
+                    IsValidationRequired = false,
+                },
+                _ => argument,
+            })
+            .ToArray();
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizeTaintArguments(
+        IReadOnlyList<CliPositionalArgument> arguments) =>
+        AllowOmittedValue(
+            CollapseNumberedRepeat(
+                arguments,
                 "Key_1Val_1TaintEffect_1",
                 "KeyNValNTaintEffectN",
                 "Taints"),
-            _ => positionalArguments,
-        };
+            "Name");
+
+    private static IReadOnlyList<CliPositionalArgument> AllowOmittedValue(
+        IReadOnlyList<CliPositionalArgument> arguments,
+        params string[] propertyNames) =>
+        arguments
+            .Select(argument => propertyNames.Contains(
+                argument.PropertyName,
+                StringComparer.OrdinalIgnoreCase)
+                ? argument with
+                {
+                    IsValidationRequired = false,
+                }
+                : argument)
+            .ToArray();
+
+    private static IReadOnlyList<CliPositionalArgument> RemoveArgument(
+        IReadOnlyList<CliPositionalArgument> arguments,
+        string propertyName) =>
+        CliPositionalArgument.MergeDuplicates(arguments.Where(argument =>
+            !argument.PropertyName.Equals(propertyName, StringComparison.OrdinalIgnoreCase)));
 
     private static IReadOnlyList<CliPositionalArgument> CollapseNumberedRepeat(
         IReadOnlyList<CliPositionalArgument> arguments,

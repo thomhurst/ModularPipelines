@@ -81,4 +81,7 @@ public record KubernetesEventsOptions : KubernetesOptions
     [CliFlag("--watch", ShortForm = "-w")]
     public bool? Watch { get; set; }
 
+    [Obsolete("O is no longer supported by the installed CLI and has no effect.")]
+    public string? O { get; set; }
+
 }

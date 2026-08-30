@@ -18,8 +18,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "status")]
-public record KubernetesRolloutStatusOptions : KubernetesOptions
+public record KubernetesRolloutStatusOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TypeName
+) : KubernetesOptions
 {
+    public KubernetesRolloutStatusOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Filename, directory, or URL to files identifying the resource to get from a server.
     /// </summary>

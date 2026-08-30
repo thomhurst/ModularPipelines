@@ -638,7 +638,7 @@ public class OptionsClassGenerator : ICodeGenerator
             parts.Add("PrependOptionTerminatorIfValueStartsWithDash = true");
         }
 
-        if (positional.IsRequired)
+        if (positional.IsValidationRequired ?? positional.IsRequired)
         {
             parts.Add("Required = true");
         }

@@ -18,8 +18,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cordon")]
-public record KubernetesCordonOptions : KubernetesOptions
+public record KubernetesCordonOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Node
+) : KubernetesOptions
 {
+    public KubernetesCordonOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
