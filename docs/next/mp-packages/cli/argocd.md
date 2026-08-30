@@ -138,7 +138,6 @@ var argoCd = context.Tools.ArgoCd;
 | `argocd proj add-destination`                                      | `ArgoCdProjAddDestinationOptions`                                  |
 | `argocd proj add-destination-service-account`                      | `ArgoCdProjAddDestinationServiceAccountOptions`                    |
 | `argocd proj add-orphaned-ignore`                                  | `ArgoCdProjAddOrphanedIgnoreOptions`                               |
-| `argocd proj add-signature-key`                                    | `ArgoCdProjAddSignatureKeyOptions`                                 |
 | `argocd proj add-source`                                           | `ArgoCdProjAddSourceOptions`                                       |
 | `argocd proj add-source-namespace`                                 | `ArgoCdProjAddSourceNamespaceOptions`                              |
 | `argocd proj allow-cluster-resource`                               | `ArgoCdProjAllowClusterResourceOptions`                            |
@@ -153,7 +152,6 @@ var argoCd = context.Tools.ArgoCd;
 | `argocd proj remove-destination`                                   | `ArgoCdProjRemoveDestinationOptions`                               |
 | `argocd proj remove-destination-service-account`                   | `ArgoCdProjRemoveDestinationServiceAccountOptions`                 |
 | `argocd proj remove-orphaned-ignore`                               | `ArgoCdProjRemoveOrphanedIgnoreOptions`                            |
-| `argocd proj remove-signature-key`                                 | `ArgoCdProjRemoveSignatureKeyOptions`                              |
 | `argocd proj remove-source`                                        | `ArgoCdProjRemoveSourceOptions`                                    |
 | `argocd proj remove-source-namespace`                              | `ArgoCdProjRemoveSourceNamespaceOptions`                           |
 | `argocd proj role`                                                 | `ArgoCdProjRoleOptions`                                            |
