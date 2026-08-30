@@ -1,4 +1,6 @@
 using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
@@ -5870,6 +5872,63 @@ public class GeneratorHardeningTests
             $"using ModularPipelines.Secrets;{Environment.NewLine}using System.CodeDom.Compiler;");
         await Assert.That(generated).Contains("[property: SecretValue, CliArgument(0");
         await Assert.That(generated).Contains($"[SecretValue]{Environment.NewLine}    [CliArgument(1");
+    }
+
+    [Test]
+    public async Task Generated_Secret_Options_Compile_With_Secrets_Import()
+    {
+        var command = Command("ToolAuthOptions", "ToolOptions", ["auth"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--token",
+                    PropertyName = "Token",
+                    CSharpType = "string?",
+                    IsRequired = true,
+                    IsSecret = true,
+                    SecretValueKeys = ["token"],
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+        var normalized = GeneratorUtils.EnsureSecretValueUsing(
+            generated.Replace(
+                $"using ModularPipelines.Secrets;{Environment.NewLine}",
+                string.Empty,
+                StringComparison.Ordinal));
+        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
+            .Split(Path.PathSeparator)
+            .Select(static path => MetadataReference.CreateFromFile(path));
+        var compilation = CSharpCompilation.Create(
+            "secret-option",
+            [
+                CSharpSyntaxTree.ParseText(
+                    "namespace ModularPipelines.Attributes { "
+                    + "public sealed class CliOptionAttribute(string name) : System.Attribute; "
+                    + "public sealed class CliSubCommandAttribute(params string[] commandParts) : System.Attribute; } "
+                    + "namespace ModularPipelines.Secrets { "
+                    + "public sealed class SecretValueAttribute(params string[] keys) : System.Attribute; } "
+                    + "namespace ModularPipelines.Tool.Options { public record ToolOptions; }"),
+                CSharpSyntaxTree.ParseText(normalized),
+            ],
+            references,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        var errors = compilation.GetDiagnostics()
+            .Where(static diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)
+            .Select(static diagnostic => diagnostic.ToString())
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(normalized).Contains(
+                $"using ModularPipelines.Secrets;{Environment.NewLine}using System.CodeDom.Compiler;");
+            await Assert.That(normalized).Contains(
+                "[property: SecretValue(\"token\"), CliOption(\"--token\")]");
+            await Assert.That(errors).IsEmpty();
+        }
     }
 
     #endregion
