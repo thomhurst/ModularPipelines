@@ -81,4 +81,10 @@ public record KubernetesApplyEditLastAppliedOptions : KubernetesOptions
     [CliFlag("--windows-line-endings")]
     public bool? WindowsLineEndings { get; set; }
 
+    /// <summary>
+    /// The RESOURCE/NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? ResourceName { get; set; }
+
 }

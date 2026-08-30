@@ -52,7 +52,7 @@ public record KubernetesApplyOptions : KubernetesOptions
     public string? FieldManager { get; set; }
 
     /// <summary>
-    /// The files that contain the configurations to apply.
+    /// The files, directories or URLs that contain the configurations to apply.
     /// </summary>
     [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
@@ -96,7 +96,7 @@ public record KubernetesApplyOptions : KubernetesOptions
     /// <summary>
     /// Automatically resolve conflicts between the modified and live configuration by using values from the modified configuration
     /// </summary>
-    [CliOption("--overwrite", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
     /// <summary>
@@ -156,7 +156,7 @@ public record KubernetesApplyOptions : KubernetesOptions
     /// <summary>
     /// Must be one of: strict (or true), warn, ignore (or false). "true" or "strict" will use a schema to validate the input and fail the request if invalid. It will perform server side validation if ServerSideFieldValidation is enabled on the api-server, but will fall back to less reliable client-side validation if not. "warn" will warn about unknown or duplicate fields without blocking the request if server-side field validation is enabled on the API server, and behave as "ignore" otherwise. "false" or "ignore" will not perform any schema validation, silently dropping any unknown or duplicate fields.
     /// </summary>
-    [CliOption("--validate", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--validate")]
     public string? Validate { get; set; }
 
     /// <summary>

@@ -19,8 +19,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set-credentials")]
-public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
+public record KubernetesConfigSetCredentialsOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : KubernetesOptions
 {
+    public KubernetesConfigSetCredentialsOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Auth provider for the user entry in kubeconfig
     /// </summary>

@@ -57,4 +57,10 @@ public record KubernetesApplyViewLastAppliedOptions : KubernetesOptions
     [CliOption("--selector", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public string? Selector { get; set; }
 
+    /// <summary>
+    /// The TYPE [NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? TypeName { get; set; }
+
 }
