@@ -22,6 +22,16 @@ namespace ModularPipelines.Podman.Services;
 public interface IPodmanSecret
 {
     /// <summary>
+    /// Manage secrets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(PodmanSecretOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Create a new secret
     /// </summary>
     /// <param name="options">The command options.</param>

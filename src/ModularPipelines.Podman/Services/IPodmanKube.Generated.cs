@@ -22,6 +22,16 @@ namespace ModularPipelines.Podman.Services;
 public interface IPodmanKube
 {
     /// <summary>
+    /// Play containers, pods or volumes from a structured file
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(PodmanKubeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Deploy a podman container, pod, volume, or Kubernetes yaml to a Kubernetes cluster
     /// </summary>
     /// <param name="options">The command options.</param>

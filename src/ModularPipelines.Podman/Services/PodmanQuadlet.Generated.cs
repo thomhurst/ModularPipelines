@@ -33,6 +33,21 @@ public class PodmanQuadlet : IPodmanQuadlet
     #region Commands
 
     /// <summary>
+    /// Allows users to manage Quadlets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PodmanQuadletOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanQuadletOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Install a quadlet file or quadlet application
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -22,6 +22,16 @@ namespace ModularPipelines.Podman.Services;
 public interface IPodmanQuadlet
 {
     /// <summary>
+    /// Allows users to manage Quadlets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(PodmanQuadletOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Install a quadlet file or quadlet application
     /// </summary>
     /// <param name="options">The command options.</param>

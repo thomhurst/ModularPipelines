@@ -27,6 +27,16 @@ public interface IPodmanSystem
     PodmanSystemConnection Connection => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Manage podman
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(PodmanSystemOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Check storage consistency
     /// </summary>
     /// <param name="options">The command options.</param>

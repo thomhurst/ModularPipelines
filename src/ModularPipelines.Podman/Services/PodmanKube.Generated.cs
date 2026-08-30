@@ -33,6 +33,21 @@ public class PodmanKube : IPodmanKube
     #region Commands
 
     /// <summary>
+    /// Play containers, pods or volumes from a structured file
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PodmanKubeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanKubeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Deploy a podman container, pod, volume, or Kubernetes yaml to a Kubernetes cluster
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -22,6 +22,16 @@ namespace ModularPipelines.Podman.Services;
 public interface IPodmanFarm
 {
     /// <summary>
+    /// Farm out builds to remote machines
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(PodmanFarmOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Build a container image for multiple architectures
     /// </summary>
     /// <param name="options">The command options.</param>

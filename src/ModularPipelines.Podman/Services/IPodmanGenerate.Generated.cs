@@ -22,6 +22,16 @@ namespace ModularPipelines.Podman.Services;
 public interface IPodmanGenerate
 {
     /// <summary>
+    /// Generate structured data based on containers, pods or volumes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(PodmanGenerateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Generate Kubernetes YAML from containers, pods or volumes.
     /// </summary>
     /// <param name="options">The command options.</param>

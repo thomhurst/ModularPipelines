@@ -33,6 +33,21 @@ public class PodmanImageTrust
     #region Commands
 
     /// <summary>
+    /// Manage container image trust policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PodmanImageTrustOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanImageTrustOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Set default trust policy or a new trust policy for a registry
     /// </summary>
     /// <param name="options">The command options.</param>
