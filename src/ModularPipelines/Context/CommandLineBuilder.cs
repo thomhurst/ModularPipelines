@@ -137,15 +137,13 @@ internal sealed class CommandLineBuilder(
                 CommandLinePhase.Terminal)
             .ToList();
         var hasOptionTerminator = pendingTerminatorState;
-        var extractedManualOptions = options.ArgumentsContainToolOptions
-                                     && hasOptionTerminator
-            ? ExtractRecognizedManualOptionsByScope(
-                manualArgs,
-                globalCommandModel,
-                [.. commandSpecificModel, .. terminalCommandModel],
-                options,
-                preserveTerminalOptions: true)
-            : ExtractedManualOptions.Empty;
+        var extractedManualOptions = ExtractManualOptionsBeforeTerminator(
+            options,
+            hasOptionTerminator,
+            manualArgs,
+            globalCommandModel,
+            commandSpecificModel,
+            terminalCommandModel);
         ValidateTerminatorState(
             options,
             commandParts,
@@ -186,13 +184,10 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(runSettingsArgs);
 
         // 8. A terminal option must not follow any rendered or manually supplied option terminator.
-        if ((terminalAdditionalArgs.Count > 0 || terminalOptionArgs.Count > 0)
-            && emittedOptionTerminator)
-        {
-            throw new InvalidOperationException(
-                "Terminal options cannot be combined with arguments that emit or supply an "
-                + "end-of-options marker. Remove either the terminal option or the '--' source.");
-        }
+        ValidateTerminalOptions(
+            terminalAdditionalArgs,
+            terminalOptionArgs,
+            emittedOptionTerminator);
 
         // Terminal options must follow every positional argument source.
         allArgs.AddRange(terminalArgumentArgs);
@@ -200,6 +195,43 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(terminalOptionArgs);
 
         return new CommandLine(tool, allArgs);
+    }
+
+    private static ExtractedManualOptions ExtractManualOptionsBeforeTerminator(
+        CommandLineToolOptions options,
+        bool hasOptionTerminator,
+        List<string> manualArgs,
+        IReadOnlyList<PropertyCommandLinePart> globalCommandModel,
+        IReadOnlyList<PropertyCommandLinePart> commandSpecificModel,
+        IReadOnlyList<PropertyCommandLinePart> terminalCommandModel)
+    {
+        if (!options.ArgumentsContainToolOptions || !hasOptionTerminator)
+        {
+            return ExtractedManualOptions.Empty;
+        }
+
+        return ExtractRecognizedManualOptionsByScope(
+            manualArgs,
+            globalCommandModel,
+            [.. commandSpecificModel, .. terminalCommandModel],
+            options,
+            preserveTerminalOptions: true);
+    }
+
+    private static void ValidateTerminalOptions(
+        IReadOnlyCollection<string> terminalAdditionalArgs,
+        IReadOnlyCollection<string> terminalOptionArgs,
+        bool emittedOptionTerminator)
+    {
+        if (!emittedOptionTerminator
+            || (terminalAdditionalArgs.Count == 0 && terminalOptionArgs.Count == 0))
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            "Terminal options cannot be combined with arguments that emit or supply an "
+            + "end-of-options marker. Remove either the terminal option or the '--' source.");
     }
 
     private static void ValidateRunSettingsTerminator(
