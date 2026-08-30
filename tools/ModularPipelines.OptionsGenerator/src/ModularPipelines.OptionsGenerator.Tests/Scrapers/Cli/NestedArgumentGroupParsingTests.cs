@@ -289,6 +289,44 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Ingestion_Service_Accounts_Are_Textual()
+    {
+        const string helpText = """
+            NAME
+                gcloud pubsub topics update - update a topic
+
+            SYNOPSIS
+                gcloud pubsub topics update
+
+            FLAGS
+                 --aws-msk-ingestion-service-account=SERVICE_ACCOUNT
+                    Google Cloud service account used with MSK.
+                 --azure-event-hubs-ingestion-service-account=SERVICE_ACCOUNT
+                    Google Cloud service account used with Azure Event Hubs.
+                 --confluent-cloud-ingestion-service-account=SERVICE_ACCOUNT
+                    Google Cloud service account used with Confluent Cloud.
+                 --kinesis-ingestion-service-account=SERVICE_ACCOUNT
+                    Google Cloud service account used with Kinesis.
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "pubsub", "topics", "update"],
+            helpText);
+
+        var serviceAccountOptions = command!.Options
+            .Where(option => option.SwitchName.EndsWith(
+                "-ingestion-service-account",
+                StringComparison.Ordinal))
+            .ToArray();
+        using (Assert.Multiple())
+        {
+            await Assert.That(serviceAccountOptions).Count().IsEqualTo(4);
+            await Assert.That(serviceAccountOptions.Select(option => option.CSharpType))
+                .IsEquivalentTo(["string?", "string?", "string?", "string?"]);
+        }
+    }
+
+    [Test]
     public async Task Gcloud_File_Hints_Take_Precedence_Over_Numeric_Tokens()
     {
         const string helpText = """

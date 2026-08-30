@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -30,301 +29,301 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions
     public string? UpdateLabels { get; set; }
 
     /// <summary>
-    /// If set, clear the Ingestion Data Source Settings from the topic. Use --no-clear-ingestion-data-source-settings to disable this flag.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: If set, clear the Ingestion Data Source Settings from the topic. Use --no-clear-ingestion-data-source-settings to disable this flag.
     /// </summary>
     [CliFlag("--clear-ingestion-data-source-settings")]
     public bool? ClearIngestionDataSourceSettings { get; set; }
 
     /// <summary>
-    /// If set, clear the Ingestion Data Source Settings from the topic. Use --no-clear-ingestion-data-source-settings to disable this flag.
+    /// Negates --clear-ingestion-data-source-settings. Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: If set, clear the Ingestion Data Source Settings from the topic. Use --no-clear-ingestion-data-source-settings to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-ingestion-data-source-settings")]
     public bool? NoClearIngestionDataSourceSettings { get; set; }
 
     /// <summary>
-    /// Log severity to use for ingestion.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Log severity to use for ingestion.
     /// </summary>
     [CliOption("--ingestion-log-severity", Format = OptionFormat.EqualsSeparated)]
     public string? IngestionLogSeverity { get; set; }
 
     /// <summary>
-    /// AWS role ARN to be used for Federated Identity authentication with MSK. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) When updating AWS MSK Source flags, all AWS MSK Source flags must be specified. Otherwise, any omitted AWS MSK Source flags revert to their default value. AWS role ARN to be used for Federated Identity authentication with MSK. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--aws-msk-ingestion-aws-role-arn", Format = OptionFormat.EqualsSeparated)]
     public string? AwsMskIngestionAwsRoleArn { get; set; }
 
     /// <summary>
-    /// ARN that uniquely identifies the MSK cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) When updating AWS MSK Source flags, all AWS MSK Source flags must be specified. Otherwise, any omitted AWS MSK Source flags revert to their default value. ARN that uniquely identifies the MSK cluster. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--aws-msk-ingestion-cluster-arn", Format = OptionFormat.EqualsSeparated)]
     public string? AwsMskIngestionClusterArn { get; set; }
 
     /// <summary>
-    /// Google Cloud service account to be used for Federated Identity authentication with MSK. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) When updating AWS MSK Source flags, all AWS MSK Source flags must be specified. Otherwise, any omitted AWS MSK Source flags revert to their default value. Google Cloud service account to be used for Federated Identity authentication with MSK. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--aws-msk-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? AwsMskIngestionServiceAccount { get; set; }
+    public string? AwsMskIngestionServiceAccount { get; set; }
 
     /// <summary>
-    /// Name of the MSK topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) When updating AWS MSK Source flags, all AWS MSK Source flags must be specified. Otherwise, any omitted AWS MSK Source flags revert to their default value. Name of the MSK topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--aws-msk-ingestion-topic", Format = OptionFormat.EqualsSeparated)]
     public string? AwsMskIngestionTopic { get; set; }
 
     /// <summary>
-    /// Azure Event Hubs client ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Azure Event Hubs When updating AzureEventHubs Source flags, all AzureEventHubs Source flags must be specified. Otherwise, any omitted AzureEventHubs Source flags revert to their default value. Azure Event Hubs client ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionClientId { get; set; }
 
     /// <summary>
-    /// Azure event hub from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Azure Event Hubs When updating AzureEventHubs Source flags, all AzureEventHubs Source flags must be specified. Otherwise, any omitted AzureEventHubs Source flags revert to their default value. Azure event hub from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-event-hub", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionEventHub { get; set; }
 
     /// <summary>
-    /// Azure Event Hubs namespace from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Azure Event Hubs When updating AzureEventHubs Source flags, all AzureEventHubs Source flags must be specified. Otherwise, any omitted AzureEventHubs Source flags revert to their default value. Azure Event Hubs namespace from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-namespace", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionNamespace { get; set; }
 
     /// <summary>
-    /// Azure Event Hubs resource group from within an Azure subscription. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Azure Event Hubs When updating AzureEventHubs Source flags, all AzureEventHubs Source flags must be specified. Otherwise, any omitted AzureEventHubs Source flags revert to their default value. Azure Event Hubs resource group from within an Azure subscription. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-resource-group", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionResourceGroup { get; set; }
 
     /// <summary>
-    /// Google Cloud service account to be used for Federated Identity authentication with Azure Event Hubs. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Azure Event Hubs When updating AzureEventHubs Source flags, all AzureEventHubs Source flags must be specified. Otherwise, any omitted AzureEventHubs Source flags revert to their default value. Google Cloud service account to be used for Federated Identity authentication with Azure Event Hubs. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? AzureEventHubsIngestionServiceAccount { get; set; }
+    public string? AzureEventHubsIngestionServiceAccount { get; set; }
 
     /// <summary>
-    /// Azure Event Hubs subscription ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Azure Event Hubs When updating AzureEventHubs Source flags, all AzureEventHubs Source flags must be specified. Otherwise, any omitted AzureEventHubs Source flags revert to their default value. Azure Event Hubs subscription ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-subscription-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionSubscriptionId { get; set; }
 
     /// <summary>
-    /// Azure Event Hubs tenant ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Azure Event Hubs When updating AzureEventHubs Source flags, all AzureEventHubs Source flags must be specified. Otherwise, any omitted AzureEventHubs Source flags revert to their default value. Azure Event Hubs tenant ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-tenant-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionTenantId { get; set; }
 
     /// <summary>
-    /// Cloud Storage bucket from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Cloud Storage When updating CloudStorage Source flags, all CloudStorage Source flags must be specified. Otherwise, any omitted CloudStorage Source flags revert to their default value. Cloud Storage bucket from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageIngestionBucket { get; set; }
 
     /// <summary>
-    /// Format of the data in the Cloud Storage bucket. INPUT_FORMAT must be one of: text, avro, pubsub_avro. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Cloud Storage When updating CloudStorage Source flags, all CloudStorage Source flags must be specified. Otherwise, any omitted CloudStorage Source flags revert to their default value. Format of the data in the Cloud Storage bucket. INPUT_FORMAT must be one of: text, avro, pubsub_avro. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-input-format", Format = OptionFormat.EqualsSeparated)]
     public GcloudCloudStorageIngestionInputFormat? CloudStorageIngestionInputFormat { get; set; }
 
     /// <summary>
-    /// Delimiter to use with text format when partitioning the object.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Cloud Storage When updating CloudStorage Source flags, all CloudStorage Source flags must be specified. Otherwise, any omitted CloudStorage Source flags revert to their default value. Delimiter to use with text format when partitioning the object.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-text-delimiter", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageIngestionTextDelimiter { get; set; }
 
     /// <summary>
-    /// Only Cloud Storage objects with a larger or equal creation timestamp will be ingested.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Cloud Storage When updating CloudStorage Source flags, all CloudStorage Source flags must be specified. Otherwise, any omitted CloudStorage Source flags revert to their default value. Only Cloud Storage objects with a larger or equal creation timestamp will be ingested.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-minimum-object-create-time", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageIngestionMinimumObjectCreateTime { get; set; }
 
     /// <summary>
-    /// Glob pattern used to match Cloud Storage objects that will be ingested. If unset, all objects will be ingested.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Cloud Storage When updating CloudStorage Source flags, all CloudStorage Source flags must be specified. Otherwise, any omitted CloudStorage Source flags revert to their default value. Glob pattern used to match Cloud Storage objects that will be ingested. If unset, all objects will be ingested.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-match-glob", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageIngestionMatchGlob { get; set; }
 
     /// <summary>
-    /// Confluent Cloud bootstrap server. The format is url:port. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Confluent Cloud When updating ConfluentCloud Source flags, all ConfluentCloud Source flags must be specified. Otherwise, any omitted ConfluentCloud Source flags revert to their default value. Confluent Cloud bootstrap server. The format is url:port. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-bootstrap-server", Format = OptionFormat.EqualsSeparated)]
     public string? ConfluentCloudIngestionBootstrapServer { get; set; }
 
     /// <summary>
-    /// Confluent Cloud cluster ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Confluent Cloud When updating ConfluentCloud Source flags, all ConfluentCloud Source flags must be specified. Otherwise, any omitted ConfluentCloud Source flags revert to their default value. Confluent Cloud cluster ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-cluster-id", Format = OptionFormat.EqualsSeparated)]
     public string? ConfluentCloudIngestionClusterId { get; set; }
 
     /// <summary>
-    /// Identity pool ID to be used for Federated Identity authentication with Confluent Cloud. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Confluent Cloud When updating ConfluentCloud Source flags, all ConfluentCloud Source flags must be specified. Otherwise, any omitted ConfluentCloud Source flags revert to their default value. Identity pool ID to be used for Federated Identity authentication with Confluent Cloud. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-identity-pool-id", Format = OptionFormat.EqualsSeparated)]
     public string? ConfluentCloudIngestionIdentityPoolId { get; set; }
 
     /// <summary>
-    /// Google Cloud service account to be used for Federated Identity authentication with Confluent Cloud. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Confluent Cloud When updating ConfluentCloud Source flags, all ConfluentCloud Source flags must be specified. Otherwise, any omitted ConfluentCloud Source flags revert to their default value. Google Cloud service account to be used for Federated Identity authentication with Confluent Cloud. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ConfluentCloudIngestionServiceAccount { get; set; }
+    public string? ConfluentCloudIngestionServiceAccount { get; set; }
 
     /// <summary>
-    /// Name of the Confluent Cloud topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Confluent Cloud When updating ConfluentCloud Source flags, all ConfluentCloud Source flags must be specified. Otherwise, any omitted ConfluentCloud Source flags revert to their default value. Name of the Confluent Cloud topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-topic", Format = OptionFormat.EqualsSeparated)]
     public string? ConfluentCloudIngestionTopic { get; set; }
 
     /// <summary>
-    /// Kinesis data streams consumer Amazon Resource Name (ARN) to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams When updating AWSKinesis Source flags, all AWSKinesis Source flags must be specified. Otherwise, any omitted AWSKinesis Source flags revert to their default value. Kinesis data streams consumer Amazon Resource Name (ARN) to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kinesis-ingestion-consumer-arn", Format = OptionFormat.EqualsSeparated)]
     public string? KinesisIngestionConsumerArn { get; set; }
 
     /// <summary>
-    /// AWS role ARN to be used for Federated Identity authentication with Kinesis. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams When updating AWSKinesis Source flags, all AWSKinesis Source flags must be specified. Otherwise, any omitted AWSKinesis Source flags revert to their default value. AWS role ARN to be used for Federated Identity authentication with Kinesis. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kinesis-ingestion-role-arn", Format = OptionFormat.EqualsSeparated)]
     public string? KinesisIngestionRoleArn { get; set; }
 
     /// <summary>
-    /// Google Cloud service account to be used for Federated Identity authentication with Kinesis. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams When updating AWSKinesis Source flags, all AWSKinesis Source flags must be specified. Otherwise, any omitted AWSKinesis Source flags revert to their default value. Google Cloud service account to be used for Federated Identity authentication with Kinesis. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kinesis-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? KinesisIngestionServiceAccount { get; set; }
+    public string? KinesisIngestionServiceAccount { get; set; }
 
     /// <summary>
-    /// Kinesis data stream ARN from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either --clear-ingestion-data-source-settings or a new ingestion source. At most one of these can be specified: Following flags are for specifying the data source settings for an import topic When updating IngestionDataSourceSettings flags, all IngestionDataSourceSettings flags must be specified. Otherwise, any omitted IngestionDataSourceSettings flags revert to their default value. Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams When updating AWSKinesis Source flags, all AWSKinesis Source flags must be specified. Otherwise, any omitted AWSKinesis Source flags revert to their default value. Kinesis data stream ARN from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kinesis-ingestion-stream-arn", Format = OptionFormat.EqualsSeparated)]
     public string? KinesisIngestionStreamArn { get; set; }
 
     /// <summary>
-    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud pubsub topics update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud pubsub topics update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud pubsub topics update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud pubsub topics update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// If set, clear the message retention duration from the topic. Use --no-clear-message-retention-duration to disable this flag.
+    /// At most one of these can be specified: If set, clear the message retention duration from the topic. Use --no-clear-message-retention-duration to disable this flag.
     /// </summary>
     [CliFlag("--clear-message-retention-duration")]
     public bool? ClearMessageRetentionDuration { get; set; }
 
     /// <summary>
-    /// If set, clear the message retention duration from the topic. Use --no-clear-message-retention-duration to disable this flag.
+    /// Negates --clear-message-retention-duration. At most one of these can be specified: If set, clear the message retention duration from the topic. Use --no-clear-message-retention-duration to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-message-retention-duration")]
     public bool? NoClearMessageRetentionDuration { get; set; }
 
     /// <summary>
-    /// Indicates the minimum duration to retain a message after it is published to the topic. If this field is set, messages published to the topic in the last MESSAGE_RETENTION_DURATION are always available to subscribers. For instance, it allows any attached subscription to seek to a timestamp that is up to MESSAGE_RETENTION_DURATION in the past. If this field is not set, message retention is controlled by settings on individual subscriptions. The minimum is 10 minutes and the maximum is 31 days. Valid values are strings of the form INTEGER[UNIT], where UNIT is one of "s", "m", "h", and "d" for seconds, minutes, hours, and days, respectively. If the unit is omitted, seconds is assumed.
+    /// At most one of these can be specified: Indicates the minimum duration to retain a message after it is published to the topic. If this field is set, messages published to the topic in the last MESSAGE_RETENTION_DURATION are always available to subscribers. For instance, it allows any attached subscription to seek to a timestamp that is up to MESSAGE_RETENTION_DURATION in the past. If this field is not set, message retention is controlled by settings on individual subscriptions. The minimum is 10 minutes and the maximum is 31 days. Valid values are strings of the form INTEGER[UNIT], where UNIT is one of "s", "m", "h", and "d" for seconds, minutes, hours, and days, respectively. If the unit is omitted, seconds is assumed.
     /// </summary>
     [CliOption("--message-retention-duration", Format = OptionFormat.EqualsSeparated)]
     public string? MessageRetentionDuration { get; set; }
 
     /// <summary>
-    /// If set, clears the message transforms field. Use --no-clear-message-transforms to disable this flag.
+    /// At most one of these can be specified: If set, clears the message transforms field. Use --no-clear-message-transforms to disable this flag.
     /// </summary>
     [CliFlag("--clear-message-transforms")]
     public bool? ClearMessageTransforms { get; set; }
 
     /// <summary>
-    /// If set, clears the message transforms field. Use --no-clear-message-transforms to disable this flag.
+    /// Negates --clear-message-transforms. At most one of these can be specified: If set, clears the message transforms field. Use --no-clear-message-transforms to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-message-transforms")]
     public bool? NoClearMessageTransforms { get; set; }
 
     /// <summary>
-    /// Path to YAML or JSON file containing message transforms.
+    /// At most one of these can be specified: Path to YAML or JSON file containing message transforms.
     /// </summary>
     [CliOption("--message-transforms-file", Format = OptionFormat.EqualsSeparated)]
     public string? MessageTransformsFile { get; set; }
 
     /// <summary>
-    /// If set, clear the Schema Settings from the topic. Use --no-clear-schema-settings to disable this flag.
+    /// At most one of these can be specified: If set, clear the Schema Settings from the topic. Use --no-clear-schema-settings to disable this flag.
     /// </summary>
     [CliFlag("--clear-schema-settings")]
     public bool? ClearSchemaSettings { get; set; }
 
     /// <summary>
-    /// If set, clear the Schema Settings from the topic. Use --no-clear-schema-settings to disable this flag.
+    /// Negates --clear-schema-settings. At most one of these can be specified: If set, clear the Schema Settings from the topic. Use --no-clear-schema-settings to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-schema-settings")]
     public bool? NoClearSchemaSettings { get; set; }
 
     /// <summary>
-    /// The encoding of messages validated against the schema. ENCODING must be one of: json, binary. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. When updating SchemaSettings flags, all SchemaSettings flags must be specified. Otherwise, any omitted SchemaSettings flags revert to their default value. The encoding of messages validated against the schema. ENCODING must be one of: json, binary. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--message-encoding", Format = OptionFormat.EqualsSeparated)]
     public GcloudMessageEncoding? MessageEncoding { get; set; }
 
     /// <summary>
-    /// The id of the oldest revision allowed for the specified schema.
+    /// At most one of these can be specified: Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. When updating SchemaSettings flags, all SchemaSettings flags must be specified. Otherwise, any omitted SchemaSettings flags revert to their default value. The id of the oldest revision allowed for the specified schema.
     /// </summary>
     [CliOption("--first-revision-id", Format = OptionFormat.EqualsSeparated)]
     public string? FirstRevisionId { get; set; }
 
     /// <summary>
-    /// The id of the most recent revision allowed for the specified schema
+    /// At most one of these can be specified: Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. When updating SchemaSettings flags, all SchemaSettings flags must be specified. Otherwise, any omitted SchemaSettings flags revert to their default value. The id of the most recent revision allowed for the specified schema
     /// </summary>
     [CliOption("--last-revision-id", Format = OptionFormat.EqualsSeparated)]
     public string? LastRevisionId { get; set; }
 
     /// <summary>
-    /// ID of the schema or fully qualified identifier for the schema. To set the schema attribute: o provide the argument --schema on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. When updating SchemaSettings flags, all SchemaSettings flags must be specified. Otherwise, any omitted SchemaSettings flags revert to their default value. Schema resource - Name of the schema that messages published to this topic must conform to. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: o provide the argument --schema on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--schema", Format = OptionFormat.EqualsSeparated)]
     public string? Schema { get; set; }
 
     /// <summary>
-    /// Project ID of the Google Cloud project for the schema. To set the project attribute: o provide the argument --schema on the command line with a fully specified name; o provide the argument --schema-project on the command line; o provide the argument --project on the command line; o set the property core/project.
+    /// At most one of these can be specified: Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. When updating SchemaSettings flags, all SchemaSettings flags must be specified. Otherwise, any omitted SchemaSettings flags revert to their default value. Schema resource - Name of the schema that messages published to this topic must conform to. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Project ID of the Google Cloud project for the schema. To set the project attribute: o provide the argument --schema on the command line with a fully specified name; o provide the argument --schema-project on the command line; o provide the argument --project on the command line; o set the property core/project.
     /// </summary>
     [CliOption("--schema-project", Format = OptionFormat.EqualsSeparated)]
     public string? SchemaProject { get; set; }
 
     /// <summary>
-    /// If given, Pub/Sub recomputes the regions where messages can be stored at rest, based on your organization's "Resource Location Restriction" policy.
+    /// Message storage policy options. At most one of these can be specified: If given, Pub/Sub recomputes the regions where messages can be stored at rest, based on your organization's "Resource Location Restriction" policy.
     /// </summary>
     [CliFlag("--recompute-message-storage-policy")]
     public bool? RecomputeMessageStoragePolicy { get; set; }
 
     /// <summary>
-    /// A list of one or more Cloud regions where messages are allowed to be stored at rest. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Message storage policy options. At most one of these can be specified: Options for explicitly specifying the message storage policy (https://cloud.google.com/pubsub/docs/resource-location-restriction) for a topic. When updating MessageStoragePolicy flags, all MessageStoragePolicy flags must be specified. Otherwise, any omitted MessageStoragePolicy flags revert to their default value. These fields can be set only if the --recompute-message-storage-policy flag is not set. A list of one or more Cloud regions where messages are allowed to be stored at rest. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--message-storage-policy-allowed-regions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MessageStoragePolicyAllowedRegions { get; set; }
 
     /// <summary>
-    /// Whether or not to enforce in-transit guarantees for this topic using the allowed regions. This ensures that publishing, pulling, and push delivery are only handled in allowed Cloud regions.
+    /// Message storage policy options. At most one of these can be specified: Options for explicitly specifying the message storage policy (https://cloud.google.com/pubsub/docs/resource-location-restriction) for a topic. When updating MessageStoragePolicy flags, all MessageStoragePolicy flags must be specified. Otherwise, any omitted MessageStoragePolicy flags revert to their default value. These fields can be set only if the --recompute-message-storage-policy flag is not set. Whether or not to enforce in-transit guarantees for this topic using the allowed regions. This ensures that publishing, pulling, and push delivery are only handled in allowed Cloud regions.
     /// </summary>
     [CliFlag("--message-storage-policy-enforce-in-transit")]
     public bool? MessageStoragePolicyEnforceInTransit { get; set; }
 
     /// <summary>
-    /// ID of the key or fully qualified identifier for the key. To set the kms-key attribute: * provide the argument --topic-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the topic. The specified Cloud KMS key should have purpose set to "ENCRYPT_DECRYPT". The service account, "service-${CONSUMER_PROJECT_NUMBER}@gcp-sa-pubsub.iam.gserviceaccount.com" requires the IAM cryptoKeyEncrypterDecrypter role for the given Cloud KMS key. CONSUMER_PROJECT_NUMBER is the project number of the project that is the parent of the topic being updated. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: + provide the argument --topic-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--topic-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? TopicEncryptionKey { get; set; }
 
     /// <summary>
-    /// The KMS keyring of the key. To set the kms-keyring attribute: * provide the argument --topic-encryption-key on the command line with a fully specified name; * provide the argument --topic-encryption-key-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the topic. The specified Cloud KMS key should have purpose set to "ENCRYPT_DECRYPT". The service account, "service-${CONSUMER_PROJECT_NUMBER}@gcp-sa-pubsub.iam.gserviceaccount.com" requires the IAM cryptoKeyEncrypterDecrypter role for the given Cloud KMS key. CONSUMER_PROJECT_NUMBER is the project number of the project that is the parent of the topic being updated. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: + provide the argument --topic-encryption-key on the command line with a fully specified name; + provide the argument --topic-encryption-key-keyring on the command line.
     /// </summary>
     [CliOption("--topic-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? TopicEncryptionKeyKeyring { get; set; }
 
     /// <summary>
-    /// The Google Cloud location for the key. To set the kms-location attribute: * provide the argument --topic-encryption-key on the command line with a fully specified name; * provide the argument --topic-encryption-key-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the topic. The specified Cloud KMS key should have purpose set to "ENCRYPT_DECRYPT". The service account, "service-${CONSUMER_PROJECT_NUMBER}@gcp-sa-pubsub.iam.gserviceaccount.com" requires the IAM cryptoKeyEncrypterDecrypter role for the given Cloud KMS key. CONSUMER_PROJECT_NUMBER is the project number of the project that is the parent of the topic being updated. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: + provide the argument --topic-encryption-key on the command line with a fully specified name; + provide the argument --topic-encryption-key-location on the command line.
     /// </summary>
     [CliOption("--topic-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? TopicEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// The Google Cloud project for the key. To set the kms-project attribute: * provide the argument --topic-encryption-key on the command line with a fully specified name; * provide the argument --topic-encryption-key-project on the command line; * set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the topic. The specified Cloud KMS key should have purpose set to "ENCRYPT_DECRYPT". The service account, "service-${CONSUMER_PROJECT_NUMBER}@gcp-sa-pubsub.iam.gserviceaccount.com" requires the IAM cryptoKeyEncrypterDecrypter role for the given Cloud KMS key. CONSUMER_PROJECT_NUMBER is the project number of the project that is the parent of the topic being updated. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: + provide the argument --topic-encryption-key on the command line with a fully specified name; + provide the argument --topic-encryption-key-project on the command line; + set the property core/project.
     /// </summary>
     [CliOption("--topic-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? TopicEncryptionKeyProject { get; set; }
