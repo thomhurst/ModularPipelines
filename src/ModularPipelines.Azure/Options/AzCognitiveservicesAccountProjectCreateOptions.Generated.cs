@@ -23,13 +23,20 @@ public record AzCognitiveservicesAccountProjectCreateOptions : AzOptions
     /// <summary>
     /// Description of the project.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// Display name of the project.
     /// </summary>
     [CliFlag("--display-name")]
     public bool? DisplayName { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

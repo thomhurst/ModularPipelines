@@ -29,8 +29,8 @@ public record AzConnectionCreateWebpubsubOptions : AzOptions
     /// <summary>
     /// Name of the connection.
     /// </summary>
-    [CliFlag("--connection")]
-    public bool? Connection { get; set; }
+    [CliOption("--connection")]
+    public string? ConnectionValue { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -53,13 +53,34 @@ public record AzConnectionCreateWebpubsubOptions : AzOptions
     /// <summary>
     /// The resource id of target service. Required if ['--target- resource-group', '--webpubsub'] are not specified.
     /// </summary>
-    [CliFlag("--target-id")]
-    public bool? TargetId { get; set; }
+    [CliOption("--target-id")]
+    public string? TargetIdValue { get; set; }
 
     /// <summary>
     /// Name of the webpubsub service. Required if '--target-id' is not specified.
     /// </summary>
-    [CliFlag("--webpubsub")]
-    public bool? Webpubsub { get; set; }
+    [CliOption("--webpubsub")]
+    public string? WebpubsubValue { get; set; }
+
+    [Obsolete("Use ConnectionValue instead.")]
+    public bool? Connection
+    {
+        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
+        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetIdValue instead.")]
+    public bool? TargetId
+    {
+        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
+        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use WebpubsubValue instead.")]
+    public bool? Webpubsub
+    {
+        get => bool.TryParse(WebpubsubValue, out var value) ? value : null;
+        set => WebpubsubValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

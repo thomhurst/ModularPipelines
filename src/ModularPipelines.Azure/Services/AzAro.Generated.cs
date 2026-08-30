@@ -69,12 +69,21 @@ public class AzAro : IAzAro
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetAdminKubeconfigAsync(
+    public virtual async Task<CommandResult> GetAdminKubeConfigAsync(
         AzAroGetAdminKubeconfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzAroGetAdminKubeconfigOptions(), executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use GetAdminKubeConfigAsync instead.")]
+    public virtual async Task<CommandResult> GetAdminKubeconfigAsync(
+        AzAroGetAdminKubeconfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await GetAdminKubeConfigAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

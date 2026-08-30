@@ -29,13 +29,13 @@ public record AzFunctionappListFlexconsumptionLocationsOptions : AzOptions
     /// <summary>
     /// Include the runtime details of the regions.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--show-details")]
+    [CliOption("--show-details")]
     public bool? ShowDetails { get; set; }
 
     /// <summary>
     /// Filter the list to return only locations which support zone redundancy. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant")]
+    [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 
 }

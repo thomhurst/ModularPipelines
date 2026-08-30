@@ -23,8 +23,8 @@ public record AzEventgridDomainTopicEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination where EventGrid should deadletter undeliverable events for this event subscription.
     /// </summary>
-    [CliFlag("--deadletter-endpoint")]
-    public bool? DeadletterEndpoint { get; set; }
+    [CliOption("--deadletter-endpoint")]
+    public string? DeadletterEndpointValue { get; set; }
 
     /// <summary>
     /// Add delivery attribute mapping to send additional information via HTTP headers when delivering events. This attribute is valid for all destination types except
@@ -79,5 +79,12 @@ public record AzEventgridDomainTopicEventSubscriptionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--max-events-per-batch")]
     public bool? MaxEventsPerBatch { get; set; }
+
+    [Obsolete("Use DeadletterEndpointValue instead.")]
+    public bool? DeadletterEndpoint
+    {
+        get => bool.TryParse(DeadletterEndpointValue, out var value) ? value : null;
+        set => DeadletterEndpointValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -15,58 +15,61 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cosmosdb commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzCosmosdb
 {
     /// <summary>
     /// az cassandra sub-commands.
     /// </summary>
-    AzCosmosdbCassandra Cassandra { get; }
+    AzCosmosdbCassandra Cassandra => throw new System.NotSupportedException();
 
     /// <summary>
     /// az gremlin sub-commands.
     /// </summary>
-    AzCosmosdbGremlin Gremlin { get; }
+    AzCosmosdbGremlin Gremlin => throw new System.NotSupportedException();
 
     /// <summary>
     /// az keys sub-commands.
     /// </summary>
-    AzCosmosdbKeys Keys { get; }
+    AzCosmosdbKeys Keys => throw new System.NotSupportedException();
 
     /// <summary>
     /// az mongodb sub-commands.
     /// </summary>
-    AzCosmosdbMongodb Mongodb { get; }
+    AzCosmosdbMongodb Mongodb => throw new System.NotSupportedException();
 
     /// <summary>
     /// az postgres sub-commands.
     /// </summary>
-    AzCosmosdbPostgres Postgres { get; }
+    AzCosmosdbPostgres Postgres => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
-    AzCosmosdbPrivateEndpointConnection PrivateEndpointConnection { get; }
+    AzCosmosdbPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az restorable-database-account sub-commands.
     /// </summary>
-    AzCosmosdbRestorableDatabaseAccount RestorableDatabaseAccount { get; }
+    AzCosmosdbRestorableDatabaseAccount RestorableDatabaseAccount => throw new System.NotSupportedException();
 
     /// <summary>
     /// az service sub-commands.
     /// </summary>
-    AzCosmosdbService Service { get; }
+    AzCosmosdbService Service => throw new System.NotSupportedException();
 
     /// <summary>
     /// az sql sub-commands.
     /// </summary>
-    AzCosmosdbSql Sql { get; }
+    AzCosmosdbSql Sql => throw new System.NotSupportedException();
 
     /// <summary>
     /// az table sub-commands.
     /// </summary>
-    AzCosmosdbTable Table { get; }
+    AzCosmosdbTable Table => throw new System.NotSupportedException();
 
     /// <summary>
     /// Creates a new Azure Cosmos DB database account.
@@ -75,10 +78,8 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(
-        AzCosmosdbCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateAsync(AzCosmosdbCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Deletes an Azure Cosmos DB database account.
@@ -87,10 +88,8 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        AzCosmosdbDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(AzCosmosdbDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List Azure Cosmos DB database accounts.
@@ -99,10 +98,8 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzCosmosdbListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzCosmosdbListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a new Azure Cosmos DB database account by restoring from an
@@ -111,10 +108,8 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RestoreAsync(
-        AzCosmosdbRestoreOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RestoreAsync(AzCosmosdbRestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update an Azure Cosmos DB database account.
@@ -123,9 +118,7 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        AzCosmosdbUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(AzCosmosdbUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

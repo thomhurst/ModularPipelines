@@ -1061,6 +1061,55 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Does_Not_Preserve_Unshipped_Optional_Facade()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var projectDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        var optionsDirectory = Path.Combine(projectDirectory, "Options");
+        var servicesDirectory = Path.Combine(projectDirectory, "Services");
+        Directory.CreateDirectory(optionsDirectory);
+        Directory.CreateDirectory(servicesDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(projectDirectory, "PublicAPI.Shipped.txt"),
+                "ModularPipelines.Tool.Options.ToolOptions");
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolOptions.Generated.cs"),
+                "public record ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolRunOptions.Generated.cs"),
+                "[CliSubCommand(\"run\")] public record ToolRunOptions(string Name) : ToolOptions "
+                + "{ public ToolRunOptions() : this(default(string)!) { } }");
+            await File.WriteAllTextAsync(
+                Path.Combine(servicesDirectory, "Tool.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Tool { public void RunAsync(ToolRunOptions? options = null) { } }");
+            var command = Command(
+                "ToolRunOptions",
+                "ToolOptions",
+                ["run"],
+                options: [RequiredOption("--name", "Name")]);
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+            var preservedCommand = preserved.Commands.Single();
+            var generatedOptions = (await new OptionsClassGenerator().GenerateAsync(preserved)).Single().Content;
+            var generatedService = (await new ServiceImplementationGenerator().GenerateAsync(preserved)).Single().Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(preservedCommand.PreserveOptionalOptionsParameter).IsFalse();
+                await Assert.That(generatedOptions).DoesNotContain("public ToolRunOptions()");
+                await Assert.That(generatedService).Contains("ToolRunOptions options,");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Restores_Required_Positional_Names()
     {
         var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
@@ -1603,6 +1652,47 @@ public class GeneratorHardeningTests
             "Json",
             "JsonValue",
             CliCompatibilityForwardingKind.NullableBooleanToString);
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Flag_That_Became_Multiple_Values()
+    {
+        var command = Command("AzStackWhatifCreateOptions", "AzOptions", ["stack-whatif", "create"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--deny-settings-excluded-actions",
+                    PropertyName = "DenySettingsExcludedActions",
+                    CSharpType = "IEnumerable<string>?",
+                    AcceptsMultipleValues = true,
+                    IsCollection = true,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("DenySettingsExcludedActions", "bool?", switchName: "--deny-settings-excluded-actions")]);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var option = preserved.Options.Single();
+        var alias = preserved.CompatibilityProperties.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.PropertyName).IsEqualTo("DenySettingsExcludedActionsValues");
+            await Assert.That(alias.PropertyName).IsEqualTo("DenySettingsExcludedActions");
+            await Assert.That(alias.ForwardToPropertyName).IsEqualTo("DenySettingsExcludedActionsValues");
+            await Assert.That(alias.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableBooleanToStringCollection);
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "DenySettingsExcludedActions",
+            "DenySettingsExcludedActionsValues",
+            CliCompatibilityForwardingKind.NullableBooleanToStringCollection);
     }
 
     private static async Task AssertCompatibilityForwardingRoundTrips(
@@ -5818,6 +5908,35 @@ public class GeneratorHardeningTests
         await Assert.That(generated).Contains("ToolExecuteOptions? options = null");
         await Assert.That(generated).Contains("CommandExecutionOptions? executionOptions = null");
         await Assert.That(generated).DoesNotContain("options = default");
+    }
+
+    [Test]
+    public async Task GenerateServiceMethod_Does_Not_Construct_Required_Optional_Options()
+    {
+        var command = Command(
+            "ToolExecuteOptions",
+            "ToolOptions",
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--name",
+                    PropertyName = "Name",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+            ]) with
+        {
+            PreserveOptionalOptionsParameter = true,
+        };
+        var sb = new StringBuilder();
+
+        GeneratorUtils.GenerateServiceMethod(sb, "Execute", command);
+
+        var generated = sb.ToString();
+        await Assert.That(generated).Contains("ToolExecuteOptions? options = null");
+        await Assert.That(generated).Contains("options ?? throw new ArgumentNullException(nameof(options))");
+        await Assert.That(generated).DoesNotContain("new ToolExecuteOptions()");
     }
 
     [Test]

@@ -15,13 +15,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az feature commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzFeature
 {
     /// <summary>
     /// az registration sub-commands.
     /// </summary>
-    AzFeatureRegistration Registration { get; }
+    AzFeatureRegistration Registration => throw new System.NotSupportedException();
 
     /// <summary>
     /// List preview features.
@@ -30,9 +33,7 @@ public interface IAzFeature
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzFeatureListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzFeatureListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

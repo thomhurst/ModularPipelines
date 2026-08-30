@@ -23,8 +23,8 @@ public record AzContainerappSslUploadOptions : AzOptions
     /// <summary>
     /// Name of the certificate which should be unique within the
     /// </summary>
-    [CliFlag("--certificate-name", ShortForm = "-c")]
-    public bool? CertificateName { get; set; }
+    [CliOption("--certificate-name", ShortForm = "-c")]
+    public string? CertificateNameValue { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -37,5 +37,12 @@ public record AzContainerappSslUploadOptions : AzOptions
     /// </summary>
     [CliFlag("--password", ShortForm = "-p")]
     public bool? Password { get; set; }
+
+    [Obsolete("Use CertificateNameValue instead.")]
+    public bool? CertificateName
+    {
+        get => bool.TryParse(CertificateNameValue, out var value) ? value : null;
+        set => CertificateNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

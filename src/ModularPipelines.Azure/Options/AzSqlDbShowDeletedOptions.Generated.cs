@@ -23,7 +23,7 @@ public record AzSqlDbShowDeletedOptions : AzOptions
     /// <summary>
     /// Expand the AKV keys for the database.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--expand-keys")]
+    [CliOption("--expand-keys")]
     public bool? ExpandKeys { get; set; }
 
     /// <summary>

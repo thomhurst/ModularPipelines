@@ -73,6 +73,36 @@ public partial class AzCliScraper : CliScraperBase
     protected override int MaxParallelism => 10;
 
     /// <summary>
+    /// Azure policy arguments are described as global but are registered on the selected
+    /// command parser, so they must follow the subcommand path.
+    /// </summary>
+    protected override bool GlobalOptionsBeforeSubcommands => false;
+
+    protected override IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions =>
+    [
+        new()
+        {
+            SwitchName = "--acquire-policy-token",
+            PropertyName = "AcquirePolicyToken",
+            CSharpType = "bool?",
+            Description = "Acquire an Azure Policy token automatically for this resource operation.",
+            IsFlag = true,
+            ValueSeparator = " ",
+            IsSecret = false,
+        },
+        new()
+        {
+            SwitchName = "--change-reference",
+            PropertyName = "ChangeReference",
+            CSharpType = "string?",
+            Description = "The related change reference ID for this resource operation.",
+            IsFlag = false,
+            ValueSeparator = " ",
+            IsSecret = false,
+        },
+    ];
+
+    /// <summary>
     /// Skip common utility subcommands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -165,7 +195,7 @@ public partial class AzCliScraper : CliScraperBase
         var description = ExtractDescription(helpText);
 
         // Parse options from the help text
-        var options = ParseOptions(helpText, commandParts);
+        var options = ParseOptions(helpText);
 
         // If no options, skip generating this command
         if (options.Count == 0)
@@ -219,117 +249,113 @@ public partial class AzCliScraper : CliScraperBase
     /// Parses options from Azure CLI help text.
     /// Azure CLI uses: --option VALUE, --flag, -s (short forms)
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find Arguments section (skip Global Arguments which are common to all commands)
-        var argumentsSections = new[] { "Arguments", "Required Arguments", "Optional Arguments" };
-
-        foreach (var sectionName in argumentsSections)
+        // Parse every command-specific Arguments section. Azure CLI uses both standard
+        // names and command-specific names such as "Network Arguments".
+        foreach (Match sectionMatch in SectionHeaderPattern().Matches(helpText))
         {
-            var sectionPattern = new Regex($@"^{sectionName}\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-            var sectionMatch = sectionPattern.Match(helpText);
-            if (!sectionMatch.Success)
+            var sectionName = sectionMatch.Groups["name"].Value.TrimEnd(':').Trim();
+            if (!IsCommandArgumentsSection(sectionName))
             {
                 continue;
             }
 
-            var sectionStart = sectionMatch.Index + sectionMatch.Length;
-
-            // Find where this section ends
-            var sectionEnd = helpText.Length;
-            var nextSectionMatch = SectionHeaderPattern().Match(helpText, sectionStart);
-            if (nextSectionMatch.Success)
-            {
-                sectionEnd = nextSectionMatch.Index;
-            }
-
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-            var lines = section.Split('\n');
-
+            var lines = GetSectionLines(helpText, sectionMatch);
             for (var i = 0; i < lines.Length; i++)
             {
-                var line = lines[i];
-
-                // Match Azure CLI option patterns:
-                // --option -o       : Description
-                // --option VALUE    : Description
-                // --flag            : Description
-                var match = AzOptionPattern().Match(line);
-                if (!match.Success)
+                var option = ParseOption(lines, ref i, sectionName, seenOptions);
+                if (option is not null)
                 {
-                    continue;
+                    options.Add(option);
                 }
-
-                var longFlag = match.Groups["long"].Value.Trim();
-                var shortFlag = match.Groups["short"].Value.Trim();
-                var valueHint = match.Groups["value"].Value.Trim();
-                var description = match.Groups["desc"].Value.Trim();
-
-                if (string.IsNullOrEmpty(longFlag))
-                {
-                    continue;
-                }
-
-                // Skip duplicates
-                if (seenOptions.Contains(longFlag))
-                {
-                    continue;
-                }
-
-                seenOptions.Add(longFlag);
-
-                // Skip common global options that are on base class
-                if (IsGlobalOption(longFlag))
-                {
-                    continue;
-                }
-
-                // Accumulate multi-line descriptions
-                i = AccumulateMultiLineDescription(lines, i, ref description);
-
-                var propertyName = NormalizePropertyName(longFlag);
-                if (propertyName is null)
-                {
-                    continue;
-                }
-
-                // Determine type based on value hint
-                var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-                var isFlag = IsPresenceOnlyFlag(
-                    longFlag,
-                    valueHint,
-                    description,
-                    explicitBooleanValue);
-
-                var isRequired = sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
-
-                var csharpType = DetermineType(valueHint, description, isFlag, explicitBooleanValue);
-
-                options.Add(new CliOptionDefinition
-                {
-                    SwitchName = $"--{longFlag}",
-                    ShortForm = string.IsNullOrEmpty(shortFlag) ? null : $"-{shortFlag}",
-                    PropertyName = propertyName,
-                    CSharpType = csharpType,
-                    Description = description,
-                    IsFlag = isFlag,
-                    IsRequired = isRequired,
-                    AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
-                    GroupValues = HelpDeclaresSpaceSeparatedList(description),
-                    IsKeyValue = false,
-                    IsNumeric = csharpType == "int?",
-                    ValueSeparator = " ",
-                    ValueArity = GetValueArity(isFlag, description),
-                    EnumDefinition = null,
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-                });
             }
         }
 
         return options;
+    }
+
+    private static bool IsCommandArgumentsSection(string sectionName) =>
+        sectionName.EndsWith("Arguments", StringComparison.OrdinalIgnoreCase)
+        && !sectionName.StartsWith("Global ", StringComparison.OrdinalIgnoreCase);
+
+    private static string[] GetSectionLines(string helpText, Match sectionMatch)
+    {
+        var sectionStart = sectionMatch.Index + sectionMatch.Length;
+        var nextSectionMatch = SectionHeaderPattern().Match(helpText, sectionStart);
+        var sectionEnd = nextSectionMatch.Success ? nextSectionMatch.Index : helpText.Length;
+        return helpText[sectionStart..sectionEnd].Split('\n');
+    }
+
+    private static CliOptionDefinition? ParseOption(
+        string[] lines,
+        ref int lineIndex,
+        string sectionName,
+        ISet<string> seenOptions)
+    {
+        var match = AzOptionPattern().Match(lines[lineIndex]);
+        if (!match.Success)
+        {
+            return null;
+        }
+
+        var longFlag = match.Groups["long"].Value.Trim();
+        if (string.IsNullOrEmpty(longFlag)
+            || !seenOptions.Add(longFlag)
+            || IsGlobalOption(longFlag))
+        {
+            return null;
+        }
+
+        var alias = match.Groups["alias"].Value.Trim();
+        var valueHint = match.Groups["value"].Value.Trim();
+        var description = match.Groups["desc"].Value.Trim();
+        lineIndex = AccumulateMultiLineDescription(lines, lineIndex, ref description);
+
+        var propertyName = NormalizePropertyName(longFlag);
+        if (propertyName is null)
+        {
+            return null;
+        }
+
+        var isRequired = match.Groups["required"].Success
+                         || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
+        var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
+        var isFlag = !isRequired && IsPresenceOnlyFlag(
+            longFlag,
+            valueHint,
+            description,
+            explicitBooleanValue);
+        var csharpType = DetermineType(
+            longFlag,
+            valueHint,
+            description,
+            isFlag,
+            explicitBooleanValue);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = $"--{longFlag}",
+            ShortForm = string.IsNullOrEmpty(alias) ? null : alias,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = isRequired,
+            AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
+            GroupValues = IsGroupedAzureValueOption(longFlag)
+                          || HelpDeclaresGroupedValues(description)
+                          || IsGroupedAzureGenericUpdateOption(longFlag, description),
+            IsKeyValue = false,
+            IsNumeric = csharpType == "int?",
+            ValueSeparator = " ",
+            ValueArity = GetValueArity(isFlag, description),
+            EnumDefinition = null,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+        };
     }
 
     /// <summary>
@@ -347,7 +373,14 @@ public partial class AzCliScraper : CliScraperBase
             return true;
         }
 
-        if (explicitBooleanValue || HelpDeclaresOptionValue(description))
+        if (switchName.Equals("cs", StringComparison.OrdinalIgnoreCase)
+            && description.Contains("DenySettings will be applied to child scopes", StringComparison.OrdinalIgnoreCase)
+            && string.IsNullOrEmpty(valueHint))
+        {
+            return true;
+        }
+
+        if (explicitBooleanValue || HelpDeclaresOptionValue(switchName, description))
         {
             return false;
         }
@@ -357,15 +390,29 @@ public partial class AzCliScraper : CliScraperBase
                valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
     }
 
-    private static bool HelpDeclaresOptionValue(string description) =>
+    private static bool HelpDeclaresOptionValue(string switchName, string description) =>
         AzValueDescriptionPattern().IsMatch(description)
         || AzEmbeddedValueDescriptionPattern().IsMatch(description)
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
         || HelpDeclaresSpaceSeparatedList(description)
-        || description.Contains("key=value", StringComparison.OrdinalIgnoreCase);
+        || DescriptionDeclaresRepeatableOption(description)
+        || description.Contains("key=value", StringComparison.OrdinalIgnoreCase)
+        || IsAzureGenericUpdateOption(switchName);
 
     private static bool HelpDeclaresOptionalValue(string description) =>
-        description.Contains("provided without any value", StringComparison.OrdinalIgnoreCase);
+        OptionalValueDescriptionPattern().IsMatch(description);
+
+    private static bool IsAzureGenericUpdateOption(string switchName) =>
+        switchName.Equals("add", StringComparison.OrdinalIgnoreCase)
+        || switchName.Equals("remove", StringComparison.OrdinalIgnoreCase)
+        || switchName.Equals("set", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsGroupedAzureGenericUpdateOption(string switchName, string description) =>
+        IsAzureGenericUpdateOption(switchName)
+        && !DescriptionDeclaresRepeatableOption(description);
+
+    private static bool IsGroupedAzureValueOption(string switchName) =>
+        switchName.Equals("assign-identity", StringComparison.OrdinalIgnoreCase);
 
     private static CliOptionValueArity GetValueArity(bool isFlag, string description) =>
         !isFlag && HelpDeclaresOptionalValue(description)
@@ -376,6 +423,7 @@ public partial class AzCliScraper : CliScraperBase
     /// Determines the C# type based on value hint and description.
     /// </summary>
     private static string DetermineType(
+        string switchName,
         string valueHint,
         string description,
         bool isFlag,
@@ -388,6 +436,16 @@ public partial class AzCliScraper : CliScraperBase
 
         var lowerHint = valueHint.ToLowerInvariant();
         var lowerDesc = description.ToLowerInvariant();
+
+        if (IsAzureGenericUpdateOption(switchName))
+        {
+            return "IEnumerable<string>?";
+        }
+
+        if (IsGroupedAzureValueOption(switchName))
+        {
+            return "IEnumerable<string>?";
+        }
 
         // Check for numeric types
         if (lowerHint.Contains("number") || lowerHint.Contains("count") ||
@@ -411,7 +469,7 @@ public partial class AzCliScraper : CliScraperBase
         if (HelpDeclaresSpaceSeparatedList(lowerDesc)
             || DescriptionDeclaresRepeatableOption(lowerDesc)
             || lowerDesc.Contains("list of")
-            || lowerDesc.Contains("multiple"))
+            || HelpDeclaresOrderedParameterValues(lowerDesc))
         {
             return "IEnumerable<string>?";
         }
@@ -429,6 +487,16 @@ public partial class AzCliScraper : CliScraperBase
         description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
         || description.Contains("space-delimited", StringComparison.OrdinalIgnoreCase)
         || description.Contains("separated by spaces", StringComparison.OrdinalIgnoreCase);
+
+    private static bool HelpDeclaresGroupedValues(string description) =>
+        HelpDeclaresSpaceSeparatedList(description)
+        || (description.Contains("list of", StringComparison.OrdinalIgnoreCase)
+            && !DescriptionDeclaresRepeatableOption(description))
+        || HelpDeclaresOrderedParameterValues(description);
+
+    private static bool HelpDeclaresOrderedParameterValues(string description) =>
+        description.Contains("parameters are evaluated in order", StringComparison.OrdinalIgnoreCase)
+        && description.Contains("key=value", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Checks if an option is a global option that should be on the base class.
@@ -512,7 +580,7 @@ public partial class AzCliScraper : CliScraperBase
     /// <summary>
     /// Matches section headers like "Arguments", "Global Arguments", "Subgroups:", etc.
     /// </summary>
-    [GeneratedRegex(@"^[A-Z][\w\s]*:?\s*$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^(?<name>[A-Z][\w \t]*:?)[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
@@ -531,16 +599,20 @@ public partial class AzCliScraper : CliScraperBase
     /// <summary>
     /// Matches Azure CLI-style option lines:
     /// --option -o VALUE    : Description
+    /// --option --alias     : Description
     /// --flag               : Description
     /// </summary>
-    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+-(?<short>\w))?(?:\s+(?<value>[A-Z_]+))?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<required>Required)\])?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
-    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|batch|accepts?)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|denysettings|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();
 
-    [GeneratedRegex(@"\b(?:resource ID|secret URI|URI or path|key-value pairs|accepted values?)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"\b(?:resource ID|secret URI|URI or path|key-value pairs|accepted values?|allowed values?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzEmbeddedValueDescriptionPattern();
+
+    [GeneratedRegex(@"\b(?:provided|specified|supplied)\s+without\s+(?:any\s+)?(?:values?|resource IDs?)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex OptionalValueDescriptionPattern();
 
     #endregion
 }

@@ -92,6 +92,10 @@ public static partial class GeneratorUtils
                 sb.AppendLine($"        get => bool.TryParse({property.ForwardToPropertyName}, out var value) ? value : null;");
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
                 break;
+            case CliCompatibilityForwardingKind.NullableBooleanToStringCollection:
+                sb.AppendLine($"        get => bool.TryParse({property.ForwardToPropertyName}?.FirstOrDefault(), out var value) ? value : null;");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];");
+                break;
             case CliCompatibilityForwardingKind.NullableStringToRequiredString:
                 sb.AppendLine($"        get => {property.ForwardToPropertyName};");
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value ?? string.Empty;");
@@ -913,6 +917,10 @@ public static partial class GeneratorUtils
         if (requiresOptions)
         {
             sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);");
+        }
+        else if (HasRequiredParameters(command))
+        {
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);");
         }
         else
         {

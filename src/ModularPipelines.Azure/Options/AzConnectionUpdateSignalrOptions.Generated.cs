@@ -29,8 +29,8 @@ public record AzConnectionUpdateSignalrOptions : AzOptions
     /// <summary>
     /// Name of the connection.
     /// </summary>
-    [CliFlag("--connection")]
-    public bool? Connection { get; set; }
+    [CliOption("--connection")]
+    public string? ConnectionValue { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -41,8 +41,8 @@ public record AzConnectionUpdateSignalrOptions : AzOptions
     /// <summary>
     /// The id of connection.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? IdValue { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -59,7 +59,28 @@ public record AzConnectionUpdateSignalrOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use ConnectionValue instead.")]
+    public bool? Connection
+    {
+        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
+        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IdValue instead.")]
+    public bool? Id
+    {
+        get => bool.TryParse(IdValue, out var value) ? value : null;
+        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

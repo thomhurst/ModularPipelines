@@ -23,7 +23,7 @@ public record AzAdUserGetMemberGroupsOptions : AzOptions
     /// <summary>
     /// True to specify that only security groups that the entity is a member of should be returned; false to specify that all groups and directory roles that the entity is a member of should be returned.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--security-enabled-only")]
+    [CliOption("--security-enabled-only")]
     public bool? SecurityEnabledOnly { get; set; }
 
 }

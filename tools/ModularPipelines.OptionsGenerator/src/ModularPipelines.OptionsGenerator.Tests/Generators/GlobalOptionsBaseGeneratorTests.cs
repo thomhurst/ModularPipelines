@@ -36,6 +36,35 @@ public class GlobalOptionsBaseGeneratorTests
     }
 
     [Test]
+    public async Task Generate_Can_Keep_Inherited_Options_After_Subcommands()
+    {
+        var tool = new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = [],
+            GlobalOptionsBeforeSubcommands = false,
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--change-reference",
+                    PropertyName = "ChangeReference",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated).DoesNotContain("[CliGlobalOptions]");
+        await Assert.That(generated).Contains("// Global options intentionally follow subcommands.");
+        await Assert.That(generated).Contains("public virtual string? ChangeReference { get; set; }");
+    }
+
+    [Test]
     public async Task Generate_Uses_Supplemental_Options_Through_The_Normal_Global_Path()
     {
         var tool = new CliToolDefinition

@@ -35,13 +35,20 @@ public record AzNetworkNicUpdateOptions : AzOptions
     /// <summary>
     /// Name or ID of an existing network security group.
     /// </summary>
-    [CliFlag("--network-security-group")]
-    public bool? NetworkSecurityGroup { get; set; }
+    [CliOption("--network-security-group")]
+    public string? NetworkSecurityGroupValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [Obsolete("Use NetworkSecurityGroupValue instead.")]
+    public bool? NetworkSecurityGroup
+    {
+        get => bool.TryParse(NetworkSecurityGroupValue, out var value) ? value : null;
+        set => NetworkSecurityGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

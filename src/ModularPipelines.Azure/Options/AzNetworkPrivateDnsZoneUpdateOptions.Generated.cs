@@ -35,7 +35,14 @@ public record AzNetworkPrivateDnsZoneUpdateOptions : AzOptions
     /// <summary>
     /// Resource tags for the Private DNS zone.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags")]
+    public string? TagsValue { get; set; }
+
+    [Obsolete("Use TagsValue instead.")]
+    public bool? Tags
+    {
+        get => bool.TryParse(TagsValue, out var value) ? value : null;
+        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

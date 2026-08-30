@@ -23,13 +23,20 @@ public record AzFunctionappVnetIntegrationAddOptions : AzOptions
     /// <summary>
     /// Skip check if you do not have permission or the VNet is in another subscription.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-delegation-check")]
+    [CliOption("--skip-delegation-check")]
     public bool? SkipDelegationCheck { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

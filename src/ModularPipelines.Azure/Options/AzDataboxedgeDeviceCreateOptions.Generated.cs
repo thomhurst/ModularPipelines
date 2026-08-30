@@ -23,8 +23,8 @@ public record AzDataboxedgeDeviceCreateOptions : AzOptions
     /// <summary>
     /// The Description of the Data Box Edge/Gateway device.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// The etag for the devices.
@@ -47,8 +47,8 @@ public record AzDataboxedgeDeviceCreateOptions : AzOptions
     /// <summary>
     /// The description of the Data Box Edge/Gateway device model.
     /// </summary>
-    [CliFlag("--model-description")]
-    public bool? ModelDescription { get; set; }
+    [CliOption("--model-description")]
+    public string? ModelDescriptionValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -73,5 +73,19 @@ public record AzDataboxedgeDeviceCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ModelDescriptionValue instead.")]
+    public bool? ModelDescription
+    {
+        get => bool.TryParse(ModelDescriptionValue, out var value) ? value : null;
+        set => ModelDescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

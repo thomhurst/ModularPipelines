@@ -23,20 +23,20 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// <summary>
     /// The name of the backend address pool.
     /// </summary>
-    [CliFlag("--backend-pool-name")]
-    public bool? BackendPoolName { get; set; }
+    [CliOption("--backend-pool-name")]
+    public string? BackendPoolNameValue { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
-    [CliFlag("--edge-zone")]
-    public bool? EdgeZone { get; set; }
+    [CliOption("--edge-zone")]
+    public string? EdgeZoneValue { get; set; }
 
     /// <summary>
     /// The name of the frontend IP configuration.  Default:
     /// </summary>
-    [CliFlag("--frontend-ip-name")]
-    public bool? FrontendIpName { get; set; }
+    [CliOption("--frontend-ip-name")]
+    public string? FrontendIpNameValue { get; set; }
 
     /// <summary>
     /// Used to create internal facing Load balancer.
@@ -85,5 +85,26 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
+
+    [Obsolete("Use BackendPoolNameValue instead.")]
+    public bool? BackendPoolName
+    {
+        get => bool.TryParse(BackendPoolNameValue, out var value) ? value : null;
+        set => BackendPoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EdgeZoneValue instead.")]
+    public bool? EdgeZone
+    {
+        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
+        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use FrontendIpNameValue instead.")]
+    public bool? FrontendIpName
+    {
+        get => bool.TryParse(FrontendIpNameValue, out var value) ? value : null;
+        set => FrontendIpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

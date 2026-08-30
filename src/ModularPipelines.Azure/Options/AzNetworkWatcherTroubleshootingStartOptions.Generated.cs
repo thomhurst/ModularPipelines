@@ -29,19 +29,40 @@ public record AzNetworkWatcherTroubleshootingStartOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// The type of target resource to troubleshoot, if resource ID is not specified.  Allowed values: vnetGateway, vpnConnection.
     /// </summary>
-    [CliFlag("--resource-type", ShortForm = "-t")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type", ShortForm = "-t")]
+    public string? ResourceTypeValue { get; set; }
 
     /// <summary>
     /// Name of the resource group the watcher is in.
     /// </summary>
-    [CliFlag("--watcher-rg")]
-    public bool? WatcherRg { get; set; }
+    [CliOption("--watcher-rg")]
+    public string? WatcherRgValue { get; set; }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceTypeValue instead.")]
+    public bool? ResourceType
+    {
+        get => bool.TryParse(ResourceTypeValue, out var value) ? value : null;
+        set => ResourceTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use WatcherRgValue instead.")]
+    public bool? WatcherRg
+    {
+        get => bool.TryParse(WatcherRgValue, out var value) ? value : null;
+        set => WatcherRgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

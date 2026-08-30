@@ -41,8 +41,8 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// The primary identity to access key vault in CMK related features. e.g. 'FirstPartyIdentity', 'SystemAssignedIdentity' and more. User-assigned identities are specified in format `UserAssignedIdentity=&lt;resource ID of the user- assigned identity&gt;`.
     /// </summary>
-    [CliFlag("--default-identity")]
-    public bool? DefaultIdentity { get; set; }
+    [CliOption("--default-identity")]
+    public string? DefaultIdentityValue { get; set; }
 
     /// <summary>
     /// Default Priority Level of Request if not specified.  Allowed values: High, Low.
@@ -53,61 +53,61 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// Disable write operations on metadata resources (databases, containers, throughput) via account keys.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-key-based-metadata-write-access")]
+    [CliOption("--disable-key-based-metadata-write-access")]
     public bool? DisableKeyBasedMetadataWriteAccess { get; set; }
 
     /// <summary>
     /// Disable key-based authentication on the Cosmos DB account.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-local-auth")]
+    [CliOption("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// Flag to enable log storage on the account. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-analytical-storage")]
+    [CliOption("--enable-analytical-storage")]
     public bool? EnableAnalyticalStorage { get; set; }
 
     /// <summary>
     /// Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-automatic-failover")]
+    [CliOption("--enable-automatic-failover")]
     public bool? EnableAutomaticFailover { get; set; }
 
     /// <summary>
     /// Flag to Enable/Disable burst capacity feature. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-burst-capacity")]
+    [CliOption("--enable-burst-capacity")]
     public bool? EnableBurstCapacity { get; set; }
 
     /// <summary>
     /// Enable Multiple Write Locations.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-multiple-write-locations")]
+    [CliOption("--enable-multiple-write-locations")]
     public bool? EnableMultipleWriteLocations { get; set; }
 
     /// <summary>
     /// Flag to enable partition merge on the account. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-partition-merge")]
+    [CliOption("--enable-partition-merge")]
     public bool? EnablePartitionMerge { get; set; }
 
     /// <summary>
     /// Flag to enable priority based execution on the account.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-pbe")]
+    [CliOption("--enable-pbe")]
     public bool? EnablePbe { get; set; }
 
     /// <summary>
     /// Flag to Enable/Disable burst capacity feature. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-prpp-autoscale")]
+    [CliOption("--enable-prpp-autoscale")]
     public bool? EnablePrppAutoscale { get; set; }
 
     /// <summary>
     /// Enables virtual network on the Cosmos DB database account.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-virtual-network")]
+    [CliOption("--enable-virtual-network")]
     public bool? EnableVirtualNetwork { get; set; }
 
     /// <summary>
@@ -119,8 +119,8 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// The URI of the key vault.
     /// </summary>
-    [CliFlag("--key-uri")]
-    public bool? KeyUri { get; set; }
+    [CliOption("--key-uri")]
+    public string? KeyUriValue { get; set; }
 
     /// <summary>
     /// The type of Cosmos DB database account to create. Allowed values: GlobalDocumentDB, MongoDB, Parse.
@@ -187,5 +187,19 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--virtual-network-rules")]
     public bool? VirtualNetworkRules { get; set; }
+
+    [Obsolete("Use DefaultIdentityValue instead.")]
+    public bool? DefaultIdentity
+    {
+        get => bool.TryParse(DefaultIdentityValue, out var value) ? value : null;
+        set => DefaultIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyUriValue instead.")]
+    public bool? KeyUri
+    {
+        get => bool.TryParse(KeyUriValue, out var value) ? value : null;
+        set => KeyUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

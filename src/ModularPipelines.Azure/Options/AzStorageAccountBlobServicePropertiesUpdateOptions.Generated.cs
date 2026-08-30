@@ -29,19 +29,26 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// When set to true last access time based tracking policy is enabled. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-last-access-tracking", ShortForm = "-t")]
+    [CliOption("--enable-last-access-tracking", ShortForm = "-t")]
     public bool? EnableLastAccessTracking { get; set; }
 
     /// <summary>
     /// Versioning is enabled if set to true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-versioning")]
+    [CliOption("--enable-versioning")]
     public bool? EnableVersioning { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

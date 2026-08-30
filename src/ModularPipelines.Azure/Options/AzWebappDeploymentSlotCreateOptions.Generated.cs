@@ -23,8 +23,8 @@ public record AzWebappDeploymentSlotCreateOptions : AzOptions
     /// <summary>
     /// Source slot to clone configurations from. Use web app's name to refer to the production slot.
     /// </summary>
-    [CliFlag("--configuration-source")]
-    public bool? ConfigurationSource { get; set; }
+    [CliOption("--configuration-source")]
+    public string? ConfigurationSourceValue { get; set; }
 
     /// <summary>
     /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if
@@ -49,5 +49,12 @@ public record AzWebappDeploymentSlotCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--container-registry-user", ShortForm = "-u")]
     public bool? ContainerRegistryUser { get; set; }
+
+    [Obsolete("Use ConfigurationSourceValue instead.")]
+    public bool? ConfigurationSource
+    {
+        get => bool.TryParse(ConfigurationSourceValue, out var value) ? value : null;
+        set => ConfigurationSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

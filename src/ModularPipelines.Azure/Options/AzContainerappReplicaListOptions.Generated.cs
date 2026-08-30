@@ -23,7 +23,14 @@ public record AzContainerappReplicaListOptions : AzOptions
     /// <summary>
     /// The name of the container app revision. Defaults to the latest revision.
     /// </summary>
-    [CliFlag("--revision")]
-    public bool? Revision { get; set; }
+    [CliOption("--revision")]
+    public string? RevisionValue { get; set; }
+
+    [Obsolete("Use RevisionValue instead.")]
+    public bool? Revision
+    {
+        get => bool.TryParse(RevisionValue, out var value) ? value : null;
+        set => RevisionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

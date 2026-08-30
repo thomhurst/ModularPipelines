@@ -21,21 +21,35 @@ namespace ModularPipelines.Azure.Options;
 public record AzStackSubDeleteOptions : AzOptions
 {
     /// <summary>
-    /// The deployment stack resource id.
+    /// The deployment stack resource ID.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? IdValue { get; set; }
 
     /// <summary>
-    /// The deployment stack name.
+    /// The name of the deployment stack.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use IdValue instead.")]
+    public bool? Id
+    {
+        get => bool.TryParse(IdValue, out var value) ? value : null;
+        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

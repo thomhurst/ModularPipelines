@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -47,8 +48,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The path to the input file.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? FileValue { get; set; }
 
     /// <summary>
     /// The container image name.
@@ -77,8 +78,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The name of the container group.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -119,14 +120,15 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// Space-separated secrets in 'key=value' format.
     /// </summary>
+    [SecretValue]
     [CliFlag("--secrets")]
     public bool? Secrets { get; set; }
 
     /// <summary>
     /// The path within the container where the secrets volume should be mounted. Must not contain colon ':'.
     /// </summary>
-    [CliFlag("--secrets-mount-path")]
-    public bool? SecretsMountPath { get; set; }
+    [CliOption("--secrets-mount-path")]
+    public string? SecretsMountPathValue { get; set; }
 
     /// <summary>
     /// A list of secure environment variable for the container. Space-separated values in 'key=value' format.
@@ -145,5 +147,26 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone")]
     public bool? Zone { get; set; }
+
+    [Obsolete("Use FileValue instead.")]
+    public bool? File
+    {
+        get => bool.TryParse(FileValue, out var value) ? value : null;
+        set => FileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SecretsMountPathValue instead.")]
+    public bool? SecretsMountPath
+    {
+        get => bool.TryParse(SecretsMountPathValue, out var value) ? value : null;
+        set => SecretsMountPathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

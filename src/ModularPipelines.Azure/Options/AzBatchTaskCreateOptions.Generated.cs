@@ -77,7 +77,14 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// <summary>
     /// The ID of the task.
     /// </summary>
-    [CliFlag("--task-id")]
-    public bool? TaskId { get; set; }
+    [CliOption("--task-id")]
+    public string? TaskIdValue { get; set; }
+
+    [Obsolete("Use TaskIdValue instead.")]
+    public bool? TaskId
+    {
+        get => bool.TryParse(TaskIdValue, out var value) ? value : null;
+        set => TaskIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

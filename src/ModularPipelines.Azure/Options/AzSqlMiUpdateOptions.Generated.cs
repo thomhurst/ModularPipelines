@@ -41,7 +41,7 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// Whether or not this is a GPv2 variant of General Purpose edition.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--gpv2")]
+    [CliOption("--gpv2")]
     public bool? Gpv2 { get; set; }
 
     /// <summary>
@@ -53,8 +53,8 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// Name of the Instance Pool where managed instance will be placed.
     /// </summary>
-    [CliFlag("--instance-pool-name")]
-    public bool? InstancePoolName { get; set; }
+    [CliOption("--instance-pool-name")]
+    public string? InstancePoolNameValue { get; set; }
 
     /// <summary>
     /// The storage iops of the managed instance. Storage iops can be specified in increments of 1.
@@ -65,8 +65,8 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// The key vault URI for encryption.
     /// </summary>
-    [CliFlag("--key-id", ShortForm = "-k")]
-    public bool? KeyId { get; set; }
+    [CliOption("--key-id", ShortForm = "-k")]
+    public string? KeyIdValue { get; set; }
 
     /// <summary>
     /// The license type to apply for this managed instance. Allowed values: BasePrice, LicenseIncluded.
@@ -107,7 +107,7 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// Whether or not the public data endpoint is enabled for the instance.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--public-data-endpoint-enabled")]
+    [CliOption("--public-data-endpoint-enabled")]
     public bool? PublicDataEndpointEnabled { get; set; }
 
     /// <summary>
@@ -125,8 +125,8 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// Name or ID of the subnet that allows access to an Azure Sql Managed Instance. If subnet name is provided, --vnet-name must be provided.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -143,8 +143,8 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// The virtual network name.
     /// </summary>
-    [CliFlag("--vnet-name")]
-    public bool? VnetName { get; set; }
+    [CliOption("--vnet-name")]
+    public string? VnetNameValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -155,7 +155,35 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant", ShortForm = "-z")]
+    [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
+
+    [Obsolete("Use InstancePoolNameValue instead.")]
+    public bool? InstancePoolName
+    {
+        get => bool.TryParse(InstancePoolNameValue, out var value) ? value : null;
+        set => InstancePoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyIdValue instead.")]
+    public bool? KeyId
+    {
+        get => bool.TryParse(KeyIdValue, out var value) ? value : null;
+        set => KeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetNameValue instead.")]
+    public bool? VnetName
+    {
+        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
+        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

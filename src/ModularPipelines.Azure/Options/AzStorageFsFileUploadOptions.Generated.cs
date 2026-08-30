@@ -65,7 +65,7 @@ public record AzStorageFsFileUploadOptions : AzOptions
     /// <summary>
     /// Overwrite an existing file when specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--overwrite")]
+    [CliOption("--overwrite")]
     public bool? Overwrite { get; set; }
 
     /// <summary>

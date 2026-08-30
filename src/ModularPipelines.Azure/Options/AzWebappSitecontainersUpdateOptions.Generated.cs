@@ -29,7 +29,7 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     /// <summary>
     /// True if the container is the main site container; false otherwise.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-main")]
+    [CliOption("--is-main")]
     public bool? IsMain { get; set; }
 
     /// <summary>
@@ -47,8 +47,8 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     /// <summary>
     /// Name of the web app slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// Startup Command for the SiteContainer.
@@ -61,5 +61,12 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--target-port")]
     public bool? TargetPort { get; set; }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

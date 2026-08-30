@@ -23,7 +23,14 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetRemoveOption
     /// <summary>
     /// The name of the web application firewall rule set group.
     /// </summary>
-    [CliFlag("--group-name")]
-    public bool? GroupName { get; set; }
+    [CliOption("--group-name")]
+    public string? GroupNameValue { get; set; }
+
+    [Obsolete("Use GroupNameValue instead.")]
+    public bool? GroupName
+    {
+        get => bool.TryParse(GroupNameValue, out var value) ? value : null;
+        set => GroupNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

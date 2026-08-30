@@ -23,8 +23,8 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
     /// <summary>
     /// The URL that represents the endpoint of the partner destination.
     /// </summary>
-    [CliFlag("--endpoint-url")]
-    public bool? EndpointUrl { get; set; }
+    [CliOption("--endpoint-url")]
+    public string? EndpointUrlValue { get; set; }
 
     /// <summary>
     /// The kind of event type used.
@@ -47,13 +47,34 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
     /// <summary>
     /// Name of the partner topic.
     /// </summary>
-    [CliFlag("--partner-topic-name")]
-    public bool? PartnerTopicName { get; set; }
+    [CliOption("--partner-topic-name")]
+    public string? PartnerTopicNameValue { get; set; }
 
     /// <summary>
     /// The identifier of the resource that forms the partner source of the events. This represents a unique resource in the partner's resource model.
     /// </summary>
-    [CliFlag("--partner-topic-source")]
-    public bool? PartnerTopicSource { get; set; }
+    [CliOption("--partner-topic-source")]
+    public string? PartnerTopicSourceValue { get; set; }
+
+    [Obsolete("Use EndpointUrlValue instead.")]
+    public bool? EndpointUrl
+    {
+        get => bool.TryParse(EndpointUrlValue, out var value) ? value : null;
+        set => EndpointUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PartnerTopicNameValue instead.")]
+    public bool? PartnerTopicName
+    {
+        get => bool.TryParse(PartnerTopicNameValue, out var value) ? value : null;
+        set => PartnerTopicNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PartnerTopicSourceValue instead.")]
+    public bool? PartnerTopicSource
+    {
+        get => bool.TryParse(PartnerTopicSourceValue, out var value) ? value : null;
+        set => PartnerTopicSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

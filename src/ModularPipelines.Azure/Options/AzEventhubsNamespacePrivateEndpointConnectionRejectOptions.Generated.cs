@@ -29,14 +29,14 @@ public record AzEventhubsNamespacePrivateEndpointConnectionRejectOptions : AzOpt
     /// <summary>
     /// The ID of the private endpoint connection associated with the EventHubs Namespace. You can get it using `az eventhubs namespace show`.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? IdValue { get; set; }
 
     /// <summary>
     /// The name of the private endpoint connection associated with the
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// The eventhubs namesapce name.
@@ -47,7 +47,28 @@ public record AzEventhubsNamespacePrivateEndpointConnectionRejectOptions : AzOpt
     /// <summary>
     /// The resource group name of specified eventhubs namespace.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use IdValue instead.")]
+    public bool? Id
+    {
+        get => bool.TryParse(IdValue, out var value) ? value : null;
+        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

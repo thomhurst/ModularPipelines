@@ -47,8 +47,8 @@ public record AzAppConfigSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Duration in seconds for which a snapshot can remain archived before expiry. A snapshot can be archived for a maximum of 7 days (604,800s) for free and developer tier stores and 90 days (7,776,000s) for standard and premium tier stores. If specified, retention period must be at least 1 hour (3600s).
@@ -61,5 +61,12 @@ public record AzAppConfigSnapshotCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

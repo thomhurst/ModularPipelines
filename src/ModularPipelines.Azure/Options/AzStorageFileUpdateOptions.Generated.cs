@@ -65,7 +65,7 @@ public record AzStorageFileUpdateOptions : AzOptions
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disallow-trailing-dot")]
+    [CliOption("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
     /// <summary>

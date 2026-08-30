@@ -23,7 +23,7 @@ public record AzKeyvaultCertificateIssuerUpdateOptions : AzOptions
     /// <summary>
     /// Set issuer enabled state.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

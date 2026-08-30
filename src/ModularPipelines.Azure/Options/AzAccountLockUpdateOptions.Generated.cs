@@ -35,13 +35,20 @@ public record AzAccountLockUpdateOptions : AzOptions
     /// <summary>
     /// Name of the lock.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Notes about this lock.
     /// </summary>
     [CliFlag("--notes")]
     public bool? Notes { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

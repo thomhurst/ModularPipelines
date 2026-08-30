@@ -23,14 +23,14 @@ public record AzCapacityReservationGroupListOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// The query option to fetch capacity reservation group resource Ids. 'CreatedInSubscription' enables fetching resource Ids for all capacity reservation group resources created in the subscription. 'SharedWithSubscription' enables fetching resource Ids for all capacity reservation group resources shared with the subscription. 'All' enables fetching resource Ids for all capacity reservation group resources shared with the subscription and created in the subscription.  Allowed values: All, CreatedInSubscription, SharedWithSubscription.
     /// </summary>
-    [CliFlag("--resource-ids-only")]
-    public bool? ResourceIdsOnly { get; set; }
+    [CliOption("--resource-ids-only")]
+    public string? ResourceIdsOnlyValue { get; set; }
 
     /// <summary>
     /// Retrieve the Virtual Machine Instance which are associated to capacity reservation group in the response.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -43,5 +43,19 @@ public record AzCapacityReservationGroupListOptions : AzOptions
     /// </summary>
     [CliFlag("--vmss-instance")]
     public bool? VmssInstance { get; set; }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceIdsOnlyValue instead.")]
+    public bool? ResourceIdsOnly
+    {
+        get => bool.TryParse(ResourceIdsOnlyValue, out var value) ? value : null;
+        set => ResourceIdsOnlyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

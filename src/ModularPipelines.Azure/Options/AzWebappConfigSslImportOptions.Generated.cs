@@ -23,7 +23,14 @@ public record AzWebappConfigSslImportOptions : AzOptions
     /// <summary>
     /// The name of the certificate.
     /// </summary>
-    [CliFlag("--certificate-name")]
-    public bool? CertificateName { get; set; }
+    [CliOption("--certificate-name")]
+    public string? CertificateNameValue { get; set; }
+
+    [Obsolete("Use CertificateNameValue instead.")]
+    public bool? CertificateName
+    {
+        get => bool.TryParse(CertificateNameValue, out var value) ? value : null;
+        set => CertificateNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

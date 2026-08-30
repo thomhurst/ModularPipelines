@@ -29,8 +29,8 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// <summary>
     /// Name of edge zone.
     /// </summary>
-    [CliFlag("--edge-zone")]
-    public bool? EdgeZone { get; set; }
+    [CliOption("--edge-zone")]
+    public string? EdgeZoneValue { get; set; }
 
     /// <summary>
     /// Whether to enable IP forwarding.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -47,8 +47,8 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of an existing network security group.
     /// </summary>
-    [CliFlag("--network-security-group")]
-    public bool? NetworkSecurityGroup { get; set; }
+    [CliOption("--network-security-group")]
+    public string? NetworkSecurityGroupValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -61,5 +61,19 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use EdgeZoneValue instead.")]
+    public bool? EdgeZone
+    {
+        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
+        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NetworkSecurityGroupValue instead.")]
+    public bool? NetworkSecurityGroup
+    {
+        get => bool.TryParse(NetworkSecurityGroupValue, out var value) ? value : null;
+        set => NetworkSecurityGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

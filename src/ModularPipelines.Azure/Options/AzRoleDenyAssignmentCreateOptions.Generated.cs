@@ -35,8 +35,8 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Description of the deny assignment.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// Space-separated list of principal object IDs to exclude from the deny. Required when no --principal-object-id is specified (Everyone mode). Optional when --principal-object-id is specified.
@@ -71,13 +71,27 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// The type of the principal specified by --principal-object-id. Required when --principal-object-id is provided. Accepted values: User, ServicePrincipal.  Allowed values: ServicePrincipal, User.
     /// </summary>
-    [CliFlag("--principal-type")]
-    public bool? PrincipalType { get; set; }
+    [CliOption("--principal-type")]
+    public string? PrincipalTypeValue { get; set; }
 
     /// <summary>
     /// Scope at which the deny assignment applies. For example, /subscriptions/00000000-0000-0000-0000-000000000000 or /subscription s/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
     /// </summary>
     [CliFlag("--scope")]
     public bool? Scope { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PrincipalTypeValue instead.")]
+    public bool? PrincipalType
+    {
+        get => bool.TryParse(PrincipalTypeValue, out var value) ? value : null;
+        set => PrincipalTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

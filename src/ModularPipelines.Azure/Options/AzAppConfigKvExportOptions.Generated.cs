@@ -59,8 +59,8 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Prefix to be trimmed from keys. Prefix will be ignored for feature flags.
@@ -71,13 +71,13 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Export items excluding all feature flags. By default, all features with the specified label will be exported to file or appconfig. Not applicable for appservice.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-features")]
+    [CliOption("--skip-features")]
     public bool? SkipFeatures { get; set; }
 
     /// <summary>
     /// Export items excluding all key vault references. By default, all key vault references with the specified label will be exported. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-keyvault")]
+    [CliOption("--skip-keyvault")]
     public bool? SkipKeyvault { get; set; }
 
     /// <summary>
@@ -97,5 +97,12 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

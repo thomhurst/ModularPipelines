@@ -35,26 +35,26 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Create snapshot by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--copy-start")]
+    [CliOption("--copy-start")]
     public bool? CopyStart { get; set; }
 
     /// <summary>
     /// Name or ID of the disk access resource for using private endpoints on disks.
     /// </summary>
-    [CliFlag("--disk-access")]
-    public bool? DiskAccess { get; set; }
+    [CliOption("--disk-access")]
+    public string? DiskAccessValue { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set that is used to encrypt the disk.
     /// </summary>
-    [CliFlag("--disk-encryption-set")]
-    public bool? DiskEncryptionSet { get; set; }
+    [CliOption("--disk-encryption-set")]
+    public string? DiskEncryptionSetValue { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
-    [CliFlag("--edge-zone")]
-    public bool? EdgeZone { get; set; }
+    [CliOption("--edge-zone")]
+    public string? EdgeZoneValue { get; set; }
 
     /// <summary>
     /// Encryption type.
@@ -113,8 +113,8 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Source to create the disk/snapshot from, including unmanaged blob uri, managed disk id or name, or snapshot id or name.
     /// </summary>
-    [CliFlag("--source")]
-    public bool? Source { get; set; }
+    [CliOption("--source")]
+    public string? SourceValue { get; set; }
 
     /// <summary>
     /// Used when source blob is in a different subscription.
@@ -127,5 +127,33 @@ public record AzSnapshotCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use DiskAccessValue instead.")]
+    public bool? DiskAccess
+    {
+        get => bool.TryParse(DiskAccessValue, out var value) ? value : null;
+        set => DiskAccessValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DiskEncryptionSetValue instead.")]
+    public bool? DiskEncryptionSet
+    {
+        get => bool.TryParse(DiskEncryptionSetValue, out var value) ? value : null;
+        set => DiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EdgeZoneValue instead.")]
+    public bool? EdgeZone
+    {
+        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
+        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceValue instead.")]
+    public bool? Source
+    {
+        get => bool.TryParse(SourceValue, out var value) ? value : null;
+        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

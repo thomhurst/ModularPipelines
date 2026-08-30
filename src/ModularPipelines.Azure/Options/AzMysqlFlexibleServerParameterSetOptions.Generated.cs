@@ -23,13 +23,27 @@ public record AzMysqlFlexibleServerParameterSetOptions : AzOptions
     /// <summary>
     /// Source of the configuration.
     /// </summary>
-    [CliFlag("--source")]
-    public bool? Source { get; set; }
+    [CliOption("--source")]
+    public string? SourceValue { get; set; }
 
     /// <summary>
     /// Value of the configuration.
     /// </summary>
-    [CliFlag("--value", ShortForm = "-v")]
-    public bool? Value { get; set; }
+    [CliOption("--value", ShortForm = "-v")]
+    public string? ValueValue { get; set; }
+
+    [Obsolete("Use SourceValue instead.")]
+    public bool? Source
+    {
+        get => bool.TryParse(SourceValue, out var value) ? value : null;
+        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ValueValue instead.")]
+    public bool? Value
+    {
+        get => bool.TryParse(ValueValue, out var value) ? value : null;
+        set => ValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

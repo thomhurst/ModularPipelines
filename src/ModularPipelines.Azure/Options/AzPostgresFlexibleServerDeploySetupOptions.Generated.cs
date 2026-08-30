@@ -23,19 +23,33 @@ public record AzPostgresFlexibleServerDeploySetupOptions : AzOptions
     /// <summary>
     /// The name of the github action.
     /// </summary>
-    [CliFlag("--action-name")]
-    public bool? ActionName { get; set; }
+    [CliOption("--action-name")]
+    public string? ActionNameValue { get; set; }
 
     /// <summary>
     /// Push the action yml file to the remote repository. The changes will be pushed to origin repository, specified branch or current branch if not specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-push")]
+    [CliOption("--allow-push")]
     public bool? AllowPush { get; set; }
 
     /// <summary>
     /// The name of the branch you want upload github action file. The default will be your current branch.
     /// </summary>
-    [CliFlag("--branch")]
-    public bool? Branch { get; set; }
+    [CliOption("--branch")]
+    public string? BranchValue { get; set; }
+
+    [Obsolete("Use ActionNameValue instead.")]
+    public bool? ActionName
+    {
+        get => bool.TryParse(ActionNameValue, out var value) ? value : null;
+        set => ActionNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use BranchValue instead.")]
+    public bool? Branch
+    {
+        get => bool.TryParse(BranchValue, out var value) ? value : null;
+        set => BranchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

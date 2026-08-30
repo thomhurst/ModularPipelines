@@ -23,8 +23,8 @@ public record AzContainerappEnvCertificateListOptions : AzOptions
     /// <summary>
     /// Name or resource id of the certificate.
     /// </summary>
-    [CliFlag("--certificate", ShortForm = "-c")]
-    public bool? Certificate { get; set; }
+    [CliOption("--certificate", ShortForm = "-c")]
+    public string? CertificateValue { get; set; }
 
     /// <summary>
     /// Location of resource. Examples: eastus2, northeurope.
@@ -37,5 +37,12 @@ public record AzContainerappEnvCertificateListOptions : AzOptions
     /// </summary>
     [CliFlag("--thumbprint", ShortForm = "-t")]
     public bool? Thumbprint { get; set; }
+
+    [Obsolete("Use CertificateValue instead.")]
+    public bool? Certificate
+    {
+        get => bool.TryParse(CertificateValue, out var value) ? value : null;
+        set => CertificateValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

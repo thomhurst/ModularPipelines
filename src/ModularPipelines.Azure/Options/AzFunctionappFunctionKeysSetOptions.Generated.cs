@@ -23,13 +23,27 @@ public record AzFunctionappFunctionKeysSetOptions : AzOptions
     /// <summary>
     /// Value of the new key. If not provided, a value will be generated.
     /// </summary>
-    [CliFlag("--key-value")]
-    public bool? KeyValue { get; set; }
+    [CliOption("--key-value")]
+    public string? KeyValueValue { get; set; }
 
     /// <summary>
     /// The name of the slot. Defaults to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
+
+    [Obsolete("Use KeyValueValue instead.")]
+    public bool? KeyValue
+    {
+        get => bool.TryParse(KeyValueValue, out var value) ? value : null;
+        set => KeyValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

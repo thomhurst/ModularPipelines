@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,19 +24,34 @@ public record AzNetworkApplicationGatewayRootCertCreateOptions : AzOptions
     /// <summary>
     /// Path to the certificate file.
     /// </summary>
-    [CliFlag("--cert-file")]
-    public bool? CertFile { get; set; }
+    [CliOption("--cert-file")]
+    public string? CertFileValue { get; set; }
 
     /// <summary>
     /// ID of keyvault secret.
     /// </summary>
-    [CliFlag("--keyvault-secret")]
-    public bool? KeyvaultSecret { get; set; }
+    [SecretValue]
+    [CliOption("--keyvault-secret")]
+    public string? KeyvaultSecretValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [Obsolete("Use CertFileValue instead.")]
+    public bool? CertFile
+    {
+        get => bool.TryParse(CertFileValue, out var value) ? value : null;
+        set => CertFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyvaultSecretValue instead.")]
+    public bool? KeyvaultSecret
+    {
+        get => bool.TryParse(KeyvaultSecretValue, out var value) ? value : null;
+        set => KeyvaultSecretValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

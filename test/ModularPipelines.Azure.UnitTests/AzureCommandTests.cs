@@ -82,6 +82,98 @@ public class AzureCommandTests : TestBase
             .IsEqualTo(typeof(CommandLineToolOptions));
     }
 
+    [Test]
+    public async Task Acr_Task_Identity_Values_Are_Grouped()
+    {
+        var arguments = BuildArguments(new AzAcrTaskCreateOptions("task", "registry")
+        {
+            AssignIdentityValue = ["[system]", "/subscriptions/example/identity"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--name", "task", "--registry", "registry", "--assign-identity", "[system]", "/subscriptions/example/identity"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Acr_Task_Schedules_Are_Repeated()
+    {
+        var arguments = BuildArguments(new AzAcrTaskCreateOptions("task", "registry")
+        {
+            ScheduleValues = ["daily:0 0 * * *", "weekly:0 0 * * 0"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--name", "task", "--registry", "registry", "--schedule", "daily:0 0 * * *", "--schedule", "weekly:0 0 * * 0"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Acr_Task_Git_Access_Token_Is_A_Value()
+    {
+        var arguments = BuildArguments(new AzAcrTaskCreateOptions("task", "registry")
+        {
+            GitAccessTokenValue = "token",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--name", "task", "--registry", "registry", "--git-access-token", "token"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Stack_Child_Scope_Option_Is_A_Flag()
+    {
+        var arguments = BuildArguments(new AzStackGroupCreateOptions("deleteAll", "none", "stack", "group")
+        {
+            Cs = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--action-on-unmanage", "deleteAll", "--deny-settings-mode", "none", "--name", "stack", "--resource-group", "group", "--cs"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Stack_Whatif_Child_Scope_Option_Is_A_Flag()
+    {
+        var arguments = BuildArguments(new AzStackWhatifGroupCreateOptions(
+            "deleteAll",
+            "none",
+            "stack",
+            "group",
+            "P7D",
+            "stack-id")
+        {
+            Cs = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            [
+                "--action-on-unmanage", "deleteAll",
+                "--deny-settings-mode", "none",
+                "--name", "stack",
+                "--resource-group", "group",
+                "--retention-interval", "P7D",
+                "--stack-id", "stack-id",
+                "--cs",
+            ],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Expanded_Boolean_Option_Renders_Its_Value()
+    {
+        var arguments = BuildArguments(new AzMonitorAccountIssueUpdateOptions
+        {
+            ForceString = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--force-string", "true"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
     private static void RegisterArmClient(IServiceCollection services)
     {
         services.AddSingleton(ArmClient);

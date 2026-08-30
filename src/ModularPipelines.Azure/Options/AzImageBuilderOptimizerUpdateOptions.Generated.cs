@@ -29,7 +29,7 @@ public record AzImageBuilderOptimizerUpdateOptions : AzOptions
     /// <summary>
     /// If this parameter is set to true, VM boot time will be improved by optimizing the final customized image output.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-vm-boot")]
+    [CliOption("--enable-vm-boot")]
     public bool? EnableVmBoot { get; set; }
 
 }

@@ -53,8 +53,8 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// The resource id of the partner Managed Instance to inherit DnsZone property from for Managed Instance creation.
     /// </summary>
-    [CliFlag("--dns-zone-partner")]
-    public bool? DnsZonePartner { get; set; }
+    [CliOption("--dns-zone-partner")]
+    public string? DnsZonePartnerValue { get; set; }
 
     /// <summary>
     /// Enable Azure Active Directory Only Authentication for this server.
@@ -83,7 +83,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Whether or not this is a GPv2 variant of General Purpose edition.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--gpv2")]
+    [CliOption("--gpv2")]
     public bool? Gpv2 { get; set; }
 
     /// <summary>
@@ -95,8 +95,8 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Name of the Instance Pool where managed instance will be placed.
     /// </summary>
-    [CliFlag("--instance-pool-name")]
-    public bool? InstancePoolName { get; set; }
+    [CliOption("--instance-pool-name")]
+    public string? InstancePoolNameValue { get; set; }
 
     /// <summary>
     /// The storage iops of the managed instance. Storage iops can be specified in increments of 1.
@@ -107,8 +107,8 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// The key vault URI for encryption.
     /// </summary>
-    [CliFlag("--key-id", ShortForm = "-k")]
-    public bool? KeyId { get; set; }
+    [CliOption("--key-id", ShortForm = "-k")]
+    public string? KeyIdValue { get; set; }
 
     /// <summary>
     /// The license type to apply for this managed instance. Allowed values: BasePrice, LicenseIncluded.
@@ -155,7 +155,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Whether or not the public data endpoint is enabled for the instance.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--public-data-endpoint-enabled")]
+    [CliOption("--public-data-endpoint-enabled")]
     public bool? PublicDataEndpointEnabled { get; set; }
 
     /// <summary>
@@ -191,8 +191,8 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// The virtual network name.
     /// </summary>
-    [CliFlag("--vnet-name")]
-    public bool? VnetName { get; set; }
+    [CliOption("--vnet-name")]
+    public string? VnetNameValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -203,7 +203,35 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant", ShortForm = "-z")]
+    [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
+
+    [Obsolete("Use DnsZonePartnerValue instead.")]
+    public bool? DnsZonePartner
+    {
+        get => bool.TryParse(DnsZonePartnerValue, out var value) ? value : null;
+        set => DnsZonePartnerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use InstancePoolNameValue instead.")]
+    public bool? InstancePoolName
+    {
+        get => bool.TryParse(InstancePoolNameValue, out var value) ? value : null;
+        set => InstancePoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyIdValue instead.")]
+    public bool? KeyId
+    {
+        get => bool.TryParse(KeyIdValue, out var value) ? value : null;
+        set => KeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetNameValue instead.")]
+    public bool? VnetName
+    {
+        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
+        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

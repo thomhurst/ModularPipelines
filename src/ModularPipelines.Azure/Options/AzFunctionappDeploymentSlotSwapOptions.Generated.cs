@@ -29,7 +29,7 @@ public record AzFunctionappDeploymentSlotSwapOptions : AzOptions
     /// <summary>
     /// Preserve Virtual Network to the slot during swap, default to 'true'. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--preserve-vnet")]
+    [CliOption("--preserve-vnet")]
     public bool? PreserveVnet { get; set; }
 
     /// <summary>

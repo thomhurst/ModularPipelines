@@ -23,13 +23,20 @@ public record AzSfClusterSettingRemoveOptions : AzOptions
     /// <summary>
     /// Parameter name.
     /// </summary>
-    [CliFlag("--parameter")]
-    public bool? Parameter { get; set; }
+    [CliOption("--parameter")]
+    public string? ParameterValue { get; set; }
 
     /// <summary>
     /// Section name.
     /// </summary>
     [CliFlag("--section")]
     public bool? Section { get; set; }
+
+    [Obsolete("Use ParameterValue instead.")]
+    public bool? Parameter
+    {
+        get => bool.TryParse(ParameterValue, out var value) ? value : null;
+        set => ParameterValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

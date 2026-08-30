@@ -47,7 +47,14 @@ public record AzNetworkExpressRouteGatewayCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of the virtual hub to associate with the gateway.
     /// </summary>
-    [CliFlag("--virtual-hub")]
-    public bool? VirtualHub { get; set; }
+    [CliOption("--virtual-hub")]
+    public string? VirtualHubValue { get; set; }
+
+    [Obsolete("Use VirtualHubValue instead.")]
+    public bool? VirtualHub
+    {
+        get => bool.TryParse(VirtualHubValue, out var value) ? value : null;
+        set => VirtualHubValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

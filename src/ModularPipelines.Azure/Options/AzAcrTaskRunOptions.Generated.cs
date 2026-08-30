@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "run")]
-public record AzAcrTaskRunOptions : AzOptions
+public record AzAcrTaskRunOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrTaskRunOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
@@ -59,8 +67,8 @@ public record AzAcrTaskRunOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// Secret build argument in '--secret-arg name[=value]' format. Multiples are supported by passing '--secret-arg name[=value]' multiple times. This parameter value is not surfaced to the ACR team and is more suitable for sensitive information.
@@ -71,8 +79,8 @@ public record AzAcrTaskRunOptions : AzOptions
     /// <summary>
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
-    [CliFlag("--set")]
-    public bool? Set { get; set; }
+    [CliOption("--set")]
+    public IEnumerable<string>? SetValues { get; set; }
 
     /// <summary>
     /// Secret task value in '--set-secret name[=value]' format. Multiples supported by passing --set-secret multiple times.
@@ -83,7 +91,28 @@ public record AzAcrTaskRunOptions : AzOptions
     /// <summary>
     /// The name of the target build stage.
     /// </summary>
-    [CliFlag("--target")]
-    public bool? Target { get; set; }
+    [CliOption("--target")]
+    public string? TargetValue { get; set; }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SetValues instead.")]
+    public bool? Set
+    {
+        get => bool.TryParse(SetValues?.FirstOrDefault(), out var value) ? value : null;
+        set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
+    }
+
+    [Obsolete("Use TargetValue instead.")]
+    public bool? Target
+    {
+        get => bool.TryParse(TargetValue, out var value) ? value : null;
+        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

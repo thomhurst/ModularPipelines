@@ -23,7 +23,14 @@ public record AzAksCheckAcrOptions : AzOptions
     /// <summary>
     /// The name of a specific node to perform acr pull test checks. If not specified, it will be checked on a random node.
     /// </summary>
-    [CliFlag("--node-name")]
-    public bool? NodeName { get; set; }
+    [CliOption("--node-name")]
+    public string? NodeNameValue { get; set; }
+
+    [Obsolete("Use NodeNameValue instead.")]
+    public bool? NodeName
+    {
+        get => bool.TryParse(NodeNameValue, out var value) ? value : null;
+        set => NodeNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

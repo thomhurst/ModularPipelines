@@ -23,7 +23,7 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--async-execution")]
+    [CliOption("--async-execution")]
     public bool? AsyncExecution { get; set; }
 
     /// <summary>
@@ -59,14 +59,14 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// <summary>
     /// The parameters used by the script.
     /// </summary>
-    [CliFlag("--parameters")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters")]
+    public string? ParametersValue { get; set; }
 
     /// <summary>
     /// The parameters used by the script.
     /// </summary>
-    [CliFlag("--protected-parameters")]
-    public bool? ProtectedParameters { get; set; }
+    [CliOption("--protected-parameters")]
+    public string? ProtectedParametersValue { get; set; }
 
     /// <summary>
     /// Password if needed for using run-as-user parameter. It will be encrypted and not logged.
@@ -103,5 +103,19 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--timeout-in-seconds")]
     public bool? TimeoutInSeconds { get; set; }
+
+    [Obsolete("Use ParametersValue instead.")]
+    public bool? Parameters
+    {
+        get => bool.TryParse(ParametersValue, out var value) ? value : null;
+        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ProtectedParametersValue instead.")]
+    public bool? ProtectedParameters
+    {
+        get => bool.TryParse(ProtectedParametersValue, out var value) ? value : null;
+        set => ProtectedParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

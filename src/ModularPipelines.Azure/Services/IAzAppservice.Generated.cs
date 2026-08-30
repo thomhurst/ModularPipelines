@@ -15,18 +15,21 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az appservice commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzAppservice
 {
     /// <summary>
     /// az ase sub-commands.
     /// </summary>
-    AzAppserviceAse Ase { get; }
+    AzAppserviceAse Ase => throw new System.NotSupportedException();
 
     /// <summary>
     /// az plan sub-commands.
     /// </summary>
-    AzAppservicePlan Plan { get; }
+    AzAppservicePlan Plan => throw new System.NotSupportedException();
 
     /// <summary>
     /// List regions where a plan sku is available.
@@ -35,9 +38,7 @@ public interface IAzAppservice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListLocationsAsync(
-        AzAppserviceListLocationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListLocationsAsync(AzAppserviceListLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -29,7 +29,14 @@ public record AzHdinsightScriptActionExecuteOptions : AzOptions
     /// <summary>
     /// The parameters for the script.
     /// </summary>
-    [CliFlag("--script-parameters")]
-    public bool? ScriptParameters { get; set; }
+    [CliOption("--script-parameters")]
+    public string? ScriptParametersValue { get; set; }
+
+    [Obsolete("Use ScriptParametersValue instead.")]
+    public bool? ScriptParameters
+    {
+        get => bool.TryParse(ScriptParametersValue, out var value) ? value : null;
+        set => ScriptParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -53,14 +53,14 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
-    [CliFlag("--backup-identity")]
-    public bool? BackupIdentity { get; set; }
+    [CliOption("--backup-identity")]
+    public string? BackupIdentityValue { get; set; }
 
     /// <summary>
     /// The resource identifier of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
     /// </summary>
-    [CliFlag("--backup-key")]
-    public bool? BackupKey { get; set; }
+    [CliOption("--backup-key")]
+    public string? BackupKeyValue { get; set; }
 
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.  Default: 7.
@@ -89,20 +89,20 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The name or resource identifier of the user assigned identity for data encryption.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity")]
+    public string? IdentityValue { get; set; }
 
     /// <summary>
     /// Value of IOPS in (operations/sec) to be allocated for this server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
-    [CliFlag("--iops")]
-    public bool? Iops { get; set; }
+    [CliOption("--iops")]
+    public string? IopsValue { get; set; }
 
     /// <summary>
     /// The resource identifier of the primary keyvault key for data encryption.
     /// </summary>
-    [CliFlag("--key")]
-    public bool? Key { get; set; }
+    [CliOption("--key")]
+    public string? KeyValue { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -119,8 +119,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// The number of nodes for elastic cluster.
@@ -155,14 +155,14 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
     /// </summary>
-    [CliFlag("--sku-name")]
-    public bool? SkuName { get; set; }
+    [CliOption("--sku-name")]
+    public string? SkuNameValue { get; set; }
 
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
@@ -191,8 +191,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Name or identifier of an existing subnet. If you want to use a subnet from a different resource group or subscription, please provide its resource identifier instead of name.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -209,8 +209,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.  Default: GeneralPurpose.
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? TierValue { get; set; }
 
     /// <summary>
     /// Server major version.
@@ -221,8 +221,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Name or identifier of an existing virtual network. If you want to use a vnet from a different resource group or subscription, please provide a resource identifier. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? VnetValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -241,5 +241,82 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    [Obsolete("Use BackupIdentityValue instead.")]
+    public bool? BackupIdentity
+    {
+        get => bool.TryParse(BackupIdentityValue, out var value) ? value : null;
+        set => BackupIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use BackupKeyValue instead.")]
+    public bool? BackupKey
+    {
+        get => bool.TryParse(BackupKeyValue, out var value) ? value : null;
+        set => BackupKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IdentityValue instead.")]
+    public bool? Identity
+    {
+        get => bool.TryParse(IdentityValue, out var value) ? value : null;
+        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IopsValue instead.")]
+    public bool? Iops
+    {
+        get => bool.TryParse(IopsValue, out var value) ? value : null;
+        set => IopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyValue instead.")]
+    public bool? Key
+    {
+        get => bool.TryParse(KeyValue, out var value) ? value : null;
+        set => KeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SkuNameValue instead.")]
+    public bool? SkuName
+    {
+        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
+        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TierValue instead.")]
+    public bool? Tier
+    {
+        get => bool.TryParse(TierValue, out var value) ? value : null;
+        set => TierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetValue instead.")]
+    public bool? Vnet
+    {
+        get => bool.TryParse(VnetValue, out var value) ? value : null;
+        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

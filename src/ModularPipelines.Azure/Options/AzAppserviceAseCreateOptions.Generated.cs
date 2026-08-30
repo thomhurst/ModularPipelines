@@ -23,7 +23,7 @@ public record AzAppserviceAseCreateOptions : AzOptions
     /// <summary>
     /// Do not check if subnet is sized according to recommendations. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--ignore-subnet-size-validation")]
+    [CliOption("--ignore-subnet-size-validation")]
     public bool? IgnoreSubnetSizeValidation { get; set; }
 
     /// <summary>
@@ -53,13 +53,20 @@ public record AzAppserviceAseCreateOptions : AzOptions
     /// <summary>
     /// Name of the vNet. Mandatory if only subnet name is specified.
     /// </summary>
-    [CliFlag("--vnet-name")]
-    public bool? VnetName { get; set; }
+    [CliOption("--vnet-name")]
+    public string? VnetNameValue { get; set; }
 
     /// <summary>
     /// Configure App Service Environment as Zone Redundant.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant")]
+    [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
+
+    [Obsolete("Use VnetNameValue instead.")]
+    public bool? VnetName
+    {
+        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
+        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

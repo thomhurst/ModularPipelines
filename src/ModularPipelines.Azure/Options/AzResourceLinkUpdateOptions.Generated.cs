@@ -29,7 +29,14 @@ public record AzResourceLinkUpdateOptions : AzOptions
     /// <summary>
     /// Fully-qualified resource ID of the resource link target.
     /// </summary>
-    [CliFlag("--target")]
-    public bool? Target { get; set; }
+    [CliOption("--target")]
+    public string? TargetValue { get; set; }
+
+    [Obsolete("Use TargetValue instead.")]
+    public bool? Target
+    {
+        get => bool.TryParse(TargetValue, out var value) ? value : null;
+        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

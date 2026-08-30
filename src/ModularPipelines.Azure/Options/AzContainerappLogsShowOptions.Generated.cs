@@ -23,13 +23,13 @@ public record AzContainerappLogsShowOptions : AzOptions
     /// <summary>
     /// The name of the container.
     /// </summary>
-    [CliFlag("--container")]
-    public bool? Container { get; set; }
+    [CliOption("--container")]
+    public string? ContainerValue { get; set; }
 
     /// <summary>
     /// Print logs in real time if present.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--follow")]
+    [CliOption("--follow")]
     public bool? Follow { get; set; }
 
     /// <summary>
@@ -41,14 +41,14 @@ public record AzContainerappLogsShowOptions : AzOptions
     /// <summary>
     /// The name of the replica. List replicas with 'az containerapp replica list'. A replica may not exist if there is not traffic to your app.
     /// </summary>
-    [CliFlag("--replica")]
-    public bool? Replica { get; set; }
+    [CliOption("--replica")]
+    public string? ReplicaValue { get; set; }
 
     /// <summary>
     /// The name of the container app revision. Defaults to the latest revision.
     /// </summary>
-    [CliFlag("--revision")]
-    public bool? Revision { get; set; }
+    [CliOption("--revision")]
+    public string? RevisionValue { get; set; }
 
     /// <summary>
     /// The number of past logs to print (0-300).  Default: 20.
@@ -61,5 +61,26 @@ public record AzContainerappLogsShowOptions : AzOptions
     /// </summary>
     [CliFlag("--type", ShortForm = "-t")]
     public bool? Type { get; set; }
+
+    [Obsolete("Use ContainerValue instead.")]
+    public bool? Container
+    {
+        get => bool.TryParse(ContainerValue, out var value) ? value : null;
+        set => ContainerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ReplicaValue instead.")]
+    public bool? Replica
+    {
+        get => bool.TryParse(ReplicaValue, out var value) ? value : null;
+        set => ReplicaValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use RevisionValue instead.")]
+    public bool? Revision
+    {
+        get => bool.TryParse(RevisionValue, out var value) ? value : null;
+        set => RevisionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

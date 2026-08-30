@@ -23,13 +23,20 @@ public record AzNetworkNicIpConfigInboundNatRuleRemoveOptions : AzOptions
     /// <summary>
     /// Name of the load balancer.
     /// </summary>
-    [CliFlag("--lb-name")]
-    public bool? LbName { get; set; }
+    [CliOption("--lb-name")]
+    public string? LbNameValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [Obsolete("Use LbNameValue instead.")]
+    public bool? LbName
+    {
+        get => bool.TryParse(LbNameValue, out var value) ? value : null;
+        set => LbNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

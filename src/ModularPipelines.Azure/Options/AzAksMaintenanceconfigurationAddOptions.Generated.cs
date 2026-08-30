@@ -83,8 +83,8 @@ public record AzAksMaintenanceconfigurationAddOptions : AzOptions
     /// <summary>
     /// The start time of the maintenance window. Accepted values are from '00:00' to '23:59'. '--utc-offset' applies to this field. For example, '02:00' with '--utc-offset +02:00' means UTC time '00:00'.
     /// </summary>
-    [CliFlag("--start-time")]
-    public bool? StartTime { get; set; }
+    [CliOption("--start-time")]
+    public string? StartTimeValue { get; set; }
 
     /// <summary>
     /// The UTC offset in format +/-HH:mm. For example, '+05:30' for IST and '-07:00' for PST. If not specified, the default is '+00:00'. Supported for all configuration types, including default.
@@ -103,5 +103,12 @@ public record AzAksMaintenanceconfigurationAddOptions : AzOptions
     /// </summary>
     [CliFlag("--weekday")]
     public bool? Weekday { get; set; }
+
+    [Obsolete("Use StartTimeValue instead.")]
+    public bool? StartTime
+    {
+        get => bool.TryParse(StartTimeValue, out var value) ? value : null;
+        set => StartTimeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

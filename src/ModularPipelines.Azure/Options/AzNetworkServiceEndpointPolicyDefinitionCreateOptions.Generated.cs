@@ -23,8 +23,8 @@ public record AzNetworkServiceEndpointPolicyDefinitionCreateOptions : AzOptions
     /// <summary>
     /// Description of the policy definition.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? DescriptionValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -43,5 +43,12 @@ public record AzNetworkServiceEndpointPolicyDefinitionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--service-resources")]
     public bool? ServiceResources { get; set; }
+
+    [Obsolete("Use DescriptionValue instead.")]
+    public bool? Description
+    {
+        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
+        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

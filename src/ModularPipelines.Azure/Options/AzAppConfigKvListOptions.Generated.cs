@@ -71,19 +71,19 @@ public record AzAppConfigKvListOptions : AzOptions
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Resolve the content of key vault reference. This argument should NOT be specified along with --fields. Instead use --query for customized query.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--resolve-keyvault")]
+    [CliOption("--resolve-keyvault")]
     public bool? ResolveKeyvault { get; set; }
 
     /// <summary>
     /// Resolve snapshot references and return the referenced snapshots' key-values.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--resolve-snapshot-references")]
+    [CliOption("--resolve-snapshot-references")]
     public bool? ResolveSnapshotReferences { get; set; }
 
     /// <summary>
@@ -103,5 +103,12 @@ public record AzAppConfigKvListOptions : AzOptions
     /// </summary>
     [CliFlag("--top", ShortForm = "-t")]
     public bool? Top { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

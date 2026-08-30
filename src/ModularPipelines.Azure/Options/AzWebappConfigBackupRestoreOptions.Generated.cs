@@ -35,13 +35,27 @@ public record AzWebappConfigBackupRestoreOptions : AzOptions
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// The name to use for the restored web app. If unspecified, will default to the name that was used when the backup was created.
     /// </summary>
-    [CliFlag("--target-name")]
-    public bool? TargetName { get; set; }
+    [CliOption("--target-name")]
+    public string? TargetNameValue { get; set; }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetNameValue instead.")]
+    public bool? TargetName
+    {
+        get => bool.TryParse(TargetNameValue, out var value) ? value : null;
+        set => TargetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

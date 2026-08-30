@@ -35,7 +35,14 @@ public record AzMariadbServerShowConnectionStringOptions : AzOptions
     /// <summary>
     /// The name of a database.  Default: {database}.
     /// </summary>
-    [CliFlag("--database-name", ShortForm = "-d")]
-    public bool? DatabaseName { get; set; }
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string? DatabaseNameValue { get; set; }
+
+    [Obsolete("Use DatabaseNameValue instead.")]
+    public bool? DatabaseName
+    {
+        get => bool.TryParse(DatabaseNameValue, out var value) ? value : null;
+        set => DatabaseNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -41,7 +41,7 @@ public record AzDeploymentTenantWhatIfOptions : AzOptions
     /// <summary>
     /// The option to disable the prompt of missing parameters for ARM template. When the value is true, the prompt requiring users to provide missing parameter will be ignored. The default value is false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-prompt")]
+    [CliOption("--no-prompt")]
     public bool? NoPrompt { get; set; }
 
     /// <summary>
@@ -53,8 +53,8 @@ public record AzDeploymentTenantWhatIfOptions : AzOptions
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
     /// </summary>
-    [CliFlag("--query-string", ShortForm = "-q")]
-    public bool? QueryString { get; set; }
+    [CliOption("--query-string", ShortForm = "-q")]
+    public string? QueryStringValue { get; set; }
 
     /// <summary>
     /// The format of What-If results.  Allowed values: FullResourcePayloads, ResourceIdOnly.  Default:
@@ -65,25 +65,53 @@ public record AzDeploymentTenantWhatIfOptions : AzOptions
     /// <summary>
     /// The path to the template file or Bicep file.
     /// </summary>
-    [CliFlag("--template-file", ShortForm = "-f")]
-    public bool? TemplateFile { get; set; }
+    [CliOption("--template-file", ShortForm = "-f")]
+    public string? TemplateFileValue { get; set; }
 
     /// <summary>
     /// The template spec resource id.
     /// </summary>
-    [CliFlag("--template-spec", ShortForm = "-s")]
-    public bool? TemplateSpec { get; set; }
+    [CliOption("--template-spec", ShortForm = "-s")]
+    public string? TemplateSpecValue { get; set; }
 
     /// <summary>
     /// The URI to the template file.
     /// </summary>
-    [CliFlag("--template-uri", ShortForm = "-u")]
-    public bool? TemplateUri { get; set; }
+    [CliOption("--template-uri", ShortForm = "-u")]
+    public string? TemplateUriValue { get; set; }
 
     /// <summary>
     /// The deployment validation level. May be set to "Provider" (the default), "Template", or "ProviderNoRbac". With a validation level of "provider", ARM will perform full validation and check that you have sufficient permission to deploy all resources in the template. With a validation level of "providerNoRbac", ARM will perform full validation but only check for read permissions on each resource. With a validation level of "template", only static validation will be performed: preflight and permissions checks will be skipped. Allowed values: Provider, ProviderNoRbac, Template.
     /// </summary>
     [CliFlag("--validation-level")]
     public bool? ValidationLevel { get; set; }
+
+    [Obsolete("Use QueryStringValue instead.")]
+    public bool? QueryString
+    {
+        get => bool.TryParse(QueryStringValue, out var value) ? value : null;
+        set => QueryStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TemplateFileValue instead.")]
+    public bool? TemplateFile
+    {
+        get => bool.TryParse(TemplateFileValue, out var value) ? value : null;
+        set => TemplateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TemplateSpecValue instead.")]
+    public bool? TemplateSpec
+    {
+        get => bool.TryParse(TemplateSpecValue, out var value) ? value : null;
+        set => TemplateSpecValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TemplateUriValue instead.")]
+    public bool? TemplateUri
+    {
+        get => bool.TryParse(TemplateUriValue, out var value) ? value : null;
+        set => TemplateUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

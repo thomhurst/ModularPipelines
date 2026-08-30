@@ -23,7 +23,14 @@ public record AzStaticwebappBackendsShowOptions : AzOptions
     /// <summary>
     /// Name of the environment of static site.  Default: default.
     /// </summary>
-    [CliFlag("--environment-name")]
-    public bool? EnvironmentName { get; set; }
+    [CliOption("--environment-name")]
+    public string? EnvironmentNameValue { get; set; }
+
+    [Obsolete("Use EnvironmentNameValue instead.")]
+    public bool? EnvironmentName
+    {
+        get => bool.TryParse(EnvironmentNameValue, out var value) ? value : null;
+        set => EnvironmentNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

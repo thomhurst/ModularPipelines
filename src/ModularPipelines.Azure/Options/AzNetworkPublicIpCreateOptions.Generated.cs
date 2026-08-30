@@ -29,8 +29,8 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of a DDoS protection plan associated with the public IP. Can only be set if `--protection-mode` is Enabled.
     /// </summary>
-    [CliFlag("--ddos-protection-plan")]
-    public bool? DdosProtectionPlan { get; set; }
+    [CliOption("--ddos-protection-plan")]
+    public string? DdosProtectionPlanValue { get; set; }
 
     /// <summary>
     /// Globally unique DNS entry.
@@ -47,8 +47,8 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// The name of edge zone.
     /// </summary>
-    [CliFlag("--edge-zone")]
-    public bool? EdgeZone { get; set; }
+    [CliOption("--edge-zone")]
+    public string? EdgeZoneValue { get; set; }
 
     /// <summary>
     /// Idle timeout in minutes.  Default: 4.
@@ -77,8 +77,8 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of a public IP prefix.
     /// </summary>
-    [CliFlag("--public-ip-prefix")]
-    public bool? PublicIpPrefix { get; set; }
+    [CliOption("--public-ip-prefix")]
+    public string? PublicIpPrefixValue { get; set; }
 
     /// <summary>
     /// Reverse FQDN (fully qualified domain name).
@@ -89,8 +89,8 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// Name of a public IP address SKU.  Allowed values: Basic, Standard, StandardV2.  Default: Standard.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? SkuValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -115,5 +115,33 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    [Obsolete("Use DdosProtectionPlanValue instead.")]
+    public bool? DdosProtectionPlan
+    {
+        get => bool.TryParse(DdosProtectionPlanValue, out var value) ? value : null;
+        set => DdosProtectionPlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EdgeZoneValue instead.")]
+    public bool? EdgeZone
+    {
+        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
+        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PublicIpPrefixValue instead.")]
+    public bool? PublicIpPrefix
+    {
+        get => bool.TryParse(PublicIpPrefixValue, out var value) ? value : null;
+        set => PublicIpPrefixValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SkuValue instead.")]
+    public bool? Sku
+    {
+        get => bool.TryParse(SkuValue, out var value) ? value : null;
+        set => SkuValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

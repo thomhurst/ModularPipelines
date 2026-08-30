@@ -23,7 +23,14 @@ public record AzAroGetAdminKubeconfigOptions : AzOptions
     /// <summary>
     /// Path to the file where kubeconfig should be saved. Default: kubeconfig in local directory.  Default: kubeconfig.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? FileValue { get; set; }
+
+    [Obsolete("Use FileValue instead.")]
+    public bool? File
+    {
+        get => bool.TryParse(FileValue, out var value) ? value : null;
+        set => FileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

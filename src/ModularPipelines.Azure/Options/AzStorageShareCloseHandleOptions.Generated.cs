@@ -29,13 +29,13 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     /// <summary>
     /// Whether or not to close all the file handles. Specify close-all or a specific handle-id.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--close-all")]
+    [CliOption("--close-all")]
     public bool? CloseAll { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disallow-trailing-dot")]
+    [CliOption("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
     /// <summary>
@@ -47,25 +47,39 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     /// <summary>
     /// The path to the file/directory within the file share.
     /// </summary>
-    [CliFlag("--path", ShortForm = "-p")]
-    public bool? Path { get; set; }
+    [CliOption("--path", ShortForm = "-p")]
+    public string? PathValue { get; set; }
 
     /// <summary>
     /// Boolean that specifies if operation should apply to the directory specified in the URI, its files, with its subdirectories and their files.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--recursive")]
+    [CliOption("--recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>
     /// A string that represents the snapshot version, if applicable.
     /// </summary>
-    [CliFlag("--snapshot")]
-    public bool? Snapshot { get; set; }
+    [CliOption("--snapshot")]
+    public string? SnapshotValue { get; set; }
 
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
+
+    [Obsolete("Use PathValue instead.")]
+    public bool? Path
+    {
+        get => bool.TryParse(PathValue, out var value) ? value : null;
+        set => PathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SnapshotValue instead.")]
+    public bool? Snapshot
+    {
+        get => bool.TryParse(SnapshotValue, out var value) ? value : null;
+        set => SnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

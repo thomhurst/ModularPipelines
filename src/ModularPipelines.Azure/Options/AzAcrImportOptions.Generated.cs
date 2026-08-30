@@ -47,8 +47,8 @@ public record AzAcrImportOptions : AzOptions
     /// <summary>
     /// The source Azure container registry. This can be name, login server or resource ID of the source registry.
     /// </summary>
-    [CliFlag("--registry", ShortForm = "-r")]
-    public bool? Registry { get; set; }
+    [CliOption("--registry", ShortForm = "-r")]
+    public string? RegistryValue { get; set; }
 
     /// <summary>
     /// The repository name for a manifest-only copy of images. Multiple copies supported by passing --repository multiple times.
@@ -59,13 +59,27 @@ public record AzAcrImportOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// The username of source container registry.
     /// </summary>
     [CliFlag("--username", ShortForm = "-u")]
     public bool? Username { get; set; }
+
+    [Obsolete("Use RegistryValue instead.")]
+    public bool? Registry
+    {
+        get => bool.TryParse(RegistryValue, out var value) ? value : null;
+        set => RegistryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

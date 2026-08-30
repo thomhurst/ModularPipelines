@@ -23,7 +23,14 @@ public record AzNetworkPrivateDnsZoneExportOptions : AzOptions
     /// <summary>
     /// Path to the Private DNS zone file to save.
     /// </summary>
-    [CliFlag("--file-name", ShortForm = "-f")]
-    public bool? FileName { get; set; }
+    [CliOption("--file-name", ShortForm = "-f")]
+    public string? FileNameValue { get; set; }
+
+    [Obsolete("Use FileNameValue instead.")]
+    public bool? FileName
+    {
+        get => bool.TryParse(FileNameValue, out var value) ? value : null;
+        set => FileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

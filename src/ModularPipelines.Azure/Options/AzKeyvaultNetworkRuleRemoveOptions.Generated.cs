@@ -23,8 +23,8 @@ public record AzKeyvaultNetworkRuleRemoveOptions : AzOptions
     /// <summary>
     /// Name of the HSM. (--hsm-name and --name/-n are mutually exclusive, please specify just one of them).
     /// </summary>
-    [CliFlag("--hsm-name")]
-    public bool? HsmName { get; set; }
+    [CliOption("--hsm-name")]
+    public string? HsmNameValue { get; set; }
 
     /// <summary>
     /// IPv4 address or CIDR range. Can supply a list: --ip-address ip1 [ip2]...
@@ -35,8 +35,8 @@ public record AzKeyvaultNetworkRuleRemoveOptions : AzOptions
     /// <summary>
     /// Name of the Vault.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -47,19 +47,54 @@ public record AzKeyvaultNetworkRuleRemoveOptions : AzOptions
     /// <summary>
     /// Name of resource group.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// Name or ID of subnet. If name is supplied, `--vnet-name` must be supplied.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// Name of a virtual network.
     /// </summary>
-    [CliFlag("--vnet-name")]
-    public bool? VnetName { get; set; }
+    [CliOption("--vnet-name")]
+    public string? VnetNameValue { get; set; }
+
+    [Obsolete("Use HsmNameValue instead.")]
+    public bool? HsmName
+    {
+        get => bool.TryParse(HsmNameValue, out var value) ? value : null;
+        set => HsmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetNameValue instead.")]
+    public bool? VnetName
+    {
+        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
+        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

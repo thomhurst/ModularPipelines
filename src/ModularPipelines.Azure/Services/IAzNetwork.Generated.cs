@@ -15,163 +15,166 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az network commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzNetwork
 {
     /// <summary>
     /// az application-gateway sub-commands.
     /// </summary>
-    AzNetworkApplicationGateway ApplicationGateway { get; }
+    AzNetworkApplicationGateway ApplicationGateway => throw new System.NotSupportedException();
 
     /// <summary>
     /// az asg sub-commands.
     /// </summary>
-    AzNetworkAsg Asg { get; }
+    AzNetworkAsg Asg => throw new System.NotSupportedException();
 
     /// <summary>
     /// az cross-region-lb sub-commands.
     /// </summary>
-    AzNetworkCrossRegionLb CrossRegionLb { get; }
+    AzNetworkCrossRegionLb CrossRegionLb => throw new System.NotSupportedException();
 
     /// <summary>
     /// az custom-ip sub-commands.
     /// </summary>
-    AzNetworkCustomIp CustomIp { get; }
+    AzNetworkCustomIp CustomIp => throw new System.NotSupportedException();
 
     /// <summary>
     /// az ddos-custom-policy sub-commands.
     /// </summary>
-    AzNetworkDdosCustomPolicy DdosCustomPolicy { get; }
+    AzNetworkDdosCustomPolicy DdosCustomPolicy => throw new System.NotSupportedException();
 
     /// <summary>
     /// az ddos-protection sub-commands.
     /// </summary>
-    AzNetworkDdosProtection DdosProtection { get; }
+    AzNetworkDdosProtection DdosProtection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az dns sub-commands.
     /// </summary>
-    AzNetworkDns Dns { get; }
+    AzNetworkDns Dns => throw new System.NotSupportedException();
 
     /// <summary>
     /// az express-route sub-commands.
     /// </summary>
-    AzNetworkExpressRoute ExpressRoute { get; }
+    AzNetworkExpressRoute ExpressRoute => throw new System.NotSupportedException();
 
     /// <summary>
     /// az lb sub-commands.
     /// </summary>
-    AzNetworkLb Lb { get; }
+    AzNetworkLb Lb => throw new System.NotSupportedException();
 
     /// <summary>
     /// az local-gateway sub-commands.
     /// </summary>
-    AzNetworkLocalGateway LocalGateway { get; }
+    AzNetworkLocalGateway LocalGateway => throw new System.NotSupportedException();
 
     /// <summary>
     /// az nat sub-commands.
     /// </summary>
-    AzNetworkNat Nat { get; }
+    AzNetworkNat Nat => throw new System.NotSupportedException();
 
     /// <summary>
     /// az network-watcher sub-commands.
     /// </summary>
-    AzNetworkNetworkWatcher NetworkWatcher { get; }
+    AzNetworkNetworkWatcher NetworkWatcher => throw new System.NotSupportedException();
 
     /// <summary>
     /// az nic sub-commands.
     /// </summary>
-    AzNetworkNic Nic { get; }
+    AzNetworkNic Nic => throw new System.NotSupportedException();
 
     /// <summary>
     /// az nsg sub-commands.
     /// </summary>
-    AzNetworkNsg Nsg { get; }
+    AzNetworkNsg Nsg => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-dns sub-commands.
     /// </summary>
-    AzNetworkPrivateDns PrivateDns { get; }
+    AzNetworkPrivateDns PrivateDns => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-endpoint sub-commands.
     /// </summary>
-    AzNetworkPrivateEndpoint PrivateEndpoint { get; }
+    AzNetworkPrivateEndpoint PrivateEndpoint => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
-    AzNetworkPrivateEndpointConnection PrivateEndpointConnection { get; }
+    AzNetworkPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-link-resource sub-commands.
     /// </summary>
-    AzNetworkPrivateLinkResource PrivateLinkResource { get; }
+    AzNetworkPrivateLinkResource PrivateLinkResource => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-link-service sub-commands.
     /// </summary>
-    AzNetworkPrivateLinkService PrivateLinkService { get; }
+    AzNetworkPrivateLinkService PrivateLinkService => throw new System.NotSupportedException();
 
     /// <summary>
     /// az profile sub-commands.
     /// </summary>
-    AzNetworkProfile Profile { get; }
+    AzNetworkProfile Profile => throw new System.NotSupportedException();
 
     /// <summary>
     /// az public-ip sub-commands.
     /// </summary>
-    AzNetworkPublicIp PublicIp { get; }
+    AzNetworkPublicIp PublicIp => throw new System.NotSupportedException();
 
     /// <summary>
     /// az routeserver sub-commands.
     /// </summary>
-    AzNetworkRouteserver Routeserver { get; }
+    AzNetworkRouteserver Routeserver => throw new System.NotSupportedException();
 
     /// <summary>
     /// az route-table sub-commands.
     /// </summary>
-    AzNetworkRouteTable RouteTable { get; }
+    AzNetworkRouteTable RouteTable => throw new System.NotSupportedException();
 
     /// <summary>
     /// az service-endpoint sub-commands.
     /// </summary>
-    AzNetworkServiceEndpoint ServiceEndpoint { get; }
+    AzNetworkServiceEndpoint ServiceEndpoint => throw new System.NotSupportedException();
 
     /// <summary>
     /// az traffic-manager sub-commands.
     /// </summary>
-    AzNetworkTrafficManager TrafficManager { get; }
+    AzNetworkTrafficManager TrafficManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// az virtual-appliance sub-commands.
     /// </summary>
-    AzNetworkVirtualAppliance VirtualAppliance { get; }
+    AzNetworkVirtualAppliance VirtualAppliance => throw new System.NotSupportedException();
 
     /// <summary>
     /// az virtual-network-appliance sub-commands.
     /// </summary>
-    AzNetworkVirtualNetworkAppliance VirtualNetworkAppliance { get; }
+    AzNetworkVirtualNetworkAppliance VirtualNetworkAppliance => throw new System.NotSupportedException();
 
     /// <summary>
     /// az vnet sub-commands.
     /// </summary>
-    AzNetworkVnet Vnet { get; }
+    AzNetworkVnet Vnet => throw new System.NotSupportedException();
 
     /// <summary>
     /// az vnet-gateway sub-commands.
     /// </summary>
-    AzNetworkVnetGateway VnetGateway { get; }
+    AzNetworkVnetGateway VnetGateway => throw new System.NotSupportedException();
 
     /// <summary>
     /// az vpn-connection sub-commands.
     /// </summary>
-    AzNetworkVpnConnection VpnConnection { get; }
+    AzNetworkVpnConnection VpnConnection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az watcher sub-commands.
     /// </summary>
-    AzNetworkWatcher Watcher { get; }
+    AzNetworkWatcher Watcher => throw new System.NotSupportedException();
 
     /// <summary>
     /// List available service aliases in the region which can be used
@@ -180,9 +183,7 @@ public interface IAzNetwork
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListServiceAliasesAsync(
-        AzNetworkListServiceAliasesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListServiceAliasesAsync(AzNetworkListServiceAliasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

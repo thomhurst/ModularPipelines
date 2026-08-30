@@ -15,32 +15,35 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az eventgrid commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzEventgrid
 {
     /// <summary>
     /// az domain sub-commands.
     /// </summary>
-    AzEventgridDomain Domain { get; }
+    AzEventgridDomain Domain => throw new System.NotSupportedException();
 
     /// <summary>
     /// az event-subscription sub-commands.
     /// </summary>
-    AzEventgridEventSubscription EventSubscription { get; }
+    AzEventgridEventSubscription EventSubscription => throw new System.NotSupportedException();
 
     /// <summary>
     /// az partner sub-commands.
     /// </summary>
-    AzEventgridPartner Partner { get; }
+    AzEventgridPartner Partner => throw new System.NotSupportedException();
 
     /// <summary>
     /// az system-topic sub-commands.
     /// </summary>
-    AzEventgridSystemTopic SystemTopic { get; }
+    AzEventgridSystemTopic SystemTopic => throw new System.NotSupportedException();
 
     /// <summary>
     /// az topic sub-commands.
     /// </summary>
-    AzEventgridTopic Topic { get; }
+    AzEventgridTopic Topic => throw new System.NotSupportedException();
 
 }

@@ -23,8 +23,8 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// Id of the Active Directory.
     /// </summary>
-    [CliFlag("--active-directory-id")]
-    public bool? ActiveDirectoryId { get; set; }
+    [CliOption("--active-directory-id")]
+    public string? ActiveDirectoryIdValue { get; set; }
 
     /// <summary>
     /// Kdc server IP address for the active directory machine. This optional parameter is used only while creating kerberos volume.
@@ -41,8 +41,8 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// Name of the active directory machine. This optional parameter is used only while creating kerberos volume.
     /// </summary>
-    [CliFlag("--ad-name")]
-    public bool? AdName { get; set; }
+    [CliOption("--ad-name")]
+    public string? AdNameValue { get; set; }
 
     /// <summary>
     /// Users to be added to the Built-in
@@ -71,8 +71,8 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// Name of the Active Directory domain.
     /// </summary>
-    [CliFlag("--domain")]
-    public bool? Domain { get; set; }
+    [CliOption("--domain")]
+    public string? DomainValue { get; set; }
 
     /// <summary>
     /// Specifies whether or not the LDAP traffic needs to be secured via TLS.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -133,5 +133,26 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// </summary>
     [CliFlag("--username")]
     public bool? Username { get; set; }
+
+    [Obsolete("Use ActiveDirectoryIdValue instead.")]
+    public bool? ActiveDirectoryId
+    {
+        get => bool.TryParse(ActiveDirectoryIdValue, out var value) ? value : null;
+        set => ActiveDirectoryIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use AdNameValue instead.")]
+    public bool? AdName
+    {
+        get => bool.TryParse(AdNameValue, out var value) ? value : null;
+        set => AdNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DomainValue instead.")]
+    public bool? Domain
+    {
+        get => bool.TryParse(DomainValue, out var value) ? value : null;
+        set => DomainValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

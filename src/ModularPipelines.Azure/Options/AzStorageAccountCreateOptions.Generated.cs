@@ -29,19 +29,19 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Allow or disallow public access to all blobs or containers in the storage account. If not specified, the default value is false for new accounts to follow best security practices. When true, containers in the account may be configured for public access. Note that setting this property to true does not enable anonymous access to any data in the account. The additional step of configuring the public access setting for a container is required to enable anonymous access.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-blob-public-access")]
+    [CliOption("--allow-blob-public-access")]
     public bool? AllowBlobPublicAccess { get; set; }
 
     /// <summary>
     /// Allow or disallow cross AAD tenant object replication. Set this property to true for new or existing accounts only if object replication policies will involve storage accounts in different AAD tenants. If not specified, the default value is false for new accounts to follow best security practices.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-cross-tenant-replication", ShortForm = "-r")]
+    [CliOption("--allow-cross-tenant-replication", ShortForm = "-r")]
     public bool? AllowCrossTenantReplication { get; set; }
 
     /// <summary>
     /// Indicate whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-shared-key-access", ShortForm = "-k")]
+    [CliOption("--allow-shared-key-access", ShortForm = "-k")]
     public bool? AllowSharedKeyAccess { get; set; }
 
     /// <summary>
@@ -65,8 +65,8 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// The name of edge zone.
     /// </summary>
-    [CliFlag("--edge-zone")]
-    public bool? EdgeZone { get; set; }
+    [CliOption("--edge-zone")]
+    public string? EdgeZoneValue { get; set; }
 
     /// <summary>
     /// Enable the capability to support large file shares with more than 5 TiB capacity for storage account.Once the property is enabled, the feature cannot be disabled. Currently only supported for LRS and ZRS replication types, hence account conversions to geo-redundant accounts would not be possible. For more information, please refer to https://go.microsoft. com/fwlink/?linkid=2086047.
@@ -77,19 +77,19 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Enable local user features.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-local-user")]
+    [CliOption("--enable-local-user")]
     public bool? EnableLocalUser { get; set; }
 
     /// <summary>
     /// NFS 3.0 protocol support enabled if sets to true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-nfs-v3")]
+    [CliOption("--enable-nfs-v3")]
     public bool? EnableNfsV3 { get; set; }
 
     /// <summary>
     /// Enable Secure File Transfer Protocol. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-sftp")]
+    [CliOption("--enable-sftp")]
     public bool? EnableSftp { get; set; }
 
     /// <summary>
@@ -113,7 +113,7 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Allow https traffic only to storage service if set to true. The default value is true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--https-only")]
+    [CliOption("--https-only")]
     public bool? HttpsOnly { get; set; }
 
     /// <summary>
@@ -143,7 +143,7 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--require-infrastructure-encryption", ShortForm = "-i")]
+    [CliOption("--require-infrastructure-encryption", ShortForm = "-i")]
     public bool? RequireInfrastructureEncryption { get; set; }
 
     /// <summary>
@@ -169,5 +169,12 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zones")]
     public bool? Zones { get; set; }
+
+    [Obsolete("Use EdgeZoneValue instead.")]
+    public bool? EdgeZone
+    {
+        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
+        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

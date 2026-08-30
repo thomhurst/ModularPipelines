@@ -23,7 +23,7 @@ public record AzVmHostCreateOptions : AzOptions
     /// <summary>
     /// Replace the host automatically if a failure occurs.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--auto-replace")]
+    [CliOption("--auto-replace")]
     public bool? AutoReplace { get; set; }
 
     /// <summary>

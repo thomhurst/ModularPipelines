@@ -29,13 +29,20 @@ public record AzRoleDenyAssignmentShowOptions : AzOptions
     /// <summary>
     /// The name (GUID) of the deny assignment.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Scope at which the deny assignment applies. For example, /subscriptions/00000000-0000-0000-0000-000000000000 or /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
     /// </summary>
     [CliFlag("--scope")]
     public bool? Scope { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

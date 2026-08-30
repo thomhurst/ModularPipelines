@@ -23,19 +23,40 @@ public record AzAcrCacheCreateOptions : AzOptions
     /// <summary>
     /// The name of the credential set.
     /// </summary>
-    [CliFlag("--cred-set", ShortForm = "-c")]
-    public bool? CredSet { get; set; }
+    [CliOption("--cred-set", ShortForm = "-c")]
+    public string? CredSetValue { get; set; }
 
     /// <summary>
     /// User-assigned managed identity resource ID for ACR to authenticate with the upstream registry. Format: /subscriptions/{subscriptionId }/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedId entity/userAssignedIdentities/{identityName}.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity")]
+    public string? IdentityValue { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use CredSetValue instead.")]
+    public bool? CredSet
+    {
+        get => bool.TryParse(CredSetValue, out var value) ? value : null;
+        set => CredSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IdentityValue instead.")]
+    public bool? Identity
+    {
+        get => bool.TryParse(IdentityValue, out var value) ? value : null;
+        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

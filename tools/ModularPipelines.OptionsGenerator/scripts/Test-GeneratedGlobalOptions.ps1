@@ -31,17 +31,21 @@ if ($generatedBaseFiles.Count -eq 0) {
     throw 'No generated tool base option files were found.'
 }
 
+$afterSubcommandsMarker = '// Global options intentionally follow subcommands.'
 $missing = @(
-    $generatedBaseFiles | Where-Object { -not $_.Content.Contains('[CliGlobalOptions]') }
+    $generatedBaseFiles | Where-Object {
+        -not $_.Content.Contains('[CliGlobalOptions]') -and
+        -not $_.Content.Contains($afterSubcommandsMarker)
+    }
 )
 
 if ($missing.Count -eq 0) {
-    Write-Host "Verified $($generatedBaseFiles.Count) generated tool bases use [CliGlobalOptions]."
+    Write-Host "Verified $($generatedBaseFiles.Count) generated tool bases declare global option placement."
     return
 }
 
 $examples = $missing |
     Select-Object -First 10 -ExpandProperty RelativePath
-throw "Found $($missing.Count) generated tool bases without [CliGlobalOptions]. " +
+throw "Found $($missing.Count) generated tool bases without global option placement metadata. " +
     "Regenerate the affected tools with ModularPipelines.OptionsGenerator. " +
     "Examples: $($examples -join ', ')"

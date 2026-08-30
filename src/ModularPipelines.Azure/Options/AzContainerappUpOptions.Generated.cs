@@ -29,8 +29,8 @@ public record AzContainerappUpOptions : AzOptions
     /// <summary>
     /// Name or resource ID of the container app's environment.
     /// </summary>
-    [CliFlag("--environment")]
-    public bool? Environment { get; set; }
+    [CliOption("--environment")]
+    public string? EnvironmentValue { get; set; }
 
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
@@ -47,8 +47,8 @@ public record AzContainerappUpOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// Local directory path containing the application source and Dockerfile for building the container image. Preview: If no Dockerfile is present, a container image is generated using buildpacks. If Docker is not running or buildpacks cannot be used, Oryx will be used to generate the image. See the supported Oryx runtimes here: https://github.com/mi crosoft/Oryx/blob/main/doc/supportedRuntimeVersions .md.
@@ -61,5 +61,19 @@ public record AzContainerappUpOptions : AzOptions
     /// </summary>
     [CliFlag("--workload-profile-name", ShortForm = "-w")]
     public bool? WorkloadProfileName { get; set; }
+
+    [Obsolete("Use EnvironmentValue instead.")]
+    public bool? Environment
+    {
+        get => bool.TryParse(EnvironmentValue, out var value) ? value : null;
+        set => EnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

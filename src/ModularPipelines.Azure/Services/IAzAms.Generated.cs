@@ -15,72 +15,75 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ams commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzAms
 {
     /// <summary>
     /// az account sub-commands.
     /// </summary>
-    AzAmsAccount Account { get; }
+    AzAmsAccount Account => throw new System.NotSupportedException();
 
     /// <summary>
     /// az account-filter sub-commands.
     /// </summary>
-    AzAmsAccountFilter AccountFilter { get; }
+    AzAmsAccountFilter AccountFilter => throw new System.NotSupportedException();
 
     /// <summary>
     /// az asset sub-commands.
     /// </summary>
-    AzAmsAsset Asset { get; }
+    AzAmsAsset Asset => throw new System.NotSupportedException();
 
     /// <summary>
     /// az asset-filter sub-commands.
     /// </summary>
-    AzAmsAssetFilter AssetFilter { get; }
+    AzAmsAssetFilter AssetFilter => throw new System.NotSupportedException();
 
     /// <summary>
     /// az asset-track sub-commands.
     /// </summary>
-    AzAmsAssetTrack AssetTrack { get; }
+    AzAmsAssetTrack AssetTrack => throw new System.NotSupportedException();
 
     /// <summary>
     /// az content-key-policy sub-commands.
     /// </summary>
-    AzAmsContentKeyPolicy ContentKeyPolicy { get; }
+    AzAmsContentKeyPolicy ContentKeyPolicy => throw new System.NotSupportedException();
 
     /// <summary>
     /// az job sub-commands.
     /// </summary>
-    AzAmsJob Job { get; }
+    AzAmsJob Job => throw new System.NotSupportedException();
 
     /// <summary>
     /// az live-event sub-commands.
     /// </summary>
-    AzAmsLiveEvent LiveEvent { get; }
+    AzAmsLiveEvent LiveEvent => throw new System.NotSupportedException();
 
     /// <summary>
     /// az live-output sub-commands.
     /// </summary>
-    AzAmsLiveOutput LiveOutput { get; }
+    AzAmsLiveOutput LiveOutput => throw new System.NotSupportedException();
 
     /// <summary>
     /// az streaming-endpoint sub-commands.
     /// </summary>
-    AzAmsStreamingEndpoint StreamingEndpoint { get; }
+    AzAmsStreamingEndpoint StreamingEndpoint => throw new System.NotSupportedException();
 
     /// <summary>
     /// az streaming-locator sub-commands.
     /// </summary>
-    AzAmsStreamingLocator StreamingLocator { get; }
+    AzAmsStreamingLocator StreamingLocator => throw new System.NotSupportedException();
 
     /// <summary>
     /// az streaming-policy sub-commands.
     /// </summary>
-    AzAmsStreamingPolicy StreamingPolicy { get; }
+    AzAmsStreamingPolicy StreamingPolicy => throw new System.NotSupportedException();
 
     /// <summary>
     /// az transform sub-commands.
     /// </summary>
-    AzAmsTransform Transform { get; }
+    AzAmsTransform Transform => throw new System.NotSupportedException();
 
 }

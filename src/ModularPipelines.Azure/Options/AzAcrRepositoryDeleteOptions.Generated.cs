@@ -23,8 +23,8 @@ public record AzAcrRepositoryDeleteOptions : AzOptions
     /// <summary>
     /// The name of the image. May include a tag in the format 'name:tag' or digest in the format 'name@digest'.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-t")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-t")]
+    public string? ImageValue { get; set; }
 
     /// <summary>
     /// The password used to log into a container registry.
@@ -35,8 +35,8 @@ public record AzAcrRepositoryDeleteOptions : AzOptions
     /// <summary>
     /// The name of the repository.
     /// </summary>
-    [CliFlag("--repository")]
-    public bool? Repository { get; set; }
+    [CliOption("--repository")]
+    public string? RepositoryValue { get; set; }
 
     /// <summary>
     /// The tenant suffix in registry login server. You may specify '--suffix tenant' if your registry login server is in the format 'registry- tenant.azurecr.io'. Applicable if you're accessing the registry from a different subscription or you have permission to access images but not the permission to manage the registry resource.
@@ -55,5 +55,19 @@ public record AzAcrRepositoryDeleteOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use ImageValue instead.")]
+    public bool? Image
+    {
+        get => bool.TryParse(ImageValue, out var value) ? value : null;
+        set => ImageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use RepositoryValue instead.")]
+    public bool? Repository
+    {
+        get => bool.TryParse(RepositoryValue, out var value) ? value : null;
+        set => RepositoryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

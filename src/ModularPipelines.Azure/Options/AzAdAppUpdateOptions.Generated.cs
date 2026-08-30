@@ -35,7 +35,7 @@ public record AzAdAppUpdateOptions : AzOptions
     /// <summary>
     /// Specifies the fallback application type as public client, such as an installed application running on a mobile device. The default value is false which means the fallback application type is confidential client such as a web app. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-fallback-public-client")]
+    [CliOption("--is-fallback-public-client")]
     public bool? IsFallbackPublicClient { get; set; }
 
     /// <summary>

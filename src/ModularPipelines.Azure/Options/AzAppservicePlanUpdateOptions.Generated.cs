@@ -23,14 +23,26 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     /// <summary>
     /// Enables async scaling for the app service plan. Set to "true" to create an async operation if there are insufficient workers to scale synchronously. The SKU must be Dedicated.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--async-scaling-enabled")]
+    [CliOption("--async-scaling-enabled")]
     public bool? AsyncScalingEnabled { get; set; }
+
+    /// <summary>
+    /// Accept system or user assigned identity separated. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
+    /// </summary>
+    [CliOption("--default-identity")]
+    public string? DefaultIdentity { get; set; }
 
     /// <summary>
     /// Enable or disable automatic scaling. Set to "true" to enable elastic scale for this plan, or "false" to disable elastic scale for this plan. The SKU must be a Premium V2 SKU (P1V2, P2V2, P3V2) or a Premium V3 SKU (P1V3, P2V3, P3V3).  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--elastic-scale")]
+    [CliOption("--elastic-scale")]
     public bool? ElasticScale { get; set; }
+
+    /// <summary>
+    /// Install script configurations. Provide key-value pairs for `name=&lt;name&gt; source-uri=&lt;uri&gt; type=&lt;type&gt;`.
+    /// </summary>
+    [CliOption("--install-script")]
+    public string? InstallScript { get; set; }
 
     /// <summary>
     /// Maximum number of instances that the plan can scale out to. The plan must be an elastic scale plan.
@@ -51,9 +63,88 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     public bool? NumberOfWorkers { get; set; }
 
     /// <summary>
+    /// Enable RDP. Requires is-custom-mode to be true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--rdp-enabled")]
+    public bool? RdpEnabled { get; set; }
+
+    /// <summary>
+    /// Registry adapter configurations. Provide key-value pairs for `registry-key=&lt;key&gt; type=&lt;type&gt; secret-uri=&lt;uri&gt;`.
+    /// </summary>
+    [CliOption("--registry-adapter")]
+    public string? RegistryAdapter { get; set; }
+
+    /// <summary>
     /// SKU of the app service plan. Use this to scale up/down (change machine size), e.g. --sku P1v3.  Allowed values: B1, B2, B3, D1, F1, FREE, I1MV2, I1V2, I2MV2, I2V2, I3MV2, I3V2, I4MV2, I4V2, I5MV2, I5V2, I6V2, P0V3, P0V4, P1MV3, P1MV4, P1V2, P1V3, P1V4, P2MV3, P2MV4, P2V2, P2V3, P2V4, P3MV3, P3MV4, P3V2, P3V3, P3V4, P4MV3, P4MV4, P5MV3, P5MV4, S1, S2, S3, SHARED, WS1, WS2, WS3.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? SkuValue { get; set; }
+
+    /// <summary>
+    /// Storage mount configurations. Provide key-value pairs for `name=&lt;name&gt; source=&lt;source&gt; type=&lt;type&gt; destination-path=&lt;path&gt; credentials-secret-uri=&lt;uri&gt;`.
+    /// </summary>
+    [CliOption("--storage-mount")]
+    public string? StorageMount { get; set; }
+
+    /// <summary>
+    /// Name or resource ID of the pre-existing subnet to have the app service plan join. The --vnet is argument also needed if specifying subnet by name.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with --subnet argument.
+    /// </summary>
+    [CliOption("--vnet")]
+    public string? Vnet { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the app service plan.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    [Obsolete("Use SkuValue instead.")]
+    public bool? Sku
+    {
+        get => bool.TryParse(SkuValue, out var value) ? value : null;
+        set => SkuValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

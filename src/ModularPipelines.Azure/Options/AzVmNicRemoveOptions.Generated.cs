@@ -23,7 +23,14 @@ public record AzVmNicRemoveOptions : AzOptions
     /// <summary>
     /// Name or ID of the primary NIC. If missing, the first NIC in the list will be the primary.
     /// </summary>
-    [CliFlag("--primary-nic")]
-    public bool? PrimaryNic { get; set; }
+    [CliOption("--primary-nic")]
+    public string? PrimaryNicValue { get; set; }
+
+    [Obsolete("Use PrimaryNicValue instead.")]
+    public bool? PrimaryNic
+    {
+        get => bool.TryParse(PrimaryNicValue, out var value) ? value : null;
+        set => PrimaryNicValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

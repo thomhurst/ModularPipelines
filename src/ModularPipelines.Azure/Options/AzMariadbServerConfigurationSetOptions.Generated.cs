@@ -23,7 +23,14 @@ public record AzMariadbServerConfigurationSetOptions : AzOptions
     /// <summary>
     /// Value of the configuration. If not provided, configuration value will be set to default.
     /// </summary>
-    [CliFlag("--value")]
-    public bool? Value { get; set; }
+    [CliOption("--value")]
+    public string? ValueValue { get; set; }
+
+    [Obsolete("Use ValueValue instead.")]
+    public bool? Value
+    {
+        get => bool.TryParse(ValueValue, out var value) ? value : null;
+        set => ValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

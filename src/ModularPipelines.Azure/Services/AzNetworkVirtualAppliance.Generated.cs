@@ -24,6 +24,7 @@ public class AzNetworkVirtualAppliance
     private AzNetworkVirtualApplianceConnection? _connection;
     private AzNetworkVirtualApplianceIdentity? _identity;
     private AzNetworkVirtualApplianceInboundSecurityRule? _inboundSecurityRule;
+    private AzNetworkVirtualApplianceMigration? _migration;
     private AzNetworkVirtualApplianceSite? _site;
 
     /// <summary>
@@ -50,6 +51,11 @@ public class AzNetworkVirtualAppliance
     /// az inbound-security-rule sub-commands.
     /// </summary>
     public AzNetworkVirtualApplianceInboundSecurityRule InboundSecurityRule => _inboundSecurityRule ??= new AzNetworkVirtualApplianceInboundSecurityRule(_command);
+
+    /// <summary>
+    /// az migration sub-commands.
+    /// </summary>
+    public AzNetworkVirtualApplianceMigration Migration => _migration ??= new AzNetworkVirtualApplianceMigration(_command);
 
     /// <summary>
     /// az site sub-commands.

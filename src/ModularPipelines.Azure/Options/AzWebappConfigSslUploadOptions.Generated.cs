@@ -23,13 +23,27 @@ public record AzWebappConfigSslUploadOptions : AzOptions
     /// <summary>
     /// The name of the certificate.
     /// </summary>
-    [CliFlag("--certificate-name")]
-    public bool? CertificateName { get; set; }
+    [CliOption("--certificate-name")]
+    public string? CertificateNameValue { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
+
+    [Obsolete("Use CertificateNameValue instead.")]
+    public bool? CertificateName
+    {
+        get => bool.TryParse(CertificateNameValue, out var value) ? value : null;
+        set => CertificateNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

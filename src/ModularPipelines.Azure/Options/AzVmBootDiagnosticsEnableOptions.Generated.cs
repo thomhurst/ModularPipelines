@@ -23,7 +23,14 @@ public record AzVmBootDiagnosticsEnableOptions : AzOptions
     /// <summary>
     /// Name or URI of a storage account (e.g. https://your_storage_account_name.blob.core.windows.net/). If it's not specified, managed storage will be used.
     /// </summary>
-    [CliFlag("--storage")]
-    public bool? Storage { get; set; }
+    [CliOption("--storage")]
+    public string? StorageValue { get; set; }
+
+    [Obsolete("Use StorageValue instead.")]
+    public bool? Storage
+    {
+        get => bool.TryParse(StorageValue, out var value) ? value : null;
+        set => StorageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

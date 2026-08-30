@@ -23,8 +23,8 @@ public record AzConnectionCreateAppConfigOptions : AzOptions
     /// <summary>
     /// Name of the app configuration. Required if '--target-id' is not specified.
     /// </summary>
-    [CliFlag("--app-config")]
-    public bool? AppConfig { get; set; }
+    [CliOption("--app-config")]
+    public string? AppConfigValue { get; set; }
 
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, python.
@@ -35,8 +35,8 @@ public record AzConnectionCreateAppConfigOptions : AzOptions
     /// <summary>
     /// Name of the connection.
     /// </summary>
-    [CliFlag("--connection")]
-    public bool? Connection { get; set; }
+    [CliOption("--connection")]
+    public string? ConnectionValue { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -59,7 +59,28 @@ public record AzConnectionCreateAppConfigOptions : AzOptions
     /// <summary>
     /// The resource id of target service. Required if ['--target- resource-group', '--app-config'] are not specified.
     /// </summary>
-    [CliFlag("--target-id")]
-    public bool? TargetId { get; set; }
+    [CliOption("--target-id")]
+    public string? TargetIdValue { get; set; }
+
+    [Obsolete("Use AppConfigValue instead.")]
+    public bool? AppConfig
+    {
+        get => bool.TryParse(AppConfigValue, out var value) ? value : null;
+        set => AppConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ConnectionValue instead.")]
+    public bool? Connection
+    {
+        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
+        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetIdValue instead.")]
+    public bool? TargetId
+    {
+        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
+        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,7 +23,7 @@ public record AzAmsAccountStorageAddOptions : AzOptions
     /// <summary>
     /// Set the system managed identity on the storage account.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--system-assigned")]
+    [CliOption("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 
     /// <summary>

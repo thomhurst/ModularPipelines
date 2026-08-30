@@ -23,8 +23,8 @@ public record AzIotCentralAppPrivateEndpointConnectionRejectOptions : AzOptions
     /// <summary>
     /// Name of the IoT Central application. Required if --id is not specified.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountNameValue { get; set; }
 
     /// <summary>
     /// Comments for the reject operation.
@@ -35,19 +35,47 @@ public record AzIotCentralAppPrivateEndpointConnectionRejectOptions : AzOptions
     /// <summary>
     /// The ID of the private endpoint connection associated with the IoT Central application. If --account-name --resource-group/-g and
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? IdValue { get; set; }
 
     /// <summary>
     /// The name of the private endpoint connection associated with IoT Central application. Required if --id is not specified.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// The resource group name of specified IoT Central application. Required if --id is not specified.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use AccountNameValue instead.")]
+    public bool? AccountName
+    {
+        get => bool.TryParse(AccountNameValue, out var value) ? value : null;
+        set => AccountNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IdValue instead.")]
+    public bool? Id
+    {
+        get => bool.TryParse(IdValue, out var value) ? value : null;
+        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,13 +23,27 @@ public record AzResourceLockListOptions : AzOptions
     /// <summary>
     /// A query filter to use to restrict the results.
     /// </summary>
-    [CliFlag("--filter-string")]
-    public bool? FilterString { get; set; }
+    [CliOption("--filter-string")]
+    public string? FilterStringValue { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use FilterStringValue instead.")]
+    public bool? FilterString
+    {
+        get => bool.TryParse(FilterStringValue, out var value) ? value : null;
+        set => FilterStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,19 +23,26 @@ public record AzLogicappDeploymentSourceConfigZipOptions : AzOptions
     /// <summary>
     /// Enable remote build during deployment.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--build-remote")]
+    [CliOption("--build-remote")]
     public bool? BuildRemote { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// Configurable timeout in seconds for checking the status of deployment.
     /// </summary>
     [CliFlag("--timeout", ShortForm = "-t")]
     public bool? Timeout { get; set; }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -35,8 +35,8 @@ public record AzContainerappConnectionCreateContainerappOptions : AzOptions
     /// <summary>
     /// Name of the containerapp connection.
     /// </summary>
-    [CliFlag("--connection")]
-    public bool? Connection { get; set; }
+    [CliOption("--connection")]
+    public string? ConnectionValue { get; set; }
 
     /// <summary>
     /// The additional connection string properties used to build connection string.
@@ -59,13 +59,13 @@ public record AzContainerappConnectionCreateContainerappOptions : AzOptions
     /// <summary>
     /// Name of the container app. Required if '--source-id' is not specified.None.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Skip executing creation operation when no updates to an existing connection.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-recreate")]
+    [CliOption("--no-recreate")]
     public bool? NoRecreate { get; set; }
 
     /// <summary>
@@ -83,31 +83,80 @@ public record AzContainerappConnectionCreateContainerappOptions : AzOptions
     /// <summary>
     /// The resource group which contains the container app. Required if '--source-id' is not specified.None.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// The resource id of a containerapp. Required if ['--resource- group', '--name'] are not specified.
     /// </summary>
-    [CliFlag("--source-id")]
-    public bool? SourceId { get; set; }
+    [CliOption("--source-id")]
+    public string? SourceIdValue { get; set; }
 
     /// <summary>
     /// Name of the target container app. Required if '--target-id' is not specified.
     /// </summary>
-    [CliFlag("--target-app-name")]
-    public bool? TargetAppName { get; set; }
+    [CliOption("--target-app-name")]
+    public string? TargetAppNameValue { get; set; }
 
     /// <summary>
     /// The resource id of target service. Required if ['--target- resource-group', '--target-app-name'] are not specified.
     /// </summary>
-    [CliFlag("--target-id")]
-    public bool? TargetId { get; set; }
+    [CliOption("--target-id")]
+    public string? TargetIdValue { get; set; }
 
     /// <summary>
     /// The id of key vault to store secret value.
     /// </summary>
-    [CliFlag("--vault-id")]
-    public bool? VaultId { get; set; }
+    [CliOption("--vault-id")]
+    public string? VaultIdValue { get; set; }
+
+    [Obsolete("Use ConnectionValue instead.")]
+    public bool? Connection
+    {
+        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
+        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceIdValue instead.")]
+    public bool? SourceId
+    {
+        get => bool.TryParse(SourceIdValue, out var value) ? value : null;
+        set => SourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetAppNameValue instead.")]
+    public bool? TargetAppName
+    {
+        get => bool.TryParse(TargetAppNameValue, out var value) ? value : null;
+        set => TargetAppNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetIdValue instead.")]
+    public bool? TargetId
+    {
+        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
+        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VaultIdValue instead.")]
+    public bool? VaultId
+    {
+        get => bool.TryParse(VaultIdValue, out var value) ? value : null;
+        set => VaultIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

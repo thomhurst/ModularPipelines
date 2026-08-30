@@ -268,6 +268,7 @@ public enum CliCompatibilityForwardingKind
     NullableInt32ToStringCollection,
     NullableStringToCliOptionValue,
     NullableInt32ToCliOptionValue,
+    NullableBooleanToStringCollection,
 }
 
 /// <summary>

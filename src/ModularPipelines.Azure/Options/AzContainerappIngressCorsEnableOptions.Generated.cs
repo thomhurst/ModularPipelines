@@ -23,7 +23,7 @@ public record AzContainerappIngressCorsEnableOptions : AzOptions
     /// <summary>
     /// Whether the credential is allowed for the container app. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-credentials")]
+    [CliOption("--allow-credentials")]
     public bool? AllowCredentials { get; set; }
 
     /// <summary>

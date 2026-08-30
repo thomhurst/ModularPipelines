@@ -23,8 +23,8 @@ public record AzConnectionCreateCosmosCassandraOptions : AzOptions
     /// <summary>
     /// Name of the cosmos database account. Required if '--target-id' is not specified.
     /// </summary>
-    [CliFlag("--account")]
-    public bool? Account { get; set; }
+    [CliOption("--account")]
+    public string? AccountValue { get; set; }
 
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, python, springBoot.
@@ -35,8 +35,8 @@ public record AzConnectionCreateCosmosCassandraOptions : AzOptions
     /// <summary>
     /// Name of the connection.
     /// </summary>
-    [CliFlag("--connection")]
-    public bool? Connection { get; set; }
+    [CliOption("--connection")]
+    public string? ConnectionValue { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -47,8 +47,8 @@ public record AzConnectionCreateCosmosCassandraOptions : AzOptions
     /// <summary>
     /// Name of the keyspace. Required if '--target-id' is not specified.
     /// </summary>
-    [CliFlag("--key-space")]
-    public bool? KeySpace { get; set; }
+    [CliOption("--key-space")]
+    public string? KeySpaceValue { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -65,7 +65,35 @@ public record AzConnectionCreateCosmosCassandraOptions : AzOptions
     /// <summary>
     /// The resource id of target service. Required if ['--target- resource-group', '--account', '--key-space'] are not specified.
     /// </summary>
-    [CliFlag("--target-id")]
-    public bool? TargetId { get; set; }
+    [CliOption("--target-id")]
+    public string? TargetIdValue { get; set; }
+
+    [Obsolete("Use AccountValue instead.")]
+    public bool? Account
+    {
+        get => bool.TryParse(AccountValue, out var value) ? value : null;
+        set => AccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ConnectionValue instead.")]
+    public bool? Connection
+    {
+        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
+        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeySpaceValue instead.")]
+    public bool? KeySpace
+    {
+        get => bool.TryParse(KeySpaceValue, out var value) ? value : null;
+        set => KeySpaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TargetIdValue instead.")]
+    public bool? TargetId
+    {
+        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
+        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

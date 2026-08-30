@@ -23,7 +23,14 @@ public record AzVmSecretRemoveOptions : AzOptions
     /// <summary>
     /// Key vault certificate name or its full secret URL.
     /// </summary>
-    [CliFlag("--certificate")]
-    public bool? Certificate { get; set; }
+    [CliOption("--certificate")]
+    public string? CertificateValue { get; set; }
+
+    [Obsolete("Use CertificateValue instead.")]
+    public bool? Certificate
+    {
+        get => bool.TryParse(CertificateValue, out var value) ? value : null;
+        set => CertificateValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

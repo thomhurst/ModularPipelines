@@ -29,7 +29,7 @@ public record AzStorageDirectoryCreateOptions : AzOptions
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disallow-trailing-dot")]
+    [CliOption("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
     /// <summary>
@@ -65,13 +65,20 @@ public record AzStorageDirectoryCreateOptions : AzOptions
     /// <summary>
     /// A string that represents the snapshot version, if applicable.
     /// </summary>
-    [CliFlag("--snapshot")]
-    public bool? Snapshot { get; set; }
+    [CliOption("--snapshot")]
+    public string? SnapshotValue { get; set; }
 
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
+
+    [Obsolete("Use SnapshotValue instead.")]
+    public bool? Snapshot
+    {
+        get => bool.TryParse(SnapshotValue, out var value) ? value : null;
+        set => SnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

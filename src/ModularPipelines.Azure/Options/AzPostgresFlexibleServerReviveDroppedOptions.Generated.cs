@@ -23,14 +23,14 @@ public record AzPostgresFlexibleServerReviveDroppedOptions : AzOptions
     /// <summary>
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
-    [CliFlag("--backup-identity")]
-    public bool? BackupIdentity { get; set; }
+    [CliOption("--backup-identity")]
+    public string? BackupIdentityValue { get; set; }
 
     /// <summary>
     /// The resource identifier of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
     /// </summary>
-    [CliFlag("--backup-key")]
-    public bool? BackupKey { get; set; }
+    [CliOption("--backup-key")]
+    public string? BackupKeyValue { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -41,14 +41,14 @@ public record AzPostgresFlexibleServerReviveDroppedOptions : AzOptions
     /// <summary>
     /// The name or resource identifier of the user assigned identity for data encryption.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity")]
+    public string? IdentityValue { get; set; }
 
     /// <summary>
     /// The resource identifier of the primary keyvault key for data encryption.
     /// </summary>
-    [CliFlag("--key")]
-    public bool? Key { get; set; }
+    [CliOption("--key")]
+    public string? KeyValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -65,14 +65,14 @@ public record AzPostgresFlexibleServerReviveDroppedOptions : AzOptions
     /// <summary>
     /// Name or identifier of an existing subnet. If you want to use a subnet from a different resource group or subscription, please provide its resource identifier instead of name.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// Name or identifier of an existing virtual network. If you want to use a vnet from a different resource group or subscription, please provide a resource identifier. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? VnetValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -85,5 +85,47 @@ public record AzPostgresFlexibleServerReviveDroppedOptions : AzOptions
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    [Obsolete("Use BackupIdentityValue instead.")]
+    public bool? BackupIdentity
+    {
+        get => bool.TryParse(BackupIdentityValue, out var value) ? value : null;
+        set => BackupIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use BackupKeyValue instead.")]
+    public bool? BackupKey
+    {
+        get => bool.TryParse(BackupKeyValue, out var value) ? value : null;
+        set => BackupKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use IdentityValue instead.")]
+    public bool? Identity
+    {
+        get => bool.TryParse(IdentityValue, out var value) ? value : null;
+        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KeyValue instead.")]
+    public bool? Key
+    {
+        get => bool.TryParse(KeyValue, out var value) ? value : null;
+        set => KeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetValue instead.")]
+    public bool? Vnet
+    {
+        get => bool.TryParse(VnetValue, out var value) ? value : null;
+        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

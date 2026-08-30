@@ -29,8 +29,8 @@ public record AzBackupItemListOptions : AzOptions
     /// <summary>
     /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
     /// </summary>
-    [CliFlag("--container-name", ShortForm = "-c")]
-    public bool? ContainerName { get; set; }
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string? ContainerNameValue { get; set; }
 
     /// <summary>
     /// Use this flag to list items in secondary region.
@@ -43,5 +43,12 @@ public record AzBackupItemListOptions : AzOptions
     /// </summary>
     [CliFlag("--workload-type")]
     public bool? WorkloadType { get; set; }
+
+    [Obsolete("Use ContainerNameValue instead.")]
+    public bool? ContainerName
+    {
+        get => bool.TryParse(ContainerNameValue, out var value) ? value : null;
+        set => ContainerNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

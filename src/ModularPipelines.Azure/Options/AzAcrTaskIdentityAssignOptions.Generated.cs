@@ -23,13 +23,27 @@ public record AzAcrTaskIdentityAssignOptions : AzOptions
     /// <summary>
     /// Assign managed identities to the task. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned identity.
     /// </summary>
-    [CliFlag("--identities")]
-    public bool? Identities { get; set; }
+    [CliOption("--identities")]
+    public string? IdentitiesValue { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
+
+    [Obsolete("Use IdentitiesValue instead.")]
+    public bool? Identities
+    {
+        get => bool.TryParse(IdentitiesValue, out var value) ? value : null;
+        set => IdentitiesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

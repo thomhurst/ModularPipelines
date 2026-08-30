@@ -47,8 +47,8 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// <summary>
     /// Source VHD
     /// </summary>
-    [CliFlag("--data-vhds-uris")]
-    public bool? DataVhdsUris { get; set; }
+    [CliOption("--data-vhds-uris")]
+    public string? DataVhdsUrisValue { get; set; }
 
     /// <summary>
     /// The flag means that if it is set to true, people deploying VMs with version omitted will not use this version.
@@ -59,8 +59,8 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// <summary>
     /// Resource id of gallery image version source.
     /// </summary>
-    [CliFlag("--image-version")]
-    public bool? ImageVersion { get; set; }
+    [CliOption("--image-version")]
+    public string? ImageVersionValue { get; set; }
 
     /// <summary>
     /// Location.
@@ -71,8 +71,8 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// <summary>
     /// Image name(if in the same resource group) or resource id.
     /// </summary>
-    [CliFlag("--managed-image")]
-    public bool? ManagedImage { get; set; }
+    [CliOption("--managed-image")]
+    public string? ManagedImageValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish.
@@ -83,20 +83,20 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of
     /// </summary>
-    [CliFlag("--os-snapshot")]
-    public bool? OsSnapshot { get; set; }
+    [CliOption("--os-snapshot")]
+    public string? OsSnapshotValue { get; set; }
 
     /// <summary>
     /// Name or ID of storage account of source VHD
     /// </summary>
-    [CliFlag("--os-vhd-storage-account")]
-    public bool? OsVhdStorageAccount { get; set; }
+    [CliOption("--os-vhd-storage-account")]
+    public string? OsVhdStorageAccountValue { get; set; }
 
     /// <summary>
     /// Source VHD
     /// </summary>
-    [CliFlag("--os-vhd-uri")]
-    public bool? OsVhdUri { get; set; }
+    [CliOption("--os-vhd-uri")]
+    public string? OsVhdUriValue { get; set; }
 
     /// <summary>
     /// The default number of replicas to be created per region.
@@ -149,7 +149,56 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// <summary>
     /// Resource id of VM source.
     /// </summary>
-    [CliFlag("--virtual-machine")]
-    public bool? VirtualMachine { get; set; }
+    [CliOption("--virtual-machine")]
+    public string? VirtualMachineValue { get; set; }
+
+    [Obsolete("Use DataVhdsUrisValue instead.")]
+    public bool? DataVhdsUris
+    {
+        get => bool.TryParse(DataVhdsUrisValue, out var value) ? value : null;
+        set => DataVhdsUrisValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ImageVersionValue instead.")]
+    public bool? ImageVersion
+    {
+        get => bool.TryParse(ImageVersionValue, out var value) ? value : null;
+        set => ImageVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ManagedImageValue instead.")]
+    public bool? ManagedImage
+    {
+        get => bool.TryParse(ManagedImageValue, out var value) ? value : null;
+        set => ManagedImageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use OsSnapshotValue instead.")]
+    public bool? OsSnapshot
+    {
+        get => bool.TryParse(OsSnapshotValue, out var value) ? value : null;
+        set => OsSnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use OsVhdStorageAccountValue instead.")]
+    public bool? OsVhdStorageAccount
+    {
+        get => bool.TryParse(OsVhdStorageAccountValue, out var value) ? value : null;
+        set => OsVhdStorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use OsVhdUriValue instead.")]
+    public bool? OsVhdUri
+    {
+        get => bool.TryParse(OsVhdUriValue, out var value) ? value : null;
+        set => OsVhdUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VirtualMachineValue instead.")]
+    public bool? VirtualMachine
+    {
+        get => bool.TryParse(VirtualMachineValue, out var value) ? value : null;
+        set => VirtualMachineValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

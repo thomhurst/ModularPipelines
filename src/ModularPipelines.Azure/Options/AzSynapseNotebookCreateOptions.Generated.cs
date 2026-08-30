@@ -47,7 +47,14 @@ public record AzSynapseNotebookCreateOptions : AzOptions
     /// <summary>
     /// The name of the Spark pool.
     /// </summary>
-    [CliFlag("--spark-pool-name")]
-    public bool? SparkPoolName { get; set; }
+    [CliOption("--spark-pool-name")]
+    public string? SparkPoolNameValue { get; set; }
+
+    [Obsolete("Use SparkPoolNameValue instead.")]
+    public bool? SparkPoolName
+    {
+        get => bool.TryParse(SparkPoolNameValue, out var value) ? value : null;
+        set => SparkPoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

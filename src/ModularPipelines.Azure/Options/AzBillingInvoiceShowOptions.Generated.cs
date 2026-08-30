@@ -23,13 +23,20 @@ public record AzBillingInvoiceShowOptions : AzOptions
     /// <summary>
     /// The ID that uniquely identifies a billing account.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountNameValue { get; set; }
 
     /// <summary>
     /// When provided, it must work with --invoice-name to get an invoice by subscription ID and invoice ID.
     /// </summary>
     [CliFlag("--by-subscription")]
     public bool? BySubscription { get; set; }
+
+    [Obsolete("Use AccountNameValue instead.")]
+    public bool? AccountName
+    {
+        get => bool.TryParse(AccountNameValue, out var value) ? value : null;
+        set => AccountNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

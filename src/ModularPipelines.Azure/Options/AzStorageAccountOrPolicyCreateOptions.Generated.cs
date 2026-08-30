@@ -23,13 +23,13 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     /// <summary>
     /// The destination storage account name or resource Id. Apply
     /// </summary>
-    [CliFlag("--destination-account", ShortForm = "-d")]
-    public bool? DestinationAccount { get; set; }
+    [CliOption("--destination-account", ShortForm = "-d")]
+    public string? DestinationAccountValue { get; set; }
 
     /// <summary>
     /// Indicates whether object replication metrics feature is enabled for the policy.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-metrics")]
+    [CliOption("--enable-metrics")]
     public bool? EnableMetrics { get; set; }
 
     /// <summary>
@@ -41,31 +41,59 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     /// <summary>
     /// The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.  Default: default.
     /// </summary>
-    [CliFlag("--policy-id")]
-    public bool? PolicyId { get; set; }
+    [CliOption("--policy-id")]
+    public string? PolicyIdValue { get; set; }
 
     /// <summary>
     /// Indicates whether object replication priority replication feature is enabled for the policy.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--priority-replication")]
+    [CliOption("--priority-replication")]
     public bool? PriorityReplication { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// The source storage account name or resource Id. Required when no --policy provided.
     /// </summary>
-    [CliFlag("--source-account", ShortForm = "-s")]
-    public bool? SourceAccount { get; set; }
+    [CliOption("--source-account", ShortForm = "-s")]
+    public string? SourceAccountValue { get; set; }
 
     /// <summary>
     /// Indicates whether object replication tags replication feature is enabled for the policy.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--tags-replication")]
+    [CliOption("--tags-replication")]
     public bool? TagsReplication { get; set; }
+
+    [Obsolete("Use DestinationAccountValue instead.")]
+    public bool? DestinationAccount
+    {
+        get => bool.TryParse(DestinationAccountValue, out var value) ? value : null;
+        set => DestinationAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PolicyIdValue instead.")]
+    public bool? PolicyId
+    {
+        get => bool.TryParse(PolicyIdValue, out var value) ? value : null;
+        set => PolicyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceAccountValue instead.")]
+    public bool? SourceAccount
+    {
+        get => bool.TryParse(SourceAccountValue, out var value) ? value : null;
+        set => SourceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

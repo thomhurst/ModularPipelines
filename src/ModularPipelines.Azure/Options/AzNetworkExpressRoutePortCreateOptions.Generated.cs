@@ -47,13 +47,20 @@ public record AzNetworkExpressRoutePortCreateOptions : AzOptions
     /// <summary>
     /// The name of the peering location that the port is mapped to physically.
     /// </summary>
-    [CliFlag("--peering-location")]
-    public bool? PeeringLocation { get; set; }
+    [CliOption("--peering-location")]
+    public string? PeeringLocationValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use PeeringLocationValue instead.")]
+    public bool? PeeringLocation
+    {
+        get => bool.TryParse(PeeringLocationValue, out var value) ? value : null;
+        set => PeeringLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

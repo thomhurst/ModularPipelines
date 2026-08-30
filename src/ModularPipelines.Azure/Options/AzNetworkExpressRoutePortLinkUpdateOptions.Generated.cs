@@ -29,13 +29,20 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// <summary>
     /// Resource ID.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids")]
+    public string? IdsValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [Obsolete("Use IdsValue instead.")]
+    public bool? Ids
+    {
+        get => bool.TryParse(IdsValue, out var value) ? value : null;
+        set => IdsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

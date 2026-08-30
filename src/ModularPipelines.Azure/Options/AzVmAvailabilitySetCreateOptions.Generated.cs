@@ -47,8 +47,8 @@ public record AzVmAvailabilitySetCreateOptions : AzOptions
     /// <summary>
     /// The name or ID of the proximity placement group the availability set should be associated with.
     /// </summary>
-    [CliFlag("--ppg")]
-    public bool? Ppg { get; set; }
+    [CliOption("--ppg")]
+    public string? PpgValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -67,5 +67,12 @@ public record AzVmAvailabilitySetCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
+
+    [Obsolete("Use PpgValue instead.")]
+    public bool? Ppg
+    {
+        get => bool.TryParse(PpgValue, out var value) ? value : null;
+        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

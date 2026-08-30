@@ -23,14 +23,14 @@ public record AzNetworkCrossRegionLbCreateOptions : AzOptions
     /// <summary>
     /// The name of the backend address pool.
     /// </summary>
-    [CliFlag("--backend-pool-name")]
-    public bool? BackendPoolName { get; set; }
+    [CliOption("--backend-pool-name")]
+    public string? BackendPoolNameValue { get; set; }
 
     /// <summary>
     /// The name of the frontend IP configuration.
     /// </summary>
-    [CliFlag("--frontend-ip-name")]
-    public bool? FrontendIpName { get; set; }
+    [CliOption("--frontend-ip-name")]
+    public string? FrontendIpNameValue { get; set; }
 
     /// <summary>
     /// Used to create internal facing Load balancer.
@@ -61,5 +61,19 @@ public record AzNetworkCrossRegionLbCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
+
+    [Obsolete("Use BackendPoolNameValue instead.")]
+    public bool? BackendPoolName
+    {
+        get => bool.TryParse(BackendPoolNameValue, out var value) ? value : null;
+        set => BackendPoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use FrontendIpNameValue instead.")]
+    public bool? FrontendIpName
+    {
+        get => bool.TryParse(FrontendIpNameValue, out var value) ? value : null;
+        set => FrontendIpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

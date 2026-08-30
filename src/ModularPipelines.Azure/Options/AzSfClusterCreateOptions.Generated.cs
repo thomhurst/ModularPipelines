@@ -53,8 +53,8 @@ public record AzSfClusterCreateOptions : AzOptions
     /// <summary>
     /// The path to the template parameter file.
     /// </summary>
-    [CliFlag("--parameter-file")]
-    public bool? ParameterFile { get; set; }
+    [CliOption("--parameter-file")]
+    public string? ParameterFileValue { get; set; }
 
     /// <summary>
     /// The existing Azure key vault secret URL.
@@ -65,8 +65,8 @@ public record AzSfClusterCreateOptions : AzOptions
     /// <summary>
     /// The path to the template file.
     /// </summary>
-    [CliFlag("--template-file")]
-    public bool? TemplateFile { get; set; }
+    [CliOption("--template-file")]
+    public string? TemplateFileValue { get; set; }
 
     /// <summary>
     /// Azure key vault name, if not given it will be the cluster resource group name.
@@ -77,8 +77,8 @@ public record AzSfClusterCreateOptions : AzOptions
     /// <summary>
     /// Key vault resource group name, if not given it will be cluster resource group name.
     /// </summary>
-    [CliFlag("--vault-rg")]
-    public bool? VaultRg { get; set; }
+    [CliOption("--vault-rg")]
+    public string? VaultRgValue { get; set; }
 
     /// <summary>
     /// The password of the Vm.
@@ -97,5 +97,26 @@ public record AzSfClusterCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--vm-user-name")]
     public bool? VmUserName { get; set; }
+
+    [Obsolete("Use ParameterFileValue instead.")]
+    public bool? ParameterFile
+    {
+        get => bool.TryParse(ParameterFileValue, out var value) ? value : null;
+        set => ParameterFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TemplateFileValue instead.")]
+    public bool? TemplateFile
+    {
+        get => bool.TryParse(TemplateFileValue, out var value) ? value : null;
+        set => TemplateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VaultRgValue instead.")]
+    public bool? VaultRg
+    {
+        get => bool.TryParse(VaultRgValue, out var value) ? value : null;
+        set => VaultRgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

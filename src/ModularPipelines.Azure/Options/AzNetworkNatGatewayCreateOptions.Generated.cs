@@ -65,8 +65,8 @@ public record AzNetworkNatGatewayCreateOptions : AzOptions
     /// <summary>
     /// Name of Nat Gateway SKU.  Allowed values: Standard, StandardV2.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? SkuValue { get; set; }
 
     /// <summary>
     /// A reference to the source virtual network using this nat gateway resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -85,5 +85,12 @@ public record AzNetworkNatGatewayCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    [Obsolete("Use SkuValue instead.")]
+    public bool? Sku
+    {
+        get => bool.TryParse(SkuValue, out var value) ? value : null;
+        set => SkuValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -59,8 +59,8 @@ public record AzWebappConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// Name of the webapp. Required if '--source-id' is not specified.None.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -77,8 +77,8 @@ public record AzWebappConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The resource group which contains the webapp. Required if '--source- id' is not specified.None.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// Schema registry API-Key (key).
@@ -101,19 +101,54 @@ public record AzWebappConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The name of the slot. Default to the production slot if not specified.
     /// </summary>
-    [CliFlag("--slot")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// The resource id of a webapp. Required if ['--resource-group', '-- name'] are not specified.
     /// </summary>
-    [CliFlag("--source-id")]
-    public bool? SourceId { get; set; }
+    [CliOption("--source-id")]
+    public string? SourceIdValue { get; set; }
 
     /// <summary>
     /// The id of key vault to store secret value.
     /// </summary>
-    [CliFlag("--vault-id")]
-    public bool? VaultId { get; set; }
+    [CliOption("--vault-id")]
+    public string? VaultIdValue { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SourceIdValue instead.")]
+    public bool? SourceId
+    {
+        get => bool.TryParse(SourceIdValue, out var value) ? value : null;
+        set => SourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VaultIdValue instead.")]
+    public bool? VaultId
+    {
+        get => bool.TryParse(VaultIdValue, out var value) ? value : null;
+        set => VaultIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -23,19 +23,40 @@ public record AzSqlDbLtrBackupListOptions : AzOptions
     /// <summary>
     /// Name of the Azure SQL Database. If specified (along with server name), retrieves all requested backups under this database.
     /// </summary>
-    [CliFlag("--database", ShortForm = "-d")]
-    public bool? Database { get; set; }
+    [CliOption("--database", ShortForm = "-d")]
+    public string? DatabaseValue { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroupValue { get; set; }
 
     /// <summary>
     /// Name of the Azure SQL Server. If specified, retrieves all requested backups under this server.
     /// </summary>
-    [CliFlag("--server", ShortForm = "-s")]
-    public bool? Server { get; set; }
+    [CliOption("--server", ShortForm = "-s")]
+    public string? ServerValue { get; set; }
+
+    [Obsolete("Use DatabaseValue instead.")]
+    public bool? Database
+    {
+        get => bool.TryParse(DatabaseValue, out var value) ? value : null;
+        set => DatabaseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ResourceGroupValue instead.")]
+    public bool? ResourceGroup
+    {
+        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
+        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use ServerValue instead.")]
+    public bool? Server
+    {
+        get => bool.TryParse(ServerValue, out var value) ? value : null;
+        set => ServerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

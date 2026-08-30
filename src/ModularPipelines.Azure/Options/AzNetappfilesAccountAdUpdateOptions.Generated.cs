@@ -35,8 +35,8 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     /// <summary>
     /// Name of the active directory machine. This optional parameter is used only while creating kerberos volume.
     /// </summary>
-    [CliFlag("--ad-name")]
-    public bool? AdName { get; set; }
+    [CliOption("--ad-name")]
+    public string? AdNameValue { get; set; }
 
     /// <summary>
     /// Users to be added to the Built-in
@@ -65,8 +65,8 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     /// <summary>
     /// Name of the Active Directory domain.
     /// </summary>
-    [CliFlag("--domain")]
-    public bool? Domain { get; set; }
+    [CliOption("--domain")]
+    public string? DomainValue { get; set; }
 
     /// <summary>
     /// If enabled, Traffic between the SMB server to Domain Controller (DC) will be encrypted.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -133,5 +133,19 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--username")]
     public bool? Username { get; set; }
+
+    [Obsolete("Use AdNameValue instead.")]
+    public bool? AdName
+    {
+        get => bool.TryParse(AdNameValue, out var value) ? value : null;
+        set => AdNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use DomainValue instead.")]
+    public bool? Domain
+    {
+        get => bool.TryParse(DomainValue, out var value) ? value : null;
+        set => DomainValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

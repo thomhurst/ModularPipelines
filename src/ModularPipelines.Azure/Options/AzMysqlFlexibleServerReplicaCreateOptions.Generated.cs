@@ -65,8 +65,8 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. The name or id of new or existing private dns zone. You can use the private dns zone from same resource group, different resource group, or different subscription. If you want to use a zone from different resource group or subscription, please provide resource Id. CLI creates a new private dns zone within the same resource group as virtual network if not provided by users.
     /// </summary>
-    [CliFlag("--private-dns-zone")]
-    public bool? PrivateDnsZone { get; set; }
+    [CliOption("--private-dns-zone")]
+    public string? PrivateDnsZoneValue { get; set; }
 
     /// <summary>
     /// Determines the public access.  Allowed values: Disabled,
@@ -77,8 +77,8 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
     /// </summary>
-    [CliFlag("--sku-name")]
-    public bool? SkuName { get; set; }
+    [CliOption("--sku-name")]
+    public string? SkuNameValue { get; set; }
 
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
@@ -89,8 +89,8 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Name or resource ID of a new or existing subnet. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a subnet from different resource group or subscription, please provide resource ID instead of name. Please note that the subnet will be delegated to flexibleServers. After delegation, this subnet cannot be used for any other type of Azure resources.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -101,19 +101,54 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable,
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? TierValue { get; set; }
 
     /// <summary>
     /// Name or ID of a new or existing virtual network. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a vnet from different resource group or subscription, please provide a resource ID. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? VnetValue { get; set; }
 
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    [Obsolete("Use PrivateDnsZoneValue instead.")]
+    public bool? PrivateDnsZone
+    {
+        get => bool.TryParse(PrivateDnsZoneValue, out var value) ? value : null;
+        set => PrivateDnsZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SkuNameValue instead.")]
+    public bool? SkuName
+    {
+        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
+        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TierValue instead.")]
+    public bool? Tier
+    {
+        get => bool.TryParse(TierValue, out var value) ? value : null;
+        set => TierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetValue instead.")]
+    public bool? Vnet
+    {
+        get => bool.TryParse(VnetValue, out var value) ? value : null;
+        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

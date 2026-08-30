@@ -29,8 +29,8 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Name of the existing App Insights project to be added to the function app. Must be in the same resource group.
     /// </summary>
-    [CliFlag("--app-insights")]
-    public bool? AppInsights { get; set; }
+    [CliOption("--app-insights")]
+    public string? AppInsightsValue { get; set; }
 
     /// <summary>
     /// Instrumentation key of App Insights to be added.
@@ -89,7 +89,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Disable creating application insights resource during functionapp create. No logs will be available.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-app-insights")]
+    [CliOption("--disable-app-insights")]
     public bool? DisableAppInsights { get; set; }
 
     /// <summary>
@@ -101,7 +101,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Enable/Disable Dapr for a function app on an Azure Container App environment.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-dapr")]
+    [CliOption("--enable-dapr")]
     public bool? EnableDapr { get; set; }
 
     /// <summary>
@@ -119,7 +119,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--https-only")]
+    [CliOption("--https-only")]
     public bool? HttpsOnly { get; set; }
 
     /// <summary>
@@ -149,8 +149,8 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Name or resource id of the functionapp app service plan. Use 'appservice plan create' to get one. If using an App Service plan from a different resource group, the full resource id must be used and not the plan name.
     /// </summary>
-    [CliFlag("--plan", ShortForm = "-p")]
-    public bool? Plan { get; set; }
+    [CliOption("--plan", ShortForm = "-p")]
+    public string? PlanValue { get; set; }
 
     /// <summary>
     /// The container registry server password. Required for private registries.
@@ -191,8 +191,8 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Name or resource ID of the pre-existing subnet to have the webapp join. The --vnet is argument also needed if specifying subnet by name.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -209,13 +209,41 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Name of an existing log analytics workspace to be used for the application insights component.
     /// </summary>
-    [CliFlag("--workspace")]
-    public bool? Workspace { get; set; }
+    [CliOption("--workspace")]
+    public string? WorkspaceValue { get; set; }
 
     /// <summary>
     /// Enable zone redundancy for high availability. Applies to Flex Consumption SKU only.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant")]
+    [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
+
+    [Obsolete("Use AppInsightsValue instead.")]
+    public bool? AppInsights
+    {
+        get => bool.TryParse(AppInsightsValue, out var value) ? value : null;
+        set => AppInsightsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PlanValue instead.")]
+    public bool? Plan
+    {
+        get => bool.TryParse(PlanValue, out var value) ? value : null;
+        set => PlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use WorkspaceValue instead.")]
+    public bool? Workspace
+    {
+        get => bool.TryParse(WorkspaceValue, out var value) ? value : null;
+        set => WorkspaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

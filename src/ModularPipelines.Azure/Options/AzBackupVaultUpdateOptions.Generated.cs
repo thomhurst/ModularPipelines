@@ -51,13 +51,13 @@ public record AzBackupVaultUpdateOptions : AzOptions
     public bool? ImmutabilityState { get; set; }
 
     /// <summary>
-    /// Use this property to specify whether built-in Azure Monitor alerts should be received for every job failure.  Allowed values: Disable, Enable.
+    /// Use this property to specify whether built-in Azure Monitor alerts should be received for every job failure. Allowed values: Disable, Enable.
     /// </summary>
     [CliFlag("--job-failure-alerts")]
     public bool? JobFailureAlerts { get; set; }
 
     /// <summary>
-    /// Use this property to specify whether public network access for the vault should be enabled or disabled. It is enabled by default. For setting up private endpoints, it has to be disabled.  Allowed values: Disable, Enable.
+    /// Use this property to specify whether public network access for the vault should be enabled or disabled. It is enabled by default. For setting up private endpoints, it has to be disabled.  Allowed values: Disable,
     /// </summary>
     [CliFlag("--public-network-access")]
     public bool? PublicNetworkAccess { get; set; }
@@ -71,7 +71,14 @@ public record AzBackupVaultUpdateOptions : AzOptions
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantIdValue { get; set; }
+
+    [Obsolete("Use TenantIdValue instead.")]
+    public bool? TenantId
+    {
+        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
+        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

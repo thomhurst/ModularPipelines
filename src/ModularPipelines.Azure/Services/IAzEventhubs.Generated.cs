@@ -15,27 +15,30 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az eventhubs commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzEventhubs
 {
     /// <summary>
     /// az cluster sub-commands.
     /// </summary>
-    AzEventhubsCluster Cluster { get; }
+    AzEventhubsCluster Cluster => throw new System.NotSupportedException();
 
     /// <summary>
     /// az eventhub sub-commands.
     /// </summary>
-    AzEventhubsEventhub Eventhub { get; }
+    AzEventhubsEventhub Eventhub => throw new System.NotSupportedException();
 
     /// <summary>
     /// az georecovery-alias sub-commands.
     /// </summary>
-    AzEventhubsGeorecoveryAlias GeorecoveryAlias { get; }
+    AzEventhubsGeorecoveryAlias GeorecoveryAlias => throw new System.NotSupportedException();
 
     /// <summary>
     /// az namespace sub-commands.
     /// </summary>
-    AzEventhubsNamespace Namespace { get; }
+    AzEventhubsNamespace Namespace => throw new System.NotSupportedException();
 
 }

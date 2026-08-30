@@ -15,83 +15,86 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az acr commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzAcr
 {
     /// <summary>
     /// az cache sub-commands.
     /// </summary>
-    AzAcrCache Cache { get; }
+    AzAcrCache Cache => throw new System.NotSupportedException();
 
     /// <summary>
     /// az connected-registry sub-commands.
     /// </summary>
-    AzAcrConnectedRegistry ConnectedRegistry { get; }
+    AzAcrConnectedRegistry ConnectedRegistry => throw new System.NotSupportedException();
 
     /// <summary>
     /// az credential sub-commands.
     /// </summary>
-    AzAcrCredential Credential { get; }
+    AzAcrCredential Credential => throw new System.NotSupportedException();
 
     /// <summary>
     /// az credential-set sub-commands.
     /// </summary>
-    AzAcrCredentialSet CredentialSet { get; }
+    AzAcrCredentialSet CredentialSet => throw new System.NotSupportedException();
 
     /// <summary>
     /// az encryption sub-commands.
     /// </summary>
-    AzAcrEncryption Encryption { get; }
+    AzAcrEncryption Encryption => throw new System.NotSupportedException();
 
     /// <summary>
     /// az identity sub-commands.
     /// </summary>
-    AzAcrIdentity Identity { get; }
+    AzAcrIdentity Identity => throw new System.NotSupportedException();
 
     /// <summary>
     /// az network-rule sub-commands.
     /// </summary>
-    AzAcrNetworkRule NetworkRule { get; }
+    AzAcrNetworkRule NetworkRule => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
-    AzAcrPrivateEndpointConnection PrivateEndpointConnection { get; }
+    AzAcrPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-link-resource sub-commands.
     /// </summary>
-    AzAcrPrivateLinkResource PrivateLinkResource { get; }
+    AzAcrPrivateLinkResource PrivateLinkResource => throw new System.NotSupportedException();
 
     /// <summary>
     /// az replication sub-commands.
     /// </summary>
-    AzAcrReplication Replication { get; }
+    AzAcrReplication Replication => throw new System.NotSupportedException();
 
     /// <summary>
     /// az repository sub-commands.
     /// </summary>
-    AzAcrRepository Repository { get; }
+    AzAcrRepository Repository => throw new System.NotSupportedException();
 
     /// <summary>
     /// az scope-map sub-commands.
     /// </summary>
-    AzAcrScopeMap ScopeMap { get; }
+    AzAcrScopeMap ScopeMap => throw new System.NotSupportedException();
 
     /// <summary>
     /// az task sub-commands.
     /// </summary>
-    AzAcrTask Task { get; }
+    AzAcrTask Task => throw new System.NotSupportedException();
 
     /// <summary>
     /// az token sub-commands.
     /// </summary>
-    AzAcrToken Token { get; }
+    AzAcrToken Token => throw new System.NotSupportedException();
 
     /// <summary>
     /// az webhook sub-commands.
     /// </summary>
-    AzAcrWebhook Webhook { get; }
+    AzAcrWebhook Webhook => throw new System.NotSupportedException();
 
     /// <summary>
     /// Queues a quick build, providing streaming logs for an Azure Container Registry.
@@ -100,10 +103,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BuildAsync(
-        AzAcrBuildOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> BuildAsync(AzAcrBuildOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets health information on the environment and optionally a target
@@ -112,10 +113,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CheckHealthAsync(
-        AzAcrCheckHealthOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CheckHealthAsync(AzAcrCheckHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Checks if an Azure Container Registry name is valid and available for use.
@@ -124,10 +123,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CheckNameAsync(
-        AzAcrCheckNameOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CheckNameAsync(AzAcrCheckNameOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create an Azure Container Registry.
@@ -136,10 +133,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(
-        AzAcrCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateAsync(AzAcrCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Deletes an Azure Container Registry.
@@ -148,10 +143,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        AzAcrDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(AzAcrDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Imports an image to an Azure Container Registry from another Container Registry.
@@ -160,10 +153,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ImportAsync(
-        AzAcrImportOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ImportAsync(AzAcrImportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Lists all the container registries under the current subscription.
@@ -172,10 +163,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzAcrListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzAcrListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Log in to an Azure Container Registry through the Docker CLI.
@@ -184,10 +173,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LoginAsync(
-        AzAcrLoginOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> LoginAsync(AzAcrLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Queues a quick run providing streamed logs for an Azure Container Registry.
@@ -196,10 +183,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RunAsync(
-        AzAcrRunOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RunAsync(AzAcrRunOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Display registry endpoints including data endpoints and regional
@@ -208,10 +193,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ShowEndpointsAsync(
-        AzAcrShowEndpointsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ShowEndpointsAsync(AzAcrShowEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get the details of an Azure Container Registry.
@@ -220,10 +203,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ShowAsync(
-        AzAcrShowOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ShowAsync(AzAcrShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get the storage usage for an Azure Container Registry.
@@ -232,10 +213,8 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ShowUsageAsync(
-        AzAcrShowUsageOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ShowUsageAsync(AzAcrShowUsageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update an Azure Container Registry.
@@ -244,9 +223,7 @@ public interface IAzAcr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        AzAcrUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(AzAcrUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

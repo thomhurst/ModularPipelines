@@ -29,8 +29,8 @@ public record AzEventgridPartnerNamespaceChannelUpdateOptions : AzOptions
     /// <summary>
     /// The URL that represents the endpoint of the partner destination.
     /// </summary>
-    [CliFlag("--endpoint-url")]
-    public bool? EndpointUrl { get; set; }
+    [CliOption("--endpoint-url")]
+    public string? EndpointUrlValue { get; set; }
 
     /// <summary>
     /// The kind of event type used.
@@ -43,5 +43,12 @@ public record AzEventgridPartnerNamespaceChannelUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--inline-event-type")]
     public bool? InlineEventType { get; set; }
+
+    [Obsolete("Use EndpointUrlValue instead.")]
+    public bool? EndpointUrl
+    {
+        get => bool.TryParse(EndpointUrlValue, out var value) ? value : null;
+        set => EndpointUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

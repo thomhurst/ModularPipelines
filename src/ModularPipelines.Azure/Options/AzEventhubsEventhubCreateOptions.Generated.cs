@@ -29,7 +29,7 @@ public record AzEventhubsEventhubCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates whether to Skip Empty.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-empty-archives")]
+    [CliOption("--skip-empty-archives")]
     public bool? SkipEmptyArchives { get; set; }
 
     /// <summary>

@@ -23,7 +23,7 @@ public record AzEventgridEventSubscriptionShowOptions : AzOptions
     /// <summary>
     /// Specify to indicate whether the full endpoint URL should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--include-full-endpoint-url")]
+    [CliOption("--include-full-endpoint-url")]
     public bool? IncludeFullEndpointUrl { get; set; }
 
     /// <summary>

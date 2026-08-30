@@ -29,25 +29,46 @@ public record AzAcrCheckHealthOptions : AzOptions
     /// <summary>
     /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? NameValue { get; set; }
 
     /// <summary>
     /// The name of the repository.
     /// </summary>
-    [CliFlag("--repository")]
-    public bool? Repository { get; set; }
+    [CliOption("--repository")]
+    public string? RepositoryValue { get; set; }
 
     /// <summary>
     /// Virtual network ID so to run this command inside a VNET to verify the DNS routing to private endpoints.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? VnetValue { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use NameValue instead.")]
+    public bool? Name
+    {
+        get => bool.TryParse(NameValue, out var value) ? value : null;
+        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use RepositoryValue instead.")]
+    public bool? Repository
+    {
+        get => bool.TryParse(RepositoryValue, out var value) ? value : null;
+        set => RepositoryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use VnetValue instead.")]
+    public bool? Vnet
+    {
+        get => bool.TryParse(VnetValue, out var value) ? value : null;
+        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

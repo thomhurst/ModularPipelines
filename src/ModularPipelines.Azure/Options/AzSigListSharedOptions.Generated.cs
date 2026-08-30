@@ -23,7 +23,14 @@ public record AzSigListSharedOptions : AzOptions
     /// <summary>
     /// The query parameter to decide what shared galleries to fetch when doing listing operations. If not specified, list by subscription id.
     /// </summary>
-    [CliFlag("--shared-to")]
-    public bool? SharedTo { get; set; }
+    [CliOption("--shared-to")]
+    public string? SharedToValue { get; set; }
+
+    [Obsolete("Use SharedToValue instead.")]
+    public bool? SharedTo
+    {
+        get => bool.TryParse(SharedToValue, out var value) ? value : null;
+        set => SharedToValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

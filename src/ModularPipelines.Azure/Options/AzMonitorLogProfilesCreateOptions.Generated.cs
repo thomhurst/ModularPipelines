@@ -29,13 +29,20 @@ public record AzMonitorLogProfilesCreateOptions : AzOptions
     /// <summary>
     /// The resource id of the storage account to which you would like to send the Activity Log.
     /// </summary>
-    [CliFlag("--storage-account-id")]
-    public bool? StorageAccountId { get; set; }
+    [CliOption("--storage-account-id")]
+    public string? StorageAccountIdValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use StorageAccountIdValue instead.")]
+    public bool? StorageAccountId
+    {
+        get => bool.TryParse(StorageAccountIdValue, out var value) ? value : null;
+        set => StorageAccountIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

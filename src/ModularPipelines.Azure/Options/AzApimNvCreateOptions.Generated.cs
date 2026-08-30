@@ -35,7 +35,7 @@ public record AzApimNvCreateOptions : AzOptions
     /// <summary>
     /// Determines whether the value is a secret and should be encrypted or not. Default value is false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--secret")]
+    [CliOption("--secret")]
     public bool? Secret { get; set; }
 
     /// <summary>
@@ -47,7 +47,14 @@ public record AzApimNvCreateOptions : AzOptions
     /// <summary>
     /// The value of the Named Value.
     /// </summary>
-    [CliFlag("--value")]
-    public bool? Value { get; set; }
+    [CliOption("--value")]
+    public string? ValueValue { get; set; }
+
+    [Obsolete("Use ValueValue instead.")]
+    public bool? Value
+    {
+        get => bool.TryParse(ValueValue, out var value) ? value : null;
+        set => ValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

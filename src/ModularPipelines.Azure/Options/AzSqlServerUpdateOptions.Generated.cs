@@ -41,8 +41,8 @@ public record AzSqlServerUpdateOptions : AzOptions
     /// <summary>
     /// The key vault URI for encryption.
     /// </summary>
-    [CliFlag("--key-id", ShortForm = "-k")]
-    public bool? KeyId { get; set; }
+    [CliOption("--key-id", ShortForm = "-k")]
+    public string? KeyIdValue { get; set; }
 
     /// <summary>
     /// The minimal TLS version enforced by the sql server for inbound connections.  Allowed values: 1.0, 1.1, 1.2, 1.3.
@@ -61,5 +61,12 @@ public record AzSqlServerUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
     public bool? UserAssignedIdentityId { get; set; }
+
+    [Obsolete("Use KeyIdValue instead.")]
+    public bool? KeyId
+    {
+        get => bool.TryParse(KeyIdValue, out var value) ? value : null;
+        set => KeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

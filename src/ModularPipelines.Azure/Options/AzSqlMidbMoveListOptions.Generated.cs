@@ -23,7 +23,14 @@ public record AzSqlMidbMoveListOptions : AzOptions
     /// <summary>
     /// Name of the target managed instance to show move operations for.
     /// </summary>
-    [CliFlag("--dest-mi")]
-    public bool? DestMi { get; set; }
+    [CliOption("--dest-mi")]
+    public string? DestMiValue { get; set; }
+
+    [Obsolete("Use DestMiValue instead.")]
+    public bool? DestMi
+    {
+        get => bool.TryParse(DestMiValue, out var value) ? value : null;
+        set => DestMiValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

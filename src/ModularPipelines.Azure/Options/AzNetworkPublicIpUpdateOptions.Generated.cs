@@ -29,8 +29,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// Name or ID of a DDoS protection plan associated with the public IP. Can only be set if `--protection-mode` is Enabled.
     /// </summary>
-    [CliFlag("--ddos-protection-plan")]
-    public bool? DdosProtectionPlan { get; set; }
+    [CliOption("--ddos-protection-plan")]
+    public string? DdosProtectionPlanValue { get; set; }
 
     /// <summary>
     /// Globally unique DNS entry.
@@ -65,8 +65,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// Name or ID of a public IP prefix.
     /// </summary>
-    [CliFlag("--public-ip-prefix")]
-    public bool? PublicIpPrefix { get; set; }
+    [CliOption("--public-ip-prefix")]
+    public string? PublicIpPrefixValue { get; set; }
 
     /// <summary>
     /// Reverse FQDN (fully qualified domain name).
@@ -77,8 +77,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// Name of a public IP address SKU.  Allowed values:
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? SkuValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -91,5 +91,26 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--version")]
     public bool? Version { get; set; }
+
+    [Obsolete("Use DdosProtectionPlanValue instead.")]
+    public bool? DdosProtectionPlan
+    {
+        get => bool.TryParse(DdosProtectionPlanValue, out var value) ? value : null;
+        set => DdosProtectionPlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PublicIpPrefixValue instead.")]
+    public bool? PublicIpPrefix
+    {
+        get => bool.TryParse(PublicIpPrefixValue, out var value) ? value : null;
+        set => PublicIpPrefixValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SkuValue instead.")]
+    public bool? Sku
+    {
+        get => bool.TryParse(SkuValue, out var value) ? value : null;
+        set => SkuValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

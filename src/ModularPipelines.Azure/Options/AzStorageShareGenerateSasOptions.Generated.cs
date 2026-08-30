@@ -83,13 +83,20 @@ public record AzStorageShareGenerateSasOptions : AzOptions
     /// <summary>
     /// The name of a stored access policy within the share's ACL.
     /// </summary>
-    [CliFlag("--policy-name")]
-    public bool? PolicyName { get; set; }
+    [CliOption("--policy-name")]
+    public string? PolicyNameValue { get; set; }
 
     /// <summary>
     /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes valid. Do not use if a stored access policy is referenced with --policy-name that specifies this value. Defaults to the time of the request.
     /// </summary>
     [CliFlag("--start")]
     public bool? Start { get; set; }
+
+    [Obsolete("Use PolicyNameValue instead.")]
+    public bool? PolicyName
+    {
+        get => bool.TryParse(PolicyNameValue, out var value) ? value : null;
+        set => PolicyNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

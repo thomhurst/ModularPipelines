@@ -23,13 +23,13 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// The path of the config file containing auth settings if they come from a file.
     /// </summary>
-    [CliFlag("--config-file-path")]
-    public bool? ConfigFilePath { get; set; }
+    [CliOption("--config-file-path")]
+    public string? ConfigFilePathValue { get; set; }
 
     /// <summary>
     /// True if the Authentication / Authorization feature is enabled for the current app; otherwise, false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// False if the authentication/authorization responses not having the HTTPS scheme are permissible; otherwise, true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--require-https")]
+    [CliOption("--require-https")]
     public bool? RequireHttps { get; set; }
 
     /// <summary>
@@ -77,13 +77,13 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Value of a specific field within the configuration settings for the Azure App Service Authentication / Authorization feature.
     /// </summary>
-    [CliFlag("--set")]
-    public bool? Set { get; set; }
+    [CliOption("--set")]
+    public string? SetValue { get; set; }
 
     /// <summary>
     /// Boolean indicating if token store is enabled for the app.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--token-store")]
+    [CliOption("--token-store")]
     public bool? TokenStore { get; set; }
 
     /// <summary>
@@ -91,5 +91,19 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use ConfigFilePathValue instead.")]
+    public bool? ConfigFilePath
+    {
+        get => bool.TryParse(ConfigFilePathValue, out var value) ? value : null;
+        set => ConfigFilePathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SetValue instead.")]
+    public bool? Set
+    {
+        get => bool.TryParse(SetValue, out var value) ? value : null;
+        set => SetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

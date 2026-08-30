@@ -620,6 +620,9 @@ public static class ExternalToolDefinitionLoader
             CliCompatibilityForwardingKind.NullableBooleanToString =>
                 propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("bool?"))
                 && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?")),
+            CliCompatibilityForwardingKind.NullableBooleanToStringCollection =>
+                propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("bool?"))
+                && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("IEnumerable<string>?")),
             CliCompatibilityForwardingKind.NullableStringToRequiredString =>
                 propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?"))
                 && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string")),

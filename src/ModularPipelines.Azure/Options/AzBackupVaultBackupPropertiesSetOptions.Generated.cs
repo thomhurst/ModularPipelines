@@ -65,7 +65,14 @@ public record AzBackupVaultBackupPropertiesSetOptions : AzOptions
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantIdValue { get; set; }
+
+    [Obsolete("Use TenantIdValue instead.")]
+    public bool? TenantId
+    {
+        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
+        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

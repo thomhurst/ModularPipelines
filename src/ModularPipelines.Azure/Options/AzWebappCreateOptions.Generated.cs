@@ -23,8 +23,8 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Accept system or user assigned identity which will be set for acr image pull. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
     /// </summary>
-    [CliFlag("--acr-identity")]
-    public bool? AcrIdentity { get; set; }
+    [CliOption("--acr-identity")]
+    public string? AcrIdentityValue { get; set; }
 
     /// <summary>
     /// Enable or disable pull image from acr use managed identity.
@@ -95,7 +95,7 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable end-to-end encryption between the Front End and the Workers. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--end-to-end-encryption-enabled", ShortForm = "-e")]
+    [CliOption("--end-to-end-encryption-enabled", ShortForm = "-e")]
     public bool? EndToEndEncryptionEnabled { get; set; }
 
     /// <summary>
@@ -155,13 +155,13 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable site-scoped certificates. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--site-scoped-certs")]
+    [CliOption("--site-scoped-certs")]
     public bool? SiteScopedCerts { get; set; }
 
     /// <summary>
     /// If true, a webapp which supports sitecontainers will be created.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--sitecontainers-app")]
+    [CliOption("--sitecontainers-app")]
     public bool? SitecontainersApp { get; set; }
 
     /// <summary>
@@ -173,8 +173,8 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Name or resource ID of the pre-existing subnet to have the webapp join. The --vnet is argument also needed if specifying subnet by name.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? SubnetValue { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -187,5 +187,19 @@ public record AzWebappCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--vnet")]
     public bool? Vnet { get; set; }
+
+    [Obsolete("Use AcrIdentityValue instead.")]
+    public bool? AcrIdentity
+    {
+        get => bool.TryParse(AcrIdentityValue, out var value) ? value : null;
+        set => AcrIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use SubnetValue instead.")]
+    public bool? Subnet
+    {
+        get => bool.TryParse(SubnetValue, out var value) ? value : null;
+        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

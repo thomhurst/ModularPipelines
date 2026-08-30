@@ -35,7 +35,7 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -47,8 +47,8 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
-    [CliFlag("--slot", ShortForm = "-s")]
-    public bool? Slot { get; set; }
+    [CliOption("--slot", ShortForm = "-s")]
+    public string? SlotValue { get; set; }
 
     /// <summary>
     /// Hours, must be formattable into a float.
@@ -59,7 +59,14 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Use App Service Token Store.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--token-store")]
+    [CliOption("--token-store")]
     public bool? TokenStore { get; set; }
+
+    [Obsolete("Use SlotValue instead.")]
+    public bool? Slot
+    {
+        get => bool.TryParse(SlotValue, out var value) ? value : null;
+        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

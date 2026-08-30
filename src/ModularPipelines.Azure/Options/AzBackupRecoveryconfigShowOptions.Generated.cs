@@ -23,7 +23,7 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// <summary>
     /// Specify attach and mount value for HANA Snapshot restores.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--attach-and-mount")]
+    [CliOption("--attach-and-mount")]
     public bool? AttachAndMount { get; set; }
 
     /// <summary>
@@ -35,14 +35,14 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// <summary>
     /// The path to which the DB should be restored as files.
     /// </summary>
-    [CliFlag("--filepath")]
-    public bool? Filepath { get; set; }
+    [CliOption("--filepath")]
+    public string? FilepathValue { get; set; }
 
     /// <summary>
     /// Name of the starting Recovery point.
     /// </summary>
-    [CliFlag("--from-full-rp-name")]
-    public bool? FromFullRpName { get; set; }
+    [CliOption("--from-full-rp-name")]
+    public string? FromFullRpNameValue { get; set; }
 
     /// <summary>
     /// Set Identity ARM ID for HANA Snapshot restores.
@@ -59,8 +59,8 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// <summary>
     /// Name of the recovery point.
     /// </summary>
-    [CliFlag("--rp-name", ShortForm = "-r")]
-    public bool? RpName { get; set; }
+    [CliOption("--rp-name", ShortForm = "-r")]
+    public string? RpNameValue { get; set; }
 
     /// <summary>
     /// Specify the resource group for HANA Snapshot Instance restores. If not provided, the default value will be fetched from the target container details.
@@ -121,5 +121,26 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// </summary>
     [CliFlag("--workload-type")]
     public bool? WorkloadType { get; set; }
+
+    [Obsolete("Use FilepathValue instead.")]
+    public bool? Filepath
+    {
+        get => bool.TryParse(FilepathValue, out var value) ? value : null;
+        set => FilepathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use FromFullRpNameValue instead.")]
+    public bool? FromFullRpName
+    {
+        get => bool.TryParse(FromFullRpNameValue, out var value) ? value : null;
+        set => FromFullRpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use RpNameValue instead.")]
+    public bool? RpName
+    {
+        get => bool.TryParse(RpNameValue, out var value) ? value : null;
+        set => RpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

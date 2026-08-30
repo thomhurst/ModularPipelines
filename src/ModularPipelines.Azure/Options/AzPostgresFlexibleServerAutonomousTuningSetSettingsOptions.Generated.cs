@@ -23,7 +23,14 @@ public record AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions : AzOpt
     /// <summary>
     /// Value of the tuning setting.
     /// </summary>
-    [CliFlag("--value", ShortForm = "-v")]
-    public bool? Value { get; set; }
+    [CliOption("--value", ShortForm = "-v")]
+    public string? ValueValue { get; set; }
+
+    [Obsolete("Use ValueValue instead.")]
+    public bool? Value
+    {
+        get => bool.TryParse(ValueValue, out var value) ? value : null;
+        set => ValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

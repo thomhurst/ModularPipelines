@@ -19,7 +19,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("az")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record AzOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Acquire an Azure Policy token automatically for this resource operation.
+    /// </summary>
+    [CliFlag("--acquire-policy-token")]
+    public virtual bool? AcquirePolicyToken { get; set; }
+
+    /// <summary>
+    /// The related change reference ID for this resource operation.
+    /// </summary>
+    [CliOption("--change-reference")]
+    public virtual string? ChangeReference { get; set; }
+
 }

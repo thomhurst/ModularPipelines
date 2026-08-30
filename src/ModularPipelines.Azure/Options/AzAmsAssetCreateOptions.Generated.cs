@@ -29,8 +29,8 @@ public record AzAmsAssetCreateOptions : AzOptions
     /// <summary>
     /// The name of the asset blob container.
     /// </summary>
-    [CliFlag("--container")]
-    public bool? Container { get; set; }
+    [CliOption("--container")]
+    public string? ContainerValue { get; set; }
 
     /// <summary>
     /// The asset description.
@@ -41,7 +41,21 @@ public record AzAmsAssetCreateOptions : AzOptions
     /// <summary>
     /// The name of the storage account.
     /// </summary>
-    [CliFlag("--storage-account")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account")]
+    public string? StorageAccountValue { get; set; }
+
+    [Obsolete("Use ContainerValue instead.")]
+    public bool? Container
+    {
+        get => bool.TryParse(ContainerValue, out var value) ? value : null;
+        set => ContainerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StorageAccountValue instead.")]
+    public bool? StorageAccount
+    {
+        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
+        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -35,8 +35,8 @@ public record AzBatchAccountCreateOptions : AzOptions
     /// <summary>
     /// The KeyVault name or resource ID to be used for an account with a pool allocation mode of 'User Subscription'.
     /// </summary>
-    [CliFlag("--keyvault")]
-    public bool? Keyvault { get; set; }
+    [CliOption("--keyvault")]
+    public string? KeyvaultValue { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -53,13 +53,27 @@ public record AzBatchAccountCreateOptions : AzOptions
     /// <summary>
     /// The storage account name or resource ID to be used for auto storage.
     /// </summary>
-    [CliFlag("--storage-account")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account")]
+    public string? StorageAccountValue { get; set; }
 
     /// <summary>
     /// Space-separated tags in 'key[=value]' format.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use KeyvaultValue instead.")]
+    public bool? Keyvault
+    {
+        get => bool.TryParse(KeyvaultValue, out var value) ? value : null;
+        set => KeyvaultValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StorageAccountValue instead.")]
+    public bool? StorageAccount
+    {
+        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
+        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }
