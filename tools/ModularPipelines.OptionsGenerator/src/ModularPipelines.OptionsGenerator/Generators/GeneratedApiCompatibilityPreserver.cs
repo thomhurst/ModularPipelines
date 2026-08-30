@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
 
@@ -1190,6 +1191,7 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<CliOptionDefinition>? globalOptions = null,
         IReadOnlyList<CliCompatibilityProperty>? globalCompatibilityProperties = null)
     {
+        baselineProperties = RemoveUnsafeBooleanStringAliases(baselineProperties, command.Options);
         var livePropertyNames = command.Options
             .Select(static option => option.PropertyName)
             .Concat(command.PositionalArguments.Select(static argument => argument.PropertyName))
@@ -1282,6 +1284,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 baseline,
                 baselineProperties,
                 currentProperties,
+                options,
                 compatibilityProperties,
                 renamedProperties,
                 violations);
@@ -1773,6 +1776,16 @@ internal static class GeneratedApiCompatibilityPreserver
                 continue;
             }
 
+            preserved.Add(baseline.PropertyName);
+            var isPulumiLocalLogout = IsPulumiLocalLogoutOption(
+                command,
+                baseline,
+                options[optionIndex]);
+            if (!isPulumiLocalLogout && !ExplicitlyAcceptsBooleanText(options[optionIndex]))
+            {
+                continue;
+            }
+
             var forwardsToCollection = options[optionIndex].PropertyType.Equals(
                 "IEnumerable<string>?",
                 StringComparison.Ordinal);
@@ -1792,7 +1805,7 @@ internal static class GeneratedApiCompatibilityPreserver
                     ForwardToPropertyName = replacementName,
                     ForwardingKind = forwardsToCollection
                         ? CliCompatibilityForwardingKind.NullableBooleanToStringCollection
-                        : IsPulumiLocalLogoutOption(command, baseline, options[optionIndex])
+                        : isPulumiLocalLogout
                             ? CliCompatibilityForwardingKind.NullableBooleanToLocalBackendString
                             : CliCompatibilityForwardingKind.NullableBooleanToString,
                     ObsoleteMessage = $"Use {replacementName} instead.",
@@ -1800,7 +1813,6 @@ internal static class GeneratedApiCompatibilityPreserver
                 compatibilityProperties,
                 violations);
             renamedProperties[baseline.PropertyName] = replacementName;
-            preserved.Add(baseline.PropertyName);
         }
 
         return preserved;
@@ -2117,6 +2129,7 @@ internal static class GeneratedApiCompatibilityPreserver
         GeneratedApiProperty baseline,
         IReadOnlyList<GeneratedApiProperty> baselineProperties,
         IReadOnlyList<GeneratedApiProperty> currentProperties,
+        IReadOnlyList<CliOptionDefinition> options,
         ICollection<CliCompatibilityProperty> compatibilityProperties,
         IDictionary<string, string> renamedProperties,
         List<string> violations)
@@ -2150,6 +2163,11 @@ internal static class GeneratedApiCompatibilityPreserver
 
         var replacement = currentProperties.FirstOrDefault(property =>
             HasSameCliIdentity(property, baseline));
+        if (IsUnsafeBooleanStringChange(baseline, replacement, options))
+        {
+            return;
+        }
+
         var forwardingKind = GetRenamedPropertyForwardingKind(baseline, replacement);
         if (TryRecordRemovedPropertyViolation(
                 command,
@@ -2460,6 +2478,52 @@ internal static class GeneratedApiCompatibilityPreserver
             _ => null,
         };
     }
+
+    private static IReadOnlyList<GeneratedApiProperty> RemoveUnsafeBooleanStringAliases(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        [.. baselineProperties.Where(property =>
+            !IsUnsafeBooleanStringAlias(property, baselineProperties, options))];
+
+    private static bool IsUnsafeBooleanStringAlias(
+        GeneratedApiProperty property,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        if (!property.IsCompatibility
+            || property.ForwardingKind is not (
+                CliCompatibilityForwardingKind.NullableBooleanToString
+                or CliCompatibilityForwardingKind.NullableBooleanToStringCollection))
+        {
+            return false;
+        }
+
+        var target = FindForwardingTargetBaseline(baselineProperties, property);
+        return target is not null
+               && options.Any(option => HasSameCliIdentity(ToGeneratedProperty(option), target)
+                                        && !ExplicitlyAcceptsBooleanText(option));
+    }
+
+    private static bool IsUnsafeBooleanStringChange(
+        GeneratedApiProperty baseline,
+        GeneratedApiProperty? replacement,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        if (replacement is null
+            || !baseline.CSharpType.Equals("bool?", StringComparison.Ordinal)
+            || replacement.CSharpType is not ("string?" or "IEnumerable<string>?"))
+        {
+            return false;
+        }
+
+        var option = options.FirstOrDefault(candidate =>
+            candidate.PropertyName.Equals(replacement.PropertyName, StringComparison.Ordinal)
+            && HasSameCliIdentity(ToGeneratedProperty(candidate), replacement));
+        return option is null || !ExplicitlyAcceptsBooleanText(option);
+    }
+
+    private static bool ExplicitlyAcceptsBooleanText(CliOptionDefinition option) =>
+        CliScraperBase.HelpDeclaresExplicitBooleanValue(option.Description ?? string.Empty);
 
     private static void PreserveCompatibilityProperty(
         CliCommandDefinition command,

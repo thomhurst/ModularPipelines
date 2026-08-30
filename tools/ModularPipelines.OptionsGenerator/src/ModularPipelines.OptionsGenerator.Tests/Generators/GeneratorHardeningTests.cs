@@ -1583,7 +1583,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Forwards_Renamed_Boolean_To_String()
+    public async Task ApiCompatibilityPreserver_Does_Not_Forward_Boolean_To_Enum_Like_String()
     {
         var command = Command("AzAksCreateOptions", "AzOptions", ["aks", "create"]) with
         {
@@ -1594,6 +1594,7 @@ public class GeneratorHardeningTests
                     SwitchName = "--apiserver-subnet-id",
                     PropertyName = "ApiServerSubnetId",
                     CSharpType = "string?",
+                    Description = "Allowed values: silent, silentPreferred, interactive.",
                 },
             ],
         };
@@ -1601,21 +1602,41 @@ public class GeneratorHardeningTests
         var preserved = GeneratedApiCompatibilityPreserver.Preserve(
             command,
             [BaselineProperty("ApiserverSubnetId", "bool?", switchName: "--apiserver-subnet-id")]);
-        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
-        var alias = preserved.CompatibilityProperties.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo("ApiServerSubnetId");
+            await Assert.That(preserved.CompatibilityProperties).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Does_Not_Preserve_Flag_As_Enum_Like_String()
+    {
+        var command = Command("WingetInstallOptions", "WingetOptions", ["install"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--authentication-mode",
+                    PropertyName = "AuthenticationMode",
+                    CSharpType = "string?",
+                    Description = "Allowed values: silent, silentPreferred, interactive.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("AuthenticationMode", "bool?", switchName: "--authentication-mode")]);
 
         using (Assert.Multiple())
         {
-            await Assert.That(alias.ForwardToPropertyName).IsEqualTo("ApiServerSubnetId");
-            await Assert.That(alias.ForwardingKind)
-                .IsEqualTo(CliCompatibilityForwardingKind.NullableBooleanToString);
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("AuthenticationMode");
+            await Assert.That(preserved.Options.Single().CSharpType).IsEqualTo("string?");
+            await Assert.That(preserved.CompatibilityProperties).IsEmpty();
         }
-
-        await AssertCompatibilityForwardingRoundTrips(
-            preserved,
-            "ApiserverSubnetId",
-            "ApiServerSubnetId",
-            CliCompatibilityForwardingKind.NullableBooleanToString);
     }
 
     [Test]
@@ -1631,6 +1652,7 @@ public class GeneratorHardeningTests
                     PropertyName = "Json",
                     CSharpType = "string?",
                     IsFlag = false,
+                    Description = "Allowed values: true, false.",
                 },
             ],
         };
@@ -1656,6 +1678,11 @@ public class GeneratorHardeningTests
             "Json",
             "JsonValue",
             CliCompatibilityForwardingKind.NullableBooleanToString);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved)))
+            .Single().Content;
+        await Assert.That(generated)
+            .Contains("set => JsonValue = value == true ? \"true\" : null;");
     }
 
     [Test]
@@ -1672,6 +1699,7 @@ public class GeneratorHardeningTests
                     CSharpType = "IEnumerable<string>?",
                     AcceptsMultipleValues = true,
                     IsCollection = true,
+                    Description = "Allowed values: true, false.",
                 },
             ],
         };
@@ -1697,6 +1725,56 @@ public class GeneratorHardeningTests
             "DenySettingsExcludedActions",
             "DenySettingsExcludedActionsValues",
             CliCompatibilityForwardingKind.NullableBooleanToStringCollection);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved)))
+            .Single().Content;
+        await Assert.That(generated)
+            .Contains("set => DenySettingsExcludedActionsValues = value == true ? [\"true\"] : null;");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Drops_Unsafe_Preexisting_Boolean_String_Alias()
+    {
+        var command = Command("WingetInstallOptions", "WingetOptions", ["install"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--authentication-mode",
+                    PropertyName = "AuthenticationMode",
+                    CSharpType = "string?",
+                    Description = "Allowed values: silent, silentPreferred, interactive.",
+                },
+            ],
+        };
+        var baseline = new GeneratedApiProperty[]
+        {
+            BaselineProperty(
+                "AuthenticationModeValue",
+                "string?",
+                switchName: "--authentication-mode"),
+            BaselineProperty(
+                "AuthenticationMode",
+                "bool?",
+                switchName: "--authentication-mode",
+                isCompatibility: true,
+                forwardToPropertyName: "AuthenticationModeValue",
+                forwardingKind: CliCompatibilityForwardingKind.NullableBooleanToString),
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(command, baseline);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("AuthenticationMode");
+            await Assert.That(preserved.CompatibilityProperties)
+                .Contains(property => property.PropertyName == "AuthenticationModeValue"
+                                      && property.CSharpType == "string?");
+            await Assert.That(preserved.CompatibilityProperties)
+                .DoesNotContain(property => property.CSharpType == "bool?");
+        }
     }
 
     [Test]
