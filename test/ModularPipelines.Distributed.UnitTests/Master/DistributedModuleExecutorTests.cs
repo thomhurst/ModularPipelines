@@ -60,7 +60,7 @@ public class DistributedModuleExecutorTests
             => Task.FromResult<SimpleResult>(new SimpleResult { Message = "done" });
     }
 
-    [RunIfAll<OnLinux>]
+    [RunIf<OnLinux>]
     private class LinuxOnlyModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -68,12 +68,75 @@ public class DistributedModuleExecutorTests
             => Task.FromResult<string>("linux done");
     }
 
-    [RunIfAll<OnUnix>]
+    [RunIf<OnUnix>]
     private class UnixModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
             ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("unix done");
+    }
+
+    [GroupedOperatingSystem<OnLinux>]
+    [GroupedOperatingSystem<OnWindows>]
+    private sealed class GroupedOperatingSystemModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult("grouped OS done");
+    }
+
+    [GroupedOperatingSystem<OnLinux>]
+    [GroupedNonPlatformCondition]
+    private sealed class MixedGroupedOperatingSystemModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult("mixed grouped OS done");
+    }
+
+    [GroupedOperatingSystem<OnLinux>]
+    [GroupedWorkerCondition]
+    private sealed class MixedWorkerGroupedOperatingSystemModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult("mixed worker grouped OS done");
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    private sealed class GroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
+        IGroupedConditionAttribute
+        where TCondition : IRunCondition, new()
+    {
+        public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
+
+        public override string ConditionNames => typeof(TCondition).Name;
+
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+            new TCondition().EvaluateAsync(context);
+    }
+
+    private sealed class GroupedNonPlatformConditionAttribute : RunIfAnyAttribute,
+        IGroupedConditionAttribute,
+        IPlanningConditionAttribute
+    {
+        public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
+
+        public override string ConditionNames => nameof(GroupedNonPlatformConditionAttribute);
+
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+            Task.FromResult(false);
+    }
+
+    private sealed class GroupedWorkerConditionAttribute : RunIfAnyAttribute,
+        IGroupedConditionAttribute
+    {
+        public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
+
+        public override string ConditionNames => nameof(GroupedWorkerConditionAttribute);
+
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+            Task.FromResult(true);
     }
 
     private class AnotherDistributedModule : Module<int>
@@ -615,11 +678,13 @@ public class DistributedModuleExecutorTests
 
         // Track what scheduler was passed to ExecuteWithoutDependencyWaitAsync
         IModuleScheduler? capturedScheduler = null;
+        var assignmentExecutionScopeWasActive = false;
         moduleRunner.Setup(r => r.ExecuteWithoutDependencyWaitAsync(
                 It.IsAny<ModuleState>(), It.IsAny<IModuleScheduler>(), It.IsAny<CancellationToken>()))
             .Callback<ModuleState, IModuleScheduler, CancellationToken>((_, sched, _) =>
             {
                 capturedScheduler = sched;
+                assignmentExecutionScopeWasActive = DistributedAssignmentExecutionScope.IsActive;
                 // Simulate successful execution by setting the module's CompletionSource
                 var result = CreateSuccessResult(new SimpleResult { Message = "master-executed" }, "DistributedModule");
                 ModuleCompletionSourceApplicator.TryApply(module, result);
@@ -638,6 +703,7 @@ public class DistributedModuleExecutorTests
         // Assert — the master worker loop used a WorkerModuleScheduler (no-op)
         await Assert.That(capturedScheduler).IsNotNull();
         await Assert.That(capturedScheduler).IsTypeOf<WorkerModuleScheduler>();
+        await Assert.That(assignmentExecutionScopeWasActive).IsTrue();
 
         // The result was published through the coordinator and collected by the result collector
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
@@ -873,7 +939,7 @@ public class DistributedModuleExecutorTests
         // Act
         var assignment = publisher.CreateAssignment(module);
 
-        // Assert — "linux" capability auto-detected from [RunIfAll<OnLinux>]
+        // Assert — "linux" capability auto-detected from [RunIf<OnLinux>]
         await Assert.That(assignment.RequiredCapabilities).Contains("linux");
     }
 
@@ -899,6 +965,100 @@ public class DistributedModuleExecutorTests
             await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
                 .DoesNotContain(requiredCapability);
         }
+    }
+
+    [Test]
+    public async Task CreateAssignment_Unions_Grouped_Operating_System_Alternatives()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(GroupedOperatingSystemModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new GroupedOperatingSystemModule());
+        var requiredCapability = assignment.RequiredCapabilities.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
+                .DoesNotContain(requiredCapability);
+        }
+    }
+
+    [Test]
+    public async Task CreateAssignment_Leaves_Planning_Safe_Mixed_Group_Unrestricted()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MixedGroupedOperatingSystemModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new MixedGroupedOperatingSystemModule());
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .DoesNotContain(OperatingSystemConditions.Linux);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Leaves_Worker_Only_Group_Unrestricted()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MixedWorkerGroupedOperatingSystemModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new MixedWorkerGroupedOperatingSystemModule());
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .DoesNotContain(OperatingSystemConditions.Linux);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Omits_Os_Routing_When_Local_Alternative_Matched()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MixedGroupedOperatingSystemModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var conditionRouting = new DistributedConditionRouting();
+        var module = new MixedGroupedOperatingSystemModule();
+        var conditionHandler = new Mock<IModuleConditionHandler>();
+        conditionHandler
+            .Setup(handler => handler.PrepareDistributedRoutingAsync(
+                module,
+                It.IsAny<CancellationToken>()))
+            .Callback(() => conditionRouting.MarkLocallySatisfied(
+                module,
+                typeof(GroupedOperatingSystemAttribute<>)))
+            .Returns(Task.CompletedTask);
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry,
+            conditionRouting: conditionRouting,
+            conditionHandler: conditionHandler.Object);
+
+        var assignment = await publisher.CreateAssignmentAsync(
+            module,
+            CancellationToken.None);
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .DoesNotContain(OperatingSystemConditions.Linux);
+        conditionHandler.Verify(handler => handler.PrepareDistributedRoutingAsync(
+            module,
+            CancellationToken.None));
     }
 
     // =================================================================

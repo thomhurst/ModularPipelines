@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
+using ModularPipelines.Context;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
@@ -94,6 +95,92 @@ public class DistributedWorkPublisherTests
         protected internal override Task<string> ExecuteAsync(
             ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("multi");
+    }
+
+    [RunIfAny<OnLinux, FalseCondition>]
+    private sealed class MixedGenericAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, WorkerOnlyCondition>]
+    private sealed class MixedWorkerOnlyAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIf<CustomUnixConditionGroup>]
+    private sealed class CustomUnixConditionGroupModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class CustomUnixConditionGroup : ConditionGroup, IPlanningRunCondition
+    {
+        public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnMacOS()];
+
+        public override ConditionLogic Logic => ConditionLogic.Any;
+    }
+
+    [RunIf<WorkerOnlyConditionGroup>]
+    private sealed class WorkerOnlyConditionGroupModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class WorkerOnlyConditionGroup : ConditionGroup
+    {
+        public WorkerOnlyConditionGroup() =>
+            throw new InvalidOperationException("Worker-only group was constructed by publisher");
+
+        public override IReadOnlyList<IRunCondition> Conditions => [];
+
+        public override ConditionLogic Logic => ConditionLogic.All;
+    }
+
+    [RequiresCapability("linux")]
+    [RunIfAny<OnWindows, OnMacOS>]
+    private sealed class ConflictingExplicitOperatingSystemModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, FalseCondition>]
+    [RunIf<OnWindows>]
+    private sealed class ConflictingMixedGenericAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, FalseCondition>]
+    [RunIfAny<OnWindows, FalseCondition>]
+    private sealed class ConflictingConditionalMixedAlternativeModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class FalseCondition : IPlanningRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+    }
+
+    private sealed class WorkerOnlyCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
     private static ModuleResult<T> CreateSuccessResult<T>(T value, string moduleName) where T : notnull
@@ -228,6 +315,163 @@ public class DistributedWorkPublisherTests
 
         // Assert — no dependencies, so DependencyResults should be null
         await Assert.That(assignment.DependencyResults).IsNull();
+    }
+
+    [Test]
+    public async Task CreateAssignment_Includes_MasterSatisfied_Condition_Groups()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(IndependentModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var conditionRouting = new DistributedConditionRouting();
+        var module = new IndependentModule();
+        conditionRouting.MarkLocallySatisfied(module, typeof(DistributedWorkPublisherTests));
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry,
+            conditionRouting: conditionRouting);
+
+        var assignment = publisher.CreateAssignment(module);
+
+        await Assert.That(assignment.SatisfiedConditionGroups)
+            .Contains(typeof(DistributedWorkPublisherTests).AssemblyQualifiedName!);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Leaves_Planning_Safe_Mixed_Alternative_Unrestricted()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MixedGenericAlternativeModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new MixedGenericAlternativeModule());
+
+        await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
+    }
+
+    [Test]
+    public async Task CreateAssignment_Leaves_Worker_Only_Mixed_Alternative_Unrestricted()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MixedWorkerOnlyAlternativeModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new MixedWorkerOnlyAlternativeModule());
+
+        await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
+    }
+
+    [Test]
+    public async Task CreateAssignment_Routes_Custom_Operating_System_Condition_Group()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(CustomUnixConditionGroupModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new CustomUnixConditionGroupModule());
+        var requiredCapability = assignment.RequiredCapabilities.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
+                .DoesNotContain(requiredCapability);
+        }
+    }
+
+    [Test]
+    public async Task CreateAssignment_Does_Not_Construct_Worker_Only_Condition_Group()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(WorkerOnlyConditionGroupModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new WorkerOnlyConditionGroupModule());
+
+        await Assert.That(assignment.RequiredCapabilities).IsEmpty();
+    }
+
+    [Test]
+    public async Task CreateAssignment_Rejects_Conflicting_Explicit_Operating_System()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(ConflictingExplicitOperatingSystemModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            publisher.CreateAssignment(new ConflictingExplicitOperatingSystemModule()));
+
+        await Assert.That(exception.Message).Contains("incompatible operating-system");
+    }
+
+    [Test]
+    public async Task CreateAssignment_Does_Not_Combine_Conflicting_Conditional_Os_Route()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(ConflictingMixedGenericAlternativeModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry);
+
+        var assignment = publisher.CreateAssignment(
+            new ConflictingMixedGenericAlternativeModule());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(assignment.RequiredCapabilities).Contains("windows");
+            await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
+        }
+    }
+
+    [Test]
+    public async Task CreateAssignment_Drops_Conflicting_Conditional_Os_Routes()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(ConflictingConditionalMixedAlternativeModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry);
+
+        var assignment = publisher.CreateAssignment(
+            new ConflictingConditionalMixedAlternativeModule());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(assignment.RequiredCapabilities).DoesNotContain("windows");
+            await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
+        }
     }
 
     [Test]

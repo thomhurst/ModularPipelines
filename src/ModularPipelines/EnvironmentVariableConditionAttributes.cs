@@ -6,7 +6,7 @@ namespace ModularPipelines;
 /// Runs a module when an environment variable is set or equals an expected value.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class RunIfEnvironmentVariableAttribute : RunIfAllAttribute, IPlanningConditionAttribute
+public sealed class RunIfEnvironmentVariableAttribute : RunIfAttribute, IPlanningConditionAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RunIfEnvironmentVariableAttribute"/> class.
@@ -82,7 +82,7 @@ public sealed class SkipIfEnvironmentVariableAttribute : SkipIfAttribute, IPlann
 /// Runs a module when an environment variable is not set.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class RunIfEnvironmentVariableUnsetAttribute : RunIfAllAttribute, IPlanningConditionAttribute
+public sealed class RunIfEnvironmentVariableUnsetAttribute : RunIfAttribute, IPlanningConditionAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RunIfEnvironmentVariableUnsetAttribute"/> class.

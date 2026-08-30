@@ -7,7 +7,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunIfAll<ModularPipelines.OnLinux>]
+[RunIf<ModularPipelines.OnLinux>]
 [ProducesArtifact("build-output", "../../_build-staging")]
 public class BuildSolutionsModule : Module<CommandResult[]>
 {

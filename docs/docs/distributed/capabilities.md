@@ -32,11 +32,11 @@ This means modules with `[RequiresCapability("linux")]` will only run on Linux w
 
 ### Auto-Detected OS from Platform Conditions
 
-When a module has a `[RunIfAll<OnLinux>]`, `[RunIfAll<OnWindows>]`, or `[RunIfAll<OnMacOS>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIfAll<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
+When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
 
 ```csharp
 // The "linux" capability is auto-detected — no [RequiresCapability] needed
-[RunIfAll<OnLinux>]
+[RunIf<OnLinux>]
 public class LinuxBuildModule : Module<string>
 {
     protected override async Task<string> ExecuteAsync(
@@ -103,13 +103,13 @@ The matching logic is straightforward:
 // Runs on any worker (including the master)
 public class RestoreModule : Module<string> { ... }
 
-// Only on Linux workers (auto-detected from [RunIfAll<OnLinux>])
-[RunIfAll<OnLinux>]
+// Only on Linux workers (auto-detected from [RunIf<OnLinux>])
+[RunIf<OnLinux>]
 [DependsOn<RestoreModule>]
 public class LinuxBuildModule : Module<string> { ... }
 
-// Only on Windows workers (auto-detected from [RunIfAll<OnWindows>])
-[RunIfAll<OnWindows>]
+// Only on Windows workers (auto-detected from [RunIf<OnWindows>])
+[RunIf<OnWindows>]
 [DependsOn<RestoreModule>]
 public class WindowsBuildModule : Module<string> { ... }
 

@@ -1641,7 +1641,7 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class SingleUseConditionAttribute : RunIfAllAttribute
+    private sealed class SingleUseConditionAttribute : RunIfAttribute
     {
         private bool _evaluated;
 
@@ -1736,7 +1736,7 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class AsyncPlanningConditionAttribute : RunIfAllAttribute
+    private sealed class AsyncPlanningConditionAttribute : RunIfAttribute
     {
         public override async Task<bool> EvaluateAsync(IPipelineContext context)
         {
@@ -1747,7 +1747,7 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class CustomGenericConditionAttribute<T> : RunIfAllAttribute
+    private sealed class CustomGenericConditionAttribute<T> : RunIfAttribute
         where T : IPlanningRunCondition
     {
         public override Task<bool> EvaluateAsync(IPipelineContext context)
@@ -1805,7 +1805,7 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("deferred-stateful-condition");
     }
 
-    [RunIfAny<NeverRunCondition>]
+    [RunIf<NeverRunCondition>]
     [DeferredAnyCondition]
     private sealed class SafeFalseAnyWithDeferredAnyModule : Module<string>
     {
@@ -1861,7 +1861,7 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("startup-dynamic");
     }
 
-    [RunIfAll<StartupStateCondition>]
+    [RunIf<StartupStateCondition>]
     private sealed class StartupConditionModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -1873,7 +1873,7 @@ public class DependencyGraphExporterTests
         }
     }
 
-    [RunIfAll<NeverRunCondition>]
+    [RunIf<NeverRunCondition>]
     private sealed class ConditionSkippedModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(

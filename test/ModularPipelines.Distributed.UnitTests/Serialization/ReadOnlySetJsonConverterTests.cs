@@ -32,13 +32,17 @@ public class ReadOnlySetJsonConverterTests
             new HashSet<string> { "Docker" },
             null,
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfig(null, 0, false));
+            new ModuleAssignmentConfig(null, 0, false))
+        {
+            SatisfiedConditionGroups = ["Conditions.CrossPlatform"],
+        };
 
         var json = JsonSerializer.Serialize(expected);
         var actual = JsonSerializer.Deserialize<ModuleAssignment>(json);
 
         await Assert.That(actual).IsNotNull();
         await Assert.That(actual!.RequiredCapabilities.Contains("docker")).IsTrue();
+        await Assert.That(actual.SatisfiedConditionGroups).Contains("Conditions.CrossPlatform");
     }
 
     [Test]

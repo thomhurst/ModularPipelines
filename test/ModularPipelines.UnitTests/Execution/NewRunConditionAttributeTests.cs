@@ -13,7 +13,7 @@ using ModularPipelines.Enums;
 namespace ModularPipelines.UnitTests.Execution;
 
 /// <summary>
-/// Tests for the new run condition attributes: RunIfAll, RunIfAny, and SkipIf.
+/// Tests for the run condition attributes: RunIf, RunIfAll, RunIfAny, and SkipIf.
 /// </summary>
 public class NewRunConditionAttributeTests : TestBase
 {
@@ -91,16 +91,16 @@ public class NewRunConditionAttributeTests : TestBase
         protected override bool Result => true;
     }
 
-    // RunIfAll with single true condition - should run
-    [RunIfAll<AlwaysTrue>]
-    private class RunIfAllTrueModule : SimpleTestModule<bool>
+    // RunIf with a true condition - should run
+    [RunIf<AlwaysTrue>]
+    private class RunIfTrueModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    // RunIfAll with single false condition - should skip
-    [RunIfAll<AlwaysFalse>]
-    private class RunIfAllFalseModule : SimpleTestModule<bool>
+    // RunIf with a false condition - should skip
+    [RunIf<AlwaysFalse>]
+    private class RunIfFalseModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
@@ -108,20 +108,6 @@ public class NewRunConditionAttributeTests : TestBase
     // RunIfAll with two conditions, one false - should skip
     [RunIfAll<AlwaysTrue, AlwaysFalse>]
     private class RunIfAllMixedModule : SimpleTestModule<bool>
-    {
-        protected override bool Result => true;
-    }
-
-    // RunIfAny with single true condition - should run
-    [RunIfAny<AlwaysTrue>]
-    private class RunIfAnyTrueModule : SimpleTestModule<bool>
-    {
-        protected override bool Result => true;
-    }
-
-    // RunIfAny with single false condition - should skip
-    [RunIfAny<AlwaysFalse>]
-    private class RunIfAnyFalseModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
@@ -147,38 +133,38 @@ public class NewRunConditionAttributeTests : TestBase
         protected override bool Result => true;
     }
 
-    // Combined: RunIfAll + SkipIf - SkipIf should be evaluated first
-    [RunIfAll<AlwaysTrue>]
+    // Combined: RunIf + SkipIf - SkipIf should be evaluated first
+    [RunIf<AlwaysTrue>]
     [SkipIf<AlwaysTrue>]
     private class CombinedSkipAndRunModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    // Multiple RunIfAll attributes - all must pass (AND between attributes)
-    [RunIfAll<AlwaysTrue>]
-    [RunIfAll<AlwaysTrue>]
-    private class MultipleRunIfAllTrueModule : SimpleTestModule<bool>
+    // Multiple RunIf attributes - all must pass (AND between attributes)
+    [RunIf<AlwaysTrue>]
+    [RunIf<AlwaysTrue>]
+    private class MultipleRunIfTrueModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    // Multiple RunIfAll attributes - one fails (AND between attributes)
-    [RunIfAll<AlwaysTrue>]
-    [RunIfAll<AlwaysFalse>]
-    private class MultipleRunIfAllMixedModule : SimpleTestModule<bool>
+    // Multiple RunIf attributes - one fails (AND between attributes)
+    [RunIf<AlwaysTrue>]
+    [RunIf<AlwaysFalse>]
+    private class MultipleRunIfMixedModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
     // ConditionGroup test
-    [RunIfAny<TrueConditionGroup>]
+    [RunIf<TrueConditionGroup>]
     private class ConditionGroupTrueModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    [RunIfAll<FalseConditionGroup>]
+    [RunIf<FalseConditionGroup>]
     private class ConditionGroupFalseModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -244,7 +230,7 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     [SkipIf<CancelDuringEvaluation>]
-    [RunIfAll<TrackEvaluation>]
+    [RunIf<TrackEvaluation>]
     private class CancellationAwareConditionModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -256,13 +242,13 @@ public class NewRunConditionAttributeTests : TestBase
         protected override bool Result => true;
     }
 
-    [RunIfAll<CancellationConditionGroup>]
+    [RunIf<CancellationConditionGroup>]
     private class CancellationAwareConditionGroupModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    [RunIfAll<TrackEvaluation>]
+    [RunIf<TrackEvaluation>]
     private class DiscoveryCancellationModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -287,30 +273,30 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     [Test]
-    public async Task RunIfAll_SingleTrueCondition_ShouldRun()
+    public async Task RunIf_TrueCondition_ShouldRun()
     {
         var host = await TestPipelineBuilder.Create()
-            .AddModule<RunIfAllTrueModule>()
+            .AddModule<RunIfTrueModule>()
             .BuildAsync();
 
         await host.RunAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        var moduleResult = resultRegistry.GetResult(typeof(RunIfAllTrueModule))!;
+        var moduleResult = resultRegistry.GetResult(typeof(RunIfTrueModule))!;
         await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
-    public async Task RunIfAll_SingleFalseCondition_ShouldSkip()
+    public async Task RunIf_FalseCondition_ShouldSkip()
     {
         var host = await TestPipelineBuilder.Create()
-            .AddModule<RunIfAllFalseModule>()
+            .AddModule<RunIfFalseModule>()
             .BuildAsync();
 
         await host.RunAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        var moduleResult = resultRegistry.GetResult(typeof(RunIfAllFalseModule))!;
+        var moduleResult = resultRegistry.GetResult(typeof(RunIfFalseModule))!;
         await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
@@ -325,34 +311,6 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAllMixedModule))!;
-        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
-    }
-
-    [Test]
-    public async Task RunIfAny_SingleTrueCondition_ShouldRun()
-    {
-        var host = await TestPipelineBuilder.Create()
-            .AddModule<RunIfAnyTrueModule>()
-            .BuildAsync();
-
-        await host.RunAsync();
-
-        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        var moduleResult = resultRegistry.GetResult(typeof(RunIfAnyTrueModule))!;
-        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
-    }
-
-    [Test]
-    public async Task RunIfAny_SingleFalseCondition_ShouldSkip()
-    {
-        var host = await TestPipelineBuilder.Create()
-            .AddModule<RunIfAnyFalseModule>()
-            .BuildAsync();
-
-        await host.RunAsync();
-
-        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        var moduleResult = resultRegistry.GetResult(typeof(RunIfAnyFalseModule))!;
         await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
@@ -426,7 +384,7 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     [Test]
-    public async Task SkipIf_EvaluatedBeforeRunIfAll_ShouldSkip()
+    public async Task SkipIf_EvaluatedBeforeRunIf_ShouldSkip()
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<CombinedSkipAndRunModule>()
@@ -440,30 +398,30 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     [Test]
-    public async Task MultipleRunIfAll_AllTrue_ShouldRun()
+    public async Task MultipleRunIf_AllTrue_ShouldRun()
     {
         var host = await TestPipelineBuilder.Create()
-            .AddModule<MultipleRunIfAllTrueModule>()
+            .AddModule<MultipleRunIfTrueModule>()
             .BuildAsync();
 
         await host.RunAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        var moduleResult = resultRegistry.GetResult(typeof(MultipleRunIfAllTrueModule))!;
+        var moduleResult = resultRegistry.GetResult(typeof(MultipleRunIfTrueModule))!;
         await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
-    public async Task MultipleRunIfAll_OneFails_ShouldSkip()
+    public async Task MultipleRunIf_OneFails_ShouldSkip()
     {
         var host = await TestPipelineBuilder.Create()
-            .AddModule<MultipleRunIfAllMixedModule>()
+            .AddModule<MultipleRunIfMixedModule>()
             .BuildAsync();
 
         await host.RunAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        var moduleResult = resultRegistry.GetResult(typeof(MultipleRunIfAllMixedModule))!;
+        var moduleResult = resultRegistry.GetResult(typeof(MultipleRunIfMixedModule))!;
         await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 

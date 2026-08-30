@@ -11,7 +11,7 @@ namespace ModularPipelines;
 /// </remarks>
 /// <example>
 /// <code>
-/// [RunIfAll&lt;IsLocal&gt;]
+/// [RunIf&lt;OnLocal&gt;]
 /// public class LocalDevModule : Module&lt;None&gt;
 /// {
 ///     // Only runs locally, skipped in CI
@@ -19,7 +19,7 @@ namespace ModularPipelines;
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class IsLocal : IPlanningRunCondition
+public sealed class OnLocal : IPlanningRunCondition
 {
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context)

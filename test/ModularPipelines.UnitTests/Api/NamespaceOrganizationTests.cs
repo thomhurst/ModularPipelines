@@ -26,7 +26,7 @@ public class NamespaceOrganizationTests
             (typeof(RunIfAllAttribute), "ModularPipelines"),
             (typeof(SkipIfAttribute), "ModularPipelines"),
             (typeof(OnWindows), "ModularPipelines"),
-            (typeof(IsCI), "ModularPipelines"),
+            (typeof(OnCI), "ModularPipelines"),
             (typeof(ModuleConfigurationBuilder), "ModularPipelines"),
             (typeof(IShellContext), "ModularPipelines.Context"),
             (typeof(IHttpContext), "ModularPipelines.Context"),

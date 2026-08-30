@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
@@ -21,6 +22,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private readonly RoleDetector _roleDetector;
     private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly DistributedConditionRouting? _distributedConditionRouting;
     private readonly ConditionalWeakTable<IModule, ConditionEvaluation> _conditionEvaluations = new();
     private readonly ConcurrentDictionary<Type, Lazy<ConditionAttributes>> _conditionAttributes = new();
 
@@ -29,13 +31,15 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IOptions<DistributedOptions> distributedOptions,
         RoleDetector roleDetector,
         IPipelineContextProvider pipelineContextProvider,
-        IModuleMetadataRegistry metadataRegistry)
+        IModuleMetadataRegistry metadataRegistry,
+        DistributedConditionRouting? distributedConditionRouting = null)
     {
         _pipelineOptions = pipelineOptions;
         _distributedOptions = distributedOptions;
         _roleDetector = roleDetector;
         _pipelineContextProvider = pipelineContextProvider;
         _metadataRegistry = metadataRegistry;
+        _distributedConditionRouting = distributedConditionRouting;
     }
 
     public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default)
@@ -82,6 +86,92 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         return Task.FromResult(result);
+    }
+
+    public async Task PrepareDistributedRoutingAsync(
+        IModule module,
+        CancellationToken cancellationToken = default)
+    {
+        if (!IsDistributedMaster() || _distributedConditionRouting is null)
+        {
+            return;
+        }
+
+        if (_distributedConditionRouting.IsPrepared(module))
+        {
+            return;
+        }
+
+        var attributes = GetConditionAttributes(module.GetType());
+        var pipelineContext = _pipelineContextProvider.GetModuleContext();
+        if (!await CanPrepareSkipConditionRoutingAsync(
+                    attributes.Skip,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false)
+            || !await CanPrepareRequiredConditionRoutingAsync(
+                    attributes.All,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false))
+        {
+            _distributedConditionRouting.MarkPrepared(module);
+            return;
+        }
+
+        await PrepareAnyConditionRoutingAsync(
+                module,
+                attributes.Any,
+                pipelineContext,
+                _distributedConditionRouting,
+                cancellationToken)
+            .ConfigureAwait(false);
+        _distributedConditionRouting.MarkPrepared(module);
+    }
+
+    private static async Task<bool> CanPrepareSkipConditionRoutingAsync(
+        IEnumerable<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        foreach (var attribute in attributes)
+        {
+            if (!IsPlanningConditionAttribute(attribute))
+            {
+                return false;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            if (await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static async Task<bool> CanPrepareRequiredConditionRoutingAsync(
+        IEnumerable<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        foreach (var attribute in attributes.Where(static attribute =>
+                     OperatingSystemConditions.GetRoute(attribute) is null))
+        {
+            if (!IsPlanningConditionAttribute(attribute))
+            {
+                return false;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
@@ -139,7 +229,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
         var moduleType = module.GetType();
         var conditionResult = await IsRunnableCondition(
-                moduleType,
+                module,
                 cancellationToken,
                 useFreshAttributes)
             .ConfigureAwait(false);
@@ -197,10 +287,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private async Task<(bool IsRunnable, SkipDecision? SkipDecision)> IsRunnableCondition(
-        Type moduleType,
+        IModule module,
         CancellationToken cancellationToken,
         bool useFreshAttributes)
     {
+        var moduleType = module.GetType();
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var attributes = useFreshAttributes
             ? CreateConditionAttributes(moduleType)
@@ -209,7 +300,13 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             attributes,
             pipelineContext,
             IsDistributedMaster(),
-            cancellationToken).ConfigureAwait(false);
+            cancellationToken,
+            conditionGroupType => _distributedConditionRouting?.IsLocallySatisfied(
+                module,
+                conditionGroupType) == true,
+            conditionGroupType => _distributedConditionRouting?.MarkLocallySatisfied(
+                module,
+                conditionGroupType)).ConfigureAwait(false);
     }
 
     private bool IsDistributedMaster()
@@ -217,6 +314,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var options = _distributedOptions.Value;
         return options.Enabled
                && options.TotalInstances > 1
+               && !DistributedAssignmentExecutionScope.IsActive
                && _roleDetector.DetectRole() == DistributedRole.Master;
     }
 
@@ -282,7 +380,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return ConditionLogic.Skip;
         }
 
-        if (typeof(RunIfAllAttribute).IsAssignableFrom(attributeType))
+        if (typeof(RunIfAttribute).IsAssignableFrom(attributeType)
+            || typeof(RunIfAllAttribute).IsAssignableFrom(attributeType))
         {
             return ConditionLogic.All;
         }
@@ -310,11 +409,10 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static bool IsBuiltInGenericConditionAttribute(Type type) =>
-        type == typeof(RunIfAllAttribute<>)
+        type == typeof(RunIfAttribute<>)
         || type == typeof(RunIfAllAttribute<,>)
         || type == typeof(RunIfAllAttribute<,,>)
         || type == typeof(RunIfAllAttribute<,,,>)
-        || type == typeof(RunIfAnyAttribute<>)
         || type == typeof(RunIfAnyAttribute<,>)
         || type == typeof(RunIfAnyAttribute<,,>)
         || type == typeof(RunIfAnyAttribute<,,,>)
@@ -355,6 +453,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var anyEvaluation = await EvaluateAnyPlanningConditions(
                 attributes.Any,
                 pipelineContext,
+                isDistributedMaster,
                 attributes.HasDeferredAny,
                 attributes.HasDeferredGroupedAny,
                 cancellationToken)
@@ -402,24 +501,20 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         CancellationToken cancellationToken)
     {
         var isResolved = !hasDeferredConditions;
-        var allConditions = attributes
-            .Select(attribute => (
-                Attribute: attribute,
-                OperatingSystemTargets: OperatingSystemConditions.GetTargets(attribute)))
-            .ToArray();
-        var operatingSystemTargets = allConditions
-            .SelectMany(condition => condition.OperatingSystemTargets)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-        var deferOperatingSystemConditions = isDistributedMaster && operatingSystemTargets.Length == 1;
+        var allConditions = attributes.ToArray();
+        var requiredOperatingSystems = OperatingSystemConditions
+            .GetRequiredOperatingSystems(allConditions);
+        var deferOperatingSystemConditions = isDistributedMaster
+                                              && requiredOperatingSystems is { Count: > 0 };
         if (deferOperatingSystemConditions)
         {
             isResolved = false;
         }
 
-        foreach (var (attribute, attributeOperatingSystemTargets) in allConditions)
+        foreach (var attribute in allConditions)
         {
-            if (deferOperatingSystemConditions && attributeOperatingSystemTargets.Count > 0)
+            if (deferOperatingSystemConditions
+                && OperatingSystemConditions.GetRoute(attribute) is not null)
             {
                 continue;
             }
@@ -434,7 +529,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return new PlanningConditionEvaluation(
-                    PlanningSkip($"RunIfAll<{attribute.ConditionNames}> not satisfied"),
+                    PlanningSkip($"{GetRequiredConditionName(attribute)}<{attribute.ConditionNames}> not satisfied"),
                     IsResolved: true);
             }
         }
@@ -445,13 +540,30 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static async Task<PlanningConditionEvaluation> EvaluateAnyPlanningConditions(
         IReadOnlyCollection<IConditionAttribute> attributes,
         IPipelineContext pipelineContext,
+        bool isDistributedMaster,
         bool hasDeferredConditions,
         bool hasDeferredGroupedConditions,
         CancellationToken cancellationToken)
     {
+        var isResolved = !hasDeferredConditions;
         foreach (var attribute in attributes.Where(static attribute =>
                      attribute is not IGroupedConditionAttribute))
         {
+            if (ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
+            {
+                if (await AnyConditionMatches(
+                        OperatingSystemConditions.GetLocalAlternatives(attribute),
+                        pipelineContext,
+                        cancellationToken)
+                    .ConfigureAwait(false))
+                {
+                    continue;
+                }
+
+                isResolved = false;
+                continue;
+            }
+
             var evaluation = await EvaluateSingleAnyPlanningCondition(
                     attribute,
                     pipelineContext,
@@ -463,7 +575,6 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             }
         }
 
-        var isResolved = !hasDeferredConditions;
         var evaluatedGroups = new HashSet<Type>();
         foreach (var groupedAttribute in attributes.OfType<IGroupedConditionAttribute>())
         {
@@ -476,6 +587,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                     attributes,
                     groupedAttribute.ConditionGroupType,
                     pipelineContext,
+                    isDistributedMaster,
                     hasDeferredGroupedConditions,
                     cancellationToken)
                 .ConfigureAwait(false);
@@ -514,6 +626,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IEnumerable<IConditionAttribute> attributes,
         Type groupType,
         IPipelineContext pipelineContext,
+        bool isDistributedMaster,
         bool hasDeferredGroupedConditions,
         CancellationToken cancellationToken)
     {
@@ -522,6 +635,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             .Where(candidate => candidate.ConditionGroupType == groupType)
             .ToArray();
         var planningAlternatives = alternatives
+            .Where(attribute => !ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
             .Where(IsPlanningConditionAttribute)
             .ToArray();
         if (await AnyConditionMatches(
@@ -533,7 +647,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return new PlanningConditionEvaluation(null, IsResolved: true);
         }
 
-        if (hasDeferredGroupedConditions || planningAlternatives.Length != alternatives.Length)
+        if (hasDeferredGroupedConditions
+            || planningAlternatives.Length != alternatives.Length)
         {
             return new PlanningConditionEvaluation(null, IsResolved: false);
         }
@@ -555,7 +670,9 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         ConditionAttributes attributes,
         IPipelineContext pipelineContext,
         bool isDistributedMaster,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Func<Type, bool>? isLocallySatisfiedConditionGroup = null,
+        Action<Type>? locallySatisfiedConditionGroup = null)
     {
         var skipDecision = await EvaluateSkipConditions(
             attributes.Skip,
@@ -569,7 +686,10 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         skipDecision ??= await EvaluateAnyConditions(
             attributes.Any,
             pipelineContext,
-            cancellationToken).ConfigureAwait(false);
+            isDistributedMaster,
+            cancellationToken,
+            isLocallySatisfiedConditionGroup,
+            locallySatisfiedConditionGroup).ConfigureAwait(false);
 
         return skipDecision is null ? (true, null) : (false, skipDecision);
     }
@@ -598,37 +718,42 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         bool isDistributedMaster,
         CancellationToken cancellationToken)
     {
-        var allConditions = attributes
-            .Select(attribute => (Attribute: attribute, OperatingSystemTargets: OperatingSystemConditions.GetTargets(attribute)))
-            .ToArray();
-        var operatingSystemTargets = allConditions
-            .SelectMany(condition => condition.OperatingSystemTargets)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-        var deferOperatingSystemConditions = isDistributedMaster && operatingSystemTargets.Length == 1;
+        var allConditions = attributes.ToArray();
+        var requiredOperatingSystems = OperatingSystemConditions
+            .GetRequiredOperatingSystems(allConditions);
+        var deferOperatingSystemConditions = isDistributedMaster
+                                              && requiredOperatingSystems is { Count: > 0 };
 
-        foreach (var (attribute, attributeOperatingSystemTargets) in allConditions)
+        foreach (var attribute in allConditions)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (deferOperatingSystemConditions && attributeOperatingSystemTargets.Count > 0)
+            if (deferOperatingSystemConditions
+                && OperatingSystemConditions.GetRoute(attribute) is not null)
             {
                 continue;
             }
 
             if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
-                return SkipDecision.Skip($"RunIfAll<{attribute.ConditionNames}> not satisfied");
+                return SkipDecision.Skip(
+                    $"{GetRequiredConditionName(attribute)}<{attribute.ConditionNames}> not satisfied");
             }
         }
 
         return null;
     }
 
+    private static string GetRequiredConditionName(IConditionAttribute attribute) =>
+        attribute is RunIfAttribute ? "RunIf" : "RunIfAll";
+
     private static async Task<SkipDecision?> EvaluateAnyConditions(
         IReadOnlyList<IConditionAttribute> attributes,
         IPipelineContext pipelineContext,
-        CancellationToken cancellationToken)
+        bool isDistributedMaster,
+        CancellationToken cancellationToken,
+        Func<Type, bool>? isLocallySatisfiedConditionGroup,
+        Action<Type>? locallySatisfiedConditionGroup)
     {
         var evaluatedGroups = new HashSet<Type>();
 
@@ -638,9 +763,89 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
             if (attribute is not IGroupedConditionAttribute groupedAttribute)
             {
-                if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+                var skipDecision = await EvaluateUngroupedAnyCondition(
+                        attribute,
+                        pipelineContext,
+                        isDistributedMaster,
+                        cancellationToken,
+                        isLocallySatisfiedConditionGroup,
+                        locallySatisfiedConditionGroup)
+                    .ConfigureAwait(false);
+                if (skipDecision is not null)
                 {
-                    return SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied");
+                    return skipDecision;
+                }
+
+                continue;
+            }
+
+            if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
+            {
+                continue;
+            }
+
+            if (isLocallySatisfiedConditionGroup?.Invoke(groupedAttribute.ConditionGroupType) == true)
+            {
+                continue;
+            }
+
+            var alternatives = attributes
+                .OfType<IGroupedConditionAttribute>()
+                .Where(candidate => candidate.ConditionGroupType == groupedAttribute.ConditionGroupType)
+                .ToArray();
+
+            var localAlternatives = alternatives
+                .Where(attribute =>
+                    !ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
+                .ToArray();
+            if (await AnyConditionMatches(
+                    localAlternatives,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false))
+            {
+                if (isDistributedMaster && localAlternatives.Length != alternatives.Length)
+                {
+                    locallySatisfiedConditionGroup?.Invoke(groupedAttribute.ConditionGroupType);
+                }
+
+                continue;
+            }
+
+            if (localAlternatives.Length != alternatives.Length)
+            {
+                continue;
+            }
+
+            return SkipDecision.Skip(
+                $"No grouped run conditions were met: {string.Join(", ", alternatives.Select(x => x.ConditionNames))}");
+        }
+
+        return null;
+    }
+
+    private static async Task PrepareAnyConditionRoutingAsync(
+        IModule module,
+        IReadOnlyList<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        DistributedConditionRouting conditionRouting,
+        CancellationToken cancellationToken)
+    {
+        var evaluatedGroups = new HashSet<Type>();
+        foreach (var attribute in attributes)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (attribute is not IGroupedConditionAttribute groupedAttribute)
+            {
+                if (!await PrepareUngroupedAnyConditionRoutingAsync(
+                        module,
+                        attribute,
+                        pipelineContext,
+                        conditionRouting,
+                        cancellationToken)
+                    .ConfigureAwait(false))
+                {
+                    return;
                 }
 
                 continue;
@@ -655,16 +860,112 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 .OfType<IGroupedConditionAttribute>()
                 .Where(candidate => candidate.ConditionGroupType == groupedAttribute.ConditionGroupType)
                 .ToArray();
-
-            if (!await AnyConditionMatches(alternatives, pipelineContext, cancellationToken).ConfigureAwait(false))
+            if (!await PrepareGroupedAnyConditionRoutingAsync(
+                    module,
+                    groupedAttribute.ConditionGroupType,
+                    alternatives,
+                    pipelineContext,
+                    conditionRouting,
+                    cancellationToken)
+                .ConfigureAwait(false))
             {
-                return SkipDecision.Skip(
-                    $"No grouped run conditions were met: {string.Join(", ", alternatives.Select(x => x.ConditionNames))}");
+                return;
             }
+        }
+    }
+
+    private static async Task<bool> PrepareUngroupedAnyConditionRoutingAsync(
+        IModule module,
+        IConditionAttribute attribute,
+        IPipelineContext pipelineContext,
+        DistributedConditionRouting conditionRouting,
+        CancellationToken cancellationToken)
+    {
+        if (OperatingSystemConditions.GetRoute(attribute) is null)
+        {
+            return IsPlanningConditionAttribute(attribute)
+                   && await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false);
+        }
+
+        if (await AnyConditionMatches(
+                OperatingSystemConditions.GetLocalAlternatives(attribute),
+                pipelineContext,
+                cancellationToken)
+            .ConfigureAwait(false))
+        {
+            conditionRouting.MarkLocallySatisfied(module, attribute.GetType());
+        }
+
+        return true;
+    }
+
+    private static async Task<bool> PrepareGroupedAnyConditionRoutingAsync(
+        IModule module,
+        Type conditionGroupType,
+        IReadOnlyList<IGroupedConditionAttribute> alternatives,
+        IPipelineContext pipelineContext,
+        DistributedConditionRouting conditionRouting,
+        CancellationToken cancellationToken)
+    {
+        if (OperatingSystemConditions.GetRoute(alternatives) is null)
+        {
+            return alternatives.All(IsPlanningConditionAttribute)
+                   && await AnyConditionMatches(alternatives, pipelineContext, cancellationToken)
+                       .ConfigureAwait(false);
+        }
+
+        var localAlternatives = alternatives
+            .Where(attribute => OperatingSystemConditions.GetRoute(attribute) is null
+                                && IsPlanningConditionAttribute(attribute))
+            .ToArray();
+        if (await AnyConditionMatches(
+                localAlternatives,
+                pipelineContext,
+                cancellationToken)
+            .ConfigureAwait(false))
+        {
+            conditionRouting.MarkLocallySatisfied(module, conditionGroupType);
+        }
+
+        return true;
+    }
+
+    private static async Task<SkipDecision?> EvaluateUngroupedAnyCondition(
+        IConditionAttribute attribute,
+        IPipelineContext pipelineContext,
+        bool isDistributedMaster,
+        CancellationToken cancellationToken,
+        Func<Type, bool>? isLocallySatisfiedConditionGroup,
+        Action<Type>? locallySatisfiedConditionGroup)
+    {
+        if (isLocallySatisfiedConditionGroup?.Invoke(attribute.GetType()) == true)
+        {
+            return null;
+        }
+
+        if (!ShouldDeferOperatingSystemCondition(attribute, isDistributedMaster))
+        {
+            return await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false)
+                ? null
+                : SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied");
+        }
+
+        if (await AnyConditionMatches(
+                OperatingSystemConditions.GetLocalAlternatives(attribute),
+                pipelineContext,
+                cancellationToken)
+            .ConfigureAwait(false))
+        {
+            locallySatisfiedConditionGroup?.Invoke(attribute.GetType());
         }
 
         return null;
     }
+
+    private static bool ShouldDeferOperatingSystemCondition(
+        IConditionAttribute attribute,
+        bool isDistributedMaster) =>
+        isDistributedMaster && OperatingSystemConditions.GetTargets(attribute).Count > 0;
 
     private static async Task<bool> AnyConditionMatches(
         IEnumerable<IGroupedConditionAttribute> alternatives,
@@ -676,6 +977,32 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             cancellationToken.ThrowIfCancellationRequested();
 
             if (await alternative.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2067",
+        Justification = "Condition types come from RunIfAny<T...> generic arguments with a new() constraint preserving public constructors.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2072",
+        Justification = "Condition types come from RunIfAny<T...> generic arguments with a new() constraint preserving public constructors.")]
+    private static async Task<bool> AnyConditionMatches(
+        IEnumerable<Type> conditionTypes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        foreach (var conditionType in conditionTypes)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var condition = (IRunCondition) Activator.CreateInstance(conditionType)!;
+            if (await condition.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return true;
             }

@@ -802,6 +802,12 @@
 *REMOVED*ModularPipelines.Modules.NonGenericModuleAdapter.NonGenericModuleAdapter() -> void
 *REMOVED*ModularPipelines.Modules.SyncModule<T>
 *REMOVED*ModularPipelines.Modules.SyncModule<T>.SyncModule() -> void
+*REMOVED*ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.FreeBSD = 3 -> ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.Linux = 1 -> ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.MacOS = 2 -> ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.Unknown = 4 -> ModularPipelines.OperatingSystemIdentifier
+*REMOVED*ModularPipelines.OperatingSystemIdentifier.Windows = 0 -> ModularPipelines.OperatingSystemIdentifier
 *REMOVED*ModularPipelines.Options.CommandExecutionOptions.LogSettings.get -> ModularPipelines.Options.CommandLoggingOptions?
 *REMOVED*ModularPipelines.Options.CommandExecutionOptions.LogSettings.init -> void
 *REMOVED*ModularPipelines.Options.CommandLoggingOptions.IncludeTimestamps.get -> bool
@@ -1368,6 +1374,8 @@ ModularPipelines.DependsOnModulesWithAttributeAttribute<TAttribute>.DependsOnMod
 ModularPipelines.DependsOnModulesWithTagAttribute
 ModularPipelines.DependsOnModulesWithTagAttribute.DependsOnModulesWithTagAttribute(string! tag) -> void
 ModularPipelines.DependsOnModulesWithTagAttribute.Tag.get -> string!
+ModularPipelines.Distributed.ModuleAssignment.SatisfiedConditionGroups.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ModularPipelines.Distributed.ModuleAssignment.SatisfiedConditionGroups.init -> void
 ModularPipelines.Enums.ExecutionHint
 ModularPipelines.Enums.ExecutionHint.CpuBound = 1 -> ModularPipelines.Enums.ExecutionHint
 ModularPipelines.Enums.ExecutionHint.Default = 0 -> ModularPipelines.Enums.ExecutionHint
@@ -1636,12 +1644,6 @@ ModularPipelines.IPlanningSafeDependencySelector
 ModularPipelines.IRunCondition
 ModularPipelines.IRunCondition.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.IRunCondition.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
-ModularPipelines.IsCI
-ModularPipelines.IsCI.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
-ModularPipelines.IsCI.IsCI() -> void
-ModularPipelines.IsLocal
-ModularPipelines.IsLocal.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
-ModularPipelines.IsLocal.IsLocal() -> void
 ModularPipelines.Logging.IConsoleWriter
 ModularPipelines.Logging.IConsoleWriter.LogToConsole(string! value) -> void
 ModularPipelines.Logging.IConsoleWriter.Write(Spectre.Console.Rendering.IRenderable! renderable) -> void
@@ -1787,9 +1789,18 @@ ModularPipelines.None
 ModularPipelines.None.Equals(ModularPipelines.None other) -> bool
 ModularPipelines.None.Equals(ModularPipelines.None? other) -> bool
 ModularPipelines.None.None() -> void
+ModularPipelines.OnCI
+ModularPipelines.OnCI.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
+ModularPipelines.OnCI.OnCI() -> void
+ModularPipelines.OnFreeBSD
+ModularPipelines.OnFreeBSD.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
+ModularPipelines.OnFreeBSD.OnFreeBSD() -> void
 ModularPipelines.OnLinux
 ModularPipelines.OnLinux.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OnLinux.OnLinux() -> void
+ModularPipelines.OnLocal
+ModularPipelines.OnLocal.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
+ModularPipelines.OnLocal.OnLocal() -> void
 ModularPipelines.OnMacOS
 ModularPipelines.OnMacOS.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OnMacOS.OnMacOS() -> void
@@ -2114,8 +2125,6 @@ ModularPipelines.RunIfAllAttribute<T1, T2, T3>
 ModularPipelines.RunIfAllAttribute<T1, T2, T3>.RunIfAllAttribute() -> void
 ModularPipelines.RunIfAllAttribute<T1, T2>
 ModularPipelines.RunIfAllAttribute<T1, T2>.RunIfAllAttribute() -> void
-ModularPipelines.RunIfAllAttribute<T>
-ModularPipelines.RunIfAllAttribute<T>.RunIfAllAttribute() -> void
 ModularPipelines.RunIfAnyAttribute
 ModularPipelines.RunIfAnyAttribute.RunIfAnyAttribute() -> void
 ModularPipelines.RunIfAnyAttribute<T1, T2, T3, T4>
@@ -2124,8 +2133,10 @@ ModularPipelines.RunIfAnyAttribute<T1, T2, T3>
 ModularPipelines.RunIfAnyAttribute<T1, T2, T3>.RunIfAnyAttribute() -> void
 ModularPipelines.RunIfAnyAttribute<T1, T2>
 ModularPipelines.RunIfAnyAttribute<T1, T2>.RunIfAnyAttribute() -> void
-ModularPipelines.RunIfAnyAttribute<T>
-ModularPipelines.RunIfAnyAttribute<T>.RunIfAnyAttribute() -> void
+ModularPipelines.RunIfAttribute
+ModularPipelines.RunIfAttribute.RunIfAttribute() -> void
+ModularPipelines.RunIfAttribute<T>
+ModularPipelines.RunIfAttribute<T>.RunIfAttribute() -> void
 ModularPipelines.RunIfEnvironmentVariableAttribute
 ModularPipelines.RunIfEnvironmentVariableAttribute.ExpectedValue.get -> string?
 ModularPipelines.RunIfEnvironmentVariableAttribute.RunIfEnvironmentVariableAttribute(string! variableName, string? expectedValue = null) -> void
@@ -2133,9 +2144,6 @@ ModularPipelines.RunIfEnvironmentVariableAttribute.VariableName.get -> string!
 ModularPipelines.RunIfEnvironmentVariableUnsetAttribute
 ModularPipelines.RunIfEnvironmentVariableUnsetAttribute.RunIfEnvironmentVariableUnsetAttribute(string! variableName) -> void
 ModularPipelines.RunIfEnvironmentVariableUnsetAttribute.VariableName.get -> string!
-ModularPipelines.RunIfOperatingSystemAttribute
-ModularPipelines.RunIfOperatingSystemAttribute.OperatingSystems.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OperatingSystemIdentifier>!
-ModularPipelines.RunIfOperatingSystemAttribute.RunIfOperatingSystemAttribute(params ModularPipelines.OperatingSystemIdentifier[]! operatingSystems) -> void
 ModularPipelines.Secrets.ISecretObfuscator
 ModularPipelines.Secrets.ISecretObfuscator.HasSecrets.get -> bool
 ModularPipelines.Secrets.ISecretObfuscator.Obfuscate(string? input, object? optionsObject) -> string!
@@ -2180,9 +2188,6 @@ ModularPipelines.SkipIfEnvironmentVariableAttribute.VariableName.get -> string!
 ModularPipelines.SkipIfEnvironmentVariableUnsetAttribute
 ModularPipelines.SkipIfEnvironmentVariableUnsetAttribute.SkipIfEnvironmentVariableUnsetAttribute(string! variableName) -> void
 ModularPipelines.SkipIfEnvironmentVariableUnsetAttribute.VariableName.get -> string!
-ModularPipelines.SkipIfOperatingSystemAttribute
-ModularPipelines.SkipIfOperatingSystemAttribute.OperatingSystems.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OperatingSystemIdentifier>!
-ModularPipelines.SkipIfOperatingSystemAttribute.SkipIfOperatingSystemAttribute(params ModularPipelines.OperatingSystemIdentifier[]! operatingSystems) -> void
 ModularPipelines.SyncModule
 ModularPipelines.SyncModule.SyncModule() -> void
 ModularPipelines.SyncModule<T>
@@ -2362,9 +2367,6 @@ override ModularPipelines.RunIfAllAttribute<T1, T2, T3>.EvaluateAsync(ModularPip
 override ModularPipelines.RunIfAllAttribute<T1, T2>.ConditionNames.get -> string!
 override ModularPipelines.RunIfAllAttribute<T1, T2>.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 override ModularPipelines.RunIfAllAttribute<T1, T2>.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
-override ModularPipelines.RunIfAllAttribute<T>.ConditionNames.get -> string!
-override ModularPipelines.RunIfAllAttribute<T>.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
-override ModularPipelines.RunIfAllAttribute<T>.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 override ModularPipelines.RunIfAnyAttribute<T1, T2, T3, T4>.ConditionNames.get -> string!
 override ModularPipelines.RunIfAnyAttribute<T1, T2, T3, T4>.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 override ModularPipelines.RunIfAnyAttribute<T1, T2, T3, T4>.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
@@ -2374,15 +2376,13 @@ override ModularPipelines.RunIfAnyAttribute<T1, T2, T3>.EvaluateAsync(ModularPip
 override ModularPipelines.RunIfAnyAttribute<T1, T2>.ConditionNames.get -> string!
 override ModularPipelines.RunIfAnyAttribute<T1, T2>.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 override ModularPipelines.RunIfAnyAttribute<T1, T2>.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
-override ModularPipelines.RunIfAnyAttribute<T>.ConditionNames.get -> string!
-override ModularPipelines.RunIfAnyAttribute<T>.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
-override ModularPipelines.RunIfAnyAttribute<T>.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
+override ModularPipelines.RunIfAttribute<T>.ConditionNames.get -> string!
+override ModularPipelines.RunIfAttribute<T>.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
+override ModularPipelines.RunIfAttribute<T>.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 override ModularPipelines.RunIfEnvironmentVariableAttribute.ConditionNames.get -> string!
 override ModularPipelines.RunIfEnvironmentVariableAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 override ModularPipelines.RunIfEnvironmentVariableUnsetAttribute.ConditionNames.get -> string!
 override ModularPipelines.RunIfEnvironmentVariableUnsetAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
-override ModularPipelines.RunIfOperatingSystemAttribute.ConditionNames.get -> string!
-override ModularPipelines.RunIfOperatingSystemAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 override ModularPipelines.Secrets.SecretMaskingOptions.Equals(object? obj) -> bool
 override ModularPipelines.Secrets.SecretMaskingOptions.GetHashCode() -> int
 override ModularPipelines.Secrets.SecretMaskingOptions.ToString() -> string!
@@ -2405,8 +2405,6 @@ override ModularPipelines.SkipIfEnvironmentVariableAttribute.ConditionNames.get 
 override ModularPipelines.SkipIfEnvironmentVariableAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 override ModularPipelines.SkipIfEnvironmentVariableUnsetAttribute.ConditionNames.get -> string!
 override ModularPipelines.SkipIfEnvironmentVariableUnsetAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
-override ModularPipelines.SkipIfOperatingSystemAttribute.ConditionNames.get -> string!
-override ModularPipelines.SkipIfOperatingSystemAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 override abstract ModularPipelines.ModuleResult<T>.<Clone>$() -> ModularPipelines.ModuleResult<T>!
 override sealed ModularPipelines.Generated.ArgumentPart.Equals(ModularPipelines.Generated.PropertyCommandLinePart? other) -> bool
 override sealed ModularPipelines.Generated.FlagPart.Equals(ModularPipelines.Generated.PropertyCommandLinePart? other) -> bool
@@ -2425,6 +2423,7 @@ override sealed ModularPipelines.Options.PowerShellOptions.Equals(ModularPipelin
 override sealed ModularPipelines.Options.PowerShellScriptOptions.Equals(ModularPipelines.Options.PowerShellOptions? other) -> bool
 override sealed ModularPipelines.RunIfAllAttribute.Logic.get -> ModularPipelines.ConditionLogic
 override sealed ModularPipelines.RunIfAnyAttribute.Logic.get -> ModularPipelines.ConditionLogic
+override sealed ModularPipelines.RunIfAttribute.Logic.get -> ModularPipelines.ConditionLogic
 override sealed ModularPipelines.SkipIfAttribute.Logic.get -> ModularPipelines.ConditionLogic
 override sealed ModularPipelines.SyncModule.ExecuteWithoutResult(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
 override sealed ModularPipelines.SyncModule<T>.ExecuteAsync(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<T>!

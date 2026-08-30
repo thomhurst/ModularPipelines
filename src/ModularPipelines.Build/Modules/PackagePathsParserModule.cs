@@ -1,13 +1,13 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<PackProjectsModule>]
-[RunIfAll<ModularPipelines.OnLinux>]
+[RunIf<ModularPipelines.OnLinux>]
 public class PackagePathsParserModule : Module<List<FilePath>>
 {
     private const string PackageCreationSuccessPrefix = "Successfully created package '";

@@ -4,18 +4,18 @@ using ModularPipelines.Context;
 namespace ModularPipelines;
 
 /// <summary>
-/// A condition that returns true when running on Windows.
+/// A condition that returns true when running on FreeBSD.
 /// </summary>
 /// <example>
 /// <code>
-/// [RunIf&lt;OnWindows&gt;]
-/// public class WindowsOnlyModule : Module&lt;None&gt; { }
+/// [RunIf&lt;OnFreeBSD&gt;]
+/// public class FreeBsdModule : Module&lt;None&gt; { }
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class OnWindows : IPlanningRunCondition
+public sealed class OnFreeBSD : IPlanningRunCondition
 {
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context)
-        => Task.FromResult(OperatingSystem.IsWindows());
+        => Task.FromResult(OperatingSystem.IsFreeBSD());
 }
