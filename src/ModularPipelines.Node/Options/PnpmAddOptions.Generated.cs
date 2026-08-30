@@ -39,7 +39,7 @@ public record PnpmAddOptions : PnpmOptions
     public string? Config { get; set; }
 
     /// <summary>
-    /// Change to directory &lt;dir&gt; (default: ~/work/ModularPipelines/ ModularPipelines/tools/ModularPipelines. OptionsGenerator/src/ModularPipelines. OptionsGenerator)
+    /// Change to directory &lt;dir&gt; (default: ~/work/_temp/generator-work)
     /// </summary>
     [CliOption("--dir", ShortForm = "-C")]
     public string? Dir { get; set; }
@@ -199,5 +199,11 @@ public record PnpmAddOptions : PnpmOptions
     /// </summary>
     [CliOption("--test-pattern")]
     public string? TestPattern { get; set; }
+
+    /// <summary>
+    /// The name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Name { get; set; }
 
 }

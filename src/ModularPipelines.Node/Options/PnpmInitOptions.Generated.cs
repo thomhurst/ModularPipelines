@@ -27,13 +27,13 @@ public record PnpmInitOptions : PnpmOptions
     public string? Bare { get; set; }
 
     /// <summary>
-    /// Declare a pnpm version range via "devEngines.packageManager" in package.json and auto-download pnpm when it is missing
+    /// Pin the pnpm version in package.json, through "devEngines.packageManager" and "packageManager", and auto-download pnpm when it is missing
     /// </summary>
     [CliOption("--init-package-manager")]
     public string? InitPackageManager { get; set; }
 
     /// <summary>
-    /// Set the module system for the package. Defaults to "commonjs".
+    /// Set the module system for the package. Defaults to "module".
     /// </summary>
     [CliOption("--init-type")]
     public string? InitType { get; set; }
