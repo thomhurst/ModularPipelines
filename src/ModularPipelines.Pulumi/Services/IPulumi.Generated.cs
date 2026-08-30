@@ -23,77 +23,82 @@ public partial interface IPulumi
     /// <summary>
     /// Gets the api sub-domain service.
     /// </summary>
-    IPulumiApi Api { get; }
+    IPulumiApi Api => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    IPulumiConfig Config { get; }
+    IPulumiConfig Config => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the deployment sub-domain service.
     /// </summary>
-    IPulumiDeployment Deployment { get; }
+    IPulumiDeployment Deployment => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the do sub-domain service.
+    /// </summary>
+    IPulumiDo Do => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the env sub-domain service.
     /// </summary>
-    IPulumiEnv Env { get; }
+    IPulumiEnv Env => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the insights sub-domain service.
     /// </summary>
-    IPulumiInsights Insights { get; }
+    IPulumiInsights Insights => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the logs sub-domain service.
     /// </summary>
-    IPulumiLogs Logs { get; }
+    IPulumiLogs Logs => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the neo sub-domain service.
     /// </summary>
-    IPulumiNeo Neo { get; }
+    IPulumiNeo Neo => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the org sub-domain service.
     /// </summary>
-    IPulumiOrg Org { get; }
+    IPulumiOrg Org => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the package sub-domain service.
     /// </summary>
-    IPulumiPackage Package { get; }
+    IPulumiPackage Package => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    IPulumiPlugin Plugin { get; }
+    IPulumiPlugin Plugin => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the policy sub-domain service.
     /// </summary>
-    IPulumiPolicy Policy { get; }
+    IPulumiPolicy Policy => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the project sub-domain service.
     /// </summary>
-    IPulumiProject Project { get; }
+    IPulumiProject Project => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the stack sub-domain service.
     /// </summary>
-    IPulumiStack Stack { get; }
+    IPulumiStack Stack => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the state sub-domain service.
     /// </summary>
-    IPulumiState State { get; }
+    IPulumiState State => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the template sub-domain service.
     /// </summary>
-    IPulumiTemplate Template { get; }
+    IPulumiTemplate Template => throw new System.NotSupportedException();
 
     #endregion
 
@@ -106,7 +111,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CancelAsync(PulumiCancelOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> CancelAsync(PulumiCancelOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Opens the current stack in the Pulumi Console
@@ -115,7 +121,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConsoleAsync(PulumiConsoleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ConsoleAsync(PulumiConsoleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Convert Pulumi programs from a supported source program into other supported languages.
@@ -124,7 +131,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConvertAsync(PulumiConvertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ConvertAsync(PulumiConvertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Destroy all existing resources in the stack, but not the stack itself
@@ -133,7 +141,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DestroyAsync(PulumiDestroyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> DestroyAsync(PulumiDestroyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// [EXPERIMENTAL] Interact with any cloud
@@ -142,7 +151,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DoAsync(PulumiDoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> DoAsync(PulumiDoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Import resources into an existing stack.
@@ -151,7 +161,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ImportAsync(PulumiImportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ImportAsync(PulumiImportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Install packages and plugins for the current program or policy pack.
@@ -160,25 +171,28 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InstallAsync(PulumiInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> InstallAsync(PulumiInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Log in to the Pulumi Cloud.
+    /// Log in to a Pulumi state backend.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LoginAsync(PulumiLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> LoginAsync(PulumiLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Log out of the Pulumi Cloud.
+    /// Log out of a Pulumi state backend.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LogoutAsync(PulumiLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> LogoutAsync(PulumiLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a new Pulumi project and stack from a template.
@@ -187,7 +201,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NewAsync(PulumiNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> NewAsync(PulumiNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Show a preview of updates to a stack's resources.
@@ -196,7 +211,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PreviewAsync(PulumiPreviewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> PreviewAsync(PulumiPreviewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Refresh the resources in a stack.
@@ -205,7 +221,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RefreshAsync(PulumiRefreshOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> RefreshAsync(PulumiRefreshOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create or update the resources in a stack.
@@ -214,7 +231,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpAsync(PulumiUpOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpAsync(PulumiUpOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// [EXPERIMENTAL] Continuously update the resources in a stack.
@@ -223,7 +241,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> WatchAsync(PulumiWatchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> WatchAsync(PulumiWatchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Display the current logged-in user
@@ -232,7 +251,8 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> WhoamiAsync(PulumiWhoamiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> WhoamiAsync(PulumiWhoamiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     #endregion
 }

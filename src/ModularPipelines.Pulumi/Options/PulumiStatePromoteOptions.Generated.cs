@@ -13,50 +13,32 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// [EXPERIMENTAL] Interact with any cloud
+/// Promote a snippet from state into Pulumi program code
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("do")]
-public record PulumiDoOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PkgModTyp
+[CliSubCommand("state", "promote")]
+public record PulumiStatePromoteOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnippetName
 ) : PulumiOptions
 {
     /// <summary>
-    /// Run the operation in preview mode
-    /// </summary>
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
-
-    /// <summary>
-    /// help for do
+    /// help for promote
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Output format for resource operation results (supported: default, json)
+    /// The name of the stack to operate on. Defaults to the current stack
     /// </summary>
-    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
 
     /// <summary>
-    /// The package to load, in the form 'name@version' or a path to a plugin binary or folder. If the package supports parameterization, additional space-separated parameters can be included after the package name, e.g. --package "name@version param1 \"multi word param\""
+    /// Skip confirmation prompts
     /// </summary>
-    [CliOption("--package", Format = OptionFormat.EqualsSeparated)]
-    public string? Package { get; set; }
-
-    /// <summary>
-    /// Show secret values in output
-    /// </summary>
-    [CliFlag("--show-secrets")]
-    public bool? ShowSecrets { get; set; }
-
-    /// <summary>
-    /// Run create/patch/delete directly against the provider without persisting state.
-    /// </summary>
-    [CliFlag("--stateless")]
-    public bool? Stateless { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -135,8 +117,5 @@ public record PulumiDoOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
-
-    [Obsolete("Command is no longer supported by the installed CLI and has no effect.")]
-    public string? Command { get; set; }
 
 }

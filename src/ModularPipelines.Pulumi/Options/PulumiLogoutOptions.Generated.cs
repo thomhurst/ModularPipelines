@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Log out of the Pulumi Cloud.
+/// Log out of a Pulumi state backend.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,13 +21,13 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiLogoutOptions : PulumiOptions
 {
     /// <summary>
-    /// Logout of all backends
+    /// Log out of all backends
     /// </summary>
     [CliFlag("--all")]
     public bool? All { get; set; }
 
     /// <summary>
-    /// A cloud URL to log out of (defaults to current cloud)
+    /// A cloud URL to log out of (defaults to the current backend)
     /// </summary>
     [CliOption("--cloud-url", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public string? CloudUrl { get; set; }
@@ -39,10 +39,10 @@ public record PulumiLogoutOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Log out of using local mode
+    /// Log out of local-only mode (an alias for file://~)
     /// </summary>
-    [CliFlag("--local", ShortForm = "-l")]
-    public bool? Local { get; set; }
+    [CliOption("--local", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalValue { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -127,5 +127,12 @@ public record PulumiLogoutOptions : PulumiOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Url { get; set; }
+
+    [Obsolete("Use LocalValue instead.")]
+    public bool? Local
+    {
+        get => bool.TryParse(LocalValue, out var value) ? value : null;
+        set => LocalValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -45,6 +45,12 @@ public record PulumiPluginInstallOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
+    /// The max number of concurrent installs to perform. Parallelism of less than 1 implies unbounded parallelism (default 4)
+    /// </summary>
+    [CliOption("--parallel", Format = OptionFormat.EqualsSeparated)]
+    public int? Parallel { get; set; }
+
+    /// <summary>
     /// Reinstall a plugin even if it already exists
     /// </summary>
     [CliFlag("--reinstall")]
