@@ -13,11 +13,7 @@ Resolve the service with `context.Tools.Kubernetes`. Projects using C# 13 or ano
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Kubernetes.Options;
 

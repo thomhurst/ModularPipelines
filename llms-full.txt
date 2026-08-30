@@ -3905,15 +3905,9 @@ Replace `Program.cs` with this complete example, updating the solution path for 
 ```
 using ModularPipelines;
 
-using ModularPipelines.Context;
-
 using ModularPipelines.DotNet.Options;
 
 using ModularPipelines.Extensions;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
 
 
 
@@ -6841,7 +6835,7 @@ var summary = await pipeline.RunAsync();
 
 // Check results
 
-if (summary.Status == ModularPipelines.Enums.ModuleStatus.Failed)
+if (summary.Status == ModularPipelines.ModuleStatus.Failed)
 
 {
 
@@ -11457,11 +11451,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Azure.Options;
 
@@ -11677,11 +11667,7 @@ Resolve the service with `context.Tools.Ansible`. Projects using C# 13 or anothe
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Ansible.Options;
 
@@ -11939,11 +11925,7 @@ Resolve the service with `context.Tools.Az`. Projects using C# 13 or another .NE
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Azure.Options;
 
@@ -15261,11 +15243,7 @@ Resolve the service with `context.Tools.Buildah`. Projects using C# 13 or anothe
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Buildah.Options;
 
@@ -15360,11 +15338,7 @@ Resolve the service with `context.Tools.Cargo`. Projects using C# 13 or another 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Rust.Options;
 
@@ -15568,11 +15542,7 @@ Resolve the service with `context.Tools.Docker`. Projects using C# 13 or another
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Docker.Options;
 
@@ -15835,11 +15805,7 @@ Resolve the service with `context.Tools.DotNet`. Projects using C# 13 or another
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.DotNet.Options;
 
@@ -16367,11 +16333,7 @@ Resolve the service with `context.Tools.Gcloud`. Projects using C# 13 or another
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Google.Options;
 
@@ -24066,11 +24028,7 @@ Resolve the service with `context.Tools.Gh`. Projects using C# 13 or another .NE
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.GitHub.Options;
 
@@ -24245,11 +24203,7 @@ Resolve the service with `context.Tools.Go`. Projects using C# 13 or another .NE
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Go.Options;
 
@@ -24428,11 +24382,7 @@ Resolve the service with `context.Tools.Helm`. Projects using C# 13 or another .
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Helm.Options;
 
@@ -24540,11 +24490,7 @@ Resolve the service with `context.Tools.Jq`. Projects using C# 13 or another .NE
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Jq.Options;
 
@@ -24656,11 +24602,7 @@ Resolve the service with `context.Tools.Kubernetes`. Projects using C# 13 or ano
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Kubernetes.Options;
 
@@ -25125,11 +25067,7 @@ Resolve the service with `context.Tools.Nbgv`. Projects using C# 13 or another .
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.NerdbankGitVersioning.Options;
 
@@ -25223,11 +25161,7 @@ Resolve the service with `context.Tools.Packer`. Projects using C# 13 or another
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Packer.Options;
 
@@ -25288,11 +25222,7 @@ Resolve the service with `context.Tools.Pip`. Projects using C# 13 or another .N
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Python.Options;
 
@@ -25358,11 +25288,7 @@ Resolve the service with `context.Tools.Pnpm`. Projects using C# 13 or another .
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Node.Options;
 
@@ -26181,11 +26107,7 @@ Resolve the service with `context.Tools.Terraform`. Projects using C# 13 or anot
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Terraform.Options;
 
@@ -26371,11 +26293,7 @@ Resolve the service with `context.Tools.Vault`. Projects using C# 13 or another 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Vault.Options;
 
@@ -27093,11 +27011,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Docker.Options;
 
@@ -27153,11 +27067,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.DotNet.Options;
 
@@ -27507,11 +27417,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Git.Options;
 
@@ -27746,11 +27652,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Go.Options;
 
@@ -27805,11 +27707,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Google.Options;
 
@@ -27978,11 +27876,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Helm.Options;
 
@@ -28037,11 +27931,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Homebrew.Options;
 
@@ -28290,11 +28180,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Kubernetes.Options;
 
@@ -28632,11 +28518,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 
 
@@ -28850,11 +28732,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Python.Options;
 
@@ -28909,11 +28787,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Rust.Options;
 
@@ -29345,11 +29219,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Terraform.Options;
 

@@ -51,15 +51,9 @@ Replace `Program.cs` with this complete example, updating the solution path for 
 ```
 using ModularPipelines;
 
-using ModularPipelines.Context;
-
 using ModularPipelines.DotNet.Options;
 
 using ModularPipelines.Extensions;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
 
 
 

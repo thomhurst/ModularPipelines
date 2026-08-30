@@ -19,11 +19,7 @@ Resolve the service with `context.Tools.Ansible`. Projects using C# 13 or anothe
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Ansible.Options;
 

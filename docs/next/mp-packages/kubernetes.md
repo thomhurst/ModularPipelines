@@ -20,11 +20,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Kubernetes.Options;
 

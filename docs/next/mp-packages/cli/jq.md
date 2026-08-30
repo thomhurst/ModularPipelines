@@ -19,11 +19,7 @@ Resolve the service with `context.Tools.Jq`. Projects using C# 13 or another .NE
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 using ModularPipelines.Jq.Options;
 
