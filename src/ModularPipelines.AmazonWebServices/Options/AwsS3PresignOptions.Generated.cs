@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "presign")]
-public record AwsS3PresignOptions : AwsOptions
+public record AwsS3PresignOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string S3Uri
+) : AwsOptions
 {
     [CliOption("--expires-in")]
     public int? ExpiresIn { get; set; }

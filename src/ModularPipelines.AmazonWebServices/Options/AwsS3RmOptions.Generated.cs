@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "rm")]
-public record AwsS3RmOptions : AwsOptions
+public record AwsS3RmOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string S3Uri
+) : AwsOptions
 {
     [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }

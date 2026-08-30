@@ -42,10 +42,10 @@ public record AwsLakeformationUpdateLfTagOptions : AwsOptions
     [CliOption("--tag-values-to-add")]
     public IEnumerable<string>? TagValuesToAdd { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

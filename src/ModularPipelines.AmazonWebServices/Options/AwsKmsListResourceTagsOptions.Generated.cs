@@ -24,11 +24,11 @@ public record AwsKmsListResourceTagsOptions : AwsOptions
     [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .

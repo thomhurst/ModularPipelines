@@ -28,11 +28,11 @@ public record AwsOmicsListRunCachesOptions : AwsOptions
     [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100

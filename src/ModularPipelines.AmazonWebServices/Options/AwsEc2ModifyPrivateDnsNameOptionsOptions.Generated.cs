@@ -46,10 +46,10 @@ public record AwsEc2ModifyPrivateDnsNameOptionsOptions : AwsOptions
     [CliFlag("--enable-resource-name-dns-aaaa-record")]
     public bool? EnableResourceNameDnsAaaaRecord { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

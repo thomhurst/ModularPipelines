@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "website")]
-public record AwsS3WebsiteOptions : AwsOptions
+public record AwsS3WebsiteOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string S3Uri
+) : AwsOptions
 {
     [CliOption("--index-document")]
     public string? IndexDocument { get; set; }

@@ -24,10 +24,10 @@ public record AwsSecurityagentBatchGetTargetDomainsOptions : AwsOptions
     [CliOption("--target-domain-ids")]
     public IEnumerable<string>? TargetDomainIds { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

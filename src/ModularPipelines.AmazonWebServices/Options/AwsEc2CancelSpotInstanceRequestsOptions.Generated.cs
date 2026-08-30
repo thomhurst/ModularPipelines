@@ -27,10 +27,10 @@ public record AwsEc2CancelSpotInstanceRequestsOptions : AwsOptions
     [CliOption("--spot-instance-request-ids")]
     public IEnumerable<string>? SpotInstanceRequestIds { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

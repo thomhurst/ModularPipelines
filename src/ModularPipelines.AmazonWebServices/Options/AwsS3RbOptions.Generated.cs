@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "rb")]
-public record AwsS3RbOptions : AwsOptions
+public record AwsS3RbOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string S3Uri
+) : AwsOptions
 {
     [CliFlag("--force")]
     public bool? Force { get; set; }

@@ -30,10 +30,10 @@ public record AwsGreengrassv2BatchAssociateClientDeviceWithCoreDeviceOptions : A
     [CliOption("--core-device-thing-name")]
     public string? CoreDeviceThingName { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

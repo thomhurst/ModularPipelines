@@ -73,10 +73,10 @@ public record AwsSagemakerStartPipelineExecutionOptions : AwsOptions
     [CliOption("--mlflow-experiment-name")]
     public string? MlflowExperimentName { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

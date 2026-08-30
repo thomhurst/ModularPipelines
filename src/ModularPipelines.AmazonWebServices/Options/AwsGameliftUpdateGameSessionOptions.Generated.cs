@@ -55,10 +55,10 @@ public record AwsGameliftUpdateGameSessionOptions : AwsOptions
     [CliOption("--game-properties")]
     public IEnumerable<string>? GameProperties { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

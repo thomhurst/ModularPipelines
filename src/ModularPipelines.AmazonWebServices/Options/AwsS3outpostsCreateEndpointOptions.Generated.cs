@@ -43,10 +43,10 @@ public record AwsS3outpostsCreateEndpointOptions : AwsOptions
     [CliOption("--customer-owned-ipv4-pool")]
     public string? CustomerOwnedIpv4Pool { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

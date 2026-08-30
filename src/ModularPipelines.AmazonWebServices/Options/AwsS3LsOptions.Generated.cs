@@ -42,4 +42,10 @@ public record AwsS3LsOptions : AwsOptions
     [CliOption("--bucket-region")]
     public string? BucketRegion { get; set; }
 
+    /// <summary>
+    /// S3 URI to list. Omit to list all buckets.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? S3Uri { get; set; }
+
 }

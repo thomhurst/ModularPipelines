@@ -20,7 +20,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "sync")]
-public record AwsS3SyncOptions : AwsOptions
+public record AwsS3SyncOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Destination
+) : AwsOptions
 {
     [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }

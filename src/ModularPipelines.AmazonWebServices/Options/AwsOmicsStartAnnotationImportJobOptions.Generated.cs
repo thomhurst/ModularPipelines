@@ -52,10 +52,10 @@ public record AwsOmicsStartAnnotationImportJobOptions : AwsOptions
     [CliOption("--annotation-fields")]
     public IReadOnlyList<KeyValue>? AnnotationFields { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

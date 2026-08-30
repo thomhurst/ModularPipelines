@@ -74,10 +74,10 @@ public record AwsConnectStartWebRtcContactOptions : AwsOptions
     [CliOption("--segment-attributes")]
     public IReadOnlyList<KeyValue>? SegmentAttributes { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -24,10 +24,10 @@ public record AwsSecurityhubDeleteAggregatorV2Options : AwsOptions
     [CliOption("--aggregator-v2-arn")]
     public string? AggregatorV2Arn { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

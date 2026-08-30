@@ -58,6 +58,22 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class AwsCliScraper : CliScraperBase
 {
+    private static readonly HashSet<string> ValueOptionsWithoutTypeHints = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--cli-input-json",
+        "--generate-cli-skeleton",
+    };
+
+    private static readonly HashSet<string> FreeFormValueDescriptionTokens = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "alphanumeric",
+        "character",
+        "characters",
+        "letters",
+        "numbers",
+        "punctuation",
+    };
+
     public AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AwsCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -192,7 +208,7 @@ public partial class AwsCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = $"https://awscli.amazonaws.com/v2/documentation/api/latest/reference/{string.Join("/", commandParts)}/index.html",
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = GetS3PositionalArguments(commandParts),
             SubDomainGroup = subDomain,
             Enums = enums
         };
@@ -352,7 +368,8 @@ public partial class AwsCliScraper : CliScraperBase
                 ? Regex.Replace(descMatch.Groups[1].Value.Trim(), @"\s+", " ")
                 : null;
 
-            var isFlag = IsAwsBooleanType(typeHint);
+            var isFlag = IsAwsBooleanType(typeHint)
+                         && !ValueOptionsWithoutTypeHints.Contains(longForm);
             var isArray = typeHint.Contains("list") || typeHint.Contains("...") || (description?.Contains("multiple values") ?? false);
             var isNumeric = IsNumericType(typeHint);
             var isStructure = typeHint.Contains("structure");
@@ -427,7 +444,9 @@ public partial class AwsCliScraper : CliScraperBase
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
 
-            if (values.Length >= 2 && values.Length <= 15)
+            if (values.Length >= 2
+                && values.Length <= 15
+                && !values.Any(FreeFormValueDescriptionTokens.Contains))
             {
                 return CreateEnumDefinition(propertyName, className, values);
             }
@@ -435,6 +454,44 @@ public partial class AwsCliScraper : CliScraperBase
 
         return null;
     }
+
+    private static IReadOnlyList<CliPositionalArgument> GetS3PositionalArguments(string[] commandParts) =>
+        commandParts switch
+        {
+            ["s3", "cp" or "mv" or "sync"] =>
+            [
+                RequiredPathArgument("Source", 0, "Source local path or S3 URI."),
+                RequiredPathArgument("Destination", 1, "Destination local path or S3 URI."),
+            ],
+            ["s3", "ls"] =>
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "S3Uri",
+                    CSharpType = "string?",
+                    Description = "S3 URI to list. Omit to list all buckets.",
+                    PositionIndex = 0,
+                    IsRequired = false,
+                },
+            ],
+            ["s3", "mb" or "presign" or "rb" or "rm" or "website"] =>
+            [
+                RequiredPathArgument("S3Uri", 0, "S3 URI to operate on."),
+            ],
+            _ => [],
+        };
+
+    private static CliPositionalArgument RequiredPathArgument(
+        string propertyName,
+        int positionIndex,
+        string description) => new()
+        {
+            PropertyName = propertyName,
+            CSharpType = "string",
+            Description = description,
+            PositionIndex = positionIndex,
+            IsRequired = true,
+        };
 
     private static bool IsValidEnumValue(string value)
     {

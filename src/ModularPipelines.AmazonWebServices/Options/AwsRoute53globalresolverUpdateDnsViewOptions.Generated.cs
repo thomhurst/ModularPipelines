@@ -55,10 +55,10 @@ public record AwsRoute53globalresolverUpdateDnsViewOptions : AwsOptions
     [CliOption("--firewall-rules-fail-open")]
     public AwsRoute53globalresolverUpdateDnsViewFirewallRulesFailOpen? FirewallRulesFailOpen { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

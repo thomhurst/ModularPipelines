@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("bedrock", "get-use-case-for-model-access")]
 public record AwsBedrockGetUseCaseForModelAccessOptions : AwsOptions
 {
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

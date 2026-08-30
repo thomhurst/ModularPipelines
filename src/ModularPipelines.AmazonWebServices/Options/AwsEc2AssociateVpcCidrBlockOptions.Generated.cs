@@ -78,10 +78,10 @@ public record AwsEc2AssociateVpcCidrBlockOptions : AwsOptions
     [CliFlag("--amazon-provided-ipv6-cidr-block")]
     public bool? AmazonProvidedIpv6CidrBlock { get; set; }
 
-    [CliFlag("--cli-input-json")]
-    public bool? CliInputJson { get; set; }
+    [CliOption("--cli-input-json")]
+    public string? CliInputJson { get; set; }
 
-    [CliFlag("--generate-cli-skeleton")]
-    public bool? GenerateCliSkeleton { get; set; }
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }
