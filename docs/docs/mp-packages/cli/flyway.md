@@ -34,15 +34,22 @@ var flyway = context.Tools.Flyway;
 
 | CLI command | Options record |
 | --- | --- |
+| `flyway add` | `FlywayAddOptions` |
 | `flyway auth` | `FlywayAuthOptions` |
 | `flyway baseline` | `FlywayBaselineOptions` |
 | `flyway check` | `FlywayCheckOptions` |
 | `flyway clean` | `FlywayCleanOptions` |
+| `flyway deploy` | `FlywayDeployOptions` |
 | `flyway diff` | `FlywayDiffOptions` |
+| `flyway diffApply` | `FlywayDiffApplyOptions` |
 | `flyway diffText` | `FlywayDiffTextOptions` |
+| `flyway generate` | `FlywayGenerateOptions` |
 | `flyway info` | `FlywayInfoOptions` |
 | `flyway init` | `FlywayInitOptions` |
+| `flyway list-engines` | `FlywayListEnginesOptions` |
 | `flyway migrate` | `FlywayMigrateOptions` |
+| `flyway prepare` | `FlywayPrepareOptions` |
 | `flyway repair` | `FlywayRepairOptions` |
 | `flyway snapshot` | `FlywaySnapshotOptions` |
+| `flyway undo` | `FlywayUndoOptions` |
 | `flyway validate` | `FlywayValidateOptions` |

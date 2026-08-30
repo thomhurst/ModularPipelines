@@ -239,6 +239,7 @@ internal static class GeneratedApiCompatibilityPreserver
         var subDomainGroup = commandParts.Length > 1 && !preserveRootNamedFacade
             ? GetRestoredSubDomainGroup(tool, commandParts[0], groupIdentifier)
             : null;
+        var isConditionallyAvailable = IsConditionallyAvailableCommand(tool, commandParts);
 
         return new CliCommandDefinition
         {
@@ -247,7 +248,7 @@ internal static class GeneratedApiCompatibilityPreserver
             ClassName = baseline.ClassName,
             ParentClassName = baseline.ParentClassName ?? $"{tool.NamespacePrefix}Options",
             ToolNamespacePrefix = tool.NamespacePrefix,
-            IsCompatibilityOnly = true,
+            IsCompatibilityOnly = !isConditionallyAvailable,
             Options = RestoreRemovedOptions(baseline.Properties),
             PositionalArguments = RestoreRemovedPositionalArguments(baseline.Properties),
             CompatibilityProperties = RestoreRemovedCompatibilityProperties(baseline.Properties),
@@ -281,6 +282,15 @@ internal static class GeneratedApiCompatibilityPreserver
             PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
         };
     }
+
+    private static bool IsConditionallyAvailableCommand(
+        CliToolDefinition tool,
+        IReadOnlyList<string> commandParts) =>
+        tool.CommandCoverage.ConditionallyAvailableCommands.Any(command =>
+            command.Command.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries)
+                .SequenceEqual(
+                    [tool.ToolName, .. commandParts],
+                    StringComparer.OrdinalIgnoreCase));
 
     private static string? FindLiveOperandReplacementRootMethodName(
         CliToolDefinition tool,

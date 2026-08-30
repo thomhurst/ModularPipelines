@@ -20,7 +20,6 @@ public partial interface IFlyway
 {
     #region Commands
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public Task<CommandResult> AddAsync(FlywayAddOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
@@ -36,11 +35,9 @@ public partial interface IFlyway
     public Task<CommandResult> CleanAsync(FlywayCleanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public Task<CommandResult> DeployAsync(FlywayDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public Task<CommandResult> DiffApplyAsync(FlywayDiffApplyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
@@ -50,7 +47,6 @@ public partial interface IFlyway
     public Task<CommandResult> DiffTextAsync(FlywayDiffTextOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public Task<CommandResult> GenerateAsync(FlywayGenerateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
@@ -60,14 +56,12 @@ public partial interface IFlyway
     public Task<CommandResult> InitAsync(FlywayInitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public Task<CommandResult> ListEnginesAsync(FlywayListEnginesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     public Task<CommandResult> MigrateAsync(FlywayMigrateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public Task<CommandResult> PrepareAsync(FlywayPrepareOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
@@ -77,7 +71,6 @@ public partial interface IFlyway
     public Task<CommandResult> SnapshotAsync(FlywaySnapshotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public Task<CommandResult> UndoAsync(FlywayUndoOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 

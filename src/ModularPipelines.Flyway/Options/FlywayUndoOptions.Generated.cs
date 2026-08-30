@@ -14,7 +14,6 @@ namespace ModularPipelines.Flyway.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
 [CliSubCommand("undo")]
 public record FlywayUndoOptions : FlywayOptions
 {

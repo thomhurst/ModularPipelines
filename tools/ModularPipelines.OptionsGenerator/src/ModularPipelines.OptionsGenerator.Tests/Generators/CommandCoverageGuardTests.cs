@@ -139,6 +139,47 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
+    public async Task ConditionallyAvailableCommands_AllowEnvironmentSpecificOmission()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake community"), Command("fake enterprise")),
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+
+            var currentTool = Tool(Command("fake community")) with
+            {
+                CommandCoverage = new CliCommandCoveragePolicy
+                {
+                    ConditionallyAvailableCommands =
+                    [
+                        new CliConditionallyAvailableCommand
+                        {
+                            Command = "fake enterprise",
+                            Reason = "Requires an enterprise license.",
+                        },
+                    ],
+                },
+            };
+            var current = CommandCoverageGuard.Evaluate(
+                currentTool,
+                outputDirectory,
+                approveShrinkage: false);
+
+            await Assert.That(current.Violations).IsEmpty();
+            await Assert.That(current.RemovedCommands).IsEquivalentTo(["fake enterprise"]);
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Fingerprint_IsStableAcrossDiscoveryOrderAndWhitespace()
     {
         var outputDirectory = CreateOutputDirectory();
