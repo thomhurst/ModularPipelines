@@ -21,4 +21,50 @@ public class PulumiOptionsTests : TestBase
         await Assert.That(commandLine.ToString())
             .IsEqualTo("pulumi package info --color=never aws -- param");
     }
+
+    [Test]
+    public async Task Legacy_Env_Run_Constructor_Uses_Manual_Command_Operand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new PulumiEnvRunOptions("development")
+        {
+            Arguments = ["echo", "hello"],
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("pulumi env run development -- echo hello");
+    }
+
+    [Test]
+    public async Task Legacy_Env_Run_Consumes_Manual_Option_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new PulumiEnvRunOptions("development")
+        {
+            Arguments = ["--", "bash", "-c", "echo hello"],
+            ArgumentsContainOptionTerminator = true,
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("pulumi env run development -- bash -c echo hello");
+    }
+
+    [Test]
+    public async Task Legacy_Logout_Local_Flag_Uses_Local_Backend_Url()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+#pragma warning disable CS0618
+        var enabled = builder.Build(new PulumiLogoutOptions { Local = true });
+        var disabled = builder.Build(new PulumiLogoutOptions { Local = false });
+#pragma warning restore CS0618
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(enabled.ToString()).IsEqualTo("pulumi logout --local=file://~");
+            await Assert.That(disabled.ToString()).IsEqualTo("pulumi logout");
+        }
+    }
 }

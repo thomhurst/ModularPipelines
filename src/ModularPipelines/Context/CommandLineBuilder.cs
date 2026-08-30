@@ -69,10 +69,12 @@ internal sealed class CommandLineBuilder(
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
         var additionalArguments = options.AdditionalArguments?.ToList() ?? [];
         var manualArgs = options.Arguments?.ToList() ?? [];
-        var manualRequiredOperands = MatchManualRequiredOperands(
+        var requiredOperandMatch = MatchManualRequiredOperands(
             commandModel,
             options,
             manualArgs);
+        var manualOptionTerminatorRemains = options.ArgumentsContainOptionTerminator
+                                            && !requiredOperandMatch.ConsumedOptionTerminator;
         ValidateAdditionalArguments(additionalArguments);
 
         var terminalCommandModel = commandModel
@@ -90,6 +92,7 @@ internal sealed class CommandLineBuilder(
             options,
             isGlobalOption: true,
             manualRequiredOperands: null,
+            requiredOperandMatch.MaterializedValues,
             ref emittedOptionTerminator,
             out var globalOptionTerminatorIndex);
         var terminatorEmittedBeforeProperties = emittedOptionTerminator;
@@ -98,7 +101,8 @@ internal sealed class CommandLineBuilder(
             additionalArguments,
             options,
             isGlobalOption: false,
-            manualRequiredOperands,
+            requiredOperandMatch.ManualValues,
+            requiredOperandMatch.MaterializedValues,
             ref emittedOptionTerminator,
             out var commandOptionTerminatorIndex);
         ValidateManualOptionsAfterGlobalTerminator(
@@ -109,19 +113,20 @@ internal sealed class CommandLineBuilder(
 
         var modelEmittedOptionTerminator = emittedOptionTerminator;
         var terminalArgumentTerminatorState = emittedOptionTerminator
-                                              || options.ArgumentsContainOptionTerminator;
+                                              || manualOptionTerminatorRemains;
         var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
             [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
             options,
             ref terminalArgumentTerminatorState,
             out var terminalArgumentOptionTerminatorIndex,
-            manualRequiredOperands);
+            requiredOperandMatch.ManualValues,
+            requiredOperandMatch.MaterializedValues);
         modelEmittedOptionTerminator |= terminalArgumentOptionTerminatorIndex is not null;
 
         // Keep recognized manual options ahead of a marker emitted by a structured argument
         // or declared in the manual arguments or run settings; leave manual positional operands in place.
         var pendingTerminatorState = modelEmittedOptionTerminator
-                                     || options.ArgumentsContainOptionTerminator;
+                                     || manualOptionTerminatorRemains;
         var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
             RunSettingsCommandModel,
             options,
@@ -132,20 +137,19 @@ internal sealed class CommandLineBuilder(
                 CommandLinePhase.Terminal)
             .ToList();
         var hasOptionTerminator = pendingTerminatorState;
-        var extractedManualOptions = options.ArgumentsContainToolOptions
-                                     && hasOptionTerminator
-            ? ExtractRecognizedManualOptionsByScope(
-                manualArgs,
-                globalCommandModel,
-                [.. commandSpecificModel, .. terminalCommandModel],
-                options,
-                preserveTerminalOptions: true)
-            : ExtractedManualOptions.Empty;
+        var extractedManualOptions = ExtractManualOptionsBeforeTerminator(
+            options,
+            hasOptionTerminator,
+            manualArgs,
+            globalCommandModel,
+            commandSpecificModel,
+            terminalCommandModel);
         ValidateTerminatorState(
             options,
             commandParts,
             manualArgs,
             extractedManualOptions,
+            manualOptionTerminatorRemains,
             terminatorEmittedBeforeProperties,
             modelEmittedOptionTerminator,
             hasOptionTerminator);
@@ -180,13 +184,10 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(runSettingsArgs);
 
         // 8. A terminal option must not follow any rendered or manually supplied option terminator.
-        if ((terminalAdditionalArgs.Count > 0 || terminalOptionArgs.Count > 0)
-            && emittedOptionTerminator)
-        {
-            throw new InvalidOperationException(
-                "Terminal options cannot be combined with arguments that emit or supply an "
-                + "end-of-options marker. Remove either the terminal option or the '--' source.");
-        }
+        ValidateTerminalOptions(
+            terminalAdditionalArgs,
+            terminalOptionArgs,
+            emittedOptionTerminator);
 
         // Terminal options must follow every positional argument source.
         allArgs.AddRange(terminalArgumentArgs);
@@ -194,6 +195,43 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(terminalOptionArgs);
 
         return new CommandLine(tool, allArgs);
+    }
+
+    private static ExtractedManualOptions ExtractManualOptionsBeforeTerminator(
+        CommandLineToolOptions options,
+        bool hasOptionTerminator,
+        List<string> manualArgs,
+        IReadOnlyList<PropertyCommandLinePart> globalCommandModel,
+        IReadOnlyList<PropertyCommandLinePart> commandSpecificModel,
+        IReadOnlyList<PropertyCommandLinePart> terminalCommandModel)
+    {
+        if (!options.ArgumentsContainToolOptions || !hasOptionTerminator)
+        {
+            return ExtractedManualOptions.Empty;
+        }
+
+        return ExtractRecognizedManualOptionsByScope(
+            manualArgs,
+            globalCommandModel,
+            [.. commandSpecificModel, .. terminalCommandModel],
+            options,
+            preserveTerminalOptions: true);
+    }
+
+    private static void ValidateTerminalOptions(
+        IReadOnlyCollection<string> terminalAdditionalArgs,
+        IReadOnlyCollection<string> terminalOptionArgs,
+        bool emittedOptionTerminator)
+    {
+        if (!emittedOptionTerminator
+            || (terminalAdditionalArgs.Count == 0 && terminalOptionArgs.Count == 0))
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            "Terminal options cannot be combined with arguments that emit or supply an "
+            + "end-of-options marker. Remove either the terminal option or the '--' source.");
     }
 
     private static void ValidateRunSettingsTerminator(
@@ -214,6 +252,7 @@ internal sealed class CommandLineBuilder(
         CommandLineToolOptions options,
         bool isGlobalOption,
         IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands,
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> materializedRequiredOperands,
         ref bool emittedOptionTerminator,
         out int? emittedOptionTerminatorIndex)
     {
@@ -249,7 +288,8 @@ internal sealed class CommandLineBuilder(
                 options,
                 ref emittedOptionTerminator,
                 out var phaseOptionTerminatorIndex,
-                manualRequiredOperands);
+                manualRequiredOperands,
+                materializedRequiredOperands);
             if (emittedOptionTerminatorIndex is null
                 && phaseOptionTerminatorIndex is { } phaseIndex)
             {
@@ -326,6 +366,7 @@ internal sealed class CommandLineBuilder(
         IReadOnlyCollection<string> commandParts,
         IReadOnlyCollection<string> manualArgs,
         ExtractedManualOptions extractedManualOptions,
+        bool manualOptionTerminatorRemains,
         bool terminatorEmittedBeforeProperties,
         bool emittedOptionTerminator,
         bool hasOptionTerminator)
@@ -337,7 +378,7 @@ internal sealed class CommandLineBuilder(
                 + "Remove the marker source or use options without a subcommand.");
         }
 
-        if (options.ArgumentsContainOptionTerminator
+        if (manualOptionTerminatorRemains
             && !manualArgs.Contains("--", StringComparer.Ordinal))
         {
             throw new ArgumentException(
@@ -355,7 +396,7 @@ internal sealed class CommandLineBuilder(
                 + "Remove either the terminal option or the '--' source.");
         }
 
-        if (options.ArgumentsContainOptionTerminator && emittedOptionTerminator)
+        if (manualOptionTerminatorRemains && emittedOptionTerminator)
         {
             throw new InvalidOperationException(
                 "Manual arguments cannot supply an end-of-options marker after one was already "
@@ -418,22 +459,30 @@ internal sealed class CommandLineBuilder(
         return [.. extracted.Global, .. extracted.Command];
     }
 
-    private static IReadOnlyDictionary<ArgumentPart, string> MatchManualRequiredOperands(
+    private static RequiredOperandMatch MatchManualRequiredOperands(
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         CommandLineToolOptions options,
         List<string> manualArgs)
     {
-        var missingRequiredOperands = commandModel
+        var requiredOperands = commandModel
             .OfType<ArgumentPart>()
             .Where(part => !part.IsGlobalOption
-                           && part.Attribute.Required
-                           && CommandArgumentBuilder.GetValues(part.Getter(options)).Count == 0)
+                           && part.Attribute.Required)
             .OrderBy(static part => part.Phase)
             .ThenBy(static part => part.Attribute.Position)
             .ToList();
+        var materializedValues = requiredOperands.ToDictionary(
+            static part => part,
+            part => (IReadOnlyList<string>) CommandArgumentBuilder.GetValues(part.Getter(options)));
+        var missingRequiredOperands = requiredOperands
+            .Where(part => materializedValues[part].Count == 0)
+            .ToList();
         if (missingRequiredOperands.Count == 0 || manualArgs.Count == 0)
         {
-            return new Dictionary<ArgumentPart, string>();
+            return new RequiredOperandMatch(
+                new Dictionary<ArgumentPart, string>(),
+                materializedValues,
+                false);
         }
 
         IReadOnlyList<int> operandIndices;
@@ -459,17 +508,29 @@ internal sealed class CommandLineBuilder(
 
         var matchedOperandCount = Math.Min(missingRequiredOperands.Count, operandIndices.Count);
         var result = new Dictionary<ArgumentPart, string>(matchedOperandCount);
+        var indicesToRemove = new HashSet<int>();
+        var consumedOptionTerminator = false;
         for (var index = 0; index < matchedOperandCount; index++)
         {
-            result.Add(missingRequiredOperands[index], manualArgs[operandIndices[index]]);
+            var operandIndex = operandIndices[index];
+            var requiredOperand = missingRequiredOperands[index];
+            result.Add(requiredOperand, manualArgs[operandIndex]);
+            indicesToRemove.Add(operandIndex);
+            if (requiredOperand.Attribute.PrependOptionTerminator
+                && operandIndex > 0
+                && manualArgs[operandIndex - 1] == "--")
+            {
+                indicesToRemove.Add(operandIndex - 1);
+                consumedOptionTerminator = true;
+            }
         }
 
-        foreach (var index in operandIndices.Take(matchedOperandCount).OrderDescending())
+        foreach (var index in indicesToRemove.OrderDescending())
         {
             manualArgs.RemoveAt(index);
         }
 
-        return result;
+        return new RequiredOperandMatch(result, materializedValues, consumedOptionTerminator);
     }
 
     private static ExtractedManualOptions ExtractRecognizedManualOptionsByScope(
@@ -907,6 +968,11 @@ internal sealed class CommandLineBuilder(
     {
         public static ExtractedManualOptions Empty { get; } = new([], [], false);
     }
+
+    private readonly record struct RequiredOperandMatch(
+        IReadOnlyDictionary<ArgumentPart, string> ManualValues,
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> MaterializedValues,
+        bool ConsumedOptionTerminator);
 
     private readonly record struct ManualOptionMatch(
         int ArgumentCount,

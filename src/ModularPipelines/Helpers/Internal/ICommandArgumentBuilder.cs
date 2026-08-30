@@ -41,11 +41,15 @@ internal interface ICommandArgumentBuilder
     /// <param name="manualRequiredOperands">
     /// Manual values mapped to the required structured operands they supply.
     /// </param>
+    /// <param name="materializedRequiredOperands">
+    /// Required operand values already materialized while matching manual operands.
+    /// </param>
     /// <returns>A list of string arguments ready to be passed to a CLI tool.</returns>
     IReadOnlyList<string> BuildArguments(
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         object optionsObject,
         ref bool emittedOptionTerminator,
         out int? emittedOptionTerminatorIndex,
-        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands = null);
+        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands = null,
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>>? materializedRequiredOperands = null);
 }

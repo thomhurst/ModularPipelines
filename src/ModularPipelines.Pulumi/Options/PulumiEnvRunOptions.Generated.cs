@@ -19,9 +19,20 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "run")]
 public record PulumiEnvRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)] string Command
 ) : PulumiOptions
 {
+    public PulumiEnvRunOptions(string EnvironmentName)
+        : this(EnvironmentName, default(string)!)
+    {
+    }
+
+    public void Deconstruct(out string EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
+
     /// <summary>
     /// open an environment draft with --draft=&lt;change-request-id&gt;
     /// </summary>
@@ -129,5 +140,11 @@ public record PulumiEnvRunOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// Arguments passed to the command.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Args { get; set; }
 
 }

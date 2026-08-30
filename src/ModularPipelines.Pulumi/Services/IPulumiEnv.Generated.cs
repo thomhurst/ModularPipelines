@@ -24,32 +24,32 @@ public interface IPulumiEnv
     /// <summary>
     /// pulumi provider sub-commands.
     /// </summary>
-    PulumiEnvProvider Provider { get; }
+    PulumiEnvProvider Provider => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi referrer sub-commands.
     /// </summary>
-    PulumiEnvReferrer Referrer { get; }
+    PulumiEnvReferrer Referrer => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi schedule sub-commands.
     /// </summary>
-    PulumiEnvSchedule Schedule { get; }
+    PulumiEnvSchedule Schedule => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi settings sub-commands.
     /// </summary>
-    PulumiEnvSettings Settings { get; }
+    PulumiEnvSettings Settings => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi tag sub-commands.
     /// </summary>
-    PulumiEnvTag Tag { get; }
+    PulumiEnvTag Tag => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi webhook sub-commands.
     /// </summary>
-    PulumiEnvWebhook Webhook { get; }
+    PulumiEnvWebhook Webhook => throw new System.NotSupportedException();
 
     /// <summary>
     /// Manage environments
@@ -58,7 +58,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(PulumiEnvOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(PulumiEnvOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Clone an existing environment into a new environment.
@@ -67,7 +68,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CloneAsync(PulumiEnvCloneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> CloneAsync(PulumiEnvCloneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Show changes between versions
@@ -76,7 +78,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DiffAsync(PulumiEnvDiffOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> DiffAsync(PulumiEnvDiffOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Edit an environment definition
@@ -85,7 +88,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> EditAsync(PulumiEnvEditOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> EditAsync(PulumiEnvEditOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get a value within an environment
@@ -94,7 +98,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetAsync(PulumiEnvGetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> GetAsync(PulumiEnvGetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create an empty environment with the given name, ready for editing
@@ -103,7 +108,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InitAsync(PulumiEnvInitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> InitAsync(PulumiEnvInitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List environments
@@ -112,7 +118,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(PulumiEnvListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(PulumiEnvListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Open the environment with the given name and return the result
@@ -121,7 +128,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OpenAsync(PulumiEnvOpenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> OpenAsync(PulumiEnvOpenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a request for opening a protected environment with the given name.
@@ -130,7 +138,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OpenRequestAsync(PulumiEnvOpenRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> OpenRequestAsync(PulumiEnvOpenRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Remove an environment or a value from an environment
@@ -139,7 +148,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RemoveAsync(PulumiEnvRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> RemoveAsync(PulumiEnvRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Rotate secrets in an environment
@@ -148,7 +158,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RotateAsync(PulumiEnvRotateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> RotateAsync(PulumiEnvRotateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Open the environment with the given name and run a command
@@ -157,7 +168,8 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RunAsync(PulumiEnvRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> RunAsync(PulumiEnvRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Set a value within an environment
@@ -166,6 +178,7 @@ public interface IPulumiEnv
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SetAsync(PulumiEnvSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetAsync(PulumiEnvSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

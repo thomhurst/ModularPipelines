@@ -48,6 +48,21 @@ public class PulumiState : IPulumiState
     }
 
     /// <summary>
+    /// Show a resource's state
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetAsync(
+        PulumiStateGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiStateGetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Move resources from one stack to another
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -56,6 +71,21 @@ public class PulumiState : IPulumiState
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MoveAsync(
         PulumiStateMoveOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Promote a snippet from state into Pulumi program code
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PromoteAsync(
+        PulumiStatePromoteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

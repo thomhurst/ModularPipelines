@@ -897,6 +897,37 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Materializes_Required_Operand_Once()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var options = new TestRequiredSinglePassOperandOptions(["input"]);
+
+        var result = builder.Build(options);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ToString()).IsEqualTo("test input");
+            await Assert.That(options.GetterCount).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Build_Validates_Mapped_Early_Operand_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestRequiredEarlyOperandOptions
+        {
+            Arguments = ["-input"],
+            Force = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
     public async Task Build_Hoists_ColonSeparated_Manual_Option_Before_Property_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -2041,6 +2072,37 @@ public class CommandLineBuilderTests : TestBase
             : this(default(string)!, default(string)!)
         {
         }
+    }
+
+    [CliTool("test")]
+    private sealed record TestRequiredSinglePassOperandOptions(IEnumerable<string> values)
+        : CommandLineToolOptions
+    {
+        public int GetterCount { get; private set; }
+
+        [CliArgument(0, Required = true)]
+        public IEnumerable<string> Values
+        {
+            get
+            {
+                GetterCount++;
+                return values;
+            }
+        }
+    }
+
+    [CliTool("test")]
+    private sealed record TestRequiredEarlyOperandOptions : CommandLineToolOptions
+    {
+        [CliArgument(
+            0,
+            Phase = CommandLinePhase.EarlyOperand,
+            Required = true,
+            PrependOptionTerminatorIfValueStartsWithDash = true)]
+        public string? Operand { get; init; }
+
+        [CliFlag("--force")]
+        public bool Force { get; init; }
     }
 
     [CliTool("dotnet")]

@@ -29,6 +29,7 @@ internal partial class Pulumi : IPulumi
         IPulumiApi api,
         IPulumiConfig config,
         IPulumiDeployment deployment,
+        IPulumiDo @do,
         IPulumiEnv env,
         IPulumiInsights insights,
         IPulumiLogs logs,
@@ -47,6 +48,7 @@ internal partial class Pulumi : IPulumi
         Api = api;
         Config = config;
         Deployment = deployment;
+        Do = @do;
         Env = env;
         Insights = insights;
         Logs = logs;
@@ -72,6 +74,9 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public IPulumiDeployment Deployment { get; }
+
+    /// <inheritdoc />
+    public IPulumiDo Do { get; }
 
     /// <inheritdoc />
     public IPulumiEnv Env { get; }

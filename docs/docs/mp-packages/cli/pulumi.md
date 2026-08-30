@@ -64,6 +64,7 @@ var pulumi = context.Tools.Pulumi;
 | `pulumi deployment settings get` | `PulumiDeploymentSettingsGetOptions` |
 | `pulumi destroy` | `PulumiDestroyOptions` |
 | `pulumi do` | `PulumiDoOptions` |
+| `pulumi do show-resources` | `PulumiDoShowResourcesOptions` |
 | `pulumi env` | `PulumiEnvOptions` |
 | `pulumi env clone` | `PulumiEnvCloneOptions` |
 | `pulumi env diff` | `PulumiEnvDiffOptions` |
@@ -245,7 +246,9 @@ var pulumi = context.Tools.Pulumi;
 | `pulumi stack webhook ping` | `PulumiStackWebhookPingOptions` |
 | `pulumi stack webhook remove` | `PulumiStackWebhookRemoveOptions` |
 | `pulumi state` | `PulumiStateOptions` |
+| `pulumi state get` | `PulumiStateGetOptions` |
 | `pulumi state move` | `PulumiStateMoveOptions` |
+| `pulumi state promote` | `PulumiStatePromoteOptions` |
 | `pulumi state protect` | `PulumiStateProtectOptions` |
 | `pulumi state remove` | `PulumiStateRemoveOptions` |
 | `pulumi state rename` | `PulumiStateRenameOptions` |

@@ -617,7 +617,8 @@ public static class ExternalToolDefinitionLoader
             CliCompatibilityForwardingKind.NullableInt32ToString =>
                 propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("int?"))
                 && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?")),
-            CliCompatibilityForwardingKind.NullableBooleanToString =>
+            CliCompatibilityForwardingKind.NullableBooleanToString
+                or CliCompatibilityForwardingKind.NullableBooleanToLocalBackendString =>
                 propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("bool?"))
                 && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?")),
             CliCompatibilityForwardingKind.NullableBooleanToStringCollection =>

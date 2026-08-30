@@ -24,17 +24,17 @@ public interface IPulumiPolicy
     /// <summary>
     /// pulumi compliance sub-commands.
     /// </summary>
-    PulumiPolicyCompliance Compliance { get; }
+    PulumiPolicyCompliance Compliance => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi group sub-commands.
     /// </summary>
-    PulumiPolicyGroup Group { get; }
+    PulumiPolicyGroup Group => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi issue sub-commands.
     /// </summary>
-    PulumiPolicyIssue Issue { get; }
+    PulumiPolicyIssue Issue => throw new System.NotSupportedException();
 
     /// <summary>
     /// Manage resource policies
@@ -43,7 +43,8 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(PulumiPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(PulumiPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Analyze existing resource state against one or more local policy packs.
@@ -52,7 +53,8 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AnalyzeAsync(PulumiPolicyAnalyzeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> AnalyzeAsync(PulumiPolicyAnalyzeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Disable a Policy Pack for a Pulumi organization
@@ -61,7 +63,8 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DisableAsync(PulumiPolicyDisableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> DisableAsync(PulumiPolicyDisableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Enable a Policy Pack for a Pulumi organization. Can specify latest to enable the latest version of the Policy Pack or a specific version number.
@@ -70,7 +73,8 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> EnableAsync(PulumiPolicyEnableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> EnableAsync(PulumiPolicyEnableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Install required policy packs for a stack.
@@ -79,7 +83,8 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InstallAsync(PulumiPolicyInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> InstallAsync(PulumiPolicyInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List all Policy Packs for a Pulumi organization
@@ -88,7 +93,8 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(PulumiPolicyListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(PulumiPolicyListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a new Pulumi Policy Pack from a template.
@@ -97,7 +103,8 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NewAsync(PulumiPolicyNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> NewAsync(PulumiPolicyNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Publish a Policy Pack to the Pulumi Cloud
@@ -106,7 +113,8 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PublishAsync(PulumiPolicyPublishOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> PublishAsync(PulumiPolicyPublishOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Removes a Policy Pack from a Pulumi organization. The Policy Pack must be disabled from all Policy Groups before it can be removed.
@@ -115,7 +123,8 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RemoveAsync(PulumiPolicyRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> RemoveAsync(PulumiPolicyRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Validate a Policy Pack configuration against the configuration schema of the specified version.
@@ -124,6 +133,7 @@ public interface IPulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ValidateConfigAsync(PulumiPolicyValidateConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ValidateConfigAsync(PulumiPolicyValidateConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }
