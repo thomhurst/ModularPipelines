@@ -51,6 +51,30 @@ public class DockerCliCompatibilityTests
     }
 
     [Test]
+    public async Task ComposeExec_Preserves_NoTty_WhenInstalledHelpOmitsIt()
+    {
+        const string helpText = """
+            Execute a command in a running container
+
+            Usage: docker compose exec [OPTIONS] SERVICE COMMAND [ARGS...]
+            """;
+        var command = await new TestDockerCliScraper().Parse(
+            ["docker", "compose", "exec"],
+            helpText);
+
+        var option = command!.Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("--no-TTY");
+            await Assert.That(option.ShortForm).IsEqualTo("-T");
+            await Assert.That(option.PropertyName).IsEqualTo("NoTty");
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.ValueSeparator).IsEqualTo("=");
+        }
+    }
+
+    [Test]
     public async Task Switch_Normalization_Rejects_Distinct_Options_With_One_Canonical_Name()
     {
         const string helpText = """

@@ -107,20 +107,6 @@ public class DockerBuilderCompatibilityTests
     }
 
     [Test]
-    public async Task ComposeExecNoTtyRendersCanonicalSwitch()
-    {
-        var options = new DockerComposeExecOptions("service", "command")
-        {
-            NoTty = true,
-        };
-        var model = new CommandModelProvider()
-            .GetCommandModel(typeof(DockerComposeExecOptions));
-        var arguments = new CommandArgumentBuilder().BuildArguments(model, options);
-
-        await Assert.That(arguments).Contains("--no-TTY=true");
-    }
-
-    [Test]
     public async Task CustomBuildxRegistrationDoesNotNeedToImplementBuilder()
     {
         var customBuildx = DispatchProxy.Create<IDockerBuildx, ThrowingProxy>();
