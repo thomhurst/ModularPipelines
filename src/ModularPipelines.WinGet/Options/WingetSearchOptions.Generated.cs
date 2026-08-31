@@ -59,8 +59,8 @@ public record WingetSearchOptions : WingetOptions
     /// <summary>
     /// Find package using exact match
     /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
+    [CliFlag("--exact", ShortForm = "-e")]
+    public bool? Exact { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -72,7 +72,7 @@ public record WingetSearchOptions : WingetOptions
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
     [CliOption("--authentication-mode")]
-    public string? AuthenticationModeValue { get; set; }
+    public string? AuthenticationMode { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication
@@ -89,14 +89,14 @@ public record WingetSearchOptions : WingetOptions
     /// <summary>
     /// Show available versions of the package
     /// </summary>
-    [CliOption("--versions")]
-    public string? Versions { get; set; }
+    [CliFlag("--versions")]
+    public bool? Versions { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -121,12 +121,5 @@ public record WingetSearchOptions : WingetOptions
     /// </summary>
     [CliOption("--query", ShortForm = "-q")]
     public string? Query { get; set; }
-
-    [Obsolete("Use AuthenticationModeValue instead.")]
-    public bool? AuthenticationMode
-    {
-        get => bool.TryParse(AuthenticationModeValue, out var value) ? value : null;
-        set => AuthenticationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

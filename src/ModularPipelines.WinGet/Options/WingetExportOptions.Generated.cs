@@ -29,8 +29,8 @@ public record WingetExportOptions : WingetOptions
     /// <summary>
     /// Include package versions in export file
     /// </summary>
-    [CliOption("--include-versions")]
-    public string? IncludeVersions { get; set; }
+    [CliFlag("--include-versions")]
+    public bool? IncludeVersions { get; set; }
 
     /// <summary>
     /// Accept all source agreements during source operations
@@ -41,8 +41,8 @@ public record WingetExportOptions : WingetOptions
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

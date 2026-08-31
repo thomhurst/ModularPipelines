@@ -23,14 +23,14 @@ public record WingetHashOptions : WingetOptions
     /// <summary>
     /// Input file will be treated as msix; signature hash will be provided if signed
     /// </summary>
-    [CliOption("--msix", ShortForm = "-m")]
-    public string? Msix { get; set; }
+    [CliFlag("--msix", ShortForm = "-m")]
+    public bool? Msix { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
