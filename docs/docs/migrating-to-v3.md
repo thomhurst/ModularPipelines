@@ -674,7 +674,7 @@ public class PackageModule : Module<PackageResult>
             // Method moved to context
             await context.SubModule(package, async () =>
             {
-                await context.Tools.DotNet.PackAsync(new DotNetPackOptions { Project = package });
+                await context.Tools.DotNet.PackAsync(new DotNetPackOptions { ProjectSolution = package });
             });
         }
 

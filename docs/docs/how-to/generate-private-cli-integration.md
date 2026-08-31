@@ -22,8 +22,8 @@ Commit `.config/dotnet-tools.json`. Update the pinned package version deliberate
 the generated diff, and regenerate before merging the update.
 
 The NuGet package follows the ModularPipelines semantic version. The input format is
-versioned independently by `schemaVersion`. This release supports schema version `1` and
-rejects unknown versions rather than interpreting them differently.
+versioned independently by `schemaVersion`. This release supports schema version `2`. It
+rejects version `1` and unknown versions rather than interpreting them differently.
 
 ## Define the private tool
 
