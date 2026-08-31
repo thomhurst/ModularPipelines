@@ -72,6 +72,11 @@ public partial class AzCliScraper : CliScraperBase
         "timeout",
     ];
 
+    private static readonly (string[] CommandParts, string SectionName)[] ExplicitValueSectionOverrides =
+    [
+        (["batch", "node", "user", "create"], "User Arguments"),
+    ];
+
     public AzCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AzCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -364,10 +369,12 @@ public partial class AzCliScraper : CliScraperBase
                              .Any(capture => capture.Value.Equals(
                                  "Required",
                                  StringComparison.OrdinalIgnoreCase))
-                         || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
+                          || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase)
+                          || DescriptionDeclaresRequiredValue(description);
         var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
         var isFlag = !isRequired && IsPresenceOnlyFlag(
             commandParts,
+            sectionName,
             longFlag,
             valueHint,
             description,
@@ -406,6 +413,7 @@ public partial class AzCliScraper : CliScraperBase
     /// </summary>
     private static bool IsPresenceOnlyFlag(
         IReadOnlyList<string> commandParts,
+        string sectionName,
         string switchName,
         string valueHint,
         string description,
@@ -417,6 +425,11 @@ public partial class AzCliScraper : CliScraperBase
                 && commandParts[^1].Equals("wait", StringComparison.OrdinalIgnoreCase)))
         {
             return false;
+        }
+
+        if (IsKnownExplicitValueSection(commandParts, sectionName))
+        {
+            return description.Contains("if flag present", StringComparison.OrdinalIgnoreCase);
         }
 
         if (switchName.Equals("accept-term", StringComparison.OrdinalIgnoreCase)
@@ -441,6 +454,17 @@ public partial class AzCliScraper : CliScraperBase
                valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
                valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
     }
+
+    private static bool IsKnownExplicitValueSection(
+        IReadOnlyList<string> commandParts,
+        string sectionName) =>
+        ExplicitValueSectionOverrides.Any(candidate =>
+            candidate.CommandParts.SequenceEqual(commandParts, StringComparer.OrdinalIgnoreCase)
+            && candidate.SectionName.Equals(sectionName, StringComparison.OrdinalIgnoreCase));
+
+    private static bool DescriptionDeclaresRequiredValue(string description) =>
+        description.Equals("Required.", StringComparison.OrdinalIgnoreCase)
+        || description.EndsWith(". Required.", StringComparison.OrdinalIgnoreCase);
 
     private static bool HelpDeclaresOptionValue(string switchName, string description) =>
         AzValueDescriptionPattern().IsMatch(description)

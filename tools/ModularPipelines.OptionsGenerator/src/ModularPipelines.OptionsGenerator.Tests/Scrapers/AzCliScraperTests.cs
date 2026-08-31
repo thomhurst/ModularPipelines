@@ -821,6 +821,49 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Batch_User_Arguments_Preserve_Value_Arity_And_Required_Name()
+    {
+        const string helpText = """
+            Command
+                az batch node user create : Add a user account to a Batch compute node.
+
+            User Arguments
+                --json-file      : A file containing the user specification in JSON.
+                --expiry-time    : The time at which the account should expire. Expected format is an ISO-8601 timestamp.
+                --is-admin       : Whether the account should be an administrator. The default value is false. True if flag present.
+                --name           : The user name of the account. Required.
+                --password       : The password of the account.
+                --ssh-public-key : The SSH public key used for remote login.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "batch", "node", "user", "create"],
+            helpText);
+        var options = command!.Options.ToDictionary(option => option.SwitchName);
+
+        using (Assert.Multiple())
+        {
+            foreach (var switchName in new[]
+                     {
+                         "--json-file",
+                         "--expiry-time",
+                         "--name",
+                         "--password",
+                         "--ssh-public-key",
+                     })
+            {
+                await Assert.That(options[switchName].IsFlag).IsFalse();
+                await Assert.That(options[switchName].CSharpType).IsEqualTo("string?");
+            }
+
+            await Assert.That(options["--name"].IsRequired).IsTrue();
+            await Assert.That(options["--password"].IsSecret).IsTrue();
+            await Assert.That(options["--is-admin"].IsFlag).IsTrue();
+            await Assert.That(options["--is-admin"].CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
     public async Task Stack_Child_Scope_Is_A_Presence_Only_Flag()
     {
         const string helpText = """
