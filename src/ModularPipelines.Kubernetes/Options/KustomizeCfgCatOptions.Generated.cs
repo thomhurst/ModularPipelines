@@ -22,11 +22,6 @@ public record KustomizeCfgCatOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Dir
 ) : KustomizeOptions
 {
-    public KustomizeCfgCatOptions()
-        : this(string.Empty)
-    {
-    }
-
     /// <summary>
     /// annotate resources with their file origins.
     /// </summary>

@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Kubernetes.Services;
 
 namespace ModularPipelines.Kubernetes.Extensions;
@@ -34,4 +33,5 @@ public static class KustomizeExtensions
         services.TryAddScoped<IKustomizeFn, KustomizeFn>();
         return services;
     }
+
 }
