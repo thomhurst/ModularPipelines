@@ -1003,6 +1003,7 @@ public class CliScraperTraversalTests
                   --ignore-registry-errors    Continue when a registry is unavailable
                   --ignore-unfixable          Ignore vulnerabilities without a fix
                   --allow-build               A list of package names allowed to run postinstall scripts
+                  --cache-location            Path to the package cache directory
                   --edit-dir                  The directory in which to edit the package
                   --global-dir                Specify a custom directory to store global packages
                   --otp                       One-time password for two-factor authentication
@@ -1038,8 +1039,9 @@ public class CliScraperTraversalTests
 
             foreach (var switchName in new[]
                      {
-                         "--allow-build", "--edit-dir", "--filter", "--global-dir", "--package",
-                         "--patches-dir", "--publish-branch", "--registry", "--resume-from", "--sort-by",
+                         "--allow-build", "--cache-location", "--edit-dir", "--filter", "--global-dir",
+                         "--package", "--patches-dir", "--publish-branch", "--registry", "--resume-from",
+                         "--sort-by",
                      })
             {
                 await Assert.That(options[switchName].IsFlag).IsFalse();

@@ -46,6 +46,13 @@ public partial class PnpmCliScraper : CliScraperBase
         "--sort-by",
     };
 
+    private static readonly string[] ValueOptionNameIndicators =
+    [
+        "filter", "dir", "registry", "store", "config", "reporter", "loglevel",
+    ];
+
+    private static readonly string[] ValueDescriptionIndicators = ["path", "name", "url", "file"];
+
     public PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -381,7 +388,7 @@ public partial class PnpmCliScraper : CliScraperBase
             // pnpm normally represents value-taking options with an explicit placeholder,
             // but some options omit it from their rendered help text.
             var isFlag = string.IsNullOrEmpty(valueHint)
-                         && !PlaceholderFreeValueOptions.Contains(longForm);
+                         && !IsPlaceholderFreeValueOption(longForm, description);
             var csharpType = isFlag ? "bool?" : "string?";
 
             options.Add(new CliOptionDefinition
@@ -403,6 +410,26 @@ public partial class PnpmCliScraper : CliScraperBase
         }
 
         return options;
+    }
+
+    private static bool IsPlaceholderFreeValueOption(string optionName, string description)
+    {
+        if (PlaceholderFreeValueOptions.Contains(optionName))
+        {
+            return true;
+        }
+
+        var normalizedName = optionName.TrimStart('-');
+        if (normalizedName.StartsWith("no-", StringComparison.OrdinalIgnoreCase)
+            || normalizedName.StartsWith("ignore-", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        return ValueOptionNameIndicators.Any(part =>
+                   normalizedName.Contains(part, StringComparison.OrdinalIgnoreCase))
+               || ValueDescriptionIndicators.Any(part =>
+                   description.Contains(part, StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>
