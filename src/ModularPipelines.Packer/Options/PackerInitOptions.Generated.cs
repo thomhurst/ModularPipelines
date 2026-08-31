@@ -23,11 +23,6 @@ public record PackerInitOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
 ) : PackerOptions
 {
-    public PackerInitOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// On top of installing missing plugins, update installed plugins to the latest available version, if there is a new higher one. Note that this still takes into consideration the version constraint of the config.
     /// </summary>

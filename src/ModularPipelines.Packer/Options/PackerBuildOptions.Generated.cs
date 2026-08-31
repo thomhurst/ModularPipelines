@@ -23,11 +23,6 @@ public record PackerBuildOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
 ) : PackerOptions
 {
-    public PackerBuildOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Disable color output. (Default: color)
     /// </summary>
@@ -79,14 +74,14 @@ public record PackerBuildOptions(
     /// <summary>
     /// Variable for templates, can be used multiple times.
     /// </summary>
-    [CliFlag("--var")]
-    public bool? Var { get; set; }
+    [CliOption("--var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
 
     /// <summary>
     /// JSON or HCL2 file containing user variables, can be used multiple times.
     /// </summary>
     [CliOption("--var-file", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? VarFileValues { get; set; }
+    public IEnumerable<string>? VarFile { get; set; }
 
     /// <summary>
     /// Display warnings for user variable files containing undeclared variables.
@@ -111,12 +106,5 @@ public record PackerBuildOptions(
     /// </summary>
     [CliFlag("--skip-enforcement")]
     public bool? SkipEnforcement { get; set; }
-
-    [Obsolete("Use VarFileValues instead.")]
-    public string? VarFile
-    {
-        get => VarFileValues?.FirstOrDefault();
-        set => VarFileValues = value is null ? null : [value];
-    }
 
 }

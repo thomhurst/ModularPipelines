@@ -23,11 +23,6 @@ public record PackerInspectOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
 ) : PackerOptions
 {
-    public PackerInspectOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Machine-readable output
     /// </summary>

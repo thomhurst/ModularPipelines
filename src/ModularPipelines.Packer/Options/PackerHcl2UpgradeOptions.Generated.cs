@@ -23,11 +23,6 @@ public record PackerHcl2UpgradeOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
 ) : PackerOptions
 {
-    public PackerHcl2UpgradeOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Set output file name. By default this will be the TEMPLATE name with ".pkr.hcl" appended to it. To be a valid Packer HCL template, it must have the suffix ".pkr.hcl"
     /// </summary>
