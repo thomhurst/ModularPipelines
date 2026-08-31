@@ -36,6 +36,12 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Size of the boot disk in GB.
+    /// </summary>
+    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskSize { get; set; }
+
+    /// <summary>
     /// Arguments passed to the entrypoint. Example: $ gcloud workstations configs create --container-args=arg_1,arg_2
     /// </summary>
     [CliOption("--container-args", Format = OptionFormat.EqualsSeparated)]
@@ -120,16 +126,22 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public bool? GrantWorkstationAdminRoleOnCreate { get; set; }
 
     /// <summary>
-    /// Custom metadata to apply to Compute Engine instances. Example: $ gcloud workstations configs create \ --instance-metadata=key1=value1,key2=value2
+    /// How long (in seconds) to wait before automatically stopping an instance that hasn't received any user traffic. A value of 0 indicates that this instance should never time out due to idleness.
     /// </summary>
-    [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? InstanceMetadata { get; set; }
+    [CliOption("--idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? IdleTimeout { get; set; }
 
     /// <summary>
     /// Labels that are applied to the configuration and propagated to the underlying Compute Engine resources. Example: $ gcloud workstations configs create \ --labels=label1=value1,label2=value2
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Machine type determines the specifications of the Compute Engine machines that the workstations created under this configuration will run on.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
 
     /// <summary>
     /// Maximum number of workstations under this configuration a user can have workstations.workstation.use permission on. If not specified, defaults to 0, which indicates a user can have unlimited number of workstations under this configuration.
@@ -144,16 +156,28 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
+    /// Number of instances to pool for faster Workstation startup.
+    /// </summary>
+    [CliOption("--pool-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PoolSize { get; set; }
+
+    /// <summary>
     /// Specifies the zones the VM and disk resources will be replicated within the region. If set, exactly two zones within the workstation cluster's region must be specified. Example: $ gcloud workstations configs create \ --replica-zones=us-central1-a,us-central1-f
     /// </summary>
     [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ReplicaZones { get; set; }
 
     /// <summary>
+    /// How long (in seconds) to wait before automatically stopping a workstation after it started. A value of 0 indicates that workstations using this config should never time out.
+    /// </summary>
+    [CliOption("--running-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? RunningTimeout { get; set; }
+
+    /// <summary>
     /// Email address of the service account that will be used on VM instances used to support this config. This service account must have permission to pull the specified container image. If not set, VMs will run without a service account, in which case the image must be publicly accessible.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
 
     /// <summary>
     /// Scopes to grant to the service_account. Various scopes are automatically added based on feature usage. When specified, users of workstations under this configuration must have iam.serviceAccounts.actAs on the service account.
@@ -192,129 +216,101 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public IEnumerable<string>? VmTags { get; set; }
 
     /// <summary>
-    /// The number of accelerator cards exposed to the instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Accelerator settings The number of accelerator cards exposed to the instance. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--accelerator-count", Format = OptionFormat.EqualsSeparated)]
     public int? AcceleratorCount { get; set; }
 
     /// <summary>
-    /// The type of accelerator resource to attach to the instance, for example, "nvidia-tesla-p100".
+    /// Accelerator settings The type of accelerator resource to attach to the instance, for example, "nvidia-tesla-p100".
     /// </summary>
     [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
     public string? AcceleratorType { get; set; }
 
     /// <summary>
-    /// A docker image for the workstation. This image must be accessible by the service account configured in this configuration (--service-account). If no service account is defined, this image must be public.
+    /// At most one of these can be specified: A docker image for the workstation. This image must be accessible by the service account configured in this configuration (--service-account). If no service account is defined, this image must be public.
     /// </summary>
     [CliOption("--container-custom-image", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerCustomImage { get; set; }
 
     /// <summary>
-    /// The customer-managed encryption key to use for this config. If not specified, a Google-managed encryption key is used. This flag argument must be specified if any of the other arguments in this group are specified.
-    /// </summary>
-    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
-    public string? KmsKey { get; set; }
-
-    /// <summary>
-    /// The service account associated with the provided customer-managed encryption key.
-    /// </summary>
-    [CliOption("--kms-key-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? KmsKeyServiceAccount { get; set; }
-
-    /// <summary>
-    /// If set, workstations under this configuration will not have a persistent directory.
-    /// </summary>
-    [CliFlag("--no-persistent-storage")]
-    public bool? NoPersistentStorage { get; set; }
-
-    /// <summary>
-    /// Number of seconds to wait after initially creating or subsequently shutting down the workstation before converting its disk into a snapshot to save costs. A value of 0 indicates that the disk will never be archived.
-    /// </summary>
-    [CliOption("--disk-archive-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? DiskArchiveTimeout { get; set; }
-
-    /// <summary>
-    /// Type of the persistent directory. DISK_TYPE must be one of: pd-standard, pd-balanced, pd-ssd, hyperdisk-balanced-ha.
-    /// </summary>
-    [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDiskType? DiskType { get; set; }
-
-    /// <summary>
-    /// Size of the persistent directory in GB. DISK_SIZE must be one of: 10, 50, 100, 200, 500, 1000.
-    /// </summary>
-    [CliOption("--disk-size", Format = OptionFormat.EqualsSeparated)]
-    public int? DiskSize { get; set; }
-
-    /// <summary>
-    /// Name of the snapshot to use as the source for the home disk.
-    /// </summary>
-    [CliOption("--disk-source-snapshot", Format = OptionFormat.EqualsSeparated)]
-    public string? DiskSourceSnapshot { get; set; }
-
-    /// <summary>
-    /// Name of the snapshot to use as the source for the home disk.
-    /// </summary>
-    [CliOption("--pd-source-snapshot", Format = OptionFormat.EqualsSeparated)]
-    public string? PdSourceSnapshot { get; set; }
-
-    /// <summary>
-    /// Size of the boot disk in GB.
-    /// </summary>
-    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
-    public int? BootDiskSize { get; set; }
-
-    /// <summary>
-    /// How long (in seconds) to wait before automatically stopping an instance that hasn't received any user traffic. A value of 0 indicates that this instance should never time out due to idleness.
-    /// </summary>
-    [CliOption("--idle-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? IdleTimeout { get; set; }
-
-    /// <summary>
-    /// Machine type determines the specifications of the Compute Engine machines that the workstations created under this configuration will run on.
-    /// </summary>
-    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
-    public string? MachineType { get; set; }
-
-    /// <summary>
-    /// Number of instances to pool for faster Workstation startup.
-    /// </summary>
-    [CliOption("--pool-size", Format = OptionFormat.EqualsSeparated)]
-    public int? PoolSize { get; set; }
-
-    /// <summary>
-    /// How long (in seconds) to wait before automatically stopping a workstation after it started. A value of 0 indicates that workstations using this config should never time out.
-    /// </summary>
-    [CliOption("--running-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? RunningTimeout { get; set; }
-
-    /// <summary>
-    /// Code editor on base images. CONTAINER_PREDEFINED_IMAGE must be one of: base-image Base image - no IDE clion CLion codeoss Code OSS codeoss-cuda Code OSS + CUDA toolkit goland GoLand intellij IntelliJ IDEA Ultimate phpstorm PhpStorm pycharm PyCharm Professional rider Rider rubymine RubyMine webstorm WebStorm
+    /// At most one of these can be specified: Code editor on base images. CONTAINER_PREDEFINED_IMAGE must be one of: base-image Base image - no IDE clion CLion codeoss Code OSS codeoss-cuda Code OSS + CUDA toolkit goland GoLand intellij IntelliJ IDEA Ultimate phpstorm PhpStorm pycharm PyCharm Professional rider Rider rubymine RubyMine webstorm WebStorm
     /// </summary>
     [CliOption("--container-predefined-image", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerPredefinedImage { get; set; }
 
     /// <summary>
-    /// What should happen to the disk after the Workstation is deleted. DISK_RECLAIM_POLICY must be one of: delete The persistent disk will be deleted with the Workstation. retain The persistent disk will be remain after the workstation is deleted and the administrator must manually delete the disk.
+    /// Encryption key settings The customer-managed encryption key to use for this config. If not specified, a Google-managed encryption key is used. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
-    [CliOption("--disk-reclaim-policy", Format = OptionFormat.EqualsSeparated)]
-    public string? DiskReclaimPolicy { get; set; }
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
 
     /// <summary>
-    /// Type of the persistent directory. PD_DISK_TYPE must be one of: pd-standard, pd-balanced, pd-ssd.
+    /// Encryption key settings The service account associated with the provided customer-managed encryption key.
+    /// </summary>
+    [CliOption("--kms-key-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyServiceAccountValue { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, workstations under this configuration will not have a persistent directory.
+    /// </summary>
+    [CliFlag("--no-persistent-storage")]
+    public bool? NoPersistentStorage { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Type of the persistent directory. PD_DISK_TYPE must be one of: pd-standard, pd-balanced, pd-ssd.
     /// </summary>
     [CliOption("--pd-disk-type", Format = OptionFormat.EqualsSeparated)]
     public string? PdDiskType { get; set; }
 
     /// <summary>
-    /// What should happen to the disk after the Workstation is deleted. PD_RECLAIM_POLICY must be one of: delete The persistent disk will be deleted with the Workstation. retain The persistent disk will be remain after the workstation is deleted and the administrator must manually delete the disk.
+    /// At most one of these can be specified: What should happen to the disk after the Workstation is deleted. PD_RECLAIM_POLICY must be one of: delete The persistent disk will be deleted with the Workstation. retain The persistent disk will be remain after the workstation is deleted and the administrator must manually delete the disk.
     /// </summary>
     [CliOption("--pd-reclaim-policy", Format = OptionFormat.EqualsSeparated)]
     public string? PdReclaimPolicy { get; set; }
 
     /// <summary>
-    /// Size of the persistent directory in GB. PD_DISK_SIZE must be one of: 10, 50, 100, 200, 500, 1000.
+    /// At most one of these can be specified: At most one of these can be specified: Size of the persistent directory in GB. PD_DISK_SIZE must be one of: 10, 50, 100, 200, 500, 1000.
     /// </summary>
     [CliOption("--pd-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? PdDiskSize { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Name of the snapshot to use as the source for the home disk.
+    /// </summary>
+    [CliOption("--pd-source-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? PdSourceSnapshot { get; set; }
+
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use KmsKeyServiceAccountValue instead.")]
+    public int? KmsKeyServiceAccount
+    {
+        get => int.TryParse(KmsKeyServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => KmsKeyServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("InstanceMetadata is no longer supported by the installed CLI and has no effect.")]
+    public IEnumerable<string>? InstanceMetadata { get; set; }
+
+    [Obsolete("DiskArchiveTimeout is no longer supported by the installed CLI and has no effect.")]
+    public int? DiskArchiveTimeout { get; set; }
+
+    [Obsolete("DiskType is no longer supported by the installed CLI and has no effect.")]
+    public GcloudDiskType? DiskType { get; set; }
+
+    [Obsolete("DiskSize is no longer supported by the installed CLI and has no effect.")]
+    public int? DiskSize { get; set; }
+
+    [Obsolete("DiskSourceSnapshot is no longer supported by the installed CLI and has no effect.")]
+    public string? DiskSourceSnapshot { get; set; }
+
+    [Obsolete("DiskReclaimPolicy is no longer supported by the installed CLI and has no effect.")]
+    public string? DiskReclaimPolicy { get; set; }
 
 }

@@ -5522,6 +5522,88 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Numeric_Property_When_Cli_Value_Becomes_Textual()
+    {
+        var command = Command("ToolDeployOptions", "ToolOptions", ["deploy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--service-account",
+                    PropertyName = "ServiceAccount",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("ServiceAccount", "int?", switchName: "--service-account")]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved)))
+            .Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("ServiceAccountValue");
+            await Assert.That(preserved.Options.Single().CSharpType).IsEqualTo("string?");
+            await Assert.That(generated).Contains("public string? ServiceAccountValue");
+            await Assert.That(generated).Contains("public int? ServiceAccount");
+            await Assert.That(generated).Contains("int.TryParse(ServiceAccountValue");
+            await Assert.That(generated).Contains(
+                "set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "ServiceAccount",
+            "ServiceAccountValue",
+            CliCompatibilityForwardingKind.NullableInt32ToString);
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Numeric_Property_When_Cli_Value_Becomes_Textual_Collection()
+    {
+        var command = Command("ToolDeployOptions", "ToolOptions", ["deploy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--service-account",
+                    PropertyName = "ServiceAccount",
+                    CSharpType = "IEnumerable<string>?",
+                    AcceptsMultipleValues = true,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("ServiceAccount", "int?", switchName: "--service-account")]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved)))
+            .Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("ServiceAccountValues");
+            await Assert.That(generated).Contains("public IEnumerable<string>? ServiceAccountValues");
+            await Assert.That(generated).Contains("public int? ServiceAccount");
+            await Assert.That(generated).Contains("int.TryParse(ServiceAccountValues?.FirstOrDefault()");
+            await Assert.That(generated).Contains(
+                "set => ServiceAccountValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];");
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "ServiceAccount",
+            "ServiceAccountValues",
+            CliCompatibilityForwardingKind.NullableInt32ToStringCollection);
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Restores_Optional_Value_Target_On_Second_Run()
     {
         var command = Command("ToolBranchOptions", "ToolOptions", ["branch"]) with

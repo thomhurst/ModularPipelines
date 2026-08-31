@@ -58,7 +58,7 @@ public record GcloudTasksQueuesUpdateOptions(
     /// At most one of these can be specified: The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account.
     /// </summary>
     [CliOption("--http-oauth-service-account-email-override", Format = OptionFormat.EqualsSeparated)]
-    public int? HttpOauthServiceAccountEmailOverride { get; set; }
+    public string? HttpOauthServiceAccountEmailOverrideValue { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clear the field corresponding to --http-oauth-token-scope-override.
@@ -83,7 +83,7 @@ public record GcloudTasksQueuesUpdateOptions(
     /// At most one of these can be specified: The service account email to be used for generating an OpenID Connect token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account.
     /// </summary>
     [CliOption("--http-oidc-service-account-email-override", Format = OptionFormat.EqualsSeparated)]
-    public int? HttpOidcServiceAccountEmailOverride { get; set; }
+    public string? HttpOidcServiceAccountEmailOverrideValue { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clear the field corresponding to --http-oidc-token-audience-override.
@@ -217,5 +217,19 @@ public record GcloudTasksQueuesUpdateOptions(
     /// </summary>
     [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RoutingOverride { get; set; }
+
+    [Obsolete("Use HttpOauthServiceAccountEmailOverrideValue instead.")]
+    public int? HttpOauthServiceAccountEmailOverride
+    {
+        get => int.TryParse(HttpOauthServiceAccountEmailOverrideValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => HttpOauthServiceAccountEmailOverrideValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use HttpOidcServiceAccountEmailOverrideValue instead.")]
+    public int? HttpOidcServiceAccountEmailOverride
+    {
+        get => int.TryParse(HttpOidcServiceAccountEmailOverrideValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => HttpOidcServiceAccountEmailOverrideValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

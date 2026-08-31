@@ -333,6 +333,38 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Service_Account_Stays_Scalar_When_Group_Description_Mentions_Repetition()
+    {
+        const string helpText = """
+            NAME
+                gcloud compute instances create-with-container - create an instance
+
+            SYNOPSIS
+                gcloud compute instances create-with-container INSTANCE_NAMES
+
+            FLAGS
+                 --service-account=SERVICE_ACCOUNT
+                    Values for a sibling option may be repeated more than once. A service
+                    account can be set using its email address.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "compute", "instances", "create-with-container"],
+            helpText);
+        var serviceAccount = command!.Options.Single(option =>
+            option.SwitchName == "--service-account");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(serviceAccount.CSharpType).IsEqualTo("string?");
+            await Assert.That(serviceAccount.AcceptsMultipleValues).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Gcloud_File_Hints_Take_Precedence_Over_Numeric_Tokens()
     {
         const string helpText = """

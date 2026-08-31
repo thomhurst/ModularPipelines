@@ -23,117 +23,121 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataprocBatchesSubmitOptions : GcloudOptions
 {
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Return immediately without waiting for the operation in progress to complete.
+    /// Return immediately without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The ID of the batch job to submit. The ID must contain only lowercase letters (a-z), numbers (0-9) and hyphens (-). The length of the name must be between 4 and 63 characters. If this argument is not provided, a random generated UUID will be used.
+    /// The ID of the batch job to submit. The ID must contain only lowercase letters (a-z), numbers (0-9) and hyphens (-). The length of the name must be between 4 and 63 characters. If this argument is not provided, a random generated UUID will be used.
     /// </summary>
     [CliOption("--batch", Format = OptionFormat.EqualsSeparated)]
     public string? Batch { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Optional custom container image to use for the batch/session runtime environment. If not specified, a default container image will be used. The value should follow the container image naming format: {registry}/{repository}/{name}:{tag}, for example, gcr.io/my-project/my-image:1.2.3
+    /// Optional custom container image to use for the batch/session runtime environment. If not specified, a default container image will be used. The value should follow the container image naming format: {registry}/{repository}/{name}:{tag}, for example, gcr.io/my-project/my-image:1.2.3
     /// </summary>
     [CliOption("--container-image", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerImage { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Spark History Server configuration for the batch/session job. Resource name of an existing Dataproc cluster to act as a Spark History Server for the workload in the format: "projects/{project_id}/regions/{region}/clusters/{cluster_name}".
+    /// Spark History Server configuration for the batch/session job. Resource name of an existing Dataproc cluster to act as a Spark History Server for the workload in the format: "projects/{project_id}/regions/{region}/clusters/{cluster_name}".
     /// </summary>
     [CliOption("--history-server-cluster", Format = OptionFormat.EqualsSeparated)]
     public string? HistoryServerCluster { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Cloud KMS key to use for encryption.
+    /// Cloud KMS key to use for encryption.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Name of a Dataproc Metastore service to be used as an external metastore in the format: "projects/{project-id}/locations/{region}/services/{service-name}".
+    /// Name of a Dataproc Metastore service to be used as an external metastore in the format: "projects/{project-id}/locations/{region}/services/{service-name}".
     /// </summary>
     [CliOption("--metastore-service", Format = OptionFormat.EqualsSeparated)]
     public string? MetastoreService { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specifies configuration properties for the workload. See Dataproc Serverless for Spark documentation (https://cloud.google.com/dataproc-serverless/docs/concepts/properties) for the list of supported properties.
+    /// Specifies configuration properties for the workload. See Dataproc Serverless for Spark documentation (https://cloud.google.com/dataproc-serverless/docs/concepts/properties) for the list of supported properties.
     /// </summary>
     [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property dataproc/region.
+    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: * provide the argument --region on the command line with a fully specified name; * set the property dataproc/region with a fully specified name; * provide the argument --project on the command line; * set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: + provide the argument --region on the command line; + set the property dataproc/region.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. A unique ID that identifies the request. If the service receives two batch create requests with the same request_id, the second request is ignored and the operation that corresponds to the first batch created and stored in the backend is returned. Recommendation: Always set this value to a UUID. The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (), and hyphens (-). The maximum length is 40 characters.
+    /// A unique ID that identifies the request. If the service receives two batch create requests with the same request_id, the second request is ignored and the operation that corresponds to the first batch created and stored in the backend is returned. Recommendation: Always set this value to a UUID. The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (), and hyphens (-). The maximum length is 40 characters.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Resource Manager Tags to be associated with the compute resources created for the workload. Only one key-value pair can be specified per flag. Repeat the flag to specify multiple tags.
-    /// </summary>
-    [CliOption("--resource-manager-tag", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? ResourceManagerTag { get; set; }
-
-    /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The IAM service account to be used for a batch/session job.
+    /// The IAM service account to be used for a batch/session job.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The Cloud Storage bucket to use to store job dependencies, config files, and job driver console output. If not specified, the default [staging bucket] (https://cloud.google.com/dataproc-serverless/docs/concepts/buckets) is used.
+    /// The Cloud Storage bucket to use to store job dependencies, config files, and job driver console output. If not specified, the default [staging bucket] (https://cloud.google.com/dataproc-serverless/docs/concepts/buckets) is used.
     /// </summary>
     [CliOption("--staging-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? StagingBucket { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Network tags for traffic control.
+    /// Network tags for traffic control.
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The duration after the workload will be unconditionally terminated, for example, '20m' or '1h'. Run gcloud topic datetimes (https://cloud.google.com/sdk/gcloud/reference/topic/datetimes) for information on duration formats.
+    /// The duration after the workload will be unconditionally terminated, for example, '20m' or '1h'. Run gcloud topic datetimes (https://cloud.google.com/sdk/gcloud/reference/topic/datetimes) for information on duration formats.
     /// </summary>
     [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
     public string? Ttl { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Whether to use END_USER_CREDENTIALS or SERVICE_ACCOUNT to run the workload.
+    /// Whether to use END_USER_CREDENTIALS or SERVICE_ACCOUNT to run the workload.
     /// </summary>
     [CliOption("--user-workload-authentication-type", Format = OptionFormat.EqualsSeparated)]
     public string? UserWorkloadAuthenticationType { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Optional runtime version. If not specified, a default version will be used.
+    /// Optional runtime version. If not specified, a default version will be used.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Network URI to connect network to.
+    /// At most one of these can be specified: Network URI to connect network to.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Subnetwork URI to connect network to. Subnet must have Private Google Access enabled.
+    /// At most one of these can be specified: Subnetwork URI to connect network to. Subnet must have Private Google Access enabled.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
+
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("ResourceManagerTag is no longer supported by the installed CLI and has no effect.")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTag { get; set; }
 
 }

@@ -25,7 +25,7 @@ public record GcloudAppUpdateOptions : GcloudOptions
     /// The app-level default service account to update the app with.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
 
     /// <summary>
     /// Enables/disables split health checks by default on new deployments. Use --split-health-checks to enable and --no-split-health-checks to disable.
@@ -34,7 +34,7 @@ public record GcloudAppUpdateOptions : GcloudOptions
     public bool? SplitHealthChecks { get; set; }
 
     /// <summary>
-    /// Enables/disables split health checks by default on new deployments. Use --split-health-checks to enable and --no-split-health-checks to disable.
+    /// Negates --split-health-checks. Enables/disables split health checks by default on new deployments. Use --split-health-checks to enable and --no-split-health-checks to disable.
     /// </summary>
     [CliFlag("--no-split-health-checks")]
     public bool? NoSplitHealthChecks { get; set; }
@@ -44,5 +44,12 @@ public record GcloudAppUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssl-policy", Format = OptionFormat.EqualsSeparated)]
     public string? SslPolicy { get; set; }
+
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }
