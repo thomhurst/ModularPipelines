@@ -116,7 +116,4 @@ public record GrypeDbSearchOptions : GrypeOptions
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
-    [Obsolete("Command is no longer supported by the installed CLI and has no effect.")]
-    public string? Command { get; set; }
-
 }
