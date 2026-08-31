@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -79,13 +80,14 @@ public record AzAcrRunOptions(
     /// Value in 'name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
     [CliOption("--set")]
-    public IEnumerable<string>? SetValues { get; set; }
+    public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
     /// Secret value in '--set name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
-    [CliFlag("--set-secret")]
-    public bool? SetSecret { get; set; }
+    [SecretValue]
+    [CliOption("--set-secret")]
+    public IEnumerable<string>? SetSecret { get; set; }
 
     /// <summary>
     /// Assign the identity used for source registry login. Use '[caller]' for caller identity.  Allowed values: [caller], none.
@@ -105,6 +107,13 @@ public record AzAcrRunOptions(
     [CliFlag("--values")]
     public bool? Values { get; set; }
 
+    [Obsolete("Use Set instead.")]
+    public IEnumerable<string>? SetValues
+    {
+        get => Set;
+        set => Set = value;
+    }
+
     [Obsolete("Use AuthMode instead.")]
     public string? AuthModeValue
     {
@@ -117,13 +126,6 @@ public record AzAcrRunOptions(
     {
         get => ResourceGroup;
         set => ResourceGroup = value;
-    }
-
-    [Obsolete("Use SetValues instead.")]
-    public bool? Set
-    {
-        get => bool.TryParse(SetValues?.FirstOrDefault(), out var value) ? value : null;
-        set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
     [Obsolete("Use SourceAcrAuthId instead.")]

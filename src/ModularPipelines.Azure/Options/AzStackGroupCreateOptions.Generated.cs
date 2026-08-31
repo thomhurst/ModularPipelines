@@ -70,7 +70,7 @@ public record AzStackGroupCreateOptions(
     /// Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
     [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
-    public IEnumerable<string>? ParametersValueValues { get; set; }
+    public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
@@ -88,7 +88,7 @@ public record AzStackGroupCreateOptions(
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? TagsValues { get; set; }
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// A path to a template file or Bicep file in the file system.
@@ -120,18 +120,25 @@ public record AzStackGroupCreateOptions(
     [CliFlag("--yes")]
     public bool? Yes { get; set; }
 
+    [Obsolete("Use Parameters instead.")]
+    public IEnumerable<string>? ParametersValueValues
+    {
+        get => Parameters;
+        set => Parameters = value;
+    }
+
+    [Obsolete("Use Tags instead.")]
+    public IEnumerable<string>? TagsValues
+    {
+        get => Tags;
+        set => Tags = value;
+    }
+
     [Obsolete("Use Description instead.")]
     public string? DescriptionValue
     {
         get => Description;
         set => Description = value;
-    }
-
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
-    {
-        get => bool.TryParse(ParametersValueValues?.FirstOrDefault(), out var value) ? value : null;
-        set => ParametersValueValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
     [Obsolete("Use QueryString instead.")]
@@ -165,15 +172,8 @@ public record AzStackGroupCreateOptions(
     [Obsolete("Use ParametersValueValues instead.")]
     public string? ParametersValue
     {
-        get => ParametersValueValues?.FirstOrDefault();
-        set => ParametersValueValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use TagsValues instead.")]
-    public bool? Tags
-    {
-        get => bool.TryParse(TagsValues?.FirstOrDefault(), out var value) ? value : null;
-        set => TagsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
+        get => Parameters?.FirstOrDefault();
+        set => Parameters = value is null ? null : [value];
     }
 
 }

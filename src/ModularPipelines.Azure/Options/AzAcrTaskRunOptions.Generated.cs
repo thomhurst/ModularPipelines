@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -80,13 +81,14 @@ public record AzAcrTaskRunOptions(
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
     [CliOption("--set")]
-    public IEnumerable<string>? SetValues { get; set; }
+    public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
     /// Secret task value in '--set-secret name[=value]' format. Multiples supported by passing --set-secret multiple times.
     /// </summary>
-    [CliFlag("--set-secret")]
-    public bool? SetSecret { get; set; }
+    [SecretValue]
+    [CliOption("--set-secret")]
+    public IEnumerable<string>? SetSecret { get; set; }
 
     /// <summary>
     /// The name of the target build stage.
@@ -94,18 +96,18 @@ public record AzAcrTaskRunOptions(
     [CliOption("--target")]
     public string? Target { get; set; }
 
+    [Obsolete("Use Set instead.")]
+    public IEnumerable<string>? SetValues
+    {
+        get => Set;
+        set => Set = value;
+    }
+
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue
     {
         get => ResourceGroup;
         set => ResourceGroup = value;
-    }
-
-    [Obsolete("Use SetValues instead.")]
-    public bool? Set
-    {
-        get => bool.TryParse(SetValues?.FirstOrDefault(), out var value) ? value : null;
-        set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
     [Obsolete("Use Target instead.")]

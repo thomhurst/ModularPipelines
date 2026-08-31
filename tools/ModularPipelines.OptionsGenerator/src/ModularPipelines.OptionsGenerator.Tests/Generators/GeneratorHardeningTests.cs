@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using System.Text.RegularExpressions;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
@@ -14,7 +15,7 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 /// single-command class name normalization, nullable parameter emission,
 /// case-insensitive enum deduplication and shared root command filtering.
 /// </summary>
-public class GeneratorHardeningTests
+public partial class GeneratorHardeningTests
 {
     private static CliCommandDefinition Command(
         string className,
@@ -6588,6 +6589,43 @@ public class GeneratorHardeningTests
     #endregion
 
     #region GeneratedCode attribute version
+
+    [Test]
+    public async Task CommittedGeneratedOptions_DoNotContainUnsafeBooleanStringSetters()
+    {
+        var repositoryRoot = FindRepositoryRoot();
+        var unsafeSetter = UnsafeBooleanStringSetterPattern();
+        var matches = Directory
+            .EnumerateFiles(
+                Path.Combine(repositoryRoot, "src"),
+                "*.Generated.cs",
+                SearchOption.AllDirectories)
+            .SelectMany(file => File.ReadLines(file)
+                .Select((line, index) => (line, index))
+                .Where(item => unsafeSetter.IsMatch(item.line))
+                .Select(item => $"{Path.GetRelativePath(repositoryRoot, file)}:{item.index + 1}"))
+            .ToArray();
+
+        await Assert.That(matches).IsEmpty();
+    }
+
+    private static string FindRepositoryRoot()
+    {
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
+        while (directory is not null
+               && !File.Exists(Path.Combine(directory.FullName, "ModularPipelines.slnx")))
+        {
+            directory = directory.Parent;
+        }
+
+        return directory?.FullName
+               ?? throw new InvalidOperationException("Could not locate repository root.");
+    }
+
+    [GeneratedRegex(
+        @"set\s*=>\s*\w+\s*=\s*value\s+is\s+null\s*\?\s*null\s*:\s*\[?\s*value\.Value\.ToString\(",
+        RegexOptions.CultureInvariant)]
+    private static partial Regex UnsafeBooleanStringSetterPattern();
 
     [Test]
     public async Task GeneratedCodeAttribute_Contains_A_Version()
