@@ -28,8 +28,13 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisDistributedArtifactStore(options =>
-            options.CompressionLevel = CompressionLevel.NoCompression);
+        builder.AddRedisDistributed(
+            options =>
+            {
+                options.ConnectionString = "unused";
+                options.RunIdentifier = "artifact-options-test";
+            },
+            options => options.CompressionLevel = CompressionLevel.NoCompression);
         await using var pipeline = await builder.BuildAsync();
 
         var configuredOptions = pipeline.Services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
