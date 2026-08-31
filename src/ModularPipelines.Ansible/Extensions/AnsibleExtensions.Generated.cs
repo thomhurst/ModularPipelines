@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Ansible.Services;
 
 namespace ModularPipelines.Ansible.Extensions;
@@ -31,4 +30,5 @@ public static class AnsibleExtensions
         services.TryAddScoped<IAnsible, Services.Ansible>();
         return services;
     }
+
 }
