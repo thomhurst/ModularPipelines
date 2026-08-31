@@ -127,6 +127,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     [Test]
     [Arguments("Docker", "IDocker")]
     [Arguments("Cmd", "ICmdContext")]
+    [Arguments("Cloud", "ICloudContext")]
     public async Task Conventional_Registration_Generates_Discoverable_Extension_Property(
         string propertyName,
         string serviceTypeName)

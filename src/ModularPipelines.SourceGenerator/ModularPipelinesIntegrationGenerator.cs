@@ -174,13 +174,14 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             RegistrationMethodPrefix.Length,
             methodName.Length - RegistrationMethodPrefix.Length - RegistrationMethodSuffix.Length);
         var expectedServiceName = $"I{propertyName}";
+        var expectedContextServiceName = $"{expectedServiceName}Context";
         var serviceType = registrationDeclaration.DescendantNodes()
             .OfType<InvocationExpressionSyntax>()
             .Select(invocation => semanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol)
             .Where(static method => method is { Name: "TryAddScoped", TypeArguments.Length: > 0 })
             .Select(static method => method!.TypeArguments[0])
             .FirstOrDefault(type => type.Name == expectedServiceName
-                                    || (propertyName == "Cmd" && type.Name == "ICmdContext"));
+                                    || type.Name == expectedContextServiceName);
         if (serviceType is null
             || !serviceType.IsReferenceType
             || !IsPubliclyAccessible(serviceType))
