@@ -778,7 +778,8 @@ public class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(generated).Contains("[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Image");
+        await Assert.That(generated).Contains("[CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]");
+        await Assert.That(generated).Contains("public IEnumerable<string> Image { get; private init; }");
         await Assert.That(generated).DoesNotContain("public string? Image { get; set; }");
         await Assert.That(generated.Split("CliArgument(")).Count().IsEqualTo(2);
     }
@@ -903,6 +904,8 @@ public class GeneratorHardeningTests
                 .Contains("var materialized = global::System.Linq.Enumerable.ToArray(Ids);");
             await Assert.That(generated).Contains("if (materialized.Length == 0)");
             await Assert.That(generated).Contains("Ids = materialized;");
+            await Assert.That(generated)
+                .Contains("public IEnumerable<string> Ids { get; private init; }");
             await Assert.That(generated)
                 .DoesNotContain("global::System.Linq.Enumerable.Any(Ids)");
             await Assert.That(generated).Contains("nameof(Ids)");

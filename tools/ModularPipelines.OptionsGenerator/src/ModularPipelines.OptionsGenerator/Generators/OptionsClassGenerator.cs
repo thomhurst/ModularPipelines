@@ -320,8 +320,11 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static bool IsCollectionParameter(
         GeneratorUtils.RequiredConstructorParameter parameter) =>
+        IsCollectionType(parameter.CSharpType);
+
+    private static bool IsCollectionType(string cSharpType) =>
         CliOptionDefinition.TryGetCollectionShape(
-            parameter.CSharpType.TrimEnd('?'),
+            cSharpType.TrimEnd('?'),
             out var isCollection)
         && isCollection;
 
@@ -451,7 +454,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        var accessor = option.IsRequired ? "init" : "set";
+        var accessor = GetPropertyAccessor(option.IsRequired, option.PropertyType);
         sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.PropertyType} {option.PropertyName} {{ get; {accessor}; }}");
     }
 
@@ -466,8 +469,18 @@ public class OptionsClassGenerator : ICodeGenerator
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
-        var accessor = positional.IsRequired ? "init" : "set";
+        var accessor = GetPropertyAccessor(positional.IsRequired, positional.CSharpType);
         sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; {accessor}; }}");
+    }
+
+    private static string GetPropertyAccessor(bool isRequired, string cSharpType)
+    {
+        if (!isRequired)
+        {
+            return "set";
+        }
+
+        return IsCollectionType(cSharpType) ? "private init" : "init";
     }
 
     private static string GetNewModifier(string propertyName) =>
