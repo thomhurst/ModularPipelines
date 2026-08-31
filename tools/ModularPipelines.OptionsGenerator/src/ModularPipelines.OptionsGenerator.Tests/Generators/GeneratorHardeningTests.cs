@@ -1981,6 +1981,47 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Enum_Option_Instead_Of_Disconnected_Alias()
+    {
+        var command = Command("ToolUpdateOptions", "ToolOptions", ["update"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--labels",
+                    PropertyName = "Labels",
+                    CSharpType = "IReadOnlyList<KeyValue>?",
+                    IsKeyValue = true,
+                    AcceptsMultipleValues = true,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty(
+                "Labels",
+                "global::ModularPipelines.Tool.Enums.ToolLabels?",
+                switchName: "--labels")]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+        var option = preserved.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.PropertyName).IsEqualTo("Labels");
+            await Assert.That(option.CSharpType)
+                .IsEqualTo("global::ModularPipelines.Tool.Enums.ToolLabels?");
+            await Assert.That(preserved.CompatibilityProperties).IsEmpty();
+            await Assert.That(generated)
+                .Contains("[CliOption(\"--labels\")]");
+            await Assert.That(generated)
+                .Contains("public global::ModularPipelines.Tool.Enums.ToolLabels? Labels { get; set; }");
+            await Assert.That(generated).DoesNotContain("[Obsolete(");
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Reads_Nullable_To_Required_Compatibility_Accessors()
     {
         var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");

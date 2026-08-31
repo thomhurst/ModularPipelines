@@ -498,6 +498,117 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Yaml_Examples_Remain_Structured()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --configuration=COUNT
+                    YAML Example: count: 1
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "update"],
+            helpText);
+        var configuration = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(configuration.CSharpType).IsEqualTo("string?");
+            await Assert.That(configuration.IsNumeric).IsFalse();
+            await Assert.That(configuration.EnumDefinition).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Bms_Update_Defers_Shipped_Api_Compatibility()
+    {
+        const string helpText = """
+            NAME
+                gcloud bms nfs-shares update - update an NFS share
+
+            SYNOPSIS
+                gcloud bms nfs-shares update
+
+            FLAGS
+                 --update-labels=[KEY=VALUE,...]
+                    List of label KEY=VALUE pairs to update.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "bms", "nfs-shares", "update"],
+            helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.PropertyName).IsEqualTo("UpdateLabels");
+            await Assert.That(option.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
+            await Assert.That(command.CompatibilityProperties).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Structured_Values_Preserve_Repeatability_Without_Nested_Enums()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --add-allowed-client=[PROPERTY=VALUE,...]
+                    This flag can be repeated to specify multiple allowed clients. mount-permissions The mount permissions. MOUNT_PERMISSIONS must be one of: READ_ONLY, READ_WRITE.
+                 --enabled-tool=[accountConnector=ACCOUNTCONNECTOR],[config=CONFIG],[handle=HANDLE]
+                    Shorthand Example: --enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string --enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string JSON Example: --enabled-tool='[{"accountConnector":"string"}]' File Example: --enabled-tool=path_to_file.(yaml|json)
+                 --add-enabled-tool=[accountConnector=ACCOUNTCONNECTOR],[config=CONFIG],[handle=HANDLE]
+                    Shorthand Example: --add-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string --add-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string JSON Example: --add-enabled-tool='[{"accountConnector":"string"}]' File Example: --add-enabled-tool=path_to_file.(yaml|json)
+                 --remove-enabled-tool=[accountConnector=ACCOUNTCONNECTOR],[config=CONFIG],[handle=HANDLE]
+                    Shorthand Example: --remove-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string --remove-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string JSON Example: --remove-enabled-tool='[{"accountConnector":"string"}]' File Example: --remove-enabled-tool=path_to_file.(yaml|json)
+                 --labels=[LABELS,...]
+                    Labels as key value pairs. Shorthand Example: --labels=string=string JSON Example: --labels='{"string":"string"}' File Example: --labels=path_to_file.(yaml|json)
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "update"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            foreach (var switchName in new[]
+                     {
+                         "--add-allowed-client",
+                         "--enabled-tool",
+                         "--add-enabled-tool",
+                         "--remove-enabled-tool",
+                         "--labels",
+                     })
+            {
+                var option = command!.Options.Single(candidate => candidate.SwitchName == switchName);
+                await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+                await Assert.That(option.AcceptsMultipleValues).IsTrue();
+                await Assert.That(option.EnumDefinition).IsNull();
+            }
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Models_Declared_Value_Lists_As_Collections()
     {
         const string helpText = """
