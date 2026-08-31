@@ -1073,6 +1073,8 @@ public static partial class GeneratorUtils
         "Token",
         "Credential",
         "ApiKey",
+        "AccountKey",
+        "ConnectionString",
         "PrivateKey",
         "AccessKey",
         "SecretKey"

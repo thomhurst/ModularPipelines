@@ -708,6 +708,34 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Storage_Account_Arguments_Without_Value_Hints_Remain_Value_Options()
+    {
+        const string helpText = """
+            Command
+                az storage cors list : List CORS rules.
+
+            Storage Account Arguments
+                --account-key       : Storage account key.
+                --account-name      : Storage account name.
+                --connection-string : Storage account connection string.
+                --sas-token         : Shared access signature token.
+                --service-endpoint  : Storage data service endpoint.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "storage", "cors", "list"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options).Count().IsEqualTo(5);
+            await Assert.That(command.Options.All(option => !option.IsFlag)).IsTrue();
+            await Assert.That(command.Options.All(option => option.CSharpType == "string?")).IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--account-key").IsSecret).IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--connection-string").IsSecret).IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--sas-token").IsSecret).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Stack_Child_Scope_Is_A_Presence_Only_Flag()
     {
         const string helpText = """

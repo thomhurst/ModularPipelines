@@ -58,6 +58,15 @@ public partial class AzCliScraper : CliScraperBase
         (["appservice", "plan", "create"], "is-linux"),
     ];
 
+    private static readonly string[] ExplicitValueOptionOverrides =
+    [
+        "account-key",
+        "account-name",
+        "connection-string",
+        "sas-token",
+        "service-endpoint",
+    ];
+
     public AzCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AzCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -391,6 +400,11 @@ public partial class AzCliScraper : CliScraperBase
         string description,
         bool explicitBooleanValue)
     {
+        if (ExplicitValueOptionOverrides.Contains(switchName, StringComparer.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
         if (switchName.Equals("accept-term", StringComparison.OrdinalIgnoreCase)
             && string.IsNullOrEmpty(valueHint))
         {
