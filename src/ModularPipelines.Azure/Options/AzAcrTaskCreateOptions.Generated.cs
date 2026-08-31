@@ -5,11 +5,11 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
-using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -39,7 +39,7 @@ public record AzAcrTaskCreateOptions(
     /// Assign managed identities to the task. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned identity. Please see https://aka.ms/acr/tasks/task-create-managed-identity for more information.
     /// </summary>
     [CliOption("--assign-identity", GroupValues = true)]
-    public IEnumerable<string>? AssignIdentityValue { get; set; }
+    public IEnumerable<string>? AssignIdentity { get; set; }
 
     /// <summary>
     /// Auth mode of the source registry.  Allowed values:
@@ -75,7 +75,7 @@ public record AzAcrTaskCreateOptions(
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
     [CliOption("--image", ShortForm = "-t")]
-    public IEnumerable<string>? ImageValues { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
     /// <summary>
     /// Indicates whether the image cache is enabled.  Allowed values: false, true.
@@ -111,13 +111,14 @@ public record AzAcrTaskCreateOptions(
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
     [CliOption("--set")]
-    public IEnumerable<string>? SetValues { get; set; }
+    public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
     /// Secret task value in '--set-secret name[=value]' format. Multiples supported by passing --set-secret multiple times.
     /// </summary>
-    [CliFlag("--set-secret")]
-    public bool? SetSecret { get; set; }
+    [SecretValue]
+    [CliOption("--set-secret")]
+    public IEnumerable<string>? SetSecret { get; set; }
 
     /// <summary>
     /// Assign the managed identity used for source registry login. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned managed identity.
@@ -176,8 +177,8 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// The access token used to access the source control provider.
     /// </summary>
-    [CliOption("--git-access-token")]
     [SecretValue]
+    [CliOption("--git-access-token")]
     public string? GitAccessToken { get; set; }
 
     /// <summary>
@@ -190,7 +191,7 @@ public record AzAcrTaskCreateOptions(
     /// Schedule for a timer trigger represented as a cron expression. An optional trigger name can be specified using `--schedule name:schedule` format. Multiples supported by passing --schedule multiple times.
     /// </summary>
     [CliOption("--schedule")]
-    public IEnumerable<string>? ScheduleValues { get; set; }
+    public IEnumerable<string>? Schedule { get; set; }
 
     /// <summary>
     /// The name of the source trigger.  Default: defaultSourceTriggerName.
@@ -198,11 +199,32 @@ public record AzAcrTaskCreateOptions(
     [CliOption("--source-trigger-name")]
     public string? SourceTriggerName { get; set; }
 
-    [Obsolete("Use AssignIdentityValue instead.")]
-    public bool? AssignIdentity
+    [Obsolete("Use AssignIdentity instead.")]
+    public IEnumerable<string>? AssignIdentityValue
     {
-        get => bool.TryParse(AssignIdentityValue?.FirstOrDefault(), out var value) ? value : null;
-        set => AssignIdentityValue = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
+        get => AssignIdentity;
+        set => AssignIdentity = value;
+    }
+
+    [Obsolete("Use Image instead.")]
+    public IEnumerable<string>? ImageValues
+    {
+        get => Image;
+        set => Image = value;
+    }
+
+    [Obsolete("Use Set instead.")]
+    public IEnumerable<string>? SetValues
+    {
+        get => Set;
+        set => Set = value;
+    }
+
+    [Obsolete("Use Schedule instead.")]
+    public IEnumerable<string>? ScheduleValues
+    {
+        get => Schedule;
+        set => Schedule = value;
     }
 
     [Obsolete("Use AuthMode instead.")]
@@ -212,25 +234,11 @@ public record AzAcrTaskCreateOptions(
         set => AuthMode = value;
     }
 
-    [Obsolete("Use ImageValues instead.")]
-    public bool? Image
-    {
-        get => bool.TryParse(ImageValues?.FirstOrDefault(), out var value) ? value : null;
-        set => ImageValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue
     {
         get => ResourceGroup;
         set => ResourceGroup = value;
-    }
-
-    [Obsolete("Use SetValues instead.")]
-    public bool? Set
-    {
-        get => bool.TryParse(SetValues?.FirstOrDefault(), out var value) ? value : null;
-        set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
     [Obsolete("Use SourceAcrAuthId instead.")]
@@ -259,13 +267,6 @@ public record AzAcrTaskCreateOptions(
     {
         get => GitAccessToken;
         set => GitAccessToken = value;
-    }
-
-    [Obsolete("Use ScheduleValues instead.")]
-    public bool? Schedule
-    {
-        get => bool.TryParse(ScheduleValues?.FirstOrDefault(), out var value) ? value : null;
-        set => ScheduleValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
 }

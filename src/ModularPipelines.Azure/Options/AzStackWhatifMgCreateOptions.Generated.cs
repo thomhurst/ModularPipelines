@@ -129,20 +129,6 @@ public record AzStackWhatifMgCreateOptions(
     [CliOption("--validation-level", ShortForm = "--vl")]
     public string? ValidationLevel { get; set; }
 
-    [Obsolete("Use DenySettingsExcludedActionsValues instead.")]
-    public bool? DenySettingsExcludedActions
-    {
-        get => bool.TryParse(DenySettingsExcludedActionsValues?.FirstOrDefault(), out var value) ? value : null;
-        set => DenySettingsExcludedActionsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
-    [Obsolete("Use DenySettingsExcludedPrincipalsValues instead.")]
-    public bool? DenySettingsExcludedPrincipals
-    {
-        get => bool.TryParse(DenySettingsExcludedPrincipalsValues?.FirstOrDefault(), out var value) ? value : null;
-        set => DenySettingsExcludedPrincipalsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
     [Obsolete("Use DeploymentSubscription instead.")]
     public string? DeploymentSubscriptionValue
     {

@@ -5,11 +5,11 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
-using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -69,7 +69,7 @@ public record AzAcrTaskUpdateOptions(
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
     [CliOption("--image", ShortForm = "-t")]
-    public IEnumerable<string>? ImageValues { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
     /// <summary>
     /// Indicates whether the image cache is enabled.  Allowed values: false, true.
@@ -105,13 +105,14 @@ public record AzAcrTaskUpdateOptions(
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
     [CliOption("--set")]
-    public IEnumerable<string>? SetValues { get; set; }
+    public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
     /// Secret task value in '--set-secret name[=value]' format. Multiples supported by passing --set-secret multiple times.
     /// </summary>
-    [CliFlag("--set-secret")]
-    public bool? SetSecret { get; set; }
+    [SecretValue]
+    [CliOption("--set-secret")]
+    public IEnumerable<string>? SetSecret { get; set; }
 
     /// <summary>
     /// Assign the managed identity used for source registry login. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned managed identity.
@@ -164,8 +165,8 @@ public record AzAcrTaskUpdateOptions(
     /// <summary>
     /// The access token used to access the source control provider.
     /// </summary>
-    [CliOption("--git-access-token")]
     [SecretValue]
+    [CliOption("--git-access-token")]
     public string? GitAccessToken { get; set; }
 
     /// <summary>
@@ -174,6 +175,20 @@ public record AzAcrTaskUpdateOptions(
     [CliOption("--pull-request-trigger-enabled")]
     public bool? PullRequestTriggerEnabled { get; set; }
 
+    [Obsolete("Use Image instead.")]
+    public IEnumerable<string>? ImageValues
+    {
+        get => Image;
+        set => Image = value;
+    }
+
+    [Obsolete("Use Set instead.")]
+    public IEnumerable<string>? SetValues
+    {
+        get => Set;
+        set => Set = value;
+    }
+
     [Obsolete("Use AuthMode instead.")]
     public string? AuthModeValue
     {
@@ -181,25 +196,11 @@ public record AzAcrTaskUpdateOptions(
         set => AuthMode = value;
     }
 
-    [Obsolete("Use ImageValues instead.")]
-    public bool? Image
-    {
-        get => bool.TryParse(ImageValues?.FirstOrDefault(), out var value) ? value : null;
-        set => ImageValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue
     {
         get => ResourceGroup;
         set => ResourceGroup = value;
-    }
-
-    [Obsolete("Use SetValues instead.")]
-    public bool? Set
-    {
-        get => bool.TryParse(SetValues?.FirstOrDefault(), out var value) ? value : null;
-        set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
     }
 
     [Obsolete("Use SourceAcrAuthId instead.")]
