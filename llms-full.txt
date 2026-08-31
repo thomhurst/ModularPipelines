@@ -3631,7 +3631,7 @@ await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
 }, cancellationToken: cancellationToken);
 ```
 
-`context.Tools.DotNet` is the canonical API and does not require an integration extension namespace import. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Legacy `context.DotNet()` access is obsolete and hidden from IntelliSense.
+`context.Tools.DotNet` is the canonical API and does not require an integration extension namespace import. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Legacy `context.DotNet()` access was removed in v4.
 
 ## Strong Typing[​](#strong-typing "Direct link to Strong Typing")
 
@@ -5280,7 +5280,7 @@ dotnet tool install ModularPipelines.OptionsGenerator --version <version>
 
 Commit `.config/dotnet-tools.json`. Update the pinned package version deliberately, review the generated diff, and regenerate before merging the update.
 
-The NuGet package follows the ModularPipelines semantic version. The input format is versioned independently by `schemaVersion`. This release supports schema version `1` and rejects unknown versions rather than interpreting them differently.
+The NuGet package follows the ModularPipelines semantic version. The input format is versioned independently by `schemaVersion`. This release supports schema version `2`. It rejects version `1` and unknown versions rather than interpreting them differently.
 
 ## Define the private tool[​](#define-the-private-tool "Direct link to Define the private tool")
 
@@ -5289,7 +5289,7 @@ Create `tools/private-widget.json`:
 ```
 {
 
-  "schemaVersion": 1,
+  "schemaVersion": 2,
 
   "tool": {
 
@@ -9469,7 +9469,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 ```
 // Tool options only contain tool-specific arguments
 
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
 
     new DotNetBuildOptions
 
@@ -9548,7 +9548,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 ```
 // Rich logging configuration via CommandLoggingOptions
 
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
 
     new DotNetBuildOptions { Configuration = "Release" },
 
@@ -9982,7 +9982,7 @@ public class PackageModule : Module<PackageResult>
 
             {
 
-                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
+                await context.Tools.DotNet.PackAsync(new DotNetPackOptions { ProjectSolution = package });
 
             });
 
@@ -10722,7 +10722,7 @@ public class BuildModule : Module<BuildOutput>
 
     {
 
-        var result = await context.DotNet().Build(new DotNetBuildOptions());
+        var result = await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions());
 
         return new BuildOutput(result.StandardOutput);
 
@@ -11303,7 +11303,7 @@ if (result is ModuleResult<BuildOutput>.Success)
 ```
 // Tool-specific options separate from execution options
 
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
 
     new DotNetBuildOptions
 

@@ -518,7 +518,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 ```
 // Tool options only contain tool-specific arguments
 
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
 
     new DotNetBuildOptions
 
@@ -597,7 +597,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 ```
 // Rich logging configuration via CommandLoggingOptions
 
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
 
     new DotNetBuildOptions { Configuration = "Release" },
 
@@ -1031,7 +1031,7 @@ public class PackageModule : Module<PackageResult>
 
             {
 
-                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
+                await context.Tools.DotNet.PackAsync(new DotNetPackOptions { ProjectSolution = package });
 
             });
 
@@ -1771,7 +1771,7 @@ public class BuildModule : Module<BuildOutput>
 
     {
 
-        var result = await context.DotNet().Build(new DotNetBuildOptions());
+        var result = await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions());
 
         return new BuildOutput(result.StandardOutput);
 
@@ -2352,7 +2352,7 @@ if (result is ModuleResult<BuildOutput>.Success)
 ```
 // Tool-specific options separate from execution options
 
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
 
     new DotNetBuildOptions
 

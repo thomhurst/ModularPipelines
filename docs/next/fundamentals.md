@@ -34,7 +34,7 @@ await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
 }, cancellationToken: cancellationToken);
 ```
 
-`context.Tools.DotNet` is the canonical API and does not require an integration extension namespace import. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Legacy `context.DotNet()` access is obsolete and hidden from IntelliSense.
+`context.Tools.DotNet` is the canonical API and does not require an integration extension namespace import. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Legacy `context.DotNet()` access was removed in v4.
 
 ## Strong Typing[​](#strong-typing "Direct link to Strong Typing")
 
