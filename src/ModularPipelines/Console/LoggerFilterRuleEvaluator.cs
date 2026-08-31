@@ -88,7 +88,8 @@ internal static class LoggerFilterRuleEvaluator
 
         var prefix = wildcardIndex < 0 ? ruleCategory : ruleCategory[..wildcardIndex];
         var suffix = wildcardIndex < 0 ? string.Empty : ruleCategory[(wildcardIndex + 1)..];
-        return categoryName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+        return categoryName.Length >= prefix.Length + suffix.Length
+               && categoryName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
                && categoryName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase);
     }
 }

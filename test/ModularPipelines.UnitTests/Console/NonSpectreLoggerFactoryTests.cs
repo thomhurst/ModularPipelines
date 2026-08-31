@@ -14,7 +14,7 @@ namespace ModularPipelines.UnitTests.Console;
 public class NonSpectreLoggerFactoryTests
 {
     [Test]
-    public async Task FilterRulesAllowOverlappingWildcardPrefixAndSuffix()
+    public async Task FilterRulesRejectOverlappingWildcardPrefixAndSuffix()
     {
         var options = new LoggerFilterOptions { MinLevel = LogLevel.Error };
         options.Rules.Add(new LoggerFilterRule(
@@ -29,7 +29,7 @@ public class NonSpectreLoggerFactoryTests
             "ABA",
             LogLevel.Information);
 
-        await Assert.That(isEnabled).IsTrue();
+        await Assert.That(isEnabled).IsFalse();
     }
 
     [Test]

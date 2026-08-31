@@ -660,7 +660,7 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task PipelineBuilderConsoleLoggingHonorsOverlappingWildcardFilter()
+    public async Task PipelineBuilderConsoleLoggingIgnoresOverlappingWildcardFilter()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
@@ -675,7 +675,7 @@ public class PipelineOptionsTests
         var control = pipeline.Services
             .GetRequiredService<MEL.Spectre.ISpectreConsoleLoggerControl>();
 
-        await Assert.That(control.WouldRender("Abc", LogLevel.Information)).IsFalse();
+        await Assert.That(control.WouldRender("Abc", LogLevel.Information)).IsTrue();
     }
 
     [Test]
