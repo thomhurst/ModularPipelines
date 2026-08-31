@@ -261,6 +261,10 @@ public partial class NestedArgumentGroupParsingTests
             FLAGS
                  --trigger-service-account=TRIGGER_SERVICE_ACCOUNT
                     IAM service-account email address.
+                 --project=PROJECT_ID_OR_NUMBER
+                    Project associated with the custom module.
+                 --project-number=PROJECT_NUMBER
+                    Numeric project number.
                  --retry-count=RETRY_COUNT
                     Number of retries.
                  --disk-size=DISK_SIZE
@@ -279,6 +283,12 @@ public partial class NestedArgumentGroupParsingTests
             await Assert.That(command!.Options.Single(option =>
                 option.SwitchName == "--trigger-service-account").CSharpType)
                 .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--project").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--project-number").CSharpType)
+                .IsEqualTo("int?");
             await Assert.That(command.Options.Single(option =>
                 option.SwitchName == "--retry-count").CSharpType)
                 .IsEqualTo("int?");
