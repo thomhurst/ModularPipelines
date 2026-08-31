@@ -380,7 +380,6 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            check_name: pipeline (ubuntu-latest)
       fail-fast: false
     runs-on: ${{ matrix.os }}
     permissions:

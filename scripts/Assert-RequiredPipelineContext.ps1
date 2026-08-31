@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)]
-    [ValidateSet('true', 'false')]
+    [AllowEmptyString()]
     [string]$IsGeneratedIntegration,
 
     [Parameter(Mandatory)]
@@ -21,6 +21,10 @@ $ErrorActionPreference = 'Stop'
 
 if ($FastFailResult -ne 'success') {
     throw "Fast-fail result was '$FastFailResult'; required context cannot pass."
+}
+
+if ($IsGeneratedIntegration -notin @('true', 'false')) {
+    throw "Generated integration routing value was '$IsGeneratedIntegration'; required context cannot pass."
 }
 
 if ($IsGeneratedIntegration -eq 'true') {

@@ -6,7 +6,7 @@ $assertScript = Join-Path $PSScriptRoot 'Assert-RequiredPipelineContext.ps1'
 function Assert-RoutePasses {
     param(
         [Parameter(Mandatory)][string]$Name,
-        [Parameter(Mandatory)][string]$IsGeneratedIntegration,
+        [Parameter(Mandatory)][AllowEmptyString()][string]$IsGeneratedIntegration,
         [Parameter(Mandatory)][string]$FastFailResult,
         [Parameter(Mandatory)][string]$FullPipelineResult,
         [Parameter(Mandatory)][string]$GeneratedIntegrationResult
@@ -22,7 +22,7 @@ function Assert-RoutePasses {
 function Assert-RouteFails {
     param(
         [Parameter(Mandatory)][string]$Name,
-        [Parameter(Mandatory)][string]$IsGeneratedIntegration,
+        [Parameter(Mandatory)][AllowEmptyString()][string]$IsGeneratedIntegration,
         [Parameter(Mandatory)][string]$FastFailResult,
         [Parameter(Mandatory)][string]$FullPipelineResult,
         [Parameter(Mandatory)][string]$GeneratedIntegrationResult
@@ -74,11 +74,35 @@ Assert-RouteFails `
     -FastFailResult failure `
     -FullPipelineResult failure `
     -GeneratedIntegrationResult skipped
+Assert-RouteFails `
+    -Name 'full pipeline failed' `
+    -IsGeneratedIntegration false `
+    -FastFailResult success `
+    -FullPipelineResult failure `
+    -GeneratedIntegrationResult skipped
+Assert-RouteFails `
+    -Name 'full pipeline canceled' `
+    -IsGeneratedIntegration false `
+    -FastFailResult success `
+    -FullPipelineResult cancelled `
+    -GeneratedIntegrationResult skipped
+Assert-RouteFails `
+    -Name 'routing output missing after fast-fail success' `
+    -IsGeneratedIntegration '' `
+    -FastFailResult success `
+    -FullPipelineResult skipped `
+    -GeneratedIntegrationResult skipped
+Assert-RouteFails `
+    -Name 'routing output missing after fast-fail failure' `
+    -IsGeneratedIntegration '' `
+    -FastFailResult failure `
+    -FullPipelineResult skipped `
+    -GeneratedIntegrationResult skipped
 
 $workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
 $requiredJob = [regex]::Match(
     $workflow,
-    '(?ms)^  required-pipeline:.*?(?=^  [a-z0-9-]+:)').Value
+    '(?ms)^  required-pipeline:.*?(?=^  [a-z0-9-]+:|\z)').Value
 if ([string]::IsNullOrWhiteSpace($requiredJob)) {
     throw 'Required pipeline aggregate job was not found.'
 }
