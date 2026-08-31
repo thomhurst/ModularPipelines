@@ -128,6 +128,29 @@ public class ParallelLimitHandlerTests
     }
 
     [Test]
+    public async Task ModuleRunner_PreservesLoggerForEveryConstraintDeferral()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<TestModule>();
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.Setup(x => x.MarkModuleStarted(typeof(TestModule))).Returns(false);
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var ambientLogger = new Mock<IInternalModuleLogger>();
+
+        await using (new ModuleLoggerScope(ambientLogger.Object, typeof(TestModule)))
+        {
+            await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+            await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+        }
+
+        ambientLogger.Verify(
+            logger => logger.PreserveBufferForDeferredExecution(),
+            Times.Exactly(2));
+    }
+
+    [Test]
     public async Task ModuleRunner_PreservesAlwaysRunDuringCancelledLimiterWaits()
     {
         var observedTokens = new List<CancellationToken>();

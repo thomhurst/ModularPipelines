@@ -900,7 +900,10 @@ internal sealed class SecretObfuscatedRenderable(
         {
             table.Width = null;
             var contentWidth = ((IRenderable) table).Measure(options, maxWidth).Max;
-            table.Width = Math.Min(maxWidth, Math.Max(contentWidth, minimumWidth));
+            if (minimumWidth > contentWidth)
+            {
+                table.Width = Math.Min(maxWidth, minimumWidth);
+            }
         }
     }
 }

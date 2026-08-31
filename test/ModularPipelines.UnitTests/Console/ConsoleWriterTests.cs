@@ -1042,7 +1042,11 @@ public class ConsoleWriterTests
             RenderOptions.Create(AnsiConsole.Console),
             80);
 
-        await Assert.That(measurement.Max).IsGreaterThan(20);
+        using (Assert.Multiple())
+        {
+            await Assert.That(measurement.Min).IsLessThan(measurement.Max);
+            await Assert.That(measurement.Max).IsGreaterThan(20);
+        }
     }
 
     [Test]
