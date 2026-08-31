@@ -33,4 +33,5 @@ sidebar_position: 1
 | [`MPCLI002`](./MPCLI002.md) | Usage | Error | Public analyzer package | Value-less bool? CliOption should use CliFlag. |
 | [`MPCLI003`](./MPCLI003.md) | Usage | Error | Public analyzer package | Multiple CLI attributes applied to one property. |
 | [`MPCLI004`](./MPCLI004.md) | Usage | Error | Public analyzer package | Duplicate CLI switch in an options hierarchy. |
+| [`MPCLI005`](./MPCLI005.md) | Usage | Error | Public analyzer package | Negated CLI flag applied to a non-nullable-Boolean or counted property. |
 | [`MPCLI006`](./MPCLI006.md) | Usage | Error | Public analyzer package | CLI attributes used outside CommandLineToolOptions. |
