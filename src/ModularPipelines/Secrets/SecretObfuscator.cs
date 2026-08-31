@@ -93,12 +93,31 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             return new SecretObfuscationResult(input, 0);
         }
 
-        return ObfuscateMatches(
+        var comparison = caseInsensitive
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        var output = ObfuscateMatches(
             input,
             secretCache.Secrets,
             secretCache.SearchValues,
             maskValue,
-            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+            comparison);
+        if (!output.Output.AsSpan().ContainsAny(secretCache.SearchValues))
+        {
+            return output;
+        }
+
+        return ObfuscateWithSafeFallbackMask(
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            comparison,
+            candidate => ObfuscateMatches(
+                input,
+                secretCache.Secrets,
+                secretCache.SearchValues,
+                candidate,
+                comparison),
+            static result => result.Output);
     }
 
     internal string ObfuscatePreservingMasks(string input)
@@ -152,18 +171,30 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         var comparison = caseInsensitive
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
-        if (!preserveExistingMasks && !CanSafelyPreserveMasks(secretCache.Secrets))
-        {
-            maskValue = GetSafeFallbackMask(secretCache.Secrets, comparison);
-        }
-
-        return ObfuscateMatchesWithSourceMap(
+        var output = ObfuscateMatchesWithSourceMap(
             input,
             secretCache.Secrets,
             secretCache.SearchValues,
             maskValue,
             comparison,
             preserveExistingMasks);
+        if (preserveExistingMasks || !output.Value.AsSpan().ContainsAny(secretCache.SearchValues))
+        {
+            return output;
+        }
+
+        return ObfuscateWithSafeFallbackMask(
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            comparison,
+            candidate => ObfuscateMatchesWithSourceMap(
+                input,
+                secretCache.Secrets,
+                secretCache.SearchValues,
+                candidate,
+                comparison,
+                preserveExistingMasks: false),
+            static result => result.Value);
     }
 
     internal SecretRegistrationState GetRegistrationState()
@@ -278,27 +309,39 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
     private static string GetMaskValue(SecretMaskingOptions options) =>
         string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
 
-    private static string GetSafeFallbackMask(
+    private static TResult ObfuscateWithSafeFallbackMask<TResult>(
         IReadOnlyList<string> secrets,
-        StringComparison comparison)
+        SearchValues<string> searchValues,
+        StringComparison comparison,
+        Func<string, TResult> obfuscate,
+        Func<TResult, string> getOutput)
+        where TResult : notnull
     {
         string[] preferredMasks = ["[MASKED]", "[REDACTED]", "**********", "##########"];
         foreach (var candidate in preferredMasks)
         {
-            if (IsSafeMask(candidate, secrets, comparison))
+            if (TryObfuscate(candidate, out var output))
             {
-                return candidate;
+                return output;
             }
         }
 
+        var safeOutput = default(TResult);
         var safeCharacter = FindSafeFallbackMaskCharacter(character =>
-            IsSafeMask(new string(character, 10), secrets, comparison));
+            TryObfuscate(new string(character, 10), out safeOutput));
         if (safeCharacter is not null)
         {
-            return new string(safeCharacter.Value, 10);
+            return safeOutput!;
         }
 
         throw new InvalidOperationException("No non-secret masking characters remain available.");
+
+        bool TryObfuscate(string maskValue, out TResult output)
+        {
+            output = obfuscate(maskValue);
+            return IsSafeMask(maskValue, secrets, comparison)
+                   && !getOutput(output).AsSpan().ContainsAny(searchValues);
+        }
     }
 
     internal static char? FindSafeFallbackMaskCharacter(Func<char, bool> isSafe)

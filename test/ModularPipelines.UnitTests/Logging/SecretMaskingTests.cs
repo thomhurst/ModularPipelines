@@ -319,6 +319,53 @@ public class SecretMaskingTests
     }
 
     [Test]
+    public async Task FallbackMaskAndSourceText_DoNotReconstructARegisteredSecret()
+    {
+        string[] secrets = ["MASK", "[REDACTED]B"];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(0);
+        secretProvider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, secrets));
+        var obfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                MaskValue = "[MASK]",
+            }));
+
+        var output = obfuscator.ObfuscateWithSourceMap(
+            "[REDACTED]BB",
+            preserveExistingMasks: false).Value;
+
+        await Assert.That(output).DoesNotContain("[REDACTED]B");
+    }
+
+    [Test]
+    public async Task ConfiguredMaskAndSourceText_DoNotReconstructARegisteredSecret()
+    {
+        string[] secrets = ["AB"];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(0);
+        secretProvider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, secrets));
+        var obfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                MaskValue = "A",
+            }));
+
+        var mappedOutput = obfuscator.ObfuscateWithSourceMap(
+            "ABB",
+            preserveExistingMasks: false).Value;
+        var plainOutput = obfuscator.Obfuscate("ABB", optionsObject: null);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(mappedOutput).DoesNotContain("AB");
+            await Assert.That(plainOutput).DoesNotContain("AB");
+        }
+    }
+
+    [Test]
     public async Task MultipleSecrets_AllAreMasked()
     {
         var stringBuilder = new StringBuilder();
