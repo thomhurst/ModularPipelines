@@ -61,11 +61,11 @@ internal partial class Go : IGo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DocAsync(
-        GoDocOptions options,
+        GoDocOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoDocOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

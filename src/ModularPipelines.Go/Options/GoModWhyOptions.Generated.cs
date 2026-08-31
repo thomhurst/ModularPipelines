@@ -29,7 +29,7 @@ public record GoModWhyOptions(
     public bool? M { get; set; }
 
     /// <summary>
-    /// The -vendor option.
+    /// The -vendor flag causes why to exclude tests of dependencies.
     /// </summary>
     [CliFlag("-vendor")]
     public bool? Vendor { get; set; }

@@ -23,7 +23,7 @@ public record GoModGraphOptions : GoOptions
     /// <summary>
     /// The -go flag causes graph to report the module graph as loaded by the given Go version, instead of the version indicated by the 'go' directive in the go.mod file.
     /// </summary>
-    [CliOption("-go")]
+    [CliOption("-go", Format = OptionFormat.EqualsSeparated)]
     public string? Go { get; set; }
 
     /// <summary>
