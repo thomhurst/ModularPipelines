@@ -17,11 +17,11 @@ namespace ModularPipelines.Java.Enums;
 public enum GradleConsoleUnicode
 {
     [EnumValue("auto")]
-    Auto = 0,
+    Auto,
 
     [EnumValue("disable")]
-    Disable = 1,
+    Disable,
 
     [EnumValue("enable")]
-    Enable = 2
+    Enable
 }
