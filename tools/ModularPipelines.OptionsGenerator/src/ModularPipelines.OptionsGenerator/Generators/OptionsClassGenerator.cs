@@ -273,7 +273,12 @@ public class OptionsClassGenerator : ICodeGenerator
         if (HasOption(command, "--generate-cli-skeleton"))
         {
             sb.AppendLine($"    public static {command.ClassName} ForCliSkeleton(string generateCliSkeleton = \"input\") =>");
-            sb.AppendLine("        new() { GenerateCliSkeleton = generateCliSkeleton };");
+            sb.AppendLine("        generateCliSkeleton is \"input\" or \"yaml-input\"");
+            sb.AppendLine("            ? new() { GenerateCliSkeleton = generateCliSkeleton }");
+            sb.AppendLine("            : throw new global::System.ArgumentOutOfRangeException(");
+            sb.AppendLine("                nameof(generateCliSkeleton),");
+            sb.AppendLine("                generateCliSkeleton,");
+            sb.AppendLine("                \"Required operation values may only be omitted for input or yaml-input skeletons.\");");
             sb.AppendLine();
         }
     }

@@ -341,6 +341,10 @@ public class AwsCliScraperTests
             await Assert.That(terminateContent)
                 .Contains("ForCliSkeleton(string generateCliSkeleton = \"input\")");
             await Assert.That(terminateContent)
+                .Contains("generateCliSkeleton is \"input\" or \"yaml-input\"");
+            await Assert.That(terminateContent)
+                .Contains("Required operation values may only be omitted for input or yaml-input skeletons.");
+            await Assert.That(terminateContent)
                 .Contains("private AwsEc2TerminateInstancesOptions()");
             await Assert.That(terminateContent)
                 .DoesNotContain("public AwsEc2TerminateInstancesOptions()");
