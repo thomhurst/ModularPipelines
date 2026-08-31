@@ -137,6 +137,34 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Preserves_Placeholder_Notation_In_Operand_Documentation()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: choco uninstall <pkg> [<pkg2> <pkgN>] packages.config output=<path>",
+            ["choco", "uninstall"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments.Select(argument => argument.Description!))
+                .IsEquivalentTo(
+                [
+                    "The <pkg> operand.",
+                    "The <pkg2> <pkgN> operand.",
+                    "The packages.config operand.",
+                    "The output=<path> operand.",
+                ]);
+            await Assert.That(GeneratorUtils.EscapeXmlComment(result.PositionalArguments[0].Description))
+                .IsEqualTo("The &lt;pkg&gt; operand.");
+            await Assert.That(GeneratorUtils.EscapeXmlComment(result.PositionalArguments[1].Description))
+                .IsEqualTo("The &lt;pkg2&gt; &lt;pkgN&gt; operand.");
+            await Assert.That(GeneratorUtils.EscapeXmlComment(result.PositionalArguments[2].Description))
+                .IsEqualTo("The packages.config operand.");
+            await Assert.That(GeneratorUtils.EscapeXmlComment(result.PositionalArguments[3].Description))
+                .IsEqualTo("The output=&lt;path&gt; operand.");
+        }
+    }
+
+    [Test]
     public async Task Command_Group_Placeholders_Remain_Executable_Operands()
     {
         var parsed = UsageSynopsisParser.Parse(

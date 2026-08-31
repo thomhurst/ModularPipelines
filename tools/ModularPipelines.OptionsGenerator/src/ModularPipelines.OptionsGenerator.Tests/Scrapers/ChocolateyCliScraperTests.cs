@@ -32,14 +32,15 @@ public class ChocolateyCliScraperTests
     }
 
     [Test]
-    [Arguments("install", "<pkg> [<pkg2> <pkgN>]", "Pkg2PkgN")]
-    [Arguments("uninstall", "<pkg> [<pkg2> <pkgN>]", "Pkg2PkgN")]
-    [Arguments("upgrade", "<pkg> [<pkg2> <pkgN>]", "Pkg2PkgN")]
-    [Arguments("new", "<name> [<property=value> <propertyN=valueN>]", "PropertyValuePropertyNValueN")]
+    [Arguments("install", "<pkg> [<pkg2> <pkgN>]", "Pkg2PkgN", "The <pkg2> <pkgN> operand.")]
+    [Arguments("uninstall", "<pkg> [pkg2 pkgN]", "Pkg2PkgN", "The <pkg2> <pkgN> operand.")]
+    [Arguments("upgrade", "<pkg> [<pkg2> <pkgN>]", "Pkg2PkgN", "The <pkg2> <pkgN> operand.")]
+    [Arguments("new", "<name> [<property=value> <propertyN=valueN>]", "PropertyValuePropertyNValueN", "The <property=value> <propertyN=valueN> operand.")]
     public async Task Repeatable_Operand_Groups_Become_Collections(
         string commandName,
         string operands,
-        string expectedPropertyName)
+        string expectedPropertyName,
+        string expectedDescription)
     {
         var helpText = $"""
             Chocolatey v2.5.1
@@ -63,6 +64,7 @@ public class ChocolateyCliScraperTests
             await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(argument.IsRequired).IsFalse();
             await Assert.That(argument.IsVariadic).IsTrue();
+            await Assert.That(argument.Description).IsEqualTo(expectedDescription);
         }
     }
 

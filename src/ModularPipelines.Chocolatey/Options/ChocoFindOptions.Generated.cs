@@ -204,7 +204,7 @@ public record ChocoFindOptions : ChocoOptions
     public bool? IncludeConfiguredSources { get; set; }
 
     /// <summary>
-    /// The filter operand.
+    /// The &lt;filter&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Filter { get; set; }

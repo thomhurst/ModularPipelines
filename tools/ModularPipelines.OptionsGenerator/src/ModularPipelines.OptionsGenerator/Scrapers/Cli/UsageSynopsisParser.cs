@@ -603,6 +603,7 @@ public static class UsageSynopsisParser
                          || canonicalName.EndsWith(" ...", StringComparison.Ordinal)
                          || IsForwardedOptionTail(trimmed, content);
         canonicalName = canonicalName.TrimEnd('.', '…').Trim();
+        var documentationName = GetOperandDocumentationName(trimmed, canonicalName);
 
         if (canonicalName.StartsWith('-'))
         {
@@ -624,8 +625,23 @@ public static class UsageSynopsisParser
             IsVariadic = isVariadic,
             PositionIndex = positionIndex,
             Phase = phase,
-            Description = $"The {canonicalName} operand.",
+            Description = $"The {documentationName} operand.",
         };
+    }
+
+    private static string GetOperandDocumentationName(string token, string canonicalName)
+    {
+        var sourceName = token.Trim();
+        if (sourceName.StartsWith('[') && sourceName.EndsWith(']'))
+        {
+            sourceName = sourceName[1..^1].Trim();
+        }
+
+        sourceName = sourceName.TrimEnd('.', '…').Trim();
+        var placeholderStart = sourceName.IndexOf('<');
+        return placeholderStart >= 0 && sourceName.IndexOf('>', placeholderStart + 1) > placeholderStart + 1
+            ? sourceName
+            : canonicalName;
     }
 
     private static bool IsForwardedOptionTail(string token, string content) =>

@@ -293,6 +293,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
                     ? argument with
                     {
                         CSharpType = "IEnumerable<string>?",
+                        Description = GetRepeatableOperandDescription(argument.PropertyName),
                         IsRequired = false,
                         IsVariadic = true,
                     }
@@ -301,6 +302,13 @@ public partial class ChocolateyCliScraper : CliScraperBase
                 return normalized with { PositionIndex = index };
             })
             .ToArray();
+
+    private static string GetRepeatableOperandDescription(string propertyName) => propertyName switch
+    {
+        "Pkg2PkgN" => "The <pkg2> <pkgN> operand.",
+        "PropertyValuePropertyNValueN" => "The <property=value> <propertyN=valueN> operand.",
+        _ => throw new ArgumentOutOfRangeException(nameof(propertyName)),
+    };
 
     /// <summary>
     /// Extracts description from help text.
