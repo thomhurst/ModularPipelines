@@ -46,6 +46,12 @@ public partial class PnpmCliScraper : CliScraperBase
         "--sort-by",
     };
 
+    private static readonly HashSet<string> PlaceholderFreeFlagOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--config",
+        "--reporter-hide-prefix",
+    };
+
     private static readonly string[] ValueOptionNameIndicators =
     [
         "filter", "dir", "registry", "store", "config", "reporter", "loglevel",
@@ -414,6 +420,11 @@ public partial class PnpmCliScraper : CliScraperBase
 
     private static bool IsPlaceholderFreeValueOption(string optionName, string description)
     {
+        if (PlaceholderFreeFlagOptions.Contains(optionName))
+        {
+            return false;
+        }
+
         if (PlaceholderFreeValueOptions.Contains(optionName))
         {
             return true;

@@ -999,9 +999,11 @@ public class CliScraperTraversalTests
                 Options:
                   --dev                       Only inspect development dependencies
                   --prod                      Only inspect production dependencies
+                  --config                    Save dependency to configDependencies
                   --interactive               Prompt before applying changes
                   --ignore-registry-errors    Continue when a registry is unavailable
                   --ignore-unfixable          Ignore vulnerabilities without a fix
+                  --reporter-hide-prefix      Hide workspace package prefixes
                   --allow-build               A list of package names allowed to run postinstall scripts
                   --cache-location            Path to the package cache directory
                   --edit-dir                  The directory in which to edit the package
@@ -1028,9 +1030,11 @@ public class CliScraperTraversalTests
                      {
                          "--dev",
                          "--prod",
+                         "--config",
                          "--interactive",
                          "--ignore-registry-errors",
                          "--ignore-unfixable",
+                         "--reporter-hide-prefix",
                      })
             {
                 await Assert.That(options[switchName].IsFlag).IsTrue();
