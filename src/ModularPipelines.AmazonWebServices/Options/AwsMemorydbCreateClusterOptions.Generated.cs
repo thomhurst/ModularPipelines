@@ -67,7 +67,7 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions
     /// <summary>
     /// A list of security group names to associate with this cluster. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
@@ -100,7 +100,7 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions
     /// <summary>
     /// A list of Amazon Resource Names (ARN) that uniquely identify the RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new cluster. The Amazon S3 object name in the ARN can- not contain any commas. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--snapshot-arns")]
+    [CliOption("--snapshot-arns", GroupValues = true)]
     public IEnumerable<string>? SnapshotArns { get; set; }
 
     /// <summary>
@@ -118,7 +118,7 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions
     /// <summary>
     /// A list of tags to be added to this resource. Tags are comma-sepa- rated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can in- clude multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Constraints: o max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are com- posed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more in- formation, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

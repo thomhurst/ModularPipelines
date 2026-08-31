@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "batch-update-automation-rules")]
 public record AwsSecurityhubBatchUpdateAutomationRulesOptions : AwsOptions
 {
-    [CliOption("--update-automation-rules-request-items")]
+    [CliOption("--update-automation-rules-request-items", GroupValues = true)]
     public IEnumerable<string>? UpdateAutomationRulesRequestItems { get; set; }
 
     [CliOption("--cli-input-json")]

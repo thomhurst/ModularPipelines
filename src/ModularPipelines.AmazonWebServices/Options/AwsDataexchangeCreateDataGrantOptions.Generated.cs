@@ -49,7 +49,7 @@ public record AwsDataexchangeCreateDataGrantOptions : AwsOptions
     /// <summary>
     /// The tags to add to the data grant. A tag is a key-value pair. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

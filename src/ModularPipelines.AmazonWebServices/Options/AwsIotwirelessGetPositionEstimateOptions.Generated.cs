@@ -24,7 +24,7 @@ public record AwsIotwirelessGetPositionEstimateOptions : AwsOptions
     /// <summary>
     /// Retrieves an estimated device position by resolving WLAN measurement data. The position is resolved using HERE's Wi-Fi based solver. (structure) Wi-Fi access point. MacAddress -&gt; (string) [required] Wi-Fi MAC Address. Constraints: o min: 12 o max: 17 o pattern: ^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$ Rss -&gt; (integer) [required] Received signal strength (dBm) of the WLAN measurement data. Constraints: o min: -128 o max: 0 Shorthand Syntax: MacAddress=string,Rss=integer ... JSON Syntax: [ { "MacAddress": "string", "Rss": integer } ... ]
     /// </summary>
-    [CliOption("--wi-fi-access-points")]
+    [CliOption("--wi-fi-access-points", GroupValues = true)]
     public IEnumerable<string>? WiFiAccessPoints { get; set; }
 
     /// <summary>

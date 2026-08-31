@@ -31,7 +31,7 @@ public record AwsSsmListOpsItemRelatedItemsOptions : AwsOptions
     /// <summary>
     /// One or more OpsItem filters. Use a filter to return a more specific list of results. (structure) Describes a filter for a specific list of related-item re- sources. Key -&gt; (string) [required] The name of the filter key. Supported values include Re- sourceUri , ResourceType , or AssociationId . Possible values: o ResourceType o AssociationId o ResourceUri Values -&gt; (list) [required] The values for the filter. (string) Operator -&gt; (string) [required] The operator used by the filter call. The only supported op- erator is EQUAL . Possible values: o Equal Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "ResourceType"|"AssociationId"|"ResourceUri", "Values": ["string", ...], "Operator": "Equal" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

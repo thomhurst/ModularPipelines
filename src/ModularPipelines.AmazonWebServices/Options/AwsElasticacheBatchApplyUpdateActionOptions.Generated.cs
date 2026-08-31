@@ -24,13 +24,13 @@ public record AwsElasticacheBatchApplyUpdateActionOptions : AwsOptions
     /// <summary>
     /// The replication group IDs Constraints: o max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--replication-group-ids")]
+    [CliOption("--replication-group-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationGroupIds { get; set; }
 
     /// <summary>
     /// The cache cluster IDs Constraints: o max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cache-cluster-ids")]
+    [CliOption("--cache-cluster-ids", GroupValues = true)]
     public IEnumerable<string>? CacheClusterIds { get; set; }
 
     [CliOption("--service-update-name")]

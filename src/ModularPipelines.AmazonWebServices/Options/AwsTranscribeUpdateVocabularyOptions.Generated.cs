@@ -30,7 +30,7 @@ public record AwsTranscribeUpdateVocabularyOptions : AwsOptions
     /// <summary>
     /// Use this parameter if you want to update your custom vocabulary by including all desired terms, as comma-separated values, within your request. The other option for updating your custom vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the Vocabulary- FileUri parameter. Note that if you include Phrases in your request, you cannot use Vo- cabularyFileUri ; you must choose one or the other. Each language has a character set that contains all allowed charac- ters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language. (string) Constraints: o min: 0 o max: 256 o pattern: .+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--phrases")]
+    [CliOption("--phrases", GroupValues = true)]
     public IEnumerable<string>? Phrases { get; set; }
 
     /// <summary>

@@ -37,7 +37,7 @@ public record AwsEmrCreateStudioOptions : AwsOptions
     [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     [CliOption("--service-role")]
@@ -73,7 +73,7 @@ public record AwsEmrCreateStudioOptions : AwsOptions
     /// <summary>
     /// A list of tags to associate with the Amazon EMR Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters. (structure) A key-value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more infor- mation, see Tag Clusters . Key -&gt; (string) A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . Value -&gt; (string) A user-defined value, which is optional in a tag. For more information, see Tag Clusters . Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--trusted-identity-propagation-enabled")]

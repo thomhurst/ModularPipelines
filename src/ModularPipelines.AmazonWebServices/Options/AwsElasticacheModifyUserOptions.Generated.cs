@@ -41,7 +41,7 @@ public record AwsElasticacheModifyUserOptions : AwsOptions
     /// The passwords belonging to the user. You are allowed up to two. Constraints: o min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
-    [CliOption("--passwords")]
+    [CliOption("--passwords", GroupValues = true)]
     public IEnumerable<string>? Passwords { get; set; }
 
     [CliFlag("--no-password-required")]

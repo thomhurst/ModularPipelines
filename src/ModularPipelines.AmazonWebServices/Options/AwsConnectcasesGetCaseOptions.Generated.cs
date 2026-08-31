@@ -28,7 +28,7 @@ public record AwsConnectcasesGetCaseOptions : AwsOptions
     [CliOption("--domain-id")]
     public string? DomainId { get; set; }
 
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>

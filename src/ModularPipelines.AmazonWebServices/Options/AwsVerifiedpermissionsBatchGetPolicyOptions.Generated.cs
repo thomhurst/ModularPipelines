@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("verifiedpermissions", "batch-get-policy")]
 public record AwsVerifiedpermissionsBatchGetPolicyOptions : AwsOptions
 {
-    [CliOption("--requests")]
+    [CliOption("--requests", GroupValues = true)]
     public IEnumerable<string>? Requests { get; set; }
 
     [CliOption("--cli-input-json")]

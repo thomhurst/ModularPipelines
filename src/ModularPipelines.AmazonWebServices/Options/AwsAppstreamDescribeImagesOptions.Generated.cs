@@ -26,13 +26,13 @@ public record AwsAppstreamDescribeImagesOptions : AwsOptions
     /// <summary>
     /// The names of the public or private images to describe. (string) Constraints: o min: 1 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>
     /// The ARNs of the public, private, and shared images to describe. (string) Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--arns")]
+    [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     /// <summary>

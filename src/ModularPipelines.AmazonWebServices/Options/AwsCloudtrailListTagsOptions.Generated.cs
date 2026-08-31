@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudtrail", "list-tags")]
 public record AwsCloudtrailListTagsOptions : AwsOptions
 {
-    [CliOption("--resource-id-list")]
+    [CliOption("--resource-id-list", GroupValues = true)]
     public IEnumerable<string>? ResourceIdList { get; set; }
 
     [CliOption("--cli-input-json")]

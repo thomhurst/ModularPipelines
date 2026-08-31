@@ -57,19 +57,19 @@ public record AwsCodecommitCreateCommitOptions : AwsOptions
     /// <summary>
     /// The files to add or update in this commit. (structure) Information about a file added or updated as part of a commit. filePath -&gt; (string) [required] The full path to the file in the repository, including the name of the file. fileMode -&gt; (string) The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL. Possible values: o EXECUTABLE o NORMAL o SYMLINK fileContent -&gt; (blob) The content of the file, if a source file is not specified. Constraints: o max: 6291456 sourceFile -&gt; (structure) The name and full path of the file that contains the changes you want to make as part of the commit, if you are not pro- viding the file content directly. filePath -&gt; (string) [required] The full path to the file, including the name of the file. isMove -&gt; (boolean) Whether to remove the source file from the parent commit. Shorthand Syntax: filePath=string,fileMode=string,fileContent=blob,sourceFile={filePath=string,isMove=boolean} ... JSON Syntax: [ { "filePath": "string", "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK", "fileContent": blob, "sourceFile": { "filePath": "string", "isMove": true|false } } ... ]
     /// </summary>
-    [CliOption("--put-files")]
+    [CliOption("--put-files", GroupValues = true)]
     public IEnumerable<string>? PutFiles { get; set; }
 
     /// <summary>
     /// The files to delete in this commit. These files still exist in ear- lier commits. (structure) A file that is deleted as part of a commit. filePath -&gt; (string) [required] The full path of the file to be deleted, including the name of the file. Shorthand Syntax: filePath=string ... JSON Syntax: [ { "filePath": "string" } ... ]
     /// </summary>
-    [CliOption("--delete-files")]
+    [CliOption("--delete-files", GroupValues = true)]
     public IEnumerable<string>? DeleteFiles { get; set; }
 
     /// <summary>
     /// The file modes to update for files in this commit. (structure) Information about the file mode changes. filePath -&gt; (string) [required] The full path to the file, including the name of the file. fileMode -&gt; (string) [required] The file mode for the file. Possible values: o EXECUTABLE o NORMAL o SYMLINK Shorthand Syntax: filePath=string,fileMode=string ... JSON Syntax: [ { "filePath": "string", "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK" } ... ]
     /// </summary>
-    [CliOption("--set-file-modes")]
+    [CliOption("--set-file-modes", GroupValues = true)]
     public IEnumerable<string>? SetFileModes { get; set; }
 
     [CliOption("--cli-input-json")]

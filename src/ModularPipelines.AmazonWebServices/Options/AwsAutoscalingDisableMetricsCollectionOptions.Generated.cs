@@ -27,7 +27,7 @@ public record AwsAutoscalingDisableMetricsCollectionOptions : AwsOptions
     /// <summary>
     /// Identifies the metrics to disable. You can specify one or more of the following metrics: o GroupMinSize o GroupMaxSize o GroupDesiredCapacity o GroupInServiceInstances o GroupPendingInstances o GroupStandbyInstances o GroupTerminatingInstances o GroupTotalInstances o GroupInServiceCapacity o GroupPendingCapacity o GroupStandbyCapacity o GroupTerminatingCapacity o GroupTotalCapacity o WarmPoolDesiredCapacity o WarmPoolWarmedCapacity o WarmPoolPendingCapacity o WarmPoolTerminatingCapacity o WarmPoolTotalCapacity o GroupAndWarmPoolDesiredCapacity o GroupAndWarmPoolTotalCapacity If you omit this property, all metrics are disabled. For more information, see Amazon CloudWatch metrics for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metrics")]
+    [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     [CliOption("--cli-input-json")]

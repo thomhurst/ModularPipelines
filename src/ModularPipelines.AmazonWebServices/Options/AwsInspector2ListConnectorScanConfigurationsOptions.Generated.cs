@@ -25,7 +25,7 @@ public record AwsInspector2ListConnectorScanConfigurationsOptions : AwsOptions
     /// <summary>
     /// The list of Amazon Web Services Config connector ARNs to filter re- sults. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 512 o pattern: arn:([^:]+):config:([^:]+):([^:]+):connec- tor/([^/]+)/([^/]+)/([^/:\s]+) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--aws-config-connector-arns")]
+    [CliOption("--aws-config-connector-arns", GroupValues = true)]
     public IEnumerable<string>? AwsConfigConnectorArns { get; set; }
 
     [CliOption("--cli-input-json")]

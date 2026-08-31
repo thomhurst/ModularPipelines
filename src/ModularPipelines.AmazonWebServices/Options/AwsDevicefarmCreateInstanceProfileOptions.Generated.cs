@@ -36,7 +36,7 @@ public record AwsDevicefarmCreateInstanceProfileOptions : AwsOptions
     /// <summary>
     /// An array of strings that specifies the list of app packages that should not be cleaned up from the device after a test run. The list of packages is considered only if you set packageCleanup to true . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--exclude-app-packages-from-cleanup")]
+    [CliOption("--exclude-app-packages-from-cleanup", GroupValues = true)]
     public IEnumerable<string>? ExcludeAppPackagesFromCleanup { get; set; }
 
     [CliFlag("--reboot-after-use")]

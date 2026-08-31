@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("workspaces", "start-workspaces")]
 public record AwsWorkspacesStartWorkspacesOptions : AwsOptions
 {
-    [CliOption("--start-workspace-requests")]
+    [CliOption("--start-workspace-requests", GroupValues = true)]
     public IEnumerable<string>? StartWorkspaceRequests { get; set; }
 
     [CliOption("--cli-input-json")]

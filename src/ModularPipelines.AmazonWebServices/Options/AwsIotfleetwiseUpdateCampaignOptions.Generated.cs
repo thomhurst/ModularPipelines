@@ -33,7 +33,7 @@ public record AwsIotfleetwiseUpdateCampaignOptions : AwsOptions
     /// <summary>
     /// A list of vehicle attributes to associate with a signal. Default: An empty array Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--data-extra-dimensions")]
+    [CliOption("--data-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? DataExtraDimensions { get; set; }
 
     [CliOption("--action")]

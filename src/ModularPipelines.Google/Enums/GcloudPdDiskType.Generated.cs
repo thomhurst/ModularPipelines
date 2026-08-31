@@ -11,14 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --addallowedclient.
+/// Allowed values for --pddisktype.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum GcloudAddAllowedClient
+public enum GcloudPdDiskType
 {
-    [EnumValue("READ_ONLY")]
-    ReadOnly = 0,
+    [EnumValue("pd-standard")]
+    PdStandard,
 
-    [EnumValue("READ_WRITE")]
-    ReadWrite = 1
+    [EnumValue("pd-balanced")]
+    PdBalanced,
+
+    [EnumValue("pd-ssd")]
+    PdSsd
 }

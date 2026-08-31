@@ -53,7 +53,7 @@ public record AwsSagemakerSearchOptions : AwsOptions
     /// <summary>
     /// Limits the results of your search request to the resources that you can access. Constraints: o min: 1 o max: 5 (structure) The list of key-value pairs used to filter your search results. If a search result contains a key from your list, it is included in the final search response if the value associated with the key in the result matches the value you specified. If the value doesn't match, the result is excluded from the search response. Any resources that don't have a key from the list that you've provided will also be included in the search response. Key -&gt; (string) The key that specifies the tag that you're using to filter the search results. It must be in the following format: Tags.&lt;key&gt; . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value for the tag that you're using to filter the search results. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--visibility-conditions")]
+    [CliOption("--visibility-conditions", GroupValues = true)]
     public IEnumerable<string>? VisibilityConditions { get; set; }
 
     [CliOption("--cli-input-json")]

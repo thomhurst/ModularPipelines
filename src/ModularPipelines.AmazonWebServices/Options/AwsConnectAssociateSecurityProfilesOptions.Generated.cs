@@ -24,7 +24,7 @@ public record AwsConnectAssociateSecurityProfilesOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliOption("--security-profiles")]
+    [CliOption("--security-profiles", GroupValues = true)]
     public IEnumerable<string>? SecurityProfiles { get; set; }
 
     [CliOption("--entity-type")]

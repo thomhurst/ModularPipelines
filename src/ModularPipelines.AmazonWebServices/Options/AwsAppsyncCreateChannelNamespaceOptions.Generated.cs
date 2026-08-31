@@ -31,13 +31,13 @@ public record AwsAppsyncCreateChannelNamespaceOptions : AwsOptions
     /// <summary>
     /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api au- thorization configuration. (structure) Describes an authorization configuration. Use AuthMode to spec- ify the publishing and subscription authorization configuration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA Shorthand Syntax: authType=string ... JSON Syntax: [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ]
     /// </summary>
-    [CliOption("--subscribe-auth-modes")]
+    [CliOption("--subscribe-auth-modes", GroupValues = true)]
     public IEnumerable<string>? SubscribeAuthModes { get; set; }
 
     /// <summary>
     /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authoriza- tion configuration. (structure) Describes an authorization configuration. Use AuthMode to spec- ify the publishing and subscription authorization configuration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA Shorthand Syntax: authType=string ... JSON Syntax: [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ]
     /// </summary>
-    [CliOption("--publish-auth-modes")]
+    [CliOption("--publish-auth-modes", GroupValues = true)]
     public IEnumerable<string>? PublishAuthModes { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public record AwsAppsyncCreateChannelNamespaceOptions : AwsOptions
     /// <summary>
     /// A map with keys of TagKey objects and values of TagValue objects. Constraints: o min: 1 o max: 50 key -&gt; (string) The key for the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[ a-zA-Z+-=._:/]+$ value -&gt; (string) The value for the tag. Constraints: o max: 256 o pattern: ^[\s\w+-=\.:/@]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

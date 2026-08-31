@@ -25,19 +25,19 @@ public record AwsOutpostsListCatalogItemsOptions : AwsOptions
     /// <summary>
     /// Filters the results by item class. (string) Possible values: o RACK o SERVER Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--item-class-filter")]
+    [CliOption("--item-class-filter", GroupValues = true)]
     public IEnumerable<string>? ItemClassFilter { get; set; }
 
     /// <summary>
     /// Filters the results by storage option. (string) Possible values: o EBS o S3 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--supported-storage-filter")]
+    [CliOption("--supported-storage-filter", GroupValues = true)]
     public IEnumerable<string>? SupportedStorageFilter { get; set; }
 
     /// <summary>
     /// Filters the results by EC2 family (for example, M5). (string) Constraints: o min: 1 o max: 10 o pattern: ^[a-z0-9]+[a-z0-9-]*[a-z0-9]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ec2-family-filter")]
+    [CliOption("--ec2-family-filter", GroupValues = true)]
     public IEnumerable<string>? Ec2FamilyFilter { get; set; }
 
     [CliOption("--cli-input-json")]

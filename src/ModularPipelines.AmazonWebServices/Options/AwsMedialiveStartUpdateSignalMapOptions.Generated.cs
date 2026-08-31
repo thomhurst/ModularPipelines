@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "start-update-signal-map")]
 public record AwsMedialiveStartUpdateSignalMapOptions : AwsOptions
 {
-    [CliOption("--cloud-watch-alarm-template-group-identifiers")]
+    [CliOption("--cloud-watch-alarm-template-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? CloudWatchAlarmTemplateGroupIdentifiers { get; set; }
 
     [CliOption("--description")]
@@ -30,7 +30,7 @@ public record AwsMedialiveStartUpdateSignalMapOptions : AwsOptions
     [CliOption("--discovery-entry-point-arn")]
     public string? DiscoveryEntryPointArn { get; set; }
 
-    [CliOption("--event-bridge-rule-template-group-identifiers")]
+    [CliOption("--event-bridge-rule-template-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? EventBridgeRuleTemplateGroupIdentifiers { get; set; }
 
     [CliFlag("--force-rediscovery")]

@@ -28,7 +28,7 @@ public record AwsS3controlListJobsOptions : AwsOptions
     /// <summary>
     /// The List Jobs request returns jobs that match the statuses listed in this element. (string) Possible values: o Active o Cancelled o Cancelling o Complete o Completing o Failed o Failing o New o Paused o Pausing o Preparing o Ready o Suspended Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--job-statuses")]
+    [CliOption("--job-statuses", GroupValues = true)]
     public IEnumerable<string>? JobStatuses { get; set; }
 
     /// <summary>

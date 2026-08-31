@@ -50,7 +50,7 @@ public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions
     /// <summary>
     /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If the value is not specified, IAM Identity Center authorizes all scopes configured for the application, including the following de- fault scopes: openid , aws , sts:identity_context . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--scope")]
+    [CliOption("--scope", GroupValues = true)]
     public IEnumerable<string>? Scope { get; set; }
 
     /// <summary>

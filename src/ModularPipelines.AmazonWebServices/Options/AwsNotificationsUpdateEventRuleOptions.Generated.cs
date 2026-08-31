@@ -33,7 +33,7 @@ public record AwsNotificationsUpdateEventRuleOptions : AwsOptions
     /// <summary>
     /// A list of Amazon Web Services Regions that sends events to this EventRule . Constraints: o min: 1 (string) Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,2})-([a-z]{1,15}-)+([0-9]) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     [CliOption("--cli-input-json")]

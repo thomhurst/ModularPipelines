@@ -31,7 +31,7 @@ public record AwsDsDataSearchUsersOptions : AwsOptions
     [CliOption("--realm")]
     public string? Realm { get; set; }
 
-    [CliOption("--search-attributes")]
+    [CliOption("--search-attributes", GroupValues = true)]
     public IEnumerable<string>? SearchAttributes { get; set; }
 
     [CliOption("--search-string")]

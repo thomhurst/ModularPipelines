@@ -243,6 +243,11 @@ public static class ExternalToolDefinitionLoader
             RequireSingleToken(option.ShortForm, $"{propertyName}[].shortForm");
         }
 
+        if (option.NegatedSwitchName is not null)
+        {
+            RequireSingleToken(option.NegatedSwitchName, $"{propertyName}[].negatedSwitchName");
+        }
+
         RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
         RequireTypeName(option.CSharpType, $"{propertyName}[].cSharpType");
         ValidateFlagType(option, propertyName);
@@ -297,6 +302,13 @@ public static class ExternalToolDefinitionLoader
         {
             throw new InvalidDataException(
                 $"{propertyName}[].cSharpType must be bool, bool?, int, or int? when isFlag is true.");
+        }
+
+        if (option.NegatedSwitchName is not null
+            && (!option.IsFlag || !IsNullableBooleanType(option.CSharpType)))
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].negatedSwitchName requires isFlag=true and cSharpType bool?.");
         }
     }
 
@@ -394,6 +406,14 @@ public static class ExternalToolDefinitionLoader
             or "System.Int32?";
     }
 
+    private static bool IsNullableBooleanType(string cSharpType)
+    {
+        var type = cSharpType
+            .Replace(" ", string.Empty, StringComparison.Ordinal)
+            .Replace("global::", string.Empty, StringComparison.Ordinal);
+        return type is "bool?" or "System.Boolean?";
+    }
+
     private static void ValidateEquivalentEnumDefinitions(CliToolDefinition tool)
     {
         var definitions = tool.Commands
@@ -442,6 +462,15 @@ public static class ExternalToolDefinitionLoader
                 && !string.Equals(option.SwitchName, option.ShortForm, StringComparison.Ordinal))
             {
                 RegisterSwitch(option.ShortForm, option.PropertyName, propertiesBySwitch, command);
+            }
+
+            if (option.NegatedSwitchName is not null)
+            {
+                RegisterSwitch(
+                    option.NegatedSwitchName,
+                    option.PropertyName,
+                    propertiesBySwitch,
+                    command);
             }
         }
     }

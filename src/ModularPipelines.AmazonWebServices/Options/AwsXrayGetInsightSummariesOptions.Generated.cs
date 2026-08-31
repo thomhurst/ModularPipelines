@@ -25,7 +25,7 @@ public record AwsXrayGetInsightSummariesOptions : AwsOptions
     /// <summary>
     /// The list of insight states. Constraints: o min: 0 o max: 1 (string) Possible values: o ACTIVE o CLOSED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>

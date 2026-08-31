@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ivs", "batch-start-viewer-session-revocation")]
 public record AwsIvsBatchStartViewerSessionRevocationOptions : AwsOptions
 {
-    [CliOption("--viewer-sessions")]
+    [CliOption("--viewer-sessions", GroupValues = true)]
     public IEnumerable<string>? ViewerSessions { get; set; }
 
     [CliOption("--cli-input-json")]

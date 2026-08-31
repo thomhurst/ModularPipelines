@@ -24,7 +24,7 @@ public record AwsQuicksightUpdateKeyRegistrationOptions : AwsOptions
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
-    [CliOption("--key-registration")]
+    [CliOption("--key-registration", GroupValues = true)]
     public IEnumerable<string>? KeyRegistration { get; set; }
 
     [CliOption("--cli-input-json")]

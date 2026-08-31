@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkMeetingsCreateMeetingWithAttendeesMediaPlacementNetworkType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("Ipv4Only")]
     Ipv4Only = 1,
 

@@ -37,7 +37,7 @@ public record AwsRekognitionCreateStreamProcessorOptions : AwsOptions
     /// <summary>
     /// A set of tags (key-value pairs) that you want to attach to the stream processor. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public record AwsRekognitionCreateStreamProcessorOptions : AwsOptions
     /// <summary>
     /// Specifies locations in the frames where Amazon Rekognition checks for objects or people. You can specify up to 10 regions of interest, and each region has either a polygon or a bounding box. This is an optional parameter for label detection stream processors and should not be used to create a face search stream processor. Constraints: o min: 0 o max: 10 (structure) Specifies a location within the frame that Rekognition checks for objects of interest such as text, labels, or faces. It uses a BoundingBox or Polygon to set a region of the screen. A word, face, or label is included in the region if it is more than half in that region. If there is more than one region, the word, face, or label is compared with all regions of the screen. Any object of interest that is more than half in a region is kept in the results. BoundingBox -&gt; (structure) The box representing a region of interest on screen. Width -&gt; (float) Width of the bounding box as a ratio of the overall image width. Height -&gt; (float) Height of the bounding box as a ratio of the overall im- age height. Left -&gt; (float) Left coordinate of the bounding box as a ratio of overall image width. Top -&gt; (float) Top coordinate of the bounding box as a ratio of overall image height. Polygon -&gt; (list) Specifies a shape made up of up to 10 Point objects to define a region of interest. (structure) The X and Y coordinates of a point on an image or video frame. The X and Y values are ratios of the overall image size or video resolution. For example, if an input image is 700x200 and the values are X=0.5 and Y=0.25, then the point is at the (350,50) pixel coordinate on the image. An array of Point objects makes up a Polygon . A Polygon is returned by DetectText and by DetectCustomLabels Polygon represents a fine-grained polygon around a de- tected item. For more information, see Geometry in the Amazon Rekognition Developer Guide. X -&gt; (float) The value of the X coordinate for a point on a Polygon . Y -&gt; (float) The value of the Y coordinate for a point on a Polygon . Shorthand Syntax: BoundingBox={Width=float,Height=float,Left=float,Top=float},Polygon=[{X=float,Y=float},{X=float,Y=float}] ... JSON Syntax: [ { "BoundingBox": { "Width": float, "Height": float, "Left": float, "Top": float }, "Polygon": [ { "X": float, "Y": float } ... ] } ... ]
     /// </summary>
-    [CliOption("--regions-of-interest")]
+    [CliOption("--regions-of-interest", GroupValues = true)]
     public IEnumerable<string>? RegionsOfInterest { get; set; }
 
     /// <summary>

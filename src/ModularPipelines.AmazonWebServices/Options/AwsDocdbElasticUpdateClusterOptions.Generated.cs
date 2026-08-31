@@ -85,13 +85,13 @@ public record AwsDocdbElasticUpdateClusterOptions : AwsOptions
     /// <summary>
     /// The Amazon EC2 subnet IDs for the elastic cluster. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
     /// A list of EC2 VPC security groups to associate with the elastic cluster. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

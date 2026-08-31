@@ -27,7 +27,7 @@ public record AwsChatbotCreateChimeWebhookConfigurationOptions : AwsOptions
     [CliOption("--webhook-url")]
     public string? WebhookUrl { get; set; }
 
-    [CliOption("--sns-topic-arns")]
+    [CliOption("--sns-topic-arns", GroupValues = true)]
     public IEnumerable<string>? SnsTopicArns { get; set; }
 
     [CliOption("--iam-role-arn")]
@@ -45,7 +45,7 @@ public record AwsChatbotCreateChimeWebhookConfigurationOptions : AwsOptions
     /// <summary>
     /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

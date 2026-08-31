@@ -25,7 +25,7 @@ public record AwsComputeOptimizerGetLicenseRecommendationsOptions : AwsOptions
     /// <summary>
     /// The ARN that identifies the Amazon EC2 instance. The following is the format of the ARN: arn:aws:ec2:region:aws_account_id:instance/instance-id (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>
@@ -44,13 +44,13 @@ public record AwsComputeOptimizerGetLicenseRecommendationsOptions : AwsOptions
     /// <summary>
     /// An array of objects to specify a filter that returns a more specific list of license recommendations. (structure) Describes a filter that returns a more specific list of license recommendations. Use this filter with the GetLicenseRecommenda- tion action. name -&gt; (string) The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your license recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your license recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all license recommendations that have a tag with the key of Owner and the value of TeamA , specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your license recom- mendations. Use this filter to find all of your license rec- ommendations that have a tag with a specific key. This doesnt consider the tag value. For example, you can find your li- cense recommendations with a tag key value of Owner or with- out any tag keys assigned. Possible values: o Finding o FindingReasonCode o LicenseName values -&gt; (list) The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter: o If you specify the name parameter as Finding , then specify Optimized , NotOptimized , or InsufficentMetrics . o If you specify the name parameter as FindingReasonCode , then specify Optimized , LicenseOverprovisioned , Invalid- CloudwatchApplicationInsights , or CloudwatchApplicationIn- sightsError . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Finding"|"FindingReasonCode"|"LicenseName", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// The ID of the Amazon Web Services account for which to return li- cense recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return license recommendations. Only one account ID can be specified per request. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

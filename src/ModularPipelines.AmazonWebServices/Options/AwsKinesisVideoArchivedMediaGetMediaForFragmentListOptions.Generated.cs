@@ -33,7 +33,7 @@ public record AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions : AwsOp
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CliOption("--fragments")]
+    [CliOption("--fragments", GroupValues = true)]
     public IEnumerable<string>? Fragments { get; set; }
 
 }

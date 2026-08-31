@@ -27,7 +27,7 @@ public record AwsOmicsCompleteMultipartReadSetUploadOptions : AwsOptions
     [CliOption("--upload-id")]
     public string? UploadId { get; set; }
 
-    [CliOption("--parts")]
+    [CliOption("--parts", GroupValues = true)]
     public IEnumerable<string>? Parts { get; set; }
 
     [CliOption("--cli-input-json")]

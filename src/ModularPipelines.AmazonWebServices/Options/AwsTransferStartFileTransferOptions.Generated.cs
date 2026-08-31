@@ -27,13 +27,13 @@ public record AwsTransferStartFileTransferOptions : AwsOptions
     /// <summary>
     /// One or more source paths for the Amazon S3 storage. Each string rep- resents a source file path for one outbound file transfer. For exam- ple, `` amzn-s3-demo-bucket /myfile.txt `` . NOTE: Replace `` amzn-s3-demo-bucket `` with one of your actual buck- ets. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: (.)+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--send-file-paths")]
+    [CliOption("--send-file-paths", GroupValues = true)]
     public IEnumerable<string>? SendFilePaths { get; set; }
 
     /// <summary>
     /// One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: (.)+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--retrieve-file-paths")]
+    [CliOption("--retrieve-file-paths", GroupValues = true)]
     public IEnumerable<string>? RetrieveFilePaths { get; set; }
 
     /// <summary>
@@ -51,7 +51,7 @@ public record AwsTransferStartFileTransferOptions : AwsOptions
     /// <summary>
     /// An array of key-value pairs that represent custom HTTP headers to include in AS2 messages. These headers are added to the AS2 message when sending files to your trading partner. (structure) Represents a custom HTTP header that can be included in AS2 mes- sages. Each header consists of a key-value pair. Key -&gt; (string) The name of the custom HTTP header. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+ Value -&gt; (string) The value of the custom HTTP header. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9 +\-./:=@_]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--custom-http-headers")]
+    [CliOption("--custom-http-headers", GroupValues = true)]
     public IEnumerable<string>? CustomHttpHeaders { get; set; }
 
     [CliOption("--cli-input-json")]

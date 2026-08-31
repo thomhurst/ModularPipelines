@@ -31,7 +31,7 @@ public record AwsPcsUpdateQueueOptions : AwsOptions
     /// <summary>
     /// The list of compute node group configurations to associate with the queue. Queues assign jobs to associated compute node groups. (structure) The compute node group configuration for a queue. computeNodeGroupId -&gt; (string) The compute node group ID for the compute node group configu- ration. Shorthand Syntax: computeNodeGroupId=string ... JSON Syntax: [ { "computeNodeGroupId": "string" } ... ]
     /// </summary>
-    [CliOption("--compute-node-group-configurations")]
+    [CliOption("--compute-node-group-configurations", GroupValues = true)]
     public IEnumerable<string>? ComputeNodeGroupConfigurations { get; set; }
 
     /// <summary>

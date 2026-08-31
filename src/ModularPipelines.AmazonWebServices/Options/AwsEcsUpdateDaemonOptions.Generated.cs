@@ -28,7 +28,7 @@ public record AwsEcsUpdateDaemonOptions : AwsOptions
     [CliOption("--daemon-task-definition-arn")]
     public string? DaemonTaskDefinitionArn { get; set; }
 
-    [CliOption("--capacity-provider-arns")]
+    [CliOption("--capacity-provider-arns", GroupValues = true)]
     public IEnumerable<string>? CapacityProviderArns { get; set; }
 
     /// <summary>

@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
 using ModularPipelines.Logging;
@@ -115,6 +117,18 @@ internal class ModuleHookContext : IModuleHookContext
 
     /// <inheritdoc />
     public IToolsContext Tools => _pipelineContext.Tools;
+
+    /// <inheritdoc />
+    public IArtifactContext Artifacts
+    {
+        get
+        {
+            var artifacts = _pipelineContext.Artifacts;
+            return artifacts is IModuleScopedArtifactContext scopedArtifacts
+                ? scopedArtifacts.ForModule(ModuleType)
+                : artifacts;
+        }
+    }
 
     /// <inheritdoc />
     public ISummaryLogger Summary => _pipelineContext.Summary;

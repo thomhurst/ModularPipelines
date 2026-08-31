@@ -24,7 +24,7 @@ public record AwsEfsCreateReplicationConfigurationOptions : AwsOptions
     [CliOption("--source-file-system-id")]
     public string? SourceFileSystemId { get; set; }
 
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     [CliOption("--cli-input-json")]

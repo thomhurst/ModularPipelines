@@ -36,7 +36,7 @@ public record AwsLightsailGetContainerServiceMetricDataOptions : AwsOptions
     [CliOption("--period")]
     public int? Period { get; set; }
 
-    [CliOption("--statistics")]
+    [CliOption("--statistics", GroupValues = true)]
     public IEnumerable<string>? Statistics { get; set; }
 
     [CliOption("--cli-input-json")]

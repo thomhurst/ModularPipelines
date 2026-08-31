@@ -24,7 +24,7 @@ public record AwsSagemakerCreateEdgeDeploymentStageOptions : AwsOptions
     [CliOption("--edge-deployment-plan-name")]
     public string? EdgeDeploymentPlanName { get; set; }
 
-    [CliOption("--stages")]
+    [CliOption("--stages", GroupValues = true)]
     public IEnumerable<string>? Stages { get; set; }
 
     [CliOption("--cli-input-json")]

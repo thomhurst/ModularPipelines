@@ -25,13 +25,13 @@ public record AwsPinpointSmsVoiceV2DescribeNotifyTemplatesOptions : AwsOptions
     /// <summary>
     /// An array of template IDs to describe. Constraints: o min: 1 o max: 10 (string) Template identifier for notify templates. In UpdateNotifyConfig- uration, pass UNSET_DEFAULT_TEMPLATE to clear the default tem- plate. The UNSET_DEFAULT_TEMPLATE value is only accepted by Up- dateNotifyConfiguration. Constraints: o min: 0 o max: 256 o pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--template-ids")]
+    [CliOption("--template-ids", GroupValues = true)]
     public IEnumerable<string>? TemplateIds { get; set; }
 
     /// <summary>
     /// An array of NotifyTemplateFilter objects to filter the results on. Constraints: o min: 0 o max: 20 (structure) The information for notify templates that meet a specified cri- teria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o template-type o channels o tier-access o supported-countries o language-code o supported-voice-ids Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "template-type"|"channels"|"tier-access"|"supported-countries"|"language-code"|"supported-voice-ids", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

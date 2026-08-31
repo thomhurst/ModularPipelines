@@ -59,7 +59,7 @@ public record AwsAmpUpdateScraperOptions : AwsOptions
     /// <summary>
     /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the existing exporter configuration remains unchanged. Constraints: o min: 0 o max: 1 (tagged union structure) Contains the configuration for an exporter managed by the scraper. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: openSearchConfiguration. openSearchConfiguration -&gt; (structure) The configuration that the scraper uses to export metrics to an Amazon OpenSearch Service domain. domainArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon OpenSearch Service domain. Constraints: o pattern: arn:aws[-a-z]*:es:[-a-z0-9]+:[0-9]{12}:do- main\/.+ Shorthand Syntax: openSearchConfiguration={domainArn=string} ... JSON Syntax: [ { "openSearchConfiguration": { "domainArn": "string" } } ... ]
     /// </summary>
-    [CliOption("--exporters")]
+    [CliOption("--exporters", GroupValues = true)]
     public IEnumerable<string>? Exporters { get; set; }
 
     [CliOption("--cli-input-json")]

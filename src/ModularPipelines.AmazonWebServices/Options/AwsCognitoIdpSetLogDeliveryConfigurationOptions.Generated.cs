@@ -24,7 +24,7 @@ public record AwsCognitoIdpSetLogDeliveryConfigurationOptions : AwsOptions
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; set; }
 
-    [CliOption("--log-configurations")]
+    [CliOption("--log-configurations", GroupValues = true)]
     public IEnumerable<string>? LogConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

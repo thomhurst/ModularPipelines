@@ -25,7 +25,7 @@ public record AwsPricingPlanManagerDisassociateResourcesFromSubscriptionOptions 
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     [CliOption("--if-match")]

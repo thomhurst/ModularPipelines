@@ -25,13 +25,13 @@ public record AwsEc2DescribeCapacityBlockExtensionHistoryOptions : AwsOptions
     /// <summary>
     /// The IDs of Capacity Block reservations that you want to display the history for. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capacity-reservation-ids")]
+    [CliOption("--capacity-reservation-ids", GroupValues = true)]
     public IEnumerable<string>? CapacityReservationIds { get; set; }
 
     /// <summary>
     /// One or more filters o availability-zone - The Availability Zone of the extension. o availability-zone-id - The Availability Zone ID of the extension. o capacity-block-extension-offering-id - The ID of the extension of- fering. o capacity-block-extension-status - The status of the extension (payment-pending | payment-failed | payment-succeeded ). o capacity-reservation-id - The reservation ID of the extension. o instance-type - The instance type of the extension. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--dry-run")]

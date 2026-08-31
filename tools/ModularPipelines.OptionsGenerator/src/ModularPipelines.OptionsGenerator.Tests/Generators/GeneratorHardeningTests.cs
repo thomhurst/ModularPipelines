@@ -180,7 +180,8 @@ public class GeneratorHardeningTests
         CommandLinePhase? phase = null,
         bool omitPhase = false,
         CliCompatibilityForwardingKind forwardingKind = CliCompatibilityForwardingKind.Direct,
-        CliOptionValueArity valueArity = CliOptionValueArity.Required) =>
+        CliOptionValueArity valueArity = CliOptionValueArity.Required,
+        string? negatedSwitchName = null) =>
         new(
             propertyName,
             cSharpType,
@@ -195,7 +196,8 @@ public class GeneratorHardeningTests
             ValueArity: valueArity,
             Phase: phase ?? (argumentPosition is not null && !omitPhase
                 ? CommandLinePhase.EarlyOperand
-                : null));
+                : null),
+            NegatedSwitchName: negatedSwitchName);
 
     private static CliOptionDefinition RequiredOption(string switchName, string propertyName) =>
         new()
@@ -1981,6 +1983,47 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Enum_Option_Instead_Of_Disconnected_Alias()
+    {
+        var command = Command("ToolUpdateOptions", "ToolOptions", ["update"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--labels",
+                    PropertyName = "Labels",
+                    CSharpType = "IReadOnlyList<KeyValue>?",
+                    IsKeyValue = true,
+                    AcceptsMultipleValues = true,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty(
+                "Labels",
+                "global::ModularPipelines.Tool.Enums.ToolLabels?",
+                switchName: "--labels")]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+        var option = preserved.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.PropertyName).IsEqualTo("Labels");
+            await Assert.That(option.CSharpType)
+                .IsEqualTo("global::ModularPipelines.Tool.Enums.ToolLabels?");
+            await Assert.That(preserved.CompatibilityProperties).IsEmpty();
+            await Assert.That(generated)
+                .Contains("[CliOption(\"--labels\")]");
+            await Assert.That(generated)
+                .Contains("public global::ModularPipelines.Tool.Enums.ToolLabels? Labels { get; set; }");
+            await Assert.That(generated).DoesNotContain("[Obsolete(");
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Reads_Nullable_To_Required_Compatibility_Accessors()
     {
         var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
@@ -2147,6 +2190,40 @@ public class GeneratorHardeningTests
 
         await Assert.That(exception.Message)
             .Contains("ToolCopyOptions.RemovedFlag changed type from bool? to string?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Changed_Negated_Switch()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--feature",
+                    NegatedSwitchName = "--without-feature",
+                    PropertyName = "Feature",
+                    CSharpType = "bool?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [
+                    BaselineProperty(
+                        "Feature",
+                        "bool?",
+                        switchName: "--feature",
+                        negatedSwitchName: "--no-feature"),
+                ]));
+
+        await Assert.That(exception.Message)
+            .Contains(
+                "ToolCopyOptions.Feature changed negated CLI switch from "
+                + "--no-feature to --without-feature");
     }
 
     [Test]
@@ -2990,6 +3067,8 @@ public class GeneratorHardeningTests
                 + "[RegularExpression(\"^[0-6]$\")] "
                 + "[CliFlag(\"--force\", ShortForm = \"-f\", PreferShortForm = true, Phase = CommandLinePhase.Terminal)] "
                 + "public int? Force { get; set; } "
+                + "[CliFlag(\"--feature\", NegatedName = \"--no-feature\")] "
+                + "public bool? Feature { get; set; } "
                 + "[CliOptionValueRange(1, 3)] "
                 + "[CliOptionValueRegularExpression(\"^[1-3]$\")] "
                 + "[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, "
@@ -3013,6 +3092,7 @@ public class GeneratorHardeningTests
             var restored = preserved.Commands.Single(command =>
                 command.ClassName.Equals("ToolRemovedOptions", StringComparison.Ordinal));
             var force = restored.Options.Single(option => option.PropertyName == "Force");
+            var feature = restored.Options.Single(option => option.PropertyName == "Feature");
             var pull = restored.Options.Single(option => option.PropertyName == "Pull");
             var arguments = restored.Options.Single(option => option.PropertyName == "Arguments");
             var operand = restored.PositionalArguments.Single();
@@ -3034,6 +3114,7 @@ public class GeneratorHardeningTests
                 await Assert.That(force.ValidationConstraints!.MinValue).IsEqualTo(0);
                 await Assert.That(force.ValidationConstraints.MaxValue).IsEqualTo(6);
                 await Assert.That(force.ValidationConstraints.Pattern).IsEqualTo("^[0-6]$");
+                await Assert.That(feature.NegatedSwitchName).IsEqualTo("--no-feature");
                 await Assert.That(pull.IsFlag).IsFalse();
                 await Assert.That(pull.ShortForm).IsEqualTo("-p");
                 await Assert.That(pull.PreferShortForm).IsTrue();
@@ -3051,6 +3132,8 @@ public class GeneratorHardeningTests
                 await Assert.That(operand.PrependOptionTerminatorIfValueStartsWithDash).IsTrue();
                 await Assert.That(generatedOptions)
                     .Contains("[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]");
+                await Assert.That(generatedOptions)
+                    .Contains("[CliFlag(\"--feature\", NegatedName = \"--no-feature\")]");
                 await Assert.That(generatedOptions).Contains("[Range(0, 6)]");
                 await Assert.That(generatedOptions).Contains("[RegularExpression(\"^[0-6]$\")]");
                 await Assert.That(generatedOptions).Contains("[CliOptionValueRange(1, 3)]");
@@ -4338,6 +4421,71 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task EnumReachabilityPruner_Omits_Unreferenced_Command_Enums_But_Keeps_Compatibility_Enums()
+    {
+        static CliEnumDefinition EnumDefinition(string name) => new()
+        {
+            EnumName = name,
+            Values = [new CliEnumValue { MemberName = "Value", CliValue = "value" }],
+        };
+
+        var orphan = EnumDefinition("ToolOrphanMode");
+        var used = EnumDefinition("ToolUsedMode");
+        var explicitMetadata = EnumDefinition("ToolExplicitMetadataMode");
+        var compatibility = EnumDefinition("ToolCompatibilityMode");
+        var beforeCommand = Command(
+            "ToolRunOptions",
+            "ToolOptions",
+            ["run"],
+            enums: [orphan, used, explicitMetadata],
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--orphan-mode",
+                    PropertyName = "OrphanMode",
+                    CSharpType = "ToolOrphanMode?",
+                    EnumDefinition = orphan,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--used-mode",
+                    PropertyName = "UsedMode",
+                    CSharpType = "ToolUsedMode?",
+                    EnumDefinition = used,
+                },
+            ]);
+        var afterCommand = beforeCommand with
+        {
+            Options = [.. beforeCommand.Options.Select(option =>
+                option.PropertyName == "OrphanMode"
+                    ? option with { CSharpType = "string?", EnumDefinition = null }
+                    : option)],
+        };
+        var before = Tool(beforeCommand) with { CompatibilityEnums = [compatibility] };
+        var after = Tool(afterCommand) with { CompatibilityEnums = [compatibility] };
+
+        var pruned = EnumReachabilityPruner.PruneDiscardedEnumReferences(before, after);
+        var generated = await new EnumGenerator().GenerateAsync(pruned);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(pruned.AllEnums.Select(definition => definition.EnumName))
+                .IsEquivalentTo([
+                    "ToolUsedMode",
+                    "ToolExplicitMetadataMode",
+                    "ToolCompatibilityMode",
+                ]);
+            await Assert.That(generated.Select(file => Path.GetFileName(file.RelativePath)))
+                .IsEquivalentTo([
+                    "ToolUsedMode.Generated.cs",
+                    "ToolExplicitMetadataMode.Generated.cs",
+                    "ToolCompatibilityMode.Generated.cs",
+                ]);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Prefers_Historical_Facade_Group_Casing()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
@@ -5519,6 +5667,88 @@ public class GeneratorHardeningTests
             "Abbrev",
             "AbbrevOption",
             CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue);
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Numeric_Property_When_Cli_Value_Becomes_Textual()
+    {
+        var command = Command("ToolDeployOptions", "ToolOptions", ["deploy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--service-account",
+                    PropertyName = "ServiceAccount",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("ServiceAccount", "int?", switchName: "--service-account")]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved)))
+            .Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("ServiceAccountValue");
+            await Assert.That(preserved.Options.Single().CSharpType).IsEqualTo("string?");
+            await Assert.That(generated).Contains("public string? ServiceAccountValue");
+            await Assert.That(generated).Contains("public int? ServiceAccount");
+            await Assert.That(generated).Contains("int.TryParse(ServiceAccountValue");
+            await Assert.That(generated).Contains(
+                "set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "ServiceAccount",
+            "ServiceAccountValue",
+            CliCompatibilityForwardingKind.NullableInt32ToString);
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Numeric_Property_When_Cli_Value_Becomes_Textual_Collection()
+    {
+        var command = Command("ToolDeployOptions", "ToolOptions", ["deploy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--service-account",
+                    PropertyName = "ServiceAccount",
+                    CSharpType = "IEnumerable<string>?",
+                    AcceptsMultipleValues = true,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("ServiceAccount", "int?", switchName: "--service-account")]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved)))
+            .Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("ServiceAccountValues");
+            await Assert.That(generated).Contains("public IEnumerable<string>? ServiceAccountValues");
+            await Assert.That(generated).Contains("public int? ServiceAccount");
+            await Assert.That(generated).Contains("int.TryParse(ServiceAccountValues?.FirstOrDefault()");
+            await Assert.That(generated).Contains(
+                "set => ServiceAccountValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];");
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "ServiceAccount",
+            "ServiceAccountValues",
+            CliCompatibilityForwardingKind.NullableInt32ToStringCollection);
     }
 
     [Test]

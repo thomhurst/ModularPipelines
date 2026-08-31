@@ -25,7 +25,7 @@ public record AwsCloudformationListStacksOptions : AwsOptions
     /// <summary>
     /// Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the Stack data type. (string) Possible values: o CREATE_IN_PROGRESS o CREATE_FAILED o CREATE_COMPLETE o ROLLBACK_IN_PROGRESS o ROLLBACK_FAILED o ROLLBACK_COMPLETE o DELETE_IN_PROGRESS o DELETE_FAILED o DELETE_COMPLETE o UPDATE_IN_PROGRESS o UPDATE_COMPLETE_CLEANUP_IN_PROGRESS o UPDATE_COMPLETE o UPDATE_FAILED o UPDATE_ROLLBACK_IN_PROGRESS o UPDATE_ROLLBACK_FAILED o UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS o UPDATE_ROLLBACK_COMPLETE o REVIEW_IN_PROGRESS o IMPORT_IN_PROGRESS o IMPORT_COMPLETE o IMPORT_ROLLBACK_IN_PROGRESS o IMPORT_ROLLBACK_FAILED o IMPORT_ROLLBACK_COMPLETE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--stack-status-filter")]
+    [CliOption("--stack-status-filter", GroupValues = true)]
     public IEnumerable<string>? StackStatusFilter { get; set; }
 
     [CliOption("--cli-input-json")]

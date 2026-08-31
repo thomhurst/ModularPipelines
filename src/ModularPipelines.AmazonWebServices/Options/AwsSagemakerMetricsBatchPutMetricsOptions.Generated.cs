@@ -24,7 +24,7 @@ public record AwsSagemakerMetricsBatchPutMetricsOptions : AwsOptions
     [CliOption("--trial-component-name")]
     public string? TrialComponentName { get; set; }
 
-    [CliOption("--metric-data")]
+    [CliOption("--metric-data", GroupValues = true)]
     public IEnumerable<string>? MetricData { get; set; }
 
     [CliOption("--cli-input-json")]

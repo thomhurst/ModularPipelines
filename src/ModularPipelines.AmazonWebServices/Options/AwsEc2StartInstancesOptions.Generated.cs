@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "start-instances")]
 public record AwsEc2StartInstancesOptions : AwsOptions
 {
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>

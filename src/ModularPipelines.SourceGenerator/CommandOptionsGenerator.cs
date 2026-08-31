@@ -15,7 +15,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
     private const int RuntimeRegistrationChunkSize = 32;
     private const int RuntimeMetadataSchemaVersion = 2;
-    private const int CommandMetadataSchemaVersion = 3;
+    private const int CommandMetadataSchemaVersion = 4;
     private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
     private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
 
@@ -926,6 +926,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         if (attributeName == CliFlagAttributeFullName)
         {
+            var negatedName = GetNamedString(attribute, "NegatedName");
             return new PropertyMetadata(
                 property.Name,
                 PropertyKind.Flag,
@@ -942,8 +943,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 isGlobalOption,
                 0,
                 property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                IsSupportedFlagType(property.Type),
-                false);
+                IsSupportedFlagType(property.Type)
+                && (negatedName is null || IsNullableBooleanType(property.Type)),
+                false,
+                NegatedName: negatedName);
         }
 
         return new PropertyMetadata(
@@ -963,7 +966,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetManualOperandCount(property.Type),
             property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             IsSupportedOptionalValueType(property.Type),
-            false);
+            false,
+            CollectionSeparator: GetNamedString(attribute, "CollectionSeparator"));
     }
 
     private static bool IsSupportedFlagType(ITypeSymbol propertyType)
@@ -971,6 +975,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         propertyType = UnwrapNullable(propertyType);
         return propertyType.SpecialType is SpecialType.System_Boolean or SpecialType.System_Int32;
     }
+
+    private static bool IsNullableBooleanType(ITypeSymbol propertyType) =>
+        propertyType is INamedTypeSymbol namedType
+        && namedType.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T
+        && namedType.TypeArguments.Length == 1
+        && namedType.TypeArguments[0].SpecialType == SpecialType.System_Boolean;
 
     private static bool IsSupportedOptionalValueType(ITypeSymbol propertyType)
     {
@@ -1521,6 +1531,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliFlagAttribute({Literal(property.PrimaryValue!)})");
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        ShortForm = {NullableLiteral(property.ShortForm)},");
+                    sb.AppendLine($"                        NegatedName = {NullableLiteral(property.NegatedName)},");
                     sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }},");
@@ -1535,6 +1546,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        Format = (global::ModularPipelines.Attributes.OptionFormat){property.FirstInt},");
                     sb.AppendLine($"                        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
                     sb.AppendLine($"                        GroupValues = {BooleanLiteral(property.GroupValues)},");
+                    sb.AppendLine($"                        CollectionSeparator = {NullableLiteral(property.CollectionSeparator)},");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, ManualOperandCount = {property.ManualOperandCount}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }},");
                     break;
@@ -2315,7 +2327,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string AccessorTypeName,
         bool IsSupportedPropertyType,
         bool HasExplicitArgumentPosition,
-        bool RepeatOptionTerminator = false);
+        bool RepeatOptionTerminator = false,
+        string? CollectionSeparator = null,
+        string? NegatedName = null);
 
     private enum PropertyKind
     {

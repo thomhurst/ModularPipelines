@@ -28,13 +28,13 @@ public record AwsEc2DescribeFleetsOptions : AwsOptions
     /// <summary>
     /// The IDs of the EC2 Fleets. NOTE: If a fleet is of type instant , you must specify the fleet ID, otherwise it does not appear in the response. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fleet-ids")]
+    [CliOption("--fleet-ids", GroupValues = true)]
     public IEnumerable<string>? FleetIds { get; set; }
 
     /// <summary>
     /// The filters. o activity-status - The progress of the EC2 Fleet ( error | pend- ing-fulfillment | pending-termination | fulfilled ). o excess-capacity-termination-policy - Indicates whether to termi- nate running instances if the target capacity is decreased below the current EC2 Fleet size (true | false ). o fleet-state - The state of the EC2 Fleet (submitted | active | deleted | failed | deleted-running | deleted-terminating | modify- ing ). o replace-unhealthy-instances - Indicates whether EC2 Fleet should replace unhealthy instances (true | false ). o type - The type of request (instant | request | maintain ). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

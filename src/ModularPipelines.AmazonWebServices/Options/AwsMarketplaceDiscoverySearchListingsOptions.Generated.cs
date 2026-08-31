@@ -32,7 +32,7 @@ public record AwsMarketplaceDiscoverySearchListingsOptions : AwsOptions
     /// <summary>
     /// Filters to narrow search results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic. Constraints: o min: 1 o max: 30 (structure) A filter used to narrow search results by attribute, such as category, pricing model, or fulfillment type. filterType -&gt; (string) [required] The type of filter to apply. Possible values: o MIN_AVERAGE_CUSTOMER_RATING o MAX_AVERAGE_CUSTOMER_RATING o CATEGORY o PUBLISHER o FULFILLMENT_OPTION_TYPE o PRICING_MODEL o PRICING_UNIT o DEPLOYED_ON_AWS o NUMBER_OF_PRODUCTS filterValues -&gt; (list) [required] The values to filter by. Term filters accept multiple values (OR logic). Range filters (MIN/MAX_AVERAGE_CUSTOMER_RATING) accept a single value between 0.0 and 5.0. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 128 o pattern: [\w\-\.]+ Shorthand Syntax: filterType=string,filterValues=string,string ... JSON Syntax: [ { "filterType": "MIN_AVERAGE_CUSTOMER_RATING"|"MAX_AVERAGE_CUSTOMER_RATING"|"CATEGORY"|"PUBLISHER"|"FULFILLMENT_OPTION_TYPE"|"PRICING_MODEL"|"PRICING_UNIT"|"DEPLOYED_ON_AWS"|"NUMBER_OF_PRODUCTS", "filterValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

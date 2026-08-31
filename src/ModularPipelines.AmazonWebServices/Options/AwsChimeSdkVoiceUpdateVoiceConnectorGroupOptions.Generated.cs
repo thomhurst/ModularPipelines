@@ -28,7 +28,7 @@ public record AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--voice-connector-items")]
+    [CliOption("--voice-connector-items", GroupValues = true)]
     public IEnumerable<string>? VoiceConnectorItems { get; set; }
 
     /// <summary>

@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("dynamodb", "batch-write-item")]
 public record AwsDynamodbBatchWriteItemOptions : AwsOptions
 {
-    [CliOption("--request-items")]
+    [CliOption("--request-items", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestItems { get; set; }
 
     /// <summary>

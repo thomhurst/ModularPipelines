@@ -25,7 +25,7 @@ public record AwsEksListEksAnywhereSubscriptionsOptions : AwsOptions
     /// <summary>
     /// An array of subscription statuses to filter on. (string) Possible values: o CREATING o ACTIVE o UPDATING o EXPIRING o EXPIRED o DELETING Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include-status")]
+    [CliOption("--include-status", GroupValues = true)]
     public IEnumerable<string>? IncludeStatus { get; set; }
 
     [CliOption("--cli-input-json")]

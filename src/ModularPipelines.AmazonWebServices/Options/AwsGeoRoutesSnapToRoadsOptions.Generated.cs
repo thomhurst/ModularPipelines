@@ -40,7 +40,7 @@ public record AwsGeoRoutesSnapToRoadsOptions : AwsOptions
     [CliOption("--snap-radius")]
     public int? SnapRadius { get; set; }
 
-    [CliOption("--trace-points")]
+    [CliOption("--trace-points", GroupValues = true)]
     public IEnumerable<string>? TracePoints { get; set; }
 
     /// <summary>

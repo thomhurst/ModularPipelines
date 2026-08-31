@@ -34,7 +34,7 @@ public record AwsSignerListSigningProfilesOptions : AwsOptions
     /// <summary>
     /// Filters results to return only signing jobs with statuses in the specified list. (string) Possible values: o Active o Canceled o Revoked Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--statuses")]
+    [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     [CliOption("--cli-input-json")]

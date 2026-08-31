@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("autoscaling", "set-instance-protection")]
 public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions
 {
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     [CliOption("--auto-scaling-group-name")]

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmPcaCreateCertificateAuthorityKeyStorageSecurityStandard
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("FIPS_140_2_LEVEL_2_OR_HIGHER")]
     Fips_140_2Level_2OrHigher = 1,
 

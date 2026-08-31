@@ -25,7 +25,7 @@ public record AwsSustainabilityGetEstimatedWaterAllocationDimensionValuesOptions
     [CliOption("--time-period")]
     public string? TimePeriod { get; set; }
 
-    [CliOption("--dimensions")]
+    [CliOption("--dimensions", GroupValues = true)]
     public IEnumerable<string>? Dimensions { get; set; }
 
     [CliOption("--cli-input-json")]

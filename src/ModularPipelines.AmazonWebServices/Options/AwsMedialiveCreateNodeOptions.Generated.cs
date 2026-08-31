@@ -28,7 +28,7 @@ public record AwsMedialiveCreateNodeOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--node-interface-mappings")]
+    [CliOption("--node-interface-mappings", GroupValues = true)]
     public IEnumerable<string>? NodeInterfaceMappings { get; set; }
 
     [CliOption("--request-id")]
@@ -37,7 +37,7 @@ public record AwsMedialiveCreateNodeOptions : AwsOptions
     [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

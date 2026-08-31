@@ -68,7 +68,7 @@ public record AwsS3apiListObjectsV2Options : AwsOptions
     /// <summary>
     /// Specifies the optional fields that you want returned in the re- sponse. Fields that you do not specify are not returned. NOTE: This functionality is not supported for directory buckets. (string) Possible values: o RestoreStatus Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--optional-object-attributes")]
+    [CliOption("--optional-object-attributes", GroupValues = true)]
     public IEnumerable<string>? OptionalObjectAttributes { get; set; }
 
     [CliOption("--cli-input-json")]

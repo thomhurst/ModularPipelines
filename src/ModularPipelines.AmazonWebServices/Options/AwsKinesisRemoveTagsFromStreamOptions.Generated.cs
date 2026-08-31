@@ -27,7 +27,7 @@ public record AwsKinesisRemoveTagsFromStreamOptions : AwsOptions
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>

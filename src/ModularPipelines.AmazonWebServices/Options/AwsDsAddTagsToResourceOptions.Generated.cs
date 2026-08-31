@@ -24,7 +24,7 @@ public record AwsDsAddTagsToResourceOptions : AwsOptions
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

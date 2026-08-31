@@ -24,7 +24,7 @@ public record AwsGameliftstreamsAddStreamGroupLocationsOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliOption("--location-configurations")]
+    [CliOption("--location-configurations", GroupValues = true)]
     public IEnumerable<string>? LocationConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

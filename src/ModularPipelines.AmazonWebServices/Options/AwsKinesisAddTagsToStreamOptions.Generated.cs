@@ -28,7 +28,7 @@ public record AwsKinesisAddTagsToStreamOptions : AwsOptions
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

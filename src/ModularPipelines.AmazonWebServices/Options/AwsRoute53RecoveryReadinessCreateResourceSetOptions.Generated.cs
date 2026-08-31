@@ -28,13 +28,13 @@ public record AwsRoute53RecoveryReadinessCreateResourceSetOptions : AwsOptions
     [CliOption("--resource-set-type")]
     public string? ResourceSetType { get; set; }
 
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
     /// A tag to associate with the parameters for a resource set. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

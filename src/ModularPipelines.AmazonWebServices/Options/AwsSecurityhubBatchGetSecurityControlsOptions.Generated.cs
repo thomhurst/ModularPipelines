@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "batch-get-security-controls")]
 public record AwsSecurityhubBatchGetSecurityControlsOptions : AwsOptions
 {
-    [CliOption("--security-control-ids")]
+    [CliOption("--security-control-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityControlIds { get; set; }
 
     [CliOption("--cli-input-json")]

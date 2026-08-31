@@ -33,7 +33,7 @@ public record AwsChimeSdkVoiceUpdateSipRuleOptions : AwsOptions
     /// <summary>
     /// The new list of target applications. Constraints: o min: 1 o max: 25 (structure) A target SIP media application and other details, such as prior- ity and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided. SipMediaApplicationId -&gt; (string) The ID of a rule's target SIP media application. Constraints: o pattern: .*\S.* Priority -&gt; (integer) The priority setting of a rule's target SIP media applica- tion. Constraints: o min: 1 AwsRegion -&gt; (string) The AWS Region of a rule's target SIP media application. Shorthand Syntax: SipMediaApplicationId=string,Priority=integer,AwsRegion=string ... JSON Syntax: [ { "SipMediaApplicationId": "string", "Priority": integer, "AwsRegion": "string" } ... ]
     /// </summary>
-    [CliOption("--target-applications")]
+    [CliOption("--target-applications", GroupValues = true)]
     public IEnumerable<string>? TargetApplications { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,7 +33,7 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions
     /// <summary>
     /// (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30). (string) Constraints: o min: 1 o max: 11 o pattern: ((\d{1,5}\-\d{1,5})|(\d+)) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--port-ranges")]
+    [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; set; }
 
     /// <summary>
@@ -91,7 +91,7 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions
     /// <summary>
     /// The tags for the resource configuration. Constraints: o min: 0 o max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: o min: 1 o max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

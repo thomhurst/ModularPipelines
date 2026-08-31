@@ -25,25 +25,25 @@ public record AwsCodeguruReviewerListRepositoryAssociationsOptions : AwsOptions
     /// <summary>
     /// List of provider types to use as a filter. Constraints: o min: 1 o max: 3 (string) Possible values: o CodeCommit o GitHub o Bitbucket o GitHubEnterpriseServer o S3Bucket Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--provider-types")]
+    [CliOption("--provider-types", GroupValues = true)]
     public IEnumerable<string>? ProviderTypes { get; set; }
 
     /// <summary>
     /// List of repository association states to use as a filter. The valid repository association states are: o Associated : The repository association is complete. o Associating : CodeGuru Reviewer is: o Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review. NOTE: If your repository ProviderType is GitHub , GitHub Enterprise Server , or Bitbucket , CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository can- not be triggered. o Setting up source code access. This is required for CodeGuru Re- viewer to securely clone code in your repository. o Failed : The repository failed to associate or disassociate. o Disassociating : CodeGuru Reviewer is removing the repository's pull request notifications and source code access. o Disassociated : CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control ac- cess to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide . Constraints: o min: 1 o max: 5 (string) Possible values: o Associated o Associating o Failed o Disassociating o Disassociated Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>
     /// List of repository names to use as a filter. Constraints: o min: 1 o max: 3 (string) Constraints: o min: 1 o max: 100 o pattern: ^\S[\w.-]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>
     /// List of owners to use as a filter. For Amazon Web Services CodeCom- mit, it is the name of the CodeCommit account that was used to asso- ciate the repository. For other repository source providers, such as Bitbucket and GitHub Enterprise Server, this is name of the account that was used to associate the repository. Constraints: o min: 1 o max: 3 (string) Constraints: o min: 1 o max: 100 o pattern: ^\S(.*\S)?$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--owners")]
+    [CliOption("--owners", GroupValues = true)]
     public IEnumerable<string>? Owners { get; set; }
 
     [CliOption("--cli-input-json")]

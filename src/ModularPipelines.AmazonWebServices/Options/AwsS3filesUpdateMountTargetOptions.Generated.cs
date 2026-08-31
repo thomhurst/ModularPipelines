@@ -24,7 +24,7 @@ public record AwsS3filesUpdateMountTargetOptions : AwsOptions
     [CliOption("--mount-target-id")]
     public string? MountTargetId { get; set; }
 
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     [CliOption("--cli-input-json")]

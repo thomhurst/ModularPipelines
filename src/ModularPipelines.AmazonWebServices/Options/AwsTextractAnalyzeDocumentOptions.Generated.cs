@@ -24,7 +24,7 @@ public record AwsTextractAnalyzeDocumentOptions : AwsOptions
     [CliOption("--document")]
     public string? Document { get; set; }
 
-    [CliOption("--feature-types")]
+    [CliOption("--feature-types", GroupValues = true)]
     public IEnumerable<string>? FeatureTypes { get; set; }
 
     /// <summary>

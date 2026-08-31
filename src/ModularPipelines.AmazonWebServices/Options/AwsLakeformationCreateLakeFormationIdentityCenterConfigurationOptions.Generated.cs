@@ -42,13 +42,13 @@ public record AwsLakeformationCreateLakeFormationIdentityCenterConfigurationOpti
     /// <summary>
     /// A list of Amazon Web Services account IDs and/or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation. If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the re- sources. If the ShareRecipients value is null or the list is empty, no re- source share is created. Constraints: o min: 0 o max: 30 (structure) The Lake Formation principal. Supported principals are IAM users or IAM roles. DataLakePrincipalIdentifier -&gt; (string) An identifier for the Lake Formation principal. Constraints: o min: 1 o max: 255 Shorthand Syntax: DataLakePrincipalIdentifier=string ... JSON Syntax: [ { "DataLakePrincipalIdentifier": "string" } ... ]
     /// </summary>
-    [CliOption("--share-recipients")]
+    [CliOption("--share-recipients", GroupValues = true)]
     public IEnumerable<string>? ShareRecipients { get; set; }
 
     /// <summary>
     /// A list of service integrations for enabling trusted identity propa- gation with external services such as Redshift. (tagged union structure) A union structure representing different service integration types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Redshift. Redshift -&gt; (list) Redshift service integration configuration. (tagged union structure) A union structure representing different Redshift inte- gration scopes. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: RedshiftConnect. RedshiftConnect -&gt; (structure) Configuration for Redshift Connect integration. Authorization -&gt; (string) [required] The authorization status for Redshift Connect. Valid values are ENABLED or DISABLED. Possible values: o ENABLED o DISABLED JSON Syntax: [ { "Redshift": [ { "RedshiftConnect": { "Authorization": "ENABLED"|"DISABLED" } } ... ] } ... ]
     /// </summary>
-    [CliOption("--service-integrations")]
+    [CliOption("--service-integrations", GroupValues = true)]
     public IEnumerable<string>? ServiceIntegrations { get; set; }
 
     [CliOption("--cli-input-json")]

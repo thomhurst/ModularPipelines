@@ -53,7 +53,7 @@ public record AwsRedshiftDescribeScheduledActionsOptions : AwsOptions
     /// <summary>
     /// List of scheduled action filters. (structure) A set of elements to filter the returned scheduled actions. Name -&gt; (string) [required] The type of element to filter. Possible values: o cluster-identifier o iam-role Values -&gt; (list) [required] List of values. Compare if the value (of type defined by Name ) equals an item in the list of scheduled actions. (string) Constraints: o max: 2147483647 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "cluster-identifier"|"iam-role", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

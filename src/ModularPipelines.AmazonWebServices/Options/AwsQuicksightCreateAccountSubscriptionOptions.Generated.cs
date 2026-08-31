@@ -61,37 +61,37 @@ public record AwsQuicksightCreateAccountSubscriptionOptions : AwsOptions
     /// <summary>
     /// The admin group associated with your Active Directory or IAM Iden- tity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--admin-group")]
+    [CliOption("--admin-group", GroupValues = true)]
     public IEnumerable<string>? AdminGroup { get; set; }
 
     /// <summary>
     /// The author group associated with your Active Directory or IAM Iden- tity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--author-group")]
+    [CliOption("--author-group", GroupValues = true)]
     public IEnumerable<string>? AuthorGroup { get; set; }
 
     /// <summary>
     /// The reader group associated with your Active Directory or IAM Iden- tity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--reader-group")]
+    [CliOption("--reader-group", GroupValues = true)]
     public IEnumerable<string>? ReaderGroup { get; set; }
 
     /// <summary>
     /// The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the se- lected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--admin-pro-group")]
+    [CliOption("--admin-pro-group", GroupValues = true)]
     public IEnumerable<string>? AdminProGroup { get; set; }
 
     /// <summary>
     /// The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--author-pro-group")]
+    [CliOption("--author-pro-group", GroupValues = true)]
     public IEnumerable<string>? AuthorProGroup { get; set; }
 
     /// <summary>
     /// The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--reader-pro-group")]
+    [CliOption("--reader-pro-group", GroupValues = true)]
     public IEnumerable<string>? ReaderProGroup { get; set; }
 
     /// <summary>

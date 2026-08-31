@@ -28,13 +28,13 @@ public record AwsEc2AssociateApplicationStatusCheckOptions : AwsOptions
     /// <summary>
     /// The tags to associate the application status check with. Each tag is a key-value pair. When you associate tags, the application status check automatically monitors all instances that have the specified tags. (structure) Describes a tag key-value pair for an application status check association request. Key -&gt; (string) The key of the tag. Value -&gt; (string) The value of the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--target-tag-associations")]
+    [CliOption("--target-tag-associations", GroupValues = true)]
     public IEnumerable<string>? TargetTagAssociations { get; set; }
 
     /// <summary>
     /// The IDs of the instances to associate with the application status check. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("athena", "batch-get-named-query")]
 public record AwsAthenaBatchGetNamedQueryOptions : AwsOptions
 {
-    [CliOption("--named-query-ids")]
+    [CliOption("--named-query-ids", GroupValues = true)]
     public IEnumerable<string>? NamedQueryIds { get; set; }
 
     [CliOption("--cli-input-json")]

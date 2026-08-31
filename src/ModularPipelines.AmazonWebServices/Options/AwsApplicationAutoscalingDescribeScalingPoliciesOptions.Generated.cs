@@ -26,7 +26,7 @@ public record AwsApplicationAutoscalingDescribeScalingPoliciesOptions : AwsOptio
     /// <summary>
     /// The names of the scaling policies to describe. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-names")]
+    [CliOption("--policy-names", GroupValues = true)]
     public IEnumerable<string>? PolicyNames { get; set; }
 
     [CliOption("--service-namespace")]

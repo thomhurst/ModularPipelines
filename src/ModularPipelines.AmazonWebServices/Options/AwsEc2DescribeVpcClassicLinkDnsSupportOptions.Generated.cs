@@ -25,7 +25,7 @@ public record AwsEc2DescribeVpcClassicLinkDnsSupportOptions : AwsOptions
     /// <summary>
     /// The IDs of the VPCs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-ids")]
+    [CliOption("--vpc-ids", GroupValues = true)]
     public IEnumerable<string>? VpcIds { get; set; }
 
     [CliOption("--cli-input-json")]

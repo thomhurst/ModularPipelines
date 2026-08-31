@@ -24,7 +24,7 @@ public record AwsEc2DisassociateNatGatewayAddressOptions : AwsOptions
     [CliOption("--nat-gateway-id")]
     public string? NatGatewayId { get; set; }
 
-    [CliOption("--association-ids")]
+    [CliOption("--association-ids", GroupValues = true)]
     public IEnumerable<string>? AssociationIds { get; set; }
 
     /// <summary>

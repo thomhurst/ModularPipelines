@@ -43,7 +43,7 @@ public record AwsServicecatalogGetProvisionedProductOutputsOptions : AwsOptions
     /// <summary>
     /// The list of keys that the API should return with their values. If none are provided, the API will return all outputs of the provi- sioned product. Constraints: o max: 60 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--output-keys")]
+    [CliOption("--output-keys", GroupValues = true)]
     public IEnumerable<string>? OutputKeys { get; set; }
 
     /// <summary>

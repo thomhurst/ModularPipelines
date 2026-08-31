@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectCreateContactInitiateAs
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("CONNECTED_TO_USER")]
     ConnectedToUser = 1,
 

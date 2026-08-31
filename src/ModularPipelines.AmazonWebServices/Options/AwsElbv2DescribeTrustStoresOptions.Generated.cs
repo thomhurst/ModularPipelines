@@ -25,13 +25,13 @@ public record AwsElbv2DescribeTrustStoresOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Name (ARN) of the trust store. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--trust-store-arns")]
+    [CliOption("--trust-store-arns", GroupValues = true)]
     public IEnumerable<string>? TrustStoreArns { get; set; }
 
     /// <summary>
     /// The names of the trust stores. (string) Constraints: o min: 1 o max: 32 o pattern: ^([a-zA-Z0-9]+-)*[a-zA-Z0-9]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>

@@ -28,7 +28,7 @@ public record AwsDsDescribeDomainControllersOptions : AwsOptions
     /// <summary>
     /// A list of identifiers for the domain controllers whose information will be provided. (string) Constraints: o pattern: ^dc-[0-9a-f]{10}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--domain-controller-ids")]
+    [CliOption("--domain-controller-ids", GroupValues = true)]
     public IEnumerable<string>? DomainControllerIds { get; set; }
 
     [CliOption("--cli-input-json")]

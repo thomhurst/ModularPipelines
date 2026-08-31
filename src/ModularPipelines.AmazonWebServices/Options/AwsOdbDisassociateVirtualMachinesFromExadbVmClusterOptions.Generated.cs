@@ -24,7 +24,7 @@ public record AwsOdbDisassociateVirtualMachinesFromExadbVmClusterOptions : AwsOp
     [CliOption("--exadb-vm-cluster-id")]
     public string? ExadbVmClusterId { get; set; }
 
-    [CliOption("--db-node-ids")]
+    [CliOption("--db-node-ids", GroupValues = true)]
     public IEnumerable<string>? DbNodeIds { get; set; }
 
     [CliOption("--cli-input-json")]

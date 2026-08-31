@@ -28,7 +28,7 @@ public record AwsVerifiedpermissionsListIdentitySourcesOptions : AwsOptions
     /// <summary>
     /// Specifies characteristics of an identity source that you can use to limit the output to matching identity sources. Constraints: o min: 0 o max: 10 (structure) A structure that defines characteristics of an identity source that you can use to filter. This data type is a request parameter for the ListIdentityStores operation. principalEntityType -&gt; (string) The Cedar entity type of the principals returned by the iden- tity provider (IdP) associated with this identity source. Constraints: o min: 1 o max: 200 o pattern: .* Shorthand Syntax: principalEntityType=string ... JSON Syntax: [ { "principalEntityType": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -40,7 +40,7 @@ public record AwsLicenseManagerCreateLicenseOptions : AwsOptions
     [CliOption("--validity")]
     public string? Validity { get; set; }
 
-    [CliOption("--entitlements")]
+    [CliOption("--entitlements", GroupValues = true)]
     public IEnumerable<string>? Entitlements { get; set; }
 
     [CliOption("--beneficiary")]
@@ -52,7 +52,7 @@ public record AwsLicenseManagerCreateLicenseOptions : AwsOptions
     /// <summary>
     /// Information about the license. (structure) Describes key/value pairs. Name -&gt; (string) The key name. Value -&gt; (string) The value. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--license-metadata")]
+    [CliOption("--license-metadata", GroupValues = true)]
     public IEnumerable<string>? LicenseMetadata { get; set; }
 
     [SecretValue]
@@ -62,7 +62,7 @@ public record AwsLicenseManagerCreateLicenseOptions : AwsOptions
     /// <summary>
     /// Tags to add to the license. For more information about tagging sup- port in License Manager, see the TagResource operation. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

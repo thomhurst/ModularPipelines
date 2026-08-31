@@ -24,7 +24,7 @@ public record AwsCleanroomsBatchGetSchemaAnalysisRuleOptions : AwsOptions
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; set; }
 
-    [CliOption("--schema-analysis-rule-requests")]
+    [CliOption("--schema-analysis-rule-requests", GroupValues = true)]
     public IEnumerable<string>? SchemaAnalysisRuleRequests { get; set; }
 
     [CliOption("--cli-input-json")]

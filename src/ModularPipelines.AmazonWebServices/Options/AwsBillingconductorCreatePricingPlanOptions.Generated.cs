@@ -42,13 +42,13 @@ public record AwsBillingconductorCreatePricingPlanOptions : AwsOptions
     /// <summary>
     /// A list of Amazon Resource Names (ARNs) that define the pricing plan parameters. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--pricing-rule-arns")]
+    [CliOption("--pricing-rule-arns", GroupValues = true)]
     public IEnumerable<string>? PricingRuleArns { get; set; }
 
     /// <summary>
     /// A map that contains tag keys and tag values that are attached to a pricing plan. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

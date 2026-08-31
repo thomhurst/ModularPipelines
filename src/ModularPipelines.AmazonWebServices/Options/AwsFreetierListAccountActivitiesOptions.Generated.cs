@@ -26,7 +26,7 @@ public record AwsFreetierListAccountActivitiesOptions : AwsOptions
     /// <summary>
     /// The activity status filter. This field can be used to filter the re- sponse by activities status. (string) Possible values: o NOT_STARTED o IN_PROGRESS o COMPLETED o EXPIRING Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--filter-activity-statuses")]
+    [CliOption("--filter-activity-statuses", GroupValues = true)]
     public IEnumerable<string>? FilterActivityStatuses { get; set; }
 
     /// <summary>

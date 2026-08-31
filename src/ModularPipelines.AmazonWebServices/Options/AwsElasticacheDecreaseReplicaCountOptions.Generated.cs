@@ -33,13 +33,13 @@ public record AwsElasticacheDecreaseReplicaCountOptions : AwsOptions
     /// <summary>
     /// A list of ConfigureShard objects that can be used to configure each shard in a Valkey or Redis OSS replication group. The ConfigureShard has three members: NewReplicaCount , NodeGroupId , and Preferre- dAvailabilityZones . (structure) Node group (shard) configuration options when adding or removing replicas. Each node group (shard) configuration has the follow- ing members: NodeGroupId, NewReplicaCount, and PreferredAvail- abilityZones. NodeGroupId -&gt; (string) [required] The 4-digit id for the node group you are configuring. For Valkey or Redis OSS (cluster mode disabled) replication groups, the node group id is always 0001. To find a Valkey or Redis OSS (cluster mode enabled)'s node group's (shard's) id, see Finding a Shard's Id . Constraints: o min: 1 o max: 4 o pattern: \d+ NewReplicaCount -&gt; (integer) [required] The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Valkey or Redis OSS replication group you are working with. The minimum number of replicas in a shard or replication group is: o Valkey or Redis OSS (cluster mode disabled) o If Multi-AZ: 1 o If Multi-AZ: 0 o Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails) PreferredAvailabilityZones -&gt; (list) A list of PreferredAvailabilityZone strings that specify which availability zones the replication group's nodes are to be in. The nummber of PreferredAvailabilityZone values must equal the value of NewReplicaCount plus 1 to account for the primary node. If this member of ReplicaConfiguration is omit- ted, ElastiCache selects the availability zone for each of the replicas. (string) PreferredOutpostArns -&gt; (list) The outpost ARNs in which the cache cluster is created. (string) Shorthand Syntax: NodeGroupId=string,NewReplicaCount=integer,PreferredAvailabilityZones=string,string,PreferredOutpostArns=string,string ... JSON Syntax: [ { "NodeGroupId": "string", "NewReplicaCount": integer, "PreferredAvailabilityZones": ["string", ...], "PreferredOutpostArns": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--replica-configuration")]
+    [CliOption("--replica-configuration", GroupValues = true)]
     public IEnumerable<string>? ReplicaConfiguration { get; set; }
 
     /// <summary>
     /// A list of the node ids to remove from the replication group or node group (shard). (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--replicas-to-remove")]
+    [CliOption("--replicas-to-remove", GroupValues = true)]
     public IEnumerable<string>? ReplicasToRemove { get; set; }
 
     [CliFlag("--apply-immediately")]

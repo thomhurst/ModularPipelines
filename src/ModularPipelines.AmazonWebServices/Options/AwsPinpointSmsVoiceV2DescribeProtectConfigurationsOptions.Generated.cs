@@ -25,13 +25,13 @@ public record AwsPinpointSmsVoiceV2DescribeProtectConfigurationsOptions : AwsOpt
     /// <summary>
     /// An array of protect configuration identifiers to search for. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--protect-configuration-ids")]
+    [CliOption("--protect-configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ProtectConfigurationIds { get; set; }
 
     /// <summary>
     /// An array of ProtectConfigurationFilter objects to filter the re- sults. Constraints: o min: 0 o max: 20 (structure) The filter definition for filtering protect configurations that meet a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o account-default o deletion-protection-enabled Values -&gt; (list) [required] An array of values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "account-default"|"deletion-protection-enabled", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

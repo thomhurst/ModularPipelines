@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2RegisterImageArchitecture
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("i386")]
     I386 = 1,
 

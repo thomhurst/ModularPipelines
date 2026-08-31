@@ -24,7 +24,7 @@ public record AwsPaymentCryptographyRemoveKeyReplicationRegionsOptions : AwsOpti
     [CliOption("--key-identifier")]
     public string? KeyIdentifier { get; set; }
 
-    [CliOption("--replication-regions")]
+    [CliOption("--replication-regions", GroupValues = true)]
     public IEnumerable<string>? ReplicationRegions { get; set; }
 
     [CliOption("--cli-input-json")]

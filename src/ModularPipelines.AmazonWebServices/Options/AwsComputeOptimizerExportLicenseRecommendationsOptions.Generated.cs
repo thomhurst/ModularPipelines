@@ -25,19 +25,19 @@ public record AwsComputeOptimizerExportLicenseRecommendationsOptions : AwsOption
     /// <summary>
     /// The IDs of the Amazon Web Services accounts for which to export li- cense recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter is omitted, recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
     /// An array of objects to specify a filter that exports a more specific set of license recommendations. (structure) Describes a filter that returns a more specific list of license recommendations. Use this filter with the GetLicenseRecommenda- tion action. name -&gt; (string) The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your license recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your license recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all license recommendations that have a tag with the key of Owner and the value of TeamA , specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your license recom- mendations. Use this filter to find all of your license rec- ommendations that have a tag with a specific key. This doesnt consider the tag value. For example, you can find your li- cense recommendations with a tag key value of Owner or with- out any tag keys assigned. Possible values: o Finding o FindingReasonCode o LicenseName values -&gt; (list) The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter: o If you specify the name parameter as Finding , then specify Optimized , NotOptimized , or InsufficentMetrics . o If you specify the name parameter as FindingReasonCode , then specify Optimized , LicenseOverprovisioned , Invalid- CloudwatchApplicationInsights , or CloudwatchApplicationIn- sightsError . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Finding"|"FindingReasonCode"|"LicenseName", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// The recommendations data to include in the export file. For more in- formation about the fields that can be exported, see Exported files in the Compute Optimizer User Guide . (string) Possible values: o AccountId o ResourceArn o LookbackPeriodInDays o LastRefreshTimestamp o Finding o FindingReasonCodes o CurrentLicenseConfigurationNumberOfCores o CurrentLicenseConfigurationInstanceType o CurrentLicenseConfigurationOperatingSystem o CurrentLicenseConfigurationLicenseName o CurrentLicenseConfigurationLicenseEdition o CurrentLicenseConfigurationLicenseModel o CurrentLicenseConfigurationLicenseVersion o CurrentLicenseConfigurationMetricsSource o RecommendationOptionsOperatingSystem o RecommendationOptionsLicenseEdition o RecommendationOptionsLicenseModel o RecommendationOptionsSavingsOpportunityPercentage o RecommendationOptionsEstimatedMonthlySavingsCurrency o RecommendationOptionsEstimatedMonthlySavingsValue o Tags Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fields-to-export")]
+    [CliOption("--fields-to-export", GroupValues = true)]
     public IEnumerable<string>? FieldsToExport { get; set; }
 
     [CliOption("--s3-destination-config")]

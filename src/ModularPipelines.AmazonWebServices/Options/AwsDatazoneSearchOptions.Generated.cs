@@ -43,7 +43,7 @@ public record AwsDatazoneSearchOptions : AwsOptions
     /// <summary>
     /// The details of the search. Constraints: o min: 1 o max: 10 (structure) The details of the search. attribute -&gt; (string) [required] The search attribute. Constraints: o min: 1 o max: 128 Shorthand Syntax: attribute=string ... JSON Syntax: [ { "attribute": "string" } ... ]
     /// </summary>
-    [CliOption("--search-in")]
+    [CliOption("--search-in", GroupValues = true)]
     public IEnumerable<string>? SearchIn { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record AwsDatazoneSearchOptions : AwsOptions
     /// <summary>
     /// Specifies additional attributes for the Search action. (string) Possible values: o FORMS o TIME_SERIES_DATA_POINT_FORMS o TEXT_MATCH_RATIONALE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-attributes")]
+    [CliOption("--additional-attributes", GroupValues = true)]
     public IEnumerable<string>? AdditionalAttributes { get; set; }
 
     [CliOption("--cli-input-json")]

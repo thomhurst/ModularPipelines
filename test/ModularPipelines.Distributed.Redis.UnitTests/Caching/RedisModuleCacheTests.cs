@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Distributed.Redis.Caching;
@@ -52,7 +53,7 @@ public class RedisModuleCacheTests
             new ArtifactOptions
             {
                 ChunkSizeBytes = 3,
-                TimeToLiveSeconds = 60,
+                TimeToLive = TimeSpan.FromMinutes(1),
             });
     }
 
@@ -234,12 +235,8 @@ public class RedisModuleCacheTests
             .Select(descriptor => descriptor.ImplementationInstance)
             .OfType<RedisDistributedOptions>()
             .Single();
-        var artifactOptions = builder.Services
-            .Where(descriptor => descriptor.ServiceType == typeof(ArtifactOptions)
-                                 && !descriptor.IsKeyedService)
-            .Select(descriptor => descriptor.ImplementationInstance)
-            .OfType<ArtifactOptions>()
-            .Single();
+        using var serviceProvider = builder.Services.BuildServiceProvider();
+        var artifactOptions = serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value;
 
         using (Assert.Multiple())
         {
@@ -260,7 +257,7 @@ public class RedisModuleCacheTests
             new ArtifactOptions
             {
                 ChunkSizeBytes = 3,
-                TimeToLiveSeconds = 60,
+                TimeToLive = TimeSpan.FromMinutes(1),
             },
             new ModuleCacheOptions { MaximumCacheEntryBytes = maximumCacheEntryBytes });
 }

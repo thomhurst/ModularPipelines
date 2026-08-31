@@ -24,7 +24,7 @@ public record AwsSecurityagentBatchGetArtifactMetadataOptions : AwsOptions
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; set; }
 
-    [CliOption("--artifact-ids")]
+    [CliOption("--artifact-ids", GroupValues = true)]
     public IEnumerable<string>? ArtifactIds { get; set; }
 
     [CliOption("--cli-input-json")]

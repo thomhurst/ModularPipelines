@@ -24,7 +24,7 @@ public record AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions : 
     [CliOption("--meeting-id")]
     public string? MeetingId { get; set; }
 
-    [CliOption("--excluded-attendee-ids")]
+    [CliOption("--excluded-attendee-ids", GroupValues = true)]
     public IEnumerable<string>? ExcludedAttendeeIds { get; set; }
 
     [CliOption("--capabilities")]

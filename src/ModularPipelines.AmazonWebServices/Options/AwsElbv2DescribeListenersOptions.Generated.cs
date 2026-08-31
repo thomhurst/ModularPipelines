@@ -31,7 +31,7 @@ public record AwsElbv2DescribeListenersOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARN) of the listeners. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--listener-arns")]
+    [CliOption("--listener-arns", GroupValues = true)]
     public IEnumerable<string>? ListenerArns { get; set; }
 
     /// <summary>

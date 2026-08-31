@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaListLayersCompatibleArchitecture
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("x86_64")]
     X86_64 = 1,
 

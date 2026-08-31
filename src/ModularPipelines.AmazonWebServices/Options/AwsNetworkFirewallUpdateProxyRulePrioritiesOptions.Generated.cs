@@ -37,7 +37,7 @@ public record AwsNetworkFirewallUpdateProxyRulePrioritiesOptions : AwsOptions
     [CliOption("--rule-group-request-phase")]
     public string? RuleGroupRequestPhase { get; set; }
 
-    [CliOption("--rules")]
+    [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     [SecretValue]

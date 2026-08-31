@@ -25,7 +25,7 @@ public record AwsComputeOptimizerGetEcsServiceRecommendationsOptions : AwsOption
     /// <summary>
     /// The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/ser- vice-name (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--service-arns")]
+    [CliOption("--service-arns", GroupValues = true)]
     public IEnumerable<string>? ServiceArns { get; set; }
 
     /// <summary>
@@ -44,13 +44,13 @@ public record AwsComputeOptimizerGetEcsServiceRecommendationsOptions : AwsOption
     /// <summary>
     /// An array of objects to specify a filter that returns a more specific list of Amazon ECS service recommendations. (structure) Describes a filter that returns a more specific list of Amazon ECS service recommendations. Use this filter with the GetEC- SServiceRecommendations action. name -&gt; (string) The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your Amazon ECS service recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Amazon ECS service recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Amazon ECS service recommendations that have a tag with the key of Owner and the value of TeamA , specify tag:Owner for the filter name and TeamA for the fil- ter value. A tag-key is the key of a tag assigned to your Amazon ECS service recommendations. Use this filter to find all of your Amazon ECS service recommendations that have a tag with a specific key. This doesnt consider the tag value. For exam- ple, you can find your Amazon ECS service recommendations with a tag key value of Owner or without any tag keys as- signed. Possible values: o Finding o FindingReasonCode values -&gt; (list) The value of the filter. The valid values for this parameter are as follows: o If you specify the name parameter as Finding , specify Op- timized , Underprovisioned , or Overprovisioned . o If you specify the name parameter as FindingReasonCode , specify CPUUnderprovisioned , CPUOverprovisioned , Memo- ryUnderprovisioned , or MemoryOverprovisioned . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Finding"|"FindingReasonCode", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// Return the Amazon ECS service recommendations to the specified Ama- zon Web Services account IDs. If your account is the management account or the delegated adminis- trator of an organization, use this parameter to return the Amazon ECS service recommendations to specific member accounts. You can only specify one account ID per request. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

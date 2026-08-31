@@ -24,7 +24,7 @@ public record AwsDatabrewBatchDeleteRecipeVersionOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--recipe-versions")]
+    [CliOption("--recipe-versions", GroupValues = true)]
     public IEnumerable<string>? RecipeVersions { get; set; }
 
     [CliOption("--cli-input-json")]

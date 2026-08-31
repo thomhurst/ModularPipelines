@@ -27,7 +27,7 @@ public record AwsConnectcasesBatchPutFieldOptionsOptions : AwsOptions
     [CliOption("--field-id")]
     public string? FieldId { get; set; }
 
-    [CliOption("--options")]
+    [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }
 
     [CliOption("--cli-input-json")]

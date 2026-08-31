@@ -29,7 +29,7 @@ public record AwsCloudformationDeleteStackOptions : AwsOptions
     /// <summary>
     /// For stacks in the DELETE_FAILED state, a list of resource logical IDs that are associated with the resources you want to retain. Dur- ing deletion, CloudFormation deletes the stack but doesn't delete the retained resources. Retaining resources is useful when you can't delete a resource, such as a non-empty S3 bucket, but you want to delete the stack. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--retain-resources")]
+    [CliOption("--retain-resources", GroupValues = true)]
     public IEnumerable<string>? RetainResources { get; set; }
 
     /// <summary>

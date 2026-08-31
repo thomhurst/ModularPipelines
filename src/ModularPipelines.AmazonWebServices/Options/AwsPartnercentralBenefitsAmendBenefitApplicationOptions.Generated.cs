@@ -38,7 +38,7 @@ public record AwsPartnercentralBenefitsAmendBenefitApplicationOptions : AwsOptio
     [CliOption("--amendment-reason")]
     public string? AmendmentReason { get; set; }
 
-    [CliOption("--amendments")]
+    [CliOption("--amendments", GroupValues = true)]
     public IEnumerable<string>? Amendments { get; set; }
 
     [CliOption("--cli-input-json")]

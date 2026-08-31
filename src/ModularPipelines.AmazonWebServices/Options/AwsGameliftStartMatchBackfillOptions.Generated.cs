@@ -36,7 +36,7 @@ public record AwsGameliftStartMatchBackfillOptions : AwsOptions
     [CliOption("--game-session-arn")]
     public string? GameSessionArn { get; set; }
 
-    [CliOption("--players")]
+    [CliOption("--players", GroupValues = true)]
     public IEnumerable<string>? Players { get; set; }
 
     [CliOption("--cli-input-json")]

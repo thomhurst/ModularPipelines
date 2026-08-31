@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("connect", "update-user-security-profiles")]
 public record AwsConnectUpdateUserSecurityProfilesOptions : AwsOptions
 {
-    [CliOption("--security-profile-ids")]
+    [CliOption("--security-profile-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityProfileIds { get; set; }
 
     [CliOption("--user-id")]

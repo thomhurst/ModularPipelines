@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFreetierListAccountActivitiesLanguageCode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("en-US")]
     EnUs = 1,
 

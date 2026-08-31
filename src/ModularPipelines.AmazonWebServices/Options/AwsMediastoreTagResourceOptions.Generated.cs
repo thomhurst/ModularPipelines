@@ -24,7 +24,7 @@ public record AwsMediastoreTagResourceOptions : AwsOptions
     [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

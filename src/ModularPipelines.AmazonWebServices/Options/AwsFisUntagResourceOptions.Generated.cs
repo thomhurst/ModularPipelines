@@ -27,7 +27,7 @@ public record AwsFisUntagResourceOptions : AwsOptions
     /// <summary>
     /// The tag keys to remove. (string) Constraints: o max: 128 o pattern: [\s\S]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

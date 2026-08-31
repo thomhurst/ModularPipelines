@@ -42,7 +42,7 @@ public record AwsRoute53resolverCreateResolverRuleOptions : AwsOptions
     /// <summary>
     /// The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space. TargetIps is available only when the value of Rule type is FOR- WARD . You should not provide TargetIps when the Rule type is DELEGATE . NOTE: when creating a DELEGATE rule, you must not provide the Tar- getIps parameter. If you provide the TargetIps , you may receive an ERROR message similar to "Delegate resolver rules need to specify a nameserver name". This error means you should not pro- vide TargetIps . Constraints: o min: 1 (structure) In a CreateResolverRule request, an array of the IPs that you want to forward DNS queries to. Ip -&gt; (string) One IPv4 address that you want to forward DNS queries to. Constraints: o min: 7 o max: 36 Port -&gt; (integer) The port at Ip that you want to forward DNS queries to. Constraints: o min: 0 o max: 65535 Ipv6 -&gt; (string) One IPv6 address that you want to forward DNS queries to. Constraints: o min: 7 o max: 39 Protocol -&gt; (string) The protocols for the target address. The protocol you choose needs to be supported by the outbound endpoint of the Re- solver rule. Possible values: o DoH o Do53 o DoH-FIPS ServerNameIndication -&gt; (string) The Server Name Indication of the DoH server that you want to forward queries to. This is only used if the Protocol of the TargetAddress is DoH . Constraints: o min: 0 o max: 255 Shorthand Syntax: Ip=string,Port=integer,Ipv6=string,Protocol=string,ServerNameIndication=string ... JSON Syntax: [ { "Ip": "string", "Port": integer, "Ipv6": "string", "Protocol": "DoH"|"Do53"|"DoH-FIPS", "ServerNameIndication": "string" } ... ]
     /// </summary>
-    [CliOption("--target-ips")]
+    [CliOption("--target-ips", GroupValues = true)]
     public IEnumerable<string>? TargetIps { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record AwsRoute53resolverCreateResolverRuleOptions : AwsOptions
     /// <summary>
     /// A list of the tag keys and values that you want to associate with the endpoint. Constraints: o max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

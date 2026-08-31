@@ -46,13 +46,13 @@ public record AwsDatazoneCreateAssetRevisionOptions : AwsOptions
     /// <summary>
     /// The glossary terms to be attached to the asset as part of asset re- vision. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--glossary-terms")]
+    [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
 
     /// <summary>
     /// The metadata forms to be attached to the asset as part of asset re- vision. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
     /// </summary>
-    [CliOption("--forms-input")]
+    [CliOption("--forms-input", GroupValues = true)]
     public IEnumerable<string>? FormsInput { get; set; }
 
     /// <summary>

@@ -34,7 +34,7 @@ public record AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions : Aw
     [CliOption("--proxy-configuration-arn")]
     public string? ProxyConfigurationArn { get; set; }
 
-    [CliOption("--rule-groups")]
+    [CliOption("--rule-groups", GroupValues = true)]
     public IEnumerable<string>? RuleGroups { get; set; }
 
     [SecretValue]

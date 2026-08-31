@@ -39,13 +39,13 @@ public record AwsRolesanywhereUpdateProfileOptions : AwsOptions
     /// <summary>
     /// A list of IAM roles that this profile can assume in a temporary cre- dential request. Constraints: o min: 0 o max: 250 (string) Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:iam(:.*){2}(:role.*) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--role-arns")]
+    [CliOption("--role-arns", GroupValues = true)]
     public IEnumerable<string>? RoleArns { get; set; }
 
     /// <summary>
     /// A list of managed policy ARNs that apply to the vended session cre- dentials. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 200 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--managed-policy-arns")]
+    [CliOption("--managed-policy-arns", GroupValues = true)]
     public IEnumerable<string>? ManagedPolicyArns { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("connectcampaigns", "get-campaign-state-batch")]
 public record AwsConnectcampaignsGetCampaignStateBatchOptions : AwsOptions
 {
-    [CliOption("--campaign-ids")]
+    [CliOption("--campaign-ids", GroupValues = true)]
     public IEnumerable<string>? CampaignIds { get; set; }
 
     [CliOption("--cli-input-json")]

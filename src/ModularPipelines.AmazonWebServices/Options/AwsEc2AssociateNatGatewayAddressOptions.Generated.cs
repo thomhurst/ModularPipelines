@@ -24,13 +24,13 @@ public record AwsEc2AssociateNatGatewayAddressOptions : AwsOptions
     [CliOption("--nat-gateway-id")]
     public string? NatGatewayId { get; set; }
 
-    [CliOption("--allocation-ids")]
+    [CliOption("--allocation-ids", GroupValues = true)]
     public IEnumerable<string>? AllocationIds { get; set; }
 
     /// <summary>
     /// The private IPv4 addresses that you want to assign to the NAT gate- way. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--private-ip-addresses")]
+    [CliOption("--private-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
 
     [CliFlag("--dry-run")]

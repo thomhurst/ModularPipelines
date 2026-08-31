@@ -28,7 +28,7 @@ public record AwsConnectListAgentStatusesOptions : AwsOptions
     /// <summary>
     /// Available agent status types. Constraints: o max: 3 (string) Possible values: o ROUTABLE o CUSTOM o OFFLINE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--agent-status-types")]
+    [CliOption("--agent-status-types", GroupValues = true)]
     public IEnumerable<string>? AgentStatusTypes { get; set; }
 
     [CliOption("--cli-input-json")]

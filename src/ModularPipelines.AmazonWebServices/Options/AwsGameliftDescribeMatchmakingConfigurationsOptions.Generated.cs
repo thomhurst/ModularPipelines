@@ -25,7 +25,7 @@ public record AwsGameliftDescribeMatchmakingConfigurationsOptions : AwsOptions
     /// <summary>
     /// A unique identifier for the matchmaking configuration(s) to re- trieve. You can use either the configuration name or ARN value. To request all existing configurations, leave this parameter empty. (string) Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfigura- tion\/[a-zA-Z0-9-\.]*)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>

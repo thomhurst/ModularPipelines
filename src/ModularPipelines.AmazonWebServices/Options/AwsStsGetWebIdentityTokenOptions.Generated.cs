@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sts", "get-web-identity-token")]
 public record AwsStsGetWebIdentityTokenOptions : AwsOptions
 {
-    [CliOption("--audience")]
+    [CliOption("--audience", GroupValues = true)]
     public IEnumerable<string>? Audience { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public record AwsStsGetWebIdentityTokenOptions : AwsOptions
     /// <summary>
     /// An optional list of tags to include in the JSON Web Token (JWT). These tags are added as custom claims to the JWT and can be used by the downstream service for authorization decisions. Constraints: o max: 50 (structure) You can pass custom key-value pair attributes when you assume a role or federate a user. These are called session tags. You can then use the session tags to control access to resources. For more information, see Tagging Amazon Web Services STS Sessions in the IAM User Guide . Key -&gt; (string) [required] The key for a session tag. You can pass up to 50 session tags. The plain text session tag keys cant exceed 128 characters. For these and additional limits, see IAM and STS Character Limits in the IAM User Guide . Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value for a session tag. You can pass up to 50 session tags. The plain text session tag values cant exceed 256 characters. For these and addi- tional limits, see IAM and STS Character Limits in the IAM User Guide . Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

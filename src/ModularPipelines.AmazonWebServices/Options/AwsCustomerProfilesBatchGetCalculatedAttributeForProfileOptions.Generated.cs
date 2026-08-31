@@ -27,7 +27,7 @@ public record AwsCustomerProfilesBatchGetCalculatedAttributeForProfileOptions : 
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliOption("--profile-ids")]
+    [CliOption("--profile-ids", GroupValues = true)]
     public IEnumerable<string>? ProfileIds { get; set; }
 
     /// <summary>

@@ -31,7 +31,7 @@ public record AwsCodeguruprofilerBatchGetFrameMetricDataOptions : AwsOptions
     /// <summary>
     /// The details of the metrics that are used to request a time series of values. The metric includes the name of the frame, the aggregation type to calculate the metric value for the frame, and the thread states to use to get the count for the metric value of the frame. (structure) The frame name, metric type, and thread states. These are used to derive the value of the metric for the frame. frameName -&gt; (string) [required] Name of the method common across the multiple occurrences of a frame in an application profile. threadStates -&gt; (list) [required] List of application runtime thread states used to get the counts for a frame a derive a metric value. (string) type -&gt; (string) [required] A type of aggregation that specifies how a metric for a frame is analyzed. The supported value AggregatedRelativeTotalTime is an aggregation of the metric value for one frame that is calculated across the occurrences of all frames in a profile. Possible values: o AggregatedRelativeTotalTime Shorthand Syntax: frameName=string,threadStates=string,string,type=string ... JSON Syntax: [ { "frameName": "string", "threadStates": ["string", ...], "type": "AggregatedRelativeTotalTime" } ... ]
     /// </summary>
-    [CliOption("--frame-metrics")]
+    [CliOption("--frame-metrics", GroupValues = true)]
     public IEnumerable<string>? FrameMetrics { get; set; }
 
     /// <summary>

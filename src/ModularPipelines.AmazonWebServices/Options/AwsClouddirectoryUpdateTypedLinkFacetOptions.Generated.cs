@@ -27,10 +27,10 @@ public record AwsClouddirectoryUpdateTypedLinkFacetOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--attribute-updates")]
+    [CliOption("--attribute-updates", GroupValues = true)]
     public IEnumerable<string>? AttributeUpdates { get; set; }
 
-    [CliOption("--identity-attribute-order")]
+    [CliOption("--identity-attribute-order", GroupValues = true)]
     public IEnumerable<string>? IdentityAttributeOrder { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsChimeBatchUpdateUserOptions : AwsOptions
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CliOption("--update-user-request-items")]
+    [CliOption("--update-user-request-items", GroupValues = true)]
     public IEnumerable<string>? UpdateUserRequestItems { get; set; }
 
     [CliOption("--cli-input-json")]

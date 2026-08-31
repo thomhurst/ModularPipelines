@@ -39,7 +39,7 @@ public record AwsRoute53domainsTransferDomainOptions : AwsOptions
     /// <summary>
     /// Contains details for the host and glue IP addresses. (structure) Name server includes the following elements. Name -&gt; (string) [required] The fully qualified host name of the name server. Constraint: Maximum 255 characters Constraints: o max: 255 o pattern: [a-zA-Z0-9_\-.]* GlueIps -&gt; (list) Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address. (string) Constraints: o max: 45 Shorthand Syntax: Name=string,GlueIps=string,string ... JSON Syntax: [ { "Name": "string", "GlueIps": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--nameservers")]
+    [CliOption("--nameservers", GroupValues = true)]
     public IEnumerable<string>? Nameservers { get; set; }
 
     /// <summary>

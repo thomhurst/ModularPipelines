@@ -50,10 +50,10 @@ public record GcloudServicesApiKeysCreateOptions : GcloudOptions
     /// The email of the service account the key is bound to. If this field is specified, the key is a service account bound key and auth enabled.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
 
     /// <summary>
-    /// Repeatable. Specify service and optionally one or multiple specific methods. Both fields are case insensitive. Methods can be specified as a colon-separated list (e.g., --api-target="service=foo.service.com,methods=method1:method2"), or using --flags-file (see $ gcloud topic flags-file for details).
+    /// Repeatable. Specify service and optionally one or multiple specific methods. Both fields are case insensitive. If you need to specify methods, it should be specified with the --flags-file. See $ gcloud topic flags-file for details. See the examples section for how to use --api-target in --flags-file.
     /// </summary>
     [CliOption("--api-target", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApiTarget { get; set; }
@@ -81,5 +81,12 @@ public record GcloudServicesApiKeysCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--allowed-referrers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedReferrers { get; set; }
+
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

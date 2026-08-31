@@ -39,7 +39,7 @@ public record AwsAuditManagerUpdateAssessmentFrameworkOptions : AwsOptions
     [CliOption("--compliance-type")]
     public string? ComplianceType { get; set; }
 
-    [CliOption("--control-sets")]
+    [CliOption("--control-sets", GroupValues = true)]
     public IEnumerable<string>? ControlSets { get; set; }
 
     [CliOption("--cli-input-json")]

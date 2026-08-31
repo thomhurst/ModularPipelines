@@ -25,10 +25,10 @@ public record AwsLocationCalculateRouteMatrixOptions : AwsOptions
     [CliOption("--calculator-name")]
     public string? CalculatorName { get; set; }
 
-    [CliOption("--departure-positions")]
+    [CliOption("--departure-positions", GroupValues = true)]
     public IEnumerable<string>? DeparturePositions { get; set; }
 
-    [CliOption("--destination-positions")]
+    [CliOption("--destination-positions", GroupValues = true)]
     public IEnumerable<string>? DestinationPositions { get; set; }
 
     /// <summary>

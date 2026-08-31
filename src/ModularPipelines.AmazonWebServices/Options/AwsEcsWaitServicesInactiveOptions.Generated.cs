@@ -27,13 +27,13 @@ public record AwsEcsWaitServicesInactiveOptions : AwsOptions
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--services")]
+    [CliOption("--services", GroupValues = true)]
     public IEnumerable<string>? Services { get; set; }
 
     /// <summary>
     /// Determines whether you want to see the resource tags for the ser- vice. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include")]
+    [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
 
     [CliOption("--cli-input-json")]

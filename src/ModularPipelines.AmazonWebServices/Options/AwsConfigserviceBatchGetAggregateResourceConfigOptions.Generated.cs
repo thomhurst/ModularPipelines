@@ -24,7 +24,7 @@ public record AwsConfigserviceBatchGetAggregateResourceConfigOptions : AwsOption
     [CliOption("--configuration-aggregator-name")]
     public string? ConfigurationAggregatorName { get; set; }
 
-    [CliOption("--resource-identifiers")]
+    [CliOption("--resource-identifiers", GroupValues = true)]
     public IEnumerable<string>? ResourceIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

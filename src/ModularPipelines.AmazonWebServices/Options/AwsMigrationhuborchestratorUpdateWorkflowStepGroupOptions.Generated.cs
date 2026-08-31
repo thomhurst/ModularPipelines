@@ -42,13 +42,13 @@ public record AwsMigrationhuborchestratorUpdateWorkflowStepGroupOptions : AwsOpt
     /// <summary>
     /// The next step group. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--next")]
+    [CliOption("--next", GroupValues = true)]
     public IEnumerable<string>? Next { get; set; }
 
     /// <summary>
     /// The previous step group. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--previous")]
+    [CliOption("--previous", GroupValues = true)]
     public IEnumerable<string>? Previous { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,13 +28,13 @@ public record AwsElbv2SetSubnetsOptions : AwsOptions
     /// <summary>
     /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet map- pings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Out- post subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You must include all subnets that were enabled previously, with their existing configurations, plus any additional subnets. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnets")]
+    [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
     /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet map- pings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You can't specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Out- post subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per sub- net if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For inter- net-facing load balancer, you can specify one IPv6 address per sub- net. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. (structure) Information about a subnet mapping. SubnetId -&gt; (string) The ID of the subnet. AllocationId -&gt; (string) [Network Load Balancers] The allocation ID of the Elastic IP address for an internet-facing load balancer. PrivateIPv4Address -&gt; (string) [Network Load Balancers] The private IPv4 address for an in- ternal load balancer. IPv6Address -&gt; (string) [Network Load Balancers] The IPv6 address. SourceNatIpv6Prefix -&gt; (string) [Network Load Balancers with UDP listeners] The IPv6 prefix to use for source NAT. Specify an IPv6 prefix (/80 netmask) from the subnet CIDR block or auto_assigned to use an IPv6 prefix selected at random from the subnet CIDR block. Shorthand Syntax: SubnetId=string,AllocationId=string,PrivateIPv4Address=string,IPv6Address=string,SourceNatIpv6Prefix=string ... JSON Syntax: [ { "SubnetId": "string", "AllocationId": "string", "PrivateIPv4Address": "string", "IPv6Address": "string", "SourceNatIpv6Prefix": "string" } ... ]
     /// </summary>
-    [CliOption("--subnet-mappings")]
+    [CliOption("--subnet-mappings", GroupValues = true)]
     public IEnumerable<string>? SubnetMappings { get; set; }
 
     /// <summary>

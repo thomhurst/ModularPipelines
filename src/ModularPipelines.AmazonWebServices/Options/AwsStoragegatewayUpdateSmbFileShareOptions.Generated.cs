@@ -70,19 +70,19 @@ public record AwsStoragegatewayUpdateSmbFileShareOptions : AwsOptions
     /// <summary>
     /// A list of users or groups in the Active Directory that have adminis- trator rights to the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1 , user1 , @group1 , and @DOMAIN\group1 . Can only be set if Authentication is set to ActiveDirectory . Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--admin-user-list")]
+    [CliOption("--admin-user-list", GroupValues = true)]
     public IEnumerable<string>? AdminUserList { get; set; }
 
     /// <summary>
     /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ char- acter. Acceptable formats include: DOMAIN\User1 , user1 , @group1 , and @DOMAIN\group1 . Can only be set if Authentication is set to Ac- tiveDirectory . Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--valid-user-list")]
+    [CliOption("--valid-user-list", GroupValues = true)]
     public IEnumerable<string>? ValidUserList { get; set; }
 
     /// <summary>
     /// A list of users or groups in the Active Directory that are not al- lowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1 , user1 , @group1 , and @DOMAIN\group1 . Can only be set if Authentication is set to ActiveDirectory . Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--invalid-user-list")]
+    [CliOption("--invalid-user-list", GroupValues = true)]
     public IEnumerable<string>? InvalidUserList { get; set; }
 
     /// <summary>

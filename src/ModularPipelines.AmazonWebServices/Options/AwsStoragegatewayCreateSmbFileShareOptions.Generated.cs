@@ -81,19 +81,19 @@ public record AwsStoragegatewayCreateSmbFileShareOptions : AwsOptions
     /// <summary>
     /// A list of users or groups in the Active Directory that will be granted administrator privileges on the file share. These users can do all file operations as the super-user. Acceptable formats in- clude: DOMAIN\User1 , user1 , @group1 , and @DOMAIN\group1 . WARNING: Use this option very carefully, because any user in this list can do anything they like on the file share, regardless of file permissions. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--admin-user-list")]
+    [CliOption("--admin-user-list", GroupValues = true)]
     public IEnumerable<string>? AdminUserList { get; set; }
 
     /// <summary>
     /// A list of users or groups in the Active Directory that are allowed to access the file ` share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1 , user1 , @group1 , and @DOMAIN\group1 . Can only be set if Authentication is set to ActiveDirectory . Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--valid-user-list")]
+    [CliOption("--valid-user-list", GroupValues = true)]
     public IEnumerable<string>? ValidUserList { get; set; }
 
     /// <summary>
     /// A list of users or groups in the Active Directory that are not al- lowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1 , user1 , @group1 , and @DOMAIN\group1 . Can only be set if Authentication is set to ActiveDirectory . Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--invalid-user-list")]
+    [CliOption("--invalid-user-list", GroupValues = true)]
     public IEnumerable<string>? InvalidUserList { get; set; }
 
     /// <summary>
@@ -117,7 +117,7 @@ public record AwsStoragegatewayCreateSmbFileShareOptions : AwsOptions
     /// <summary>
     /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and num- bers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

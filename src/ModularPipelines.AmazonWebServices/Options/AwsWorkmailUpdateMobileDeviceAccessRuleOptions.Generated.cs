@@ -42,49 +42,49 @@ public record AwsWorkmailUpdateMobileDeviceAccessRuleOptions : AwsOptions
     /// <summary>
     /// Device types that the updated rule will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--device-types")]
+    [CliOption("--device-types", GroupValues = true)]
     public IEnumerable<string>? DeviceTypes { get; set; }
 
     /// <summary>
     /// Device types that the updated rule will not match. All other device types will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--not-device-types")]
+    [CliOption("--not-device-types", GroupValues = true)]
     public IEnumerable<string>? NotDeviceTypes { get; set; }
 
     /// <summary>
     /// Device models that the updated rule will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--device-models")]
+    [CliOption("--device-models", GroupValues = true)]
     public IEnumerable<string>? DeviceModels { get; set; }
 
     /// <summary>
     /// Device models that the updated rule will not match. All other device models will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--not-device-models")]
+    [CliOption("--not-device-models", GroupValues = true)]
     public IEnumerable<string>? NotDeviceModels { get; set; }
 
     /// <summary>
     /// Device operating systems that the updated rule will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--device-operating-systems")]
+    [CliOption("--device-operating-systems", GroupValues = true)]
     public IEnumerable<string>? DeviceOperatingSystems { get; set; }
 
     /// <summary>
     /// Device operating systems that the updated rule will not match. All other device operating systems will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--not-device-operating-systems")]
+    [CliOption("--not-device-operating-systems", GroupValues = true)]
     public IEnumerable<string>? NotDeviceOperatingSystems { get; set; }
 
     /// <summary>
     /// User agents that the updated rule will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--device-user-agents")]
+    [CliOption("--device-user-agents", GroupValues = true)]
     public IEnumerable<string>? DeviceUserAgents { get; set; }
 
     /// <summary>
     /// User agents that the updated rule will not match. All other user agents will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--not-device-user-agents")]
+    [CliOption("--not-device-user-agents", GroupValues = true)]
     public IEnumerable<string>? NotDeviceUserAgents { get; set; }
 
     [CliOption("--cli-input-json")]

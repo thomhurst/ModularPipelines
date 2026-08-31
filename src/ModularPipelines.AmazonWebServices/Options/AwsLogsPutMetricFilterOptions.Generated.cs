@@ -30,7 +30,7 @@ public record AwsLogsPutMetricFilterOptions : AwsOptions
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
-    [CliOption("--metric-transformations")]
+    [CliOption("--metric-transformations", GroupValues = true)]
     public IEnumerable<string>? MetricTransformations { get; set; }
 
     [CliFlag("--apply-on-transformed-logs")]
@@ -45,7 +45,7 @@ public record AwsLogsPutMetricFilterOptions : AwsOptions
     /// <summary>
     /// A list of system fields to emit as additional dimensions in the gen- erated metrics. Valid values are @aws.account and @aws.region . These dimensions help identify the source of centralized log data and count toward the total dimension limit for metric filters. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--emit-system-field-dimensions")]
+    [CliOption("--emit-system-field-dimensions", GroupValues = true)]
     public IEnumerable<string>? EmitSystemFieldDimensions { get; set; }
 
     [CliOption("--cli-input-json")]

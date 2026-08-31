@@ -34,7 +34,7 @@ public record AwsFinspaceUpdateKxEnvironmentNetworkOptions : AwsOptions
     /// <summary>
     /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers. (structure) A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers. customDNSServerName -&gt; (string) [required] The name of the DNS server. Constraints: o min: 3 o max: 255 o pattern: ^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]))*$ customDNSServerIP -&gt; (string) [required] The IP address of the DNS server. Constraints: o pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ Shorthand Syntax: customDNSServerName=string,customDNSServerIP=string ... JSON Syntax: [ { "customDNSServerName": "string", "customDNSServerIP": "string" } ... ]
     /// </summary>
-    [CliOption("--custom-dns-configuration")]
+    [CliOption("--custom-dns-configuration", GroupValues = true)]
     public IEnumerable<string>? CustomDnsConfiguration { get; set; }
 
     /// <summary>

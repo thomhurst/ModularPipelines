@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesOpticalStandard
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("OPTIC_10GBASE_SR")]
     Optic_10GbaseSr = 1,
 

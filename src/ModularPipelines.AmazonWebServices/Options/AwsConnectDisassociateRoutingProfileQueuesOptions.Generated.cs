@@ -30,13 +30,13 @@ public record AwsConnectDisassociateRoutingProfileQueuesOptions : AwsOptions
     /// <summary>
     /// The queues to disassociate from this routing profile. (structure) Contains the channel and queue identifier for a routing profile. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Shorthand Syntax: QueueId=string,Channel=string ... JSON Syntax: [ { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" } ... ]
     /// </summary>
-    [CliOption("--queue-references")]
+    [CliOption("--queue-references", GroupValues = true)]
     public IEnumerable<string>? QueueReferences { get; set; }
 
     /// <summary>
     /// The manual assignment queues to disassociate with this routing pro- file. (structure) Contains the channel and queue identifier for a routing profile. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Shorthand Syntax: QueueId=string,Channel=string ... JSON Syntax: [ { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" } ... ]
     /// </summary>
-    [CliOption("--manual-assignment-queue-references")]
+    [CliOption("--manual-assignment-queue-references", GroupValues = true)]
     public IEnumerable<string>? ManualAssignmentQueueReferences { get; set; }
 
     [CliOption("--cli-input-json")]

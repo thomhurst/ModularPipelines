@@ -28,25 +28,25 @@ public record AwsOpensearchserverlessUpdateVpcEndpointOptions : AwsOptions
     /// <summary>
     /// The ID of one or more subnets to add to the endpoint. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-subnet-ids")]
+    [CliOption("--add-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? AddSubnetIds { get; set; }
 
     /// <summary>
     /// The unique identifiers of the subnets to remove from the endpoint. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-subnet-ids")]
+    [CliOption("--remove-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? RemoveSubnetIds { get; set; }
 
     /// <summary>
     /// The unique identifiers of the security groups to add to the end- point. Security groups define the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-security-group-ids")]
+    [CliOption("--add-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? AddSecurityGroupIds { get; set; }
 
     /// <summary>
     /// The unique identifiers of the security groups to remove from the endpoint. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-security-group-ids")]
+    [CliOption("--remove-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? RemoveSecurityGroupIds { get; set; }
 
     /// <summary>

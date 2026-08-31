@@ -25,13 +25,13 @@ public record AwsConfigserviceDescribeComplianceByConfigRuleOptions : AwsOptions
     /// <summary>
     /// Specify one or more Config rule names to filter the results by rule. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--config-rule-names")]
+    [CliOption("--config-rule-names", GroupValues = true)]
     public IEnumerable<string>? ConfigRuleNames { get; set; }
 
     /// <summary>
     /// Filters the results by compliance. Constraints: o min: 0 o max: 3 (string) Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--compliance-types")]
+    [CliOption("--compliance-types", GroupValues = true)]
     public IEnumerable<string>? ComplianceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

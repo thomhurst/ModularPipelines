@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cognito-idp", "delete-user-attributes")]
 public record AwsCognitoIdpDeleteUserAttributesOptions : AwsOptions
 {
-    [CliOption("--user-attribute-names")]
+    [CliOption("--user-attribute-names", GroupValues = true)]
     public IEnumerable<string>? UserAttributeNames { get; set; }
 
     [SecretValue]

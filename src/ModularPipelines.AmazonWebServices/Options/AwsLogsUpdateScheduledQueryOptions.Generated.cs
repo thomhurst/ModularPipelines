@@ -40,7 +40,7 @@ public record AwsLogsUpdateScheduledQueryOptions : AwsOptions
     /// <summary>
     /// The updated array of log group names or ARNs to query. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-group-identifiers")]
+    [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
     [CliOption("--schedule-expression")]

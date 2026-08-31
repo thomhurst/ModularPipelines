@@ -39,7 +39,7 @@ public record AwsB2biUpdateCapabilityOptions : AwsOptions
     /// <summary>
     /// Specifies one or more locations in Amazon S3, each specifying an EDI document that can be used with this capability. Each item contains the name of the bucket and the key, to identify the document's loca- tion. Constraints: o min: 0 o max: 5 (structure) Specifies the details for the Amazon S3 file location that is being used with Amazon Web Services B2B Data Interchange. File locations in Amazon S3 are identified using a combination of the bucket and key. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string ... JSON Syntax: [ { "bucketName": "string", "key": "string" } ... ]
     /// </summary>
-    [CliOption("--instructions-documents")]
+    [CliOption("--instructions-documents", GroupValues = true)]
     public IEnumerable<string>? InstructionsDocuments { get; set; }
 
     [CliOption("--cli-input-json")]

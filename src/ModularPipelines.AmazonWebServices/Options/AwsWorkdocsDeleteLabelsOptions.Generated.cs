@@ -35,7 +35,7 @@ public record AwsWorkdocsDeleteLabelsOptions : AwsOptions
     /// <summary>
     /// List of labels to delete from the resource. Constraints: o max: 20 (string) Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--labels")]
+    [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
 
     [CliFlag("--delete-all")]

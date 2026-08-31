@@ -24,7 +24,7 @@ public record AwsDatapipelineSetStatusOptions : AwsOptions
     [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CliOption("--object-ids")]
+    [CliOption("--object-ids", GroupValues = true)]
     public IEnumerable<string>? ObjectIds { get; set; }
 
     [CliOption("--status")]

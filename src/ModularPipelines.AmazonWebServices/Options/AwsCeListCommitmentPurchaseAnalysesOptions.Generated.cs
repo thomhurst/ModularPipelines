@@ -38,7 +38,7 @@ public record AwsCeListCommitmentPurchaseAnalysesOptions : AwsOptions
     /// <summary>
     /// The analysis IDs associated with the commitment purchase analyses. Constraints: o min: 0 o max: 600 (string) Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--analysis-ids")]
+    [CliOption("--analysis-ids", GroupValues = true)]
     public IEnumerable<string>? AnalysisIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,13 +24,13 @@ public record AwsSecurityhubBatchUpdateFindingsV2Options : AwsOptions
     /// <summary>
     /// The list of finding metadata.uid to indicate findings to update. Finding metadata.uid is a globally unique identifier associated with the finding. Customers cannot use MetadataUids together with Find- ingIdentifiers . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metadata-uids")]
+    [CliOption("--metadata-uids", GroupValues = true)]
     public IEnumerable<string>? MetadataUids { get; set; }
 
     /// <summary>
     /// Provides information to identify a specific V2 finding. Constraints: o min: 0 o max: 100 (structure) Provides a standard to identify security findings using OCSF. CloudAccountUid -&gt; (string) [required] Finding cloud.account.uid, which is a unique identifier in the Amazon Web Services account.. Constraints: o pattern: .*\S.* FindingInfoUid -&gt; (string) [required] Finding finding_info.uid, which is a unique identifier for the finding from the finding provider. Constraints: o pattern: .*\S.* MetadataProductUid -&gt; (string) [required] Finding metadata.product.uid, which is a unique identifier for the product. Constraints: o pattern: .*\S.* Shorthand Syntax: CloudAccountUid=string,FindingInfoUid=string,MetadataProductUid=string ... JSON Syntax: [ { "CloudAccountUid": "string", "FindingInfoUid": "string", "MetadataProductUid": "string" } ... ]
     /// </summary>
-    [CliOption("--finding-identifiers")]
+    [CliOption("--finding-identifiers", GroupValues = true)]
     public IEnumerable<string>? FindingIdentifiers { get; set; }
 
     /// <summary>

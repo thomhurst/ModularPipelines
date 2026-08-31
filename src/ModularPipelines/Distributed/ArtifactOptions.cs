@@ -33,7 +33,7 @@ public class ArtifactOptions
     public string? RunIdentifier { get; set; }
 
     /// <summary>
-    /// Time-to-live in seconds for stored artifacts. Default: 3600 (1 hour).
+    /// Time-to-live for stored artifacts. Default: 1 hour.
     /// </summary>
-    public int TimeToLiveSeconds { get; set; } = 3600;
+    public TimeSpan TimeToLive { get; set; } = TimeSpan.FromHours(1);
 }

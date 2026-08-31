@@ -24,7 +24,7 @@ public record AwsSecuritylakeListDataLakesOptions : AwsOptions
     /// <summary>
     /// The list of Regions where Security Lake is enabled. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     [CliOption("--cli-input-json")]

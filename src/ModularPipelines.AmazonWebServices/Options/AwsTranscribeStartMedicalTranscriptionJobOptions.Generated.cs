@@ -62,7 +62,7 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions
     /// <summary>
     /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS . Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--kms-encryption-context")]
+    [CliOption("--kms-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? KmsEncryptionContext { get; set; }
 
     /// <summary>
@@ -86,7 +86,7 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions
     /// <summary>
     /// Adds one or more custom tags, each in the form of a key:value pair, to a new medical transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . Constraints: o min: 1 o max: 200 (structure) Adds metadata, in the form of a key:value pair, to the specified resource. For example, you could add the tag Department:Sales to a re- source to indicate that it pertains to your organization's sales department. You can also use tags for tag-based access control. To learn more about tagging, see Tagging resources . Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the key is 'Department'. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

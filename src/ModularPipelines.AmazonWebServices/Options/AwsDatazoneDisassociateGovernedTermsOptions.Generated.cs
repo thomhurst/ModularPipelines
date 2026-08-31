@@ -30,7 +30,7 @@ public record AwsDatazoneDisassociateGovernedTermsOptions : AwsOptions
     [CliOption("--entity-type")]
     public string? EntityType { get; set; }
 
-    [CliOption("--governed-glossary-terms")]
+    [CliOption("--governed-glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GovernedGlossaryTerms { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,7 +28,7 @@ public record AwsChimeSdkVoiceCreateVoiceConnectorGroupOptions : AwsOptions
     /// <summary>
     /// Lists the Voice Connectors that inbound calls are routed to. (structure) For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice Connectors to which you route inbound calls. Includes priority configuration settings. Limit: 3 VoiceConnectorItems per Voice Connector group. VoiceConnectorId -&gt; (string) [required] The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) Priority -&gt; (integer) The priority setting of a Voice Connector item. Calls are routed to hosts in priority order, with 1 as the highest pri- ority. When hosts have equal priority, the system distributes calls among them based on their relative weight. Constraints: o min: 1 o max: 99 Shorthand Syntax: VoiceConnectorId=string,Priority=integer ... JSON Syntax: [ { "VoiceConnectorId": "string", "Priority": integer } ... ]
     /// </summary>
-    [CliOption("--voice-connector-items")]
+    [CliOption("--voice-connector-items", GroupValues = true)]
     public IEnumerable<string>? VoiceConnectorItems { get; set; }
 
     /// <summary>

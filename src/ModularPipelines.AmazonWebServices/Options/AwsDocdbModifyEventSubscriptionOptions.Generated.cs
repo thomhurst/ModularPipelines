@@ -39,7 +39,7 @@ public record AwsDocdbModifyEventSubscriptionOptions : AwsOptions
     /// <summary>
     /// A list of event categories for a SourceType that you want to sub- scribe to. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-categories")]
+    [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }
 
     [CliFlag("--enabled")]

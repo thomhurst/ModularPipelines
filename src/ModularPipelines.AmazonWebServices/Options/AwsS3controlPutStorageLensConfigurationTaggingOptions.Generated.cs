@@ -27,7 +27,7 @@ public record AwsS3controlPutStorageLensConfigurationTaggingOptions : AwsOptions
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

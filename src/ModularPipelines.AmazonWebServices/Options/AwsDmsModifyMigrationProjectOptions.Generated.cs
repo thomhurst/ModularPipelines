@@ -33,13 +33,13 @@ public record AwsDmsModifyMigrationProjectOptions : AwsOptions
     /// <summary>
     /// Information about the source data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Se- cret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Se- crets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]
     /// </summary>
-    [CliOption("--source-data-provider-descriptors")]
+    [CliOption("--source-data-provider-descriptors", GroupValues = true)]
     public IEnumerable<string>? SourceDataProviderDescriptors { get; set; }
 
     /// <summary>
     /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Se- cret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Se- crets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]
     /// </summary>
-    [CliOption("--target-data-provider-descriptors")]
+    [CliOption("--target-data-provider-descriptors", GroupValues = true)]
     public IEnumerable<string>? TargetDataProviderDescriptors { get; set; }
 
     /// <summary>

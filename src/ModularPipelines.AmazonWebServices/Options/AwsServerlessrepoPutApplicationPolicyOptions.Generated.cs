@@ -24,7 +24,7 @@ public record AwsServerlessrepoPutApplicationPolicyOptions : AwsOptions
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [CliOption("--statements")]
+    [CliOption("--statements", GroupValues = true)]
     public IEnumerable<string>? Statements { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -220,12 +220,12 @@ internal class DistributedModuleExecutor(
             return;
         }
 
-        var timeout = TimeSpan.FromSeconds(_options.Value.CapabilityTimeoutSeconds);
+        var timeout = _options.Value.CapabilityTimeout;
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeoutCts.CancelAfter(timeout);
 
-        _logger.LogInformation("Waiting for {Expected} worker(s) to register (timeout: {Timeout}s)...",
-            expectedWorkers, _options.Value.CapabilityTimeoutSeconds);
+        _logger.LogInformation("Waiting for {Expected} worker(s) to register (timeout: {Timeout})...",
+            expectedWorkers, timeout);
 
         var lastCount = 0;
         while (!timeoutCts.IsCancellationRequested)
@@ -251,8 +251,8 @@ internal class DistributedModuleExecutor(
             {
                 // Timeout expired, but pipeline not cancelled — proceed with available workers
                 _logger.LogWarning(
-                    "Worker registration timeout ({Timeout}s expired). {Count}/{Expected} worker(s) registered — proceeding with available workers",
-                    _options.Value.CapabilityTimeoutSeconds, lastCount, expectedWorkers);
+                    "Worker registration timeout ({Timeout} expired). {Count}/{Expected} worker(s) registered — proceeding with available workers",
+                    timeout, lastCount, expectedWorkers);
                 return;
             }
         }
@@ -505,9 +505,9 @@ internal class DistributedModuleExecutor(
     private CancellationTokenSource? CreateResultTimeoutSource(TimeSpan? moduleTimeout, CancellationToken cancellationToken)
     {
         var timeout = moduleTimeout;
-        if (timeout is null && _options.Value.ModuleResultTimeoutSeconds > 0)
+        if (timeout is null && _options.Value.ModuleResultTimeout > TimeSpan.Zero)
         {
-            timeout = TimeSpan.FromSeconds(_options.Value.ModuleResultTimeoutSeconds);
+            timeout = _options.Value.ModuleResultTimeout;
         }
 
         if (timeout is null)

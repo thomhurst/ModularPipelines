@@ -25,7 +25,7 @@ public record AwsComputeOptimizerAutomationListAutomationRulesOptions : AwsOptio
     /// <summary>
     /// The filters to apply to the list of automation rules. (structure) A filter used to narrow down results based on specific criteria. name -&gt; (string) [required] The name of the filter field to apply. Possible values: o Name o RecommendedActionType o Status o RuleType o OrganizationConfigurationRuleApplyOrder o AccountId values -&gt; (list) [required] The list of values to filter by for the specified filter field. (string) Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\-_\.\*\?\s]+ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Name"|"RecommendedActionType"|"Status"|"RuleType"|"OrganizationConfigurationRuleApplyOrder"|"AccountId", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

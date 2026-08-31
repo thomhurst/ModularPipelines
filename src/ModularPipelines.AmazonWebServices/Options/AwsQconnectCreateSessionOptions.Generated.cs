@@ -45,7 +45,7 @@ public record AwsQconnectCreateSessionOptions : AwsOptions
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -57,7 +57,7 @@ public record AwsQconnectCreateSessionOptions : AwsOptions
     /// <summary>
     /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session. key -&gt; (string) Possible values: o MANUAL_SEARCH o ANSWER_RECOMMENDATION o SELF_SERVICE o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION value -&gt; (structure) A type that specifies the AI Agent ID configuration data when mapping an AI Agents to be used for an AI Agent type on a ses- sion or assistant. aiAgentId -&gt; (string) [required] The ID of the AI Agent to be configured. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1} Shorthand Syntax: KeyName1={aiAgentId=string},KeyName2={aiAgentId=string} Where valid key names are: MANUAL_SEARCH ANSWER_RECOMMENDATION SELF_SERVICE EMAIL_RESPONSE EMAIL_OVERVIEW EMAIL_GENERATIVE_ANSWER ORCHESTRATION NOTE_TAKING CASE_SUMMARIZATION JSON Syntax: {"MANUAL_SEARCH"|"ANSWER_RECOMMENDATION"|"SELF_SERVICE"|"EMAIL_RESPONSE"|"EMAIL_OVERVIEW"|"EMAIL_GENERATIVE_ANSWER"|"ORCHESTRATION"|"NOTE_TAKING"|"CASE_SUMMARIZATION": { "aiAgentId": "string" } ...}
     /// </summary>
-    [CliOption("--ai-agent-configuration")]
+    [CliOption("--ai-agent-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AiAgentConfiguration { get; set; }
 
     /// <summary>
@@ -69,7 +69,7 @@ public record AwsQconnectCreateSessionOptions : AwsOptions
     /// <summary>
     /// The list of orchestrator configurations for the session being cre- ated. (structure) An entry in the orchestrator configuration list. aiAgentId -&gt; (string) The identifier of the AI Agent in the orchestrator configura- tion. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1} orchestratorUseCase -&gt; (string) [required] The use case for the orchestrator configuration. (for example Connect.SelfService, Connect.AgentAssistance) Constraints: o min: 1 o max: 4096 Shorthand Syntax: aiAgentId=string,orchestratorUseCase=string ... JSON Syntax: [ { "aiAgentId": "string", "orchestratorUseCase": "string" } ... ]
     /// </summary>
-    [CliOption("--orchestrator-configuration-list")]
+    [CliOption("--orchestrator-configuration-list", GroupValues = true)]
     public IEnumerable<string>? OrchestratorConfigurationList { get; set; }
 
     [CliFlag("--remove-orchestrator-configuration-list")]

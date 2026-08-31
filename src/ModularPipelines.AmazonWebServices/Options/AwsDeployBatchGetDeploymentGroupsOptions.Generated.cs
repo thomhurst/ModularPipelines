@@ -24,7 +24,7 @@ public record AwsDeployBatchGetDeploymentGroupsOptions : AwsOptions
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CliOption("--deployment-group-names")]
+    [CliOption("--deployment-group-names", GroupValues = true)]
     public IEnumerable<string>? DeploymentGroupNames { get; set; }
 
     [CliOption("--cli-input-json")]

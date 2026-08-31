@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("storagegateway", "update-automatic-tape-creation-policy")]
 public record AwsStoragegatewayUpdateAutomaticTapeCreationPolicyOptions : AwsOptions
 {
-    [CliOption("--automatic-tape-creation-rules")]
+    [CliOption("--automatic-tape-creation-rules", GroupValues = true)]
     public IEnumerable<string>? AutomaticTapeCreationRules { get; set; }
 
     [CliOption("--gateway-arn")]

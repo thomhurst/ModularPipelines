@@ -79,7 +79,7 @@ public record AwsServicecatalogUpdateProvisionedProductOptions : AwsOptions
     /// <summary>
     /// The new parameters. (structure) The parameter key-value pair used to update a provisioned prod- uct. Key -&gt; (string) The parameter key. Constraints: o min: 1 o max: 1000 Value -&gt; (string) The parameter value. Constraints: o max: 4096 UsePreviousValue -&gt; (boolean) If set to true, Value is ignored and the previous parameter value is kept. Shorthand Syntax: Key=string,Value=string,UsePreviousValue=boolean ... JSON Syntax: [ { "Key": "string", "Value": "string", "UsePreviousValue": true|false } ... ]
     /// </summary>
-    [CliOption("--provisioning-parameters")]
+    [CliOption("--provisioning-parameters", GroupValues = true)]
     public IEnumerable<string>? ProvisioningParameters { get; set; }
 
     /// <summary>
@@ -91,7 +91,7 @@ public record AwsServicecatalogUpdateProvisionedProductOptions : AwsOptions
     /// <summary>
     /// One or more tags. Requires the product to have RESOURCE_UPDATE con- straint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates. Constraints: o max: 50 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

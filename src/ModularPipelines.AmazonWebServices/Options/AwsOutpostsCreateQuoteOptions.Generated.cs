@@ -30,25 +30,25 @@ public record AwsOutpostsCreateQuoteOptions : AwsOptions
     [CliOption("--country-code")]
     public string? CountryCode { get; set; }
 
-    [CliOption("--requested-capacities")]
+    [CliOption("--requested-capacities", GroupValues = true)]
     public IEnumerable<string>? RequestedCapacities { get; set; }
 
     /// <summary>
     /// The physical constraints for the quote, such as maximum number of racks, maximum power draw per rack, or maximum weight per rack. Constraints: o max: 10 (structure) A physical constraint for a quote. QuoteConstraintType -&gt; (string) The type of constraint. Valid values are RACK_MAXIMUM , RACK_MAX_POWER_KVA , and RACK_MAX_WEIGHT_LBS . Possible values: o RACK_MAXIMUM o RACK_MAX_POWER_KVA o RACK_MAX_WEIGHT_LBS Value -&gt; (string) The value of the constraint. Constraints: o min: 1 o max: 2048 o pattern: ^[\S \n]+$ Shorthand Syntax: QuoteConstraintType=string,Value=string ... JSON Syntax: [ { "QuoteConstraintType": "RACK_MAXIMUM"|"RACK_MAX_POWER_KVA"|"RACK_MAX_WEIGHT_LBS", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--requested-constraints")]
+    [CliOption("--requested-constraints", GroupValues = true)]
     public IEnumerable<string>? RequestedConstraints { get; set; }
 
     /// <summary>
     /// The payment options to include in the quote pricing. If not speci- fied, all available payment options are returned. Constraints: o max: 3 (string) Possible values: o ALL_UPFRONT o NO_UPFRONT o PARTIAL_UPFRONT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--requested-payment-options")]
+    [CliOption("--requested-payment-options", GroupValues = true)]
     public IEnumerable<string>? RequestedPaymentOptions { get; set; }
 
     /// <summary>
     /// The payment terms to include in the quote pricing. If not specified, all available payment terms are returned. Constraints: o max: 3 (string) Possible values: o THREE_YEARS o ONE_YEAR o FIVE_YEARS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--requested-payment-terms")]
+    [CliOption("--requested-payment-terms", GroupValues = true)]
     public IEnumerable<string>? RequestedPaymentTerms { get; set; }
 
     /// <summary>

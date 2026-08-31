@@ -25,7 +25,7 @@ public record AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionInstancesO
     /// <summary>
     /// An array of structures that you can use to filter the results by your specified criteria. For example, you can specify Region in the Name , with the contains operator to list all subscriptions that match a partial string in the Value , such as us-west . For each filter, you can specify one of the following values for the Name key to streamline results: o AccountID o AmiID o DualSubscription o InstanceID o InstanceType o ProductCode o Region o Status o UsageOperation For each filter, you can use one of the following Operator values to define the behavior of the filter: o contains o equals o Notequal (structure) A filter object that is used to return more specific results from a describe operation. Filters can be used to match a set of resources by specific criteria. Name -&gt; (string) The type of name to filter by. Operator -&gt; (string) An operator for filtering results. Possible values: o Equal o NotEqual o Contains Constraints: o min: 1 o max: 20 Values -&gt; (list) One or more values for the name to filter by. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: Name=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Operator": "Equal"|"NotEqual"|"Contains", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

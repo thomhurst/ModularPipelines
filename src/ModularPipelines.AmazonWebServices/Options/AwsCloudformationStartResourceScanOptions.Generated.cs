@@ -32,7 +32,7 @@ public record AwsCloudformationStartResourceScanOptions : AwsOptions
     /// <summary>
     /// The scan filters to use. Constraints: o min: 1 o max: 1 (structure) A filter that is used to specify which resource types to scan. Types -&gt; (list) An array of strings where each string represents an Amazon Web Services resource type you want to scan. Each string de- fines the resource type using the format AWS::Service- Name::ResourceType , for example, AWS::DynamoDB::Table . For the full list of supported resource types, see the Resource type support table in the CloudFormation User Guide . To scan all resource types within a service, you can use a wildcard, represented by an asterisk (* ). You can place an asterisk at only the end of the string, for example, AWS::S3::* . Constraints: o max: 100 (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: Types=string,string ... JSON Syntax: [ { "Types": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--scan-filters")]
+    [CliOption("--scan-filters", GroupValues = true)]
     public IEnumerable<string>? ScanFilters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -30,7 +30,7 @@ public record AwsMedialiveCreateNodeRegistrationScriptOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--node-interface-mappings")]
+    [CliOption("--node-interface-mappings", GroupValues = true)]
     public IEnumerable<string>? NodeInterfaceMappings { get; set; }
 
     [CliOption("--request-id")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("greengrass", "update-connectivity-info")]
 public record AwsGreengrassUpdateConnectivityInfoOptions : AwsOptions
 {
-    [CliOption("--connectivity-info")]
+    [CliOption("--connectivity-info", GroupValues = true)]
     public IEnumerable<string>? ConnectivityInfo { get; set; }
 
     [CliOption("--thing-name")]

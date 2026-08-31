@@ -50,7 +50,7 @@ public record AwsS3filesCreateFileSystemOptions : AwsOptions
     /// <summary>
     /// An array of key-value pairs to apply as tags to the file system re- source. Each tag is a user-defined key-value pair. You can use tags to categorize and manage your file systems. Each key must be unique for the resource. Constraints: o min: 1 o max: 50 (structure) A key-value pair for resource tagging. key -&gt; (string) [required] The tag key. The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--accept-bucket-warning")]

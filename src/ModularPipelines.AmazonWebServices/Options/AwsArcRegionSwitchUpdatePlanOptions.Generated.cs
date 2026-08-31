@@ -31,7 +31,7 @@ public record AwsArcRegionSwitchUpdatePlanOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--workflows")]
+    [CliOption("--workflows", GroupValues = true)]
     public IEnumerable<string>? Workflows { get; set; }
 
     [CliOption("--execution-role")]
@@ -46,13 +46,13 @@ public record AwsArcRegionSwitchUpdatePlanOptions : AwsOptions
     /// <summary>
     /// The updated CloudWatch alarms associated with the plan. key -&gt; (string) value -&gt; (structure) An Amazon CloudWatch alarm associated with a Region switch plan. These alarms can be used to trigger automatic execution of the plan. crossAccountRole -&gt; (string) The cross account role for the configuration. Constraints: o pattern: arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+ externalId -&gt; (string) The external ID (secret key) for the configuration. resourceIdentifier -&gt; (string) [required] The resource identifier for alarms that you associate with a plan. alarmType -&gt; (string) [required] The alarm type for an associated alarm. An associated Cloud- Watch alarm can be an application health alarm or a trigger alarm. Possible values: o applicationHealth o trigger Shorthand Syntax: KeyName1={crossAccountRole=string,externalId=string,resourceIdentifier=string,alarmType=string},KeyName2={crossAccountRole=string,externalId=string,resourceIdentifier=string,alarmType=string} JSON Syntax: {"string": { "crossAccountRole": "string", "externalId": "string", "resourceIdentifier": "string", "alarmType": "applicationHealth"|"trigger" } ...}
     /// </summary>
-    [CliOption("--associated-alarms")]
+    [CliOption("--associated-alarms", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AssociatedAlarms { get; set; }
 
     /// <summary>
     /// The updated conditions that can automatically trigger the execution of the plan. (structure) Defines a condition that can automatically trigger the execution of a Region switch plan. description -&gt; (string) The description for a trigger. targetRegion -&gt; (string) [required] The Amazon Web Services Region for a trigger. Constraints: o pattern: [a-z]{2}-[a-z-]+-\d+ action -&gt; (string) [required] The action to perform when the trigger fires. Valid values include activate and deactivate . Possible values: o activate o deactivate o postRecovery conditions -&gt; (list) [required] The conditions that must be met for the trigger to fire. Constraints: o min: 1 o max: 10 (structure) Defines a condition that must be met for a trigger to fire. associatedAlarmName -&gt; (string) [required] The name of the CloudWatch alarm associated with the condition. condition -&gt; (string) [required] The condition that must be met. Valid values include green and red . Possible values: o red o green minDelayMinutesBetweenExecutions -&gt; (integer) [required] The minimum time, in minutes, that must elapse between auto- matic executions of the plan. Shorthand Syntax: description=string,targetRegion=string,action=string,conditions=[{associatedAlarmName=string,condition=string},{associatedAlarmName=string,condition=string}],minDelayMinutesBetweenExecutions=integer ... JSON Syntax: [ { "description": "string", "targetRegion": "string", "action": "activate"|"deactivate"|"postRecovery", "conditions": [ { "associatedAlarmName": "string", "condition": "red"|"green" } ... ], "minDelayMinutesBetweenExecutions": integer } ... ]
     /// </summary>
-    [CliOption("--triggers")]
+    [CliOption("--triggers", GroupValues = true)]
     public IEnumerable<string>? Triggers { get; set; }
 
     /// <summary>

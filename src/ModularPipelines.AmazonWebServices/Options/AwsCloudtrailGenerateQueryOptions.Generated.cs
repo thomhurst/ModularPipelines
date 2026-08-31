@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudtrail", "generate-query")]
 public record AwsCloudtrailGenerateQueryOptions : AwsOptions
 {
-    [CliOption("--event-data-stores")]
+    [CliOption("--event-data-stores", GroupValues = true)]
     public IEnumerable<string>? EventDataStores { get; set; }
 
     [CliOption("--prompt")]

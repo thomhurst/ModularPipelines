@@ -27,7 +27,7 @@ public record AwsCustomerProfilesGetSegmentMembershipOptions : AwsOptions
     [CliOption("--segment-definition-name")]
     public string? SegmentDefinitionName { get; set; }
 
-    [CliOption("--profile-ids")]
+    [CliOption("--profile-ids", GroupValues = true)]
     public IEnumerable<string>? ProfileIds { get; set; }
 
     [CliOption("--cli-input-json")]

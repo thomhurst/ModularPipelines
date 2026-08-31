@@ -25,10 +25,10 @@ public record AwsEc2GetInstanceTypesFromInstanceRequirementsOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--architecture-types")]
+    [CliOption("--architecture-types", GroupValues = true)]
     public IEnumerable<string>? ArchitectureTypes { get; set; }
 
-    [CliOption("--virtualization-types")]
+    [CliOption("--virtualization-types", GroupValues = true)]
     public IEnumerable<string>? VirtualizationTypes { get; set; }
 
     [CliOption("--instance-requirements")]

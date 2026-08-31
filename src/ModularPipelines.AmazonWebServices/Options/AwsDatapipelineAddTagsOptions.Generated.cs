@@ -24,7 +24,7 @@ public record AwsDatapipelineAddTagsOptions : AwsOptions
     [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

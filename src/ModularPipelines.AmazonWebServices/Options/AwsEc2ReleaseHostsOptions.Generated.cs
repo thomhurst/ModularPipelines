@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "release-hosts")]
 public record AwsEc2ReleaseHostsOptions : AwsOptions
 {
-    [CliOption("--host-ids")]
+    [CliOption("--host-ids", GroupValues = true)]
     public IEnumerable<string>? HostIds { get; set; }
 
     [CliOption("--cli-input-json")]

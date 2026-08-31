@@ -24,25 +24,25 @@ public record AwsElbv2CreateRuleOptions : AwsOptions
     [CliOption("--listener-arn")]
     public string? ListenerArn { get; set; }
 
-    [CliOption("--conditions")]
+    [CliOption("--conditions", GroupValues = true)]
     public IEnumerable<string>? Conditions { get; set; }
 
     [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>
     /// The tags to assign to the rule. Constraints: o min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The transforms to apply to requests that match this rule. You can add one host header rewrite transform and one URL rewrite transform. (structure) Information about a transform to apply to requests that match a rule. Transforms are applied to requests before they are sent to targets. Type -&gt; (string) [required] The type of transform. o host-header-rewrite - Rewrite the host header. o url-rewrite - Rewrite the request URL. Possible values: o host-header-rewrite o url-rewrite HostHeaderRewriteConfig -&gt; (structure) Information about a host header rewrite transform. This transform modifies the host header in an HTTP request. Spec- ify only when Type is host-header-rewrite . Rewrites -&gt; (list) The host header rewrite transform. Each transform con- sists of a regular expression to match and a replacement string. (structure) Information about a rewrite transform. This transform matches a pattern and replaces it with the specified string. Regex -&gt; (string) [required] The regular expression to match in the input string. The maximum length of the string is 1,024 characters. Replace -&gt; (string) [required] The replacement string to use when rewriting the matched input. The maximum length of the string is 1,024 characters. You can specify capture groups in the regular expression (for example, $1 and $2). UrlRewriteConfig -&gt; (structure) Information about a URL rewrite transform. This transform modifies the request URL. Specify only when Type is url-rewrite . Rewrites -&gt; (list) The URL rewrite transform to apply to the request. The transform consists of a regular expression to match and a replacement string. (structure) Information about a rewrite transform. This transform matches a pattern and replaces it with the specified string. Regex -&gt; (string) [required] The regular expression to match in the input string. The maximum length of the string is 1,024 characters. Replace -&gt; (string) [required] The replacement string to use when rewriting the matched input. The maximum length of the string is 1,024 characters. You can specify capture groups in the regular expression (for example, $1 and $2). JSON Syntax: [ { "Type": "host-header-rewrite"|"url-rewrite", "HostHeaderRewriteConfig": { "Rewrites": [ { "Regex": "string", "Replace": "string" } ... ] }, "UrlRewriteConfig": { "Rewrites": [ { "Regex": "string", "Replace": "string" } ... ] } } ... ]
     /// </summary>
-    [CliOption("--transforms")]
+    [CliOption("--transforms", GroupValues = true)]
     public IEnumerable<string>? Transforms { get; set; }
 
     [CliOption("--cli-input-json")]

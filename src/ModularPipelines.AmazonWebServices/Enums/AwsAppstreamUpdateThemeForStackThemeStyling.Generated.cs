@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppstreamUpdateThemeForStackThemeStyling
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("LIGHT_BLUE")]
     LightBlue = 1,
 

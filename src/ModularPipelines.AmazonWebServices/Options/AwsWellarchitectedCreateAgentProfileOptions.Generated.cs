@@ -43,7 +43,7 @@ public record AwsWellarchitectedCreateAgentProfileOptions : AwsOptions
     [CliOption("--business-overview")]
     public string? BusinessOverview { get; set; }
 
-    [CliOption("--pillars")]
+    [CliOption("--pillars", GroupValues = true)]
     public IEnumerable<string>? Pillars { get; set; }
 
     [CliFlag("--deletion-protection")]
@@ -52,7 +52,7 @@ public record AwsWellarchitectedCreateAgentProfileOptions : AwsOptions
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CliOption("--aggregation-configuration")]
+    [CliOption("--aggregation-configuration", GroupValues = true)]
     public IEnumerable<string>? AggregationConfiguration { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AwsWellarchitectedCreateAgentProfileOptions : AwsOptions
     /// <summary>
     /// The tags to associate with the profile. (structure) A key-value pair associated with a resource for cost allocation and access control. key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ value -&gt; (string) [required] The value of the tag. Constraints: o min: 1 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

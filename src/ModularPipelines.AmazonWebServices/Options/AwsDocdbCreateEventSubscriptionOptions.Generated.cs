@@ -36,13 +36,13 @@ public record AwsDocdbCreateEventSubscriptionOptions : AwsOptions
     /// <summary>
     /// A list of event categories for a SourceType that you want to sub- scribe to. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-categories")]
+    [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }
 
     /// <summary>
     /// The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the re- sponse. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: o If SourceIds are provided, SourceType must also be provided. o If the source type is an instance, a DBInstanceIdentifier must be provided. o If the source type is a security group, a DBSecurityGroupName must be provided. o If the source type is a parameter group, a DBParameterGroupName must be provided. o If the source type is a snapshot, a DBSnapshotIdentifier must be provided. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--source-ids")]
+    [CliOption("--source-ids", GroupValues = true)]
     public IEnumerable<string>? SourceIds { get; set; }
 
     [CliFlag("--enabled")]
@@ -51,7 +51,7 @@ public record AwsDocdbCreateEventSubscriptionOptions : AwsOptions
     /// <summary>
     /// The tags to be assigned to the event subscription. (structure) Metadata assigned to an Amazon DocumentDB resource consisting of a key-value pair. Key -&gt; (string) The required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -29,7 +29,7 @@ public record AwsSesv2ListTenantResourcesOptions : AwsOptions
     /// <summary>
     /// A map of filter keys and values for filtering the list of tenant re- sources. Currently, the only supported filter key is RESOURCE_TYPE . key -&gt; (string) The key used to filter tenant resources. Currently, the only supported filter key is RESOURCE_TYPE . Possible values: o RESOURCE_TYPE value -&gt; (string) The value used to filter tenant resources. When filtering by RE- SOURCE_TYPE , valid values are EMAIL_IDENTITY , CONFIGURA- TION_SET , or EMAIL_TEMPLATE . Constraints: o min: 1 o max: 512 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: RESOURCE_TYPE JSON Syntax: {"RESOURCE_TYPE": "string" ...}
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; set; }
 
     /// <summary>

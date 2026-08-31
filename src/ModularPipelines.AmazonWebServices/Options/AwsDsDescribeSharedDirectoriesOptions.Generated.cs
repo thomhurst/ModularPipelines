@@ -28,7 +28,7 @@ public record AwsDsDescribeSharedDirectoriesOptions : AwsOptions
     /// <summary>
     /// A list of identifiers of all shared directories in your account. (string) Constraints: o pattern: ^d-[0-9a-f]{10}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--shared-directory-ids")]
+    [CliOption("--shared-directory-ids", GroupValues = true)]
     public IEnumerable<string>? SharedDirectoryIds { get; set; }
 
     [CliOption("--cli-input-json")]

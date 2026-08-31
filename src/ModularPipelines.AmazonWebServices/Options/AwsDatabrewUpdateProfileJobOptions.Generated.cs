@@ -67,7 +67,7 @@ public record AwsDatabrewUpdateProfileJobOptions : AwsOptions
     /// <summary>
     /// List of validation configurations that are applied to the profile job. Constraints: o min: 1 (structure) Configuration for data quality validation. Used to select the Rulesets and Validation Mode to be used in the profile job. When ValidationConfiguration is null, the profile job will run with- out data quality validation. RulesetArn -&gt; (string) [required] The Amazon Resource Name (ARN) for the ruleset to be vali- dated in the profile job. The TargetArn of the selected rule- set should be the same as the Amazon Resource Name (ARN) of the dataset that is associated with the profile job. Constraints: o min: 20 o max: 2048 ValidationMode -&gt; (string) Mode of data quality validation. Default mode is CHECK_ALL which verifies all rules defined in the selected ruleset. Possible values: o CHECK_ALL Shorthand Syntax: RulesetArn=string,ValidationMode=string ... JSON Syntax: [ { "RulesetArn": "string", "ValidationMode": "CHECK_ALL" } ... ]
     /// </summary>
-    [CliOption("--validation-configurations")]
+    [CliOption("--validation-configurations", GroupValues = true)]
     public IEnumerable<string>? ValidationConfigurations { get; set; }
 
     [CliOption("--role-arn")]

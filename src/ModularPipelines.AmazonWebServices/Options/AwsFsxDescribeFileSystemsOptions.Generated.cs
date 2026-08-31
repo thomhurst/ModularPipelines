@@ -25,7 +25,7 @@ public record AwsFsxDescribeFileSystemsOptions : AwsOptions
     /// <summary>
     /// IDs of the file systems whose descriptions you want to retrieve (String). Constraints: o max: 50 (string) The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--file-system-ids")]
+    [CliOption("--file-system-ids", GroupValues = true)]
     public IEnumerable<string>? FileSystemIds { get; set; }
 
     [CliOption("--cli-input-json")]

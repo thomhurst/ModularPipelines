@@ -36,7 +36,7 @@ public record AwsOpensearchAddDirectQueryDataSourceOptions : AwsOptions
     /// <summary>
     /// An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake data- source types. (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Ac- cess Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--open-search-arns")]
+    [CliOption("--open-search-arns", GroupValues = true)]
     public IEnumerable<string>? OpenSearchArns { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record AwsOpensearchAddDirectQueryDataSourceOptions : AwsOptions
     /// <summary>
     /// A list of tags attached to a domain. (structure) A tag (key-value pair) for an Amazon OpenSearch Service re- source. Key -&gt; (string) [required] The tag key. Tag keys must be unique for the domain to which they are attached. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For ex- ample, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tag-list")]
+    [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     [CliOption("--cli-input-json")]

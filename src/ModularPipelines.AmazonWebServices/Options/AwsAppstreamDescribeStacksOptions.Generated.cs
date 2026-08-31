@@ -25,7 +25,7 @@ public record AwsAppstreamDescribeStacksOptions : AwsOptions
     /// <summary>
     /// The names of the stacks to describe. (string) Constraints: o min: 1 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliOption("--cli-input-json")]

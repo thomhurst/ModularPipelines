@@ -24,7 +24,7 @@ public record AwsElbv2ModifyLoadBalancerAttributesOptions : AwsOptions
     [CliOption("--load-balancer-arn")]
     public string? LoadBalancerArn { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

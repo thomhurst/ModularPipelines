@@ -24,7 +24,7 @@ public record AwsElbv2ModifyTargetGroupAttributesOptions : AwsOptions
     [CliOption("--target-group-arn")]
     public string? TargetGroupArn { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

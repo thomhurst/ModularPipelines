@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("chime", "batch-delete-phone-number")]
 public record AwsChimeBatchDeletePhoneNumberOptions : AwsOptions
 {
-    [CliOption("--phone-number-ids")]
+    [CliOption("--phone-number-ids", GroupValues = true)]
     public IEnumerable<string>? PhoneNumberIds { get; set; }
 
     [CliOption("--cli-input-json")]

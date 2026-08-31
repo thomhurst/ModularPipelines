@@ -36,7 +36,7 @@ public record AwsDatazoneBatchGetAttributesMetadataOptions : AwsOptions
     [CliOption("--entity-revision")]
     public string? EntityRevision { get; set; }
 
-    [CliOption("--attribute-identifiers")]
+    [CliOption("--attribute-identifiers", GroupValues = true)]
     public IEnumerable<string>? AttributeIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

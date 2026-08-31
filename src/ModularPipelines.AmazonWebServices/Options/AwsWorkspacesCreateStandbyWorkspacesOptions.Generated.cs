@@ -24,7 +24,7 @@ public record AwsWorkspacesCreateStandbyWorkspacesOptions : AwsOptions
     [CliOption("--primary-region")]
     public string? PrimaryRegion { get; set; }
 
-    [CliOption("--standby-workspaces")]
+    [CliOption("--standby-workspaces", GroupValues = true)]
     public IEnumerable<string>? StandbyWorkspaces { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -51,7 +51,7 @@ public record AwsGroundstationUpdateMissionProfileOptions : AwsOptions
     /// <summary>
     /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config . Constraints: o min: 0 o max: 500 (list) Constraints: o min: 2 o max: 2 (string) Constraints: o min: 82 o max: 424 o pattern: arn:aws:groundsta- tion:[-a-z0-9]{1,50}:[0-9]{12}:con- fig/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})? Shorthand Syntax: string,string ... JSON Syntax: [ ["string", ...] ... ]
     /// </summary>
-    [CliOption("--dataflow-edges")]
+    [CliOption("--dataflow-edges", GroupValues = true)]
     public IEnumerable<string>? DataflowEdges { get; set; }
 
     /// <summary>

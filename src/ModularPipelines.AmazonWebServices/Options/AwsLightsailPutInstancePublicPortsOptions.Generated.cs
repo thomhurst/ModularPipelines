@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lightsail", "put-instance-public-ports")]
 public record AwsLightsailPutInstancePublicPortsOptions : AwsOptions
 {
-    [CliOption("--port-infos")]
+    [CliOption("--port-infos", GroupValues = true)]
     public IEnumerable<string>? PortInfos { get; set; }
 
     [CliOption("--instance-name")]

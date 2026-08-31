@@ -34,7 +34,7 @@ public record AwsEcsListServiceDeploymentsOptions : AwsOptions
     /// <summary>
     /// An optional filter you can use to narrow the results. If you do not specify a status, then all status values are included in the result. (string) Possible values: o PENDING o SUCCESSFUL o STOPPED o STOP_REQUESTED o IN_PROGRESS o ROLLBACK_REQUESTED o ROLLBACK_IN_PROGRESS o ROLLBACK_SUCCESSFUL o ROLLBACK_FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>

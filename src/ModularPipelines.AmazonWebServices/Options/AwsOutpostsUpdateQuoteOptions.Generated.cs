@@ -39,25 +39,25 @@ public record AwsOutpostsUpdateQuoteOptions : AwsOptions
     /// <summary>
     /// The updated capacity requirements for the quote. Constraints: o max: 2000 (structure) A capacity requirement for a quote. Specifies the type of capac- ity, the unit, and the quantity. QuoteCapacityType -&gt; (string) The type of capacity. Valid values are EC2 , EBS , and S3 . Possible values: o EC2 o EBS o S3 Unit -&gt; (string) The unit of measurement for the capacity. For Amazon EC2, this is the instance type (for example, c5.24xlarge ). For Amazon EBS and Amazon S3, this is the storage unit (for exam- ple, TiB for tebibytes). Constraints: o min: 1 o max: 1000 o pattern: ^[\S \n]+$ Quantity -&gt; (float) The quantity of the specified capacity unit. For Amazon EC2, this is the number of additional instances to add to the Out- post. For Amazon EBS and Amazon S3, this is the total desired end-state capacity of the Outpost. Shorthand Syntax: QuoteCapacityType=string,Unit=string,Quantity=float ... JSON Syntax: [ { "QuoteCapacityType": "EC2"|"EBS"|"S3", "Unit": "string", "Quantity": float } ... ]
     /// </summary>
-    [CliOption("--requested-capacities")]
+    [CliOption("--requested-capacities", GroupValues = true)]
     public IEnumerable<string>? RequestedCapacities { get; set; }
 
     /// <summary>
     /// The updated physical constraints for the quote. Constraints: o max: 10 (structure) A physical constraint for a quote. QuoteConstraintType -&gt; (string) The type of constraint. Valid values are RACK_MAXIMUM , RACK_MAX_POWER_KVA , and RACK_MAX_WEIGHT_LBS . Possible values: o RACK_MAXIMUM o RACK_MAX_POWER_KVA o RACK_MAX_WEIGHT_LBS Value -&gt; (string) The value of the constraint. Constraints: o min: 1 o max: 2048 o pattern: ^[\S \n]+$ Shorthand Syntax: QuoteConstraintType=string,Value=string ... JSON Syntax: [ { "QuoteConstraintType": "RACK_MAXIMUM"|"RACK_MAX_POWER_KVA"|"RACK_MAX_WEIGHT_LBS", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--requested-constraints")]
+    [CliOption("--requested-constraints", GroupValues = true)]
     public IEnumerable<string>? RequestedConstraints { get; set; }
 
     /// <summary>
     /// The updated payment options to include in the quote pricing. Constraints: o max: 3 (string) Possible values: o ALL_UPFRONT o NO_UPFRONT o PARTIAL_UPFRONT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--requested-payment-options")]
+    [CliOption("--requested-payment-options", GroupValues = true)]
     public IEnumerable<string>? RequestedPaymentOptions { get; set; }
 
     /// <summary>
     /// The updated payment terms to include in the quote pricing. Constraints: o max: 3 (string) Possible values: o THREE_YEARS o ONE_YEAR o FIVE_YEARS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--requested-payment-terms")]
+    [CliOption("--requested-payment-terms", GroupValues = true)]
     public IEnumerable<string>? RequestedPaymentTerms { get; set; }
 
     /// <summary>

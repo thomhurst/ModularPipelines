@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseCreateAssetModelAssetModelType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("ASSET_MODEL")]
     AssetModel = 1,
 

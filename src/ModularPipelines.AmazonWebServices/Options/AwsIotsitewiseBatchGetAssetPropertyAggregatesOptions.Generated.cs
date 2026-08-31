@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iotsitewise", "batch-get-asset-property-aggregates")]
 public record AwsIotsitewiseBatchGetAssetPropertyAggregatesOptions : AwsOptions
 {
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     /// <summary>

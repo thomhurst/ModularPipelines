@@ -33,7 +33,7 @@ public record AwsDatasyncCreateAgentOptions : AwsOptions
     /// <summary>
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -45,13 +45,13 @@ public record AwsDatasyncCreateAgentOptions : AwsOptions
     /// <summary>
     /// Specifies the ARN of the subnet where your VPC service endpoint is located. You can only specify one ARN. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:sub- net/subnet-[a-f0-9]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-arns")]
+    [CliOption("--subnet-arns", GroupValues = true)]
     public IEnumerable<string>? SubnetArns { get; set; }
 
     /// <summary>
     /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-arns")]
+    [CliOption("--security-group-arns", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupArns { get; set; }
 
     [CliOption("--cli-input-json")]

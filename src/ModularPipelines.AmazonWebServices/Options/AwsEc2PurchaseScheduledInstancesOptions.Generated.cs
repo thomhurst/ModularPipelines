@@ -32,7 +32,7 @@ public record AwsEc2PurchaseScheduledInstancesOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--purchase-requests")]
+    [CliOption("--purchase-requests", GroupValues = true)]
     public IEnumerable<string>? PurchaseRequests { get; set; }
 
     [CliOption("--cli-input-json")]

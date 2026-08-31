@@ -25,7 +25,7 @@ public record AwsCloudformationListStackRefactorsOptions : AwsOptions
     /// <summary>
     /// Execution status to use as a filter. Specify one or more execution status codes to list only stack refactors with the specified execu- tion status codes. (string) Possible values: o UNAVAILABLE o AVAILABLE o OBSOLETE o EXECUTE_IN_PROGRESS o EXECUTE_COMPLETE o EXECUTE_FAILED o ROLLBACK_IN_PROGRESS o ROLLBACK_COMPLETE o ROLLBACK_FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--execution-status-filter")]
+    [CliOption("--execution-status-filter", GroupValues = true)]
     public IEnumerable<string>? ExecutionStatusFilter { get; set; }
 
     [CliOption("--cli-input-json")]

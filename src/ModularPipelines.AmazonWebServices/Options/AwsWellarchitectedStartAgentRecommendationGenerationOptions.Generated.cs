@@ -24,7 +24,7 @@ public record AwsWellarchitectedStartAgentRecommendationGenerationOptions : AwsO
     [CliOption("--profile-arn")]
     public string? ProfileArn { get; set; }
 
-    [CliOption("--types")]
+    [CliOption("--types", GroupValues = true)]
     public IEnumerable<string>? Types { get; set; }
 
     /// <summary>

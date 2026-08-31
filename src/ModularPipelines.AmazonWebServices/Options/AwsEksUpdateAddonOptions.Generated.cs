@@ -63,7 +63,7 @@ public record AwsEksUpdateAddonOptions : AwsOptions
     /// <summary>
     /// An array of EKS Pod Identity associations to be updated. Each asso- ciation maps a Kubernetes service account to an IAM role. If this value is left blank, no change. If an empty array is provided, ex- isting associations owned by the add-on are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . (structure) A type of EKS Pod Identity association owned by an Amazon EKS add-on. Each association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . serviceAccount -&gt; (string) [required] The name of a Kubernetes Service Account. roleArn -&gt; (string) [required] The ARN of an IAM Role. Shorthand Syntax: serviceAccount=string,roleArn=string ... JSON Syntax: [ { "serviceAccount": "string", "roleArn": "string" } ... ]
     /// </summary>
-    [CliOption("--pod-identity-associations")]
+    [CliOption("--pod-identity-associations", GroupValues = true)]
     public IEnumerable<string>? PodIdentityAssociations { get; set; }
 
     [CliOption("--cli-input-json")]

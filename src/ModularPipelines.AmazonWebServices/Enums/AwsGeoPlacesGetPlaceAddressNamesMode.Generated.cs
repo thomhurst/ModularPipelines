@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoPlacesGetPlaceAddressNamesMode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("Administrative")]
     Administrative = 1
 }

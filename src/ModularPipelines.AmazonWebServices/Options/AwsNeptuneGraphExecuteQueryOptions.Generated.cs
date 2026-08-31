@@ -35,7 +35,7 @@ public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
     /// <summary>
     /// The data parameters the query can use in JSON format. For example: {"name": "john", "age": 20}. (optional) key -&gt; (string) value -&gt; (document) JSON Syntax: {"string": {...} ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

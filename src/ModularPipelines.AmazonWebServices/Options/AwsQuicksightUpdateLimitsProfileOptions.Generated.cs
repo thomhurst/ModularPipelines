@@ -43,7 +43,7 @@ public record AwsQuicksightUpdateLimitsProfileOptions : AwsOptions
     /// <summary>
     /// A map of resource types to their updated limit values. key -&gt; (string) The type of resource that a limit applies to. Possible values: o INDEX_STORAGE o AGENT_HOURS value -&gt; (structure) A value that defines a resource usage limit, consisting of a maximum value and a unit of measurement. maxValue -&gt; (long) [required] The maximum allowed value for the resource. Constraints: o min: 0 unit -&gt; (string) [required] The unit of measurement for the limit value. Possible values: o MB o GB o HOURS o DAYS Shorthand Syntax: KeyName1={maxValue=long,unit=string},KeyName2={maxValue=long,unit=string} Where valid key names are: INDEX_STORAGE AGENT_HOURS JSON Syntax: {"INDEX_STORAGE"|"AGENT_HOURS": { "maxValue": long, "unit": "MB"|"GB"|"HOURS"|"DAYS" } ...}
     /// </summary>
-    [CliOption("--resource-limits")]
+    [CliOption("--resource-limits", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceLimits { get; set; }
 
     [CliOption("--cli-input-json")]

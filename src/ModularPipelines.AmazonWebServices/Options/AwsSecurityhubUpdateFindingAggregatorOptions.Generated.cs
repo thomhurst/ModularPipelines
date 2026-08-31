@@ -30,7 +30,7 @@ public record AwsSecurityhubUpdateFindingAggregatorOptions : AwsOptions
     /// <summary>
     /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED , then this is a space-separated list of Regions that don't replicate and send findings to the home Region. If RegionLinkingMode is SPECIFIED_REGIONS , then this is a space-separated list of Regions that do replicate and send findings to the home Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS . (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEmrCreatePersistentAppUiProfilerType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("SHS")]
     Shs = 1,
 

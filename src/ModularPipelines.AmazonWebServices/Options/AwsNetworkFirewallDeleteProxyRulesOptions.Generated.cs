@@ -33,7 +33,7 @@ public record AwsNetworkFirewallDeleteProxyRulesOptions : AwsOptions
     [CliOption("--proxy-rule-group-name")]
     public string? ProxyRuleGroupName { get; set; }
 
-    [CliOption("--rules")]
+    [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     [CliOption("--cli-input-json")]

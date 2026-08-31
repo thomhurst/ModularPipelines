@@ -31,7 +31,7 @@ public record AwsDsDescribeSnapshotsOptions : AwsOptions
     /// <summary>
     /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned us- ing the Limit and NextToken members. (string) Constraints: o pattern: ^s-[0-9a-f]{10}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--snapshot-ids")]
+    [CliOption("--snapshot-ids", GroupValues = true)]
     public IEnumerable<string>? SnapshotIds { get; set; }
 
     [CliOption("--cli-input-json")]

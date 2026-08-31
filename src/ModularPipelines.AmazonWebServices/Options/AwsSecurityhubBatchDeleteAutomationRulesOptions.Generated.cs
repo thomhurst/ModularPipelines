@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "batch-delete-automation-rules")]
 public record AwsSecurityhubBatchDeleteAutomationRulesOptions : AwsOptions
 {
-    [CliOption("--automation-rules-arns")]
+    [CliOption("--automation-rules-arns", GroupValues = true)]
     public IEnumerable<string>? AutomationRulesArns { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsResourceGroupsListTagSyncTasksOptions : AwsOptions
     /// <summary>
     /// The Amazon resource name (ARN) or name of the application group for which you want to return a list of tag-sync tasks. (structure) Returns tag-sync tasks filtered by the Amazon resource name (ARN) or name of a specified application group. GroupArn -&gt; (string) The Amazon resource name (ARN) of the application group. Constraints: o min: 12 o max: 1600 o pattern: arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}) GroupName -&gt; (string) The name of the application group. Constraints: o min: 1 o max: 300 o pattern: [a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26} Shorthand Syntax: GroupArn=string,GroupName=string ... JSON Syntax: [ { "GroupArn": "string", "GroupName": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

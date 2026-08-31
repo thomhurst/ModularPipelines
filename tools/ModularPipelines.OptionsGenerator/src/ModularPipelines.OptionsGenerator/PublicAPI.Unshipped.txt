@@ -9,6 +9,8 @@ ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Comman
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Command.init -> void
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Reason.get -> string!
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Reason.init -> void
+ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.NegatedSwitchName.get -> string?
+ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.NegatedSwitchName.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptionsBeforeSubcommands.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptionsBeforeSubcommands.init -> void
 override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Equals(object? obj) -> bool

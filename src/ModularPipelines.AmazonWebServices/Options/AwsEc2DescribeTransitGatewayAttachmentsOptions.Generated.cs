@@ -25,13 +25,13 @@ public record AwsEc2DescribeTransitGatewayAttachmentsOptions : AwsOptions
     /// <summary>
     /// The IDs of the attachments. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--transit-gateway-attachment-ids")]
+    [CliOption("--transit-gateway-attachment-ids", GroupValues = true)]
     public IEnumerable<string>? TransitGatewayAttachmentIds { get; set; }
 
     /// <summary>
     /// One or more filters. The possible values are: o association.state - The state of the association (associating | associated | disassociating ). o association.transit-gateway-route-table-id - The ID of the route table for the transit gateway. o resource-id - The ID of the resource. o resource-owner-id - The ID of the Amazon Web Services account that owns the resource. o resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect . o state - The state of the attachment. Valid values are available | deleted | deleting | failed | failing | initiatingRequest | modi- fying | pendingAcceptance | pending | rollingBack | rejected | re- jecting . o transit-gateway-attachment-id - The ID of the attachment. o transit-gateway-id - The ID of the transit gateway. o transit-gateway-owner-id - The ID of the Amazon Web Services ac- count that owns the transit gateway. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--dry-run")]

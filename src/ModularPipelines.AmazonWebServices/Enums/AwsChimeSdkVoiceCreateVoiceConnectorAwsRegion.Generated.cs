@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceCreateVoiceConnectorAwsRegion
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("us-east-1")]
     UsEast_1 = 1,
 

@@ -40,7 +40,7 @@ public record AwsMediapackageVodCreatePackagingConfigurationOptions : AwsOptions
     [CliOption("--packaging-group-id")]
     public string? PackagingGroupId { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsGuarddutyInviteMembersOptions : AwsOptions
     [CliOption("--detector-id")]
     public string? DetectorId { get; set; }
 
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliFlag("--disable-email-notification")]

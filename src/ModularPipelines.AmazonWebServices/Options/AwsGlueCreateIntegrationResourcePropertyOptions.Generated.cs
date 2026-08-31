@@ -39,7 +39,7 @@ public record AwsGlueCreateIntegrationResourcePropertyOptions : AwsOptions
     /// <summary>
     /// Metadata assigned to the resource consisting of a list of key-value pairs. (structure) The Tag object represents a label that you can assign to an Ama- zon Web Services resource. Each tag consists of a key and an op- tional value, both of which you define. For more information about tags, and controlling access to re- sources in Glue, see Amazon Web Services Tags in Glue and Specifying Glue Resource ARNs in the developer guide. key -&gt; (string) The tag key. The key is required when you create a tag on an object. The key is case-sensitive, and must not contain the prefix aws. Constraints: o min: 1 o max: 128 value -&gt; (string) The tag value. The value is optional when you create a tag on an object. The value is case-sensitive, and must not contain the prefix aws. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

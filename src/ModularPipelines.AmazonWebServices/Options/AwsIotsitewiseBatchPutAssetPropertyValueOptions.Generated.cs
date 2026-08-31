@@ -24,7 +24,7 @@ public record AwsIotsitewiseBatchPutAssetPropertyValueOptions : AwsOptions
     [CliFlag("--enable-partial-entry-processing")]
     public bool? EnablePartialEntryProcessing { get; set; }
 
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--cli-input-json")]

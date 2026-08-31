@@ -32,7 +32,7 @@ public record AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions : AwsOption
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--examples")]
+    [CliOption("--examples", GroupValues = true)]
     public IEnumerable<string>? Examples { get; set; }
 
     [CliOption("--cli-input-json")]

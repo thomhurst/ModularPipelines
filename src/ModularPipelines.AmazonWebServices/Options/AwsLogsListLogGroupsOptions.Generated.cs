@@ -41,7 +41,7 @@ public record AwsLogsListLogGroupsOptions : AwsOptions
     /// <summary>
     /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-identifiers")]
+    [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
     /// <summary>
@@ -60,19 +60,19 @@ public record AwsLogsListLogGroupsOptions : AwsOptions
     /// <summary>
     /// An array of data source filters to filter log groups by their asso- ciated data sources. You can filter by data source name, type, or both. Multiple filters within the same dimension are combined with OR logic, while filters across different dimensions are combined with AND logic. Constraints: o min: 1 o max: 5 (structure) Filter criteria for data sources, used to specify which data sources to include in operations based on name and type. name -&gt; (string) [required] The name pattern to filter data sources by. type -&gt; (string) The type pattern to filter data sources by. Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
     /// </summary>
-    [CliOption("--data-sources")]
+    [CliOption("--data-sources", GroupValues = true)]
     public IEnumerable<string>? DataSources { get; set; }
 
     /// <summary>
     /// An array of field index names to filter log groups that have spe- cific field indexes. Only log groups containing all specified field indexes are returned. You can specify 1 to 20 field index names, each with 1 to 512 characters. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--field-index-names")]
+    [CliOption("--field-index-names", GroupValues = true)]
     public IEnumerable<string>? FieldIndexNames { get; set; }
 
     /// <summary>
     /// An array of tag filters to return only log groups that have specific tags. Multiple filters are combined with AND logic. Constraints: o min: 1 o max: 5 (structure) A tag filter that specifies a tag key and optional tag values for filtering log groups by tags. key -&gt; (string) [required] The tag key to filter on. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ values -&gt; (list) An optional list of tag values to filter on. o If you specify a filter that contains more than one value for a key, the response returns log groups that match any of the specified values for that key. o If you don't specify values, the response returns all log groups that are tagged with that key, with any or no value. o Use * for wildcard matching. For example, prod* matches values that start with prod . o Use ! as a prefix for negation. For example, !prod matches values that are not prod . o Exact matching and negation are case-sensitive. Wildcard matching is case-insensitive. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 259 o pattern: ^!?\*?([\p{L}\p{Z}\p{N}_.:/=+\-@]*)\*?$ Shorthand Syntax: key=string,values=string,string ... JSON Syntax: [ { "key": "string", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--log-group-tags")]
+    [CliOption("--log-group-tags", GroupValues = true)]
     public IEnumerable<string>? LogGroupTags { get; set; }
 
     [CliOption("--cli-input-json")]

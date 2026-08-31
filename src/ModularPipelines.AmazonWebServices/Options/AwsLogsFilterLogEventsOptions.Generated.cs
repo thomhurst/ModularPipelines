@@ -37,7 +37,7 @@ public record AwsLogsFilterLogEventsOptions : AwsOptions
     /// <summary>
     /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNames and logStreamNamePre- fix , the action returns an InvalidParameterException error. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 512 o pattern: [^:*]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-stream-names")]
+    [CliOption("--log-stream-names", GroupValues = true)]
     public IEnumerable<string>? LogStreamNames { get; set; }
 
     /// <summary>

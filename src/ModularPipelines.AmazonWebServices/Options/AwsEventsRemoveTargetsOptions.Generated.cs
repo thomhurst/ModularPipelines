@@ -30,7 +30,7 @@ public record AwsEventsRemoveTargetsOptions : AwsOptions
     [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }
 
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     [CliFlag("--force")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityagent", "batch-get-findings")]
 public record AwsSecurityagentBatchGetFindingsOptions : AwsOptions
 {
-    [CliOption("--finding-ids")]
+    [CliOption("--finding-ids", GroupValues = true)]
     public IEnumerable<string>? FindingIds { get; set; }
 
     [CliOption("--agent-space-id")]

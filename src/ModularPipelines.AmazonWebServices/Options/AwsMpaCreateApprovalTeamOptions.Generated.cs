@@ -33,13 +33,13 @@ public record AwsMpaCreateApprovalTeamOptions : AwsOptions
     [CliOption("--approval-strategy")]
     public string? ApprovalStrategy { get; set; }
 
-    [CliOption("--approvers")]
+    [CliOption("--approvers", GroupValues = true)]
     public IEnumerable<string>? Approvers { get; set; }
 
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--policies")]
+    [CliOption("--policies", GroupValues = true)]
     public IEnumerable<string>? Policies { get; set; }
 
     [CliOption("--name")]
@@ -48,7 +48,7 @@ public record AwsMpaCreateApprovalTeamOptions : AwsOptions
     /// <summary>
     /// Tags you want to attach to the team. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,43 +28,43 @@ public record AwsPartnercentralBenefitsListBenefitApplicationsOptions : AwsOptio
     /// <summary>
     /// Filter benefit applications by specific AWS partner programs. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9_-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--programs")]
+    [CliOption("--programs", GroupValues = true)]
     public IEnumerable<string>? Programs { get; set; }
 
     /// <summary>
     /// Filter benefit applications by specific fulfillment types. Constraints: o min: 0 o max: 2 (string) Possible values: o CREDITS o CASH o ACCESS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fulfillment-types")]
+    [CliOption("--fulfillment-types", GroupValues = true)]
     public IEnumerable<string>? FulfillmentTypes { get; set; }
 
     /// <summary>
     /// Filter benefit applications by specific benefit identifiers. Constraints: o min: 0 o max: 1 (string) Constraints: o pattern: (arn:.+|ben-[0-9a-z]{14}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--benefit-identifiers")]
+    [CliOption("--benefit-identifiers", GroupValues = true)]
     public IEnumerable<string>? BenefitIdentifiers { get; set; }
 
     /// <summary>
     /// Filter benefit applications by their current processing status. Constraints: o min: 0 o max: 1 (string) Possible values: o PENDING_SUBMISSION o IN_REVIEW o ACTION_REQUIRED o APPROVED o REJECTED o CANCELED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>
     /// Filter benefit applications by their current processing stage. Constraints: o min: 0 o max: 1 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--stages")]
+    [CliOption("--stages", GroupValues = true)]
     public IEnumerable<string>? Stages { get; set; }
 
     /// <summary>
     /// Filter benefit applications by associated AWS resources. (structure) Represents an AWS resource that is associated with a benefit ap- plication for tracking and management. ResourceType -&gt; (string) The type of AWS resource (e.g., EC2 instance, S3 bucket, Lambda function). Possible values: o OPPORTUNITY o BENEFIT_ALLOCATION ResourceIdentifier -&gt; (string) The unique identifier of the AWS resource within its service. ResourceArn -&gt; (string) The Amazon Resource Name (ARN) that uniquely identifies the AWS resource. Constraints: o pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+) Shorthand Syntax: ResourceType=string,ResourceIdentifier=string,ResourceArn=string ... JSON Syntax: [ { "ResourceType": "OPPORTUNITY"|"BENEFIT_ALLOCATION", "ResourceIdentifier": "string", "ResourceArn": "string" } ... ]
     /// </summary>
-    [CliOption("--associated-resources")]
+    [CliOption("--associated-resources", GroupValues = true)]
     public IEnumerable<string>? AssociatedResources { get; set; }
 
     /// <summary>
     /// Filter benefit applications by specific AWS resource ARNs. (string) Constraints: o pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--associated-resource-arns")]
+    [CliOption("--associated-resource-arns", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceArns { get; set; }
 
     [CliOption("--cli-input-json")]

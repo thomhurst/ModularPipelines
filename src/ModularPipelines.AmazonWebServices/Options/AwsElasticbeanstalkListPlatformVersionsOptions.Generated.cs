@@ -25,7 +25,7 @@ public record AwsElasticbeanstalkListPlatformVersionsOptions : AwsOptions
     /// <summary>
     /// Criteria for restricting the resulting list of platform versions. The filter is interpreted as a logical conjunction (AND) of the sep- arate PlatformFilter terms. (structure) Describes criteria to restrict the results when listing platform versions. The filter is evaluated as follows: Type Operator Values[1] Type -&gt; (string) The platform version attribute to which the filter values are applied. Valid values: PlatformName | PlatformVersion | PlatformStatus | PlatformBranchName | PlatformLifecycleState | PlatformOwner | SupportedTier | SupportedAddon | ProgrammingLanguageName | OperatingSystemName Operator -&gt; (string) The operator to apply to the Type with each of the Values . Valid values: = | != | &lt; | &lt;= | &gt; | &gt;= | contains | be- gins_with | ends_with Values -&gt; (list) The list of values applied to the filtering platform version attribute. Only one value is supported for all current opera- tors. The following list shows valid filter values for some filter attributes. o PlatformStatus : Creating | Failed | Ready | Deleting | Deleted o PlatformLifecycleState : recommended o SupportedTier : WebServer/Standard | Worker/SQS/HTTP o SupportedAddon : Log/S3 | Monitoring/Healthd | WorkerDae- mon/SQSD (string) Shorthand Syntax: Type=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Type": "string", "Operator": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

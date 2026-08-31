@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedUpdateWorkloadImprovementStatus
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("NOT_APPLICABLE")]
     NotApplicable = 1,
 

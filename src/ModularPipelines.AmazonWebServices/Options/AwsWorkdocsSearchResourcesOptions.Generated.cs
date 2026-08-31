@@ -38,7 +38,7 @@ public record AwsWorkdocsSearchResourcesOptions : AwsOptions
     /// <summary>
     /// Filter based on the text field type. A Folder has only a name and no content. A Comment has only content and no name. A Document or Docu- ment Version has a name and content Constraints: o max: 2 (string) Possible values: o NAME o CONTENT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--query-scopes")]
+    [CliOption("--query-scopes", GroupValues = true)]
     public IEnumerable<string>? QueryScopes { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record AwsWorkdocsSearchResourcesOptions : AwsOptions
     /// <summary>
     /// A list of attributes to include in the response. Used to request fields that are not normally returned in a standard response. (string) Possible values: o WEBURL Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-response-fields")]
+    [CliOption("--additional-response-fields", GroupValues = true)]
     public IEnumerable<string>? AdditionalResponseFields { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public record AwsWorkdocsSearchResourcesOptions : AwsOptions
     /// <summary>
     /// Order by results in one or more categories. Constraints: o max: 1 (structure) The result of the sort operation. Field -&gt; (string) Sort search results based on this field name. Possible values: o RELEVANCE o NAME o SIZE o CREATED_TIMESTAMP o MODIFIED_TIMESTAMP Order -&gt; (string) Sort direction. Possible values: o ASC o DESC Shorthand Syntax: Field=string,Order=string ... JSON Syntax: [ { "Field": "RELEVANCE"|"NAME"|"SIZE"|"CREATED_TIMESTAMP"|"MODIFIED_TIMESTAMP", "Order": "ASC"|"DESC" } ... ]
     /// </summary>
-    [CliOption("--order-by")]
+    [CliOption("--order-by", GroupValues = true)]
     public IEnumerable<string>? OrderBy { get; set; }
 
     [CliOption("--cli-input-json")]

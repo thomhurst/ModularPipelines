@@ -38,7 +38,7 @@ public record AwsWorkspacesDescribeApplicationAssociationsOptions : AwsOptions
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [CliOption("--associated-resource-types")]
+    [CliOption("--associated-resource-types", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

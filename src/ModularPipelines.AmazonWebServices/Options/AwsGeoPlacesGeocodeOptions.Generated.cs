@@ -43,7 +43,7 @@ public record AwsGeoPlacesGeocodeOptions : AwsOptions
     /// <summary>
     /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
     /// </summary>
-    [CliOption("--bias-position")]
+    [CliOption("--bias-position", GroupValues = true)]
     public IEnumerable<string>? BiasPosition { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public record AwsGeoPlacesGeocodeOptions : AwsOptions
     /// <summary>
     /// A list of optional additional parameters, such as time zone, that can be requested for each result. Constraints: o min: 1 o max: 4 (string) Possible values: o TimeZone o Access o SecondaryAddresses o Intersections Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-features")]
+    [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     /// <summary>
@@ -91,7 +91,7 @@ public record AwsGeoPlacesGeocodeOptions : AwsOptions
     /// <summary>
     /// Specifies which address components to include translations for. Translations include all name variants and alternative names for the requested fields in all available languages. Valid values are Dis- trict , Locality , Region , and SubRegion . Constraints: o min: 1 o max: 4 (string) Possible values: o District o Locality o Region o SubRegion Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--address-translations")]
+    [CliOption("--address-translations", GroupValues = true)]
     public IEnumerable<string>? AddressTranslations { get; set; }
 
     /// <summary>

@@ -40,13 +40,13 @@ public record AwsResourceGroupsCreateGroupOptions : AwsOptions
     /// <summary>
     /// The tags to add to the group. A tag is key-value pair string. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// A configuration associates the resource group with an Amazon Web Services service and specifies how the service can interact with the resources in the group. A configuration is an array of GroupConfig- urationItem elements. For details about the syntax of service con- figurations, see Service configurations for Resource Groups . NOTE: A resource group can contain either a Configuration or a Re- sourceQuery , but not both. Constraints: o max: 2 (structure) An item in a group configuration. A group service configuration can have one or more items. For details about group service con- figuration syntax, see Service configurations for resource groups . Type -&gt; (string) [required] Specifies the type of group configuration item. Each item must have a unique value for type . For the list of types that you can specify for a configuration item, see Supported resource types and parameters . Constraints: o max: 40 o pattern: AWS::[a-zA-Z0-9]+::[a-zA-Z0-9]+ Parameters -&gt; (list) A collection of parameters for this group configuration item. For the list of parameters that you can use with each config- uration item type, see Supported resource types and parame- ters . (structure) A parameter for a group configuration item. For details about group service configuration syntax, see Service configurations for resource groups . Name -&gt; (string) [required] The name of the group configuration parameter. For the list of parameters that you can use with each configu- ration item type, see Supported resource types and pa- rameters . Constraints: o min: 1 o max: 80 o pattern: [a-z-]+ Values -&gt; (list) The value or values to be used for the specified para- meter. For the list of values you can use with each parameter, see Supported resource types and parameters . (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9:\/\._-]+ JSON Syntax: [ { "Type": "string", "Parameters": [ { "Name": "string", "Values": ["string", ...] } ... ] } ... ]
     /// </summary>
-    [CliOption("--configuration")]
+    [CliOption("--configuration", GroupValues = true)]
     public IEnumerable<string>? Configuration { get; set; }
 
     /// <summary>

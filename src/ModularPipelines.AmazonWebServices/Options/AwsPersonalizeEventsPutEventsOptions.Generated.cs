@@ -33,7 +33,7 @@ public record AwsPersonalizeEventsPutEventsOptions : AwsOptions
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
-    [CliOption("--event-list")]
+    [CliOption("--event-list", GroupValues = true)]
     public IEnumerable<string>? EventList { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("controltower", "update-enabled-control")]
 public record AwsControltowerUpdateEnabledControlOptions : AwsOptions
 {
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     [CliOption("--enabled-control-identifier")]

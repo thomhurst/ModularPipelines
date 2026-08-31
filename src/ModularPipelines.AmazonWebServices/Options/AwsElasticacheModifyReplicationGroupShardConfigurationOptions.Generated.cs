@@ -33,19 +33,19 @@ public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions : Aw
     /// <summary>
     /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the cur- rent number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards). (structure) A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. NodeGroupId -&gt; (string) Either the ElastiCache supplied 4-digit id or a user supplied id for the node group these configuration values apply to. Constraints: o min: 1 o max: 4 o pattern: \d+ PreferredAvailabilityZones -&gt; (list) A list of preferred availability zones for the nodes in this cluster. (string) Shorthand Syntax: NodeGroupId=string,PreferredAvailabilityZones=string,string ... JSON Syntax: [ { "NodeGroupId": "string", "PreferredAvailabilityZones": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--resharding-configuration")]
+    [CliOption("--resharding-configuration", GroupValues = true)]
     public IEnumerable<string>? ReshardingConfiguration { get; set; }
 
     /// <summary>
     /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroup- sToRetain is required. NodeGroupsToRemove is a list of NodeGroupId s to remove from the cluster. ElastiCache will attempt to remove all node groups listed by Node- GroupsToRemove from the cluster. (string) Constraints: o min: 1 o max: 4 o pattern: \d+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--node-groups-to-remove")]
+    [CliOption("--node-groups-to-remove", GroupValues = true)]
     public IEnumerable<string>? NodeGroupsToRemove { get; set; }
 
     /// <summary>
     /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroup- sToRetain is required. NodeGroupsToRetain is a list of NodeGroupId s to retain in the cluster. ElastiCache will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster. (string) Constraints: o min: 1 o max: 4 o pattern: \d+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--node-groups-to-retain")]
+    [CliOption("--node-groups-to-retain", GroupValues = true)]
     public IEnumerable<string>? NodeGroupsToRetain { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsEvsListEnvironmentsOptions : AwsOptions
     /// <summary>
     /// The state of an environment. Used to filter response results to re- turn only environments with the specified environmentState . (string) Possible values: o CREATING o CREATED o DELETING o DELETED o CREATE_FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--state")]
+    [CliOption("--state", GroupValues = true)]
     public IEnumerable<string>? State { get; set; }
 
     [CliOption("--cli-input-json")]

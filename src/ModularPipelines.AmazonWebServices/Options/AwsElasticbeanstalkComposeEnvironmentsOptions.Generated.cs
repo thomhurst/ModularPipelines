@@ -36,7 +36,7 @@ public record AwsElasticbeanstalkComposeEnvironmentsOptions : AwsOptions
     /// <summary>
     /// A list of version labels, specifying one or more application source bundles that belong to the target application. Each source bundle must include an environment manifest that specifies the name of the environment and the name of the solution stack to use, and option- ally can specify environment links to create. (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--version-labels")]
+    [CliOption("--version-labels", GroupValues = true)]
     public IEnumerable<string>? VersionLabels { get; set; }
 
     [CliOption("--cli-input-json")]

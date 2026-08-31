@@ -52,7 +52,7 @@ public record AwsRedshiftDescribeNodeConfigurationOptionsOptions : AwsOptions
     /// <summary>
     /// A set of name, operator, and value items to filter the results. (structure) A set of elements to filter the returned node configurations. Name -&gt; (string) The name of the element to filter. Possible values: o NodeType o NumberOfNodes o EstimatedDiskUtilizationPercent o Mode Operator -&gt; (string) The filter operator. If filter Name is NodeType only the 'in' operator is supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and 'ge'. Provide two values to eval- uate for 'between'. Provide a list of values for 'in'. Possible values: o eq o lt o gt o le o ge o in o between Values -&gt; (list) List of values. Compare Name using Operator to Values. If filter Name is NumberOfNodes, then values can range from 0 to 200. If filter Name is EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For example, filter Num- berOfNodes (name) GT (operator) 3 (values). (string) Constraints: o max: 2147483647 Shorthand Syntax: Name=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Name": "NodeType"|"NumberOfNodes"|"EstimatedDiskUtilizationPercent"|"Mode", "Operator": "eq"|"lt"|"gt"|"le"|"ge"|"in"|"between", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

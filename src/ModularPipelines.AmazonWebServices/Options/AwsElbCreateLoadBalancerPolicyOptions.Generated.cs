@@ -33,7 +33,7 @@ public record AwsElbCreateLoadBalancerPolicyOptions : AwsOptions
     /// <summary>
     /// The policy attributes. (structure) Information about a policy attribute. AttributeName -&gt; (string) The name of the attribute. AttributeValue -&gt; (string) The value of the attribute. Shorthand Syntax: AttributeName=string,AttributeValue=string ... JSON Syntax: [ { "AttributeName": "string", "AttributeValue": "string" } ... ]
     /// </summary>
-    [CliOption("--policy-attributes")]
+    [CliOption("--policy-attributes", GroupValues = true)]
     public IEnumerable<string>? PolicyAttributes { get; set; }
 
     [CliOption("--cli-input-json")]

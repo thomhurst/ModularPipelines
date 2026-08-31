@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mediatailor", "update-live-source")]
 public record AwsMediatailorUpdateLiveSourceOptions : AwsOptions
 {
-    [CliOption("--http-package-configurations")]
+    [CliOption("--http-package-configurations", GroupValues = true)]
     public IEnumerable<string>? HttpPackageConfigurations { get; set; }
 
     [CliOption("--live-source-name")]

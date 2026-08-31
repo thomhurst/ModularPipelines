@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("resourcegroupstaggingapi", "untag-resources")]
 public record AwsResourcegroupstaggingapiUntagResourcesOptions : AwsOptions
 {
-    [CliOption("--resource-arn-list")]
+    [CliOption("--resource-arn-list", GroupValues = true)]
     public IEnumerable<string>? ResourceArnList { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

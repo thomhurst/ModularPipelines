@@ -24,7 +24,7 @@ public record AwsSdbBatchDeleteAttributesOptions : AwsOptions
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliOption("--items")]
+    [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
     [CliOption("--cli-input-json")]

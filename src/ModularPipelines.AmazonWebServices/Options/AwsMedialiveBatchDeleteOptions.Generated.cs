@@ -21,16 +21,16 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "batch-delete")]
 public record AwsMedialiveBatchDeleteOptions : AwsOptions
 {
-    [CliOption("--channel-ids")]
+    [CliOption("--channel-ids", GroupValues = true)]
     public IEnumerable<string>? ChannelIds { get; set; }
 
-    [CliOption("--input-ids")]
+    [CliOption("--input-ids", GroupValues = true)]
     public IEnumerable<string>? InputIds { get; set; }
 
-    [CliOption("--input-security-group-ids")]
+    [CliOption("--input-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? InputSecurityGroupIds { get; set; }
 
-    [CliOption("--multiplex-ids")]
+    [CliOption("--multiplex-ids", GroupValues = true)]
     public IEnumerable<string>? MultiplexIds { get; set; }
 
     [CliOption("--cli-input-json")]

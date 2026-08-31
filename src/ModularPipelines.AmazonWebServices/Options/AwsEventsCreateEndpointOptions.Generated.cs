@@ -39,7 +39,7 @@ public record AwsEventsCreateEndpointOptions : AwsOptions
     [CliOption("--replication-config")]
     public string? ReplicationConfig { get; set; }
 
-    [CliOption("--event-buses")]
+    [CliOption("--event-buses", GroupValues = true)]
     public IEnumerable<string>? EventBuses { get; set; }
 
     /// <summary>

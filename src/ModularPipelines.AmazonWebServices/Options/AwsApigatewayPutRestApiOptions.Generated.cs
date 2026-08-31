@@ -38,7 +38,7 @@ public record AwsApigatewayPutRestApiOptions : AwsOptions
     /// <summary>
     /// Custom header parameters as part of the request. For example, to ex- clude DocumentationParts from an imported API, set ignore=documenta- tion as a parameters value, as in the AWS CLI command of aws api- gateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     [CliOption("--body")]

@@ -27,7 +27,7 @@ public record AwsGlueResumeWorkflowRunOptions : AwsOptions
     [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CliOption("--node-ids")]
+    [CliOption("--node-ids", GroupValues = true)]
     public IEnumerable<string>? NodeIds { get; set; }
 
     [CliOption("--cli-input-json")]

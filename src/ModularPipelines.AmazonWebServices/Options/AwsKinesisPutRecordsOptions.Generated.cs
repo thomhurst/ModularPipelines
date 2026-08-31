@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("kinesis", "put-records")]
 public record AwsKinesisPutRecordsOptions : AwsOptions
 {
-    [CliOption("--records")]
+    [CliOption("--records", GroupValues = true)]
     public IEnumerable<string>? Records { get; set; }
 
     /// <summary>

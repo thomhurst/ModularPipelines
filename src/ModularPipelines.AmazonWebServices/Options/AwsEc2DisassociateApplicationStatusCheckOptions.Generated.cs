@@ -28,13 +28,13 @@ public record AwsEc2DisassociateApplicationStatusCheckOptions : AwsOptions
     /// <summary>
     /// The tags to disassociate from the application status check. Specify the same key-value pairs that were used during association. (structure) Describes a tag key-value pair for an application status check association request. Key -&gt; (string) The key of the tag. Value -&gt; (string) The value of the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--target-tag-associations")]
+    [CliOption("--target-tag-associations", GroupValues = true)]
     public IEnumerable<string>? TargetTagAssociations { get; set; }
 
     /// <summary>
     /// The IDs of the instances to disassociate from the application status check. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>

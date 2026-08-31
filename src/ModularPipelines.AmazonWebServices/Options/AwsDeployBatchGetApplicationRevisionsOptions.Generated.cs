@@ -24,7 +24,7 @@ public record AwsDeployBatchGetApplicationRevisionsOptions : AwsOptions
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CliOption("--revisions")]
+    [CliOption("--revisions", GroupValues = true)]
     public IEnumerable<string>? Revisions { get; set; }
 
     [CliOption("--cli-input-json")]

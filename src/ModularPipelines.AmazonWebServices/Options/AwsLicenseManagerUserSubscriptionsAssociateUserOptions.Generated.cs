@@ -40,7 +40,7 @@ public record AwsLicenseManagerUserSubscriptionsAssociateUserOptions : AwsOption
     /// <summary>
     /// The tags that apply for the user association. Constraints: o min: 0 o max: 50 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

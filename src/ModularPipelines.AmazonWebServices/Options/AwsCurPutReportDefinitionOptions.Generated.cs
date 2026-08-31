@@ -27,7 +27,7 @@ public record AwsCurPutReportDefinitionOptions : AwsOptions
     /// <summary>
     /// The tags to be assigned to the report definition resource. Constraints: o min: 0 o max: 200 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a report definition. Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each report definition can only have up to one tag with the same key. If you try to add an existing tag with the same key, the exist- ing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive. This can be an empty string. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

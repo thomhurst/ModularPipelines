@@ -41,7 +41,7 @@ public record AwsNetworkFirewallAssociateAvailabilityZonesOptions : AwsOptions
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CliOption("--availability-zone-mappings")]
+    [CliOption("--availability-zone-mappings", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneMappings { get; set; }
 
     [CliOption("--cli-input-json")]

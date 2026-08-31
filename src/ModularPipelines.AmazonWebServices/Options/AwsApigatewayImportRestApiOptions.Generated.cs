@@ -28,7 +28,7 @@ public record AwsApigatewayImportRestApiOptions : AwsOptions
     /// <summary>
     /// A key-value map of context-specific query string parameters specify- ing the behavior of different API importing operations. The follow- ing shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ig- nore=documentation . To configure the endpoint type, set parameters as endpointConfigura- tionTypes=EDGE , endpointConfigurationTypes=REGIONAL , or endpoint- ConfigurationTypes=PRIVATE . The default endpoint type is EDGE . To handle imported basepath , set parameters as basepath=ignore , basepath=prepend or basepath=split . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     [CliOption("--body")]

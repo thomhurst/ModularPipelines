@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("agent-registry", "batch-get-discoverable-registry-record")]
 public record AwsAgentRegistryBatchGetDiscoverableRegistryRecordOptions : AwsOptions
 {
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--cli-input-json")]

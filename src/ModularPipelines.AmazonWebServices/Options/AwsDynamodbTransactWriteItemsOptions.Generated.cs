@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("dynamodb", "transact-write-items")]
 public record AwsDynamodbTransactWriteItemsOptions : AwsOptions
 {
-    [CliOption("--transact-items")]
+    [CliOption("--transact-items", GroupValues = true)]
     public IEnumerable<string>? TransactItems { get; set; }
 
     /// <summary>

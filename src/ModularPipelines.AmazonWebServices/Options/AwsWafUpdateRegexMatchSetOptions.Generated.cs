@@ -25,7 +25,7 @@ public record AwsWafUpdateRegexMatchSetOptions : AwsOptions
     [CliOption("--regex-match-set-id")]
     public string? RegexMatchSetId { get; set; }
 
-    [CliOption("--updates")]
+    [CliOption("--updates", GroupValues = true)]
     public IEnumerable<string>? Updates { get; set; }
 
     [SecretValue]

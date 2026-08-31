@@ -51,13 +51,13 @@ public record AwsSsmCreateActivationOptions : AwsOptions
     /// <summary>
     /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an activation to identify which servers or virtual machines (VMs) in your on-premises environment you intend to activate. In this case, you could specify the following key-value pairs: o Key=OS,Value=Windows o Key=Environment,Value=Production WARNING: When you install SSM Agent on your on-premises servers and VMs, you specify an activation ID and code. When you specify the ac- tivation ID and code, tags assigned to the activation are auto- matically applied to the on-premises servers or VMs. You can't add tags to or delete tags from an existing activation. You can tag your on-premises servers, edge devices, and VMs after they connect to Systems Manager for the first time and are assigned a managed node ID. This means they are listed in the Amazon Web Ser- vices Systems Manager console with an ID that is prefixed with "mi-". For information about how to add tags to your managed nodes, see AddTagsToResource . For information about how to remove tags from your managed nodes, see RemoveTagsFromResource . Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Reserved for internal use. (structure) Reserved for internal use. Key -&gt; (string) [required] Reserved for internal use. Constraints: o min: 1 o max: 128 o pattern: ^(?!\s*$).+ Value -&gt; (string) [required] Reserved for internal use. Constraints: o min: 1 o max: 2048 o pattern: ^(?!\s*$).+ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--registration-metadata")]
+    [CliOption("--registration-metadata", GroupValues = true)]
     public IEnumerable<string>? RegistrationMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

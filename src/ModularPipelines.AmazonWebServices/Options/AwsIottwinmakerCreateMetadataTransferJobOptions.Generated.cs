@@ -33,7 +33,7 @@ public record AwsIottwinmakerCreateMetadataTransferJobOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     [CliOption("--destination")]

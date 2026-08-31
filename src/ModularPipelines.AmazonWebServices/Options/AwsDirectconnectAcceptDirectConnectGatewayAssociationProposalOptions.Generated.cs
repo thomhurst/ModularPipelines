@@ -33,7 +33,7 @@ public record AwsDirectconnectAcceptDirectConnectGatewayAssociationProposalOptio
     /// <summary>
     /// Overrides the Amazon VPC prefixes advertised to the Direct Connect gateway. For information about how to set the prefixes, see Allowed Prefixes in the Direct Connect User Guide . (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
     /// </summary>
-    [CliOption("--override-allowed-prefixes-to-direct-connect-gateway")]
+    [CliOption("--override-allowed-prefixes-to-direct-connect-gateway", GroupValues = true)]
     public IEnumerable<string>? OverrideAllowedPrefixesToDirectConnectGateway { get; set; }
 
     [CliOption("--cli-input-json")]

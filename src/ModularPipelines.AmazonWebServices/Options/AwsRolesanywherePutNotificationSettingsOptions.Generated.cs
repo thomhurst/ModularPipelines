@@ -24,7 +24,7 @@ public record AwsRolesanywherePutNotificationSettingsOptions : AwsOptions
     [CliOption("--trust-anchor-id")]
     public string? TrustAnchorId { get; set; }
 
-    [CliOption("--notification-settings")]
+    [CliOption("--notification-settings", GroupValues = true)]
     public IEnumerable<string>? NotificationSettings { get; set; }
 
     [CliOption("--cli-input-json")]

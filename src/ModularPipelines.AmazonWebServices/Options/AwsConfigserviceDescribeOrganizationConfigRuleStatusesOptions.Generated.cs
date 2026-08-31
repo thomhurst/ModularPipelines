@@ -25,7 +25,7 @@ public record AwsConfigserviceDescribeOrganizationConfigRuleStatusesOptions : Aw
     /// <summary>
     /// The names of organization Config rules for which you want status de- tails. If you do not specify any names, Config returns details for all your organization Config rules. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--organization-config-rule-names")]
+    [CliOption("--organization-config-rule-names", GroupValues = true)]
     public IEnumerable<string>? OrganizationConfigRuleNames { get; set; }
 
     [CliOption("--cli-input-json")]

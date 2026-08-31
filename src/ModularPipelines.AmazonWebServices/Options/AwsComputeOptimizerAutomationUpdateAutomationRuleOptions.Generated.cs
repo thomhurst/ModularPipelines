@@ -62,7 +62,7 @@ public record AwsComputeOptimizerAutomationUpdateAutomationRuleOptions : AwsOpti
     /// <summary>
     /// Updated list of recommended action types that this rule can execute, such as SnapshotAndDeleteUnattachedEbsVolume or UpgradeEbsVolume- Type. (string) Recommended action type enumeration Possible values: o SnapshotAndDeleteUnattachedEbsVolume o UpgradeEbsVolumeType Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--recommended-action-types")]
+    [CliOption("--recommended-action-types", GroupValues = true)]
     public IEnumerable<string>? RecommendedActionTypes { get; set; }
 
     /// <summary>

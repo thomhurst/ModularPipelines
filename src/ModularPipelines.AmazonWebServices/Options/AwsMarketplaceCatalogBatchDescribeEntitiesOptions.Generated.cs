@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("marketplace-catalog", "batch-describe-entities")]
 public record AwsMarketplaceCatalogBatchDescribeEntitiesOptions : AwsOptions
 {
-    [CliOption("--entity-request-list")]
+    [CliOption("--entity-request-list", GroupValues = true)]
     public IEnumerable<string>? EntityRequestList { get; set; }
 
     [CliOption("--cli-input-json")]

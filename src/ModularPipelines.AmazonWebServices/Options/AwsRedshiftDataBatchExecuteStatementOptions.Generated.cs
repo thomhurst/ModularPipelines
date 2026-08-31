@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("redshift-data", "batch-execute-statement")]
 public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions
 {
-    [CliOption("--sqls")]
+    [CliOption("--sqls", GroupValues = true)]
     public IEnumerable<string>? Sqls { get; set; }
 
     /// <summary>
@@ -63,7 +63,7 @@ public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions
     /// <summary>
     /// The parameters for the SQL statements. The parameters are available to all SQL statements in the batch. Each statement can reference any subset of the provided parameters. Each provided parameter must be referenced by at least one SQL statement in the batch. Constraints: o min: 1 (structure) A parameter used in a SQL statement. name -&gt; (string) [required] The name of the parameter. Constraints: o pattern: [0-9a-zA-Z_]+ value -&gt; (string) [required] The value of the parameter. Amazon Redshift implicitly con- verts to the proper data type. For more information, see Data types in the Amazon Redshift Database Developer Guide . Constraints: o min: 1 Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>

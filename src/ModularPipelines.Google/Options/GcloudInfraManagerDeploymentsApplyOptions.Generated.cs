@@ -62,7 +62,7 @@ public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions
     /// User-specified Service Account (SA) to be used as credential to manage resources. Format: projects/{projectID}/serviceAccounts/{serviceAccount}
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
 
     /// <summary>
     /// User-specified Terraform version constraint, for example "=1.3.10".
@@ -83,31 +83,31 @@ public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions
     public string? GcsSource { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Subdirectory inside the repository. Example: 'staging/my-package' Use in conjunction with --git-source-repo and --git-source-ref Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
+    /// At most one of these can be specified: Subdirectory inside the repository. Example: 'staging/my-package' Use in conjunction with --git-source-repo and --git-source-ref Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
     /// </summary>
     [CliOption("--git-source-directory", Format = OptionFormat.EqualsSeparated)]
     public string? GitSourceDirectory { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Subdirectory inside the repository. Example: 'staging/my-package' Use in conjunction with --git-source-repo and --git-source-directory Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
+    /// At most one of these can be specified: Subdirectory inside the repository. Example: 'staging/my-package' Use in conjunction with --git-source-repo and --git-source-directory Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
     /// </summary>
     [CliOption("--git-source-ref", Format = OptionFormat.EqualsSeparated)]
     public string? GitSourceRef { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Repository URL. Example: 'https://github.com/examples/repository.git' Use in conjunction with --git-source-directory and --git-source_ref Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
+    /// At most one of these can be specified: Repository URL. Example: 'https://github.com/examples/repository.git' Use in conjunction with --git-source-directory and --git-source_ref Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
     /// </summary>
     [CliOption("--git-source-repo", Format = OptionFormat.EqualsSeparated)]
     public string? GitSourceRepo { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Override the .gcloudignore file and use the specified file instead. See gcloud topic gcloudignore for more information.
+    /// At most one of these can be specified: Override the .gcloudignore file and use the specified file instead. See gcloud topic gcloudignore for more information.
     /// </summary>
     [CliOption("--ignore-file", Format = OptionFormat.EqualsSeparated)]
     public string? IgnoreFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Local storage path where config files are stored. When using this option, Terraform config file references outside this storage path is not supported. e.g. ./path/to/blueprint Examples: Create a deployment from a local storage path ./path/to/blueprint: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --local-source="./path/to/blueprint"
+    /// At most one of these can be specified: Local storage path where config files are stored. When using this option, Terraform config file references outside this storage path is not supported. e.g. ./path/to/blueprint Examples: Create a deployment from a local storage path ./path/to/blueprint: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --local-source="./path/to/blueprint"
     /// </summary>
     [CliOption("--local-source", Format = OptionFormat.EqualsSeparated)]
     public string? LocalSource { get; set; }
@@ -123,5 +123,12 @@ public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions
     /// </summary>
     [CliOption("--inputs-file", Format = OptionFormat.EqualsSeparated)]
     public string? InputsFile { get; set; }
+
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -24,7 +24,7 @@ public record AwsRoute53ListTagsForResourcesOptions : AwsOptions
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CliOption("--resource-ids")]
+    [CliOption("--resource-ids", GroupValues = true)]
     public IEnumerable<string>? ResourceIds { get; set; }
 
     [CliOption("--cli-input-json")]

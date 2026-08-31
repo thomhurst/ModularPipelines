@@ -52,7 +52,7 @@ public record AwsBedrockCreateCustomModelOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs to associate with the custom model re- source. You can use these tags to organize and identify your re- sources. For more information, see Tagging resources in the Amazon Bedrock User Guide . Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--model-tags")]
+    [CliOption("--model-tags", GroupValues = true)]
     public IEnumerable<string>? ModelTags { get; set; }
 
     /// <summary>

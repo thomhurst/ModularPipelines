@@ -30,7 +30,7 @@ public record AwsIdentitystoreDescribeUserOptions : AwsOptions
     /// <summary>
     /// A collection of extension names indicating what extensions the ser- vice should retrieve alongside other user attributes. aws:identitys- tore:enterprise is the only supported extension name. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 50 o pattern: aws:identitystore:[a-z]{1,20} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--extensions")]
+    [CliOption("--extensions", GroupValues = true)]
     public IEnumerable<string>? Extensions { get; set; }
 
     [CliOption("--cli-input-json")]

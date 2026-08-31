@@ -24,7 +24,7 @@ public record AwsConfigserviceStartRemediationExecutionOptions : AwsOptions
     [CliOption("--config-rule-name")]
     public string? ConfigRuleName { get; set; }
 
-    [CliOption("--resource-keys")]
+    [CliOption("--resource-keys", GroupValues = true)]
     public IEnumerable<string>? ResourceKeys { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,7 +33,7 @@ public record AwsB2biUpdatePartnershipOptions : AwsOptions
     /// <summary>
     /// List of the capabilities associated with this partnership. (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capabilities")]
+    [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }
 
     /// <summary>

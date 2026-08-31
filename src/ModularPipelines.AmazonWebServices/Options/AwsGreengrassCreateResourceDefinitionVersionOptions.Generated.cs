@@ -29,7 +29,7 @@ public record AwsGreengrassCreateResourceDefinitionVersionOptions : AwsOptions
     [CliOption("--resource-definition-id")]
     public string? ResourceDefinitionId { get; set; }
 
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     [CliOption("--cli-input-json")]

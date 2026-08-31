@@ -28,19 +28,19 @@ public record AwsRamCreateResourceShareOptions : AwsOptions
     /// <summary>
     /// Specifies a list of one or more ARNs of the resources to associate with the resource share. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>
     /// Specifies a list of one or more principals to associate with the re- source share. You can include the following values: o An Amazon Web Services account ID, for example: 123456789012 o An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-example- orgid o An ARN of an organizational unit (OU) in Organizations, for exam- ple: organizations::123456789012:ou/o-exampleorgid/ou-example- rootid-exampleouid123 o An ARN of an IAM role, for example: iam::123456789012:role/role- name o An ARN of an IAM user, for example: iam::123456789012user/username o A service principal name, for example: service-id.amazonaws.com NOTE: Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--principals")]
+    [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; set; }
 
     /// <summary>
     /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the re- source share. (structure) A structure containing a tag. A tag is metadata that you can at- tach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see Controlling access to Amazon Web Services re- sources using tags . For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . key -&gt; (string) The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive. value -&gt; (string) The string value attached to the tag. The value can be an empty string. Key values are case sensitive. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--allow-external-principals")]
@@ -56,13 +56,13 @@ public record AwsRamCreateResourceShareOptions : AwsOptions
     /// <summary>
     /// Specifies the Amazon Resource Names (ARNs) of the RAM permission to associate with the resource share. If you do not specify an ARN for the permission, RAM automatically attaches the default version of the permission for each resource type. You can associate only one permission with each resource type included in the resource share. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--permission-arns")]
+    [CliOption("--permission-arns", GroupValues = true)]
     public IEnumerable<string>? PermissionArns { get; set; }
 
     /// <summary>
     /// Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) that limit when service principals can access resources in this resource share. When a service principal attempts to access a shared resource, validation is performed to ensure the request originates from one of the specified sources. This helps prevent confused deputy attacks by applying constraints on where service principals can access resources from. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     /// <summary>

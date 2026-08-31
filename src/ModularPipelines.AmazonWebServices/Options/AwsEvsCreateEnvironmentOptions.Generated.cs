@@ -45,7 +45,7 @@ public record AwsEvsCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w.:/=+-@]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w.:/=+-@]+| Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -78,13 +78,13 @@ public record AwsEvsCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// The license information that Amazon EVS requires to create an envi- ronment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must meet minimum core requirements, and the vSAN license key must meet minimum capacity requirements for your selected instance type. For information about minimum license requirements, see the VCF sub- scriptions section in the Amazon EVS User Guide . VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environ- ments. VCF license information can be retrieved from the Broadcom portal. NOTE: Not supported when vcfVersion is SELF_DEPLOYED . Constraints: o min: 1 o max: 1 (structure) The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solu- tion key and a vSAN license key. solutionKey -&gt; (string) [required] The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server. The VCF solution key must meet the instance-type-spe- cific minimum core requirements. Constraints: o pattern: [a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5} vsanKey -&gt; (string) [required] The VSAN license key. This license unlocks vSAN features. The vSAN license key must meet the instance-type-specific minimum capacity requirements. Constraints: o pattern: [a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5} Shorthand Syntax: solutionKey=string,vsanKey=string ... JSON Syntax: [ { "solutionKey": "string", "vsanKey": "string" } ... ]
     /// </summary>
-    [CliOption("--license-info")]
+    [CliOption("--license-info", GroupValues = true)]
     public IEnumerable<string>? LicenseInfo { get; set; }
 
     /// <summary>
     /// The ESX hosts to add to the environment. For each host, provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Op- tionally, provide a partition or cluster placement group, or use Amazon EC2 Dedicated Hosts. NOTE: Not supported when vcfVersion is SELF_DEPLOYED . In that case, you can add hosts using CreateEnvironmentHost after the environ- ment is created. Constraints: o min: 4 o max: 4 (structure) An object that represents a host. NOTE: You cannot use dedicatedHostId and placementGroupId together in the same HostInfoForCreate object. This results in a Vali- dationException response. hostName -&gt; (string) [required] The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF. Constraints: o pattern: ([a-zA-Z0-9\-]*) keyName -&gt; (string) [required] The name of the SSH key that is used to access the host. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_-]+ instanceType -&gt; (string) [required] The EC2 instance type that represents the host. Possible values: o i4i.metal o i7i.metal-24xl o i7i.metal-48xl placementGroupId -&gt; (string) The unique ID of the placement group where the host is placed. Constraints: o min: 1 o max: 25 o pattern: pg-[a-f0-9]{8}([a-f0-9]{9})? dedicatedHostId -&gt; (string) The unique ID of the Amazon EC2 Dedicated Host. Constraints: o min: 1 o max: 25 o pattern: h-[a-f0-9]{8}([a-f0-9]{9})? Shorthand Syntax: hostName=string,keyName=string,instanceType=string,placementGroupId=string,dedicatedHostId=string ... JSON Syntax: [ { "hostName": "string", "keyName": "string", "instanceType": "i4i.metal"|"i7i.metal-24xl"|"i7i.metal-48xl", "placementGroupId": "string", "dedicatedHostId": "string" } ... ]
     /// </summary>
-    [CliOption("--hosts")]
+    [CliOption("--hosts", GroupValues = true)]
     public IEnumerable<string>? Hosts { get; set; }
 
     /// <summary>

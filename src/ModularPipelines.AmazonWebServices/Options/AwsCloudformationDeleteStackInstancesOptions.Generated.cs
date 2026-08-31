@@ -28,7 +28,7 @@ public record AwsCloudformationDeleteStackInstancesOptions : AwsOptions
     /// <summary>
     /// [Self-managed permissions] The account IDs of the Amazon Web Ser- vices accounts that you want to delete stack instances for. You can specify Accounts or DeploymentTargets , but not both. (string) Constraints: o pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--accounts")]
+    [CliOption("--accounts", GroupValues = true)]
     public IEnumerable<string>? Accounts { get; set; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public record AwsCloudformationDeleteStackInstancesOptions : AwsOptions
     [CliOption("--deployment-targets")]
     public string? DeploymentTargets { get; set; }
 
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>

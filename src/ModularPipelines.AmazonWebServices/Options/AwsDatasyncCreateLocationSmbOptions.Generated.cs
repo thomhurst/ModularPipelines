@@ -62,7 +62,7 @@ public record AwsDatasyncCreateLocationSmbOptions : AwsOptions
     [CliOption("--custom-secret-config")]
     public string? CustomSecretConfig { get; set; }
 
-    [CliOption("--agent-arns")]
+    [CliOption("--agent-arns", GroupValues = true)]
     public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>
@@ -74,7 +74,7 @@ public record AwsDatasyncCreateLocationSmbOptions : AwsOptions
     /// <summary>
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -86,7 +86,7 @@ public record AwsDatasyncCreateLocationSmbOptions : AwsOptions
     /// <summary>
     /// Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if Authenti- cationType is set to KERBEROS . If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server. Constraints: o max: 2 (string) Constraints: o min: 7 o max: 39 o pattern: \A((25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}|([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))\z Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--dns-ip-addresses")]
+    [CliOption("--dns-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? DnsIpAddresses { get; set; }
 
     /// <summary>

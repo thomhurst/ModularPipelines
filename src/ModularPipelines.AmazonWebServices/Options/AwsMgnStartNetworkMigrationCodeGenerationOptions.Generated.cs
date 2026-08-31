@@ -30,7 +30,7 @@ public record AwsMgnStartNetworkMigrationCodeGenerationOptions : AwsOptions
     /// <summary>
     /// The output format types for code generation, such as CloudFormation or Terraform. Constraints: o min: 0 o max: 10 (string) Possible values: o CDK_L1 o CDK_L2 o TERRAFORM o LZA Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--code-generation-output-format-types")]
+    [CliOption("--code-generation-output-format-types", GroupValues = true)]
     public IEnumerable<string>? CodeGenerationOutputFormatTypes { get; set; }
 
     [CliOption("--cli-input-json")]

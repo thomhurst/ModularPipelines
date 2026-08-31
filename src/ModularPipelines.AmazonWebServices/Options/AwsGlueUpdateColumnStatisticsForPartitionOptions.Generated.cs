@@ -33,10 +33,10 @@ public record AwsGlueUpdateColumnStatisticsForPartitionOptions : AwsOptions
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CliOption("--partition-values")]
+    [CliOption("--partition-values", GroupValues = true)]
     public IEnumerable<string>? PartitionValues { get; set; }
 
-    [CliOption("--column-statistics-list")]
+    [CliOption("--column-statistics-list", GroupValues = true)]
     public IEnumerable<string>? ColumnStatisticsList { get; set; }
 
     [CliOption("--cli-input-json")]

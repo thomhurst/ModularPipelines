@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudfront", "create-realtime-log-config")]
 public record AwsCloudfrontCreateRealtimeLogConfigOptions : AwsOptions
 {
-    [CliOption("--end-points")]
+    [CliOption("--end-points", GroupValues = true)]
     public IEnumerable<string>? EndPoints { get; set; }
 
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     [CliOption("--name")]

@@ -24,7 +24,7 @@ public record AwsCodeguruprofilerPutPermissionOptions : AwsOptions
     [CliOption("--action-group")]
     public string? ActionGroup { get; set; }
 
-    [CliOption("--principals")]
+    [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; set; }
 
     [CliOption("--profiling-group-name")]

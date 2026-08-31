@@ -28,7 +28,7 @@ public record AwsPiListAvailableResourceDimensionsOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliOption("--metrics")]
+    [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AwsPiListAvailableResourceDimensionsOptions : AwsOptions
     /// <summary>
     /// The actions to discover the dimensions you are authorized to access. If you specify multiple actions, then the response will contain the dimensions common for all the actions. When you don't specify this request parameter or provide an empty list, the response contains all the available dimensions for the target database engine whether or not you are authorized to access them. Constraints: o min: 0 o max: 3 (string) Possible values: o DescribeDimensionKeys o GetDimensionKeyDetails o GetResourceMetrics Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--authorized-actions")]
+    [CliOption("--authorized-actions", GroupValues = true)]
     public IEnumerable<string>? AuthorizedActions { get; set; }
 
     [CliOption("--cli-input-json")]

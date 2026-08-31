@@ -33,7 +33,7 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions
     /// <summary>
     /// The domains to update for the distribution tenant. A domain object can contain only a domain property. You must specify at least one domain. Each distribution tenant can have up to 5 domains. (structure) The domain for the specified distribution tenant. Domain -&gt; (string) [required] The domain name. Shorthand Syntax: Domain=string ... JSON Syntax: [ { "Domain": "string" } ... ]
     /// </summary>
-    [CliOption("--domains")]
+    [CliOption("--domains", GroupValues = true)]
     public IEnumerable<string>? Domains { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions
     /// <summary>
     /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution. (structure) A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution. Name -&gt; (string) [required] The parameter name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ Value -&gt; (string) [required] The parameter value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlueUpdateJobFromSourceControlAuthStrategy
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("PERSONAL_ACCESS_TOKEN")]
     PersonalAccessToken = 1,
 

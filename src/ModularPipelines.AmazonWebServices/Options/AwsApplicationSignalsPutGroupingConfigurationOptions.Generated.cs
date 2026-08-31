@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("application-signals", "put-grouping-configuration")]
 public record AwsApplicationSignalsPutGroupingConfigurationOptions : AwsOptions
 {
-    [CliOption("--grouping-attribute-definitions")]
+    [CliOption("--grouping-attribute-definitions", GroupValues = true)]
     public IEnumerable<string>? GroupingAttributeDefinitions { get; set; }
 
     [CliOption("--cli-input-json")]

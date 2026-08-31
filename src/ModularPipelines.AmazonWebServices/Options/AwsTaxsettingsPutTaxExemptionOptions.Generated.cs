@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("taxsettings", "put-tax-exemption")]
 public record AwsTaxsettingsPutTaxExemptionOptions : AwsOptions
 {
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--authority")]

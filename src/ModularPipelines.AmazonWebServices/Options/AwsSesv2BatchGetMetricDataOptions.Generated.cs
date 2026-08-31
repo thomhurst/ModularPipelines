@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sesv2", "batch-get-metric-data")]
 public record AwsSesv2BatchGetMetricDataOptions : AwsOptions
 {
-    [CliOption("--queries")]
+    [CliOption("--queries", GroupValues = true)]
     public IEnumerable<string>? Queries { get; set; }
 
     [CliOption("--cli-input-json")]

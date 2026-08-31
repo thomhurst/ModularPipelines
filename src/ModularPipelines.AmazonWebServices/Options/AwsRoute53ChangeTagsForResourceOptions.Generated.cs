@@ -30,13 +30,13 @@ public record AwsRoute53ChangeTagsForResourceOptions : AwsOptions
     /// <summary>
     /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone. Constraints: o min: 1 o max: 10 (structure) A complex type that contains information about a tag that you want to add or edit for the specified health check or hosted zone. Key -&gt; (string) The value of Key depends on the operation that you want to perform: o Add a tag to a health check or hosted zone : Key is the name that you want to give the new tag. o Edit a tag : Key is the name of the tag that you want to change the Value for. o Delete a key : Key is the name of the tag you want to re- move. o Give a name to a health check : Edit the default Name tag. In the Amazon Route 53 console, the list of your health checks includes a Name column that lets you see the name that you've given to each health check. Constraints: o max: 128 Value -&gt; (string) The value of Value depends on the operation that you want to perform: o Add a tag to a health check or hosted zone : Value is the value that you want to give the new tag. o Edit a tag : Value is the new value that you want to assign the tag. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--add-tags")]
+    [CliOption("--add-tags", GroupValues = true)]
     public IEnumerable<string>? AddTags { get; set; }
 
     /// <summary>
     /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can spec- ify up to 10 keys. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-tag-keys")]
+    [CliOption("--remove-tag-keys", GroupValues = true)]
     public IEnumerable<string>? RemoveTagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

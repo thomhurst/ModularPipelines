@@ -28,7 +28,7 @@ public record AwsEcsListDaemonDeploymentsOptions : AwsOptions
     /// <summary>
     /// An optional filter to narrow the ListDaemonDeployments results by deployment status. If you don't specify a status, all deployments are returned. (string) Possible values: o PENDING o SUCCESSFUL o STOPPED o STOP_REQUESTED o IN_PROGRESS o ROLLBACK_IN_PROGRESS o ROLLBACK_SUCCESSFUL o ROLLBACK_FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>

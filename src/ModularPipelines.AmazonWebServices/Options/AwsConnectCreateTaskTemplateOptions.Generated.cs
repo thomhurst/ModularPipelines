@@ -65,7 +65,7 @@ public record AwsConnectCreateTaskTemplateOptions : AwsOptions
     [CliOption("--status")]
     public AwsConnectCreateTaskTemplateStatus? Status { get; set; }
 
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>

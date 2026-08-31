@@ -21,13 +21,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("discovery", "delete-tags")]
 public record AwsDiscoveryDeleteTagsOptions : AwsOptions
 {
-    [CliOption("--configuration-ids")]
+    [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; set; }
 
     /// <summary>
     /// Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key -value format. For example: {"key": "serverType", "value": "webServer"} (structure) Metadata that help you categorize IT assets. WARNING: Do not store sensitive information (like personal data) in tags. key -&gt; (string) [required] The type of tag on which to filter. value -&gt; (string) [required] A value for a tag key on which to filter. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

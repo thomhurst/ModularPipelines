@@ -36,7 +36,7 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     /// <summary>
     /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Net- work Firewall creates a firewall endpoint in each subnet. (structure) The ID for a subnet that's used in an association with a fire- wall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an in- stance of the associated firewall in each subnet that you spec- ify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string ... JSON Syntax: [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ]
     /// </summary>
-    [CliOption("--subnet-mappings")]
+    [CliOption("--subnet-mappings", GroupValues = true)]
     public IEnumerable<string>? SubnetMappings { get; set; }
 
     [CliFlag("--delete-protection")]
@@ -57,7 +57,7 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     /// <summary>
     /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -69,7 +69,7 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     /// <summary>
     /// An optional setting indicating the specific traffic analysis types to enable on the firewall. (string) Possible values: o TLS_SNI o HTTP_HOST Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enabled-analysis-types")]
+    [CliOption("--enabled-analysis-types", GroupValues = true)]
     public IEnumerable<string>? EnabledAnalysisTypes { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     /// <summary>
     /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Avail- ability Zone isolation. You can modify Availability Zones later using AssociateAvailabili- tyZones or DisassociateAvailabilityZones , but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting con- trols whether you can make these modifications. (structure) Defines the mapping between an Availability Zone and a firewall endpoint for a transit gateway-attached firewall. Each mapping represents where the firewall can process traffic. You use these mappings when calling CreateFirewall , AssociateAvailability- Zones , and DisassociateAvailabilityZones . To retrieve the current Availability Zone mappings for a fire- wall, use DescribeFirewall . AvailabilityZone -&gt; (string) [required] The ID of the Availability Zone where the firewall endpoint is located. For example, us-east-2a . The Availability Zone must be in the same Region as the transit gateway. Constraints: o min: 1 o max: 128 o pattern: \S+ Shorthand Syntax: AvailabilityZone=string ... JSON Syntax: [ { "AvailabilityZone": "string" } ... ]
     /// </summary>
-    [CliOption("--availability-zone-mappings")]
+    [CliOption("--availability-zone-mappings", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneMappings { get; set; }
 
     /// <summary>
@@ -93,7 +93,7 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     /// <summary>
     /// The NAT gateways that the firewall uses to proxy traffic when NoSourcePreservation is TRUE . Network Firewall attaches the fire- wall to each NAT gateway that you specify, so that egress traffic is proxied through the NAT gateway. (structure) A NAT gateway that a proxy mode firewall uses to proxy traffic. This is used in CreateFirewall when NoSourcePreservation is TRUE . NatGatewayId -&gt; (string) [required] A unique identifier for the NAT gateway to use with proxy re- sources. Constraints: o min: 1 Shorthand Syntax: NatGatewayId=string ... JSON Syntax: [ { "NatGatewayId": "string" } ... ]
     /// </summary>
-    [CliOption("--nat-gateway-mappings")]
+    [CliOption("--nat-gateway-mappings", GroupValues = true)]
     public IEnumerable<string>? NatGatewayMappings { get; set; }
 
     /// <summary>

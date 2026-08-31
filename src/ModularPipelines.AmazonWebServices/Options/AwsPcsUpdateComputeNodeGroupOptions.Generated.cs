@@ -38,7 +38,7 @@ public record AwsPcsUpdateComputeNodeGroupOptions : AwsOptions
     /// <summary>
     /// The list of subnet IDs where the compute node group provisions in- stances. The subnets must be in the same VPC as the cluster. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>

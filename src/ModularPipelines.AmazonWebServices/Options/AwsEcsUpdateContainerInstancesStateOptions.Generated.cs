@@ -27,7 +27,7 @@ public record AwsEcsUpdateContainerInstancesStateOptions : AwsOptions
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--container-instances")]
+    [CliOption("--container-instances", GroupValues = true)]
     public IEnumerable<string>? ContainerInstances { get; set; }
 
     [CliOption("--status")]

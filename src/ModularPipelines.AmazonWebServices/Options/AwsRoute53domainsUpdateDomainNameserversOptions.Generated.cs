@@ -30,7 +30,7 @@ public record AwsRoute53domainsUpdateDomainNameserversOptions : AwsOptions
     [CliOption("--fi-auth-key")]
     public string? FiAuthKey { get; set; }
 
-    [CliOption("--nameservers")]
+    [CliOption("--nameservers", GroupValues = true)]
     public IEnumerable<string>? Nameservers { get; set; }
 
     [CliOption("--cli-input-json")]

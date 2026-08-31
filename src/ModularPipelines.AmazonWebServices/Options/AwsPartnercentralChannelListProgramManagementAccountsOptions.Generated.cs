@@ -28,25 +28,25 @@ public record AwsPartnercentralChannelListProgramManagementAccountsOptions : Aws
     /// <summary>
     /// Filter by display names. (string) Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--display-names")]
+    [CliOption("--display-names", GroupValues = true)]
     public IEnumerable<string>? DisplayNames { get; set; }
 
     /// <summary>
     /// Filter by program types. (string) Possible values: o SOLUTION_PROVIDER o DISTRIBUTION o DISTRIBUTION_SELLER Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--programs")]
+    [CliOption("--programs", GroupValues = true)]
     public IEnumerable<string>? Programs { get; set; }
 
     /// <summary>
     /// Filter by AWS account IDs. (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
     /// Filter by program management account statuses. (string) Possible values: o PENDING o ACTIVE o INACTIVE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--statuses")]
+    [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     /// <summary>

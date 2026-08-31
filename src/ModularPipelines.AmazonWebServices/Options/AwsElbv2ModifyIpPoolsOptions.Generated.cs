@@ -33,7 +33,7 @@ public record AwsElbv2ModifyIpPoolsOptions : AwsOptions
     /// <summary>
     /// Remove the IP pools in use by the load balancer. (string) Possible values: o ipv4 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-ipam-pools")]
+    [CliOption("--remove-ipam-pools", GroupValues = true)]
     public IEnumerable<string>? RemoveIpamPools { get; set; }
 
     [CliOption("--cli-input-json")]

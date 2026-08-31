@@ -39,13 +39,13 @@ public record AwsIotwirelessUpdateWirelessGatewayOptions : AwsOptions
     /// <summary>
     /// A list of JoinEuiRange used by LoRa gateways to filter LoRa frames. Constraints: o min: 0 o max: 3 (list) A pair of join EUI describing a range [BegEui, EndEui], both ends are inclusive. Constraints: o min: 2 o max: 2 (string) Constraints: o pattern: [a-fA-F0-9]{16} Shorthand Syntax: string,string ... JSON Syntax: [ ["string", ...] ... ]
     /// </summary>
-    [CliOption("--join-eui-filters")]
+    [CliOption("--join-eui-filters", GroupValues = true)]
     public IEnumerable<string>? JoinEuiFilters { get; set; }
 
     /// <summary>
     /// A list of NetId values that are used by LoRa gateways to filter the uplink frames. Constraints: o min: 0 o max: 10 (string) LoRaWAN network ID. Constraints: o pattern: [a-fA-F0-9]{6} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--net-id-filters")]
+    [CliOption("--net-id-filters", GroupValues = true)]
     public IEnumerable<string>? NetIdFilters { get; set; }
 
     /// <summary>

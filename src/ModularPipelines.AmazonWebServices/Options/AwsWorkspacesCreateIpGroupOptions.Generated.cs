@@ -33,13 +33,13 @@ public record AwsWorkspacesCreateIpGroupOptions : AwsOptions
     /// <summary>
     /// The rules to add to the group. (structure) Describes a rule for an IP access control group. ipRule -&gt; (string) The IP address range, in CIDR notation. ruleDesc -&gt; (string) The description. Shorthand Syntax: ipRule=string,ruleDesc=string ... JSON Syntax: [ { "ipRule": "string", "ruleDesc": "string" } ... ]
     /// </summary>
-    [CliOption("--user-rules")]
+    [CliOption("--user-rules", GroupValues = true)]
     public IEnumerable<string>? UserRules { get; set; }
 
     /// <summary>
     /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

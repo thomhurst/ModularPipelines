@@ -28,7 +28,7 @@ public record AwsEmrListSessionsOptions : AwsOptions
     /// <summary>
     /// An optional filter that limits the results to sessions in the speci- fied states. (string) Possible values: o SUBMITTED o STARTING o STARTED o IDLE o BUSY o TERMINATING o TERMINATED o FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--session-states")]
+    [CliOption("--session-states", GroupValues = true)]
     public IEnumerable<string>? SessionStates { get; set; }
 
     /// <summary>

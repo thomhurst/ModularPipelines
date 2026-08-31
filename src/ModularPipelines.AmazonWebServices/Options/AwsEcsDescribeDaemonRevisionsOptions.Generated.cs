@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ecs", "describe-daemon-revisions")]
 public record AwsEcsDescribeDaemonRevisionsOptions : AwsOptions
 {
-    [CliOption("--daemon-revision-arns")]
+    [CliOption("--daemon-revision-arns", GroupValues = true)]
     public IEnumerable<string>? DaemonRevisionArns { get; set; }
 
     [CliOption("--cli-input-json")]

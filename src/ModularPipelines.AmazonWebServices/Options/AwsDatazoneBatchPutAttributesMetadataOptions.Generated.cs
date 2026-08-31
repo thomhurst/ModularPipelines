@@ -38,7 +38,7 @@ public record AwsDatazoneBatchPutAttributesMetadataOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsCodecommitTestRepositoryTriggersOptions : AwsOptions
     [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
-    [CliOption("--triggers")]
+    [CliOption("--triggers", GroupValues = true)]
     public IEnumerable<string>? Triggers { get; set; }
 
     [CliOption("--cli-input-json")]

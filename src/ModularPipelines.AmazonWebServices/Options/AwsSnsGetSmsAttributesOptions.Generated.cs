@@ -24,7 +24,7 @@ public record AwsSnsGetSmsAttributesOptions : AwsOptions
     /// <summary>
     /// A list of the individual attribute names, such as MonthlySpendLimit , for which you want values. For all attribute names, see SetSMSAttributes . If you don't use this parameter, Amazon SNS returns all SMS attrib- utes. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

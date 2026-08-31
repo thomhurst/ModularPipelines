@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("xray", "get-trace-graph")]
 public record AwsXrayGetTraceGraphOptions : AwsOptions
 {
-    [CliOption("--trace-ids")]
+    [CliOption("--trace-ids", GroupValues = true)]
     public IEnumerable<string>? TraceIds { get; set; }
 
     [CliOption("--cli-input-json")]

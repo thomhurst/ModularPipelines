@@ -34,7 +34,7 @@ public record AwsMigrationhubstrategyStartImportFileTaskOptions : AwsOptions
     /// <summary>
     /// Groups the resources in the import file together with a unique name. This ID can be as filter in ListApplicationComponents and List- Servers . (structure) The object containing information about distinct imports or groups for Strategy Recommendations. name -&gt; (string) The key of the specific import group. Possible values: o ExternalId o ExternalSourceType value -&gt; (string) The value of the specific import group. Constraints: o min: 0 o max: 1024 o pattern: .*\S.* Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "ExternalId"|"ExternalSourceType", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--group-id")]
+    [CliOption("--group-id", GroupValues = true)]
     public IEnumerable<string>? GroupId { get; set; }
 
     [CliOption("--name")]

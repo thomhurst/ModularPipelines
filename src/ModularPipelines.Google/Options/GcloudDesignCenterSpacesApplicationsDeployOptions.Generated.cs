@@ -28,27 +28,31 @@ public record GcloudDesignCenterSpacesApplicationsDeployOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Create a new service account for the deployment.
-    /// </summary>
-    [CliFlag("--create-sa")]
-    public bool? CreateSa { get; set; }
-
-    /// <summary>
     /// Flag to update the existing deployment. If not set or false, deploy will fail if application state is in the DEPLOYED state.
     /// </summary>
     [CliFlag("--replace")]
     public bool? Replace { get; set; }
 
     /// <summary>
-    /// The service account to use for this deployment. ◆ If provided, this service account will be used to execute the deployment process, taking precedence over any service_account specified on the Application resource. ◆ The caller must have the "iam.serviceAccounts.actAs" permission on this service account. ◆ If this field is omitted, the system will use the "service_account" defined within the Application resource. ◆ If this field is omitted with --create-sa flag, the system will create a new and unique service_account and use it for the deployment. ◆ We recommend that you provide a service account here or on the Application resource. If you don't provide a service account, the deployment will fail. ◆ If the --create-sa flag is also provided, this value is the ID of a new service account to be created (e.g., my-new-sa). Format: projects/{PROJECT}/serviceAccounts/{EMAIL_ADDRESS} (when not using --create-sa)
+    /// The email address of the service account to use for this deployment. * If provided, this service account will be used to execute the deployment process, taking precedence over any service_account specified on the Application resource. * The caller must have the 'iam.serviceAccounts.actAs' permission on this service account. * If this field is omitted, the system will use the 'service_account' defined within the Application resource. * We recommend that you provide a service account here or on the Application resource. If you don't provide a service account, the deployment will fail. Format: projects/{PROJECT}/serviceAccounts/{EMAIL_ADDRESS}
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
 
     /// <summary>
     /// The user-specified Worker Pool resource in which the Cloud Build job will execute. Format: projects/{project}/locations/{location}/workerPools/{workerPoolId} If this flag is omitted, the worker pool already defined on the application will be used. If no worker pool is defined on the application, the default Cloud Build worker pool is used. The worker pool must exist in the same region as the application.
     /// </summary>
     [CliOption("--worker-pool", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerPool { get; set; }
+
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("CreateSa is no longer supported by the installed CLI and has no effect.")]
+    public bool? CreateSa { get; set; }
 
 }

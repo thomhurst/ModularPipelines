@@ -24,7 +24,7 @@ public record AwsMacie2BatchGetCustomDataIdentifiersOptions : AwsOptions
     /// <summary>
     /// An array of custom data identifier IDs, one for each custom data identifier to retrieve information about. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     [CliOption("--cli-input-json")]

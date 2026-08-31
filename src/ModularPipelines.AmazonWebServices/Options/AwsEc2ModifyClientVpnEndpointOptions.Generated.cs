@@ -64,7 +64,7 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions
     /// <summary>
     /// The IDs of one or more security groups to apply to the target net- work. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>

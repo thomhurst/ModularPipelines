@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("batch", "describe-jobs")]
 public record AwsBatchDescribeJobsOptions : AwsOptions
 {
-    [CliOption("--jobs")]
+    [CliOption("--jobs", GroupValues = true)]
     public IEnumerable<string>? Jobs { get; set; }
 
     [CliOption("--cli-input-json")]

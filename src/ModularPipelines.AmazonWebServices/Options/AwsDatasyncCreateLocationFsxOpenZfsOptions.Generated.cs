@@ -27,7 +27,7 @@ public record AwsDatasyncCreateLocationFsxOpenZfsOptions : AwsOptions
     [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CliOption("--security-group-arns")]
+    [CliOption("--security-group-arns", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupArns { get; set; }
 
     /// <summary>
@@ -39,7 +39,7 @@ public record AwsDatasyncCreateLocationFsxOpenZfsOptions : AwsOptions
     /// <summary>
     /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

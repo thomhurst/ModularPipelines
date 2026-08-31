@@ -24,7 +24,7 @@ public record AwsChimeBatchSuspendUserOptions : AwsOptions
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CliOption("--user-id-list")]
+    [CliOption("--user-id-list", GroupValues = true)]
     public IEnumerable<string>? UserIdList { get; set; }
 
     [CliOption("--cli-input-json")]

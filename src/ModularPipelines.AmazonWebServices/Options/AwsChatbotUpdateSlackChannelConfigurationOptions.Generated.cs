@@ -36,7 +36,7 @@ public record AwsChatbotUpdateSlackChannelConfigurationOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the SNS topics that deliver no- tifications to AWS Chatbot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--sns-topic-arns")]
+    [CliOption("--sns-topic-arns", GroupValues = true)]
     public IEnumerable<string>? SnsTopicArns { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record AwsChatbotUpdateSlackChannelConfigurationOptions : AwsOptions
     /// <summary>
     /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set. (string) Constraints: o min: 11 o max: 1163 o pattern: (^$|(?!.*\/aws-ser- vice-role\/.*)arn:aws:iam:[A-Za-z0-9_\/.-]{0,63}:[A-Za-z0-9_\/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_\/+=,@.-]{0,1023}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--guardrail-policy-arns")]
+    [CliOption("--guardrail-policy-arns", GroupValues = true)]
     public IEnumerable<string>? GuardrailPolicyArns { get; set; }
 
     [CliFlag("--user-authorization-required")]

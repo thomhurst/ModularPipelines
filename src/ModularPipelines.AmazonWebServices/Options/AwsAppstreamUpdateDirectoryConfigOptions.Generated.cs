@@ -28,7 +28,7 @@ public record AwsAppstreamUpdateDirectoryConfigOptions : AwsOptions
     /// <summary>
     /// The distinguished names of the organizational units for computer ac- counts. (string) Constraints: o max: 2000 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--organizational-unit-distinguished-names")]
+    [CliOption("--organizational-unit-distinguished-names", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitDistinguishedNames { get; set; }
 
     /// <summary>

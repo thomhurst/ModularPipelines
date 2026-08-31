@@ -31,25 +31,25 @@ public record AwsLexv2ModelsListIntentMetricsOptions : AwsOptions
     [CliOption("--end-date-time")]
     public string? EndDateTime { get; set; }
 
-    [CliOption("--metrics")]
+    [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>
     /// A list of objects, each of which contains specifications for orga- nizing the results by time. Constraints: o min: 1 o max: 1 (structure) Contains the time metric, interval, and method by which to bin the analytics data. name -&gt; (string) [required] Specifies the time metric by which to bin the analytics data. Possible values: o ConversationStartTime o UtteranceTimestamp interval -&gt; (string) [required] Specifies the interval of time by which to bin the analytics data. Possible values: o OneHour o OneDay order -&gt; (string) Specifies whether to bin the analytics data in ascending or descending order. If this field is left blank, the default order is by the key of the bin in descending order. Possible values: o Ascending o Descending Shorthand Syntax: name=string,interval=string,order=string ... JSON Syntax: [ { "name": "ConversationStartTime"|"UtteranceTimestamp", "interval": "OneHour"|"OneDay", "order": "Ascending"|"Descending" } ... ]
     /// </summary>
-    [CliOption("--bin-by")]
+    [CliOption("--bin-by", GroupValues = true)]
     public IEnumerable<string>? BinBy { get; set; }
 
     /// <summary>
     /// A list of objects, each of which specifies how to group the results. You can group by the following criteria: o IntentName The name of the intent. o IntentEndState The final state of the intent. The possible end states are detailed in Key definitions in the user guide. Constraints: o min: 1 o max: 3 (structure) Contains the category by which to group the intents. name -&gt; (string) [required] Specifies whether to group the intent stages by their name or their end state. Possible values: o IntentName o IntentEndState o IntentLevel Shorthand Syntax: name=string ... JSON Syntax: [ { "name": "IntentName"|"IntentEndState"|"IntentLevel" } ... ]
     /// </summary>
-    [CliOption("--group-by")]
+    [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>
     /// A list of objects, each of which describes a condition by which you want to filter the results. Constraints: o min: 1 o max: 9 (structure) Contains fields describing a condition by which to filter the intents. The expression may be understood as name operator values . For example: o IntentName CO Book The intent name contains the string "Book." o BotVersion EQ 2 The bot version is equal to two. The operators that each filter supports are listed below: o BotAlias EQ . o BotVersion EQ . o LocaleId EQ . o Modality EQ . o Channel EQ . o SessionId EQ . o OriginatingRequestId EQ . o IntentName EQ , CO . o IntentEndState EQ , CO . name -&gt; (string) [required] The category by which to filter the intents. The descriptions for each option are as follows: o BotAlias The name of the bot alias. o BotVersion The version of the bot. o LocaleId The locale of the bot. o Modality The modality of the session with the bot (audio, DTMF, or text). o Channel The channel that the bot is integrated with. o SessionId The identifier of the session with the bot. o OriginatingRequestId The identifier of the first request in a session. o IntentName The name of the intent. o IntentEndState The final state of the intent. Possible values: o BotAliasId o BotVersion o LocaleId o Modality o Channel o SessionId o OriginatingRequestId o IntentName o IntentEndState operator -&gt; (string) [required] The operation by which to filter the category. The following operations are possible: o CO Contains o EQ Equals o GT Greater than o LT Less than The operators that each filter supports are listed below: o BotAlias EQ . o BotVersion EQ . o LocaleId EQ . o Modality EQ . o Channel EQ . o SessionId EQ . o OriginatingRequestId EQ . o IntentName EQ , CO . o IntentEndState EQ , CO . Possible values: o EQ o GT o LT values -&gt; (list) [required] An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO . If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name , operator , and values fields are Modality , EQ , and [Speech, Text] , the operation filters for results where the modality was either Speech or Text . Constraints: o min: 1 o max: 5 (string) Shorthand Syntax: name=string,operator=string,values=string,string ... JSON Syntax: [ { "name": "BotAliasId"|"BotVersion"|"LocaleId"|"Modality"|"Channel"|"SessionId"|"OriginatingRequestId"|"IntentName"|"IntentEndState", "operator": "EQ"|"GT"|"LT", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

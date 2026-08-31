@@ -30,7 +30,7 @@ public record AwsSecurityhubUpdateAggregatorV2Options : AwsOptions
     /// <summary>
     /// A list of Amazon Web Services Regions linked to the aggegation Re- gion. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--linked-regions")]
+    [CliOption("--linked-regions", GroupValues = true)]
     public IEnumerable<string>? LinkedRegions { get; set; }
 
     [CliOption("--cli-input-json")]

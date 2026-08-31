@@ -24,13 +24,13 @@ public record AwsInspector2DisableOptions : AwsOptions
     /// <summary>
     /// An array of account IDs you want to disable Amazon Inspector scans for. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
     /// The resource scan types you want to disable. Constraints: o min: 0 o max: 5 (string) Possible values: o EC2 o ECR o LAMBDA o LAMBDA_CODE o CODE_REPOSITORY Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

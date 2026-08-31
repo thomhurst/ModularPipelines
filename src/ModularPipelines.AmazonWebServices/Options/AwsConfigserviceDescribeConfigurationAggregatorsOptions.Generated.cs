@@ -25,7 +25,7 @@ public record AwsConfigserviceDescribeConfigurationAggregatorsOptions : AwsOptio
     /// <summary>
     /// The name of the configuration aggregators. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\w\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--configuration-aggregator-names")]
+    [CliOption("--configuration-aggregator-names", GroupValues = true)]
     public IEnumerable<string>? ConfigurationAggregatorNames { get; set; }
 
     [CliOption("--cli-input-json")]

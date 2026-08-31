@@ -36,7 +36,7 @@ public record AwsCodepipelineCreateCustomActionTypeOptions : AwsOptions
     /// <summary>
     /// The configuration properties for the custom action. NOTE: You can refer to a name in the configuration properties of the custom action within the URL templates by following the format of {Config:name}, as long as the configuration property is both required and not secret. For more information, see Create a Cus- tom Action for a Pipeline . Constraints: o max: 10 (structure) Represents information about an action configuration property. name -&gt; (string) [required] The name of the action configuration property. Constraints: o min: 1 o max: 50 required -&gt; (boolean) [required] Whether the configuration property is a required value. key -&gt; (boolean) [required] Whether the configuration property is a key. secret -&gt; (boolean) [required] Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails , GetThirdPar- tyJobDetails , PollForJobs , and PollForThirdPartyJobs . When updating a pipeline, passing * * * * * without changing any other values of the action preserves the previous value of the secret. queryable -&gt; (boolean) Indicates that the property is used with PollForJobs . When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret. If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to other restrictions. The value must be less than or equal to twenty (20) charac- ters. The value can contain only alphanumeric characters, un- derscores, and hyphens. description -&gt; (string) The description of the action configuration property that is displayed to users. Constraints: o min: 1 o max: 160 type -&gt; (string) The type of the configuration property. Possible values: o String o Number o Boolean Shorthand Syntax: name=string,required=boolean,key=boolean,secret=boolean,queryable=boolean,description=string,type=string ... JSON Syntax: [ { "name": "string", "required": true|false, "key": true|false, "secret": true|false, "queryable": true|false, "description": "string", "type": "String"|"Number"|"Boolean" } ... ]
     /// </summary>
-    [CliOption("--configuration-properties")]
+    [CliOption("--configuration-properties", GroupValues = true)]
     public IEnumerable<string>? ConfigurationProperties { get; set; }
 
     [CliOption("--input-artifact-details")]
@@ -48,7 +48,7 @@ public record AwsCodepipelineCreateCustomActionTypeOptions : AwsOptions
     /// <summary>
     /// The tags for the custom action. (structure) A tag is a key-value pair that is used to manage the resource. key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--action-version")]

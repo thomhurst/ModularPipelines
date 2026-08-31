@@ -27,13 +27,13 @@ public record AwsElasticacheModifyUserGroupOptions : AwsOptions
     /// <summary>
     /// The list of user IDs to add to the user group. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-ids-to-add")]
+    [CliOption("--user-ids-to-add", GroupValues = true)]
     public IEnumerable<string>? UserIdsToAdd { get; set; }
 
     /// <summary>
     /// The list of user IDs to remove from the user group. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-ids-to-remove")]
+    [CliOption("--user-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? UserIdsToRemove { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ecs", "describe-service-deployments")]
 public record AwsEcsDescribeServiceDeploymentsOptions : AwsOptions
 {
-    [CliOption("--service-deployment-arns")]
+    [CliOption("--service-deployment-arns", GroupValues = true)]
     public IEnumerable<string>? ServiceDeploymentArns { get; set; }
 
     [CliOption("--cli-input-json")]

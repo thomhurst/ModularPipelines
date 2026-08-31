@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector", "describe-exclusions")]
 public record AwsInspectorDescribeExclusionsOptions : AwsOptions
 {
-    [CliOption("--exclusion-arns")]
+    [CliOption("--exclusion-arns", GroupValues = true)]
     public IEnumerable<string>? ExclusionArns { get; set; }
 
     /// <summary>

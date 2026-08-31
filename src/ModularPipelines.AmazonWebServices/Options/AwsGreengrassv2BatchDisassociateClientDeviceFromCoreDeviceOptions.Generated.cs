@@ -24,7 +24,7 @@ public record AwsGreengrassv2BatchDisassociateClientDeviceFromCoreDeviceOptions 
     /// <summary>
     /// The list of client devices to disassociate. Constraints: o min: 1 o max: 100 (structure) Contains a request to disassociate a client device from a core device. The BatchDisassociateClientDeviceWithCoreDevice opera- tion consumes a list of these requests. thingName -&gt; (string) [required] The name of the IoT thing that represents the client device to disassociate. Constraints: o min: 1 o max: 128 Shorthand Syntax: thingName=string ... JSON Syntax: [ { "thingName": "string" } ... ]
     /// </summary>
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--core-device-thing-name")]

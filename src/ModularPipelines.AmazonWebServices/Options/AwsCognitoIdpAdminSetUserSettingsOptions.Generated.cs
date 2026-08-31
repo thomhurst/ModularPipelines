@@ -27,7 +27,7 @@ public record AwsCognitoIdpAdminSetUserSettingsOptions : AwsOptions
     [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CliOption("--mfa-options")]
+    [CliOption("--mfa-options", GroupValues = true)]
     public IEnumerable<string>? MfaOptions { get; set; }
 
     [CliOption("--cli-input-json")]

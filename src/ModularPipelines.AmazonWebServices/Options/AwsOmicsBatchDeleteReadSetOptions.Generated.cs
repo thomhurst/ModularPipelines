@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("omics", "batch-delete-read-set")]
 public record AwsOmicsBatchDeleteReadSetOptions : AwsOptions
 {
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     [CliOption("--sequence-store-id")]

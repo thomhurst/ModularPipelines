@@ -57,7 +57,7 @@ public record AwsDaxUpdateClusterOptions : AwsOptions
     /// <summary>
     /// A list of user-specified security group IDs to be assigned to each node in the DAX cluster. If this parameter is not specified, DAX as- signs the default VPC security group to each node. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

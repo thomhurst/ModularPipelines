@@ -27,7 +27,7 @@ public record AwsConnectUpdateRoutingProfileQueuesOptions : AwsOptions
     [CliOption("--routing-profile-id")]
     public string? RoutingProfileId { get; set; }
 
-    [CliOption("--queue-configs")]
+    [CliOption("--queue-configs", GroupValues = true)]
     public IEnumerable<string>? QueueConfigs { get; set; }
 
     [CliOption("--cli-input-json")]

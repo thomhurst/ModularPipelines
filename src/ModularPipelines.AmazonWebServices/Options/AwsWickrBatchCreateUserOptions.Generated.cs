@@ -25,7 +25,7 @@ public record AwsWickrBatchCreateUserOptions : AwsOptions
     [CliOption("--network-id")]
     public string? NetworkId { get; set; }
 
-    [CliOption("--users")]
+    [CliOption("--users", GroupValues = true)]
     public IEnumerable<string>? Users { get; set; }
 
     /// <summary>

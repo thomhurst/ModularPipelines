@@ -48,7 +48,7 @@ public record AwsTranslateImportTerminologyOptions : AwsOptions
     /// <summary>
     /// Tags to be associated with this resource. A tag is a key-value pair that adds metadata to a resource. Each tag key for the resource must be unique. For more information, see Tagging your resources . Constraints: o min: 0 o max: 200 (structure) A key-value pair that adds as a metadata to a resource used by Amazon Translate. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--data-file")]

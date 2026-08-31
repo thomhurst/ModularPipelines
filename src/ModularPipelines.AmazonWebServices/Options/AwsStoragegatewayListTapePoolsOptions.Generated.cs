@@ -25,7 +25,7 @@ public record AwsStoragegatewayListTapePoolsOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Name (ARN) of each of the custom tape pools you want to list. If you don't specify a custom tape pool ARN, the re- sponse lists all custom tape pools. (string) Constraints: o min: 50 o max: 500 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--pool-arns")]
+    [CliOption("--pool-arns", GroupValues = true)]
     public IEnumerable<string>? PoolArns { get; set; }
 
     [CliOption("--cli-input-json")]

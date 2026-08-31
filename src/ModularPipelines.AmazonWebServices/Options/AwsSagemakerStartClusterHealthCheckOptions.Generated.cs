@@ -24,7 +24,7 @@ public record AwsSagemakerStartClusterHealthCheckOptions : AwsOptions
     [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CliOption("--deep-health-check-configurations")]
+    [CliOption("--deep-health-check-configurations", GroupValues = true)]
     public IEnumerable<string>? DeepHealthCheckConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

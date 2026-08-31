@@ -25,7 +25,7 @@ public record AwsBatchDescribeJobQueuesOptions : AwsOptions
     /// <summary>
     /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--job-queues")]
+    [CliOption("--job-queues", GroupValues = true)]
     public IEnumerable<string>? JobQueues { get; set; }
 
     [CliOption("--cli-input-json")]

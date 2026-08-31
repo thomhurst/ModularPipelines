@@ -30,7 +30,7 @@ public record AwsDmsModifyReplicationSubnetGroupOptions : AwsOptions
     [CliOption("--replication-subnet-group-description")]
     public string? ReplicationSubnetGroupDescription { get; set; }
 
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     [CliOption("--cli-input-json")]

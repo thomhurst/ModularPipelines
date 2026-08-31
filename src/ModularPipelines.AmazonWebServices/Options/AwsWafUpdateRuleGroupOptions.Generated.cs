@@ -25,7 +25,7 @@ public record AwsWafUpdateRuleGroupOptions : AwsOptions
     [CliOption("--rule-group-id")]
     public string? RuleGroupId { get; set; }
 
-    [CliOption("--updates")]
+    [CliOption("--updates", GroupValues = true)]
     public IEnumerable<string>? Updates { get; set; }
 
     [SecretValue]

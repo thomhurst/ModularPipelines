@@ -24,7 +24,7 @@ public record AwsElbCreateLoadBalancerListenersOptions : AwsOptions
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; set; }
 
-    [CliOption("--listeners")]
+    [CliOption("--listeners", GroupValues = true)]
     public IEnumerable<string>? Listeners { get; set; }
 
     [CliOption("--cli-input-json")]

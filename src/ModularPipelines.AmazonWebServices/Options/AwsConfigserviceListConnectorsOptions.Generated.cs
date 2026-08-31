@@ -25,7 +25,7 @@ public record AwsConfigserviceListConnectorsOptions : AwsOptions
     /// <summary>
     /// Filters the results based on a list of ConnectorFilter objects that you specify. Constraints: o min: 0 o max: 5 (structure) Filters connectors based on the connector provider. filterName -&gt; (string) The name of the filter. Currently, only provider is sup- ported. Possible values: o provider filterValues -&gt; (list) The value of the filter. For provider , valid values include: AZURE . Constraints: o min: 0 o max: 10 (string) Shorthand Syntax: filterName=string,filterValues=string,string ... JSON Syntax: [ { "filterName": "provider", "filterValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

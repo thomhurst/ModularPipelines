@@ -37,7 +37,7 @@ public record AwsAuditManagerCreateAssessmentOptions : AwsOptions
     [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CliOption("--roles")]
+    [CliOption("--roles", GroupValues = true)]
     public IEnumerable<string>? Roles { get; set; }
 
     [CliOption("--framework-id")]
@@ -46,7 +46,7 @@ public record AwsAuditManagerCreateAssessmentOptions : AwsOptions
     /// <summary>
     /// The tags that are associated with the assessment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .{0,255} Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

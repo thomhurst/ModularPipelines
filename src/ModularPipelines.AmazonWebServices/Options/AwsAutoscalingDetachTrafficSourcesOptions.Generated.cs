@@ -24,7 +24,7 @@ public record AwsAutoscalingDetachTrafficSourcesOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliOption("--traffic-sources")]
+    [CliOption("--traffic-sources", GroupValues = true)]
     public IEnumerable<string>? TrafficSources { get; set; }
 
     [CliOption("--cli-input-json")]

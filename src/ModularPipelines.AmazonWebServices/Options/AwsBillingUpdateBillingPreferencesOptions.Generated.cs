@@ -24,7 +24,7 @@ public record AwsBillingUpdateBillingPreferencesOptions : AwsOptions
     [CliOption("--feature")]
     public string? Feature { get; set; }
 
-    [CliOption("--billing-preferences-per-key")]
+    [CliOption("--billing-preferences-per-key", GroupValues = true)]
     public IEnumerable<string>? BillingPreferencesPerKey { get; set; }
 
     [CliOption("--cli-input-json")]

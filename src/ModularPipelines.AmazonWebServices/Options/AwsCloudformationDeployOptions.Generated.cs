@@ -42,7 +42,7 @@ public record AwsCloudformationDeployOptions : AwsOptions
     [CliOption("--parameter-overrides")]
     public string? ParameterOverrides { get; set; }
 
-    [CliOption("--capabilities")]
+    [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }
 
     [CliFlag("--no-execute-changeset")]
@@ -54,7 +54,7 @@ public record AwsCloudformationDeployOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliOption("--notification-arns")]
+    [CliOption("--notification-arns", GroupValues = true)]
     public IEnumerable<string>? NotificationArns { get; set; }
 
     [CliFlag("--fail-on-empty-changeset")]
@@ -63,7 +63,7 @@ public record AwsCloudformationDeployOptions : AwsOptions
     [CliFlag("--no-fail-on-empty-changeset")]
     public bool? NoFailOnEmptyChangeSet { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
 }

@@ -27,13 +27,13 @@ public record AwsIvsUpdatePlaybackRestrictionPolicyOptions : AwsOptions
     /// <summary>
     /// A list of country codes that control geoblocking restriction. Al- lowed values are the officially assigned ISO 3166-1 alpha-2 codes. Default: All countries (an empty array). (string) Constraints: o min: 2 o max: 2 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-countries")]
+    [CliOption("--allowed-countries", GroupValues = true)]
     public IEnumerable<string>? AllowedCountries { get; set; }
 
     /// <summary>
     /// A list of origin sites that control CORS restriction. Allowed values are the same as valid values of the Origin header defined at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin . Default: All origins (an empty array). (string) Constraints: o min: 0 o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-origins")]
+    [CliOption("--allowed-origins", GroupValues = true)]
     public IEnumerable<string>? AllowedOrigins { get; set; }
 
     [CliFlag("--enable-strict-origin-enforcement")]

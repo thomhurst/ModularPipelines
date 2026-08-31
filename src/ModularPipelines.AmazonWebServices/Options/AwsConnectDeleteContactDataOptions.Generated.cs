@@ -27,7 +27,7 @@ public record AwsConnectDeleteContactDataOptions : AwsOptions
     [CliOption("--contact-id")]
     public string? ContactId { get; set; }
 
-    [CliOption("--contact-fields")]
+    [CliOption("--contact-fields", GroupValues = true)]
     public IEnumerable<string>? ContactFields { get; set; }
 
     [CliOption("--cli-input-json")]

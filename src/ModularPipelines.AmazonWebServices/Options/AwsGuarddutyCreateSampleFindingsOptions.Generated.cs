@@ -27,7 +27,7 @@ public record AwsGuarddutyCreateSampleFindingsOptions : AwsOptions
     /// <summary>
     /// The types of sample findings to generate. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--finding-types")]
+    [CliOption("--finding-types", GroupValues = true)]
     public IEnumerable<string>? FindingTypes { get; set; }
 
     [CliOption("--cli-input-json")]

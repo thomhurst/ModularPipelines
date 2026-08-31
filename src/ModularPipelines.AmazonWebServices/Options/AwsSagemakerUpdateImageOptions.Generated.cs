@@ -24,7 +24,7 @@ public record AwsSagemakerUpdateImageOptions : AwsOptions
     /// <summary>
     /// A list of properties to delete. Only the Description and DisplayName properties can be deleted. Constraints: o min: 0 o max: 2 (string) Constraints: o min: 1 o max: 11 o pattern: (^DisplayName$)|(^Description$) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--delete-properties")]
+    [CliOption("--delete-properties", GroupValues = true)]
     public IEnumerable<string>? DeleteProperties { get; set; }
 
     /// <summary>

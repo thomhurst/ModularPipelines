@@ -25,7 +25,7 @@ public record AwsGameliftDescribeMatchmakingRuleSetsOptions : AwsOptions
     /// <summary>
     /// A list of one or more matchmaking rule set names to retrieve details for. (Note: The rule set name is different from the optional "name" field in the rule set body.) You can use either the rule set name or ARN value. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingrule- set\/[a-zA-Z0-9-\.]*)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliOption("--cli-input-json")]

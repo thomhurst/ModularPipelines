@@ -33,7 +33,7 @@ public record AwsIvsUpdateAdConfigurationOptions : AwsOptions
     /// <summary>
     /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens . Constraints: o min: 1 o max: 3 (structure) Object specifying a configuration for integration with an AWS Elemental MediaTailor (EMT). playbackConfigurationArn -&gt; (string) ARN of the customer-created EMT PlaybackConfiguration re- source in the same region and account. Constraints: o min: 0 o max: 128 o pattern: arn:aws:mediatailor:[a-z0-9-]+:[0-9]+:playbackCon- figuration/[a-zA-Z0-9-]+ Shorthand Syntax: playbackConfigurationArn=string ... JSON Syntax: [ { "playbackConfigurationArn": "string" } ... ]
     /// </summary>
-    [CliOption("--media-tailor-playback-configurations")]
+    [CliOption("--media-tailor-playback-configurations", GroupValues = true)]
     public IEnumerable<string>? MediaTailorPlaybackConfigurations { get; set; }
 
     /// <summary>

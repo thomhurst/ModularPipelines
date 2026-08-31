@@ -33,7 +33,7 @@ public record AwsDeadlineSearchStepsOptions : AwsOptions
     /// <summary>
     /// The search terms for a resource. Constraints: o min: 1 o max: 5 (tagged union structure) The resources to search. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userJobsFirst, fieldSort, parame- terSort. userJobsFirst -&gt; (structure) Options for sorting a particular user's jobs first. userIdentityId -&gt; (string) [required] The user's ID. fieldSort -&gt; (structure) Options for sorting by a field. sortOrder -&gt; (string) [required] The sort order for the field. Possible values: o ASCENDING o DESCENDING name -&gt; (string) [required] The name of the field. parameterSort -&gt; (structure) Options for sorting by a parameter. sortOrder -&gt; (string) [required] The sort order for the parameter. Possible values: o ASCENDING o DESCENDING name -&gt; (string) [required] The parameter name to sort by. Shorthand Syntax: userJobsFirst={userIdentityId=string},fieldSort={sortOrder=string,name=string},parameterSort={sortOrder=string,name=string} ... JSON Syntax: [ { "userJobsFirst": { "userIdentityId": "string" }, "fieldSort": { "sortOrder": "ASCENDING"|"DESCENDING", "name": "string" }, "parameterSort": { "sortOrder": "ASCENDING"|"DESCENDING", "name": "string" } } ... ]
     /// </summary>
-    [CliOption("--sort-expressions")]
+    [CliOption("--sort-expressions", GroupValues = true)]
     public IEnumerable<string>? SortExpressions { get; set; }
 
     [CliOption("--item-offset")]
@@ -45,7 +45,7 @@ public record AwsDeadlineSearchStepsOptions : AwsOptions
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CliOption("--queue-ids")]
+    [CliOption("--queue-ids", GroupValues = true)]
     public IEnumerable<string>? QueueIds { get; set; }
 
     /// <summary>

@@ -54,7 +54,7 @@ public record AwsDsCreateMicrosoftAdOptions : AwsOptions
     /// <summary>
     /// The tags to be assigned to the Managed Microsoft AD directory. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Uni- code characters. The string can contain only the set of Uni- code letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

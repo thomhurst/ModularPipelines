@@ -39,7 +39,7 @@ public record AwsLicenseManagerCreateGrantVersionOptions : AwsOptions
     /// <summary>
     /// Allowed operations for the grant. Constraints: o min: 1 o max: 8 (string) Possible values: o CreateGrant o CheckoutLicense o CheckoutBorrowLicense o CheckInLicense o ExtendConsumptionLicense o ListPurchasedLicenses o CreateToken Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-operations")]
+    [CliOption("--allowed-operations", GroupValues = true)]
     public IEnumerable<string>? AllowedOperations { get; set; }
 
     /// <summary>

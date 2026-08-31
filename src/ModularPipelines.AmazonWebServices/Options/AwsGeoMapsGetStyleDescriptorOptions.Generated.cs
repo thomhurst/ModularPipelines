@@ -58,7 +58,7 @@ public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
     /// <summary>
     /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simul- taneously, although this increases the overall information density rendered on the map. Not supported in ap-southeast-1 and ap-south- east-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite . Constraints: o min: 0 o max: 2 (string) Possible values: o Transit o Truck Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--travel-modes")]
+    [CliOption("--travel-modes", GroupValues = true)]
     public IEnumerable<string>? TravelModes { get; set; }
 
     /// <summary>
@@ -76,7 +76,7 @@ public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
     /// <summary>
     /// Renders only the specified categories of points of interest. When you omit this parameter, the map renders all categories. The following categories are currently supported: o FoodAndDrink o Entertainment o SightsAndMuseums o Transportation o Accommodations o LeisureAndOutdoor o Shopping o BusinessAndServices o FacilitiesAndBuildings Specify each category as a separate poi-categories query parameter. Duplicate values are rejected. NOTE: This parameter has no effect when poi-density is set to Off , which hides all points of interest regardless of category. This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style. Constraints: o min: 0 o max: 9 (string) Possible values: o FoodAndDrink o Entertainment o SightsAndMuseums o Transportation o Accommodations o LeisureAndOutdoor o Shopping o BusinessAndServices o FacilitiesAndBuildings Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--poi-categories")]
+    [CliOption("--poi-categories", GroupValues = true)]
     public IEnumerable<string>? PoiCategories { get; set; }
 
     /// <summary>

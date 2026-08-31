@@ -26,7 +26,7 @@ public record AwsObservabilityadminListResourceTelemetryForOrganizationOptions :
     /// <summary>
     /// A list of Amazon Web Services accounts used to filter the resources to those associated with the specified accounts. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-identifiers")]
+    [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
     /// <summary>
@@ -38,19 +38,19 @@ public record AwsObservabilityadminListResourceTelemetryForOrganizationOptions :
     /// <summary>
     /// A list of resource types used to filter resources in the organiza- tion. If this parameter is provided, the resources will be returned in the same order used in the request. Constraints: o min: 1 o max: 9 (string) Possible values: o AWS::EC2::Instance o AWS::EC2::VPC o AWS::Lambda::Function o AWS::CloudTrail o AWS::EKS::Cluster o AWS::WAFv2::WebACL o AWS::ElasticLoadBalancingV2::LoadBalancer o AWS::Route53Resolver::ResolverEndpoint o AWS::BedrockAgentCore::Runtime o AWS::BedrockAgentCore::Browser o AWS::BedrockAgentCore::CodeInterpreter o AWS::BedrockAgentCore::Gateway o AWS::BedrockAgentCore::Memory o AWS::BedrockAgentCore::WorkloadIdentity o AWS::SecurityHub::Hub o AWS::CloudFront::Distribution o AWS::SecurityHub::HubV2 o AWS::CloudWatch::OTelEnrichment o AWS::MSK::Cluster o AWS::S3::Bucket o AWS::Bedrock::KnowledgeBase Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
     /// A key-value pair to filter resources in the organization based on the telemetry type and the state of the telemetry configuration. The key is the telemetry type and the value is the state. key -&gt; (string) Possible values: o Logs o Metrics o Traces value -&gt; (string) Possible values: o Enabled o Disabled o NotApplicable Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Logs Metrics Traces JSON Syntax: {"Logs"|"Metrics"|"Traces": "Enabled"|"Disabled"|"NotApplicable" ...}
     /// </summary>
-    [CliOption("--telemetry-configuration-state")]
+    [CliOption("--telemetry-configuration-state", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TelemetryConfigurationState { get; set; }
 
     /// <summary>
     /// A key-value pair to filter resources in the organization based on tags associated with the resource. Fore more information about tags, see What are tags? Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--resource-tags")]
+    [CliOption("--resource-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceTags { get; set; }
 
     [CliOption("--cli-input-json")]

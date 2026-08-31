@@ -36,7 +36,7 @@ public record AwsSwfRegisterDomainOptions : AwsOptions
     /// <summary>
     /// Tags to be added when registering a domain. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Amazon SWF state machines and activities. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . key -&gt; (string) [required] The key of a tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of a tag. Constraints: o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

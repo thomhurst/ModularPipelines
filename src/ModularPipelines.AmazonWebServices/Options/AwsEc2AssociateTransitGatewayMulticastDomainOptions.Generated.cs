@@ -27,7 +27,7 @@ public record AwsEc2AssociateTransitGatewayMulticastDomainOptions : AwsOptions
     [CliOption("--transit-gateway-attachment-id")]
     public string? TransitGatewayAttachmentId { get; set; }
 
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     [CliFlag("--dry-run")]

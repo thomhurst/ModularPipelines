@@ -57,7 +57,7 @@ public record AwsRedshiftServerlessCreateNamespaceOptions : AwsOptions
     /// <summary>
     /// A list of IAM roles to associate with the namespace. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--iam-roles")]
+    [CliOption("--iam-roles", GroupValues = true)]
     public IEnumerable<string>? IamRoles { get; set; }
 
     /// <summary>
@@ -69,7 +69,7 @@ public record AwsRedshiftServerlessCreateNamespaceOptions : AwsOptions
     /// <summary>
     /// The types of logs the namespace can export. Available export types are userlog , connectionlog , and useractivitylog . Constraints: o min: 0 o max: 16 (string) Possible values: o useractivitylog o userlog o connectionlog Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-exports")]
+    [CliOption("--log-exports", GroupValues = true)]
     public IEnumerable<string>? LogExports { get; set; }
 
     [CliFlag("--manage-admin-password")]
@@ -87,7 +87,7 @@ public record AwsRedshiftServerlessCreateNamespaceOptions : AwsOptions
     /// <summary>
     /// A list of tag instances. Constraints: o min: 0 o max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

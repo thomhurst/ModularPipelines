@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ssm-incidents", "update-replication-set")]
 public record AwsSsmIncidentsUpdateReplicationSetOptions : AwsOptions
 {
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     [CliOption("--arn")]

@@ -24,7 +24,7 @@ public record AwsIotUpdateDimensionOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--string-values")]
+    [CliOption("--string-values", GroupValues = true)]
     public IEnumerable<string>? StringValues { get; set; }
 
     [CliOption("--cli-input-json")]

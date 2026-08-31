@@ -27,7 +27,7 @@ public record AwsIotsitewiseCreateBulkImportJobOptions : AwsOptions
     [CliOption("--job-role-arn")]
     public string? JobRoleArn { get; set; }
 
-    [CliOption("--files")]
+    [CliOption("--files", GroupValues = true)]
     public IEnumerable<string>? Files { get; set; }
 
     [CliOption("--error-report-location")]

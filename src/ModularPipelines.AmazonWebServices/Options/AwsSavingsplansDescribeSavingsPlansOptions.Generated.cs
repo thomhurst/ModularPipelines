@@ -25,13 +25,13 @@ public record AwsSavingsplansDescribeSavingsPlansOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARN) of the Savings Plans. Constraints: o max: 100 (string) Constraints: o pattern: arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):sav- ings- plan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--savings-plan-arns")]
+    [CliOption("--savings-plan-arns", GroupValues = true)]
     public IEnumerable<string>? SavingsPlanArns { get; set; }
 
     /// <summary>
     /// The IDs of the Savings Plans. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--savings-plan-ids")]
+    [CliOption("--savings-plan-ids", GroupValues = true)]
     public IEnumerable<string>? SavingsPlanIds { get; set; }
 
     /// <summary>
@@ -50,13 +50,13 @@ public record AwsSavingsplansDescribeSavingsPlansOptions : AwsOptions
     /// <summary>
     /// The current states of the Savings Plans. (string) Possible values: o payment-pending o payment-failed o active o retired o queued o queued-deleted o pending-return o returned Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>
     /// The filters. (structure) Information about a Savings Plan filter. name -&gt; (string) The filter name. Possible values: o region o ec2-instance-family o commitment o upfront o term o savings-plan-type o payment-option o start o end o instance-family values -&gt; (list) The filter value. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"ec2-instance-family"|"commitment"|"upfront"|"term"|"savings-plan-type"|"payment-option"|"start"|"end"|"instance-family", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

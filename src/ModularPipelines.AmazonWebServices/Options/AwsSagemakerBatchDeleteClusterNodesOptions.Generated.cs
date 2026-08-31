@@ -27,13 +27,13 @@ public record AwsSagemakerBatchDeleteClusterNodesOptions : AwsOptions
     /// <summary>
     /// A list of node IDs to be deleted from the specified cluster. NOTE: o For SageMaker HyperPod clusters using the Slurm workload man- ager, you cannot remove instances that are configured as Slurm controller nodes. o If you need to delete more than 99 instances, contact Support for assistance. Constraints: o min: 1 o max: 3000 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--node-ids")]
+    [CliOption("--node-ids", GroupValues = true)]
     public IEnumerable<string>? NodeIds { get; set; }
 
     /// <summary>
     /// A list of NodeLogicalIds identifying the nodes to be deleted. You can specify up to 50 NodeLogicalIds . You must specify either NodeL- ogicalIds , InstanceIds , or both, with a combined maximum of 50 identifiers. Constraints: o min: 1 o max: 99 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--node-logical-ids")]
+    [CliOption("--node-logical-ids", GroupValues = true)]
     public IEnumerable<string>? NodeLogicalIds { get; set; }
 
     [CliOption("--cli-input-json")]

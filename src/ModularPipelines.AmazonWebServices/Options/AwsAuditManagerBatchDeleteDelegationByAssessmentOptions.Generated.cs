@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("auditmanager", "batch-delete-delegation-by-assessment")]
 public record AwsAuditManagerBatchDeleteDelegationByAssessmentOptions : AwsOptions
 {
-    [CliOption("--delegation-ids")]
+    [CliOption("--delegation-ids", GroupValues = true)]
     public IEnumerable<string>? DelegationIds { get; set; }
 
     [CliOption("--assessment-id")]

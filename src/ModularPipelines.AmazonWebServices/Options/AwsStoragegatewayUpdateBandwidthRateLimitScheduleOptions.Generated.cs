@@ -24,7 +24,7 @@ public record AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions : AwsOpti
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; set; }
 
-    [CliOption("--bandwidth-rate-limit-intervals")]
+    [CliOption("--bandwidth-rate-limit-intervals", GroupValues = true)]
     public IEnumerable<string>? BandwidthRateLimitIntervals { get; set; }
 
     [CliOption("--cli-input-json")]

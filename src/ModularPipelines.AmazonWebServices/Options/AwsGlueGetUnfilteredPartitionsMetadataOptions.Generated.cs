@@ -43,7 +43,7 @@ public record AwsGlueGetUnfilteredPartitionsMetadataOptions : AwsOptions
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
-    [CliOption("--supported-permission-types")]
+    [CliOption("--supported-permission-types", GroupValues = true)]
     public IEnumerable<string>? SupportedPermissionTypes { get; set; }
 
     /// <summary>

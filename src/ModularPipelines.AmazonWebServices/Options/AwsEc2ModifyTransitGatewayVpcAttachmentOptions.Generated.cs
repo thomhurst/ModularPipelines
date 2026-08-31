@@ -27,13 +27,13 @@ public record AwsEc2ModifyTransitGatewayVpcAttachmentOptions : AwsOptions
     /// <summary>
     /// The IDs of one or more subnets to add. You can specify at most one subnet per Availability Zone. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-subnet-ids")]
+    [CliOption("--add-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? AddSubnetIds { get; set; }
 
     /// <summary>
     /// The IDs of one or more subnets to remove. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-subnet-ids")]
+    [CliOption("--remove-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? RemoveSubnetIds { get; set; }
 
     /// <summary>

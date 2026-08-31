@@ -25,7 +25,7 @@ public record AwsStoragegatewayDescribeTapeArchivesOptions : AwsOptions
     /// <summary>
     /// Specifies one or more unique Amazon Resource Names (ARNs) that rep- resent the virtual tapes you want to describe. (string) Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegate- way:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tape-arns")]
+    [CliOption("--tape-arns", GroupValues = true)]
     public IEnumerable<string>? TapeArns { get; set; }
 
     [CliOption("--cli-input-json")]

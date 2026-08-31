@@ -29,7 +29,7 @@ public record AwsInternetmonitorCreateMonitorOptions : AwsOptions
     /// <summary>
     /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront distributions, or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add NLBs or WorkSpaces directories together with any other re- sources. NOTE: If you add only Amazon VPC resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has in- ternet connectivity. (string) Constraints: o min: 20 o max: 2048 o pattern: arn:.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
@@ -42,7 +42,7 @@ public record AwsInternetmonitorCreateMonitorOptions : AwsOptions
     /// <summary>
     /// The tags for a monitor. You can add a maximum of 50 tags in Internet Monitor. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

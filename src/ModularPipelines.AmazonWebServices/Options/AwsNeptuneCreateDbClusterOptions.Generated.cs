@@ -25,7 +25,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     /// <summary>
     /// A list of EC2 Availability Zones that instances in the DB cluster can be created in. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zones")]
+    [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     /// <summary>
     /// A list of EC2 VPC security groups to associate with this DB cluster. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
@@ -125,7 +125,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the new DB cluster. (structure) Metadata assigned to an Amazon Neptune resource consisting of a key-value pair. Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--storage-encrypted")]
@@ -149,7 +149,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     /// <summary>
     /// A list of the log types that this DB cluster should export to Cloud- Watch Logs. Valid log types are: audit (to publish audit logs) and slowquery (to publish slow-query logs). See Publishing Neptune logs to Amazon CloudWatch logs . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enable-cloudwatch-logs-exports")]
+    [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
     [CliFlag("--deletion-protection")]

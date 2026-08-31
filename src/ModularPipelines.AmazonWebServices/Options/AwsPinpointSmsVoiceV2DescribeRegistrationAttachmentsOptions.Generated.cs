@@ -25,13 +25,13 @@ public record AwsPinpointSmsVoiceV2DescribeRegistrationAttachmentsOptions : AwsO
     /// <summary>
     /// The unique identifier of registration attachments to find. This is an array of RegistrationAttachmentId . Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--registration-attachment-ids")]
+    [CliOption("--registration-attachment-ids", GroupValues = true)]
     public IEnumerable<string>? RegistrationAttachmentIds { get; set; }
 
     /// <summary>
     /// An array of RegistrationAttachmentFilter objects to filter the re- sults. Constraints: o min: 0 o max: 20 (structure) The filter definition for filtering registration attachments that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o attachment-status Values -&gt; (list) [required] An array of values to filter on. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "attachment-status", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -31,7 +31,7 @@ public record AwsCodecatalystListWorkflowsOptions : AwsOptions
     /// <summary>
     /// Information used to sort the items in the returned list. Constraints: o min: 0 o max: 1 (structure) Information used to sort workflows in the returned list. Shorthand Syntax: ... JSON Syntax: [ { } ... ]
     /// </summary>
-    [CliOption("--sort-by")]
+    [CliOption("--sort-by", GroupValues = true)]
     public IEnumerable<string>? SortBy { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("trustedadvisor", "batch-update-recommendation-resource-exclusion")]
 public record AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions : AwsOptions
 {
-    [CliOption("--recommendation-resource-exclusions")]
+    [CliOption("--recommendation-resource-exclusions", GroupValues = true)]
     public IEnumerable<string>? RecommendationResourceExclusions { get; set; }
 
     [CliOption("--cli-input-json")]

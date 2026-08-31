@@ -26,13 +26,13 @@ public record AwsPinpointSmsVoiceV2ListNotifyCountriesOptions : AwsOptions
     /// <summary>
     /// An array of channels to filter the results by. Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--channels")]
+    [CliOption("--channels", GroupValues = true)]
     public IEnumerable<string>? Channels { get; set; }
 
     /// <summary>
     /// An array of use cases to filter the results by. Constraints: o min: 1 o max: 4 (string) The use case for a notify configuration. o CODE_VERIFICATION - Code verification use case. Possible values: o CODE_VERIFICATION Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--use-cases")]
+    [CliOption("--use-cases", GroupValues = true)]
     public IEnumerable<string>? UseCases { get; set; }
 
     /// <summary>

@@ -24,7 +24,7 @@ public record AwsNeptuneModifyDbClusterParameterGroupOptions : AwsOptions
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
 
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

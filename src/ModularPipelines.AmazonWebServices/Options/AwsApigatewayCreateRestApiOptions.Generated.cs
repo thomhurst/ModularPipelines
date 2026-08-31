@@ -42,7 +42,7 @@ public record AwsApigatewayCreateRestApiOptions : AwsOptions
     /// <summary>
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--binary-media-types")]
+    [CliOption("--binary-media-types", GroupValues = true)]
     public IEnumerable<string>? BinaryMediaTypes { get; set; }
 
     /// <summary>
@@ -73,7 +73,7 @@ public record AwsApigatewayCreateRestApiOptions : AwsOptions
     /// <summary>
     /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws: . The tag value can be up to 256 characters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliFlag("--disable-execute-api-endpoint")]

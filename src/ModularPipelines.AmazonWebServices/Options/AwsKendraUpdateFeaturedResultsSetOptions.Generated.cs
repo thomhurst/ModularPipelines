@@ -49,13 +49,13 @@ public record AwsKendraUpdateFeaturedResultsSetOptions : AwsOptions
     /// <summary>
     /// A list of queries for featuring results. For more information on the list of queries, see FeaturedResultsSet . Constraints: o min: 0 o max: 49 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--query-texts")]
+    [CliOption("--query-texts", GroupValues = true)]
     public IEnumerable<string>? QueryTexts { get; set; }
 
     /// <summary>
     /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of featured documents, see FeaturedResultsSet . (structure) A featured document. This document is displayed at the top of the search results page, placed above all other results for cer- tain queries. If there's an exact match of a query, then the document is featured in the search results. Id -&gt; (string) The identifier of the document to feature in the search re- sults. You can use the Query API to search for specific docu- ments with their document IDs included in the result items, or you can use the console. Constraints: o min: 1 o max: 2048 Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]
     /// </summary>
-    [CliOption("--featured-documents")]
+    [CliOption("--featured-documents", GroupValues = true)]
     public IEnumerable<string>? FeaturedDocuments { get; set; }
 
     [CliOption("--cli-input-json")]

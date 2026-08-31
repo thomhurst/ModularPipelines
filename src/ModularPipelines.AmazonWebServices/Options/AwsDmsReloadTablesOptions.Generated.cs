@@ -25,7 +25,7 @@ public record AwsDmsReloadTablesOptions : AwsOptions
     [CliOption("--replication-task-arn")]
     public string? ReplicationTaskArn { get; set; }
 
-    [CliOption("--tables-to-reload")]
+    [CliOption("--tables-to-reload", GroupValues = true)]
     public IEnumerable<string>? TablesToReload { get; set; }
 
     /// <summary>

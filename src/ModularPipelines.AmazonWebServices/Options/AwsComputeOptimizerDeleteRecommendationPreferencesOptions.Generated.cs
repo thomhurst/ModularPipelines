@@ -30,7 +30,7 @@ public record AwsComputeOptimizerDeleteRecommendationPreferencesOptions : AwsOpt
     [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CliOption("--recommendation-preference-names")]
+    [CliOption("--recommendation-preference-names", GroupValues = true)]
     public IEnumerable<string>? RecommendationPreferenceNames { get; set; }
 
     [CliOption("--cli-input-json")]

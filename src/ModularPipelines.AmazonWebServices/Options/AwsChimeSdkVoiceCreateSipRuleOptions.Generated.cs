@@ -33,7 +33,7 @@ public record AwsChimeSdkVoiceCreateSipRuleOptions : AwsOptions
     [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CliOption("--target-applications")]
+    [CliOption("--target-applications", GroupValues = true)]
     public IEnumerable<string>? TargetApplications { get; set; }
 
     [CliOption("--cli-input-json")]

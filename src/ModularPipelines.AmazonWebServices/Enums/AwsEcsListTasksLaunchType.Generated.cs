@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsListTasksLaunchType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("EC2")]
     Ec2 = 1,
 

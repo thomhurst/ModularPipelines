@@ -39,7 +39,7 @@ public record AwsLightsailGetInstanceMetricDataOptions : AwsOptions
     [CliOption("--unit")]
     public string? Unit { get; set; }
 
-    [CliOption("--statistics")]
+    [CliOption("--statistics", GroupValues = true)]
     public IEnumerable<string>? Statistics { get; set; }
 
     [CliOption("--cli-input-json")]

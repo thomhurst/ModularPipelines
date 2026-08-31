@@ -36,7 +36,7 @@ public record AwsLakeformationDeleteObjectsOnCancelOptions : AwsOptions
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CliOption("--objects")]
+    [CliOption("--objects", GroupValues = true)]
     public IEnumerable<string>? Objects { get; set; }
 
     [CliOption("--cli-input-json")]

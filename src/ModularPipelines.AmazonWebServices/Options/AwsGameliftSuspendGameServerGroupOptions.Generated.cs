@@ -24,7 +24,7 @@ public record AwsGameliftSuspendGameServerGroupOptions : AwsOptions
     [CliOption("--game-server-group-name")]
     public string? GameServerGroupName { get; set; }
 
-    [CliOption("--suspend-actions")]
+    [CliOption("--suspend-actions", GroupValues = true)]
     public IEnumerable<string>? SuspendActions { get; set; }
 
     [CliOption("--cli-input-json")]

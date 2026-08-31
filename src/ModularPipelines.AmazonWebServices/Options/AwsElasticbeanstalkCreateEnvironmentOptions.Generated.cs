@@ -57,7 +57,7 @@ public record AwsElasticbeanstalkCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// Specifies the tags applied to resources in the environment. (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -87,13 +87,13 @@ public record AwsElasticbeanstalkCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the AWS Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated AWS resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--option-settings")]
+    [CliOption("--option-settings", GroupValues = true)]
     public IEnumerable<string>? OptionSettings { get; set; }
 
     /// <summary>
     /// A list of custom user-defined configuration options to remove from the configuration set for this new environment. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated AWS resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
     /// </summary>
-    [CliOption("--options-to-remove")]
+    [CliOption("--options-to-remove", GroupValues = true)]
     public IEnumerable<string>? OptionsToRemove { get; set; }
 
     /// <summary>

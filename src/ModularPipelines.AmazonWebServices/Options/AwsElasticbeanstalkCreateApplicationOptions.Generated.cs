@@ -39,7 +39,7 @@ public record AwsElasticbeanstalkCreateApplicationOptions : AwsOptions
     /// <summary>
     /// Specifies the tags applied to the application. Elastic Beanstalk applies these tags only to the application. Envi- ronments that you create in the application don't inherit the tags. (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

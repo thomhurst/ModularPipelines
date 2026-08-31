@@ -31,7 +31,7 @@ public record AwsComputeOptimizerAutomationListAutomationRulePreviewOptions : Aw
     [CliOption("--organization-scope")]
     public string? OrganizationScope { get; set; }
 
-    [CliOption("--recommended-action-types")]
+    [CliOption("--recommended-action-types", GroupValues = true)]
     public IEnumerable<string>? RecommendedActionTypes { get; set; }
 
     /// <summary>

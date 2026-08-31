@@ -25,13 +25,13 @@ public record AwsFsxDescribeVolumesOptions : AwsOptions
     /// <summary>
     /// The IDs of the volumes whose descriptions you want to retrieve. Constraints: o max: 50 (string) Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--volume-ids")]
+    [CliOption("--volume-ids", GroupValues = true)]
     public IEnumerable<string>? VolumeIds { get; set; }
 
     /// <summary>
     /// Enter a filter Name and Values pair to view a select set of volumes. Constraints: o max: 2 (structure) A filter used to restrict the results of describe calls for Ama- zon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volumes. You can use multiple filters to return results that meet all applied filter requirements. Name -&gt; (string) The name for this filter. Possible values: o file-system-id o storage-virtual-machine-id Values -&gt; (list) The values of the filter. These are all the values for any of the applied filters. Constraints: o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id"|"storage-virtual-machine-id", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

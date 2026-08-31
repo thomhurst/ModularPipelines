@@ -30,7 +30,7 @@ public record AwsWorkmailPutMailboxPermissionsOptions : AwsOptions
     [CliOption("--grantee-id")]
     public string? GranteeId { get; set; }
 
-    [CliOption("--permission-values")]
+    [CliOption("--permission-values", GroupValues = true)]
     public IEnumerable<string>? PermissionValues { get; set; }
 
     [CliOption("--cli-input-json")]

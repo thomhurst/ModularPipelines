@@ -50,6 +50,13 @@ public class AwsCliScraperTests
 
         await Assert.That(commands.Select(command => command.FullCommand))
             .IsEquivalentTo(["aws ec2 describe-instances"]);
+
+        var instanceIds = commands.Single().Options.Single(option => option.SwitchName == "--instance-ids");
+        using (Assert.Multiple())
+        {
+            await Assert.That(instanceIds.AcceptsMultipleValues).IsTrue();
+            await Assert.That(instanceIds.GroupValues).IsTrue();
+        }
     }
 
     [Test]
@@ -67,6 +74,65 @@ public class AwsCliScraperTests
                 .IsEquivalentTo(["TimeBasedCanary", "TimeBasedLinear", "AllAtOnce"]);
             await Assert.That(values.Select(value => value.MemberName).Distinct().Count())
                 .IsEqualTo(values.Count);
+        }
+    }
+
+    [Test]
+    public async Task Lambda_Invocation_Type_Strips_Aws_Bullet_Markers()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "InvocationType",
+            "AwsLambdaInvokeOptions",
+            "Possible values: o Event o RequestResponse o DryRun");
+
+        await Assert.That(definition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["Event", "RequestResponse", "DryRun"]);
+    }
+
+    [Test]
+    public async Task Enum_Detection_Rejects_Numeric_Constraint_Prose()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "NumberOfNodes",
+            "AwsRedshiftModifyClusterOptions",
+            "Valid Values: Integer greater than 0");
+
+        await Assert.That(definition).IsNull();
+    }
+
+    [Test]
+    public async Task Enum_Detection_Preserves_Integer_Enum_Value()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "Unit",
+            "AwsConnectUpdateMetricContentOptions",
+            "Possible values: o INTEGER o DOUBLE o PERCENT o SECONDS");
+
+        await Assert.That(definition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["INTEGER", "DOUBLE", "PERCENT", "SECONDS"]);
+    }
+
+    [Test]
+    public async Task Redshift_Number_Of_Nodes_Uses_Numeric_Hint_Before_Constraint_Prose()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsNumericConstraintHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single().Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("--number-of-nodes");
+            await Assert.That(option.CSharpType).IsEqualTo("int?");
+            await Assert.That(option.IsNumeric).IsTrue();
+            await Assert.That(option.EnumDefinition).IsNull();
         }
     }
 
@@ -112,7 +178,32 @@ public class AwsCliScraperTests
         {
             await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.GroupValues).IsTrue();
             await Assert.That(option.EnumDefinition).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task Map_Options_Join_Entries_Into_One_Operand()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsMapHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single().Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
+            await Assert.That(option.IsKeyValue).IsTrue();
+            await Assert.That(option.GroupValues).IsFalse();
+            await Assert.That(option.CollectionSeparator).IsEqualTo(",");
         }
     }
 
@@ -131,16 +222,41 @@ public class AwsCliScraperTests
         }
 
         var options = commands.Single().Options;
+        var cliInputJson = options.Single(option => option.SwitchName == "--cli-input-json");
+        var generateCliSkeleton = options.Single(option => option.SwitchName == "--generate-cli-skeleton");
         using (Assert.Multiple())
         {
-            await Assert.That(options.Single(option => option.SwitchName == "--cli-input-json").CSharpType)
-                .IsEqualTo("string?");
-            await Assert.That(options.Single(option => option.SwitchName == "--cli-input-json").IsFlag)
-                .IsFalse();
-            await Assert.That(options.Single(option => option.SwitchName == "--generate-cli-skeleton").CSharpType)
-                .IsEqualTo("string?");
-            await Assert.That(options.Single(option => option.SwitchName == "--generate-cli-skeleton").IsFlag)
-                .IsFalse();
+            await Assert.That(cliInputJson.CSharpType).IsEqualTo("string?");
+            await Assert.That(cliInputJson.IsFlag).IsFalse();
+            await Assert.That(cliInputJson.GroupValues).IsFalse();
+            await Assert.That(generateCliSkeleton.CSharpType).IsEqualTo("string?");
+            await Assert.That(generateCliSkeleton.IsFlag).IsFalse();
+            await Assert.That(generateCliSkeleton.GroupValues).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Paired_Boolean_Switches_Become_One_Negatable_Option()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsNegatedBooleanHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single().Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("--associate-public-ip-address");
+            await Assert.That(option.NegatedSwitchName).IsEqualTo("--no-associate-public-ip-address");
+            await Assert.That(option.PropertyName).IsEqualTo("AssociatePublicIpAddress");
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(option.IsFlag).IsTrue();
         }
     }
 
@@ -292,6 +408,35 @@ public class AwsCliScraperTests
             Task.FromResult(true);
     }
 
+    private sealed class AwsNumericConstraintHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o redshift",
+                "redshift help" => "AVAILABLE COMMANDS\n       o modify-cluster",
+                "redshift modify-cluster help" => """
+                    OPTIONS
+                           --number-of-nodes (integer)
+                            Valid Values: Integer greater than 0
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
     private sealed class AwsListHelpExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
@@ -359,6 +504,35 @@ public class AwsCliScraperTests
             Task.FromResult(true);
     }
 
+    private sealed class AwsMapHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o amplify",
+                "amplify help" => "AVAILABLE COMMANDS\n       o create-app",
+                "amplify create-app help" => """
+                    OPTIONS
+                           --environment-variables (map)
+                            Shorthand Syntax: KeyName1=string,KeyName2=string
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
     private sealed class AwsS3HelpExecutor : ICliCommandExecutor
     {
         private static readonly string[] Commands =
@@ -382,6 +556,35 @@ public class AwsCliScraperTests
                            --quiet (boolean)
                     """,
                 _ when arguments.StartsWith("s3 ", StringComparison.Ordinal) => "OPTIONS\n       --quiet (boolean)\n",
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class AwsNegatedBooleanHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o ec2",
+                "ec2 help" => "AVAILABLE COMMANDS\n       o run-instances",
+                "ec2 run-instances help" => """
+                    OPTIONS
+                           "--associate-public-ip-address" | "--no-associate-public-ip-address"
+                            (boolean) [EC2-VPC] If specified a public IP address will be assigned.
+                    """,
                 _ => string.Empty,
             };
 

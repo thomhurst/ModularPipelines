@@ -35,7 +35,7 @@ public record AwsBedrockAgentDeleteKnowledgeBaseDocumentsOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--document-identifiers")]
+    [CliOption("--document-identifiers", GroupValues = true)]
     public IEnumerable<string>? DocumentIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

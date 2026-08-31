@@ -54,7 +54,7 @@ public record AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions : AwsOptions
     [CliOption("--notifications-configuration")]
     public string? NotificationsConfiguration { get; set; }
 
-    [CliOption("--attendees")]
+    [CliOption("--attendees", GroupValues = true)]
     public IEnumerable<string>? Attendees { get; set; }
 
     /// <summary>
@@ -66,13 +66,13 @@ public record AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions : AwsOptions
     /// <summary>
     /// A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 2 o max: 256 o pattern: ^(?!.*?(.)\1{3})[-_!@#$a-zA-Z0-9]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tenant-ids")]
+    [CliOption("--tenant-ids", GroupValues = true)]
     public IEnumerable<string>? TenantIds { get; set; }
 
     /// <summary>
     /// The tags in the request. Constraints: o min: 0 o max: 50 (structure) A key-value pair that you define. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

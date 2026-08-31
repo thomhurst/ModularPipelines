@@ -52,7 +52,7 @@ public record AwsLexv2ModelsUpdateBotOptions : AwsOptions
     /// <summary>
     /// The list of bot members in the network associated with the update action. Constraints: o min: 0 o max: 10 (structure) A bot that is a member of a network of bots. botMemberId -&gt; (string) [required] The unique ID of a bot that is a member of this network of bots. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botMemberName -&gt; (string) [required] The unique name of a bot that is a member of this network of bots. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$ botMemberAliasId -&gt; (string) [required] The alias ID of a bot that is a member of this network of bots. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ botMemberAliasName -&gt; (string) [required] The alias name of a bot that is a member of this network of bots. Constraints: o min: 1 o max: 100 o pattern: ^(\bAmazonLexTestAlias\b|[0-9a-zA-Z][_-]?)+$ botMemberVersion -&gt; (string) [required] The version of a bot that is a member of this network of bots. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: botMemberId=string,botMemberName=string,botMemberAliasId=string,botMemberAliasName=string,botMemberVersion=string ... JSON Syntax: [ { "botMemberId": "string", "botMemberName": "string", "botMemberAliasId": "string", "botMemberAliasName": "string", "botMemberVersion": "string" } ... ]
     /// </summary>
-    [CliOption("--bot-members")]
+    [CliOption("--bot-members", GroupValues = true)]
     public IEnumerable<string>? BotMembers { get; set; }
 
     /// <summary>

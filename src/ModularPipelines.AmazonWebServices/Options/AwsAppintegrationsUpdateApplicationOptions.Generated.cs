@@ -46,19 +46,19 @@ public record AwsAppintegrationsUpdateApplicationOptions : AwsOptions
     /// <summary>
     /// The events that the application subscribes. Constraints: o min: 0 o max: 50 (structure) The configuration of an event that the application subscribes. Event -&gt; (string) [required] The name of the subscription. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+::[a-zA-Z0-9\/\._\-]+(?:\*)?$ Description -&gt; (string) The description of the subscription. Constraints: o min: 0 o max: 1000 o pattern: .* Shorthand Syntax: Event=string,Description=string ... JSON Syntax: [ { "Event": "string", "Description": "string" } ... ]
     /// </summary>
-    [CliOption("--subscriptions")]
+    [CliOption("--subscriptions", GroupValues = true)]
     public IEnumerable<string>? Subscriptions { get; set; }
 
     /// <summary>
     /// The events that the application publishes. Constraints: o min: 0 o max: 50 (structure) The configuration of an event that the application publishes. Event -&gt; (string) [required] The name of the publication. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+::[a-zA-Z0-9\/\._\-]+(?:\*)?$ Schema -&gt; (string) [required] The JSON schema of the publication event. Constraints: o min: 1 o max: 10240 o pattern: ^.*$ Description -&gt; (string) The description of the publication. Constraints: o min: 0 o max: 1000 o pattern: .* Shorthand Syntax: Event=string,Schema=string,Description=string ... JSON Syntax: [ { "Event": "string", "Schema": "string", "Description": "string" } ... ]
     /// </summary>
-    [CliOption("--publications")]
+    [CliOption("--publications", GroupValues = true)]
     public IEnumerable<string>? Publications { get; set; }
 
     /// <summary>
     /// The configuration of events or requests that the application has ac- cess to. Constraints: o min: 0 o max: 150 (string) The permission of an event or request that the application has access to. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-\*]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--permissions")]
+    [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     [CliFlag("--is-service")]

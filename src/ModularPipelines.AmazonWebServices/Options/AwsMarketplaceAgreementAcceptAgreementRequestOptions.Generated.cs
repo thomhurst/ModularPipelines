@@ -27,7 +27,7 @@ public record AwsMarketplaceAgreementAcceptAgreementRequestOptions : AwsOptions
     /// <summary>
     /// A list of purchase orders associated with accepting a marketplace agreement request. Constraints: o min: 1 o max: 86 (structure) Contains information about a purchase order association to a charge within an agreement. chargeId -&gt; (string) [required] The unique identifier of the charge to associate the purchase order with. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ chargeRevision -&gt; (long) The revision of the charge. Constraints: o min: 1 agreementId -&gt; (string) The unique identifier of the agreement associated with this charge. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ purchaseOrderReference -&gt; (string) The purchase order reference to associate with the charge. Constraints: o min: 1 Shorthand Syntax: chargeId=string,chargeRevision=long,agreementId=string,purchaseOrderReference=string ... JSON Syntax: [ { "chargeId": "string", "chargeRevision": long, "agreementId": "string", "purchaseOrderReference": "string" } ... ]
     /// </summary>
-    [CliOption("--purchase-orders")]
+    [CliOption("--purchase-orders", GroupValues = true)]
     public IEnumerable<string>? PurchaseOrders { get; set; }
 
     [CliOption("--cli-input-json")]

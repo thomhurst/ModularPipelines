@@ -24,19 +24,19 @@ public record AwsDatapipelineValidatePipelineDefinitionOptions : AwsOptions
     [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CliOption("--pipeline-objects")]
+    [CliOption("--pipeline-objects", GroupValues = true)]
     public IEnumerable<string>? PipelineObjects { get; set; }
 
     /// <summary>
     /// The parameter objects used with the pipeline. (structure) Contains information about a parameter object. id -&gt; (string) [required] The ID of the parameter object. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* attributes -&gt; (list) [required] The attributes of the parameter object. (structure) The attributes allowed or specified with a parameter ob- ject. key -&gt; (string) [required] The field identifier. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* stringValue -&gt; (string) [required] The field value, expressed as a String. Constraints: o min: 0 o max: 10240 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: id=string,attributes=[{key=string,stringValue=string},{key=string,stringValue=string}] ... JSON Syntax: [ { "id": "string", "attributes": [ { "key": "string", "stringValue": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--parameter-objects")]
+    [CliOption("--parameter-objects", GroupValues = true)]
     public IEnumerable<string>? ParameterObjects { get; set; }
 
     /// <summary>
     /// The parameter values used with the pipeline. (structure) A value or list of parameter values. id -&gt; (string) [required] The ID of the parameter value. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* stringValue -&gt; (string) [required] The field value, expressed as a String. Constraints: o min: 0 o max: 10240 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: id=string,stringValue=string ... JSON Syntax: [ { "id": "string", "stringValue": "string" } ... ]
     /// </summary>
-    [CliOption("--parameter-values")]
+    [CliOption("--parameter-values", GroupValues = true)]
     public IEnumerable<string>? ParameterValues { get; set; }
 
     [CliOption("--cli-input-json")]

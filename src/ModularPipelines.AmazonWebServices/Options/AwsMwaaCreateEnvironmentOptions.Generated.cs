@@ -77,7 +77,7 @@ public record AwsMwaaCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs containing the Apache Airflow configura- tion options you want to attach to your environment. For more infor- mation, refer to Apache Airflow configuration options . key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [a-z]+([a-z0-9._]*[a-z0-9_]+)? value -&gt; (string) Constraints: o min: 1 o max: 65536 o pattern: [ -~]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--airflow-configuration-options")]
+    [CliOption("--airflow-configuration-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AirflowConfigurationOptions { get; set; }
 
     /// <summary>
@@ -119,7 +119,7 @@ public record AwsMwaaCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging" . For more information, refer to Tagging Amazon Web Services resources . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -150,13 +150,13 @@ public record AwsMwaaCreateEnvironmentOptions : AwsOptions
     /// The minimum number of web servers that you want to run in your envi- ronment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers . Valid values: For environments larger than mw1.micro, accepts values from 2 to 5 . Defaults to 2 for all environment sizes except mw1.mi- cro, which defaults to 1 . Constraints: o min: 1
     /// </summary>
     [CliOption("--min-webservers")]
-    public AwsMwaaCreateEnvironmentMinWebservers? MinWebservers { get; set; }
+    public int? MinWebservers { get; set; }
 
     /// <summary>
     /// The maximum number of web servers that you want to run in your envi- ronment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers . As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers . Valid values: For environments larger than mw1.micro, accepts values from 2 to 5 . Defaults to 2 for all environment sizes except mw1.mi- cro, which defaults to 1 . Constraints: o min: 1
     /// </summary>
     [CliOption("--max-webservers")]
-    public AwsMwaaCreateEnvironmentMaxWebservers? MaxWebservers { get; set; }
+    public int? MaxWebservers { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

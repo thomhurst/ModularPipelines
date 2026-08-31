@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector2", "batch-get-code-snippet")]
 public record AwsInspector2BatchGetCodeSnippetOptions : AwsOptions
 {
-    [CliOption("--finding-arns")]
+    [CliOption("--finding-arns", GroupValues = true)]
     public IEnumerable<string>? FindingArns { get; set; }
 
     [CliOption("--cli-input-json")]

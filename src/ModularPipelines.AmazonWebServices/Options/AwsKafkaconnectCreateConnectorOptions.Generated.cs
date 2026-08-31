@@ -26,7 +26,7 @@ public record AwsKafkaconnectCreateConnectorOptions : AwsOptions
     [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CliOption("--connector-configuration")]
+    [CliOption("--connector-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ConnectorConfiguration { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public record AwsKafkaconnectCreateConnectorOptions : AwsOptions
     [CliOption("--network-type")]
     public AwsKafkaconnectCreateConnectorNetworkType? NetworkType { get; set; }
 
-    [CliOption("--plugins")]
+    [CliOption("--plugins", GroupValues = true)]
     public IEnumerable<string>? Plugins { get; set; }
 
     [CliOption("--service-execution-role-arn")]
@@ -77,7 +77,7 @@ public record AwsKafkaconnectCreateConnectorOptions : AwsOptions
     /// <summary>
     /// The tags you want to attach to the connector. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

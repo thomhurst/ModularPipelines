@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("workspaces-web", "create-trust-store")]
 public record AwsWorkspacesWebCreateTrustStoreOptions : AwsOptions
 {
-    [CliOption("--certificate-list")]
+    [CliOption("--certificate-list", GroupValues = true)]
     public IEnumerable<string>? CertificateList { get; set; }
 
     /// <summary>
     /// The tags to add to the trust store. A tag is a key-value pair. Constraints: o min: 0 o max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

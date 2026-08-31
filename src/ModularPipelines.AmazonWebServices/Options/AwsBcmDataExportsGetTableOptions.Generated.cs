@@ -28,7 +28,7 @@ public record AwsBcmDataExportsGetTableOptions : AwsOptions
     /// <summary>
     /// TableProperties are additional configurations you can provide to change the data and schema of a table. Each table can have different TableProperties. Tables are not required to have any TableProper- ties. Each table property has a default value that it assumes if not specified. key -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* value -&gt; (string) Constraints: o min: 0 o max: 16384 o pattern: [\S\s]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--table-properties")]
+    [CliOption("--table-properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TableProperties { get; set; }
 
     [CliOption("--cli-input-json")]

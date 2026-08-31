@@ -38,7 +38,7 @@ public record AwsNotificationsCreateNotificationConfigurationOptions : AwsOption
     /// <summary>
     /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

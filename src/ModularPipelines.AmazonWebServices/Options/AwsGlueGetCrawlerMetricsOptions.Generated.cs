@@ -25,7 +25,7 @@ public record AwsGlueGetCrawlerMetricsOptions : AwsOptions
     /// <summary>
     /// A list of the names of crawlers about which to retrieve metrics. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--crawler-name-list")]
+    [CliOption("--crawler-name-list", GroupValues = true)]
     public IEnumerable<string>? CrawlerNameList { get; set; }
 
     [CliOption("--cli-input-json")]

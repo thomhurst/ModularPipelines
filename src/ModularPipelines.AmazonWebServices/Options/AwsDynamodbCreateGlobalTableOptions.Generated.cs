@@ -24,7 +24,7 @@ public record AwsDynamodbCreateGlobalTableOptions : AwsOptions
     [CliOption("--global-table-name")]
     public string? GlobalTableName { get; set; }
 
-    [CliOption("--replication-group")]
+    [CliOption("--replication-group", GroupValues = true)]
     public IEnumerable<string>? ReplicationGroup { get; set; }
 
     [CliOption("--cli-input-json")]

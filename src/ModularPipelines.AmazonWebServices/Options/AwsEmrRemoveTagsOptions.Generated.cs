@@ -24,7 +24,7 @@ public record AwsEmrRemoveTagsOptions : AwsOptions
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>

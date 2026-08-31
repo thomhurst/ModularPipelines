@@ -24,7 +24,7 @@ public record AwsConnectcasesBatchGetFieldOptions : AwsOptions
     [CliOption("--domain-id")]
     public string? DomainId { get; set; }
 
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     [CliOption("--cli-input-json")]

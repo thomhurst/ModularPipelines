@@ -24,7 +24,7 @@ public record AwsCleanroomsBatchGetCollaborationAnalysisTemplateOptions : AwsOpt
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; set; }
 
-    [CliOption("--analysis-template-arns")]
+    [CliOption("--analysis-template-arns", GroupValues = true)]
     public IEnumerable<string>? AnalysisTemplateArns { get; set; }
 
     [CliOption("--cli-input-json")]

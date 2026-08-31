@@ -52,7 +52,7 @@ public record AwsRedshiftServerlessUpdateNamespaceOptions : AwsOptions
     /// <summary>
     /// A list of IAM roles to associate with the namespace. This parameter must be updated together with defaultIamRoleArn . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--iam-roles")]
+    [CliOption("--iam-roles", GroupValues = true)]
     public IEnumerable<string>? IamRoles { get; set; }
 
     /// <summary>
@@ -70,7 +70,7 @@ public record AwsRedshiftServerlessUpdateNamespaceOptions : AwsOptions
     /// <summary>
     /// The types of logs the namespace can export. The export types are userlog , connectionlog , and useractivitylog . Constraints: o min: 0 o max: 16 (string) Possible values: o useractivitylog o userlog o connectionlog Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-exports")]
+    [CliOption("--log-exports", GroupValues = true)]
     public IEnumerable<string>? LogExports { get; set; }
 
     [CliFlag("--manage-admin-password")]
@@ -100,7 +100,7 @@ public record AwsRedshiftServerlessUpdateNamespaceOptions : AwsOptions
     /// <summary>
     /// The system tables to publish (on enable) or to stop publishing (on disable). Each value is either a system table view name that begins with sys_ or the keyword all . Omitting this parameter, passing an empty list, or including all each select every current and future system table. Each name must be 1-128 characters, and the list can contain up to 256 names. Valid only when logDestinationType is s3table . Constraints: o min: 0 o max: 256 (string) A system-table view name to publish to S3 Tables (e.g. "sys_query_history"), or the keyword "all" to publish every cur- rent and future system table. Constraints: o min: 1 o max: 128 o pattern: ^(all|sys_[a-z0-9_]+)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--s3-table-names")]
+    [CliOption("--s3-table-names", GroupValues = true)]
     public IEnumerable<string>? S3TableNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -4,6 +4,7 @@ using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Configuration;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Extensions;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.Extensions;
@@ -46,16 +47,7 @@ public static class S3DistributedExtensions
         configure(s3Options);
 
         builder.Services.AddSingleton(s3Options);
-
-        // Register artifact options if not already registered
-        if (!builder.Services.Any(d => d.ServiceType == typeof(ArtifactOptions)))
-        {
-            builder.Services.AddSingleton(new ArtifactOptions());
-        }
-
-        builder.Services.AddSingleton<IDistributedArtifactStoreFactory, S3DistributedArtifactStoreFactory>();
-
-        return builder;
+        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
     }
 
     /// <summary>
@@ -69,13 +61,8 @@ public static class S3DistributedExtensions
         var s3Options = new S3ArtifactOptions();
         configureS3(s3Options);
 
-        var artifactOptions = new ArtifactOptions();
-        configureArtifacts(artifactOptions);
-
         builder.Services.AddSingleton(s3Options);
-        builder.Services.AddSingleton(artifactOptions);
-        builder.Services.AddSingleton<IDistributedArtifactStoreFactory, S3DistributedArtifactStoreFactory>();
-
-        return builder;
+        builder.Services.Configure(configureArtifacts);
+        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
     }
 }

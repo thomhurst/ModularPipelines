@@ -31,7 +31,7 @@ public record AwsWorkspacesRegisterWorkspaceDirectoryOptions : AwsOptions
     /// <summary>
     /// The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these condi- tions are not met, you will receive an OperationNotSupportedExcep- tion error. Constraints: o max: 2 (string) Constraints: o min: 15 o max: 24 o pattern: ^(subnet-([0-9a-f]{8}|[0-9a-f]{17}))$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     [CliFlag("--enable-self-service")]
@@ -46,7 +46,7 @@ public record AwsWorkspacesRegisterWorkspaceDirectoryOptions : AwsOptions
     /// <summary>
     /// The tags associated with the directory. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

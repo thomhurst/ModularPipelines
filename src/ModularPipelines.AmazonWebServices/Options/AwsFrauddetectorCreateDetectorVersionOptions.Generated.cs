@@ -34,16 +34,16 @@ public record AwsFrauddetectorCreateDetectorVersionOptions : AwsOptions
     /// <summary>
     /// The Amazon Sagemaker model endpoints to include in the detector ver- sion. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--external-model-endpoints")]
+    [CliOption("--external-model-endpoints", GroupValues = true)]
     public IEnumerable<string>? ExternalModelEndpoints { get; set; }
 
-    [CliOption("--rules")]
+    [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>
     /// The model versions to include in the detector version. (structure) The model version. modelId -&gt; (string) [required] The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$ modelType -&gt; (string) [required] The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS modelVersionNumber -&gt; (string) [required] The model version number. Constraints: o min: 3 o max: 7 o pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$ arn -&gt; (string) The model version ARN. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:frauddetec- tor\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$ Shorthand Syntax: modelId=string,modelType=string,modelVersionNumber=string,arn=string ... JSON Syntax: [ { "modelId": "string", "modelType": "ONLINE_FRAUD_INSIGHTS"|"TRANSACTION_FRAUD_INSIGHTS"|"ACCOUNT_TAKEOVER_INSIGHTS", "modelVersionNumber": "string", "arn": "string" } ... ]
     /// </summary>
-    [CliOption("--model-versions")]
+    [CliOption("--model-versions", GroupValues = true)]
     public IEnumerable<string>? ModelVersions { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public record AwsFrauddetectorCreateDetectorVersionOptions : AwsOptions
     /// <summary>
     /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

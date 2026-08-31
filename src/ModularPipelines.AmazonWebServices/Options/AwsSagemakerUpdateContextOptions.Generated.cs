@@ -34,13 +34,13 @@ public record AwsSagemakerUpdateContextOptions : AwsOptions
     /// <summary>
     /// The new list of properties. Overwrites the current property list. Constraints: o min: 0 o max: 30 key -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--properties")]
+    [CliOption("--properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
     /// A list of properties to remove. (string) Constraints: o min: 0 o max: 2500 o pattern: .* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--properties-to-remove")]
+    [CliOption("--properties-to-remove", GroupValues = true)]
     public IEnumerable<string>? PropertiesToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

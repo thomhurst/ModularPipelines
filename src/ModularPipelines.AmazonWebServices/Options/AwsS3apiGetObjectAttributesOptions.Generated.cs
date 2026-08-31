@@ -76,7 +76,7 @@ public record AwsS3apiGetObjectAttributesOptions : AwsOptions
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CliOption("--object-attributes")]
+    [CliOption("--object-attributes", GroupValues = true)]
     public IEnumerable<string>? ObjectAttributes { get; set; }
 
     [CliOption("--cli-input-json")]

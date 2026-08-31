@@ -24,7 +24,7 @@ public record AwsDiscoveryStartBatchDeleteConfigurationTaskOptions : AwsOptions
     [CliOption("--configuration-type")]
     public string? ConfigurationType { get; set; }
 
-    [CliOption("--configuration-ids")]
+    [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; set; }
 
     [CliOption("--cli-input-json")]

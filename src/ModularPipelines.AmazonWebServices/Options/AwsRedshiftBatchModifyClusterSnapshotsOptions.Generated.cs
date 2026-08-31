@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("redshift", "batch-modify-cluster-snapshots")]
 public record AwsRedshiftBatchModifyClusterSnapshotsOptions : AwsOptions
 {
-    [CliOption("--snapshot-identifier-list")]
+    [CliOption("--snapshot-identifier-list", GroupValues = true)]
     public IEnumerable<string>? SnapshotIdentifierList { get; set; }
 
     /// <summary>

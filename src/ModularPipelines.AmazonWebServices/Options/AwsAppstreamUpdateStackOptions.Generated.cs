@@ -39,7 +39,7 @@ public record AwsAppstreamUpdateStackOptions : AwsOptions
     /// <summary>
     /// The storage connectors to enable. (structure) Describes a connector that enables persistent storage for users. ConnectorType -&gt; (string) [required] The type of storage connector. Possible values: o HOMEFOLDERS o GOOGLE_DRIVE o ONE_DRIVE ResourceIdentifier -&gt; (string) The ARN of the storage connector. Constraints: o min: 1 o max: 2048 Domains -&gt; (list) The names of the domains for the account. Constraints: o max: 50 (string) GSuite domain for GDrive integration. Constraints: o min: 1 o max: 64 DomainsRequireAdminConsent -&gt; (list) The OneDrive for Business domains where you require admin consent when users try to link their OneDrive account to WorkSpaces Applications. The attribute can only be specified when ConnectorType=ONE_DRIVE. Constraints: o max: 50 (string) GSuite domain for GDrive integration. Constraints: o min: 1 o max: 64 Shorthand Syntax: ConnectorType=string,ResourceIdentifier=string,Domains=string,string,DomainsRequireAdminConsent=string,string ... JSON Syntax: [ { "ConnectorType": "HOMEFOLDERS"|"GOOGLE_DRIVE"|"ONE_DRIVE", "ResourceIdentifier": "string", "Domains": ["string", ...], "DomainsRequireAdminConsent": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--storage-connectors")]
+    [CliOption("--storage-connectors", GroupValues = true)]
     public IEnumerable<string>? StorageConnectors { get; set; }
 
     [CliFlag("--delete-storage-connectors")]
@@ -60,13 +60,13 @@ public record AwsAppstreamUpdateStackOptions : AwsOptions
     /// <summary>
     /// The stack attributes to delete. (string) The stack attributes to delete. o STORAGE_CONNECTORS o STORAGE_CONNECTOR_HOMEFOLDERS o STORAGE_CONNECTOR_GOOGLE_DRIVE o STORAGE_CONNECTOR_ONE_DRIVE o REDIRECT_URL o FEEDBACK_URL o THEME_NAME o USER_SETTINGS o EMBED_HOST_DOMAINS o IAM_ROLE_ARN o ACCESS_ENDPOINTS o STREAMING_EXPERIENCE_SETTINGS o AGENT_ACCESS_CONFIG Possible values: o STORAGE_CONNECTORS o STORAGE_CONNECTOR_HOMEFOLDERS o STORAGE_CONNECTOR_GOOGLE_DRIVE o STORAGE_CONNECTOR_ONE_DRIVE o REDIRECT_URL o FEEDBACK_URL o THEME_NAME o USER_SETTINGS o EMBED_HOST_DOMAINS o IAM_ROLE_ARN o ACCESS_ENDPOINTS o STREAMING_EXPERIENCE_SETTINGS o CONTENT_REDIRECTION o AGENT_ACCESS_CONFIG Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attributes-to-delete")]
+    [CliOption("--attributes-to-delete", GroupValues = true)]
     public IEnumerable<string>? AttributesToDelete { get; set; }
 
     /// <summary>
     /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled. Constraints: o min: 1 (structure) Describes an action and whether the action is enabled or dis- abled for users during their streaming sessions. Action -&gt; (string) [required] The action that is enabled or disabled. Possible values: o CLIPBOARD_COPY_FROM_LOCAL_DEVICE o CLIPBOARD_COPY_TO_LOCAL_DEVICE o FILE_UPLOAD o FILE_DOWNLOAD o PRINTING_TO_LOCAL_DEVICE o DOMAIN_PASSWORD_SIGNIN o DOMAIN_SMART_CARD_SIGNIN o AUTO_TIME_ZONE_REDIRECTION Permission -&gt; (string) [required] Indicates whether the action is enabled or disabled. Possible values: o ENABLED o DISABLED MaximumLength -&gt; (integer) Specifies the number of characters that can be copied by end users from the local device to the remote session, and to the local device from the remote session. This can be specified only for the CLIPBOARD_COPY_FROM_LO- CAL_DEVICE and CLIPBOARD_COPY_TO_LOCAL_DEVICE actions. This defaults to 20,971,520 (20 MB) when unspecified and the permission is ENABLED . This can't be specified when the per- mission is DISABLED . The value can be between 1 and 20,971,520 (20 MB). Shorthand Syntax: Action=string,Permission=string,MaximumLength=integer ... JSON Syntax: [ { "Action": "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"|"CLIPBOARD_COPY_TO_LOCAL_DEVICE"|"FILE_UPLOAD"|"FILE_DOWNLOAD"|"PRINTING_TO_LOCAL_DEVICE"|"DOMAIN_PASSWORD_SIGNIN"|"DOMAIN_SMART_CARD_SIGNIN"|"AUTO_TIME_ZONE_REDIRECTION", "Permission": "ENABLED"|"DISABLED", "MaximumLength": integer } ... ]
     /// </summary>
-    [CliOption("--user-settings")]
+    [CliOption("--user-settings", GroupValues = true)]
     public IEnumerable<string>? UserSettings { get; set; }
 
     /// <summary>
@@ -78,13 +78,13 @@ public record AwsAppstreamUpdateStackOptions : AwsOptions
     /// <summary>
     /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints. Constraints: o min: 1 o max: 4 (structure) Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and WorkSpaces Applications. When you specify an interface endpoint for a stack, users of the stack can connect to WorkSpaces Applications only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint. EndpointType -&gt; (string) [required] The type of interface endpoint. Possible values: o STREAMING VpceId -&gt; (string) The identifier (ID) of the VPC in which the interface end- point is used. Constraints: o min: 1 Shorthand Syntax: EndpointType=string,VpceId=string ... JSON Syntax: [ { "EndpointType": "STREAMING", "VpceId": "string" } ... ]
     /// </summary>
-    [CliOption("--access-endpoints")]
+    [CliOption("--access-endpoints", GroupValues = true)]
     public IEnumerable<string>? AccessEndpoints { get; set; }
 
     /// <summary>
     /// The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions. Constraints: o min: 1 o max: 20 (string) Specifies a valid domain that can embed AppStream. Valid exam- ples include: ["testorigin.tt--com", "testingorigin.com.us", "test.com.us"] Invalid examples include: ["test,com", ".com", "h*llo.com". ""] Constraints: o max: 128 o pattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--embed-host-domains")]
+    [CliOption("--embed-host-domains", GroupValues = true)]
     public IEnumerable<string>? EmbedHostDomains { get; set; }
 
     /// <summary>

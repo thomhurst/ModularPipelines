@@ -1079,6 +1079,37 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Metadata_Rejects_MultiToken_Negated_Switch()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single() with
+            {
+                CSharpType = "bool?",
+                IsFlag = true,
+                NegatedSwitchName = "--no environment",
+            };
+            tool = tool with
+            {
+                Commands = [command with { Options = [option] }],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Rejects_Command_Switch_Colliding_With_Global_Alias()
     {
         var workspace = CreateTemporaryDirectory();
@@ -1101,6 +1132,40 @@ public class ExternalToolDefinitionTests
                         ShortForm = "--environment",
                         PropertyName = "GlobalEnvironment",
                         CSharpType = "string?",
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Negated_Switch_Colliding_With_Command_Switch()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            tool = tool with
+            {
+                GlobalOptions =
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--global-feature",
+                        NegatedSwitchName = "--environment",
+                        PropertyName = "GlobalFeature",
+                        CSharpType = "bool?",
+                        IsFlag = true,
                     },
                 ],
             };
@@ -1688,6 +1753,40 @@ public class ExternalToolDefinitionTests
             await Assert.That(async () =>
                     await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
                 .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Negated_Switch_On_NonNullable_Or_Counted_Flag()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            foreach (var cSharpType in new[] { "bool", "int?" })
+            {
+                var tool = await LoadValidToolAsync(workspace, outputDirectory);
+                var command = tool.Commands.Single();
+                var option = command.Options.Single() with
+                {
+                    CSharpType = cSharpType,
+                    IsFlag = true,
+                    NegatedSwitchName = "--no-environment",
+                };
+                tool = tool with
+                {
+                    Commands = [command with { Options = [option] }],
+                };
+
+                await Assert.That(async () =>
+                        await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                    .Throws<InvalidDataException>();
+            }
         }
         finally
         {

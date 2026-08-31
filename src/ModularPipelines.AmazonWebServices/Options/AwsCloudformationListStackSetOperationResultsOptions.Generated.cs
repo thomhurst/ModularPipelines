@@ -38,7 +38,7 @@ public record AwsCloudformationListStackSetOperationResultsOptions : AwsOptions
     /// <summary>
     /// The filter to apply to operation results. Constraints: o max: 1 (structure) The status that operation results are filtered by. Name -&gt; (string) The type of filter to apply. Possible values: o OPERATION_RESULT_STATUS Values -&gt; (string) The value to filter by. Constraints: o min: 6 o max: 9 o pattern: ^\S{6,9}$ Shorthand Syntax: Name=string,Values=string ... JSON Syntax: [ { "Name": "OPERATION_RESULT_STATUS", "Values": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

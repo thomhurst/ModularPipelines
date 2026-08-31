@@ -33,19 +33,19 @@ public record AwsNeptuneCreateDbClusterEndpointOptions : AwsOptions
     /// <summary>
     /// List of DB instance identifiers that are part of the custom endpoint group. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--static-members")]
+    [CliOption("--static-members", GroupValues = true)]
     public IEnumerable<string>? StaticMembers { get; set; }
 
     /// <summary>
     /// List of DB instance identifiers that aren't part of the custom end- point group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--excluded-members")]
+    [CliOption("--excluded-members", GroupValues = true)]
     public IEnumerable<string>? ExcludedMembers { get; set; }
 
     /// <summary>
     /// The tags to be assigned to the Amazon Neptune resource. (structure) Metadata assigned to an Amazon Neptune resource consisting of a key-value pair. Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

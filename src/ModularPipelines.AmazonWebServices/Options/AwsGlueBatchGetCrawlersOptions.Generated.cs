@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("glue", "batch-get-crawlers")]
 public record AwsGlueBatchGetCrawlersOptions : AwsOptions
 {
-    [CliOption("--crawler-names")]
+    [CliOption("--crawler-names", GroupValues = true)]
     public IEnumerable<string>? CrawlerNames { get; set; }
 
     [CliOption("--cli-input-json")]

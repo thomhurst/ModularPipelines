@@ -25,7 +25,7 @@ public record AwsCodestarNotificationsListEventTypesOptions : AwsOptions
     /// <summary>
     /// The filters to use to return information by service or resource type. (structure) Information about a filter to apply to the list of returned event types. You can filter by resource type or service name. Name -&gt; (string) [required] The system-generated name of the filter type you want to fil- ter by. Possible values: o RESOURCE_TYPE o SERVICE_NAME Value -&gt; (string) [required] The name of the resource type (for example, pipeline) or ser- vice name (for example, CodePipeline) that you want to filter by. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "RESOURCE_TYPE"|"SERVICE_NAME", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

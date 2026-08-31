@@ -36,7 +36,7 @@ public record AwsEc2ModifyVpcEndpointConnectionNotificationOptions : AwsOptions
     /// <summary>
     /// The events for the endpoint. Valid values are Accept , Connect , Delete , and Reject . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--connection-events")]
+    [CliOption("--connection-events", GroupValues = true)]
     public IEnumerable<string>? ConnectionEvents { get; set; }
 
     [CliOption("--cli-input-json")]

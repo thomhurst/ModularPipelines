@@ -28,7 +28,7 @@ public record AwsSnowballListServiceVersionsOptions : AwsOptions
     /// <summary>
     /// A list of names and versions of dependant services of the requested service. (structure) The name and version of the service dependant on the requested service. ServiceName -&gt; (string) The name of the dependent service. Possible values: o KUBERNETES o EKS_ANYWHERE ServiceVersion -&gt; (structure) The version of the dependent service. Version -&gt; (string) The version number of the requested service. Constraints: o min: 1 o max: 1024 o pattern: .* Shorthand Syntax: ServiceName=string,ServiceVersion={Version=string} ... JSON Syntax: [ { "ServiceName": "KUBERNETES"|"EKS_ANYWHERE", "ServiceVersion": { "Version": "string" } } ... ]
     /// </summary>
-    [CliOption("--dependent-services")]
+    [CliOption("--dependent-services", GroupValues = true)]
     public IEnumerable<string>? DependentServices { get; set; }
 
     /// <summary>

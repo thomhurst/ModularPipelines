@@ -44,7 +44,7 @@ public record AwsConnectListRealtimeContactAnalysisSegmentsV2Options : AwsOption
     [CliOption("--output-type")]
     public string? OutputType { get; set; }
 
-    [CliOption("--segment-types")]
+    [CliOption("--segment-types", GroupValues = true)]
     public IEnumerable<string>? SegmentTypes { get; set; }
 
     [CliOption("--cli-input-json")]

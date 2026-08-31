@@ -24,7 +24,7 @@ public record AwsRedshiftCreateSnapshotScheduleOptions : AwsOptions
     /// <summary>
     /// The definition of the snapshot schedule. The definition is made up of schedule expressions, for example "cron(30 12 * )" or "rate(12 hours)". System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline emphasis start-string without end-string. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--schedule-definitions")]
+    [CliOption("--schedule-definitions", GroupValues = true)]
     public IEnumerable<string>? ScheduleDefinitions { get; set; }
 
     /// <summary>
@@ -42,7 +42,7 @@ public record AwsRedshiftCreateSnapshotScheduleOptions : AwsOptions
     /// <summary>
     /// An optional set of tags you can use to search for the schedule. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--dry-run")]

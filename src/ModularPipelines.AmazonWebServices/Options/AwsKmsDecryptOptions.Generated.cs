@@ -33,14 +33,14 @@ public record AwsKmsDecryptOptions : AwsOptions
     /// <summary>
     /// Specifies the encryption context to use when decrypting the data. An encryption context is valid only for cryptographic operations with a symmetric encryption KMS key. The standard asymmetric encryption al- gorithms and HMAC algorithms that KMS uses do not support an encryp- tion context. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an en- cryption context to encrypt data, you must specify the same (an ex- act case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recom- mended. For more information, see Encryption context in the Key Management Service Developer Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--encryption-context")]
+    [CliOption("--encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EncryptionContext { get; set; }
 
     /// <summary>
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 8192 Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
-    [CliOption("--grant-tokens")]
+    [CliOption("--grant-tokens", GroupValues = true)]
     public IEnumerable<string>? GrantTokens { get; set; }
 
     /// <summary>
@@ -67,7 +67,7 @@ public record AwsKmsDecryptOptions : AwsOptions
     /// <summary>
     /// Specifies the modifiers to apply to the dry run operation. DryRun- Modifiers is an optional parameter that only applies when DryRun is set to true . When set to IGNORE_CIPHERTEXT , KMS performs only authorization val- idation without ciphertext validation. This allows you to test per- missions without requiring a valid ciphertext blob. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide . (string) Possible values: o IGNORE_CIPHERTEXT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--dry-run-modifiers")]
+    [CliOption("--dry-run-modifiers", GroupValues = true)]
     public IEnumerable<string>? DryRunModifiers { get; set; }
 
     [CliOption("--cli-input-json")]

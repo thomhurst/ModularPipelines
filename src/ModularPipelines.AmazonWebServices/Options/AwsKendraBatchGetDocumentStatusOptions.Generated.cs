@@ -24,7 +24,7 @@ public record AwsKendraBatchGetDocumentStatusOptions : AwsOptions
     [CliOption("--index-id")]
     public string? IndexId { get; set; }
 
-    [CliOption("--document-info-list")]
+    [CliOption("--document-info-list", GroupValues = true)]
     public IEnumerable<string>? DocumentInfoList { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsConnectparticipantCreateParticipantConnectionOptions : AwsOptio
     /// <summary>
     /// Type of connection information required. If you need CONNECTION_CRE- DENTIALS along with marking participant as connected, pass CONNEC- TION_CREDENTIALS in Type . Constraints: o min: 1 (string) Possible values: o WEBSOCKET o CONNECTION_CREDENTIALS o WEBRTC_CONNECTION Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--type")]
+    [CliOption("--type", GroupValues = true)]
     public IEnumerable<string>? Type { get; set; }
 
     [SecretValue]

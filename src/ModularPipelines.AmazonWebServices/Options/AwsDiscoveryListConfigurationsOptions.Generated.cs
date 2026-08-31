@@ -28,13 +28,13 @@ public record AwsDiscoveryListConfigurationsOptions : AwsOptions
     /// <summary>
     /// You can filter the request using various logical operators and a key -value format. For example: {"key": "serverType", "value": "webServer"} For a complete list of filter options and guidance about using them with this action, see Using the ListConfigurations Action in the Amazon Web Services Application Discovery Service User Guide . (structure) A filter that can use conditional operators. For more information about filters, see Querying Discovered Con- figuration Items in the Amazon Web Services Application Discov- ery Service User Guide . name -&gt; (string) [required] The name of the filter. Constraints: o max: 10000 o pattern: [\s\S]* values -&gt; (list) [required] A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could spec- ify Ubuntu for the value. (string) Constraints: o max: 1000 o pattern: (^$|[\s\S]*\S[\s\S]*) condition -&gt; (string) [required] A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND . If you specify multiple values for a particular filter, the system differentiates the values using OR . Calling either DescribeConfigurations or ListConfigura- tions returns attributes of matching configuration items. Constraints: o max: 200 o pattern: \S+ Shorthand Syntax: name=string,values=string,string,condition=string ... JSON Syntax: [ { "name": "string", "values": ["string", ...], "condition": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// Certain filter criteria return output that can be sorted in ascend- ing or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action in the Amazon Web Services Application Discovery Service User Guide . (structure) A field and direction for ordered output. fieldName -&gt; (string) [required] The field on which to order. Constraints: o max: 1000 o pattern: [\s\S]*\S[\s\S]* sortOrder -&gt; (string) Ordering direction. Possible values: o ASC o DESC Shorthand Syntax: fieldName=string,sortOrder=string ... JSON Syntax: [ { "fieldName": "string", "sortOrder": "ASC"|"DESC" } ... ]
     /// </summary>
-    [CliOption("--order-by")]
+    [CliOption("--order-by", GroupValues = true)]
     public IEnumerable<string>? OrderBy { get; set; }
 
     [CliOption("--cli-input-json")]

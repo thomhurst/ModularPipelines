@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsGetReadSetFile
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("SOURCE1")]
     Source1 = 1,
 

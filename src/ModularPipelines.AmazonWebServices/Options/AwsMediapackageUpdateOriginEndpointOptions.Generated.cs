@@ -54,7 +54,7 @@ public record AwsMediapackageUpdateOriginEndpointOptions : AwsOptions
     [CliOption("--time-delay-seconds")]
     public int? TimeDelaySeconds { get; set; }
 
-    [CliOption("--whitelist")]
+    [CliOption("--whitelist", GroupValues = true)]
     public IEnumerable<string>? Whitelist { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -51,19 +51,19 @@ public record AwsCloudwatchPutLogAlarmOptions : AwsOptions
     /// <summary>
     /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: Amazon SNS actions: `` arn:aws:sns:region :account-id :sns-topic-name `` System Message: WARNING/2 (&lt;string&gt;:, line 482) Inline literal start-string without end-string. Lambda actions: o Invoke the latest version of a Lambda function: `` arn:aws:lambda:region :account-id :function:function-name `` System Message: WARNING/2 (&lt;string&gt;:, line 491) Inline literal start-string without end-string. o Invoke a specific version of a Lambda function: `` arn:aws:lambda:region :account-id :function:function-name :ver- sion-number `` System Message: WARNING/2 (&lt;string&gt;:, line 493) Inline literal start-string without end-string. o Invoke a function by using an alias Lambda function: `` arn:aws:lambda:region :account-id :function:function-name :alias-name `` System Message: WARNING/2 (&lt;string&gt;:, line 495) Inline literal start-string without end-string. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ok-actions")]
+    [CliOption("--ok-actions", GroupValues = true)]
     public IEnumerable<string>? OkActions { get; set; }
 
     /// <summary>
     /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: Amazon SNS actions: `` arn:aws:sns:region :account-id :sns-topic-name `` System Message: WARNING/2 (&lt;string&gt;:, line 550) Inline literal start-string without end-string. Lambda actions: o Invoke the latest version of a Lambda function: `` arn:aws:lambda:region :account-id :function:function-name `` System Message: WARNING/2 (&lt;string&gt;:, line 559) Inline literal start-string without end-string. o Invoke a specific version of a Lambda function: `` arn:aws:lambda:region :account-id :function:function-name :ver- sion-number `` System Message: WARNING/2 (&lt;string&gt;:, line 561) Inline literal start-string without end-string. o Invoke a function by using an alias Lambda function: `` arn:aws:lambda:region :account-id :function:function-name :alias-name `` System Message: WARNING/2 (&lt;string&gt;:, line 563) Inline literal start-string without end-string. Systems Manager actions: `` arn:aws:ssm:region :account-id :opsitem:severity `` System Message: WARNING/2 (&lt;string&gt;:, line 572) Inline literal start-string without end-string. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--alarm-actions")]
+    [CliOption("--alarm-actions", GroupValues = true)]
     public IEnumerable<string>? AlarmActions { get; set; }
 
     /// <summary>
     /// The actions to execute when this alarm transitions to the INSUFFI- CIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: Amazon SNS actions: `` arn:aws:sns:region :account-id :sns-topic-name `` System Message: WARNING/2 (&lt;string&gt;:, line 626) Inline literal start-string without end-string. Lambda actions: o Invoke the latest version of a Lambda function: `` arn:aws:lambda:region :account-id :function:function-name `` System Message: WARNING/2 (&lt;string&gt;:, line 635) Inline literal start-string without end-string. o Invoke a specific version of a Lambda function: `` arn:aws:lambda:region :account-id :function:function-name :ver- sion-number `` System Message: WARNING/2 (&lt;string&gt;:, line 637) Inline literal start-string without end-string. o Invoke a function by using an alias Lambda function: `` arn:aws:lambda:region :account-id :function:function-name :alias-name `` System Message: WARNING/2 (&lt;string&gt;:, line 639) Inline literal start-string without end-string. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--insufficient-data-actions")]
+    [CliOption("--insufficient-data-actions", GroupValues = true)]
     public IEnumerable<string>? InsufficientDataActions { get; set; }
 
     [CliOption("--query-results-to-evaluate")]
@@ -87,7 +87,7 @@ public record AwsCloudwatchPutLogAlarmOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs to associate with the alarm. You can use tags to categorize and manage your alarms. (structure) A key-value pair associated with a CloudWatch resource. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

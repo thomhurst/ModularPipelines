@@ -27,7 +27,7 @@ public record AwsRoute53resolverUpdateFirewallDomainsOptions : AwsOptions
     [CliOption("--operation")]
     public string? Operation { get; set; }
 
-    [CliOption("--domains")]
+    [CliOption("--domains", GroupValues = true)]
     public IEnumerable<string>? Domains { get; set; }
 
     [CliOption("--cli-input-json")]

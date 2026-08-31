@@ -40,13 +40,13 @@ public record AwsRoute53resolverUpdateResolverEndpointOptions : AwsOptions
     /// <summary>
     /// Specifies the IPv6 address when you update the Resolver endpoint from IPv4 to dual-stack. If you don't specify an IPv6 address, one will be automatically chosen from your subnet. Constraints: o min: 0 o max: 50 (structure) Provides information about the IP address type in response to UpdateResolverEndpoint . IpId -&gt; (string) [required] The ID of the IP address, specified by the ResolverEndpointId . Constraints: o min: 1 o max: 64 Ipv6 -&gt; (string) [required] The IPv6 address that you want to use for DNS queries. Constraints: o min: 7 o max: 39 Shorthand Syntax: IpId=string,Ipv6=string ... JSON Syntax: [ { "IpId": "string", "Ipv6": "string" } ... ]
     /// </summary>
-    [CliOption("--update-ip-addresses")]
+    [CliOption("--update-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? UpdateIpAddresses { get; set; }
 
     /// <summary>
     /// The protocols you want to use for the endpoint. DoH-FIPS is applica- ble for default inbound endpoints only. For a default inbound endpoint you can apply the protocols as fol- lows: o Do53 and DoH in combination. o Do53 and DoH-FIPS in combination. o Do53 alone. o DoH alone. o DoH-FIPS alone. o None, which is treated as Do53. For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows: o Do53 and DoH in combination. o Do53 alone. o DoH alone. o None, which is treated as Do53. WARNING: You can't change the protocol of an inbound endpoint directly from only Do53 to only DoH, or DoH-FIPS. This is to prevent a sudden disruption to incoming traffic that relies on Do53. To change the protocol from Do53 to DoH, or DoH-FIPS, you must first enable both Do53 and DoH, or Do53 and DoH-FIPS, to make sure that all incoming traffic has transferred to using the DoH protocol, or DoH-FIPS, and then remove the Do53. Constraints: o min: 1 o max: 2 (string) Possible values: o DoH o Do53 o DoH-FIPS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--protocols")]
+    [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
 
     [CliFlag("--rni-enhanced-metrics-enabled")]

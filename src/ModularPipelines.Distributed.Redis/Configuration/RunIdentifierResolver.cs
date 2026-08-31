@@ -4,7 +4,7 @@ namespace ModularPipelines.Distributed.Redis.Configuration;
 
 /// <summary>
 /// Resolves the run identifier for Redis key isolation.
-/// Priority: explicit config > CI execution identifier > commit identifier > git rev-parse HEAD > GUID fallback.
+/// Priority: explicit config > CI run identifier > commit identifier > git rev-parse HEAD > GUID fallback.
 /// </summary>
 internal static class RunIdentifierResolver
 {
@@ -17,10 +17,10 @@ internal static class RunIdentifierResolver
 
     public static string Resolve(string? explicitValue)
     {
-        var executionIdentifier = ResolveExecutionIdentifier(explicitValue);
-        if (executionIdentifier is not null)
+        var runIdentifier = ResolveRunIdentifier(explicitValue);
+        if (runIdentifier is not null)
         {
-            return executionIdentifier;
+            return runIdentifier;
         }
 
         foreach (var envVar in CiEnvironmentVariables)
@@ -41,7 +41,7 @@ internal static class RunIdentifierResolver
         return Guid.NewGuid().ToString("N");
     }
 
-    public static string? ResolveExecutionIdentifier(string? explicitValue)
+    public static string? ResolveRunIdentifier(string? explicitValue)
     {
         if (!string.IsNullOrWhiteSpace(explicitValue))
         {

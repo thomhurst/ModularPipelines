@@ -25,7 +25,7 @@ public record AwsBatchDescribeComputeEnvironmentsOptions : AwsOptions
     /// <summary>
     /// A list of up to 100 compute environment names or full Amazon Re- source Name (ARN) entries. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--compute-environments")]
+    [CliOption("--compute-environments", GroupValues = true)]
     public IEnumerable<string>? ComputeEnvironments { get; set; }
 
     [CliOption("--cli-input-json")]

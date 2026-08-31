@@ -27,7 +27,7 @@ public record AwsDmsWaitMetadataModelAssessedOptions : AwsOptions
     /// <summary>
     /// The filters to apply to the metadata model assessment requests. The following filter names are supported: o request-id The request identifier. o status The request status. Valid values: RECEIVED , IN_PROGRESS , SUCCESS , FAILED . (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are re- turned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API opera- tions. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or simi- lar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

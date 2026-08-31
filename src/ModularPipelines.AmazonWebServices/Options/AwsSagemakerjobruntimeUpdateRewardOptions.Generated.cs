@@ -28,7 +28,7 @@ public record AwsSagemakerjobruntimeUpdateRewardOptions : AwsOptions
     [CliOption("--trajectory-id")]
     public string? TrajectoryId { get; set; }
 
-    [CliOption("--rewards")]
+    [CliOption("--rewards", GroupValues = true)]
     public IEnumerable<string>? Rewards { get; set; }
 
     /// <summary>

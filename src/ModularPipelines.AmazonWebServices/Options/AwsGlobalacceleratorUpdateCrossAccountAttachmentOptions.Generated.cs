@@ -33,25 +33,25 @@ public record AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions : AwsOptio
     /// <summary>
     /// The principals to add to the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives permission to work with resources from an- other account. The resources are also listed in the attachment. To add more than one principal, separate the account numbers or ac- celerator ARNs, or both, with commas. (string) Constraints: o max: 256 o pattern: (^\d{12}$|arn:.*) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-principals")]
+    [CliOption("--add-principals", GroupValues = true)]
     public IEnumerable<string>? AddPrincipals { get; set; }
 
     /// <summary>
     /// The principals to remove from the cross-account attachment. A prin- cipal is an account or the Amazon Resource Name (ARN) of an acceler- ator that the attachment gives permission to work with resources from another account. The resources are also listed in the attach- ment. To remove more than one principal, separate the account numbers or accelerator ARNs, or both, with commas. (string) Constraints: o max: 256 o pattern: (^\d{12}$|arn:.*) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-principals")]
+    [CliOption("--remove-principals", GroupValues = true)]
     public IEnumerable<string>? RemovePrincipals { get; set; }
 
     /// <summary>
     /// The resources to add to the cross-account attachment. A resource listed in a cross-account attachment can be used with an accelerator by the principals that are listed in the attachment. To add more than one resource, separate the resource ARNs with com- mas. (structure) A resource is one of the following: the ARN for an Amazon Web Services resource that is supported by Global Accelerator to be added as an endpoint, or a CIDR range that specifies a bring your own IP (BYOIP) address pool. EndpointId -&gt; (string) The endpoint ID for the endpoint that is specified as a Ama- zon Web Services resource. An endpoint ID for the cross-account feature is the ARN of an Amazon Web Services resource, such as a Network Load Bal- ancer, that Global Accelerator supports as an endpoint for an accelerator. Constraints: o max: 255 Cidr -&gt; (string) An IP address range, in CIDR format, that is specified as re- source. The address must be provisioned and advertised in Global Accelerator by following the bring your own IP address (BYOIP) process for Global Accelerator For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255 Region -&gt; (string) The Amazon Web Services Region where a shared endpoint re- source is located. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,Cidr=string,Region=string ... JSON Syntax: [ { "EndpointId": "string", "Cidr": "string", "Region": "string" } ... ]
     /// </summary>
-    [CliOption("--add-resources")]
+    [CliOption("--add-resources", GroupValues = true)]
     public IEnumerable<string>? AddResources { get; set; }
 
     /// <summary>
     /// The resources to remove from the cross-account attachment. A re- source listed in a cross-account attachment can be used with an ac- celerator by the principals that are listed in the attachment. To remove more than one resource, separate the resource ARNs with commas. (structure) A resource is one of the following: the ARN for an Amazon Web Services resource that is supported by Global Accelerator to be added as an endpoint, or a CIDR range that specifies a bring your own IP (BYOIP) address pool. EndpointId -&gt; (string) The endpoint ID for the endpoint that is specified as a Ama- zon Web Services resource. An endpoint ID for the cross-account feature is the ARN of an Amazon Web Services resource, such as a Network Load Bal- ancer, that Global Accelerator supports as an endpoint for an accelerator. Constraints: o max: 255 Cidr -&gt; (string) An IP address range, in CIDR format, that is specified as re- source. The address must be provisioned and advertised in Global Accelerator by following the bring your own IP address (BYOIP) process for Global Accelerator For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255 Region -&gt; (string) The Amazon Web Services Region where a shared endpoint re- source is located. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,Cidr=string,Region=string ... JSON Syntax: [ { "EndpointId": "string", "Cidr": "string", "Region": "string" } ... ]
     /// </summary>
-    [CliOption("--remove-resources")]
+    [CliOption("--remove-resources", GroupValues = true)]
     public IEnumerable<string>? RemoveResources { get; set; }
 
     [CliOption("--cli-input-json")]

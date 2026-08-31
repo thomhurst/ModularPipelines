@@ -24,7 +24,7 @@ public record AwsDeployBatchGetDeploymentTargetsOptions : AwsOptions
     [CliOption("--deployment-id")]
     public string? DeploymentId { get; set; }
 
-    [CliOption("--target-ids")]
+    [CliOption("--target-ids", GroupValues = true)]
     public IEnumerable<string>? TargetIds { get; set; }
 
     [CliOption("--cli-input-json")]

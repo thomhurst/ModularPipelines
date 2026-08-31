@@ -30,7 +30,7 @@ public record AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions : AwsOpti
     [CliOption("--group-ip-address")]
     public string? GroupIpAddress { get; set; }
 
-    [CliOption("--network-interface-ids")]
+    [CliOption("--network-interface-ids", GroupValues = true)]
     public IEnumerable<string>? NetworkInterfaceIds { get; set; }
 
     [CliFlag("--dry-run")]

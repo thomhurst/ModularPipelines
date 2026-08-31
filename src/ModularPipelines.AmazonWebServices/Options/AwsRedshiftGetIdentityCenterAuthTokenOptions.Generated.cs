@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("redshift", "get-identity-center-auth-token")]
 public record AwsRedshiftGetIdentityCenterAuthTokenOptions : AwsOptions
 {
-    [CliOption("--cluster-ids")]
+    [CliOption("--cluster-ids", GroupValues = true)]
     public IEnumerable<string>? ClusterIds { get; set; }
 
     [CliOption("--cli-input-json")]

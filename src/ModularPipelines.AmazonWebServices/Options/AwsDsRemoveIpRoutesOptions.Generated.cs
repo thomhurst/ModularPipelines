@@ -27,13 +27,13 @@ public record AwsDsRemoveIpRoutesOptions : AwsOptions
     /// <summary>
     /// IP address blocks that you want to remove. (string) Constraints: o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([1-9]|[1-2][0-9]|3[0-2]))$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cidr-ips")]
+    [CliOption("--cidr-ips", GroupValues = true)]
     public IEnumerable<string>? CidrIps { get; set; }
 
     /// <summary>
     /// IPv6 address blocks that you want to remove. (string) Constraints: o pattern: ^((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,7}:)|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|(([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|(([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|(([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))|(:((:[0-9a-fA-F]{1,4}){1,7}|:)))\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cidr-ipv6s")]
+    [CliOption("--cidr-ipv6s", GroupValues = true)]
     public IEnumerable<string>? CidrIpv6s { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iam", "get-context-keys-for-custom-policy")]
 public record AwsIamGetContextKeysForCustomPolicyOptions : AwsOptions
 {
-    [CliOption("--policy-input-list")]
+    [CliOption("--policy-input-list", GroupValues = true)]
     public IEnumerable<string>? PolicyInputList { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsAgentRegistryControlListRegistriesOptions : AwsOptions
     /// <summary>
     /// Filters to apply to the registry list Constraints: o min: 0 o max: 10 (structure) A single filter applied to a ListRegistries request. name -&gt; (string) [required] The attribute to filter on Possible values: o status o discoveryConfiguration.authorizerType values -&gt; (list) [required] The values to match for the attribute Constraints: o min: 1 o max: 1 (string) A single filter value. Constrained by length only; the accepted set of values is filter-specific and validated server-side so enum-style values such as READY or AWS_IAM are accepted. Constraints: o min: 1 o max: 255 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "status"|"discoveryConfiguration.authorizerType", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

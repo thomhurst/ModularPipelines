@@ -24,7 +24,7 @@ public record AwsHealthDescribeEntityAggregatesOptions : AwsOptions
     /// <summary>
     /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHED- ULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOL- UME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: o min: 1 o max: 50 (string) Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-arns")]
+    [CliOption("--event-arns", GroupValues = true)]
     public IEnumerable<string>? EventArns { get; set; }
 
     [CliOption("--cli-input-json")]

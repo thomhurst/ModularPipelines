@@ -27,7 +27,7 @@ public record AwsNetworkmanagerUpdateDirectConnectGatewayAttachmentOptions : Aws
     /// <summary>
     /// One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the pre- vious array of locations. EdgeLocations is only used for Direct Con- nect gateway attachments. (string) Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--edge-locations")]
+    [CliOption("--edge-locations", GroupValues = true)]
     public IEnumerable<string>? EdgeLocations { get; set; }
 
     [CliOption("--cli-input-json")]

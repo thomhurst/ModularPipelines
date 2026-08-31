@@ -49,7 +49,7 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions
     /// <summary>
     /// A list of VPC security groups that the DB cluster will belong to. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>

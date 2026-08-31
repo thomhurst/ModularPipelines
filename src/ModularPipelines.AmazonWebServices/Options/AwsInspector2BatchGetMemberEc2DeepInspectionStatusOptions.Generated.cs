@@ -24,7 +24,7 @@ public record AwsInspector2BatchGetMemberEc2DeepInspectionStatusOptions : AwsOpt
     /// <summary>
     /// The unique identifiers for the Amazon Web Services accounts to re- trieve Amazon Inspector deep inspection activation status for. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

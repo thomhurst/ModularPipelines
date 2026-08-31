@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("globalaccelerator", "remove-endpoints")]
 public record AwsGlobalacceleratorRemoveEndpointsOptions : AwsOptions
 {
-    [CliOption("--endpoint-identifiers")]
+    [CliOption("--endpoint-identifiers", GroupValues = true)]
     public IEnumerable<string>? EndpointIdentifiers { get; set; }
 
     [CliOption("--endpoint-group-arn")]

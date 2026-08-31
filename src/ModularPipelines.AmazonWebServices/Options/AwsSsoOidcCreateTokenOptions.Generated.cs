@@ -54,7 +54,7 @@ public record AwsSsoOidcCreateTokenOptions : AwsOptions
     /// <summary>
     /// The list of scopes for which authorization is requested. This para- meter has no effect; the access token will always include all scopes configured during client registration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--scope")]
+    [CliOption("--scope", GroupValues = true)]
     public IEnumerable<string>? Scope { get; set; }
 
     /// <summary>

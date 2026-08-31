@@ -27,7 +27,7 @@ public record AwsSecuritylakeCreateCustomLogSourceOptions : AwsOptions
     /// <summary>
     /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Secu- rity Lake. For the list of supported event classes, see the Amazon Security Lake User Guide . (string) Constraints: o pattern: ^[A-Z\_0-9]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-classes")]
+    [CliOption("--event-classes", GroupValues = true)]
     public IEnumerable<string>? EventClasses { get; set; }
 
     [CliOption("--source-name")]

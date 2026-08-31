@@ -34,7 +34,7 @@ public record AwsCodepipelinePollForJobsOptions : AwsOptions
     /// <summary>
     /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that prop- erty as a key in the map. Only jobs whose action configuration matches the mapped value are returned. Constraints: o min: 0 o max: 1 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--query-param")]
+    [CliOption("--query-param", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? QueryParam { get; set; }
 
     [CliOption("--cli-input-json")]

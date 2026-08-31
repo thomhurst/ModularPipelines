@@ -25,7 +25,7 @@ public record AwsEksListClustersOptions : AwsOptions
     /// <summary>
     /// Indicates whether external clusters are included in the returned list. Use 'all ' to return https://docs.aws.amazon.com/eks/latest/userguide/eks-connector.html connected clusters, or blank to return only Amazon EKS clusters. 'all ' must be in lowercase otherwise an error occurs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include")]
+    [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
 
     [CliOption("--cli-input-json")]

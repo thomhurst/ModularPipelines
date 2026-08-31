@@ -58,6 +58,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class AwsCliScraper : CliScraperBase
 {
+    private static readonly string[] AwsUsageSynopsisHeadings = ["usage", "synopsis"];
+
     private static readonly HashSet<string> ValueOptionsWithoutTypeHints = new(StringComparer.OrdinalIgnoreCase)
     {
         "--cli-input-json",
@@ -73,6 +75,8 @@ public partial class AwsCliScraper : CliScraperBase
         "numbers",
         "punctuation",
     };
+
+    protected override IReadOnlyList<string> UsageSynopsisHeadings => AwsUsageSynopsisHeadings;
 
     public AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AwsCliScraper> logger)
         : base(executor, helpCache, logger)
@@ -92,6 +96,11 @@ public partial class AwsCliScraper : CliScraperBase
     /// AWS CLI has 350+ services - use higher parallelism for faster discovery.
     /// </summary>
     protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
+
+    public override CliToolDefinition CreateToolDefinition() => base.CreateToolDefinition() with
+    {
+        DiscardedGeneratedEnumValues = new HashSet<string>(StringComparer.Ordinal) { "o" },
+    };
 
     /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
@@ -339,10 +348,16 @@ public partial class AwsCliScraper : CliScraperBase
 
         foreach (Match match in optionMatches)
         {
-            var longForm = match.Groups["long"].Value;
+            var firstLongForm = match.Groups["long"].Value;
+            var alternateLongForm = match.Groups["alternate"].Value;
             var typeHint = match.Groups["type"].Value.Trim().Trim('(', ')');
+            var (longForm, negatedLongForm) = GetBooleanSwitchPair(
+                firstLongForm,
+                alternateLongForm);
 
-            if (string.IsNullOrEmpty(longForm) || seenOptions.Contains(longForm))
+            if (string.IsNullOrEmpty(longForm)
+                || seenOptions.Contains(longForm)
+                || (!string.IsNullOrEmpty(negatedLongForm) && seenOptions.Contains(negatedLongForm)))
             {
                 continue;
             }
@@ -354,6 +369,10 @@ public partial class AwsCliScraper : CliScraperBase
             }
 
             seenOptions.Add(longForm);
+            if (!string.IsNullOrEmpty(negatedLongForm))
+            {
+                seenOptions.Add(negatedLongForm);
+            }
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
@@ -363,12 +382,15 @@ public partial class AwsCliScraper : CliScraperBase
 
             // Get description (lines following the option with more indentation)
             var optionEnd = match.Index + match.Length;
-            var descMatch = Regex.Match(optionsSection[optionEnd..], @"^\s{8,}(.+?)(?=\n\s{7}--|\n\n\s{7}--|\z)", RegexOptions.Singleline);
+            var descMatch = Regex.Match(
+                optionsSection[optionEnd..],
+                """^\s{8,}(.+?)(?=\n\s{7}"?--|\n\n\s{7}"?--|\z)""",
+                RegexOptions.Singleline);
             var description = descMatch.Success
                 ? Regex.Replace(descMatch.Groups[1].Value.Trim(), @"\s+", " ")
                 : null;
 
-            var isFlag = IsAwsBooleanType(typeHint)
+            var isFlag = (!string.IsNullOrEmpty(negatedLongForm) || IsAwsBooleanType(typeHint))
                          && !ValueOptionsWithoutTypeHints.Contains(longForm);
             var isArray = typeHint.Contains("list") || typeHint.Contains("...") || (description?.Contains("multiple values") ?? false);
             var isNumeric = IsNumericType(typeHint);
@@ -376,7 +398,7 @@ public partial class AwsCliScraper : CliScraperBase
             var isKeyValue = !isStructure
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
 
-            var enumDef = isStructure || isKeyValue || isArray
+            var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
                 : TryDetectEnum(propertyName, className, description);
             var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
@@ -384,12 +406,15 @@ public partial class AwsCliScraper : CliScraperBase
             options.Add(new CliOptionDefinition
             {
                 SwitchName = longForm,
+                NegatedSwitchName = negatedLongForm,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
                 AcceptsMultipleValues = isArray,
+                GroupValues = isArray && !isKeyValue,
+                CollectionSeparator = isKeyValue ? "," : null,
                 IsKeyValue = isKeyValue,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",
@@ -400,6 +425,29 @@ public partial class AwsCliScraper : CliScraperBase
 
         return options;
     }
+
+    private static (string SwitchName, string? NegatedSwitchName) GetBooleanSwitchPair(
+        string switchName,
+        string alternateSwitchName)
+    {
+        if (string.IsNullOrEmpty(alternateSwitchName))
+        {
+            return (switchName, null);
+        }
+
+        if (IsNegatedFormOf(alternateSwitchName, switchName))
+        {
+            return (switchName, alternateSwitchName);
+        }
+
+        return IsNegatedFormOf(switchName, alternateSwitchName)
+            ? (alternateSwitchName, switchName)
+            : (switchName, null);
+    }
+
+    private static bool IsNegatedFormOf(string candidate, string positiveSwitch) =>
+        candidate.StartsWith("--no-", StringComparison.OrdinalIgnoreCase)
+        && candidate[5..].Equals(positiveSwitch[2..], StringComparison.OrdinalIgnoreCase);
 
     private static bool IsGlobalOption(string optionName)
     {
@@ -440,12 +488,16 @@ public partial class AwsCliScraper : CliScraperBase
             var values = match.Groups[1].Value
                 .Split([',', ' '], StringSplitOptions.RemoveEmptyEntries)
                 .Select(v => v.Trim().TrimEnd('.'))
-                .Where(v => v.Length > 0 && v.Length < 30 && IsValidEnumValue(v))
+                .Where(v => !v.Equals("o", StringComparison.OrdinalIgnoreCase)
+                            && v.Length > 0
+                            && v.Length < 30
+                            && IsValidEnumValue(v))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
 
             if (values.Length >= 2
                 && values.Length <= 15
+                && !NumericConstraintValuesPattern().IsMatch(match.Groups[1].Value)
                 && !values.Any(FreeFormValueDescriptionTokens.Contains))
             {
                 return CreateEnumDefinition(propertyName, className, values);
@@ -539,11 +591,31 @@ public partial class AwsCliScraper : CliScraperBase
 
     private static string DetermineCSharpType(bool isFlag, bool isArray, bool isKeyValue, bool isNumeric, CliEnumDefinition? enumDef)
     {
-        if (isFlag) return "bool?";
-        if (enumDef is not null) return $"{enumDef.EnumName}?";
-        if (isKeyValue) return "IReadOnlyList<KeyValue>?";
-        if (isArray) return "IEnumerable<string>?";
-        if (isNumeric) return "int?";
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (enumDef is not null)
+        {
+            return $"{enumDef.EnumName}?";
+        }
+
+        if (isKeyValue)
+        {
+            return "IReadOnlyList<KeyValue>?";
+        }
+
+        if (isArray)
+        {
+            return "IEnumerable<string>?";
+        }
+
+        if (isNumeric)
+        {
+            return "int?";
+        }
+
         return "string?";
     }
 
@@ -570,8 +642,13 @@ public partial class AwsCliScraper : CliScraperBase
     /// --option (type)
     /// --flag
     /// </summary>
-    [GeneratedRegex(@"^\s{7}(?<long>--[\w-]+)(?:\s+\((?<type>[^)]+)\))?", RegexOptions.Multiline)]
+    [GeneratedRegex("""^\s{7}"?(?<long>--[\w-]+)"?(?:\s+\|\s+"?(?<alternate>--[\w-]+)"?)?(?:\s+\((?<type>[^)]+)\))?""", RegexOptions.Multiline)]
     private static partial Regex AwsOptionPattern();
+
+    [GeneratedRegex(
+        @"\b(?:integer|long|float|double)\s+(?:greater|less)\s+than\b",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex NumericConstraintValuesPattern();
 
     #endregion
 }

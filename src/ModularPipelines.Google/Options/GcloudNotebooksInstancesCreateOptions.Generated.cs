@@ -42,6 +42,12 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
+    /// The Compute Engine machine type (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types) of this instance.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
     /// Custom metadata to apply to this instance. For example, to specify a Cloud Storage bucket for automatic backup, you can use the gcs-data-bucket metadata tag. Format: "--metadata=gcs-data-bucket=BUCKET".
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
@@ -57,7 +63,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     /// The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must have the service account user permission to use the instance. If not specified, the Compute Engine default service account is used.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
 
     /// <summary>
     /// Enable monitoring of the boot integrity of the instance. Enabled by default, use --no-shielded-integrity-monitoring to disable.
@@ -66,7 +72,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
-    /// Enable monitoring of the boot integrity of the instance. Enabled by default, use --no-shielded-integrity-monitoring to disable.
+    /// Negates --shielded-integrity-monitoring. Enable monitoring of the boot integrity of the instance. Enabled by default, use --no-shielded-integrity-monitoring to disable.
     /// </summary>
     [CliFlag("--no-shielded-integrity-monitoring")]
     public bool? NoShieldedIntegrityMonitoring { get; set; }
@@ -84,7 +90,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public bool? ShieldedVtpm { get; set; }
 
     /// <summary>
-    /// Boot instance with TPM (Trusted Platform Module) enabled. Enabled by default, use --no-shielded-vtpm to disable.
+    /// Negates --shielded-vtpm. Boot instance with TPM (Trusted Platform Module) enabled. Enabled by default, use --no-shielded-vtpm to disable.
     /// </summary>
     [CliFlag("--no-shielded-vtpm")]
     public bool? NoShieldedVtpm { get; set; }
@@ -96,121 +102,133 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Count of cores of this accelerator.
+    /// The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Count of cores of this accelerator.
     /// </summary>
     [CliOption("--accelerator-core-count", Format = OptionFormat.EqualsSeparated)]
     public int? AcceleratorCoreCount { get; set; }
 
     /// <summary>
-    /// Type of this accelerator. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_A100, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, TPU_V2, TPU_V3, NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB.
+    /// The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Type of this accelerator. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_A100, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, TPU_V2, TPU_V3, NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB.
     /// </summary>
     [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
     public string? AcceleratorType { get; set; }
 
     /// <summary>
-    /// Size of boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
+    /// Boot disk configurations. Size of boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
     /// </summary>
     [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? BootDiskSize { get; set; }
 
     /// <summary>
-    /// Type of boot disk attached to this instance, defaults to standard persistent disk (PD_STANDARD). BOOT_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+    /// Boot disk configurations. Type of boot disk attached to this instance, defaults to standard persistent disk (PD_STANDARD). BOOT_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
     /// </summary>
     [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudBootDiskType? BootDiskType { get; set; }
 
     /// <summary>
-    /// The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--container-repository", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerRepository { get; set; }
 
     /// <summary>
-    /// The tag of the container image. If not specified, this defaults to the latest tag.
+    /// At most one of these can be specified: The tag of the container image. If not specified, this defaults to the latest tag.
     /// </summary>
     [CliOption("--container-tag", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerTag { get; set; }
 
     /// <summary>
-    /// ID of the environment or fully qualified identifier for the environment. To set the environment attribute: + provide the argument --environment on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Environment resource - User-defined unique name of this environment. The environment name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: + provide the argument --environment on the command line with a fully specified name; + provide the argument --project on the command line; + set the property core/project. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: - provide the argument --environment on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
     public string? Environment { get; set; }
 
     /// <summary>
-    /// Google Cloud location of this environment https://cloud.google.com/compute/docs/regions-zones/#locations. To set the environment-location attribute: + provide the argument --environment on the command line with a fully specified name; + provide the argument --environment-location on the command line; + provide the argument --location on the command line; + set the property notebooks/location.
+    /// At most one of these can be specified: Environment resource - User-defined unique name of this environment. The environment name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: + provide the argument --environment on the command line with a fully specified name; + provide the argument --project on the command line; + set the property core/project. Google Cloud location of this environment https://cloud.google.com/compute/docs/regions-zones/#locations. To set the environment-location attribute: - provide the argument --environment on the command line with a fully specified name; - provide the argument --environment-location on the command line; - provide the argument --location on the command line; - set the property notebooks/location.
     /// </summary>
     [CliOption("--environment-location", Format = OptionFormat.EqualsSeparated)]
     public string? EnvironmentLocation { get; set; }
 
     /// <summary>
-    /// Use this VM image name to find the image.
+    /// At most one of these can be specified: The ID of the Google Cloud project that this VM image belongs to. Format: projects/{project_id}.
+    /// </summary>
+    [CliOption("--vm-image-project", Format = OptionFormat.EqualsSeparated)]
+    public string? VmImageProject { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Use this VM image family to find the image; the newest image in this family will be used.
+    /// </summary>
+    [CliOption("--vm-image-family", Format = OptionFormat.EqualsSeparated)]
+    public string? VmImageFamily { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Use this VM image name to find the image.
     /// </summary>
     [CliOption("--vm-image-name", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageName { get; set; }
 
     /// <summary>
-    /// Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers.
+    /// GPU driver configurations. Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers.
     /// </summary>
     [CliOption("--custom-gpu-driver-path", Format = OptionFormat.EqualsSeparated)]
     public string? CustomGpuDriverPath { get; set; }
 
     /// <summary>
-    /// Whether the end user authorizes Google Cloud to install a GPU driver on this instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs.
+    /// GPU driver configurations. Whether the end user authorizes Google Cloud to install a GPU driver on this instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs.
     /// </summary>
     [CliFlag("--install-gpu-driver")]
     public bool? InstallGpuDriver { get; set; }
 
     /// <summary>
-    /// Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
+    /// Data disk configurations. Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
     /// </summary>
     [CliOption("--data-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? DataDiskSize { get; set; }
 
     /// <summary>
-    /// Type of data disk attached to this instance, defaults to standard persistent disk (PD_STANDARD). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+    /// Data disk configurations. Type of data disk attached to this instance, defaults to standard persistent disk (PD_STANDARD). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
     /// </summary>
     [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudDataDiskType? DataDiskType { get; set; }
 
     /// <summary>
-    /// If true, the data disk will not be auto deleted when deleting the instance.
+    /// Data disk configurations. If true, the data disk will not be auto deleted when deleting the instance.
     /// </summary>
     [CliFlag("--no-remove-data-disk")]
     public bool? NoRemoveDataDisk { get; set; }
 
     /// <summary>
-    /// Disk encryption method used on the boot disk, defaults to GMEK. DISK_ENCRYPTION must be one of: GMEK, CMEK.
+    /// Disk encryption configurations. Disk encryption method used on the boot disk, defaults to GMEK. DISK_ENCRYPTION must be one of: GMEK, CMEK.
     /// </summary>
     [CliOption("--disk-encryption", Format = OptionFormat.EqualsSeparated)]
     public GcloudDiskEncryption? DiskEncryption { get; set; }
 
     /// <summary>
-    /// ID of the key or fully qualified identifier for the key. To set the kms-key attribute: * provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Disk encryption configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: - provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// The KMS keyring of the key. To set the kms-keyring attribute: * provide the argument --kms-key on the command line with a fully specified name; * provide the argument --kms-keyring on the command line.
+    /// Disk encryption configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: - provide the argument --kms-key on the command line with a fully specified name; - provide the argument --kms-keyring on the command line.
     /// </summary>
     [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKeyring { get; set; }
 
     /// <summary>
-    /// The Google Cloud location for the key. To set the kms-location attribute: * provide the argument --kms-key on the command line with a fully specified name; * provide the argument --kms-location on the command line.
+    /// Disk encryption configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: - provide the argument --kms-key on the command line with a fully specified name; - provide the argument --kms-location on the command line.
     /// </summary>
     [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
     public string? KmsLocation { get; set; }
 
     /// <summary>
-    /// The Google Cloud project for the key. To set the kms-project attribute: * provide the argument --kms-key on the command line with a fully specified name; * provide the argument --kms-project on the command line; * set the property core/project.
+    /// Disk encryption configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: - provide the argument --kms-key on the command line with a fully specified name; - provide the argument --kms-project on the command line; - set the property core/project.
     /// </summary>
     [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
     public string? KmsProject { get; set; }
 
     /// <summary>
-    /// ID of the network or fully qualified identifier for the network. To set the network attribute: * provide the argument --network on the command line.
+    /// Network configs. Network resource - The name of the VPC that this instance is in. Format: projects/{project_id}/global/networks/{network_id}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: + provide the argument --network on the command line with a fully specified name; + provide the argument --project on the command line; + set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: - provide the argument --network on the command line.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
@@ -228,45 +246,34 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public bool? NoPublicIp { get; set; }
 
     /// <summary>
-    /// ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: * provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: + provide the argument --subnet on the command line with a fully specified name; + provide the argument --project on the command line; + set the property core/project. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: - provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: * provide the argument --subnet on the command line with a fully specified name; * provide the argument --subnet-region on the command line.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: + provide the argument --subnet on the command line with a fully specified name; + provide the argument --project on the command line; + set the property core/project. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: - provide the argument --subnet on the command line with a fully specified name; - provide the argument --subnet-region on the command line.
     /// </summary>
     [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetRegion { get; set; }
 
     /// <summary>
-    /// The name of the reservation, required when --reservation-affinity=SPECIFIC_RESERVATION.
+    /// Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=SPECIFIC_RESERVATION.
     /// </summary>
     [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
     public string? Reservation { get; set; }
 
     /// <summary>
-    /// The Compute Engine machine type (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types) of this instance.
-    /// </summary>
-    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
-    public string? MachineType { get; set; }
-
-    /// <summary>
-    /// The type of reservation for the instance. RESERVATION_AFFINITY must be one of: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.
+    /// Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.
     /// </summary>
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
     public string? ReservationAffinity { get; set; }
 
-    /// <summary>
-    /// The ID of the Google Cloud project that this VM image belongs to. Format: projects/{project_id}.
-    /// </summary>
-    [CliOption("--vm-image-project", Format = OptionFormat.EqualsSeparated)]
-    public string? VmImageProject { get; set; }
-
-    /// <summary>
-    /// Use this VM image family to find the image; the newest image in this family will be used.
-    /// </summary>
-    [CliOption("--vm-image-family", Format = OptionFormat.EqualsSeparated)]
-    public string? VmImageFamily { get; set; }
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

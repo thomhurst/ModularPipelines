@@ -25,10 +25,10 @@ public record AwsCognitoIdentityUnlinkIdentityOptions : AwsOptions
     [CliOption("--identity-id")]
     public string? IdentityId { get; set; }
 
-    [CliOption("--logins")]
+    [CliOption("--logins", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Logins { get; set; }
 
-    [CliOption("--logins-to-remove")]
+    [CliOption("--logins-to-remove", GroupValues = true)]
     public IEnumerable<string>? LoginsToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

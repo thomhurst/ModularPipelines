@@ -46,7 +46,7 @@ public record AwsSsoAdminCreateTrustedTokenIssuerOptions : AwsOptions
     /// <summary>
     /// Specifies tags to be attached to the new trusted token issuer con- figuration. Constraints: o min: 0 o max: 75 (structure) A set of key-value pairs that are used to manage the resource. Tags can only be applied to permission sets and cannot be ap- plied to corresponding roles that IAM Identity Center creates in Amazon Web Services accounts. Key -&gt; (string) [required] The key for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

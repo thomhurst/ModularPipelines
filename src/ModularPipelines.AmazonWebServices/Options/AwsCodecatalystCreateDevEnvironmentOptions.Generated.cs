@@ -31,7 +31,7 @@ public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions
     /// <summary>
     /// The source repository that contains the branch to clone into the Dev Environment. (structure) Information about a repository that will be cloned to a Dev En- vironment. repositoryName -&gt; (string) [required] The name of the source repository. Constraints: o min: 1 o max: 100 o pattern: (?!.*[.]git$)[\w\-.]* branchName -&gt; (string) The name of the branch in a source repository. Constraints: o min: 1 o max: 100 Shorthand Syntax: repositoryName=string,branchName=string ... JSON Syntax: [ { "repositoryName": "string", "branchName": "string" } ... ]
     /// </summary>
-    [CliOption("--repositories")]
+    [CliOption("--repositories", GroupValues = true)]
     public IEnumerable<string>? Repositories { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions
     /// <summary>
     /// Information about the integrated development environment (IDE) con- figured for a Dev Environment. NOTE: An IDE is required to create a Dev Environment. For Dev Environ- ment creation, this field contains configuration information and must be provided. Constraints: o min: 0 o max: 1 (structure) Information about the configuration of an integrated development environment (IDE) for a Dev Environment. runtime -&gt; (string) A link to the IDE runtime image. NOTE: This parameter is not required for VSCode . Constraints: o min: 1 o max: 400 name -&gt; (string) The name of the IDE. Valid values include Cloud9 , IntelliJ , PyCharm , GoLand , and VSCode . Constraints: o min: 1 o max: 128 Shorthand Syntax: runtime=string,name=string ... JSON Syntax: [ { "runtime": "string", "name": "string" } ... ]
     /// </summary>
-    [CliOption("--ides")]
+    [CliOption("--ides", GroupValues = true)]
     public IEnumerable<string>? Ides { get; set; }
 
     [CliOption("--instance-type")]

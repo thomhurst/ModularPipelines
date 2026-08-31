@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("dms", "delete-fleet-advisor-databases")]
 public record AwsDmsDeleteFleetAdvisorDatabasesOptions : AwsOptions
 {
-    [CliOption("--database-ids")]
+    [CliOption("--database-ids", GroupValues = true)]
     public IEnumerable<string>? DatabaseIds { get; set; }
 
     [CliOption("--cli-input-json")]

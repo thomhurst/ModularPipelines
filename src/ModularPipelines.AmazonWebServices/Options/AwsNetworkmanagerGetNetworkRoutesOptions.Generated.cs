@@ -31,49 +31,49 @@ public record AwsNetworkmanagerGetNetworkRoutesOptions : AwsOptions
     /// <summary>
     /// An exact CIDR block. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--exact-cidr-matches")]
+    [CliOption("--exact-cidr-matches", GroupValues = true)]
     public IEnumerable<string>? ExactCidrMatches { get; set; }
 
     /// <summary>
     /// The most specific route that matches the traffic (longest prefix match). (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--longest-prefix-matches")]
+    [CliOption("--longest-prefix-matches", GroupValues = true)]
     public IEnumerable<string>? LongestPrefixMatches { get; set; }
 
     /// <summary>
     /// The routes with a subnet that match the specified CIDR filter. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-of-matches")]
+    [CliOption("--subnet-of-matches", GroupValues = true)]
     public IEnumerable<string>? SubnetOfMatches { get; set; }
 
     /// <summary>
     /// The routes with a CIDR that encompasses the CIDR filter. Example: If you specify 10.0.1.0/30, then the result returns 10.0.1.0/29. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--supernet-of-matches")]
+    [CliOption("--supernet-of-matches", GroupValues = true)]
     public IEnumerable<string>? SupernetOfMatches { get; set; }
 
     /// <summary>
     /// The IDs of the prefix lists. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--prefix-list-ids")]
+    [CliOption("--prefix-list-ids", GroupValues = true)]
     public IEnumerable<string>? PrefixListIds { get; set; }
 
     /// <summary>
     /// The route states. (string) Possible values: o ACTIVE o BLACKHOLE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>
     /// The route types. (string) Possible values: o PROPAGATED o STATIC Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--types")]
+    [CliOption("--types", GroupValues = true)]
     public IEnumerable<string>? Types { get; set; }
 
     /// <summary>
     /// Filter by route table destination. Possible Values: TRANSIT_GATE- WAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE. key -&gt; (string) Constraints: o max: 128 o pattern: ^[0-9a-zA-Z\.-]*$ value -&gt; (list) (string) Constraints: o max: 255 o pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--destination-filters")]
+    [CliOption("--destination-filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DestinationFilters { get; set; }
 
     [CliOption("--cli-input-json")]

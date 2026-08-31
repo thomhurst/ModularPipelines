@@ -27,28 +27,28 @@ public record AwsArcZonalShiftCreatePracticeRunConfigurationOptions : AwsOptions
     /// <summary>
     /// Optionally, you can block ARC from starting practice runs for spe- cific windows of days and times. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you could set the following recurring days and times as blocked windows, for example: Mon:00:00-Mon:10:00 Wed-20:30-Wed:21:30 Fri-20:30-Fri:21:30 . WARNING: The blockedWindows have to start and end on the same day. Win- dows that span multiple days aren't supported. Constraints: o min: 0 o max: 15 (string) Constraints: o min: 19 o max: 19 o pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--blocked-windows")]
+    [CliOption("--blocked-windows", GroupValues = true)]
     public IEnumerable<string>? BlockedWindows { get; set; }
 
     /// <summary>
     /// Optionally, you can block ARC from starting practice runs for a re- source on specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01 . Constraints: o min: 0 o max: 15 (string) Constraints: o min: 10 o max: 10 o pattern: [0-9]{4}-[0-9]{2}-[0-9]{2} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--blocked-dates")]
+    [CliOption("--blocked-dates", GroupValues = true)]
     public IEnumerable<string>? BlockedDates { get; set; }
 
     /// <summary>
     /// Blocking alarms for practice runs are optional alarms that you can specify that block practice runs when one or more of the alarms is in an ALARM state. Constraints: o min: 0 o max: 10 (structure) A control condition is an alarm that you specify for a practice run. When you configure practice runs with zonal autoshift for a resource, you specify Amazon CloudWatch alarms, which you create in CloudWatch to use with the practice run. The alarms that you specify are an outcome alarm , to monitor application health during practice runs and, optionally, a blocking alarm , to block practice runs from starting or to interrupt a practice run in progress. Control condition alarms do not apply for autoshifts. For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide. type -&gt; (string) [required] The type of alarm specified for a practice run. You can only specify Amazon CloudWatch alarms for practice runs, so the only valid value is CLOUDWATCH . Possible values: o CLOUDWATCH alarmIdentifier -&gt; (string) [required] The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you specify as a control condition for a practice run. Constraints: o min: 8 o max: 1024 o pattern: .* Shorthand Syntax: type=string,alarmIdentifier=string ... JSON Syntax: [ { "type": "CLOUDWATCH", "alarmIdentifier": "string" } ... ]
     /// </summary>
-    [CliOption("--blocking-alarms")]
+    [CliOption("--blocking-alarms", GroupValues = true)]
     public IEnumerable<string>? BlockingAlarms { get; set; }
 
     /// <summary>
     /// Optionally, you can allow ARC to start practice runs for specific windows of days and times. The format for allowed windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple allowed windows with spaces. For example, say you want to allow practice runs only on Wednesdays and Fridays from noon to 5 p.m. For this scenario, you could set the following recurring days and times as allowed windows, for example: Wed-12:00-Wed:17:00 Fri-12:00-Fri:17:00 . WARNING: The allowedWindows have to start and end on the same day. Win- dows that span multiple days aren't supported. Constraints: o min: 0 o max: 15 (string) Constraints: o min: 19 o max: 19 o pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-windows")]
+    [CliOption("--allowed-windows", GroupValues = true)]
     public IEnumerable<string>? AllowedWindows { get; set; }
 
-    [CliOption("--outcome-alarms")]
+    [CliOption("--outcome-alarms", GroupValues = true)]
     public IEnumerable<string>? OutcomeAlarms { get; set; }
 
     [CliOption("--cli-input-json")]

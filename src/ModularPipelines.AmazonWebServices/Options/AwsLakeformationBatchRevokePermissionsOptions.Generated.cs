@@ -27,7 +27,7 @@ public record AwsLakeformationBatchRevokePermissionsOptions : AwsOptions
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--cli-input-json")]

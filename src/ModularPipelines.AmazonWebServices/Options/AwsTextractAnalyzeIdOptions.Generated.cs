@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("textract", "analyze-id")]
 public record AwsTextractAnalyzeIdOptions : AwsOptions
 {
-    [CliOption("--document-pages")]
+    [CliOption("--document-pages", GroupValues = true)]
     public IEnumerable<string>? DocumentPages { get; set; }
 
     [CliOption("--cli-input-json")]

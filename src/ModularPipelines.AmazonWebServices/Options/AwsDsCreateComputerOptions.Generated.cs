@@ -41,7 +41,7 @@ public record AwsDsCreateComputerOptions : AwsOptions
     /// <summary>
     /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account. (structure) Represents a named directory attribute. Name -&gt; (string) The name of the attribute. Constraints: o min: 1 Value -&gt; (string) The value of the attribute. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--computer-attributes")]
+    [CliOption("--computer-attributes", GroupValues = true)]
     public IEnumerable<string>? ComputerAttributes { get; set; }
 
     [CliOption("--cli-input-json")]

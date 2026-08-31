@@ -30,13 +30,13 @@ public record AwsSsmModifyDocumentPermissionOptions : AwsOptions
     /// <summary>
     /// The Amazon Web Services users that should have access to the docu- ment. The account IDs can either be a group of account IDs or All . You must specify a value for this parameter or the AccountIdsToRe- move parameter. Constraints: o max: 20 (string) Constraints: o pattern: (?i)all|[0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids-to-add")]
+    [CliOption("--account-ids-to-add", GroupValues = true)]
     public IEnumerable<string>? AccountIdsToAdd { get; set; }
 
     /// <summary>
     /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All . This action has a higher priority than Accoun- tIdsToAdd . If you specify an ID to add and the same ID to remove, the system removes access to the document. You must specify a value for this parameter or the AccountIdsToAdd parameter. Constraints: o max: 20 (string) Constraints: o pattern: (?i)all|[0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids-to-remove")]
+    [CliOption("--account-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? AccountIdsToRemove { get; set; }
 
     /// <summary>

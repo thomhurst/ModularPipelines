@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsCreateCustomKeyStoreCustomKeyStoreType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("AWS_CLOUDHSM")]
     AwsCloudhsm = 1,
 

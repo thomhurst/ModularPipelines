@@ -43,7 +43,7 @@ public record AwsGlueQuerySchemaVersionMetadataOptions : AwsOptions
     /// <summary>
     /// Search key-value pairs for metadata, if they are not provided all the metadata information will be fetched. (structure) A structure containing a key value pair for metadata. MetadataKey -&gt; (string) A metadata key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9+-=._./@]+ MetadataValue -&gt; (string) A metadata keys corresponding value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9+-=._./@]+ Shorthand Syntax: MetadataKey=string,MetadataValue=string ... JSON Syntax: [ { "MetadataKey": "string", "MetadataValue": "string" } ... ]
     /// </summary>
-    [CliOption("--metadata-list")]
+    [CliOption("--metadata-list", GroupValues = true)]
     public IEnumerable<string>? MetadataList { get; set; }
 
     /// <summary>

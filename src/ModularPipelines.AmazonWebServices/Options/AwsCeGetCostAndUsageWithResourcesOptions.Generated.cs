@@ -34,13 +34,13 @@ public record AwsCeGetCostAndUsageWithResourcesOptions : AwsOptions
     /// <summary>
     /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill? . Valid values are AmortizedCost , BlendedCost , NetAmortizedCost , NetUnblendedCost , NormalizedUsageAmount , UnblendedCost , and Us- ageQuantity . NOTE: If you return the UsageQuantity metric, the service aggre- gates all usage numbers without taking the units into ac- count. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hour or GB). To get more meaningful Us- ageQuantity metrics, filter by UsageType or UsageTypeGroups . Metrics is required for GetCostAndUsageWithResources requests. (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metrics")]
+    [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>
     /// You can group Amazon Web Services costs using up to two different groups: DIMENSION , TAG , COST_CATEGORY . (structure) Represents a group when you specify a group by criteria or in the response to a query with a specific grouping. Type -&gt; (string) The string that represents the type of group. Possible values: o DIMENSION o TAG o COST_CATEGORY Key -&gt; (string) The string that represents a key for a specified group. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Shorthand Syntax: Type=string,Key=string ... JSON Syntax: [ { "Type": "DIMENSION"|"TAG"|"COST_CATEGORY", "Key": "string" } ... ]
     /// </summary>
-    [CliOption("--group-by")]
+    [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("workspaces", "describe-client-properties")]
 public record AwsWorkspacesDescribeClientPropertiesOptions : AwsOptions
 {
-    [CliOption("--resource-ids")]
+    [CliOption("--resource-ids", GroupValues = true)]
     public IEnumerable<string>? ResourceIds { get; set; }
 
     [CliOption("--cli-input-json")]

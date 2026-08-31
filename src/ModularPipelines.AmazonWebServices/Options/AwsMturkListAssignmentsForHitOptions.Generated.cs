@@ -28,7 +28,7 @@ public record AwsMturkListAssignmentsForHitOptions : AwsOptions
     /// <summary>
     /// The status of the assignments to return: Submitted | Approved | Re- jected (string) Possible values: o Submitted o Approved o Rejected Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--assignment-statuses")]
+    [CliOption("--assignment-statuses", GroupValues = true)]
     public IEnumerable<string>? AssignmentStatuses { get; set; }
 
     [CliOption("--cli-input-json")]

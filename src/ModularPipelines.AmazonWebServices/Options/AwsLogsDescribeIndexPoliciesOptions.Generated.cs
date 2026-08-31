@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("logs", "describe-index-policies")]
 public record AwsLogsDescribeIndexPoliciesOptions : AwsOptions
 {
-    [CliOption("--log-group-identifiers")]
+    [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
     /// <summary>

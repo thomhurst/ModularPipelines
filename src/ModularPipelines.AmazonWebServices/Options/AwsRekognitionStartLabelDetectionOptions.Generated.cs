@@ -53,7 +53,7 @@ public record AwsRekognitionStartLabelDetectionOptions : AwsOptions
     /// <summary>
     /// The features to return after video analysis. You can specify that GENERAL_LABELS are returned. Constraints: o min: 0 o max: 1 (string) Possible values: o GENERAL_LABELS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--features")]
+    [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; set; }
 
     /// <summary>

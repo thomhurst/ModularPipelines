@@ -27,7 +27,7 @@ public record AwsQuicksightBatchCreateTopicReviewedAnswerOptions : AwsOptions
     [CliOption("--topic-id")]
     public string? TopicId { get; set; }
 
-    [CliOption("--answers")]
+    [CliOption("--answers", GroupValues = true)]
     public IEnumerable<string>? Answers { get; set; }
 
     [CliOption("--cli-input-json")]

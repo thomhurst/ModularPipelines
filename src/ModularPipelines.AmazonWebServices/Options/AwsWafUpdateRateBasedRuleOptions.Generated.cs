@@ -29,7 +29,7 @@ public record AwsWafUpdateRateBasedRuleOptions : AwsOptions
     [CliOption("--change-token")]
     public string? ChangeToken { get; set; }
 
-    [CliOption("--updates")]
+    [CliOption("--updates", GroupValues = true)]
     public IEnumerable<string>? Updates { get; set; }
 
     [CliOption("--rate-limit")]

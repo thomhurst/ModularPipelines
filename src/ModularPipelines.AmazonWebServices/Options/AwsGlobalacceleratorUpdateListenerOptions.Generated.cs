@@ -28,7 +28,7 @@ public record AwsGlobalacceleratorUpdateListenerOptions : AwsOptions
     /// <summary>
     /// The updated list of port ranges for the connections from clients to the accelerator. Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]
     /// </summary>
-    [CliOption("--port-ranges")]
+    [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; set; }
 
     /// <summary>

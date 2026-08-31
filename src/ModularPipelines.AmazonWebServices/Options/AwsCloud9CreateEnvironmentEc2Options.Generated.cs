@@ -66,7 +66,7 @@ public record AwsCloud9CreateEnvironmentEc2Options : AwsOptions
     /// <summary>
     /// An array of key-value pairs that will be associated with the new Cloud9 development environment. Constraints: o min: 0 o max: 200 (structure) Metadata that is associated with Amazon Web Services resources. In particular, a name-value pair that can be associated with an Cloud9 development environment. There are two types of tags: user tags and system tags . A user tag is created by the user. A system tag is automatically created by Amazon Web Services ser- vices. A system tag is prefixed with "aws:" and cannot be modi- fied by the user. Key -&gt; (string) [required] The name part of a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value part of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

@@ -25,13 +25,13 @@ public record AwsPinpointSmsVoiceV2DescribeConfigurationSetsOptions : AwsOptions
     /// <summary>
     /// An array of strings. Each element can be either a ConfigurationSet- Name or ConfigurationSetArn. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--configuration-set-names")]
+    [CliOption("--configuration-set-names", GroupValues = true)]
     public IEnumerable<string>? ConfigurationSetNames { get; set; }
 
     /// <summary>
     /// An array of filters to apply to the results that are returned. Constraints: o min: 0 o max: 20 (structure) The information for configuration sets that meet a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o event-destination-name o matching-event-types o default-message-type o default-sender-id o default-message-feedback-enabled o protect-configuration-id Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "event-destination-name"|"matching-event-types"|"default-message-type"|"default-sender-id"|"default-message-feedback-enabled"|"protect-configuration-id", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

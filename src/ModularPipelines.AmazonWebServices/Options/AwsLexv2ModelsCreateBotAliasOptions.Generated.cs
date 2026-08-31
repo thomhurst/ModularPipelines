@@ -40,7 +40,7 @@ public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions
     /// <summary>
     /// Maps configuration information to a specific locale. You can use this parameter to specify a specific Lambda function to run differ- ent functions in different locales. Constraints: o min: 1 key -&gt; (string) value -&gt; (structure) Specifies settings that are unique to a locale. For example, you can use different Lambda function depending on the bot's locale. enabled -&gt; (boolean) [required] Determines whether the locale is enabled for the bot. If the value is false , the locale isn't available for use. codeHookSpecification -&gt; (structure) Specifies the Lambda function that should be used in the lo- cale. lambdaCodeHook -&gt; (structure) [required] Specifies a Lambda function that verifies requests to a bot or fulfills the user's request to a bot. lambdaARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:func- tion:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)? codeHookInterfaceVersion -&gt; (string) [required] The version of the request-response that you want Ama- zon Lex to use to invoke your Lambda function. Constraints: o min: 1 o max: 5 JSON Syntax: {"string": { "enabled": true|false, "codeHookSpecification": { "lambdaCodeHook": { "lambdaARN": "string", "codeHookInterfaceVersion": "string" } } } ...}
     /// </summary>
-    [CliOption("--bot-alias-locale-settings")]
+    [CliOption("--bot-alias-locale-settings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BotAliasLocaleSettings { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions
     /// <summary>
     /// A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the UpdateBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

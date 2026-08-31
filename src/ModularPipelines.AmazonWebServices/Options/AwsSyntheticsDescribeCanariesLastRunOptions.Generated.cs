@@ -39,7 +39,7 @@ public record AwsSyntheticsDescribeCanariesLastRunOptions : AwsOptions
     /// <summary>
     /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the ca- naries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see Limiting a user to viewing specific canaries . Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>

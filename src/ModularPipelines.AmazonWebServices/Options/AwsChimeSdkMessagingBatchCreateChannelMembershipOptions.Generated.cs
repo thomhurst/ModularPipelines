@@ -31,7 +31,7 @@ public record AwsChimeSdkMessagingBatchCreateChannelMembershipOptions : AwsOptio
     [CliOption("--type")]
     public AwsChimeSdkMessagingBatchCreateChannelMembershipType? Type { get; set; }
 
-    [CliOption("--member-arns")]
+    [CliOption("--member-arns", GroupValues = true)]
     public IEnumerable<string>? MemberArns { get; set; }
 
     [CliOption("--chime-bearer")]

@@ -27,7 +27,7 @@ public record AwsAutoscalingResumeProcessesOptions : AwsOptions
     /// <summary>
     /// One or more of the following processes: o Launch o Terminate o AddToLoadBalancer o AlarmNotification o AZRebalance o HealthCheck o InstanceRefresh o ReplaceUnhealthy o ScheduledActions If you omit this property, all processes are specified. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--scaling-processes")]
+    [CliOption("--scaling-processes", GroupValues = true)]
     public IEnumerable<string>? ScalingProcesses { get; set; }
 
     [CliOption("--cli-input-json")]

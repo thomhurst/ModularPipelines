@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("route53-recovery-readiness", "update-recovery-group")]
 public record AwsRoute53RecoveryReadinessUpdateRecoveryGroupOptions : AwsOptions
 {
-    [CliOption("--cells")]
+    [CliOption("--cells", GroupValues = true)]
     public IEnumerable<string>? Cells { get; set; }
 
     [CliOption("--recovery-group-name")]

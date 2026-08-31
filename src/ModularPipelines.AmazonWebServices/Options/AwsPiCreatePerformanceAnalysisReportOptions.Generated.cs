@@ -39,7 +39,7 @@ public record AwsPiCreatePerformanceAnalysisReportOptions : AwsOptions
     /// <summary>
     /// The metadata assigned to the analysis report consisting of a key-value pair. Constraints: o min: 0 o max: 200 (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. Key -&gt; (string) [required] A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$" ). Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

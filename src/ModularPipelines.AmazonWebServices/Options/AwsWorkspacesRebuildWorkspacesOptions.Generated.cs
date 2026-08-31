@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("workspaces", "rebuild-workspaces")]
 public record AwsWorkspacesRebuildWorkspacesOptions : AwsOptions
 {
-    [CliOption("--rebuild-workspace-requests")]
+    [CliOption("--rebuild-workspace-requests", GroupValues = true)]
     public IEnumerable<string>? RebuildWorkspaceRequests { get; set; }
 
     [CliOption("--cli-input-json")]

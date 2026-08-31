@@ -62,7 +62,7 @@ public record AwsEmrStartNotebookExecutionOptions : AwsOptions
     /// <summary>
     /// A list of tags associated with a notebook execution. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters. (structure) A key-value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more infor- mation, see Tag Clusters . Key -&gt; (string) A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . Value -&gt; (string) A user-defined value, which is optional in a tag. For more information, see Tag Clusters . Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -86,7 +86,7 @@ public record AwsEmrStartNotebookExecutionOptions : AwsOptions
     /// <summary>
     /// The environment variables associated with the notebook execution. key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* value -&gt; (string) Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment-variables")]
+    [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     [CliOption("--cli-input-json")]

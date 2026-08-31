@@ -25,13 +25,13 @@ public record AwsFsxDescribeDataRepositoryTasksOptions : AwsOptions
     /// <summary>
     /// (Optional) IDs of the tasks whose descriptions you want to retrieve (String). Constraints: o max: 50 (string) Constraints: o min: 12 o max: 128 o pattern: ^(task-[0-9a-f]{17,})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--task-ids")]
+    [CliOption("--task-ids", GroupValues = true)]
     public IEnumerable<string>? TaskIds { get; set; }
 
     /// <summary>
     /// (Optional) You can use filters to narrow the DescribeDataRepository- Tasks response to include just tasks for specific file systems, or tasks in a specific lifecycle state. Constraints: o max: 3 (structure) (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter ob- ject consists of a filter Name , and one or more Values for the filter. Name -&gt; (string) Name of the task property to use in filtering the tasks re- turned in the response. o Use file-system-id to retrieve data repository tasks for specific file systems. o Use task-lifecycle to retrieve data repository tasks with one or more specific lifecycle states, as follows: CAN- CELED, EXECUTING, FAILED, PENDING, and SUCCEEDED. Possible values: o file-system-id o task-lifecycle o data-repository-association-id o file-cache-id Values -&gt; (list) Use Values to include the specific file system IDs and task lifecycle states for the filters you are using. Constraints: o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id"|"task-lifecycle"|"data-repository-association-id"|"file-cache-id", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

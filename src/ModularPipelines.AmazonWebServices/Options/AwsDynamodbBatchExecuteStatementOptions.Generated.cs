@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("dynamodb", "batch-execute-statement")]
 public record AwsDynamodbBatchExecuteStatementOptions : AwsOptions
 {
-    [CliOption("--statements")]
+    [CliOption("--statements", GroupValues = true)]
     public IEnumerable<string>? Statements { get; set; }
 
     /// <summary>

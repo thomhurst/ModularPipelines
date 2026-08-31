@@ -41,13 +41,13 @@ public record AwsRamListResourcesOptions : AwsOptions
     /// <summary>
     /// Specifies that you want to list only the resource shares that in- clude resources with the specified Amazon Resource Names (ARNs) . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>
     /// Specifies that you want to list only resources in the resource shares identified by the specified Amazon Resource Names (ARNs) . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-share-arns")]
+    [CliOption("--resource-share-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceShareArns { get; set; }
 
     /// <summary>

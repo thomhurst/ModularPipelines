@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectCreateRoutingProfileAgentAvailabilityTimer
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("TIME_SINCE_LAST_ACTIVITY")]
     TimeSinceLastActivity = 1,
 

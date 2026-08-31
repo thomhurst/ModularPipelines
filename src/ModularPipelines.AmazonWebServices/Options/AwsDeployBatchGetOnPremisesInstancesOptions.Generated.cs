@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deploy", "batch-get-on-premises-instances")]
 public record AwsDeployBatchGetOnPremisesInstancesOptions : AwsOptions
 {
-    [CliOption("--instance-names")]
+    [CliOption("--instance-names", GroupValues = true)]
     public IEnumerable<string>? InstanceNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -30,7 +30,7 @@ public record AwsEntityresolutionUpdateSchemaMappingOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--mapped-input-fields")]
+    [CliOption("--mapped-input-fields", GroupValues = true)]
     public IEnumerable<string>? MappedInputFields { get; set; }
 
     [CliOption("--cli-input-json")]

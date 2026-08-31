@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDmsReloadReplicationTablesReloadOption
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("data-reload")]
     DataReload = 1,
 

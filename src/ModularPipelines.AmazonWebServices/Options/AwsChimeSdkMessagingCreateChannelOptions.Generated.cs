@@ -57,7 +57,7 @@ public record AwsChimeSdkMessagingCreateChannelOptions : AwsOptions
     /// <summary>
     /// The tags for the creation request. Constraints: o min: 1 o max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--chime-bearer")]
@@ -72,13 +72,13 @@ public record AwsChimeSdkMessagingCreateChannelOptions : AwsOptions
     /// <summary>
     /// The ARNs of the channel members in the request. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--member-arns")]
+    [CliOption("--member-arns", GroupValues = true)]
     public IEnumerable<string>? MemberArns { get; set; }
 
     /// <summary>
     /// The ARNs of the channel moderators in the request. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--moderator-arns")]
+    [CliOption("--moderator-arns", GroupValues = true)]
     public IEnumerable<string>? ModeratorArns { get; set; }
 
     /// <summary>

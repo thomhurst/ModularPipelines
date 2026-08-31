@@ -33,13 +33,13 @@ public record AwsSecurityIrUpdateMembershipOptions : AwsOptions
     /// <summary>
     /// Optional element for UpdateMembership to update the membership name. Constraints: o min: 2 o max: 10 (structure) name -&gt; (string) [required] Constraints: o min: 3 o max: 50 jobTitle -&gt; (string) [required] Constraints: o min: 1 o max: 50 email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* communicationPreferences -&gt; (list) (string) Possible values: o Case Created o Case Updated o Case Acknowledged o Case Closed o Case Updated To Service Managed o Case Status Updated o Case Pending Customer Action Reminder o Case Attachment Url Uploaded o Case Comment Added o Case Comment Updated o Membership Created o Membership Updated o Membership Cancelled o Register Delegated Administrator o Deregister Delegated Administrator o Disable AWS Service Access Shorthand Syntax: name=string,jobTitle=string,email=string,communicationPreferences=string,string ... JSON Syntax: [ { "name": "string", "jobTitle": "string", "email": "string", "communicationPreferences": ["Case Created"|"Case Updated"|"Case Acknowledged"|"Case Closed"|"Case Updated To Service Managed"|"Case Status Updated"|"Case Pending Customer Action Reminder"|"Case Attachment Url Uploaded"|"Case Comment Added"|"Case Comment Updated"|"Membership Created"|"Membership Updated"|"Membership Cancelled"|"Register Delegated Administrator"|"Deregister Delegated Administrator"|"Disable AWS Service Access", ...] } ... ]
     /// </summary>
-    [CliOption("--incident-response-team")]
+    [CliOption("--incident-response-team", GroupValues = true)]
     public IEnumerable<string>? IncidentResponseTeam { get; set; }
 
     /// <summary>
     /// Optional element for UpdateMembership to enable or disable opt-in features for the service. Constraints: o min: 1 o max: 2 (structure) featureName -&gt; (string) [required] Possible values: o Triage isEnabled -&gt; (boolean) [required] Shorthand Syntax: featureName=string,isEnabled=boolean ... JSON Syntax: [ { "featureName": "Triage", "isEnabled": true|false } ... ]
     /// </summary>
-    [CliOption("--opt-in-features")]
+    [CliOption("--opt-in-features", GroupValues = true)]
     public IEnumerable<string>? OptInFeatures { get; set; }
 
     /// <summary>

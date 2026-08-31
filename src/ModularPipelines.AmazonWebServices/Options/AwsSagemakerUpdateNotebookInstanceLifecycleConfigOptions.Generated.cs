@@ -27,13 +27,13 @@ public record AwsSagemakerUpdateNotebookInstanceLifecycleConfigOptions : AwsOpti
     /// <summary>
     /// The shell script that runs only once, when you create a notebook in- stance. The shell script must be a base64-encoded string. Constraints: o min: 0 o max: 1 (structure) Contains the notebook instance lifecycle configuration script. Each lifecycle configuration script has a limit of 16384 charac- ters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin . View Amazon CloudWatch Logs for notebook instance lifecycle con- figurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook] . Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configura- tions, see Step 2.1: (Optional) Customize a Notebook Instance . Content -&gt; (string) A base64-encoded string that contains a shell script for a notebook instance lifecycle configuration. Constraints: o min: 1 o max: 16384 o pattern: [\S\s]+ Shorthand Syntax: Content=string ... JSON Syntax: [ { "Content": "string" } ... ]
     /// </summary>
-    [CliOption("--on-create")]
+    [CliOption("--on-create", GroupValues = true)]
     public IEnumerable<string>? OnCreate { get; set; }
 
     /// <summary>
     /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string. Constraints: o min: 0 o max: 1 (structure) Contains the notebook instance lifecycle configuration script. Each lifecycle configuration script has a limit of 16384 charac- ters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin . View Amazon CloudWatch Logs for notebook instance lifecycle con- figurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook] . Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configura- tions, see Step 2.1: (Optional) Customize a Notebook Instance . Content -&gt; (string) A base64-encoded string that contains a shell script for a notebook instance lifecycle configuration. Constraints: o min: 1 o max: 16384 o pattern: [\S\s]+ Shorthand Syntax: Content=string ... JSON Syntax: [ { "Content": "string" } ... ]
     /// </summary>
-    [CliOption("--on-start")]
+    [CliOption("--on-start", GroupValues = true)]
     public IEnumerable<string>? OnStart { get; set; }
 
     [CliOption("--cli-input-json")]

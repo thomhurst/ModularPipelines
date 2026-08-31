@@ -33,25 +33,25 @@ public record AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions : AwsOptio
     /// <summary>
     /// Wireless device resources to add to the network analyzer configura- tion. Provide the WirelessDeviceId of the resource to add in the in- put array. Constraints: o min: 0 o max: 250 (string) The ID of the wireless device. Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--wireless-devices-to-add")]
+    [CliOption("--wireless-devices-to-add", GroupValues = true)]
     public IEnumerable<string>? WirelessDevicesToAdd { get; set; }
 
     /// <summary>
     /// Wireless device resources to remove from the network analyzer con- figuration. Provide the WirelessDeviceId of the resources to remove in the input array. Constraints: o min: 0 o max: 250 (string) The ID of the wireless device. Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--wireless-devices-to-remove")]
+    [CliOption("--wireless-devices-to-remove", GroupValues = true)]
     public IEnumerable<string>? WirelessDevicesToRemove { get; set; }
 
     /// <summary>
     /// Wireless gateway resources to add to the network analyzer configura- tion. Provide the WirelessGatewayId of the resource to add in the input array. (string) Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--wireless-gateways-to-add")]
+    [CliOption("--wireless-gateways-to-add", GroupValues = true)]
     public IEnumerable<string>? WirelessGatewaysToAdd { get; set; }
 
     /// <summary>
     /// Wireless gateway resources to remove from the network analyzer con- figuration. Provide the WirelessGatewayId of the resources to remove in the input array. (string) Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--wireless-gateways-to-remove")]
+    [CliOption("--wireless-gateways-to-remove", GroupValues = true)]
     public IEnumerable<string>? WirelessGatewaysToRemove { get; set; }
 
     /// <summary>
@@ -63,13 +63,13 @@ public record AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions : AwsOptio
     /// <summary>
     /// Multicast group resources to add to the network analyzer configura- tion. Provide the MulticastGroupId of the resource to add in the in- put array. Constraints: o min: 0 o max: 10 (string) The ID of the multicast group. Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--multicast-groups-to-add")]
+    [CliOption("--multicast-groups-to-add", GroupValues = true)]
     public IEnumerable<string>? MulticastGroupsToAdd { get; set; }
 
     /// <summary>
     /// Multicast group resources to remove from the network analyzer con- figuration. Provide the MulticastGroupId of the resources to remove in the input array. Constraints: o min: 0 o max: 10 (string) The ID of the multicast group. Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--multicast-groups-to-remove")]
+    [CliOption("--multicast-groups-to-remove", GroupValues = true)]
     public IEnumerable<string>? MulticastGroupsToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

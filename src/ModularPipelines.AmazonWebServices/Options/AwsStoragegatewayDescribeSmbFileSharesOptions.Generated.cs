@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("storagegateway", "describe-smb-file-shares")]
 public record AwsStoragegatewayDescribeSmbFileSharesOptions : AwsOptions
 {
-    [CliOption("--file-share-arn-list")]
+    [CliOption("--file-share-arn-list", GroupValues = true)]
     public IEnumerable<string>? FileShareArnList { get; set; }
 
     [CliOption("--cli-input-json")]

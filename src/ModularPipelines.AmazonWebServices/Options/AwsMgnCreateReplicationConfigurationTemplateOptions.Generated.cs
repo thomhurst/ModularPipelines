@@ -29,7 +29,7 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliFlag("--associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
-    [CliOption("--replication-servers-security-groups-ids")]
+    [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
 
     [CliOption("--replication-server-instance-type")]
@@ -59,7 +59,7 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliFlag("--create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
-    [CliOption("--staging-area-tags")]
+    [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
     [CliFlag("--use-fips-endpoint")]
@@ -68,7 +68,7 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
     /// <summary>
     /// Request to configure tags during Replication Settings template cre- ation. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

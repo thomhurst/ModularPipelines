@@ -25,7 +25,7 @@ public record AwsLakeformationListResourcesOptions : AwsOptions
     /// <summary>
     /// Any applicable row-level and/or column-level filtering conditions for the resources. Constraints: o min: 1 o max: 20 (structure) This structure describes the filtering of columns in a table based on a filter condition. Field -&gt; (string) The field to filter in the filter condition. Possible values: o RESOURCE_ARN o ROLE_ARN o LAST_MODIFIED ComparisonOperator -&gt; (string) The comparison operator used in the filter condition. Possible values: o EQ o NE o LE o LT o GE o GT o CONTAINS o NOT_CONTAINS o BEGINS_WITH o IN o BETWEEN StringValueList -&gt; (list) A string with values used in evaluating the filter condition. (string) Shorthand Syntax: Field=string,ComparisonOperator=string,StringValueList=string,string ... JSON Syntax: [ { "Field": "RESOURCE_ARN"|"ROLE_ARN"|"LAST_MODIFIED", "ComparisonOperator": "EQ"|"NE"|"LE"|"LT"|"GE"|"GT"|"CONTAINS"|"NOT_CONTAINS"|"BEGINS_WITH"|"IN"|"BETWEEN", "StringValueList": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filter-condition-list")]
+    [CliOption("--filter-condition-list", GroupValues = true)]
     public IEnumerable<string>? FilterConditionList { get; set; }
 
     /// <summary>

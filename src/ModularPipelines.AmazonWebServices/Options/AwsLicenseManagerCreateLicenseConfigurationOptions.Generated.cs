@@ -45,13 +45,13 @@ public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions
     /// <summary>
     /// License rules. The syntax is #name=value (for example, #allowedTe- nancy=EC2-DedicatedHost). The available rules vary by dimension, as follows. o Cores dimension: allowedTenancy | licenseAffinityToHost | maximum- Cores | minimumCores o Instances dimension: allowedTenancy | maximumVcpus | minimumVcpus o Sockets dimension: allowedTenancy | licenseAffinityToHost | maxi- mumSockets | minimumSockets o vCPUs dimension: allowedTenancy | honorVcpuOptimization | maxi- mumVcpus | minimumVcpus The unit for licenseAffinityToHost is days and the range is 1 to 180. The possible values for allowedTenancy are EC2-Default , EC2-DedicatedHost , and EC2-DedicatedInstance . The possible values for honorVcpuOptimization are True and False . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--license-rules")]
+    [CliOption("--license-rules", GroupValues = true)]
     public IEnumerable<string>? LicenseRules { get; set; }
 
     /// <summary>
     /// Tags to add to the license configuration. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--disassociate-when-not-found")]
@@ -60,7 +60,7 @@ public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions
     /// <summary>
     /// Product information. (structure) Describes product information for a license configuration. ResourceType -&gt; (string) [required] Resource type. The possible values are SSM_MANAGED | RDS . ProductInformationFilterList -&gt; (list) [required] A Product information filter consists of a ProductInforma- tionFilterComparator which is a logical operator, a Product- InformationFilterName which specifies the type of filter be- ing declared, and a ProductInformationFilterValue that speci- fies the value to filter on. Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductIn- formationFilterComparator . The following filters and are supported when the resource type is SSM_MANAGED : o Application Name - The name of the application. Logical op- erator is EQUALS . o Application Publisher - The publisher of the application. Logical operator is EQUALS . o Application Version - The version of the application. Logi- cal operator is EQUALS . o Platform Name - The name of the platform. Logical operator is EQUALS . o Platform Type - The platform type. Logical operator is EQUALS . o Tag:key - The key of a tag attached to an Amazon Web Ser- vices resource you wish to exclude from automated discov- ery. Logical operator is NOT_EQUALS . The key for your tag must be appended to Tag: following the example: Tag:name-of-your-key . ProductInformationFilterValue is op- tional if you are not using values for the key. o AccountId - The 12-digit ID of an Amazon Web Services ac- count you wish to exclude from automated discovery. Logical operator is NOT_EQUALS . o License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS . Possible values are: sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter . The following filters and logical operators are supported when the resource type is RDS : o Engine Edition - The edition of the database engine. Logi- cal operator is EQUALS . Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2 | db2-se | db2-ae . o License Pack - The license pack. Logical operator is EQUALS . Possible values are: data guard | diagnostic pack sqlt | tuning pack sqlt | ols | olap . (structure) Describes product information filters. ProductInformationFilterName -&gt; (string) [required] Filter name. ProductInformationFilterValue -&gt; (list) Filter value. (string) ProductInformationFilterComparator -&gt; (string) [required] Logical operator. JSON Syntax: [ { "ResourceType": "string", "ProductInformationFilterList": [ { "ProductInformationFilterName": "string", "ProductInformationFilterValue": ["string", ...], "ProductInformationFilterComparator": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--product-information-list")]
+    [CliOption("--product-information-list", GroupValues = true)]
     public IEnumerable<string>? ProductInformationList { get; set; }
 
     /// <summary>

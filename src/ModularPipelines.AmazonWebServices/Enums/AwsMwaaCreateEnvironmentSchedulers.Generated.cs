@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMwaaCreateEnvironmentSchedulers
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("v2")]
     V2 = 1
 }

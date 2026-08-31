@@ -42,7 +42,7 @@ public record AwsGlueDescribeIntegrationsOptions : AwsOptions
     /// <summary>
     /// A list of key and values, to filter down the results. Supported keys are "Status", "IntegrationName", and "SourceArn". IntegrationName is limited to only one value. (structure) A filter that can be used when invoking a DescribeIntegrations request. Name -&gt; (string) The name of the filter. Constraints: o min: 1 o max: 128 Values -&gt; (list) A list of filter values. (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

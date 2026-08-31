@@ -25,13 +25,13 @@ public record AwsElbv2WaitLoadBalancerExistsOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARN) of the load balancers. You can spec- ify up to 20 load balancers in a single call. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--load-balancer-arns")]
+    [CliOption("--load-balancer-arns", GroupValues = true)]
     public IEnumerable<string>? LoadBalancerArns { get; set; }
 
     /// <summary>
     /// The names of the load balancers. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>

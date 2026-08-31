@@ -36,7 +36,7 @@ public record AwsEc2DeregisterTransitGatewayMulticastGroupMembersOptions : AwsOp
     /// <summary>
     /// The IDs of the group members' network interfaces. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--network-interface-ids")]
+    [CliOption("--network-interface-ids", GroupValues = true)]
     public IEnumerable<string>? NetworkInterfaceIds { get; set; }
 
     [CliFlag("--dry-run")]

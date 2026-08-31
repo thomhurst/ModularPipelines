@@ -37,13 +37,13 @@ public record AwsApigatewayPutGatewayResponseOptions : AwsOptions
     /// <summary>
     /// Response parameters (paths, query strings and headers) of the Gate- wayResponse as a string-to-string map of key-value pairs. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--response-parameters")]
+    [CliOption("--response-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseParameters { get; set; }
 
     /// <summary>
     /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--response-templates")]
+    [CliOption("--response-templates", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseTemplates { get; set; }
 
     [CliOption("--cli-input-json")]

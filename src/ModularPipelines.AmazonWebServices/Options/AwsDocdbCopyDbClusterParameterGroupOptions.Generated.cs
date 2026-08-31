@@ -33,7 +33,7 @@ public record AwsDocdbCopyDbClusterParameterGroupOptions : AwsOptions
     /// <summary>
     /// The tags that are to be assigned to the parameter group. (structure) Metadata assigned to an Amazon DocumentDB resource consisting of a key-value pair. Key -&gt; (string) The required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

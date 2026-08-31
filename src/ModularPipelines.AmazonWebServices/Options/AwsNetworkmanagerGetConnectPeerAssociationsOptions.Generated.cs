@@ -28,7 +28,7 @@ public record AwsNetworkmanagerGetConnectPeerAssociationsOptions : AwsOptions
     /// <summary>
     /// The IDs of the Connect peers. (string) Constraints: o min: 0 o max: 50 o pattern: ^connect-peer-([0-9a-f]{8,17})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--connect-peer-ids")]
+    [CliOption("--connect-peer-ids", GroupValues = true)]
     public IEnumerable<string>? ConnectPeerIds { get; set; }
 
     [CliOption("--cli-input-json")]

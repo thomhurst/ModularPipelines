@@ -47,6 +47,11 @@ public static class CliGlobalOptionMerger
                 RegisterAlias(option.ShortForm, option.SwitchName, primarySwitchByAlias);
             }
 
+            if (option.NegatedSwitchName is not null)
+            {
+                RegisterAlias(option.NegatedSwitchName, option.SwitchName, primarySwitchByAlias);
+            }
+
             optionsBySwitch.Add(option.SwitchName, option);
             switchByProperty.Add(option.PropertyName, option.SwitchName);
         }
@@ -101,6 +106,7 @@ public static class CliGlobalOptionMerger
     {
         return left.SwitchName.Equals(right.SwitchName, StringComparison.OrdinalIgnoreCase)
                && StringEquals(left.ShortForm, right.ShortForm)
+               && StringEquals(left.NegatedSwitchName, right.NegatedSwitchName)
                && left.PreferShortForm == right.PreferShortForm
                && left.PropertyName.Equals(right.PropertyName, StringComparison.Ordinal)
                && left.CSharpType.Equals(right.CSharpType, StringComparison.Ordinal)
@@ -110,6 +116,7 @@ public static class CliGlobalOptionMerger
                && left.IsRequired == right.IsRequired
                && left.AcceptsMultipleValues == right.AcceptsMultipleValues
                && left.GroupValues == right.GroupValues
+               && left.CollectionSeparator == right.CollectionSeparator
                && left.IsCollection == right.IsCollection
                && left.IsKeyValue == right.IsKeyValue
                && left.IsNumeric == right.IsNumeric

@@ -30,7 +30,7 @@ public record AwsSesv2UpdateContactOptions : AwsOptions
     /// <summary>
     /// The contact's preference for being opted-in to or opted-out of a topic. (structure) The contact's preference for being opted-in to or opted-out of a topic. TopicName -&gt; (string) [required] The name of the topic. SubscriptionStatus -&gt; (string) [required] The contact's subscription status to a topic which is either OPT_IN or OPT_OUT . Possible values: o OPT_IN o OPT_OUT Shorthand Syntax: TopicName=string,SubscriptionStatus=string ... JSON Syntax: [ { "TopicName": "string", "SubscriptionStatus": "OPT_IN"|"OPT_OUT" } ... ]
     /// </summary>
-    [CliOption("--topic-preferences")]
+    [CliOption("--topic-preferences", GroupValues = true)]
     public IEnumerable<string>? TopicPreferences { get; set; }
 
     [CliFlag("--unsubscribe-all")]

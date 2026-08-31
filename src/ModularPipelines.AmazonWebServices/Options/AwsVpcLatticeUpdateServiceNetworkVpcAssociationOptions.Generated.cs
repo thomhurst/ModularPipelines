@@ -27,7 +27,7 @@ public record AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions : AwsOption
     /// <summary>
     /// The IDs of the security groups. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 5 o max: 200 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     [CliFlag("--private-dns-enabled")]

@@ -24,7 +24,7 @@ public record AwsSqsUntagQueueOptions : AwsOptions
     [CliOption("--queue-url")]
     public string? QueueUrl { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

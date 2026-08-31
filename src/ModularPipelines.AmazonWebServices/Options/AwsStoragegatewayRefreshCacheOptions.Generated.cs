@@ -27,7 +27,7 @@ public record AwsStoragegatewayRefreshCacheOptions : AwsOptions
     /// <summary>
     /// A comma-separated list of the paths of folders to refresh in the cache. The default is ["/" ]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If Recursive is set to true , the entire S3 bucket that the file share has access to is re- freshed. Do not include / when specifying folder names. For example, you would specify samplefolder rather than samplefolder/ . Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--folder-list")]
+    [CliOption("--folder-list", GroupValues = true)]
     public IEnumerable<string>? FolderList { get; set; }
 
     [CliFlag("--recursive")]

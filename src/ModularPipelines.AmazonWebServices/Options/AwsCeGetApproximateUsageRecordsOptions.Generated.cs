@@ -27,7 +27,7 @@ public record AwsCeGetApproximateUsageRecordsOptions : AwsOptions
     /// <summary>
     /// The service metadata for the service or services you want to query. If not specified, all elements are returned. (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--services")]
+    [CliOption("--services", GroupValues = true)]
     public IEnumerable<string>? Services { get; set; }
 
     [CliOption("--approximation-dimension")]

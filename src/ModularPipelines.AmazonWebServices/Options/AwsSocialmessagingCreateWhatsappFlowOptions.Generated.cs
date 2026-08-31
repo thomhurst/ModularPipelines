@@ -27,7 +27,7 @@ public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions
     [CliOption("--flow-name")]
     public string? FlowName { get; set; }
 
-    [CliOption("--categories")]
+    [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; set; }
 
     /// <summary>

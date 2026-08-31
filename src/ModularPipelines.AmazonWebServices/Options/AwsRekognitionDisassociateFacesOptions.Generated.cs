@@ -35,7 +35,7 @@ public record AwsRekognitionDisassociateFacesOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--face-ids")]
+    [CliOption("--face-ids", GroupValues = true)]
     public IEnumerable<string>? FaceIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,7 +33,7 @@ public record AwsGlueGetPartitionOptions : AwsOptions
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CliOption("--partition-values")]
+    [CliOption("--partition-values", GroupValues = true)]
     public IEnumerable<string>? PartitionValues { get; set; }
 
     /// <summary>

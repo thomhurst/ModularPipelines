@@ -25,7 +25,7 @@ public record AwsSsmDescribePatchGroupsOptions : AwsOptions
     /// <summary>
     /// Each element in the array is a structure containing a key-value pair. Supported keys for DescribePatchGroups include the following: o ** NAME_PREFIX ** Sample values: AWS- | My- . System Message: WARNING/2 (&lt;string&gt;:, line 84) Inline strong start-string without end-string. o ** OPERATING_SYSTEM ** Sample values: AMAZON_LINUX | SUSE | WINDOWS System Message: WARNING/2 (&lt;string&gt;:, line 86) Inline strong start-string without end-string. Constraints: o min: 0 o max: 5 (structure) Defines a filter used in Patch Manager APIs. Supported filter keys depend on the API operation that includes the filter. Patch Manager API operations that use PatchOrchestratorFilter include the following: o DescribeAvailablePatches o DescribeInstancePatches o DescribePatchBaselines o DescribePatchGroups Key -&gt; (string) The key for the filter. Constraints: o min: 1 o max: 128 Values -&gt; (list) The value for the filter. (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

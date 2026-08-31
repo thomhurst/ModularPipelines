@@ -40,7 +40,7 @@ public record AwsGroundstationCreateMissionProfileOptions : AwsOptions
     [CliOption("--minimum-viable-contact-duration-seconds")]
     public int? MinimumViableContactDurationSeconds { get; set; }
 
-    [CliOption("--dataflow-edges")]
+    [CliOption("--dataflow-edges", GroupValues = true)]
     public IEnumerable<string>? DataflowEdges { get; set; }
 
     [CliOption("--tracking-config-arn")]
@@ -55,7 +55,7 @@ public record AwsGroundstationCreateMissionProfileOptions : AwsOptions
     /// <summary>
     /// Tags assigned to a mission profile. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

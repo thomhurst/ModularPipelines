@@ -35,7 +35,7 @@ public record AwsQbusinessChatSyncOptions : AwsOptions
     /// <summary>
     /// The group names that a user associated with the chat input belongs to. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-groups")]
+    [CliOption("--user-groups", GroupValues = true)]
     public IEnumerable<string>? UserGroups { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AwsQbusinessChatSyncOptions : AwsOptions
     /// <summary>
     /// A list of files uploaded directly during chat. You can upload a max- imum of 5 files of upto 10 MB each. Constraints: o min: 1 (structure) This is either a file directly uploaded into a web experience chat or a reference to an existing attachment that is part of a web experience chat. data -&gt; (blob) The contents of the attachment. name -&gt; (string) The filename of the attachment. Constraints: o min: 1 o max: 1000 o pattern: \P{C}* copyFrom -&gt; (tagged union structure) A reference to an existing attachment. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: conversation. conversation -&gt; (structure) A reference to an attachment in an existing conversation. conversationId -&gt; (string) [required] The unique identifier of the Amazon Q Business conver- sation. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} attachmentId -&gt; (string) [required] The unique identifier of the Amazon Q Business attach- ment. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} Shorthand Syntax: data=blob,name=string,copyFrom={conversation={conversationId=string,attachmentId=string}} ... JSON Syntax: [ { "data": blob, "name": "string", "copyFrom": { "conversation": { "conversationId": "string", "attachmentId": "string" } } } ... ]
     /// </summary>
-    [CliOption("--attachments")]
+    [CliOption("--attachments", GroupValues = true)]
     public IEnumerable<string>? Attachments { get; set; }
 
     /// <summary>

@@ -26,7 +26,7 @@ public record AwsCloudwatchWaitCompositeAlarmExistsOptions : AwsOptions
     /// <summary>
     /// The names of the alarms to retrieve information about. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--alarm-names")]
+    [CliOption("--alarm-names", GroupValues = true)]
     public IEnumerable<string>? AlarmNames { get; set; }
 
     /// <summary>
@@ -38,7 +38,7 @@ public record AwsCloudwatchWaitCompositeAlarmExistsOptions : AwsOptions
     /// <summary>
     /// Use this parameter to specify whether you want the operation to re- turn metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms or log alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms , the operation returns only a list of metric alarms. It does not re- turn any composite alarms or log alarms, even if they exist in the account. If you specify CompositeAlarms , the operation returns only a list of composite alarms, and does not return any metric alarms or log alarms. If you specify LogAlarms , the operation returns only a list of log alarms, and does not return any metric alarms or composite alarms. (string) Possible values: o CompositeAlarm o MetricAlarm o LogAlarm Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--alarm-types")]
+    [CliOption("--alarm-types", GroupValues = true)]
     public IEnumerable<string>? AlarmTypes { get; set; }
 
     /// <summary>

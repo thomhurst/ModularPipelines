@@ -39,7 +39,7 @@ public record AwsIotUpdatePackageVersionOptions : AwsOptions
     /// <summary>
     /// Metadata that can be used to define a package versions configura- tion. For example, the Amazon S3 file location, configuration op- tions that are being sent to the device or fleet. Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is lim- ited to 3KB. key -&gt; (string) Constraints: o min: 1 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o min: 1 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>

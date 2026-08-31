@@ -40,7 +40,7 @@ public record AwsEc2DescribeLaunchTemplateVersionsOptions : AwsOptions
     /// <summary>
     /// One or more versions of the launch template. Valid values depend on whether you are describing a specified launch template (by ID or name) or all launch templates in your account. To describe one or more versions of a specified launch template, valid values are $Latest , $Default , and numbers. To describe all launch templates in your account that are defined as the latest version, the valid value is $Latest . To describe all launch templates in your account that are defined as the default version, the valid value is $Default . You can specify $Latest and $Default in the same request. You cannot specify numbers. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--versions")]
+    [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsEc2DescribeLaunchTemplateVersionsOptions : AwsOptions
     /// <summary>
     /// One or more filters. o create-time - The time the launch template version was created. o ebs-optimized - A boolean that indicates whether the instance is optimized for Amazon EBS I/O. o http-endpoint - Indicates whether the HTTP metadata endpoint on your instances is enabled (enabled | disabled ). o http-protocol-ipv4 - Indicates whether the IPv4 endpoint for the instance metadata service is enabled (enabled | disabled ). o host-resource-group-arn - The ARN of the host resource group in which to launch the instances. o http-tokens - The state of token usage for your instance metadata requests (optional | required ). o iam-instance-profile - The ARN of the IAM instance profile. o image-id - The ID of the AMI. o instance-type - The instance type. o is-default-version - A boolean that indicates whether the launch template version is the default version. o kernel-id - The kernel ID. o license-configuration-arn - The ARN of the license configuration. o network-card-index - The index of the network card. o ram-disk-id - The RAM disk ID. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--resolve-alias")]

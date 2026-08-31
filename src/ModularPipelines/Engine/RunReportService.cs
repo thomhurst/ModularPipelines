@@ -377,7 +377,7 @@ internal sealed class RunReportService(
                                 capabilities,
                                 DateTimeOffset.UtcNow)
                             {
-                                ExecutionIdentifier = options.ExecutionIdentifier,
+                                RunIdentifier = options.RunIdentifier,
                                 UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
                                 ModuleCommandCounts = commandExecutionCounter.GetModuleCounts()
                                     .GroupBy(
@@ -450,7 +450,7 @@ internal sealed class RunReportService(
             var options = distributedOptions.Value;
             var waitResult = await WaitForFinalWorkerMetricsAsync(
                     options.InstanceIndex,
-                    options.ExecutionIdentifier,
+                    options.RunIdentifier,
                     timeout.Token)
                 .ConfigureAwait(false);
             if (cancellationToken.IsCancellationRequested)
@@ -660,7 +660,7 @@ internal sealed class RunReportService(
         string? executionIdentifier) =>
         string.IsNullOrWhiteSpace(executionIdentifier)
         || string.Equals(
-            worker.ExecutionIdentifier,
+            worker.RunIdentifier,
             executionIdentifier,
             StringComparison.Ordinal);
 

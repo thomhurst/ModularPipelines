@@ -50,7 +50,7 @@ public record AwsRekognitionStartSegmentDetectionOptions : AwsOptions
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CliOption("--segment-types")]
+    [CliOption("--segment-types", GroupValues = true)]
     public IEnumerable<string>? SegmentTypes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsAutoscalingDetachLoadBalancersOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliOption("--load-balancer-names")]
+    [CliOption("--load-balancer-names", GroupValues = true)]
     public IEnumerable<string>? LoadBalancerNames { get; set; }
 
     [CliOption("--cli-input-json")]

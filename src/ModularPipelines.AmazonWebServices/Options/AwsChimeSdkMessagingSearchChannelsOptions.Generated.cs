@@ -28,7 +28,7 @@ public record AwsChimeSdkMessagingSearchChannelsOptions : AwsOptions
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; set; }
 
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>

@@ -24,7 +24,7 @@ public record AwsCloudtrailDescribeTrailsOptions : AwsOptions
     /// <summary>
     /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail If an empty list is specified, information for the trail in the cur- rent Region is returned. o If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current Region is returned. o If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current Region and any associated shadow trails in other Regions is returned. NOTE: If one or more trail names are specified, information is re- turned only if the names match the names of trails belonging only to the current Region and current account. To return infor- mation about a trail in another Region, you must specify its trail ARN. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--trail-name-list")]
+    [CliOption("--trail-name-list", GroupValues = true)]
     public IEnumerable<string>? TrailNameList { get; set; }
 
     [CliFlag("--include-shadow-trails")]

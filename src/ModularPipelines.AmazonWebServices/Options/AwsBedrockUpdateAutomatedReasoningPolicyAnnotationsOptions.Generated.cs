@@ -27,7 +27,7 @@ public record AwsBedrockUpdateAutomatedReasoningPolicyAnnotationsOptions : AwsOp
     [CliOption("--build-workflow-id")]
     public string? BuildWorkflowId { get; set; }
 
-    [CliOption("--annotations")]
+    [CliOption("--annotations", GroupValues = true)]
     public IEnumerable<string>? Annotations { get; set; }
 
     [CliOption("--last-updated-annotation-set-hash")]

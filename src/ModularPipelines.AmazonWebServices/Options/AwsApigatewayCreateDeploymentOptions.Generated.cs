@@ -55,7 +55,7 @@ public record AwsApigatewayCreateDeploymentOptions : AwsOptions
     /// <summary>
     /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have al- phanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+ . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--variables")]
+    [CliOption("--variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Variables { get; set; }
 
     /// <summary>

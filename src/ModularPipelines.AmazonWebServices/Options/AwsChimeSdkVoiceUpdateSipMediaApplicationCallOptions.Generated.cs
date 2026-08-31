@@ -28,7 +28,7 @@ public record AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions : AwsOptions
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CliOption("--arguments")]
+    [CliOption("--arguments", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ChimeSdkVoiceArguments { get; set; }
 
     [CliOption("--cli-input-json")]

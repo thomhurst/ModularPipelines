@@ -24,7 +24,7 @@ public record AwsChimeAssociateSigninDelegateGroupsWithAccountOptions : AwsOptio
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CliOption("--signin-delegate-groups")]
+    [CliOption("--signin-delegate-groups", GroupValues = true)]
     public IEnumerable<string>? SigninDelegateGroups { get; set; }
 
     [CliOption("--cli-input-json")]

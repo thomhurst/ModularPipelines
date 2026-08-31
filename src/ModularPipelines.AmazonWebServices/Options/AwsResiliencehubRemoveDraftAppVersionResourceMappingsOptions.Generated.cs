@@ -27,37 +27,37 @@ public record AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions : Aws
     /// <summary>
     /// The names of the registered applications you want to remove from the resource mappings. (string) Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--app-registry-app-names")]
+    [CliOption("--app-registry-app-names", GroupValues = true)]
     public IEnumerable<string>? AppRegistryAppNames { get; set; }
 
     /// <summary>
     /// The names of the Amazon Elastic Kubernetes Service clusters and namespaces you want to remove from the resource mappings. NOTE: This parameter accepts values in "eks-cluster/namespace" format. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--eks-source-names")]
+    [CliOption("--eks-source-names", GroupValues = true)]
     public IEnumerable<string>? EksSourceNames { get; set; }
 
     /// <summary>
     /// The names of the CloudFormation stacks you want to remove from the resource mappings. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--logical-stack-names")]
+    [CliOption("--logical-stack-names", GroupValues = true)]
     public IEnumerable<string>? LogicalStackNames { get; set; }
 
     /// <summary>
     /// The names of the resource groups you want to remove from the re- source mappings. (string) Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-group-names")]
+    [CliOption("--resource-group-names", GroupValues = true)]
     public IEnumerable<string>? ResourceGroupNames { get; set; }
 
     /// <summary>
     /// The names of the resources you want to remove from the resource map- pings. (string) Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-names")]
+    [CliOption("--resource-names", GroupValues = true)]
     public IEnumerable<string>? ResourceNames { get; set; }
 
     /// <summary>
     /// The names of the Terraform sources you want to remove from the re- source mappings. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--terraform-source-names")]
+    [CliOption("--terraform-source-names", GroupValues = true)]
     public IEnumerable<string>? TerraformSourceNames { get; set; }
 
     [CliOption("--cli-input-json")]

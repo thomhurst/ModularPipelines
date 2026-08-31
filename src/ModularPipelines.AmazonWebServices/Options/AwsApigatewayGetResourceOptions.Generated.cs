@@ -30,7 +30,7 @@ public record AwsApigatewayGetResourceOptions : AwsOptions
     /// <summary>
     /// A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed pa- rameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--embed")]
+    [CliOption("--embed", GroupValues = true)]
     public IEnumerable<string>? Embed { get; set; }
 
     [CliOption("--cli-input-json")]

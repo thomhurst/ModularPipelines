@@ -27,7 +27,7 @@ public record AwsAutoscalingDescribeLifecycleHooksOptions : AwsOptions
     /// <summary>
     /// The names of one or more lifecycle hooks. If you omit this property, all lifecycle hooks are described. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9\-_\/]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--lifecycle-hook-names")]
+    [CliOption("--lifecycle-hook-names", GroupValues = true)]
     public IEnumerable<string>? LifecycleHookNames { get; set; }
 
     [CliOption("--cli-input-json")]

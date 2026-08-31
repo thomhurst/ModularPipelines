@@ -27,7 +27,7 @@ public record AwsKendraAssociateEntitiesToExperienceOptions : AwsOptions
     [CliOption("--index-id")]
     public string? IndexId { get; set; }
 
-    [CliOption("--entity-list")]
+    [CliOption("--entity-list", GroupValues = true)]
     public IEnumerable<string>? EntityList { get; set; }
 
     [CliOption("--cli-input-json")]

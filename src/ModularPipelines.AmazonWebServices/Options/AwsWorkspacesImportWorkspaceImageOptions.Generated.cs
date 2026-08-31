@@ -36,13 +36,13 @@ public record AwsWorkspacesImportWorkspaceImageOptions : AwsOptions
     /// <summary>
     /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see Bring Your Own Windows Desktop Licenses . NOTE: o Although this parameter is an array, only one item is allowed at this time. o During the image import process, non-GPU DCV (formerly WSP) WorkSpaces with Windows 11 support only Microsoft_Office_2019 . GPU DCV (formerly WSP) WorkSpaces with Windows 11 do not support Office installation. Constraints: o min: 1 o max: 5 (string) Possible values: o Microsoft_Office_2016 o Microsoft_Office_2019 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--applications")]
+    [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string>? Applications { get; set; }
 
     [CliOption("--cli-input-json")]

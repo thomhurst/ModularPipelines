@@ -34,7 +34,7 @@ public record AwsApigatewayGetExportOptions : AwsOptions
     /// <summary>
     /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType . For export- Type oas30 and swagger , any combination of the following parame- ters are supported: extensions='integrations' or extensions='api- gateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with x-ama- zon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

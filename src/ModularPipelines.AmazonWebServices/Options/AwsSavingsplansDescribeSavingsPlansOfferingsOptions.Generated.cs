@@ -26,13 +26,13 @@ public record AwsSavingsplansDescribeSavingsPlansOfferingsOptions : AwsOptions
     /// <summary>
     /// The IDs of the offerings. (string) Constraints: o pattern: [a-f0-9]+(-[a-f0-9]+)* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--offering-ids")]
+    [CliOption("--offering-ids", GroupValues = true)]
     public IEnumerable<string>? OfferingIds { get; set; }
 
     /// <summary>
     /// The payment options. (string) Possible values: o All Upfront o Partial Upfront o No Upfront Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--payment-options")]
+    [CliOption("--payment-options", GroupValues = true)]
     public IEnumerable<string>? PaymentOptions { get; set; }
 
     /// <summary>
@@ -44,49 +44,49 @@ public record AwsSavingsplansDescribeSavingsPlansOfferingsOptions : AwsOptions
     /// <summary>
     /// The plan types. (string) Possible values: o Compute o EC2Instance o SageMaker o Database Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--plan-types")]
+    [CliOption("--plan-types", GroupValues = true)]
     public IEnumerable<string>? PlanTypes { get; set; }
 
     /// <summary>
     /// The duration, in seconds. (long) Constraints: o min: 0 Syntax: long long ...
     /// </summary>
-    [CliOption("--durations")]
+    [CliOption("--durations", GroupValues = true)]
     public IEnumerable<string>? Durations { get; set; }
 
     /// <summary>
     /// The currencies. (string) Possible values: o CNY o USD o EUR Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--currencies")]
+    [CliOption("--currencies", GroupValues = true)]
     public IEnumerable<string>? Currencies { get; set; }
 
     /// <summary>
     /// The descriptions. (string) Constraints: o pattern: ^[a-zA-Z0-9_\- ]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--descriptions")]
+    [CliOption("--descriptions", GroupValues = true)]
     public IEnumerable<string>? Descriptions { get; set; }
 
     /// <summary>
     /// The services. (string) Constraints: o max: 255 o pattern: ^[a-zA-Z]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--service-codes")]
+    [CliOption("--service-codes", GroupValues = true)]
     public IEnumerable<string>? ServiceCodes { get; set; }
 
     /// <summary>
     /// The usage details of the line item in the billing report. (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9_ \/.:-]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--usage-types")]
+    [CliOption("--usage-types", GroupValues = true)]
     public IEnumerable<string>? UsageTypes { get; set; }
 
     /// <summary>
     /// The specific Amazon Web Services operation for the line item in the billing report. (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9_ \/.:-]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--operations")]
+    [CliOption("--operations", GroupValues = true)]
     public IEnumerable<string>? Operations { get; set; }
 
     /// <summary>
     /// The filters. (structure) Information about a Savings Plan offering filter. name -&gt; (string) The filter name. Possible values: o region o instanceFamily values -&gt; (list) The filter values. (string) Constraints: o pattern: ^[a-zA-Z0-9_ \/.\:\-\(\)]+$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"instanceFamily", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

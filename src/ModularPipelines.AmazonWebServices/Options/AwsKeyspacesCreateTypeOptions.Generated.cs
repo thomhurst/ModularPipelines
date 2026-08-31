@@ -27,7 +27,7 @@ public record AwsKeyspacesCreateTypeOptions : AwsOptions
     [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
-    [CliOption("--field-definitions")]
+    [CliOption("--field-definitions", GroupValues = true)]
     public IEnumerable<string>? FieldDefinitions { get; set; }
 
     [CliOption("--cli-input-json")]

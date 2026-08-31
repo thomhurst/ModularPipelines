@@ -30,7 +30,7 @@ public record AwsGroundstationUpdateAgentStatusOptions : AwsOptions
     [CliOption("--aggregate-status")]
     public string? AggregateStatus { get; set; }
 
-    [CliOption("--component-statuses")]
+    [CliOption("--component-statuses", GroupValues = true)]
     public IEnumerable<string>? ComponentStatuses { get; set; }
 
     [CliOption("--cli-input-json")]

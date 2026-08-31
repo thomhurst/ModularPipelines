@@ -27,7 +27,7 @@ public record AwsLookoutequipmentUpdateLabelGroupOptions : AwsOptions
     /// <summary>
     /// Updates the code indicating the type of anomaly associated with the label. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 100 o pattern: [\P{M}\p{M}]{1,100} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fault-codes")]
+    [CliOption("--fault-codes", GroupValues = true)]
     public IEnumerable<string>? FaultCodes { get; set; }
 
     [CliOption("--cli-input-json")]

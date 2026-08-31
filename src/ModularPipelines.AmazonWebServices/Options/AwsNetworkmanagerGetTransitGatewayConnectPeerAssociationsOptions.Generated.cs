@@ -28,7 +28,7 @@ public record AwsNetworkmanagerGetTransitGatewayConnectPeerAssociationsOptions :
     /// <summary>
     /// One or more transit gateway Connect peer Amazon Resource Names (ARNs). (string) Constraints: o min: 0 o max: 500 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--transit-gateway-connect-peer-arns")]
+    [CliOption("--transit-gateway-connect-peer-arns", GroupValues = true)]
     public IEnumerable<string>? TransitGatewayConnectPeerArns { get; set; }
 
     [CliOption("--cli-input-json")]

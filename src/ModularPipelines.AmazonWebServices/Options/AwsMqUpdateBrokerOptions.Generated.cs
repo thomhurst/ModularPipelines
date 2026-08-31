@@ -73,13 +73,13 @@ public record AwsMqUpdateBrokerOptions : AwsOptions
     /// <summary>
     /// The list of resource shares to update on the broker (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-share-arns")]
+    [CliOption("--resource-share-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceShareArns { get; set; }
 
     /// <summary>
     /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     /// <summary>

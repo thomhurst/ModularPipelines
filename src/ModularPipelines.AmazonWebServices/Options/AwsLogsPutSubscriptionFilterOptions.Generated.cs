@@ -58,7 +58,7 @@ public record AwsLogsPutSubscriptionFilterOptions : AwsOptions
     /// <summary>
     /// A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account , @aws.re- gion , and @source.log . These fields provide source information for centralized log data in the forwarded payload. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--emit-system-fields")]
+    [CliOption("--emit-system-fields", GroupValues = true)]
     public IEnumerable<string>? EmitSystemFields { get; set; }
 
     [CliOption("--cli-input-json")]

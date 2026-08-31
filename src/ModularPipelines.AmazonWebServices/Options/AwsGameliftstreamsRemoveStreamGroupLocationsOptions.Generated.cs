@@ -24,7 +24,7 @@ public record AwsGameliftstreamsRemoveStreamGroupLocationsOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliOption("--locations")]
+    [CliOption("--locations", GroupValues = true)]
     public IEnumerable<string>? Locations { get; set; }
 
     [CliOption("--cli-input-json")]

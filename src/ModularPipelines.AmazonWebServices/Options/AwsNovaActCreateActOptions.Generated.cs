@@ -37,7 +37,7 @@ public record AwsNovaActCreateActOptions : AwsOptions
     /// <summary>
     /// A list of tool specifications that the act can invoke to complete its task. Constraints: o min: 0 o max: 100 (structure) Specification for a tool that acts can invoke, including its name, description, and input schema. name -&gt; (string) [required] The unique name of the tool that acts will use to invoke it. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ description -&gt; (string) [required] A description of what the tool does and how it should be used. Constraints: o min: 1 o max: 10000 inputSchema -&gt; (tagged union structure) [required] The JSON schema that defines the expected input format for the tool. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: json. json -&gt; (document) The JSON schema that defines the expected input format for the tool. Shorthand Syntax: name=string,description=string,inputSchema={} ... JSON Syntax: [ { "name": "string", "description": "string", "inputSchema": { "json": {...} } } ... ]
     /// </summary>
-    [CliOption("--tool-specs")]
+    [CliOption("--tool-specs", GroupValues = true)]
     public IEnumerable<string>? ToolSpecs { get; set; }
 
     /// <summary>

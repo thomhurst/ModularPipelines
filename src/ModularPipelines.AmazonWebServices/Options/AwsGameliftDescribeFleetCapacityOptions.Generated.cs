@@ -25,7 +25,7 @@ public record AwsGameliftDescribeFleetCapacityOptions : AwsOptions
     /// <summary>
     /// A unique identifier for the fleet to retrieve capacity information for. You can use either the fleet ID or ARN value. Leave this para- meter empty to retrieve capacity information for all fleets. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fleet-ids")]
+    [CliOption("--fleet-ids", GroupValues = true)]
     public IEnumerable<string>? FleetIds { get; set; }
 
     [CliOption("--cli-input-json")]

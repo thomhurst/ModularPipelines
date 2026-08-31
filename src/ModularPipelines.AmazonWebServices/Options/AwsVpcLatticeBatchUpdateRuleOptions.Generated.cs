@@ -27,7 +27,7 @@ public record AwsVpcLatticeBatchUpdateRuleOptions : AwsOptions
     [CliOption("--listener-identifier")]
     public string? ListenerIdentifier { get; set; }
 
-    [CliOption("--rules")]
+    [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     [CliOption("--cli-input-json")]

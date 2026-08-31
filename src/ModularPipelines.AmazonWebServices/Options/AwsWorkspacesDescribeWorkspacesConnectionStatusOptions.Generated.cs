@@ -25,7 +25,7 @@ public record AwsWorkspacesDescribeWorkspacesConnectionStatusOptions : AwsOption
     /// <summary>
     /// The identifiers of the WorkSpaces. You can specify up to 25 Work- Spaces. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--workspace-ids")]
+    [CliOption("--workspace-ids", GroupValues = true)]
     public IEnumerable<string>? WorkspaceIds { get; set; }
 
     [CliOption("--cli-input-json")]

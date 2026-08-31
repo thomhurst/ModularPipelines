@@ -25,7 +25,7 @@ public record AwsGameliftDescribeFleetUtilizationOptions : AwsOptions
     /// <summary>
     /// A unique identifier for the fleet to retrieve utilization data for. You can use either the fleet ID or ARN value. To retrieve attributes for all current fleets, do not include this parameter. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fleet-ids")]
+    [CliOption("--fleet-ids", GroupValues = true)]
     public IEnumerable<string>? FleetIds { get; set; }
 
     [CliOption("--cli-input-json")]

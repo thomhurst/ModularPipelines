@@ -24,7 +24,7 @@ public record AwsForecastUpdateDataSetGroupOptions : AwsOptions
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; set; }
 
-    [CliOption("--dataset-arns")]
+    [CliOption("--dataset-arns", GroupValues = true)]
     public IEnumerable<string>? DataSetArns { get; set; }
 
     [CliOption("--cli-input-json")]

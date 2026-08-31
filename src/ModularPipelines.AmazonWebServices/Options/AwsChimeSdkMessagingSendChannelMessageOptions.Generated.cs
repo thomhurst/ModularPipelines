@@ -60,7 +60,7 @@ public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions
     /// <summary>
     /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences . key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [\s\S]* value -&gt; (structure) A list of message attribute values. StringValues -&gt; (list) The strings in a message attribute value. (string) Constraints: o min: 1 o max: 512 o pattern: [\s\S]* Shorthand Syntax: KeyName1={StringValues=[string,string]},KeyName2={StringValues=[string,string]} JSON Syntax: {"string": { "StringValues": ["string", ...] } ...}
     /// </summary>
-    [CliOption("--message-attributes")]
+    [CliOption("--message-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MessageAttributes { get; set; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions
     /// <summary>
     /// The target of a message. Must be a member of the channel, such as another user, a bot, or the sender. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete tar- geted messages that they cant see. Constraints: o min: 1 o max: 1 (structure) The target of a message, a sender, a user, or a bot. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, ad- ministrators can delete targeted messages that they cant see. MemberArn -&gt; (string) The ARN of the target channel member. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: MemberArn=string ... JSON Syntax: [ { "MemberArn": "string" } ... ]
     /// </summary>
-    [CliOption("--target")]
+    [CliOption("--target", GroupValues = true)]
     public IEnumerable<string>? Target { get; set; }
 
     [CliOption("--cli-input-json")]

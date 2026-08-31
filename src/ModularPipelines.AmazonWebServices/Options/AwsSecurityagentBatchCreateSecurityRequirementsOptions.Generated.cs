@@ -24,7 +24,7 @@ public record AwsSecurityagentBatchCreateSecurityRequirementsOptions : AwsOption
     [CliOption("--pack-id")]
     public string? PackId { get; set; }
 
-    [CliOption("--security-requirements")]
+    [CliOption("--security-requirements", GroupValues = true)]
     public IEnumerable<string>? SecurityRequirements { get; set; }
 
     [CliOption("--cli-input-json")]

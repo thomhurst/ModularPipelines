@@ -27,7 +27,7 @@ public record AwsResiliencehubv2DeleteServiceFunctionResourcesOptions : AwsOptio
     [CliOption("--service-function-id")]
     public string? ServiceFunctionId { get; set; }
 
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     [CliOption("--cli-input-json")]

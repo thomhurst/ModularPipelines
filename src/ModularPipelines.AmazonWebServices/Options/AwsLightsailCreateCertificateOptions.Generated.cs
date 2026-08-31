@@ -30,13 +30,13 @@ public record AwsLightsailCreateCertificateOptions : AwsOptions
     /// <summary>
     /// An array of strings that specify the alternate domains (example2.com ) and subdomains (blog.example.com ) for the certificate. You can specify a maximum of nine alternate domains (in addition to the primary domain name). Wildcard domain entries (*.example.com ) are not supported. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subject-alternative-names")]
+    [CliOption("--subject-alternative-names", GroupValues = true)]
     public IEnumerable<string>? SubjectAlternativeNames { get; set; }
 
     /// <summary>
     /// The tag keys and optional values to add to the certificate during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

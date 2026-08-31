@@ -34,13 +34,13 @@ public record AwsApigatewayv2UpdateRouteResponseOptions : AwsOptions
     /// <summary>
     /// The response models for the route response. key -&gt; (string) value -&gt; (string) A string with a length between [1-128]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--response-models")]
+    [CliOption("--response-models", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseModels { get; set; }
 
     /// <summary>
     /// The route response parameters. key -&gt; (string) value -&gt; (structure) Validation constraints imposed on parameters of a request (path, query string, headers). Required -&gt; (boolean) Whether or not the parameter is required. Shorthand Syntax: KeyName1={Required=boolean},KeyName2={Required=boolean} JSON Syntax: {"string": { "Required": true|false } ...}
     /// </summary>
-    [CliOption("--response-parameters")]
+    [CliOption("--response-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseParameters { get; set; }
 
     [CliOption("--route-id")]

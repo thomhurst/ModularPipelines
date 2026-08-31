@@ -31,7 +31,7 @@ public record AwsEcrPublicDescribeRepositoriesOptions : AwsOptions
     /// <summary>
     /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--repository-names")]
+    [CliOption("--repository-names", GroupValues = true)]
     public IEnumerable<string>? RepositoryNames { get; set; }
 
     [CliOption("--cli-input-json")]

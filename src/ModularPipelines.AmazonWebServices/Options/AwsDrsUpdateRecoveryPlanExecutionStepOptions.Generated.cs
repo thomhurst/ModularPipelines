@@ -34,7 +34,7 @@ public record AwsDrsUpdateRecoveryPlanExecutionStepOptions : AwsOptions
     /// <summary>
     /// Full replacement of the server list. Only allowed when the step is in NOT_STARTED status (Server type steps only). Constraints: o min: 1 o max: 100 (structure) A server associated with a Recovery Plan Step. serverArn -&gt; (string) [required] The ARN of the source server. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17}) impactLevel -&gt; (string) Defaults to CRITICAL if not specified. Possible values: o CRITICAL o OPTIONAL Shorthand Syntax: serverArn=string,impactLevel=string ... JSON Syntax: [ { "serverArn": "string", "impactLevel": "CRITICAL"|"OPTIONAL" } ... ]
     /// </summary>
-    [CliOption("--servers")]
+    [CliOption("--servers", GroupValues = true)]
     public IEnumerable<string>? Servers { get; set; }
 
     /// <summary>

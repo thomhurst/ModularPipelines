@@ -34,13 +34,13 @@ public record AwsOdbUpdateOdbNetworkOptions : AwsOptions
     /// <summary>
     /// The list of CIDR ranges from the peered VPC that allow access to the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--peered-cidrs-to-be-added")]
+    [CliOption("--peered-cidrs-to-be-added", GroupValues = true)]
     public IEnumerable<string>? PeeredCidrsToBeAdded { get; set; }
 
     /// <summary>
     /// The list of CIDR ranges from the peered VPC to remove from the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--peered-cidrs-to-be-removed")]
+    [CliOption("--peered-cidrs-to-be-removed", GroupValues = true)]
     public IEnumerable<string>? PeeredCidrsToBeRemoved { get; set; }
 
     /// <summary>
@@ -88,13 +88,13 @@ public record AwsOdbUpdateOdbNetworkOptions : AwsOptions
     /// <summary>
     /// The cross-Region Amazon S3 restore sources to enable for the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cross-region-s3-restore-sources-to-enable")]
+    [CliOption("--cross-region-s3-restore-sources-to-enable", GroupValues = true)]
     public IEnumerable<string>? CrossRegionS3RestoreSourcesToEnable { get; set; }
 
     /// <summary>
     /// The cross-Region Amazon S3 restore sources to disable for the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cross-region-s3-restore-sources-to-disable")]
+    [CliOption("--cross-region-s3-restore-sources-to-disable", GroupValues = true)]
     public IEnumerable<string>? CrossRegionS3RestoreSourcesToDisable { get; set; }
 
     [CliOption("--cli-input-json")]

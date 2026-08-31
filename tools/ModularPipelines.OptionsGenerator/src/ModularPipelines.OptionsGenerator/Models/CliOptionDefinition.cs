@@ -21,6 +21,11 @@ public record CliOptionDefinition
     public required string SwitchName { get; init; }
 
     /// <summary>
+    /// Paired switch emitted when a nullable boolean flag is explicitly false.
+    /// </summary>
+    public string? NegatedSwitchName { get; init; }
+
+    /// <summary>
     /// Short form if available (e.g., "-o" for "--output").
     /// </summary>
     public string? ShortForm { get; init; }
@@ -198,6 +203,11 @@ public record CliOptionDefinition
     /// Whether collection values render after one option occurrence.
     /// </summary>
     public bool GroupValues { get; init; }
+
+    /// <summary>
+    /// Separator used to join collection elements into one option value.
+    /// </summary>
+    public string? CollectionSeparator { get; init; }
 
     /// <summary>
     /// Whether an optional value type unavailable to the generator has collection semantics.

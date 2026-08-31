@@ -31,13 +31,13 @@ public record AwsElbv2DescribeTargetGroupsOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARN) of the target groups. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target-group-arns")]
+    [CliOption("--target-group-arns", GroupValues = true)]
     public IEnumerable<string>? TargetGroupArns { get; set; }
 
     /// <summary>
     /// The names of the target groups. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>

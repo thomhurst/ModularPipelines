@@ -25,7 +25,7 @@ public record AwsEsDescribePackagesOptions : AwsOptions
     /// <summary>
     /// Only returns packages that match the DescribePackagesFilterList val- ues. (structure) Filter to apply in DescribePackage response. Name -&gt; (string) Any field from PackageDetails . Possible values: o PackageID o PackageName o PackageStatus Value -&gt; (list) A non-empty list of values for the specified field. Constraints: o min: 1 (string) Constraints: o pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: Name=string,Value=string,string ... JSON Syntax: [ { "Name": "PackageID"|"PackageName"|"PackageStatus", "Value": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

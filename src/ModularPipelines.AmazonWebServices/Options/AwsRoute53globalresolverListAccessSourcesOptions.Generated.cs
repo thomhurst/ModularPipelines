@@ -26,7 +26,7 @@ public record AwsRoute53globalresolverListAccessSourcesOptions : AwsOptions
     /// <summary>
     /// Values to filter the results. key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

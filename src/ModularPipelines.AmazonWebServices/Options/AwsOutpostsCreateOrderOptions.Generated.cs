@@ -40,7 +40,7 @@ public record AwsOutpostsCreateOrderOptions : AwsOptions
     /// <summary>
     /// The line items that make up the order. Constraints: o min: 1 o max: 20 (structure) Information about a line item request. CatalogItemId -&gt; (string) The ID of the catalog item. Constraints: o min: 1 o max: 10 o pattern: OR-[A-Z0-9]{7} Quantity -&gt; (integer) The quantity of a line item request. Constraints: o min: 1 Shorthand Syntax: CatalogItemId=string,Quantity=integer ... JSON Syntax: [ { "CatalogItemId": "string", "Quantity": integer } ... ]
     /// </summary>
-    [CliOption("--line-items")]
+    [CliOption("--line-items", GroupValues = true)]
     public IEnumerable<string>? LineItems { get; set; }
 
     [CliOption("--payment-option")]

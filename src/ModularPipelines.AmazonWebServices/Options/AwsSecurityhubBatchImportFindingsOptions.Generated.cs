@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "batch-import-findings")]
 public record AwsSecurityhubBatchImportFindingsOptions : AwsOptions
 {
-    [CliOption("--findings")]
+    [CliOption("--findings", GroupValues = true)]
     public IEnumerable<string>? Findings { get; set; }
 
     [CliOption("--cli-input-json")]

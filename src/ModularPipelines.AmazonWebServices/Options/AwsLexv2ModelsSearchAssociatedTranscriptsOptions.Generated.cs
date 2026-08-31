@@ -40,7 +40,7 @@ public record AwsLexv2ModelsSearchAssociatedTranscriptsOptions : AwsOptions
     [CliOption("--search-order")]
     public AwsLexv2ModelsSearchAssociatedTranscriptsSearchOrder? SearchOrder { get; set; }
 
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

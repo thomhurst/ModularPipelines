@@ -30,7 +30,7 @@ public record AwsAmpUpdateScraperLoggingConfigurationOptions : AwsOptions
     /// <summary>
     /// The list of scraper components to configure for logging. Constraints: o min: 1 (structure) A component of a Amazon Managed Service for Prometheus scraper that can be configured for logging. type -&gt; (string) [required] The type of the scraper component. Possible values: o SERVICE_DISCOVERY o COLLECTOR o EXPORTER config -&gt; (structure) The configuration settings for the scraper component. options -&gt; (map) Configuration options for the scraper component. key -&gt; (string) value -&gt; (string) Shorthand Syntax: type=string,config={options={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "type": "SERVICE_DISCOVERY"|"COLLECTOR"|"EXPORTER", "config": { "options": {"string": "string" ...} } } ... ]
     /// </summary>
-    [CliOption("--scraper-components")]
+    [CliOption("--scraper-components", GroupValues = true)]
     public IEnumerable<string>? ScraperComponents { get; set; }
 
     [CliOption("--cli-input-json")]

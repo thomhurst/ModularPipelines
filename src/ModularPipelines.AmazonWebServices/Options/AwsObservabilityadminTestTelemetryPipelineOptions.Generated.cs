@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("observabilityadmin", "test-telemetry-pipeline")]
 public record AwsObservabilityadminTestTelemetryPipelineOptions : AwsOptions
 {
-    [CliOption("--records")]
+    [CliOption("--records", GroupValues = true)]
     public IEnumerable<string>? Records { get; set; }
 
     [CliOption("--configuration")]

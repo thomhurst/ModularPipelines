@@ -34,7 +34,7 @@ public record AwsMemorydbUpdateClusterOptions : AwsOptions
     /// <summary>
     /// The SecurityGroupIds to update. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>

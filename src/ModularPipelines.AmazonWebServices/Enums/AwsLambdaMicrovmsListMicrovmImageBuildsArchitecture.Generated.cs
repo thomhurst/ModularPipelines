@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaMicrovmsListMicrovmImageBuildsArchitecture
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("ARM_64")]
     Arm_64 = 1
 }

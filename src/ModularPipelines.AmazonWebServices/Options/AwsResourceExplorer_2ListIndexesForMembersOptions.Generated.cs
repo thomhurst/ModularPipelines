@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("resource-explorer-2", "list-indexes-for-members")]
 public record AwsResourceExplorer_2ListIndexesForMembersOptions : AwsOptions
 {
-    [CliOption("--account-id-list")]
+    [CliOption("--account-id-list", GroupValues = true)]
     public IEnumerable<string>? AccountIdList { get; set; }
 
     [CliOption("--cli-input-json")]

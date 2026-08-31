@@ -33,7 +33,7 @@ public record AwsMedialiveUpdateNodeOptions : AwsOptions
     [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CliOption("--sdi-source-mappings")]
+    [CliOption("--sdi-source-mappings", GroupValues = true)]
     public IEnumerable<string>? SdiSourceMappings { get; set; }
 
     [CliOption("--cli-input-json")]

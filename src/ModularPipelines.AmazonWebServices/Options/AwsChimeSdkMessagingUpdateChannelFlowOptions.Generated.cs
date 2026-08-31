@@ -24,7 +24,7 @@ public record AwsChimeSdkMessagingUpdateChannelFlowOptions : AwsOptions
     [CliOption("--channel-flow-arn")]
     public string? ChannelFlowArn { get; set; }
 
-    [CliOption("--processors")]
+    [CliOption("--processors", GroupValues = true)]
     public IEnumerable<string>? Processors { get; set; }
 
     [CliOption("--name")]

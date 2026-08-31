@@ -27,13 +27,13 @@ public record AwsSagemakerBatchReplaceClusterNodesOptions : AwsOptions
     /// <summary>
     /// A list of EC2 instance IDs to replace with new hardware. You can specify between 1 and 25 instance IDs. WARNING: Replace operations destroy all instance volumes (root and sec- ondary). Ensure you have backed up any important data before proceeding. NOTE: o Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. o Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0 ). o For SageMaker HyperPod clusters using the Slurm workload man- ager, you cannot replace instances that are configured as Slurm controller nodes. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--node-ids")]
+    [CliOption("--node-ids", GroupValues = true)]
     public IEnumerable<string>? NodeIds { get; set; }
 
     /// <summary>
     /// A list of logical node IDs to replace with new hardware. You can specify between 1 and 25 logical node IDs. The NodeLogicalId is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned. WARNING: o Replace operations destroy all instance volumes (root and sec- ondary). Ensure you have backed up any important data before proceeding. o This parameter is only supported for clusters using Continuous as the NodeProvisioningMode . For clusters using the default provisioning mode, use NodeIds instead. o Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--node-logical-ids")]
+    [CliOption("--node-logical-ids", GroupValues = true)]
     public IEnumerable<string>? NodeLogicalIds { get; set; }
 
     [CliOption("--cli-input-json")]

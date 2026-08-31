@@ -39,7 +39,7 @@ public record AwsServicediscoveryCreatePublicDnsNamespaceOptions : AwsOptions
     /// <summary>
     /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 charac- ters in length, and tag values can be up to 256 characters in length. Constraints: o min: 0 o max: 200 (structure) A custom key-value pair that's associated with a resource. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

@@ -45,13 +45,13 @@ public record AwsRedshiftCreateRedshiftIdcApplicationOptions : AwsOptions
     /// The token issuer list for the Amazon Redshift IAM Identity Center application instance. (structure) The authorized token issuer for the Amazon Redshift IAM Identity Center application. TrustedTokenIssuerArn -&gt; (string) The ARN for the authorized token issuer for integrating Ama- zon Redshift with IDC Identity Center. Constraints: o max: 2147483647 AuthorizedAudiencesList -&gt; (list) The list of audiences for the authorized token issuer for in- tegrating Amazon Redshift with IDC Identity Center. (string) Constraints: o max: 2147483647 Shorthand Syntax: TrustedTokenIssuerArn=string,AuthorizedAudiencesList=string,string ... JSON Syntax: [ { "TrustedTokenIssuerArn": "string", "AuthorizedAudiencesList": ["string", ...] } ... ]
     /// </summary>
     [SecretValue]
-    [CliOption("--authorized-token-issuer-list")]
+    [CliOption("--authorized-token-issuer-list", GroupValues = true)]
     public IEnumerable<string>? AuthorizedTokenIssuerList { get; set; }
 
     /// <summary>
     /// A collection of service integrations for the Redshift IAM Identity Center application. (tagged union structure) A list of service integrations. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: LakeFormation, S3AccessGrants, Redshift. LakeFormation -&gt; (list) A list of scopes set up for Lake Formation integration. (tagged union structure) A list of scopes set up for Lake Formation integration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: LakeFormationQuery. LakeFormationQuery -&gt; (structure) The Lake Formation scope. Authorization -&gt; (string) [required] Determines whether the query scope is enabled or disabled. Possible values: o Enabled o Disabled S3AccessGrants -&gt; (list) A list of scopes set up for S3 Access Grants integration. (tagged union structure) A list of scopes set up for S3 Access Grants integration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: ReadWriteAccess. ReadWriteAccess -&gt; (structure) The S3 Access Grants scope. Authorization -&gt; (string) [required] Determines whether the read/write scope is enabled or disabled. Possible values: o Enabled o Disabled Redshift -&gt; (list) A list of scopes set up for Amazon Redshift integration. (tagged union structure) A union structure that defines the scope of Amazon Red- shift service integrations. Contains configuration for different integration types such as Amazon Redshift. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: Connect. Connect -&gt; (structure) The Amazon Redshift connect integration scope configu- ration. Defines authorization settings for Amazon Red- shift connect service integration. Authorization -&gt; (string) [required] Determines whether the Amazon Redshift connect in- tegration is enabled or disabled for the applica- tion. Possible values: o Enabled o Disabled JSON Syntax: [ { "LakeFormation": [ { "LakeFormationQuery": { "Authorization": "Enabled"|"Disabled" } } ... ], "S3AccessGrants": [ { "ReadWriteAccess": { "Authorization": "Enabled"|"Disabled" } } ... ], "Redshift": [ { "Connect": { "Authorization": "Enabled"|"Disabled" } } ... ] } ... ]
     /// </summary>
-    [CliOption("--service-integrations")]
+    [CliOption("--service-integrations", GroupValues = true)]
     public IEnumerable<string>? ServiceIntegrations { get; set; }
 
     /// <summary>
@@ -63,13 +63,13 @@ public record AwsRedshiftCreateRedshiftIdcApplicationOptions : AwsOptions
     /// <summary>
     /// A list of tags. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--sso-tag-keys")]
+    [CliOption("--sso-tag-keys", GroupValues = true)]
     public IEnumerable<string>? SsoTagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

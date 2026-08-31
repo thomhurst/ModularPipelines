@@ -24,7 +24,7 @@ public record AwsIotfleetwiseImportDecoderManifestOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--network-file-definitions")]
+    [CliOption("--network-file-definitions", GroupValues = true)]
     public IEnumerable<string>? NetworkFileDefinitions { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -45,13 +45,13 @@ public record AwsDatazoneCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// The user parameters of this Amazon DataZone environment. (structure) The parameter details of an evironment profile. name -&gt; (string) The name of an environment profile parameter. value -&gt; (string) The value of an environment profile parameter. Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--user-parameters")]
+    [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
 
     /// <summary>
     /// The glossary terms that can be used in this Amazon DataZone environ- ment. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--glossary-terms")]
+    [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
 
     /// <summary>

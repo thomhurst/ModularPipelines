@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("dynamodb", "transact-get-items")]
 public record AwsDynamodbTransactGetItemsOptions : AwsOptions
 {
-    [CliOption("--transact-items")]
+    [CliOption("--transact-items", GroupValues = true)]
     public IEnumerable<string>? TransactItems { get; set; }
 
     /// <summary>

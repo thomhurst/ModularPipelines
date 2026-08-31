@@ -25,7 +25,7 @@ public record AwsSecurityhubDescribeActionTargetsOptions : AwsOptions
     /// <summary>
     /// A list of custom action target ARNs for the custom action targets to retrieve. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--action-target-arns")]
+    [CliOption("--action-target-arns", GroupValues = true)]
     public IEnumerable<string>? ActionTargetArns { get; set; }
 
     [CliOption("--cli-input-json")]

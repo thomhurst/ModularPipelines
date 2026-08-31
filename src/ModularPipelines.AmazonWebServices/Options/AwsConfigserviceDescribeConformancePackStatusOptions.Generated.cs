@@ -25,7 +25,7 @@ public record AwsConfigserviceDescribeConformancePackStatusOptions : AwsOptions
     /// <summary>
     /// Comma-separated list of conformance pack names. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--conformance-pack-names")]
+    [CliOption("--conformance-pack-names", GroupValues = true)]
     public IEnumerable<string>? ConformancePackNames { get; set; }
 
     [CliOption("--cli-input-json")]

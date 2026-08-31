@@ -53,10 +53,10 @@ public record AwsBedrockCreateAdvancedPromptOptimizationJobOptions : AwsOptions
     /// <summary>
     /// Tags to associate with the advanced prompt optimization job. Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--model-configurations")]
+    [CliOption("--model-configurations", GroupValues = true)]
     public IEnumerable<string>? ModelConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

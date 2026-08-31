@@ -27,13 +27,13 @@ public record AwsOpensearchUpdateApplicationOptions : AwsOptions
     /// <summary>
     /// The data sources to associate with the OpenSearch application. (structure) Data sources that are associated with an OpenSearch application. dataSourceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* dataSourceDescription -&gt; (string) Detailed description of a data source. Constraints: o max: 1000 o pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$ iamRoleForDataSourceArn -&gt; (string) The ARN of the IAM role to be used for cross account/region data source association. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: dataSourceArn=string,dataSourceDescription=string,iamRoleForDataSourceArn=string ... JSON Syntax: [ { "dataSourceArn": "string", "dataSourceDescription": "string", "iamRoleForDataSourceArn": "string" } ... ]
     /// </summary>
-    [CliOption("--data-sources")]
+    [CliOption("--data-sources", GroupValues = true)]
     public IEnumerable<string>? DataSources { get; set; }
 
     /// <summary>
     /// The configuration settings to modify for the OpenSearch application. Constraints: o max: 200 (structure) Configuration settings for an OpenSearch application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service . key -&gt; (string) The configuration item to set, such as the admin role for the OpenSearch application. Possible values: o opensearchDashboards.dashboardAdmin.users o opensearchDashboards.dashboardAdmin.groups value -&gt; (string) The value assigned to the configuration key, such as an IAM user ARN. Constraints: o min: 1 o max: 4096 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "opensearchDashboards.dashboardAdmin.users"|"opensearchDashboards.dashboardAdmin.groups", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--app-configs")]
+    [CliOption("--app-configs", GroupValues = true)]
     public IEnumerable<string>? AppConfigs { get; set; }
 
     /// <summary>

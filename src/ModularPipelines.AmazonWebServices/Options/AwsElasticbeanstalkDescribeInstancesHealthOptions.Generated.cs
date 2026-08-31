@@ -37,7 +37,7 @@ public record AwsElasticbeanstalkDescribeInstancesHealthOptions : AwsOptions
     /// <summary>
     /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All . If no attribute names are specified, re- turns a list of instances. (string) Possible values: o HealthStatus o Color o Causes o ApplicationMetrics o RefreshedAt o LaunchedAt o System o Deployment o AvailabilityZone o InstanceType o All Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attribute-names")]
+    [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
     /// <summary>

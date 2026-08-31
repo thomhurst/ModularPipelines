@@ -25,7 +25,7 @@ public record AwsAutoscalingDescribeAutoScalingInstancesOptions : AwsOptions
     /// <summary>
     /// The IDs of the instances. If you omit this property, all Auto Scal- ing instances are described. If you specify an ID that does not ex- ist, it is ignored with no error. Array Members: Maximum number of 50 items. (string) Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     [CliOption("--cli-input-json")]

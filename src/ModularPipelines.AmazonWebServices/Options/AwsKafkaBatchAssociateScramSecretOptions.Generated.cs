@@ -26,7 +26,7 @@ public record AwsKafkaBatchAssociateScramSecretOptions : AwsOptions
     public string? ClusterArn { get; set; }
 
     [SecretValue]
-    [CliOption("--secret-arn-list")]
+    [CliOption("--secret-arn-list", GroupValues = true)]
     public IEnumerable<string>? SecretArnList { get; set; }
 
     [CliOption("--cli-input-json")]

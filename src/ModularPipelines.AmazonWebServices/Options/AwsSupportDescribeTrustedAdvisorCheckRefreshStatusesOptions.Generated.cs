@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("support", "describe-trusted-advisor-check-refresh-statuses")]
 public record AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions : AwsOptions
 {
-    [CliOption("--check-ids")]
+    [CliOption("--check-ids", GroupValues = true)]
     public IEnumerable<string>? CheckIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,25 +28,25 @@ public record AwsPartnercentralSellingListEngagementsOptions : AwsOptions
     /// <summary>
     /// A list of AWS account IDs. When specified, the response includes en- gagements created by these accounts. This filter is useful for find- ing engagements created by specific team members. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ([0-9]{12}|\w{1,12}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--created-by")]
+    [CliOption("--created-by", GroupValues = true)]
     public IEnumerable<string>? CreatedBy { get; set; }
 
     /// <summary>
     /// An array of strings representing AWS Account IDs. Use this to ex- clude engagements created by specific users. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ([0-9]{12}|\w{1,12}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--exclude-created-by")]
+    [CliOption("--exclude-created-by", GroupValues = true)]
     public IEnumerable<string>? ExcludeCreatedBy { get; set; }
 
     /// <summary>
     /// Filters engagements to include only those containing the specified context types, such as "CustomerProject" or "Lead". Use this to find engagements that have specific types of contextual information asso- ciated with them. Constraints: o min: 0 o max: 5 (string) Possible values: o CustomerProject o Lead o ProspectingResult Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--context-types")]
+    [CliOption("--context-types", GroupValues = true)]
     public IEnumerable<string>? ContextTypes { get; set; }
 
     /// <summary>
     /// Filters engagements to exclude those containing the specified con- text types. Use this to find engagements that do not have certain types of contextual information, helping to narrow results based on context exclusion criteria. Constraints: o min: 0 o max: 5 (string) Possible values: o CustomerProject o Lead o ProspectingResult Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--exclude-context-types")]
+    [CliOption("--exclude-context-types", GroupValues = true)]
     public IEnumerable<string>? ExcludeContextTypes { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsPartnercentralSellingListEngagementsOptions : AwsOptions
     /// <summary>
     /// An array of strings representing engagement identifiers to retrieve. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--engagement-identifier")]
+    [CliOption("--engagement-identifier", GroupValues = true)]
     public IEnumerable<string>? EngagementIdentifier { get; set; }
 
     [CliOption("--cli-input-json")]

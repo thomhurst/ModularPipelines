@@ -27,7 +27,7 @@ public record AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions : A
     /// <summary>
     /// The database servers to include in the unallocated resources query. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--db-servers")]
+    [CliOption("--db-servers", GroupValues = true)]
     public IEnumerable<string>? DbServers { get; set; }
 
     [CliOption("--cli-input-json")]

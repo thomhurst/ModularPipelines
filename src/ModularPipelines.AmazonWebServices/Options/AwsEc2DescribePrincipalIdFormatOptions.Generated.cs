@@ -28,7 +28,7 @@ public record AwsEc2DescribePrincipalIdFormatOptions : AwsOptions
     /// <summary>
     /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | ex- port-task | flow-log | image | import-task | instance | inter- net-gateway | network-acl | network-acl-association | network-inter- face | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     [CliOption("--cli-input-json")]

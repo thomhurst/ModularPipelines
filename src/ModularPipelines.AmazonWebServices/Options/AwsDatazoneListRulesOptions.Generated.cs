@@ -47,13 +47,13 @@ public record AwsDatazoneListRulesOptions : AwsOptions
     /// <summary>
     /// The IDs of projects in which rules are to be listed. (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--project-ids")]
+    [CliOption("--project-ids", GroupValues = true)]
     public IEnumerable<string>? ProjectIds { get; set; }
 
     /// <summary>
     /// The asset types of the rule. (string) Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--asset-types")]
+    [CliOption("--asset-types", GroupValues = true)]
     public IEnumerable<string>? AssetTypes { get; set; }
 
     [CliFlag("--data-product")]

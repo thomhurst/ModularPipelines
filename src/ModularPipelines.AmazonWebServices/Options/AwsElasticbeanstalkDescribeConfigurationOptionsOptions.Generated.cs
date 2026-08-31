@@ -54,7 +54,7 @@ public record AwsElasticbeanstalkDescribeConfigurationOptionsOptions : AwsOption
     /// <summary>
     /// If specified, restricts the descriptions to only the specified op- tions. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated AWS resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
     /// </summary>
-    [CliOption("--options")]
+    [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }
 
     [CliOption("--cli-input-json")]

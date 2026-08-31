@@ -25,7 +25,7 @@ public record AwsAutoscalingDescribeLaunchConfigurationsOptions : AwsOptions
     /// <summary>
     /// The launch configuration names. If you omit this property, all launch configurations are described. Array Members: Maximum number of 50 items. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--launch-configuration-names")]
+    [CliOption("--launch-configuration-names", GroupValues = true)]
     public IEnumerable<string>? LaunchConfigurationNames { get; set; }
 
     [CliOption("--cli-input-json")]

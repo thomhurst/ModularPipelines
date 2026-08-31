@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediaconnectUpdateRouterOutputTier
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("OUTPUT_100")]
     Output_100 = 1,
 

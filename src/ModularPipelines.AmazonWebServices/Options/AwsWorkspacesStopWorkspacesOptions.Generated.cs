@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("workspaces", "stop-workspaces")]
 public record AwsWorkspacesStopWorkspacesOptions : AwsOptions
 {
-    [CliOption("--stop-workspace-requests")]
+    [CliOption("--stop-workspace-requests", GroupValues = true)]
     public IEnumerable<string>? StopWorkspaceRequests { get; set; }
 
     [CliOption("--cli-input-json")]

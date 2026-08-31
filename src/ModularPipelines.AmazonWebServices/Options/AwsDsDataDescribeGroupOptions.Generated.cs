@@ -27,7 +27,7 @@ public record AwsDsDataDescribeGroupOptions : AwsOptions
     /// <summary>
     /// One or more attributes to be returned for the group. For a list of supported attributes, see Directory Service Data Attributes . Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z*][A-Za-z-*]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--other-attributes")]
+    [CliOption("--other-attributes", GroupValues = true)]
     public IEnumerable<string>? OtherAttributes { get; set; }
 
     /// <summary>

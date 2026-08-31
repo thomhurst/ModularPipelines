@@ -37,19 +37,19 @@ public record AwsEksDescribeAddonVersionsOptions : AwsOptions
     /// <summary>
     /// The type of the add-on. For valid types , don't specify a value for this property. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--types")]
+    [CliOption("--types", GroupValues = true)]
     public IEnumerable<string>? Types { get; set; }
 
     /// <summary>
     /// The publisher of the add-on. For valid publishers , don't specify a value for this property. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--publishers")]
+    [CliOption("--publishers", GroupValues = true)]
     public IEnumerable<string>? Publishers { get; set; }
 
     /// <summary>
     /// The owner of the add-on. For valid owners , don't specify a value for this property. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--owners")]
+    [CliOption("--owners", GroupValues = true)]
     public IEnumerable<string>? Owners { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -39,7 +39,7 @@ public record AwsSesSendBounceOptions : AwsOptions
     [CliOption("--message-dsn")]
     public string? MessageDsn { get; set; }
 
-    [CliOption("--bounced-recipient-info-list")]
+    [CliOption("--bounced-recipient-info-list", GroupValues = true)]
     public IEnumerable<string>? BouncedRecipientInfoList { get; set; }
 
     /// <summary>

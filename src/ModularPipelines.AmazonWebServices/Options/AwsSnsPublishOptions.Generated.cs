@@ -58,7 +58,7 @@ public record AwsSnsPublishOptions : AwsOptions
     /// <summary>
     /// Message attributes for Publish action. Name -&gt; (string) Value -&gt; (structure) The user-specified message attribute value. For string data types, the value attribute has the same restrictions on the con- tent as the message body. For more information, see Publish . Name, type, and value must not be empty or null. In addition, the message body should not be empty or null. All parts of the message attribute, including name, type, and value, are included in the message size restriction, which is currently 256 KB (262,144 bytes). For more information, see Amazon SNS message attributes and Publishing to a mobile phone in the Amazon SNS Developer Guide. DataType -&gt; (string) [required] Amazon SNS supports the following logical data types: String, String.Array, Number, and Binary. For more information, see Message Attribute Data Types . StringValue -&gt; (string) Strings are Unicode with UTF8 binary encoding. For a list of code values, see ASCII Printable Characters . BinaryValue -&gt; (blob) Binary type attributes can store any binary data, for exam- ple, compressed data, encrypted data, or images. Shorthand Syntax: KeyName1={DataType=string,StringValue=string,BinaryValue=blob},KeyName2={DataType=string,StringValue=string,BinaryValue=blob} JSON Syntax: {"string": { "DataType": "string", "StringValue": "string", "BinaryValue": blob } ...}
     /// </summary>
-    [CliOption("--message-attributes")]
+    [CliOption("--message-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MessageAttributes { get; set; }
 
     /// <summary>

@@ -56,7 +56,7 @@ public record AwsImagebuilderCreateImageOptions : AwsOptions
     /// <summary>
     /// The tags of the image. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -75,7 +75,7 @@ public record AwsImagebuilderCreateImageOptions : AwsOptions
     /// <summary>
     /// Contains an array of workflow configuration objects. (structure) Contains control settings and configurable inputs for a workflow resource. workflowArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the workflow resource. Constraints: o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ parameters -&gt; (list) Contains parameter values for each of the parameters that the workflow document defined for the workflow resource. Constraints: o min: 1 (structure) Contains a key/value pair that sets the named workflow parameter. name -&gt; (string) [required] The name of the workflow parameter to set. Constraints: o min: 1 o max: 128 o pattern: [^\x00]+ value -&gt; (list) [required] Sets the value for the named workflow parameter. (string) Constraints: o min: 0 o pattern: [^\x00]* parallelGroup -&gt; (string) Test workflows are defined within named runtime groups called parallel groups. The parallel group is the named group that contains this test workflow. Test workflows within a parallel group can run at the same time. Image Builder starts up to five test workflows in the group at the same time, and starts additional workflows as others complete, until all workflows in the group have completed. This field only applies for test workflows. Constraints: o min: 1 o max: 100 o pattern: ^[A-Za-z0-9][A-Za-z0-9-_+#]{0,99}$ onFailure -&gt; (string) The action to take if the workflow fails. Possible values: o CONTINUE o ABORT JSON Syntax: [ { "workflowArn": "string", "parameters": [ { "name": "string", "value": ["string", ...] } ... ], "parallelGroup": "string", "onFailure": "CONTINUE"|"ABORT" } ... ]
     /// </summary>
-    [CliOption("--workflows")]
+    [CliOption("--workflows", GroupValues = true)]
     public IEnumerable<string>? Workflows { get; set; }
 
     /// <summary>

@@ -40,7 +40,7 @@ public record AwsApplicationSignalsListServiceStatesOptions : AwsOptions
     /// <summary>
     /// A list of attribute filters to narrow down the services. You can filter by platform, environment, or other service attributes. Constraints: o min: 0 o max: 20 (structure) A structure that defines a filter for narrowing down results based on specific attribute values. This can be used to filter services by platform, environment, or other service characteris- tics. AttributeFilterName -&gt; (string) [required] The name of the attribute to filter by, such as Platform , Environment , or BusinessUnit . Constraints: o pattern: [A-Za-z0-9 :/-]+ AttributeFilterValues -&gt; (list) [required] An array of values to match for the specified attribute. Ser- vices that have any of these values for the attribute will be included in the results. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: [A-Za-z0-9 :/-]+ Shorthand Syntax: AttributeFilterName=string,AttributeFilterValues=string,string ... JSON Syntax: [ { "AttributeFilterName": "string", "AttributeFilterValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--attribute-filters")]
+    [CliOption("--attribute-filters", GroupValues = true)]
     public IEnumerable<string>? AttributeFilters { get; set; }
 
     [CliOption("--cli-input-json")]

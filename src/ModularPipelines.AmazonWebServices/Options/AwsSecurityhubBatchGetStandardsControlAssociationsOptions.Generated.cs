@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "batch-get-standards-control-associations")]
 public record AwsSecurityhubBatchGetStandardsControlAssociationsOptions : AwsOptions
 {
-    [CliOption("--standards-control-association-ids")]
+    [CliOption("--standards-control-association-ids", GroupValues = true)]
     public IEnumerable<string>? StandardsControlAssociationIds { get; set; }
 
     [CliOption("--cli-input-json")]

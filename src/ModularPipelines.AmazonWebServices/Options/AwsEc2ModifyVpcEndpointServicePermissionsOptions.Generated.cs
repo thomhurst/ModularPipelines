@@ -30,13 +30,13 @@ public record AwsEc2ModifyVpcEndpointServicePermissionsOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARN) of the principals. Permissions are granted to the principals in this list. To grant permissions to all principals, specify an asterisk (*). (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-allowed-principals")]
+    [CliOption("--add-allowed-principals", GroupValues = true)]
     public IEnumerable<string>? AddAllowedPrincipals { get; set; }
 
     /// <summary>
     /// The Amazon Resource Names (ARN) of the principals. Permissions are revoked for principals in this list. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-allowed-principals")]
+    [CliOption("--remove-allowed-principals", GroupValues = true)]
     public IEnumerable<string>? RemoveAllowedPrincipals { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,13 +33,13 @@ public record AwsAmplifyUpdateDomainAssociationOptions : AwsOptions
     /// <summary>
     /// Describes the settings for the subdomain. Constraints: o max: 500 (structure) Describes the settings for the subdomain. prefix -&gt; (string) [required] The prefix setting for the subdomain. Constraints: o max: 255 o pattern: (?s).* branchName -&gt; (string) [required] The branch name setting for the subdomain. Constraints: o min: 1 o max: 255 o pattern: (?s).+ Shorthand Syntax: prefix=string,branchName=string ... JSON Syntax: [ { "prefix": "string", "branchName": "string" } ... ]
     /// </summary>
-    [CliOption("--sub-domain-settings")]
+    [CliOption("--sub-domain-settings", GroupValues = true)]
     public IEnumerable<string>? SubDomainSettings { get; set; }
 
     /// <summary>
     /// Sets the branch patterns for automatic subdomain creation. (string) Constraints: o min: 1 o max: 2048 o pattern: (?s).+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--auto-sub-domain-creation-patterns")]
+    [CliOption("--auto-sub-domain-creation-patterns", GroupValues = true)]
     public IEnumerable<string>? AutoSubDomainCreationPatterns { get; set; }
 
     /// <summary>

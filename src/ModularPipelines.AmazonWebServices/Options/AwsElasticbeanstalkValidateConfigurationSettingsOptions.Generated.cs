@@ -36,7 +36,7 @@ public record AwsElasticbeanstalkValidateConfigurationSettingsOptions : AwsOptio
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CliOption("--option-settings")]
+    [CliOption("--option-settings", GroupValues = true)]
     public IEnumerable<string>? OptionSettings { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -36,7 +36,7 @@ public record AwsSecurityagentStartCodeRemediationOptions : AwsOptions
     [CliOption("--code-review-job-id")]
     public string? CodeReviewJobId { get; set; }
 
-    [CliOption("--finding-ids")]
+    [CliOption("--finding-ids", GroupValues = true)]
     public IEnumerable<string>? FindingIds { get; set; }
 
     [CliOption("--cli-input-json")]

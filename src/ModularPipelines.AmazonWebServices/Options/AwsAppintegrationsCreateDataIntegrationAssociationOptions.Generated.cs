@@ -35,7 +35,7 @@ public record AwsAppintegrationsCreateDataIntegrationAssociationOptions : AwsOpt
     /// <summary>
     /// The configuration for what data should be pulled from the source. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: .*\S.* value -&gt; (map) key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: .*\S.* value -&gt; (list) Constraints: o min: 1 o max: 2048 (string) Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$ Shorthand Syntax: KeyName1={KeyName1=[string,string],KeyName2=[string,string]},KeyName2={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: {"string": {"string": ["string", ...] ...} ...}
     /// </summary>
-    [CliOption("--object-configuration")]
+    [CliOption("--object-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ObjectConfiguration { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AwsAppintegrationsCreateDataIntegrationAssociationOptions : AwsOpt
     /// <summary>
     /// The mapping of metadata to be extracted from the data. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--client-association-metadata")]
+    [CliOption("--client-association-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ClientAssociationMetadata { get; set; }
 
     /// <summary>

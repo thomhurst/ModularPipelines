@@ -25,7 +25,7 @@ public record AwsTranscribeUpdateCallAnalyticsCategoryOptions : AwsOptions
     [CliOption("--category-name")]
     public string? CategoryName { get; set; }
 
-    [CliOption("--rules")]
+    [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>

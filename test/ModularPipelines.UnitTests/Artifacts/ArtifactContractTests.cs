@@ -117,6 +117,50 @@ public class ArtifactContractTests
         }
     }
 
+    [Test]
+    public async Task ContractRestoreSelectsNewestMatchingArtifact()
+    {
+        var restoreDirectory = Path.Combine(Path.GetTempPath(), $"artifact-restore-{Guid.NewGuid():N}");
+        var uploadedAt = DateTimeOffset.UtcNow;
+        var older = new ArtifactReference("older", "output", "producer", 3, null, uploadedAt.AddMinutes(-1));
+        var newer = new ArtifactReference("newer", "output", "producer", 3, null, uploadedAt);
+        ArtifactReference? downloadedArtifact = null;
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(x => x.ListArtifactsAsync("producer", It.IsAny<CancellationToken>()))
+            .ReturnsAsync([older, newer]);
+        store.Setup(x => x.DownloadAsync(It.IsAny<ArtifactReference>(), It.IsAny<CancellationToken>()))
+            .Returns((ArtifactReference reference, CancellationToken _) =>
+            {
+                downloadedArtifact = reference;
+                return Task.FromResult<Stream>(new MemoryStream());
+            });
+
+        try
+        {
+            var manager = new ArtifactLifecycleManager(
+                store.Object,
+                Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+                NullLogger<ArtifactLifecycleManager>.Instance,
+                restoreDirectory);
+
+            await manager.DownloadConsumedArtifactsForPathAsync(
+                "producer",
+                "output",
+                restoreDirectory,
+                typeof(DuplicateArtifactConsumerModule),
+                CancellationToken.None);
+
+            await Assert.That(downloadedArtifact).IsEqualTo(newer);
+        }
+        finally
+        {
+            if (Directory.Exists(restoreDirectory))
+            {
+                Directory.Delete(restoreDirectory, recursive: true);
+            }
+        }
+    }
+
     [ProducesArtifact("declared-output", "unused.txt")]
     private sealed class DeclaredProducerModule : Module<string>
     {

@@ -25,7 +25,7 @@ public record AwsEmrServerlessListApplicationsOptions : AwsOptions
     /// <summary>
     /// An optional filter for application states. Note that if this filter contains multiple states, the resulting list will be grouped by the state. Constraints: o min: 1 o max: 7 (string) Possible values: o CREATING o CREATED o STARTING o STARTED o STOPPING o STOPPED o TERMINATED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     [CliOption("--cli-input-json")]

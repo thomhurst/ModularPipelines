@@ -24,7 +24,7 @@ public record AwsDaxUntagResourceOptions : AwsOptions
     [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsForecastCreateWhatIfForecastExportOptions : AwsOptions
     [CliOption("--what-if-forecast-export-name")]
     public string? WhatIfForecastExportName { get; set; }
 
-    [CliOption("--what-if-forecast-arns")]
+    [CliOption("--what-if-forecast-arns", GroupValues = true)]
     public IEnumerable<string>? WhatIfForecastArns { get; set; }
 
     [CliOption("--destination")]
@@ -33,7 +33,7 @@ public record AwsForecastCreateWhatIfForecastExportOptions : AwsOptions
     /// <summary>
     /// A list of tags to apply to the what if forecast. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: let- ters, numbers, and spaces representable in UTF-8, and the fol- lowing characters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

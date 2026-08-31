@@ -33,7 +33,7 @@ public record AwsIotTestAuthorizationOptions : AwsOptions
     [CliOption("--cognito-identity-pool-id")]
     public string? CognitoIdentityPoolId { get; set; }
 
-    [CliOption("--auth-infos")]
+    [CliOption("--auth-infos", GroupValues = true)]
     public IEnumerable<string>? AuthInfos { get; set; }
 
     /// <summary>
@@ -45,13 +45,13 @@ public record AwsIotTestAuthorizationOptions : AwsOptions
     /// <summary>
     /// When testing custom authorization, the policies specified here are treated as if they are attached to the principal being authorized. (string) Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-names-to-add")]
+    [CliOption("--policy-names-to-add", GroupValues = true)]
     public IEnumerable<string>? PolicyNamesToAdd { get; set; }
 
     /// <summary>
     /// When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being autho- rized. (string) Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-names-to-skip")]
+    [CliOption("--policy-names-to-skip", GroupValues = true)]
     public IEnumerable<string>? PolicyNamesToSkip { get; set; }
 
     [CliOption("--cli-input-json")]

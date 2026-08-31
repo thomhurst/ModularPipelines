@@ -84,10 +84,16 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     public string? IgnoreFile { get; set; }
 
     /// <summary>
-    /// Machine type used to run the build. MACHINE_TYPE must be one of: e2-highcpu-32, e2-highcpu-8, e2-medium, e2-standard-2, n1-highcpu-32, n1-highcpu-8.
+    /// Machine type used to run the build. MACHINE_TYPE must be one of: e2-highcpu-32, e2-highcpu-8, e2-medium, n1-highcpu-32, n1-highcpu-8.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudMachineType? MachineType { get; set; }
+
+    /// <summary>
+    /// Amount of time in seconds to wait between polling build status.
+    /// </summary>
+    [CliOption("--polling-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? PollingInterval { get; set; }
 
     /// <summary>
     /// The region of the Cloud Build Service to use. Must be set to a supported region name (e.g. us-central1). If unset, builds/region, which is the default region to use when working with Cloud Build resources, is used. If builds/region is unset, region is set to global. Note: Region must be specified in 2nd gen repo; global is not supported.
@@ -105,7 +111,7 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     /// The service account to use with this build. If unset, the default service account will be used.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
 
     /// <summary>
     /// Parameters to be substituted in the build specification. For example (using some nonsensical substitution keys; all keys must begin with an underscore): $ gcloud builds submit . --config config.yaml \ --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10 This will result in a build where every occurrence of ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and similarly for ${_NUM_CANDIES} and "10". Only the following built-in variables can be specified with the --substitutions flag: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA. For more details, see: https://cloud.google.com/cloud-build/docs/api/build-requests#substitutions
@@ -126,33 +132,34 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// Specify a worker pool for the build to run in. Format: projects/{project}/locations/{region}/workerPools/{workerPool}.
+    /// Worker pool only flags. Specify a worker pool for the build to run in. Format: projects/{project}/locations/{region}/workerPools/{workerPool}.
     /// </summary>
     [CliOption("--worker-pool", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerPool { get; set; }
 
     /// <summary>
-    /// Uses CNCF buildpack (https://buildpacks.io/) to create the app image. The app "image" key/value must be provided. The app image name must be in the gcr.io or pkg.dev namespace. To specify your own builder image use the optional "builder" key/value argument. By default gcr.io/buildpacks/builder is used. To pass environment variables to the builder use the optional "env" key/value argument where value is a list of key values using escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping) if necessary.
+    /// At most one of these can be specified: The YAML or JSON file to use as the build configuration file.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Uses CNCF buildpack (https://buildpacks.io/) to create the app image. The app "image" key/value must be provided. The app image name must be in the gcr.io or pkg.dev namespace. To specify your own builder image use the optional "builder" key/value argument. By default gcr.io/buildpacks/builder is used. To pass environment variables to the builder use the optional "env" key/value argument where value is a list of key values using escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping) if necessary.
     /// </summary>
     [CliOption("--pack", Format = OptionFormat.EqualsSeparated)]
     public string? Pack { get; set; }
 
     /// <summary>
-    /// The tag to use with a "docker build" image creation. Cloud Build will run a remote "docker build -t $TAG .", where $TAG is the tag provided by this flag. The tag must be in the gcr.io or pkg.dev namespace. Specify a tag if you want Cloud Build to build using a Dockerfile instead of a build config file. If you specify a tag in this command, your source must include a Dockerfile. For instructions on building using a Dockerfile see https://cloud.google.com/cloud-build/docs/quickstart-build.
+    /// At most one of these can be specified: The tag to use with a "docker build" image creation. Cloud Build will run a remote "docker build -t $TAG .", where $TAG is the tag provided by this flag. The tag must be in the gcr.io or pkg.dev namespace. Specify a tag if you want Cloud Build to build using a Dockerfile instead of a build config file. If you specify a tag in this command, your source must include a Dockerfile. For instructions on building using a Dockerfile see https://cloud.google.com/cloud-build/docs/quickstart-build.
     /// </summary>
     [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
     public string? Tag { get; set; }
 
-    /// <summary>
-    /// Amount of time in seconds to wait between polling build status.
-    /// </summary>
-    [CliOption("--polling-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? PollingInterval { get; set; }
-
-    /// <summary>
-    /// The YAML or JSON file to use as the build configuration file.
-    /// </summary>
-    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
-    public string? Config { get; set; }
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

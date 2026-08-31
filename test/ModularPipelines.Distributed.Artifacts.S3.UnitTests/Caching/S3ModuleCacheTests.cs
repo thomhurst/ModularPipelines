@@ -1,11 +1,17 @@
+using System.IO.Compression;
 using System.Net;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
+using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts.S3.Extensions;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Configuration;
+using ModularPipelines.Extensions;
+using ModularPipelines.Modules;
 using Moq;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.UnitTests.Caching;
@@ -13,6 +19,27 @@ namespace ModularPipelines.Distributed.Artifacts.S3.UnitTests.Caching;
 public class S3ModuleCacheTests
 {
     private const string Fingerprint = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+    [Test]
+    public async Task ArtifactOptionsUseSharedOptionsPipeline()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddS3DistributedArtifactStore(
+            options => options.BucketName = "artifact-bucket",
+            options => options.CompressionLevel = CompressionLevel.NoCompression);
+        await using var pipeline = await builder.BuildAsync();
+
+        var configuredOptions = pipeline.Services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
+        var directOptions = pipeline.Services.GetRequiredService<ArtifactOptions>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(directOptions).IsSameReferenceAs(configuredOptions);
+            await Assert.That(configuredOptions.CompressionLevel)
+                .IsEqualTo(CompressionLevel.NoCompression);
+        }
+    }
 
     [Test]
     public async Task WriteUsesStableCrossRunKey()
@@ -138,4 +165,12 @@ public class S3ModuleCacheTests
             {
                 MaximumCacheEntryBytes = maximumCacheEntryBytes,
             });
+
+    private sealed class NoOpModule : Module<int>
+    {
+        protected override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(0);
+    }
 }

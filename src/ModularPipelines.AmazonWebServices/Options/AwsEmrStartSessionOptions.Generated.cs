@@ -40,7 +40,7 @@ public record AwsEmrStartSessionOptions : AwsOptions
     /// <summary>
     /// The configuration overrides for the session. Only runtime configura- tion overrides are supported. (structure) NOTE: Amazon EMR releases 4.x or later. An optional configuration specification to be used when provi- sioning cluster instances, which can include configurations for applications and software bundled with Amazon EMR. A configura- tion consists of a classification, properties, and optional nested configurations. A classification refers to an applica- tion-specific configuration file. Properties are the settings you want to change in that file. For more information, see Configuring Applications . Classification -&gt; (string) The classification within a configuration. Configurations -&gt; (list) A list of additional configurations to apply within a config- uration object. (structure) NOTE: Amazon EMR releases 4.x or later. An optional configuration specification to be used when provisioning cluster instances, which can include config- urations for applications and software bundled with Ama- zon EMR. A configuration consists of a classification, properties, and optional nested configurations. A classi- fication refers to an application-specific configuration file. Properties are the settings you want to change in that file. For more information, see Configuring Applica- tions . Classification -&gt; (string) The classification within a configuration. Properties -&gt; (map) A set of properties specified within a configuration classification. key -&gt; (string) value -&gt; (string) Properties -&gt; (map) A set of properties specified within a configuration classi- fication. key -&gt; (string) value -&gt; (string) JSON Syntax: [ { "Classification": "string", "Configurations": [ { "Classification": "string", "Configurations": , "Properties": {"string": "string" ...} } ... ], "Properties": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--engine-configurations")]
+    [CliOption("--engine-configurations", GroupValues = true)]
     public IEnumerable<string>? EngineConfigurations { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AwsEmrStartSessionOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the session. (structure) A key-value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more infor- mation, see Tag Clusters . Key -&gt; (string) A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . Value -&gt; (string) A user-defined value, which is optional in a tag. For more information, see Tag Clusters . Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

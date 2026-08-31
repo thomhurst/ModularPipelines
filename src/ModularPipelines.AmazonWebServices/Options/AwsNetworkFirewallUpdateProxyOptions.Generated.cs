@@ -40,13 +40,13 @@ public record AwsNetworkFirewallUpdateProxyOptions : AwsOptions
     /// <summary>
     /// Listener properties for HTTP and HTTPS traffic to add. Constraints: o min: 0 o max: 2 (structure) This data type is used specifically for the CreateProxy and UpdateProxy APIs. Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) [required] Port for processing traffic. Type -&gt; (string) [required] Selection of HTTP or HTTPS traffic. Possible values: o HTTP o HTTPS Shorthand Syntax: Port=integer,Type=string ... JSON Syntax: [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ]
     /// </summary>
-    [CliOption("--listener-properties-to-add")]
+    [CliOption("--listener-properties-to-add", GroupValues = true)]
     public IEnumerable<string>? ListenerPropertiesToAdd { get; set; }
 
     /// <summary>
     /// Listener properties for HTTP and HTTPS traffic to remove. Constraints: o min: 0 o max: 2 (structure) This data type is used specifically for the CreateProxy and UpdateProxy APIs. Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) [required] Port for processing traffic. Type -&gt; (string) [required] Selection of HTTP or HTTPS traffic. Possible values: o HTTP o HTTPS Shorthand Syntax: Port=integer,Type=string ... JSON Syntax: [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ]
     /// </summary>
-    [CliOption("--listener-properties-to-remove")]
+    [CliOption("--listener-properties-to-remove", GroupValues = true)]
     public IEnumerable<string>? ListenerPropertiesToRemove { get; set; }
 
     /// <summary>

@@ -73,7 +73,7 @@ public record AwsElbv2ModifyTargetGroupOptions : AwsOptions
     /// <summary>
     /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when check- ing for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399. HttpCode -&gt; (string) For Application Load Balancers, you can specify values between 200 and 499, with the default value being 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, you can specify values between 200 and 599, with the default value being 200-399. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Gateway Load Balancers, this must be "200399". Note that when using shorthand syntax, some values such as com- mas need to be escaped. GrpcCode -&gt; (string) You can specify values between 0 and 99. You can specify multi- ple values (for example, "0,1") or a range of values (for exam- ple, "0-5"). The default value is 12. Shorthand Syntax: HttpCode=string,GrpcCode=string JSON Syntax: { "HttpCode": "string", "GrpcCode": "string" }
     /// </summary>
-    [CliOption("--matcher")]
+    [CliOption("--matcher", GroupValues = true)]
     public IEnumerable<string>? Matcher { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,7 +33,7 @@ public record AwsSupportAddCommunicationToCaseOptions : AwsOptions
     /// <summary>
     /// The email addresses in the CC line of an email to be added to the support case. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cc-email-addresses")]
+    [CliOption("--cc-email-addresses", GroupValues = true)]
     public IEnumerable<string>? CcEmailAddresses { get; set; }
 
     /// <summary>

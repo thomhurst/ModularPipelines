@@ -24,7 +24,7 @@ public record AwsVpcLatticeDeregisterTargetsOptions : AwsOptions
     [CliOption("--target-group-identifier")]
     public string? TargetGroupIdentifier { get; set; }
 
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,13 +33,13 @@ public record AwsLakeformationUpdateLfTagOptions : AwsOptions
     /// <summary>
     /// A list of LF-tag values to delete from the LF-tag. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-values-to-delete")]
+    [CliOption("--tag-values-to-delete", GroupValues = true)]
     public IEnumerable<string>? TagValuesToDelete { get; set; }
 
     /// <summary>
     /// A list of LF-tag values to add from the LF-tag. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-values-to-add")]
+    [CliOption("--tag-values-to-add", GroupValues = true)]
     public IEnumerable<string>? TagValuesToAdd { get; set; }
 
     [CliOption("--cli-input-json")]

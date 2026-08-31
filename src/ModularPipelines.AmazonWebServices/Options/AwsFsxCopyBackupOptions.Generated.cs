@@ -50,7 +50,7 @@ public record AwsFsxCopyBackupOptions : AwsOptions
     /// <summary>
     /// A list of Tag values, with a maximum of 50 elements. Constraints: o min: 1 o max: 50 (structure) Specifies a key-value pair for a resource tag. Key -&gt; (string) [required] A value that specifies the TagKey , the name of the tag. Tag keys must be unique for the resource to which they are at- tached. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] A value that specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April . Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

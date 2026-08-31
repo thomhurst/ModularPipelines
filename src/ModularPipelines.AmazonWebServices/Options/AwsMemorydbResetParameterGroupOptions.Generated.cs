@@ -30,7 +30,7 @@ public record AwsMemorydbResetParameterGroupOptions : AwsOptions
     /// <summary>
     /// An array of parameter names to reset to their default values. If AllParameters is true, do not use ParameterNames. If AllParameters is false, you must specify the name of at least one parameter to re- set. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--parameter-names")]
+    [CliOption("--parameter-names", GroupValues = true)]
     public IEnumerable<string>? ParameterNames { get; set; }
 
     [CliOption("--cli-input-json")]

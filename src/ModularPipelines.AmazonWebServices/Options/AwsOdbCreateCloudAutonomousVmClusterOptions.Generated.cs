@@ -49,7 +49,7 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions
     /// <summary>
     /// The list of database servers to be used for the Autonomous VM clus- ter. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--db-servers")]
+    [CliOption("--db-servers", GroupValues = true)]
     public IEnumerable<string>? DbServers { get; set; }
 
     /// <summary>
@@ -91,7 +91,7 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions
     /// <summary>
     /// Free-form tags for this resource. Each tag is a key-value pair with no predefined name, type, or namespace. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

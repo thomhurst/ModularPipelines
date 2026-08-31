@@ -72,7 +72,7 @@ public record AwsCloudtrailCreateTrailOptions : AwsOptions
     /// <summary>
     /// A list of tags. Constraints: o max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags-list")]
+    [CliOption("--tags-list", GroupValues = true)]
     public IEnumerable<string>? TagsList { get; set; }
 
     [CliOption("--cli-input-json")]

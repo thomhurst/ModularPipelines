@@ -37,7 +37,7 @@ public record AwsMediapackageVodCreateAssetOptions : AwsOptions
     [CliOption("--source-role-arn")]
     public string? SourceRoleArn { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

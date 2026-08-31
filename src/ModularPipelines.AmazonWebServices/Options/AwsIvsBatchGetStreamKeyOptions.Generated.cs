@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ivs", "batch-get-stream-key")]
 public record AwsIvsBatchGetStreamKeyOptions : AwsOptions
 {
-    [CliOption("--arns")]
+    [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     [CliOption("--cli-input-json")]

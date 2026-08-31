@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDsCreateMicrosoftAdEdition
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("Enterprise")]
     Enterprise = 1,
 

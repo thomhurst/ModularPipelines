@@ -28,13 +28,13 @@ public record AwsEmrListStepsOptions : AwsOptions
     /// <summary>
     /// The filter to limit the step list based on certain states. (string) Possible values: o PENDING o CANCEL_PENDING o RUNNING o COMPLETED o CANCELLED o FAILED o INTERRUPTED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--step-states")]
+    [CliOption("--step-states", GroupValues = true)]
     public IEnumerable<string>? StepStates { get; set; }
 
     /// <summary>
     /// The filter to limit the step list based on the identifier of the steps. You can specify a maximum of ten Step IDs. The character con- straint applies to the overall length of the array. (string) Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--step-ids")]
+    [CliOption("--step-ids", GroupValues = true)]
     public IEnumerable<string>? StepIds { get; set; }
 
     [CliOption("--cli-input-json")]

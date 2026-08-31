@@ -47,13 +47,13 @@ public record AwsCodeartifactDisposePackageVersionsOptions : AwsOptions
     [CliOption("--package")]
     public string? Package { get; set; }
 
-    [CliOption("--versions")]
+    [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; set; }
 
     /// <summary>
     /// The revisions of the package versions you want to dispose. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ value -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--version-revisions")]
+    [CliOption("--version-revisions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VersionRevisions { get; set; }
 
     /// <summary>

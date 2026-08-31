@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("chime", "batch-update-phone-number")]
 public record AwsChimeBatchUpdatePhoneNumberOptions : AwsOptions
 {
-    [CliOption("--update-phone-number-request-items")]
+    [CliOption("--update-phone-number-request-items", GroupValues = true)]
     public IEnumerable<string>? UpdatePhoneNumberRequestItems { get; set; }
 
     [CliOption("--cli-input-json")]

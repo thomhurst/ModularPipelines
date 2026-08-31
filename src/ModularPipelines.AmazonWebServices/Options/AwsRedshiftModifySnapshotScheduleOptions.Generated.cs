@@ -24,7 +24,7 @@ public record AwsRedshiftModifySnapshotScheduleOptions : AwsOptions
     [CliOption("--schedule-identifier")]
     public string? ScheduleIdentifier { get; set; }
 
-    [CliOption("--schedule-definitions")]
+    [CliOption("--schedule-definitions", GroupValues = true)]
     public IEnumerable<string>? ScheduleDefinitions { get; set; }
 
     [CliOption("--cli-input-json")]

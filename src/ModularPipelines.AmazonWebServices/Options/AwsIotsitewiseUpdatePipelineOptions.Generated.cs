@@ -37,13 +37,13 @@ public record AwsIotsitewiseUpdatePipelineOptions : AwsOptions
     /// <summary>
     /// Updated environment variables shared across all compute nodes. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment-variables")]
+    [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     /// <summary>
     /// Updated list of compute nodes forming the pipeline DAG. Constraints: o min: 0 o max: 50 (structure) A single compute node in a pipeline DAG. Each compute node ref- erences a task and can declare dependencies on other nodes. computeNodeName -&gt; (string) [required] The unique name for this compute node within the pipeline. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ taskName -&gt; (string) [required] The name of the task to execute for this compute node. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ environmentVariables -&gt; (map) Environment variables specific to this compute node. These override pipeline-level environment variables with the same key. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 dependsOn -&gt; (list) A list of compute node names that must complete successfully before this node can start. Constraints: o min: 0 o max: 10 (string) Reusable resource name with alphanumeric, hyphen, and un- derscore characters. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: computeNodeName=string,taskName=string,environmentVariables={KeyName1=string,KeyName2=string},dependsOn=string,string ... JSON Syntax: [ { "computeNodeName": "string", "taskName": "string", "environmentVariables": {"string": "string" ...}, "dependsOn": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--computations")]
+    [CliOption("--computations", GroupValues = true)]
     public IEnumerable<string>? Computations { get; set; }
 
     [CliOption("--cli-input-json")]

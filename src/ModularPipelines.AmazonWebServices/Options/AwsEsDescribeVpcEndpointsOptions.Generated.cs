@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("es", "describe-vpc-endpoints")]
 public record AwsEsDescribeVpcEndpointsOptions : AwsOptions
 {
-    [CliOption("--vpc-endpoint-ids")]
+    [CliOption("--vpc-endpoint-ids", GroupValues = true)]
     public IEnumerable<string>? VpcEndpointIds { get; set; }
 
     [CliOption("--cli-input-json")]

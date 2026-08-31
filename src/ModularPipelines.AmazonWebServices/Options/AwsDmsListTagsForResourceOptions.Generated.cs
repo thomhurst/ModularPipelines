@@ -30,7 +30,7 @@ public record AwsDmsListTagsForResourceOptions : AwsOptions
     /// <summary>
     /// List of ARNs that identify multiple DMS resources that you want to list tags for. This returns a list of keys (tag names) and their as- sociated tag values. It also returns each tag's associated Re- sourceArn value, which is the ARN of the resource for which each listed tag is created. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-arn-list")]
+    [CliOption("--resource-arn-list", GroupValues = true)]
     public IEnumerable<string>? ResourceArnList { get; set; }
 
     [CliOption("--cli-input-json")]

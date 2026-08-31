@@ -28,7 +28,7 @@ public record AwsSsmSapListOperationsOptions : AwsOptions
     /// <summary>
     /// The filters of an operation. Constraints: o min: 1 o max: 10 (structure) A specific result obtained by specifying the name, value, and operator. Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Constraints: o min: 1 o max: 32 Value -&gt; (string) [required] The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values Constraints: o min: 1 o max: 64 Operator -&gt; (string) [required] The operator for the filter. Possible values: o Equals o GreaterThanOrEquals o LessThanOrEquals Shorthand Syntax: Name=string,Value=string,Operator=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Operator": "Equals"|"GreaterThanOrEquals"|"LessThanOrEquals" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

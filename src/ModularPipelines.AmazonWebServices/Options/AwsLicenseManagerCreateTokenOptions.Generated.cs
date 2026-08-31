@@ -28,7 +28,7 @@ public record AwsLicenseManagerCreateTokenOptions : AwsOptions
     /// <summary>
     /// Amazon Resource Name (ARN) of the IAM roles to embed in the token. License Manager does not check whether the roles are in use. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--role-arns")]
+    [CliOption("--role-arns", GroupValues = true)]
     public IEnumerable<string>? RoleArns { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AwsLicenseManagerCreateTokenOptions : AwsOptions
     /// Data specified by the caller to be included in the JWT token. The data is mapped to the amr claim of the JWT token. Constraints: o max: 3 (string) Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
-    [CliOption("--token-properties")]
+    [CliOption("--token-properties", GroupValues = true)]
     public IEnumerable<string>? TokenProperties { get; set; }
 
     [SecretValue]

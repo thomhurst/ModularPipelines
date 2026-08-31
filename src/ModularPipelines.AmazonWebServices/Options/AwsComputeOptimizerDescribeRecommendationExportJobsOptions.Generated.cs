@@ -25,13 +25,13 @@ public record AwsComputeOptimizerDescribeRecommendationExportJobsOptions : AwsOp
     /// <summary>
     /// The identification numbers of the export jobs to return. An export job ID is returned when you create an export using the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRecommen- dations actions. All export jobs created in the last seven days are returned if this parameter is omitted. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--job-ids")]
+    [CliOption("--job-ids", GroupValues = true)]
     public IEnumerable<string>? JobIds { get; set; }
 
     /// <summary>
     /// An array of objects to specify a filter that returns a more specific list of export jobs. (structure) Describes a filter that returns a more specific list of recom- mendation export jobs. Use this filter with the DescribeRecom- mendationExportJobs action. You can use EBSFilter with the GetEBSVolumeRecommendations ac- tion, LambdaFunctionRecommendationFilter with the GetLambda- FunctionRecommendations action, and Filter with the GetAu- toScalingGroupRecommendations and GetEC2InstanceRecommendations actions. name -&gt; (string) The name of the filter. Specify ResourceType to return export jobs of a specific re- source type (for example, Ec2Instance ). Specify JobStatus to return export jobs with a specific sta- tus (e.g, Complete ). Possible values: o ResourceType o JobStatus values -&gt; (list) The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter: o Specify Ec2Instance or AutoScalingGroup if you specify the name parameter as ResourceType . There is no filter for EBS volumes because volume recommendations cannot be exported at this time. o Specify Queued , InProgress , Complete , or Failed if you specify the name parameter as JobStatus . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "ResourceType"|"JobStatus", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

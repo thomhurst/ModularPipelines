@@ -36,7 +36,7 @@ public record AwsNotificationsCreateEventRuleOptions : AwsOptions
     [CliOption("--event-pattern")]
     public string? EventPattern { get; set; }
 
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     [CliOption("--cli-input-json")]

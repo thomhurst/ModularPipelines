@@ -28,7 +28,7 @@ public record AwsPinpointSmsVoiceV2ListRegistrationAssociationsOptions : AwsOpti
     /// <summary>
     /// An array of RegistrationAssociationFilter to apply to the results that are returned. Constraints: o min: 0 o max: 20 (structure) The filter definition for filtering registrations that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o resource-type o iso-country-code Values -&gt; (list) [required] An array of values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "resource-type"|"iso-country-code", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

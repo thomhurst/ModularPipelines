@@ -9,7 +9,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public static class UsageSynopsisParser
 {
-    private static readonly string[] UsageHeadings = ["usage", "synopsis"];
+    private static readonly string[] DefaultUsageHeadings = ["usage"];
 
     private static readonly HashSet<string> ControlTokens = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -54,7 +54,8 @@ public static class UsageSynopsisParser
     public static UsageSynopsisParseResult Parse(
         string helpText,
         IReadOnlyList<string> commandPath,
-        IEnumerable<string>? additionalSynopses = null)
+        IEnumerable<string>? additionalSynopses = null,
+        IReadOnlyList<string>? acceptedHeadings = null)
     {
         ArgumentNullException.ThrowIfNull(helpText);
         ArgumentNullException.ThrowIfNull(commandPath);
@@ -64,7 +65,7 @@ public static class UsageSynopsisParser
             .Distinct(StringComparer.Ordinal)
             .ToList();
         var suppliedSynopsisSet = suppliedSynopses.ToHashSet(StringComparer.Ordinal);
-        var synopses = ExtractSynopses(helpText)
+        var synopses = ExtractSynopses(helpText, acceptedHeadings ?? DefaultUsageHeadings)
             .Concat(suppliedSynopses)
             .Where(synopsis => !string.IsNullOrWhiteSpace(synopsis))
             .Distinct(StringComparer.Ordinal)
@@ -329,7 +330,9 @@ public static class UsageSynopsisParser
             .ToList();
     }
 
-    private static IReadOnlyList<string> ExtractSynopses(string helpText)
+    private static IReadOnlyList<string> ExtractSynopses(
+        string helpText,
+        IReadOnlyList<string> acceptedHeadings)
     {
         var lines = helpText
             .Replace("\r\n", "\n", StringComparison.Ordinal)
@@ -340,7 +343,7 @@ public static class UsageSynopsisParser
         for (var index = 0; index < lines.Length; index++)
         {
             var trimmed = lines[index].Trim();
-            if (!TryReadSynopsisHeading(trimmed, out var inlineSynopsis))
+            if (!TryReadSynopsisHeading(trimmed, acceptedHeadings, out var inlineSynopsis))
             {
                 continue;
             }
@@ -422,11 +425,14 @@ public static class UsageSynopsisParser
     internal static bool IsSynopsisContinuation(string line) =>
         IsSynopsisContinuationCore(line.Trim());
 
-    private static bool TryReadSynopsisHeading(string line, out string synopsis)
+    private static bool TryReadSynopsisHeading(
+        string line,
+        IReadOnlyList<string> acceptedHeadings,
+        out string synopsis)
     {
         synopsis = "";
         var normalizedLine = line.Trim(' ', '\t', '━', '─');
-        var heading = UsageHeadings.FirstOrDefault(candidate =>
+        var heading = acceptedHeadings.FirstOrDefault(candidate =>
             normalizedLine.Equals(candidate, StringComparison.OrdinalIgnoreCase)
             || normalizedLine.StartsWith(candidate, StringComparison.OrdinalIgnoreCase));
         if (heading is null)

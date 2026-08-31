@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mediaconnect", "grant-flow-entitlements")]
 public record AwsMediaconnectGrantFlowEntitlementsOptions : AwsOptions
 {
-    [CliOption("--entitlements")]
+    [CliOption("--entitlements", GroupValues = true)]
     public IEnumerable<string>? Entitlements { get; set; }
 
     [CliOption("--flow-arn")]

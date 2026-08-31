@@ -30,7 +30,7 @@ public record AwsDeadlineBatchGetJobEntityOptions : AwsOptions
     [CliOption("--worker-id")]
     public string? WorkerId { get; set; }
 
-    [CliOption("--identifiers")]
+    [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; set; }
 
     [CliOption("--cli-input-json")]

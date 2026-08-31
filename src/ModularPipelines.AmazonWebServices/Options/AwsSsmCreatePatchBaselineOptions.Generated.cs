@@ -47,7 +47,7 @@ public record AwsSsmCreatePatchBaselineOptions : AwsOptions
     /// <summary>
     /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and re- jected patch lists in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--approved-patches")]
+    [CliOption("--approved-patches", GroupValues = true)]
     public IEnumerable<string>? ApprovedPatches { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public record AwsSsmCreatePatchBaselineOptions : AwsOptions
     /// <summary>
     /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and re- jected patch lists in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--rejected-patches")]
+    [CliOption("--rejected-patches", GroupValues = true)]
     public IEnumerable<string>? RejectedPatches { get; set; }
 
     /// <summary>
@@ -80,7 +80,7 @@ public record AwsSsmCreatePatchBaselineOptions : AwsOptions
     /// <summary>
     /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only. Constraints: o min: 0 o max: 20 (structure) Information about the patches to use to update the managed nodes, including target operating systems and source repository. Applies to Linux managed nodes only. Name -&gt; (string) [required] The name specified to identify the patch source. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,50}$ Products -&gt; (list) [required] The specific operating system versions a patch repository ap- plies to, such as "Ubuntu16.04", "AmazonLinux2016.09", "Red- hatEnterpriseLinux7.2" or "Suse12.7". For lists of supported product values, see PatchFilter . Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 Configuration -&gt; (string) [required] The value of the repo configuration. Example for yum repositories [main] name=MyCustomRepository baseurl=https://my-custom-repository enabled=1 For information about other options available for your yum repository configuration, see dnf.conf(5) on the man7.org website. Examples for Ubuntu Server and Debian Server deb http://security.ubuntu.com/ubuntu jammy main deb https://site.example.com/debian distribution compo- nent1 component2 component3 Repo information for Ubuntu Server repositories must be specifed in a single line. For more examples and information, see jammy (5) sources.list.5.gz on the Ubuntu Server Manuals website and sources.list format on the Debian Wiki . Constraints: o min: 1 o max: 1024 Shorthand Syntax: Name=string,Products=string,string,Configuration=string ... JSON Syntax: [ { "Name": "string", "Products": ["string", ...], "Configuration": "string" } ... ]
     /// </summary>
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     /// <summary>
@@ -99,7 +99,7 @@ public record AwsSsmCreatePatchBaselineOptions : AwsOptions
     /// <summary>
     /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a patch baseline to identify the severity level of patches it specifies and the oper- ating system family it applies to. In this case, you could specify the following key-value pairs: o Key=PatchSeverity,Value=Critical o Key=OS,Value=Windows NOTE: To add tags to an existing patch baseline, use the AddTagsToRe- source operation. Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

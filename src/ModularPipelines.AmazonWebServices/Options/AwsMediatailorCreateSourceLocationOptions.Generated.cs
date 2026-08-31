@@ -40,7 +40,7 @@ public record AwsMediatailorCreateSourceLocationOptions : AwsOptions
     /// <summary>
     /// A list of the segment delivery configurations associated with this resource. (structure) The segment delivery configuration settings. BaseUrl -&gt; (string) The base URL of the host or path of the segment delivery server that you're using to serve segments. This is typically a content delivery network (CDN). The URL can be absolute or relative. To use an absolute URL include the protocol, such as https://example.com/some/path . To use a relative URL specify the relative path, such as /some/path* . Name -&gt; (string) A unique identifier used to distinguish between multiple seg- ment delivery configurations in a source location. Shorthand Syntax: BaseUrl=string,Name=string ... JSON Syntax: [ { "BaseUrl": "string", "Name": "string" } ... ]
     /// </summary>
-    [CliOption("--segment-delivery-configurations")]
+    [CliOption("--segment-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? SegmentDeliveryConfigurations { get; set; }
 
     [CliOption("--source-location-name")]
@@ -49,7 +49,7 @@ public record AwsMediatailorCreateSourceLocationOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organiza- tion, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

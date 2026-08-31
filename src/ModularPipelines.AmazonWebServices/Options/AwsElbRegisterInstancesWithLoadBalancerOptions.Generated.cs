@@ -24,7 +24,7 @@ public record AwsElbRegisterInstancesWithLoadBalancerOptions : AwsOptions
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; set; }
 
-    [CliOption("--instances")]
+    [CliOption("--instances", GroupValues = true)]
     public IEnumerable<string>? Instances { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,7 +34,7 @@ public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOpti
     /// <summary>
     /// Defines the type of payload associated with the engagement invita- tions to be listed. The attributes in this payload help decide on acceptance or rejection of the invitation. (string) Possible values: o OpportunityInvitation o LeadInvitation Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--payload-type")]
+    [CliOption("--payload-type", GroupValues = true)]
     public IEnumerable<string>? PayloadType { get; set; }
 
     [CliOption("--participant-type")]
@@ -43,19 +43,19 @@ public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOpti
     /// <summary>
     /// Status values to filter the invitations. Constraints: o min: 1 o max: 10 (string) Possible values: o ACCEPTED o PENDING o REJECTED o EXPIRED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>
     /// Retrieves a list of engagement invitation summaries based on speci- fied filters. The ListEngagementInvitations operation allows you to view all invitations that you have sent or received. You must spec- ify the ParticipantType to filter invitations where you are either the SENDER or the RECEIVER. Invitations will automatically expire if not accepted within 15 days. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--engagement-identifier")]
+    [CliOption("--engagement-identifier", GroupValues = true)]
     public IEnumerable<string>? EngagementIdentifier { get; set; }
 
     /// <summary>
     /// List of sender AWS account IDs to filter the invitations. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ([0-9]{12}|\w{1,12}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--sender-aws-account-id")]
+    [CliOption("--sender-aws-account-id", GroupValues = true)]
     public IEnumerable<string>? SenderAwsAccountId { get; set; }
 
     [CliOption("--cli-input-json")]

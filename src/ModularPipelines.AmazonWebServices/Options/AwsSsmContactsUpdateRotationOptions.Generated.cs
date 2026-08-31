@@ -27,7 +27,7 @@ public record AwsSsmContactsUpdateRotationOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the contacts to include in the updated rotation. NOTE: Only the PERSONAL contact type is supported. The contact types ESCALATION and ONCALL_SCHEDULE are not supported for this opera- tion. The order in which you list the contacts is their shift order in the rotation schedule. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--contact-ids")]
+    [CliOption("--contact-ids", GroupValues = true)]
     public IEnumerable<string>? ContactIds { get; set; }
 
     /// <summary>

@@ -54,7 +54,7 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions
     /// <summary>
     /// Tags to be added to the quantum task you're creating. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -67,7 +67,7 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions
     /// <summary>
     /// The list of Amazon Braket resources associated with the quantum task. Constraints: o min: 0 o max: 1 (structure) The Amazon Braket resource and the association type. arn -&gt; (string) [required] The Amazon Braket resource arn. Constraints: o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]*:[0-9]{12}:.* type -&gt; (string) [required] The association type for the specified Amazon Braket resource arn. Possible values: o RESERVATION_TIME_WINDOW_ARN Shorthand Syntax: arn=string,type=string ... JSON Syntax: [ { "arn": "string", "type": "RESERVATION_TIME_WINDOW_ARN" } ... ]
     /// </summary>
-    [CliOption("--associations")]
+    [CliOption("--associations", GroupValues = true)]
     public IEnumerable<string>? Associations { get; set; }
 
     /// <summary>

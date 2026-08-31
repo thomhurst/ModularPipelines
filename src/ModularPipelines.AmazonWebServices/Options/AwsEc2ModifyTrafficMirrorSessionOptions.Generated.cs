@@ -63,7 +63,7 @@ public record AwsEc2ModifyTrafficMirrorSessionOptions : AwsOptions
     /// <summary>
     /// The properties that you want to remove from the Traffic Mirror ses- sion. When you remove a property from a Traffic Mirror session, the prop- erty is set to the default. (string) Possible values: o packet-length o description o virtual-network-id Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-fields")]
+    [CliOption("--remove-fields", GroupValues = true)]
     public IEnumerable<string>? RemoveFields { get; set; }
 
     [CliFlag("--dry-run")]

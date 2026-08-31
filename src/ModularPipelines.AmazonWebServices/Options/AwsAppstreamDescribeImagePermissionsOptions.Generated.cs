@@ -34,7 +34,7 @@ public record AwsAppstreamDescribeImagePermissionsOptions : AwsOptions
     /// <summary>
     /// The 12-digit identifier of one or more AWS accounts with which the image is shared. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: ^\d+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--shared-aws-account-ids")]
+    [CliOption("--shared-aws-account-ids", GroupValues = true)]
     public IEnumerable<string>? SharedAwsAccountIds { get; set; }
 
     /// <summary>

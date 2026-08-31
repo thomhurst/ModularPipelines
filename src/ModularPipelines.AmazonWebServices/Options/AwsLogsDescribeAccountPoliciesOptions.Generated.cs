@@ -34,7 +34,7 @@ public record AwsLogsDescribeAccountPoliciesOptions : AwsOptions
     /// <summary>
     /// If you are using an account that is set up as a monitoring account for CloudWatch unified cross-account observability, you can use this to specify the account ID of a source account. If you do, the opera- tion returns the account policy for the specified account. Cur- rently, you can specify only one account ID in this parameter. If you omit this parameter, only the policy in the current account is returned. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-identifiers")]
+    [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
     /// <summary>

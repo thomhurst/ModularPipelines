@@ -26,13 +26,13 @@ public record AwsPinpointSmsVoiceV2DescribeSenderIdsOptions : AwsOptions
     /// <summary>
     /// An array of SenderIdAndCountry objects to search for. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 5 (structure) The alphanumeric sender ID in a specific country that you want to describe. For more information on sender IDs see Requesting sender IDs in the End User Messaging SMS User Guide . SenderId -&gt; (string) [required] The unique identifier of the sender. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ IsoCountryCode -&gt; (string) [required] The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} Shorthand Syntax: SenderId=string,IsoCountryCode=string ... JSON Syntax: [ { "SenderId": "string", "IsoCountryCode": "string" } ... ]
     /// </summary>
-    [CliOption("--sender-ids")]
+    [CliOption("--sender-ids", GroupValues = true)]
     public IEnumerable<string>? SenderIds { get; set; }
 
     /// <summary>
     /// An array of SenderIdFilter objects to filter the results. Constraints: o min: 0 o max: 20 (structure) The information for a sender ID that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o sender-id o iso-country-code o message-type o deletion-protection-enabled o registered Values -&gt; (list) [required] An array of values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "sender-id"|"iso-country-code"|"message-type"|"deletion-protection-enabled"|"registered", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

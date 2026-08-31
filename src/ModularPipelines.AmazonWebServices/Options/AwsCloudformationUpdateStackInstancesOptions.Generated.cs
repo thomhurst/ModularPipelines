@@ -28,7 +28,7 @@ public record AwsCloudformationUpdateStackInstancesOptions : AwsOptions
     /// <summary>
     /// [Self-managed permissions] The account IDs of one or more Amazon Web Services accounts in which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and Amazon Web Ser- vices Regions. You can specify Accounts or DeploymentTargets , but not both. (string) Constraints: o pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--accounts")]
+    [CliOption("--accounts", GroupValues = true)]
     public IEnumerable<string>? Accounts { get; set; }
 
     /// <summary>
@@ -37,13 +37,13 @@ public record AwsCloudformationUpdateStackInstancesOptions : AwsOptions
     [CliOption("--deployment-targets")]
     public string? DeploymentTargets { get; set; }
 
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>
     /// A list of input parameters whose values you want to update for the specified stack instances. Any overridden parameter values will be applied to all stack in- stances in the specified accounts and Amazon Web Services Regions. When specifying parameters and their values, be aware of how Cloud- Formation sets parameter values during stack instance update opera- tions: o To override the current value for a parameter, include the parame- ter and specify its value. o To leave an overridden parameter set to its present value, include the parameter and specify UsePreviousValue as true . (You can't specify both a value and set UsePreviousValue to true .) o To set an overridden parameter back to the value specified in the StackSet, specify a parameter list but don't include the parameter in the list. o To leave all parameters set to their present values, don't specify this property at all. During StackSet updates, any parameter values overridden for a stack instance aren't updated, but retain their overridden value. You can only override the parameter values that are specified in the StackSet. To add or delete a parameter itself, use UpdateStackSet to update the StackSet template. If you add a parameter to a template, before you can override the parameter value specified in the Stack- Set you must first use UpdateStackSet to update all stack instances with the updated template and parameter value specified in the StackSet. Once a stack instance has been updated with the new para- meter, you can then override the parameter value using UpdateStack- Instances . (structure) The Parameter data type. ParameterKey -&gt; (string) The key associated with the parameter. If you don't specify a key and value for a particular parameter, CloudFormation uses the default value that's specified in your template. ParameterValue -&gt; (string) The input value associated with the parameter. UsePreviousValue -&gt; (boolean) During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true , do not specify a parameter value. ResolvedValue -&gt; (string) Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for Systems Man- ager parameter types in the template. For more information, see Specify existing resources at runtime with CloudForma- tion-supplied parameter types in the CloudFormation User Guide . Shorthand Syntax: ParameterKey=string,ParameterValue=string,UsePreviousValue=boolean,ResolvedValue=string ... JSON Syntax: [ { "ParameterKey": "string", "ParameterValue": "string", "UsePreviousValue": true|false, "ResolvedValue": "string" } ... ]
     /// </summary>
-    [CliOption("--parameter-overrides")]
+    [CliOption("--parameter-overrides", GroupValues = true)]
     public IEnumerable<string>? ParameterOverrides { get; set; }
 
     /// <summary>

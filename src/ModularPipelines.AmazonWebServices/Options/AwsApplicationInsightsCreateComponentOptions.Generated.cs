@@ -27,7 +27,7 @@ public record AwsApplicationInsightsCreateComponentOptions : AwsOptions
     [CliOption("--component-name")]
     public string? ComponentName { get; set; }
 
-    [CliOption("--resource-list")]
+    [CliOption("--resource-list", GroupValues = true)]
     public IEnumerable<string>? ResourceList { get; set; }
 
     [CliOption("--cli-input-json")]

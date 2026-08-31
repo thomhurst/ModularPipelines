@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("discovery", "describe-configurations")]
 public record AwsDiscoveryDescribeConfigurationsOptions : AwsOptions
 {
-    [CliOption("--configuration-ids")]
+    [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; set; }
 
     [CliOption("--cli-input-json")]

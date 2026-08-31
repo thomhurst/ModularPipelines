@@ -24,7 +24,7 @@ public record AwsMediaconnectAddFlowVpcInterfacesOptions : AwsOptions
     [CliOption("--flow-arn")]
     public string? FlowArn { get; set; }
 
-    [CliOption("--vpc-interfaces")]
+    [CliOption("--vpc-interfaces", GroupValues = true)]
     public IEnumerable<string>? VpcInterfaces { get; set; }
 
     [CliOption("--cli-input-json")]

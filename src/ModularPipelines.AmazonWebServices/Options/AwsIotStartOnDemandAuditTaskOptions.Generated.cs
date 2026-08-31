@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iot", "start-on-demand-audit-task")]
 public record AwsIotStartOnDemandAuditTaskOptions : AwsOptions
 {
-    [CliOption("--target-check-names")]
+    [CliOption("--target-check-names", GroupValues = true)]
     public IEnumerable<string>? TargetCheckNames { get; set; }
 
     [CliOption("--cli-input-json")]

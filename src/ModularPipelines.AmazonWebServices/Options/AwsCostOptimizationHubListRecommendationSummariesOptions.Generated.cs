@@ -34,7 +34,7 @@ public record AwsCostOptimizationHubListRecommendationSummariesOptions : AwsOpti
     /// <summary>
     /// Additional metrics to be returned for the request. The only valid value is savingsPercentage . Constraints: o min: 1 o max: 100 (string) Possible values: o SavingsPercentage Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metrics")]
+    [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     [CliOption("--cli-input-json")]

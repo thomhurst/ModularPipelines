@@ -28,10 +28,10 @@ public record AwsKafkaCreateReplicatorOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--kafka-clusters")]
+    [CliOption("--kafka-clusters", GroupValues = true)]
     public IEnumerable<string>? KafkaClusters { get; set; }
 
-    [CliOption("--replication-info-list")]
+    [CliOption("--replication-info-list", GroupValues = true)]
     public IEnumerable<string>? ReplicationInfoList { get; set; }
 
     [CliOption("--replicator-name")]
@@ -43,7 +43,7 @@ public record AwsKafkaCreateReplicatorOptions : AwsOptions
     /// <summary>
     /// List of tags to attach to created Replicator. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

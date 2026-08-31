@@ -33,7 +33,7 @@ public record AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineConfigurationO
     [CliOption("--real-time-alert-configuration")]
     public string? RealTimeAlertConfiguration { get; set; }
 
-    [CliOption("--elements")]
+    [CliOption("--elements", GroupValues = true)]
     public IEnumerable<string>? Elements { get; set; }
 
     [CliOption("--cli-input-json")]

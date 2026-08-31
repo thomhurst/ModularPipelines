@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("storagegateway", "describe-file-system-associations")]
 public record AwsStoragegatewayDescribeFileSystemAssociationsOptions : AwsOptions
 {
-    [CliOption("--file-system-association-arn-list")]
+    [CliOption("--file-system-association-arn-list", GroupValues = true)]
     public IEnumerable<string>? FileSystemAssociationArnList { get; set; }
 
     [CliOption("--cli-input-json")]

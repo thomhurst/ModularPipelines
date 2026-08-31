@@ -55,7 +55,7 @@ public record AwsSecurityagentCreateThreatOptions : AwsOptions
     /// <summary>
     /// The STRIDE categories applicable to this threat. (string) STRIDE threat classification category. Possible values: o SPOOFING o TAMPERING o REPUDIATION o INFORMATION_DISCLOSURE o DENIAL_OF_SERVICE o ELEVATION_OF_PRIVILEGE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--stride")]
+    [CliOption("--stride", GroupValues = true)]
     public IEnumerable<string>? Stride { get; set; }
 
     /// <summary>
@@ -85,13 +85,13 @@ public record AwsSecurityagentCreateThreatOptions : AwsOptions
     /// <summary>
     /// The security goals affected by the threat. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--impacted-goal")]
+    [CliOption("--impacted-goal", GroupValues = true)]
     public IEnumerable<string>? ImpactedGoal { get; set; }
 
     /// <summary>
     /// The specific assets affected by the threat. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--impacted-assets")]
+    [CliOption("--impacted-assets", GroupValues = true)]
     public IEnumerable<string>? ImpactedAssets { get; set; }
 
     /// <summary>
@@ -103,7 +103,7 @@ public record AwsSecurityagentCreateThreatOptions : AwsOptions
     /// <summary>
     /// The source code files supporting the threat. (structure) Source code file supporting a threat. packageId -&gt; (string) The package identifier containing the evidence file. path -&gt; (string) The file path of the evidence. Shorthand Syntax: packageId=string,path=string ... JSON Syntax: [ { "packageId": "string", "path": "string" } ... ]
     /// </summary>
-    [CliOption("--evidence")]
+    [CliOption("--evidence", GroupValues = true)]
     public IEnumerable<string>? Evidence { get; set; }
 
     /// <summary>

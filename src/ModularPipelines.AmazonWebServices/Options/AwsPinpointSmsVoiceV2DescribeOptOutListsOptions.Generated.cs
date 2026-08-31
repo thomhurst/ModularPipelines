@@ -26,7 +26,7 @@ public record AwsPinpointSmsVoiceV2DescribeOptOutListsOptions : AwsOptions
     /// <summary>
     /// The OptOutLists to show the details of. This is an array of strings that can be either the OptOutListName or OptOutListArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--opt-out-list-names")]
+    [CliOption("--opt-out-list-names", GroupValues = true)]
     public IEnumerable<string>? OptOutListNames { get; set; }
 
     /// <summary>

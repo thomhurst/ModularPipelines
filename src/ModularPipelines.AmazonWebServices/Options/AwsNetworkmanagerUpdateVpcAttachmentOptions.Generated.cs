@@ -27,13 +27,13 @@ public record AwsNetworkmanagerUpdateVpcAttachmentOptions : AwsOptions
     /// <summary>
     /// Adds a subnet ARN to the VPC attachment. (string) Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-subnet-arns")]
+    [CliOption("--add-subnet-arns", GroupValues = true)]
     public IEnumerable<string>? AddSubnetArns { get; set; }
 
     /// <summary>
     /// Removes a subnet ARN from the attachment. (string) Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-subnet-arns")]
+    [CliOption("--remove-subnet-arns", GroupValues = true)]
     public IEnumerable<string>? RemoveSubnetArns { get; set; }
 
     /// <summary>

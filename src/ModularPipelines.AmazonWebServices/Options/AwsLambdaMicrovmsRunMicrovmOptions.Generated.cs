@@ -25,13 +25,13 @@ public record AwsLambdaMicrovmsRunMicrovmOptions : AwsOptions
     /// <summary>
     /// The list of ingress network connectors to configure for the MicroVM. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ingress-network-connectors")]
+    [CliOption("--ingress-network-connectors", GroupValues = true)]
     public IEnumerable<string>? IngressNetworkConnectors { get; set; }
 
     /// <summary>
     /// The list of egress network connectors to configure for the MicroVM. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--egress-network-connectors")]
+    [CliOption("--egress-network-connectors", GroupValues = true)]
     public IEnumerable<string>? EgressNetworkConnectors { get; set; }
 
     [CliOption("--image-identifier")]

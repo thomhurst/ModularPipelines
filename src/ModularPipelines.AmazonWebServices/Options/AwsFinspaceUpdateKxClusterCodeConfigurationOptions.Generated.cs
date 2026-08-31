@@ -47,7 +47,7 @@ public record AwsFinspaceUpdateKxClusterCodeConfigurationOptions : AwsOptions
     /// <summary>
     /// Specifies the key-value pairs to make them available inside the cluster. You cannot update this parameter for a NO_RESTART deployment. (structure) Defines the key-value pairs to make them available inside the cluster. key -&gt; (string) The name of the key. Constraints: o min: 1 o max: 1024 o pattern: ^(?![Aa][Ww][Ss])(s|([a-zA-Z][a-zA-Z0-9_]+))|(AWS_ZIP_DE- FAULT) value -&gt; (string) The value of the key. Constraints: o min: 1 o max: 1024 o pattern: ^[a-zA-Z0-9_:./,; ]+$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--command-line-arguments")]
+    [CliOption("--command-line-arguments", GroupValues = true)]
     public IEnumerable<string>? CommandLineArguments { get; set; }
 
     /// <summary>

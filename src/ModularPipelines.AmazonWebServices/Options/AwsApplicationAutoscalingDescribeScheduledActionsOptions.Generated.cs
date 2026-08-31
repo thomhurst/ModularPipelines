@@ -26,7 +26,7 @@ public record AwsApplicationAutoscalingDescribeScheduledActionsOptions : AwsOpti
     /// <summary>
     /// The names of the scheduled actions to describe. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--scheduled-action-names")]
+    [CliOption("--scheduled-action-names", GroupValues = true)]
     public IEnumerable<string>? ScheduledActionNames { get; set; }
 
     [CliOption("--service-namespace")]

@@ -167,6 +167,49 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Parses_Spaced_Value_Hints_Without_Leaking_Documentation()
+    {
+        const string helpText = """
+            NAME
+                gcloud compute instances create-with-container - create an instance
+
+            SYNOPSIS
+                gcloud compute instances create-with-container
+
+            FLAGS
+                 --container-env=[KEY=VALUE, ...,...]
+                    Declare environment variables. KEY can be repeated more than once.
+
+                 --machine-type=MACHINE_TYPE
+                    Specifies the machine type.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "compute", "instances", "create-with-container"],
+            helpText);
+        var containerEnvironment = command!.Options.Single(option =>
+            option.SwitchName == "--container-env");
+        var machineType = command.Options.Single(option =>
+            option.SwitchName == "--machine-type");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(containerEnvironment.Description)
+                .Contains("Declare environment variables");
+            await Assert.That(containerEnvironment.IsKeyValue).IsTrue();
+            await Assert.That(containerEnvironment.CSharpType)
+                .IsEqualTo("IReadOnlyList<KeyValue>?");
+            await Assert.That(machineType.Description)
+                .IsEqualTo("Specifies the machine type.");
+            await Assert.That(machineType.AcceptsMultipleValues).IsFalse();
+            await Assert.That(machineType.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Emits_Both_Forms_Of_Negatable_Flags()
     {
         const string helpText = """
@@ -261,6 +304,10 @@ public partial class NestedArgumentGroupParsingTests
             FLAGS
                  --trigger-service-account=TRIGGER_SERVICE_ACCOUNT
                     IAM service-account email address.
+                 --project=PROJECT_ID_OR_NUMBER
+                    Project associated with the custom module.
+                 --project-number=PROJECT_NUMBER
+                    Numeric project number.
                  --retry-count=RETRY_COUNT
                     Number of retries.
                  --disk-size=DISK_SIZE
@@ -280,11 +327,93 @@ public partial class NestedArgumentGroupParsingTests
                 option.SwitchName == "--trigger-service-account").CSharpType)
                 .IsEqualTo("string?");
             await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--project").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option =>
+                option.SwitchName == "--project-number").CSharpType)
+                .IsEqualTo("int?");
+            await Assert.That(command.Options.Single(option =>
                 option.SwitchName == "--retry-count").CSharpType)
                 .IsEqualTo("int?");
             await Assert.That(command.Options.Single(option =>
                 option.SwitchName == "--disk-size").CSharpType)
                 .IsEqualTo("int?");
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Ingestion_Service_Accounts_Are_Textual()
+    {
+        // Verbatim FLAGS excerpt from Google Cloud SDK 550.0.0:
+        // gcloud pubsub topics update --help
+        const string helpText = """
+            NAME
+                gcloud pubsub topics update - update a topic
+
+            SYNOPSIS
+                gcloud pubsub topics update
+
+            FLAGS
+                 --aws-msk-ingestion-service-account=AWS_MSK_INGESTION_SERVICE_ACCOUNT
+                    Google Cloud service account to be used for Federated Identity
+                    authentication with MSK.
+                 --azure-event-hubs-ingestion-service-account=AZURE_EVENT_HUBS_INGESTION_SERVICE_ACCOUNT
+                    Google Cloud service account to be used for Federated Identity
+                    authentication with Azure Event Hubs.
+                 --confluent-cloud-ingestion-service-account=CONFLUENT_CLOUD_INGESTION_SERVICE_ACCOUNT
+                    Google Cloud service account to be used for Federated Identity
+                    authentication with Confluent Cloud.
+                 --kinesis-ingestion-service-account=KINESIS_INGESTION_SERVICE_ACCOUNT
+                    Google Cloud service account to be used for Federated Identity
+                    authentication with Kinesis.
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "pubsub", "topics", "update"],
+            helpText);
+
+        var serviceAccountOptions = command!.Options
+            .Where(option => option.SwitchName.EndsWith(
+                "-ingestion-service-account",
+                StringComparison.Ordinal))
+            .ToArray();
+        using (Assert.Multiple())
+        {
+            await Assert.That(serviceAccountOptions).Count().IsEqualTo(4);
+            await Assert.That(serviceAccountOptions.Select(option => option.CSharpType))
+                .IsEquivalentTo(["string?", "string?", "string?", "string?"]);
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Service_Account_Stays_Scalar_When_Group_Description_Mentions_Repetition()
+    {
+        const string helpText = """
+            NAME
+                gcloud compute instances create-with-container - create an instance
+
+            SYNOPSIS
+                gcloud compute instances create-with-container INSTANCE_NAMES
+
+            FLAGS
+                 --service-account=SERVICE_ACCOUNT
+                    Values for a sibling option may be repeated more than once. A service
+                    account can be set using its email address.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "compute", "instances", "create-with-container"],
+            helpText);
+        var serviceAccount = command!.Options.Single(option =>
+            option.SwitchName == "--service-account");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(serviceAccount.CSharpType).IsEqualTo("string?");
+            await Assert.That(serviceAccount.AcceptsMultipleValues).IsFalse();
         }
     }
 
@@ -364,6 +493,117 @@ public partial class NestedArgumentGroupParsingTests
             foreach (var option in command!.Options)
             {
                 await Assert.That(option.CSharpType).IsEqualTo("string?");
+            }
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Yaml_Examples_Remain_Structured()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --configuration=COUNT
+                    YAML Example: count: 1
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "update"],
+            helpText);
+        var configuration = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(configuration.CSharpType).IsEqualTo("string?");
+            await Assert.That(configuration.IsNumeric).IsFalse();
+            await Assert.That(configuration.EnumDefinition).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Bms_Update_Defers_Shipped_Api_Compatibility()
+    {
+        const string helpText = """
+            NAME
+                gcloud bms nfs-shares update - update an NFS share
+
+            SYNOPSIS
+                gcloud bms nfs-shares update
+
+            FLAGS
+                 --update-labels=[KEY=VALUE,...]
+                    List of label KEY=VALUE pairs to update.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "bms", "nfs-shares", "update"],
+            helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.PropertyName).IsEqualTo("UpdateLabels");
+            await Assert.That(option.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
+            await Assert.That(command.CompatibilityProperties).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Structured_Values_Preserve_Repeatability_Without_Nested_Enums()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --add-allowed-client=[PROPERTY=VALUE,...]
+                    This flag can be repeated to specify multiple allowed clients. mount-permissions The mount permissions. MOUNT_PERMISSIONS must be one of: READ_ONLY, READ_WRITE.
+                 --enabled-tool=[accountConnector=ACCOUNTCONNECTOR],[config=CONFIG],[handle=HANDLE]
+                    Shorthand Example: --enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string --enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string JSON Example: --enabled-tool='[{"accountConnector":"string"}]' File Example: --enabled-tool=path_to_file.(yaml|json)
+                 --add-enabled-tool=[accountConnector=ACCOUNTCONNECTOR],[config=CONFIG],[handle=HANDLE]
+                    Shorthand Example: --add-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string --add-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string JSON Example: --add-enabled-tool='[{"accountConnector":"string"}]' File Example: --add-enabled-tool=path_to_file.(yaml|json)
+                 --remove-enabled-tool=[accountConnector=ACCOUNTCONNECTOR],[config=CONFIG],[handle=HANDLE]
+                    Shorthand Example: --remove-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string --remove-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string JSON Example: --remove-enabled-tool='[{"accountConnector":"string"}]' File Example: --remove-enabled-tool=path_to_file.(yaml|json)
+                 --labels=[LABELS,...]
+                    Labels as key value pairs. Shorthand Example: --labels=string=string JSON Example: --labels='{"string":"string"}' File Example: --labels=path_to_file.(yaml|json)
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "update"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            foreach (var switchName in new[]
+                     {
+                         "--add-allowed-client",
+                         "--enabled-tool",
+                         "--add-enabled-tool",
+                         "--remove-enabled-tool",
+                         "--labels",
+                     })
+            {
+                var option = command!.Options.Single(candidate => candidate.SwitchName == switchName);
+                await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+                await Assert.That(option.AcceptsMultipleValues).IsTrue();
+                await Assert.That(option.EnumDefinition).IsNull();
             }
         }
     }

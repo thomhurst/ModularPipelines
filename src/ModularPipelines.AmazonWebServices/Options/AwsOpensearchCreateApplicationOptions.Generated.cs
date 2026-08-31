@@ -35,7 +35,7 @@ public record AwsOpensearchCreateApplicationOptions : AwsOptions
     /// <summary>
     /// The data sources to link to the OpenSearch application. (structure) Data sources that are associated with an OpenSearch application. dataSourceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* dataSourceDescription -&gt; (string) Detailed description of a data source. Constraints: o max: 1000 o pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$ iamRoleForDataSourceArn -&gt; (string) The ARN of the IAM role to be used for cross account/region data source association. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: dataSourceArn=string,dataSourceDescription=string,iamRoleForDataSourceArn=string ... JSON Syntax: [ { "dataSourceArn": "string", "dataSourceDescription": "string", "iamRoleForDataSourceArn": "string" } ... ]
     /// </summary>
-    [CliOption("--data-sources")]
+    [CliOption("--data-sources", GroupValues = true)]
     public IEnumerable<string>? DataSources { get; set; }
 
     /// <summary>
@@ -47,13 +47,13 @@ public record AwsOpensearchCreateApplicationOptions : AwsOptions
     /// <summary>
     /// Configuration settings for the OpenSearch application, including ad- ministrative options. Constraints: o max: 200 (structure) Configuration settings for an OpenSearch application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service . key -&gt; (string) The configuration item to set, such as the admin role for the OpenSearch application. Possible values: o opensearchDashboards.dashboardAdmin.users o opensearchDashboards.dashboardAdmin.groups value -&gt; (string) The value assigned to the configuration key, such as an IAM user ARN. Constraints: o min: 1 o max: 4096 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "opensearchDashboards.dashboardAdmin.users"|"opensearchDashboards.dashboardAdmin.groups", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--app-configs")]
+    [CliOption("--app-configs", GroupValues = true)]
     public IEnumerable<string>? AppConfigs { get; set; }
 
     /// <summary>
     /// A list of tags attached to a domain. (structure) A tag (key-value pair) for an Amazon OpenSearch Service re- source. Key -&gt; (string) [required] The tag key. Tag keys must be unique for the domain to which they are attached. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For ex- ample, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tag-list")]
+    [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     /// <summary>

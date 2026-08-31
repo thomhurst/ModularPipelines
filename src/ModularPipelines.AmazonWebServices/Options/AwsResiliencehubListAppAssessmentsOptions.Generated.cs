@@ -38,7 +38,7 @@ public record AwsResiliencehubListAppAssessmentsOptions : AwsOptions
     /// <summary>
     /// The current status of the assessment for the resiliency policy. Constraints: o min: 1 o max: 10 (string) Possible values: o Pending o InProgress o Failed o Success Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--assessment-status")]
+    [CliOption("--assessment-status", GroupValues = true)]
     public IEnumerable<string>? AssessmentStatus { get; set; }
 
     /// <summary>

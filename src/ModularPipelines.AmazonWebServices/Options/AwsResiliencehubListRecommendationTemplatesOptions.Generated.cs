@@ -59,7 +59,7 @@ public record AwsResiliencehubListRecommendationTemplatesOptions : AwsOptions
     /// <summary>
     /// Status of the action. Constraints: o min: 1 o max: 4 (string) Possible values: o Pending o InProgress o Failed o Success Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     [CliOption("--cli-input-json")]

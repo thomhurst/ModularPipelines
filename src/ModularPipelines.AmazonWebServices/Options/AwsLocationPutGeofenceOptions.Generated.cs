@@ -34,7 +34,7 @@ public record AwsLocationPutGeofenceOptions : AwsOptions
     /// <summary>
     /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value" Constraints: o min: 0 o max: 3 key -&gt; (string) Constraints: o min: 1 o max: 20 value -&gt; (string) Constraints: o min: 1 o max: 40 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--geofence-properties")]
+    [CliOption("--geofence-properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? GeofenceProperties { get; set; }
 
     [CliOption("--cli-input-json")]

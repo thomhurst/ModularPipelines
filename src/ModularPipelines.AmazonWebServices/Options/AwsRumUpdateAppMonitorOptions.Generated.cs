@@ -33,7 +33,7 @@ public record AwsRumUpdateAppMonitorOptions : AwsOptions
     /// <summary>
     /// List the domain names for which your application has administrative authority. The UpdateAppMonitor allows either the domain or the do- main list. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 253 o pattern: (local- host)$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|(?=^[a-zA-Z0-9\.\*-]{4,253}$)(?!.*\.-)(?!.*-\.)(?!.*\.\.)(?!.*[^\.]{64,})^(\*\.)?(?![-\.\*])[^\*]{1,}\.(\*|(?!.*--)(?=.*[a-zA-Z])[^\*]{1,}[^\*-]) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--domain-list")]
+    [CliOption("--domain-list", GroupValues = true)]
     public IEnumerable<string>? DomainList { get; set; }
 
     /// <summary>

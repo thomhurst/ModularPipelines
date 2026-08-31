@@ -44,13 +44,13 @@ public record AwsBatchCreateJobQueueOptions : AwsOptions
     /// <summary>
     /// The set of compute environments mapped to a job queue and their or- der relative to each other. The job scheduler uses this parameter to determine which compute environment runs a specific job. Compute en- vironments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT ) or Fargate (FARGATE or FARGATE_SPOT ); EC2 and Far- gate compute environments can't be mixed. NOTE: All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue. (structure) The order that compute environments are tried in for job place- ment within a queue. Compute environments are tried in ascending order. For example, if two compute environments are associated with a job queue, the compute environment with a lower order in- teger value is tried for job placement first. Compute environ- ments must be in the VALID state before you can associate them with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT ) or Fargate (FARGATE or FARGATE_SPOT ); Amazon EC2 and Fargate compute environments can't be mixed. NOTE: All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mix- ing compute environment architecture types in a single job queue. order -&gt; (integer) [required] The order of the compute environment. Compute environments are tried in ascending order. For example, if two compute en- vironments are associated with a job queue, the compute envi- ronment with a lower order integer value is tried for job placement first. computeEnvironment -&gt; (string) [required] The Amazon Resource Name (ARN) of the compute environment. Shorthand Syntax: order=integer,computeEnvironment=string ... JSON Syntax: [ { "order": integer, "computeEnvironment": "string" } ... ]
     /// </summary>
-    [CliOption("--compute-environment-order")]
+    [CliOption("--compute-environment-order", GroupValues = true)]
     public IEnumerable<string>? ComputeEnvironmentOrder { get; set; }
 
     /// <summary>
     /// A list of service environments that this job queue can use to allo- cate jobs. All serviceEnvironments must have the same type. A job queue can't have both a serviceEnvironmentOrder and a computeEnvi- ronmentOrder field. (structure) Specifies the order of a service environment for a job queue. This determines the priority order when multiple service envi- ronments are associated with the same job queue. order -&gt; (integer) [required] The order of the service environment. Job queues with a higher priority are evaluated first when associated with the same service environment. serviceEnvironment -&gt; (string) [required] The name or ARN of the service environment. Shorthand Syntax: order=integer,serviceEnvironment=string ... JSON Syntax: [ { "order": integer, "serviceEnvironment": "string" } ... ]
     /// </summary>
-    [CliOption("--service-environment-order")]
+    [CliOption("--service-environment-order", GroupValues = true)]
     public IEnumerable<string>? ServiceEnvironmentOrder { get; set; }
 
     /// <summary>
@@ -62,13 +62,13 @@ public record AwsBatchCreateJobQueueOptions : AwsOptions
     /// <summary>
     /// The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources in Batch User Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The set of actions that Batch performs on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed. (Note : The minimum value for maxTimeSeconds is 600 (10 min- utes) and its maximum value is 86,400 (24 hours).) (structure) Specifies an action that Batch will take after the job has re- mained at the head of the queue in the specified state for longer than the specified time. reason -&gt; (string) [required] The reason to log for the action being taken. state -&gt; (string) [required] The state of the job needed to trigger the action. The only supported value is RUNNABLE . Possible values: o RUNNABLE maxTimeSeconds -&gt; (integer) [required] The approximate amount of time, in seconds, that must pass with the job in the specified state before the action is taken. The minimum value is 600 (10 minutes) and the maximum value is 86,400 (24 hours). action -&gt; (string) [required] The action to take when a job is at the head of the job queue in the specified state for the specified period of time. For job queues connected to a ECS , FARGATE or EKS compute envi- ronment, the only supported value is CANCEL , which will can- cel the job. For job queues connected to a SAGEMAKER_TRAINING service environment, the only supported value is TERMINATE , which will terminate the job. Possible values: o CANCEL o TERMINATE Shorthand Syntax: reason=string,state=string,maxTimeSeconds=integer,action=string ... JSON Syntax: [ { "reason": "string", "state": "RUNNABLE", "maxTimeSeconds": integer, "action": "CANCEL"|"TERMINATE" } ... ]
     /// </summary>
-    [CliOption("--job-state-time-limit-actions")]
+    [CliOption("--job-state-time-limit-actions", GroupValues = true)]
     public IEnumerable<string>? JobStateTimeLimitActions { get; set; }
 
     [CliOption("--cli-input-json")]

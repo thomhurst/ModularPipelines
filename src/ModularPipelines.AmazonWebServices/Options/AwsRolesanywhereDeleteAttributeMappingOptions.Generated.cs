@@ -30,7 +30,7 @@ public record AwsRolesanywhereDeleteAttributeMappingOptions : AwsOptions
     /// <summary>
     /// A list of specifiers of a certificate field; for example, CN, OU, UID from a Subject. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--specifiers")]
+    [CliOption("--specifiers", GroupValues = true)]
     public IEnumerable<string>? Specifiers { get; set; }
 
     [CliOption("--cli-input-json")]

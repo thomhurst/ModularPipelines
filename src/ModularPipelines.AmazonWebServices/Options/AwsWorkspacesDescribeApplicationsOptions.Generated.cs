@@ -26,13 +26,13 @@ public record AwsWorkspacesDescribeApplicationsOptions : AwsOptions
     /// <summary>
     /// The identifiers of one or more applications. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^wsa-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--application-ids")]
+    [CliOption("--application-ids", GroupValues = true)]
     public IEnumerable<string>? ApplicationIds { get; set; }
 
     /// <summary>
     /// The compute types supported by the applications. (string) Possible values: o VALUE o STANDARD o PERFORMANCE o POWER o GRAPHICS o POWERPRO o GENERALPURPOSE_4XLARGE o GENERALPURPOSE_8XLARGE o GRAPHICSPRO o GRAPHICS_G4DN o GRAPHICSPRO_G4DN o GRAPHICS_G6_XLARGE o GRAPHICS_G6_2XLARGE o GRAPHICS_G6_4XLARGE o GRAPHICS_G6_8XLARGE o GRAPHICS_G6_16XLARGE o GRAPHICS_GR6_4XLARGE o GRAPHICS_GR6_8XLARGE o GRAPHICS_G6F_LARGE o GRAPHICS_G6F_XLARGE o GRAPHICS_G6F_2XLARGE o GRAPHICS_G6F_4XLARGE o GRAPHICS_GR6F_4XLARGE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--compute-type-names")]
+    [CliOption("--compute-type-names", GroupValues = true)]
     public IEnumerable<string>? ComputeTypeNames { get; set; }
 
     /// <summary>
@@ -44,7 +44,7 @@ public record AwsWorkspacesDescribeApplicationsOptions : AwsOptions
     /// <summary>
     /// The operating systems supported by the applications. (string) Possible values: o AMAZON_LINUX_2 o UBUNTU_18_04 o UBUNTU_20_04 o UBUNTU_22_04 o UNKNOWN o WINDOWS_10 o WINDOWS_11 o WINDOWS_7 o WINDOWS_SERVER_2016 o WINDOWS_SERVER_2019 o WINDOWS_SERVER_2022 o WINDOWS_SERVER_2025 o RHEL_8 o ROCKY_8 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--operating-system-names")]
+    [CliOption("--operating-system-names", GroupValues = true)]
     public IEnumerable<string>? OperatingSystemNames { get; set; }
 
     /// <summary>

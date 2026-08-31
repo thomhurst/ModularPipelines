@@ -34,7 +34,7 @@ public record AwsLogsGetScheduledQueryHistoryOptions : AwsOptions
     /// <summary>
     /// An array of execution statuses to filter the history results. Only executions with the specified statuses are returned. (string) Possible values: o Running o InvalidQuery o Complete o Failed o Timeout Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--execution-statuses")]
+    [CliOption("--execution-statuses", GroupValues = true)]
     public IEnumerable<string>? ExecutionStatuses { get; set; }
 
     [CliOption("--cli-input-json")]

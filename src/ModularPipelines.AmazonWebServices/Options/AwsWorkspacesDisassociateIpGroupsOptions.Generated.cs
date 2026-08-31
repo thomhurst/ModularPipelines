@@ -24,7 +24,7 @@ public record AwsWorkspacesDisassociateIpGroupsOptions : AwsOptions
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CliOption("--group-ids")]
+    [CliOption("--group-ids", GroupValues = true)]
     public IEnumerable<string>? GroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

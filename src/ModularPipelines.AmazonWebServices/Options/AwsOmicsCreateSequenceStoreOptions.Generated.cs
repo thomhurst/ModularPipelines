@@ -42,7 +42,7 @@ public record AwsOmicsCreateSequenceStoreOptions : AwsOptions
     /// <summary>
     /// Tags for the store. You can configure up to 50 tags. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -67,7 +67,7 @@ public record AwsOmicsCreateSequenceStoreOptions : AwsOptions
     /// <summary>
     /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store. These tags can be used as input to add metadata to your read sets. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--propagated-set-level-tags")]
+    [CliOption("--propagated-set-level-tags", GroupValues = true)]
     public IEnumerable<string>? PropagatedSetLevelTags { get; set; }
 
     /// <summary>

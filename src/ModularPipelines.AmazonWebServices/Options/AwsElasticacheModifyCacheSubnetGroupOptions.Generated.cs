@@ -33,7 +33,7 @@ public record AwsElasticacheModifyCacheSubnetGroupOptions : AwsOptions
     /// <summary>
     /// The EC2 subnet IDs for the cache subnet group. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     [CliOption("--cli-input-json")]

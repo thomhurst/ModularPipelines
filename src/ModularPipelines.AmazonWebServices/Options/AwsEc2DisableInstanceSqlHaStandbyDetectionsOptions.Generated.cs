@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "disable-instance-sql-ha-standby-detections")]
 public record AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions : AwsOptions
 {
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     [CliFlag("--dry-run")]

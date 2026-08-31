@@ -24,7 +24,7 @@ public record AwsDynamodbUpdateGlobalTableOptions : AwsOptions
     [CliOption("--global-table-name")]
     public string? GlobalTableName { get; set; }
 
-    [CliOption("--replica-updates")]
+    [CliOption("--replica-updates", GroupValues = true)]
     public IEnumerable<string>? ReplicaUpdates { get; set; }
 
     [CliOption("--cli-input-json")]

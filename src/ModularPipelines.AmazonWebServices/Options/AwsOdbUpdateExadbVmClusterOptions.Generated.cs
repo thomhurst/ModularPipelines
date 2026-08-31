@@ -58,7 +58,7 @@ public record AwsOdbUpdateExadbVmClusterOptions : AwsOptions
     /// <summary>
     /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ssh-public-keys")]
+    [CliOption("--ssh-public-keys", GroupValues = true)]
     public IEnumerable<string>? SshPublicKeys { get; set; }
 
     /// <summary>

@@ -26,7 +26,7 @@ public record AwsRamListReplacePermissionAssociationsWorkOptions : AwsOptions
     /// <summary>
     /// A list of IDs. These values come from the id field of the repla- cePermissionAssociationsWork structure returned by the ReplacePer- missionAssociations operation. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--work-ids")]
+    [CliOption("--work-ids", GroupValues = true)]
     public IEnumerable<string>? WorkIds { get; set; }
 
     /// <summary>

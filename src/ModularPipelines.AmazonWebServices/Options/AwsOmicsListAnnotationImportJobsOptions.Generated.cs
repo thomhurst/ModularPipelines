@@ -25,7 +25,7 @@ public record AwsOmicsListAnnotationImportJobsOptions : AwsOptions
     /// <summary>
     /// IDs of annotation import jobs to retrieve. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 50 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

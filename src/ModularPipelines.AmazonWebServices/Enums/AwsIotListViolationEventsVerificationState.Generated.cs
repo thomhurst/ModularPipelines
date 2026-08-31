@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListViolationEventsVerificationState
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("FALSE_POSITIVE")]
     FalsePositive = 1,
 

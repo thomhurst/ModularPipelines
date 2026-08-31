@@ -24,7 +24,7 @@ public record AwsConnectcampaignsPutDialRequestBatchOptions : AwsOptions
     [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CliOption("--dial-requests")]
+    [CliOption("--dial-requests", GroupValues = true)]
     public IEnumerable<string>? DialRequests { get; set; }
 
     [CliOption("--cli-input-json")]

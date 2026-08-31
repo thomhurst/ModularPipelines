@@ -29,7 +29,7 @@ public record AwsSsmSapRegisterApplicationOptions : AwsOptions
     [CliOption("--application-type")]
     public string? ApplicationType { get; set; }
 
-    [CliOption("--instances")]
+    [CliOption("--instances", GroupValues = true)]
     public IEnumerable<string>? Instances { get; set; }
 
     /// <summary>
@@ -47,14 +47,14 @@ public record AwsSsmSapRegisterApplicationOptions : AwsOptions
     /// <summary>
     /// The tags to be attached to the SAP application. key -&gt; (string) Constraints: o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The credentials of the SAP application. Constraints: o min: 0 o max: 20 (structure) The credentials of your SAP application. DatabaseName -&gt; (string) [required] The name of the SAP HANA database. Constraints: o min: 1 o max: 100 CredentialType -&gt; (string) [required] The type of the application credentials. Possible values: o ADMIN SecretId -&gt; (string) [required] The secret ID created in AWS Secrets Manager to store the credentials of the SAP application. Constraints: o min: 1 o max: 100 Shorthand Syntax: DatabaseName=string,CredentialType=string,SecretId=string ... JSON Syntax: [ { "DatabaseName": "string", "CredentialType": "ADMIN", "SecretId": "string" } ... ]
     /// </summary>
     [SecretValue]
-    [CliOption("--credentials")]
+    [CliOption("--credentials", GroupValues = true)]
     public IEnumerable<string>? Credentials { get; set; }
 
     /// <summary>
@@ -66,7 +66,7 @@ public record AwsSsmSapRegisterApplicationOptions : AwsOptions
     /// <summary>
     /// This is an optional parameter for component details to which the SAP ABAP application is attached, such as Web Dispatcher. This is an array of ApplicationComponent objects. You may input 0 to 5 items. Constraints: o min: 0 o max: 5 (structure) This is information about the component of your SAP application, such as Web Dispatcher. ComponentType -&gt; (string) [required] This string is the type of the component. Accepted value is WD . Possible values: o HANA o HANA_NODE o ABAP o ASCS o DIALOG o WEBDISP o WD o ERS Sid -&gt; (string) [required] This string is the SAP System ID of the component. Accepted values are alphanumeric. Constraints: o pattern: [A-Z][A-Z0-9]{2} Ec2InstanceId -&gt; (string) [required] This is the Amazon EC2 instance on which your SAP component is running. Accepted values are alphanumeric. Constraints: o pattern: i-[\w\d]{8}$|^i-[\w\d]{17} Shorthand Syntax: ComponentType=string,Sid=string,Ec2InstanceId=string ... JSON Syntax: [ { "ComponentType": "HANA"|"HANA_NODE"|"ABAP"|"ASCS"|"DIALOG"|"WEBDISP"|"WD"|"ERS", "Sid": "string", "Ec2InstanceId": "string" } ... ]
     /// </summary>
-    [CliOption("--components-info")]
+    [CliOption("--components-info", GroupValues = true)]
     public IEnumerable<string>? ComponentsInfo { get; set; }
 
     [CliOption("--cli-input-json")]

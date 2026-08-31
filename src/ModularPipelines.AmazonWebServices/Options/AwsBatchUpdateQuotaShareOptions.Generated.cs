@@ -28,7 +28,7 @@ public record AwsBatchUpdateQuotaShareOptions : AwsOptions
     /// <summary>
     /// A list that specifies the quantity and type of compute capacity al- located to the quota share. (structure) Defines the capacity limit for a quota share, or the type and maximum quantity of a particular resource that can be allocated to jobs in the quota share without borrowing. maxCapacity -&gt; (integer) [required] The maximum capacity available for the quota share. This value represents the maximum quantity of a resource that can be allocated to jobs in the quota share without borrowing. capacityUnit -&gt; (string) [required] The unit of compute capacity for the capacityLimit. For exam- ple, ml.m5.large . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]
     /// </summary>
-    [CliOption("--capacity-limits")]
+    [CliOption("--capacity-limits", GroupValues = true)]
     public IEnumerable<string>? CapacityLimits { get; set; }
 
     /// <summary>

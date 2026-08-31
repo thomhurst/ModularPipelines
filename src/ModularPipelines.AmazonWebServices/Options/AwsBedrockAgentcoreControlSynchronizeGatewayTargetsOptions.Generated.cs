@@ -24,7 +24,7 @@ public record AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions : AwsOp
     [CliOption("--gateway-identifier")]
     public string? GatewayIdentifier { get; set; }
 
-    [CliOption("--target-id-list")]
+    [CliOption("--target-id-list", GroupValues = true)]
     public IEnumerable<string>? TargetIdList { get; set; }
 
     [CliOption("--cli-input-json")]

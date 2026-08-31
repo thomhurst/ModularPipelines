@@ -25,7 +25,7 @@ public record AwsMediaconnectUpdateFlowOutputOptions : AwsOptions
     /// <summary>
     /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cidr-allow-list")]
+    [CliOption("--cidr-allow-list", GroupValues = true)]
     public IEnumerable<string>? CidrAllowList { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsMediaconnectUpdateFlowOutputOptions : AwsOptions
     /// <summary>
     /// The media streams that are associated with the output, and the para- meters for those associations. (structure) The media stream that you want to associate with the output, and the parameters for that association. DestinationConfigurations -&gt; (list) The media streams that you want to associate with the output. (structure) The definition of a media stream that you want to asso- ciate with the output. DestinationIp -&gt; (string) [required] The IP address where you want MediaConnect to send contents of the media stream. DestinationPort -&gt; (integer) [required] The port that you want MediaConnect to use when it distributes the media stream to the output. Interface -&gt; (structure) [required] The VPC interface that you want to use for the media stream associated with the output. Name -&gt; (string) [required] The name of the VPC interface. EncodingName -&gt; (string) [required] The format that will be used to encode the data. For ancil- lary data streams, set the encoding name to smpte291. For au- dio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv. Possible values: o jxsv o raw o smpte291 o pcm EncodingParameters -&gt; (structure) A collection of parameters that determine how MediaConnect will convert the content. These fields only apply to outputs on flows that have a CDI source. CompressionFactor -&gt; (double) [required] A value that is used to calculate compression for an out- put. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bi- trate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive. EncoderProfile -&gt; (string) [required] A setting on the encoder that drives compression set- tings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS pro- tocol, if at least one source on the flow uses the CDI protocol. Possible values: o main o high MediaStreamName -&gt; (string) [required] The name of the media stream that is associated with the out- put. JSON Syntax: [ { "DestinationConfigurations": [ { "DestinationIp": "string", "DestinationPort": integer, "Interface": { "Name": "string" } } ... ], "EncodingName": "jxsv"|"raw"|"smpte291"|"pcm", "EncodingParameters": { "CompressionFactor": double, "EncoderProfile": "main"|"high" }, "MediaStreamName": "string" } ... ]
     /// </summary>
-    [CliOption("--media-stream-output-configurations")]
+    [CliOption("--media-stream-output-configurations", GroupValues = true)]
     public IEnumerable<string>? MediaStreamOutputConfigurations { get; set; }
 
     /// <summary>

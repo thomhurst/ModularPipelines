@@ -24,7 +24,7 @@ public record AwsEc2WaitBundleTaskCompleteOptions : AwsOptions
     /// <summary>
     /// The bundle task IDs. Default: Describes all your bundle tasks. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--bundle-ids")]
+    [CliOption("--bundle-ids", GroupValues = true)]
     public IEnumerable<string>? BundleIds { get; set; }
 
     [CliFlag("--dry-run")]
@@ -33,7 +33,7 @@ public record AwsEc2WaitBundleTaskCompleteOptions : AwsOptions
     /// <summary>
     /// The filters. o bundle-id - The ID of the bundle task. o error-code - If the task failed, the error code returned. o error-message - If the task failed, the error message returned. o instance-id - The ID of the instance. o progress - The level of task completion, as a percentage (for ex- ample, 20%). o s3-bucket - The Amazon S3 bucket to store the AMI. o s3-prefix - The beginning of the AMI name. o start-time - The time the task started (for example, 2013-09-15T17:15:20.000Z). o state - The state of the task (pending | waiting-for-shutdown | bundling | storing | cancelling | complete | failed ). o update-time - The time of the most recent update for the task. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

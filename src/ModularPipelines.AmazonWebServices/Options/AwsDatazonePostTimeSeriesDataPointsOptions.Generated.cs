@@ -31,7 +31,7 @@ public record AwsDatazonePostTimeSeriesDataPointsOptions : AwsOptions
     [CliOption("--entity-type")]
     public string? EntityType { get; set; }
 
-    [CliOption("--forms")]
+    [CliOption("--forms", GroupValues = true)]
     public IEnumerable<string>? Forms { get; set; }
 
     /// <summary>

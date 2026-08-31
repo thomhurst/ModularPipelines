@@ -28,7 +28,7 @@ public record AwsIotsitewiseBatchAssociateDataSegmentsToDataSetOptions : AwsOpti
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [CliOption("--associate-data-segment-entries")]
+    [CliOption("--associate-data-segment-entries", GroupValues = true)]
     public IEnumerable<string>? AssociateDataSegmentEntries { get; set; }
 
     /// <summary>

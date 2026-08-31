@@ -32,7 +32,7 @@ public record AwsBackupCreateFrameworkOptions : AwsOptions
     [CliOption("--framework-description")]
     public string? FrameworkDescription { get; set; }
 
-    [CliOption("--framework-controls")]
+    [CliOption("--framework-controls", GroupValues = true)]
     public IEnumerable<string>? FrameworkControls { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record AwsBackupCreateFrameworkOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the framework. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--framework-tags")]
+    [CliOption("--framework-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FrameworkTags { get; set; }
 
     [CliOption("--cli-input-json")]

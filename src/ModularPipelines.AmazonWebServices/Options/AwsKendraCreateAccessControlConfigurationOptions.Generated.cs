@@ -37,13 +37,13 @@ public record AwsKendraCreateAccessControlConfigurationOptions : AwsOptions
     /// <summary>
     /// Information on principals (users and/or groups) and which documents they should have access to. This is useful for user context filter- ing, where search results are filtered based on the user or their group access to documents. (structure) Provides user and group information for user context filtering . Name -&gt; (string) [required] The name of the user or group. Constraints: o min: 1 o max: 200 o pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: o USER o GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the principal. Possible values: o ALLOW o DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: Name=string,Type=string,Access=string,DataSourceId=string ... JSON Syntax: [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ]
     /// </summary>
-    [CliOption("--access-control-list")]
+    [CliOption("--access-control-list", GroupValues = true)]
     public IEnumerable<string>? AccessControlList { get; set; }
 
     /// <summary>
     /// The list of principal lists that define the hierarchy for which doc- uments users should have access to. Constraints: o min: 1 o max: 30 (structure) Information to define the hierarchy for which documents users should have access to. PrincipalList -&gt; (list) [required] A list of principal lists that define the hierarchy for which documents users should have access to. Each hierarchical list specifies which user or group has allow or deny access for each document. (structure) Provides user and group information for user context fil- tering . Name -&gt; (string) [required] The name of the user or group. Constraints: o min: 1 o max: 200 o pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: o USER o GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the prin- cipal. Possible values: o ALLOW o DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: PrincipalList=[{Name=string,Type=string,Access=string,DataSourceId=string},{Name=string,Type=string,Access=string,DataSourceId=string}] ... JSON Syntax: [ { "PrincipalList": [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--hierarchical-access-control-list")]
+    [CliOption("--hierarchical-access-control-list", GroupValues = true)]
     public IEnumerable<string>? HierarchicalAccessControlList { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsResourceExplorer_2ListServiceIndexesOptions : AwsOptions
     /// <summary>
     /// A list of Amazon Web Services Regions to include in the search for indexes. If not specified, indexes from all Regions are returned. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: [a-z-]+-[a-z]+-[0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     [CliOption("--cli-input-json")]

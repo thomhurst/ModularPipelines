@@ -27,7 +27,7 @@ public record AwsSsmUnlabelParameterVersionOptions : AwsOptions
     [CliOption("--parameter-version")]
     public int? ParameterVersion { get; set; }
 
-    [CliOption("--labels")]
+    [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
 
     [CliOption("--cli-input-json")]

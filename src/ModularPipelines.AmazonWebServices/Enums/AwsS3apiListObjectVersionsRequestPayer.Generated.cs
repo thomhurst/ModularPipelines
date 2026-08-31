@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiListObjectVersionsRequestPayer
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("requester")]
     Requester = 1
 }

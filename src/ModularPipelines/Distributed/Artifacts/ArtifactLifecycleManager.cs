@@ -393,7 +393,10 @@ internal class ArtifactLifecycleManager
         CancellationToken cancellationToken)
     {
         var artifacts = await _store.ListArtifactsAsync(producerTypeName, cancellationToken);
-        var artifact = artifacts.FirstOrDefault(a => a.Name == artifactName);
+        var artifact = artifacts
+            .Where(a => a.Name == artifactName)
+            .OrderByDescending(static a => a.UploadedAt)
+            .FirstOrDefault();
 
         if (artifact is null)
         {

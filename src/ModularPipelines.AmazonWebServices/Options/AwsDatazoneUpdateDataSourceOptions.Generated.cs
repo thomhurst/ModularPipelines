@@ -52,7 +52,7 @@ public record AwsDatazoneUpdateDataSourceOptions : AwsOptions
     /// <summary>
     /// The asset forms to be updated as part of the UpdateDataSource ac- tion. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
     /// </summary>
-    [CliOption("--asset-forms-input")]
+    [CliOption("--asset-forms-input", GroupValues = true)]
     public IEnumerable<string>? AssetFormsInput { get; set; }
 
     /// <summary>

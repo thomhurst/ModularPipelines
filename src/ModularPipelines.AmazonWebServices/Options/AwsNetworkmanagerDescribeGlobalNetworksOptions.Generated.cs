@@ -25,7 +25,7 @@ public record AwsNetworkmanagerDescribeGlobalNetworksOptions : AwsOptions
     /// <summary>
     /// The IDs of one or more global networks. The maximum is 10. (string) Constraints: o min: 0 o max: 50 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--global-network-ids")]
+    [CliOption("--global-network-ids", GroupValues = true)]
     public IEnumerable<string>? GlobalNetworkIds { get; set; }
 
     [CliOption("--cli-input-json")]

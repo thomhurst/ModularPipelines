@@ -43,10 +43,10 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
     /// <summary>
     /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enabled-countries")]
+    [CliOption("--enabled-countries", GroupValues = true)]
     public IEnumerable<string>? EnabledCountries { get; set; }
 
-    [CliOption("--enabled-channels")]
+    [CliOption("--enabled-channels", GroupValues = true)]
     public IEnumerable<string>? EnabledChannels { get; set; }
 
     [CliFlag("--deletion-protection-enabled")]
@@ -62,7 +62,7 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
     /// <summary>
     /// An array of tags (key and value pairs) associated with the notify configuration. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

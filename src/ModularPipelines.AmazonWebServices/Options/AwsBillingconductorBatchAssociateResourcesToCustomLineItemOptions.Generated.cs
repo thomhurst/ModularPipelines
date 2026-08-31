@@ -24,7 +24,7 @@ public record AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions 
     [CliOption("--target-arn")]
     public string? TargetArn { get; set; }
 
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>

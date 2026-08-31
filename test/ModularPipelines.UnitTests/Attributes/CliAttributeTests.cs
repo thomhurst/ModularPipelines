@@ -70,6 +70,29 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Uses_Negated_Flag_Name_For_Explicit_False()
+    {
+        var attribute = new CliFlagAttribute("--feature") { NegatedName = "--no-feature" };
+
+        await Assert.That(RenderFlag(attribute, false)).IsEquivalentTo(["--no-feature"]);
+    }
+
+    [Test]
+    public async Task Generated_Metadata_Preserves_Negated_Flag_Name()
+    {
+        var enabled = BuildArguments(new TestCliOptionsWithNegatedFlag { Feature = true });
+        var disabled = BuildArguments(new TestCliOptionsWithNegatedFlag { Feature = false });
+        var unspecified = BuildArguments(new TestCliOptionsWithNegatedFlag());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(enabled).IsEquivalentTo(["--feature"]);
+            await Assert.That(disabled).IsEquivalentTo(["--no-feature"]);
+            await Assert.That(unspecified).IsEmpty();
+        }
+    }
+
+    [Test]
     [Arguments(OptionFormat.SpaceSeparated, "--namespace|value")]
     [Arguments(OptionFormat.EqualsSeparated, "--namespace=value")]
     [Arguments(OptionFormat.ColonSeparated, "--namespace:value")]
@@ -215,6 +238,18 @@ public class CliAttributeTests
         var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--values", "first", "second" });
+    }
+
+    [Test]
+    public async Task Parser_Joins_CliOption_Collection_Into_One_Value()
+    {
+        var options = new TestCliOptionsWithJoinedValues
+        {
+            Values = [new("first", "one"), new("second", "two")],
+        };
+
+        await Assert.That(BuildArguments(options))
+            .IsEquivalentTo(["--values", "first=one,second=two"]);
     }
 
     [Test]
@@ -378,7 +413,7 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Schema2_Metadata_Defers_Ambiguous_Legacy_Optional_Validation_Until_Rendering()
+    public async Task Schema2_Metadata_Rebuilds_Ambiguous_Legacy_Optional_Validation()
     {
         var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>);
         GeneratedCommandMetadata.Register(
@@ -399,14 +434,7 @@ public class CliAttributeTests
             ],
             schemaVersion: 2);
 
-        var model = new CommandModelProvider().GetCommandModel(optionsType);
-
-        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(
-                model,
-                new RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>
-                {
-                    Output = "json",
-                }))
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining(nameof(CliOptionValue));
     }
@@ -841,6 +869,41 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task CommandModel_Rejects_Duplicate_Negated_Switches()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateNegatedSwitch()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("--no-feature");
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_SelfColliding_Negated_Switches()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithSelfCollidingNegatedSwitch()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("--feature");
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Negated_Switch_Matching_ShortForm()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithNegatedSwitchMatchingShortForm()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("-f");
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Negated_Switch_On_NonNullable_Or_Counted_Flag()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithNonNullableNegatedFlag()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("bool?");
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithCountedNegatedFlag()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("bool?");
+    }
+
+    [Test]
     public async Task CommandModel_Rejects_Unsupported_Flag_Type_When_Unset()
     {
         await Assert.That(() => BuildArguments(new TestCliOptionsWithInvalidFlagType()))
@@ -1052,9 +1115,9 @@ public class CliAttributeTests
         await Assert.That(list).Contains("bitnami/nginx");
     }
 
-    private static IReadOnlyList<string> RenderFlag(CliFlagAttribute attribute) =>
+    private static IReadOnlyList<string> RenderFlag(CliFlagAttribute attribute, object? value = null) =>
         new CommandArgumentBuilder().BuildArguments(
-            [new FlagPart("Value", _ => true, attribute)],
+            [new FlagPart("Value", _ => value ?? true, attribute)],
             new object());
 
     private static IReadOnlyList<string> RenderOption(CliOptionAttribute attribute) =>
@@ -1076,6 +1139,12 @@ public class CliAttributeTests
 
         [CliOption("--values")]
         public double[]? Values { get; init; }
+    }
+
+    internal record TestCliOptionsWithNegatedFlag : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public bool? Feature { get; init; }
     }
 
     internal record TestCliOptionsWithFlag : CommandLineToolOptions
@@ -1112,6 +1181,12 @@ public class CliAttributeTests
     {
         [CliOption("--values", GroupValues = true)]
         public string[]? Values { get; set; }
+    }
+
+    internal record TestCliOptionsWithJoinedValues : CommandLineToolOptions
+    {
+        [CliOption("--values", CollectionSeparator = ",")]
+        public IReadOnlyList<KeyValue>? Values { get; set; }
     }
 
     internal record TestCliOptionsWithInvalidGroupedValues : CommandLineToolOptions
@@ -1243,6 +1318,39 @@ public class CliAttributeTests
         public string? Second { get; set; }
     }
 
+    internal record TestCliOptionsWithDuplicateNegatedSwitch : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public bool? Feature { get; set; }
+
+        [CliOption("--no-feature")]
+        public string? Other { get; set; }
+    }
+
+    internal record TestCliOptionsWithSelfCollidingNegatedSwitch : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--feature")]
+        public bool? Feature { get; set; }
+    }
+
+    internal record TestCliOptionsWithNegatedSwitchMatchingShortForm : CommandLineToolOptions
+    {
+        [CliFlag("--feature", ShortForm = "-f", NegatedName = "-f")]
+        public bool? Feature { get; set; }
+    }
+
+    internal record TestCliOptionsWithNonNullableNegatedFlag : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public bool Feature { get; set; }
+    }
+
+    internal record TestCliOptionsWithCountedNegatedFlag : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public int? Feature { get; set; }
+    }
+
     internal record TestCliOptionsWithInvalidFlagType : CommandLineToolOptions
     {
         [CliFlag("--force")]
@@ -1300,16 +1408,19 @@ public class CliAttributeTests
 
     private sealed record RegisteredLegacyOptionalOptions<T> : CommandLineToolOptions
     {
+        [CliOption("--output", ValueArity = CliOptionValueArity.Optional)]
         public string? Output { get; init; }
     }
 
     private sealed record RegisteredCurrentOptionalOptions<T> : CommandLineToolOptions
     {
+        [CliOption("--output", ValueArity = CliOptionValueArity.Optional)]
         public CliOptionValue? Output { get; init; }
     }
 
     private sealed record RegisteredFlagOptions<T> : CommandLineToolOptions
     {
+        [CliFlag("--force")]
         public bool Force { get; init; }
     }
 

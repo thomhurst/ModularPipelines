@@ -24,7 +24,7 @@ public record AwsWorkspacesRevokeIpRulesOptions : AwsOptions
     [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CliOption("--user-rules")]
+    [CliOption("--user-rules", GroupValues = true)]
     public IEnumerable<string>? UserRules { get; set; }
 
     [CliOption("--cli-input-json")]

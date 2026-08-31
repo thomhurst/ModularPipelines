@@ -46,7 +46,7 @@ public record AwsCodeartifactDeletePackageVersionsOptions : AwsOptions
     [CliOption("--package")]
     public string? Package { get; set; }
 
-    [CliOption("--versions")]
+    [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; set; }
 
     /// <summary>

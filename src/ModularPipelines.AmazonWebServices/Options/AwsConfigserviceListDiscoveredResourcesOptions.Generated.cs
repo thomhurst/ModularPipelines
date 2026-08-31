@@ -28,7 +28,7 @@ public record AwsConfigserviceListDiscoveredResourcesOptions : AwsOptions
     /// <summary>
     /// The IDs of only those resources that you want Config to list in the response. If you do not specify this parameter, Config lists all re- sources of the specified type that it has discovered. You can list a minimum of 1 resourceID and a maximum of 20 resourceIds. (string) Constraints: o min: 1 o max: 768 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-ids")]
+    [CliOption("--resource-ids", GroupValues = true)]
     public IEnumerable<string>? ResourceIds { get; set; }
 
     /// <summary>

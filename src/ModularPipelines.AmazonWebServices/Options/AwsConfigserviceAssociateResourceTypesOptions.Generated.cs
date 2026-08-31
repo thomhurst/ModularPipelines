@@ -24,7 +24,7 @@ public record AwsConfigserviceAssociateResourceTypesOptions : AwsOptions
     [CliOption("--configuration-recorder-arn")]
     public string? ConfigurationRecorderArn { get; set; }
 
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -37,10 +37,10 @@ public record AwsAppflowUpdateFlowOptions : AwsOptions
     [CliOption("--source-flow-config")]
     public string? SourceFlowConfig { get; set; }
 
-    [CliOption("--destination-flow-config-list")]
+    [CliOption("--destination-flow-config-list", GroupValues = true)]
     public IEnumerable<string>? DestinationFlowConfigList { get; set; }
 
-    [CliOption("--tasks")]
+    [CliOption("--tasks", GroupValues = true)]
     public IEnumerable<string>? Tasks { get; set; }
 
     /// <summary>

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspector2ListCisScansDetailLevel
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("ORGANIZATION")]
     Organization = 1,
 

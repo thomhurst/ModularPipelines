@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("auditmanager", "batch-create-delegation-by-assessment")]
 public record AwsAuditManagerBatchCreateDelegationByAssessmentOptions : AwsOptions
 {
-    [CliOption("--create-delegation-requests")]
+    [CliOption("--create-delegation-requests", GroupValues = true)]
     public IEnumerable<string>? CreateDelegationRequests { get; set; }
 
     [CliOption("--assessment-id")]

@@ -42,7 +42,7 @@ public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions
     /// <summary>
     /// The components included in the container recipe. Constraints: o min: 1 (structure) Configuration details of the component. componentArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the component. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):compo- nent/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ parameters -&gt; (list) A group of parameter settings that Image Builder uses to con- figure the component for a specific recipe. Constraints: o min: 1 (structure) Contains a key/value pair that sets the named component parameter. name -&gt; (string) [required] The name of the component parameter to set. Constraints: o min: 1 o max: 256 o pattern: [^\x00]+ value -&gt; (list) [required] Sets the value for the named component parameter. (string) Constraints: o min: 0 o pattern: [^\x00]* JSON Syntax: [ { "componentArn": "string", "parameters": [ { "name": "string", "value": ["string", ...] } ... ] } ... ]
     /// </summary>
-    [CliOption("--components")]
+    [CliOption("--components", GroupValues = true)]
     public IEnumerable<string>? Components { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions
     /// <summary>
     /// Tags that are attached to the container recipe. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

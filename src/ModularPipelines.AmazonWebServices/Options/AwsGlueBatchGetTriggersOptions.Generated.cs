@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("glue", "batch-get-triggers")]
 public record AwsGlueBatchGetTriggersOptions : AwsOptions
 {
-    [CliOption("--trigger-names")]
+    [CliOption("--trigger-names", GroupValues = true)]
     public IEnumerable<string>? TriggerNames { get; set; }
 
     [CliOption("--cli-input-json")]

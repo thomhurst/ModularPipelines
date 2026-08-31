@@ -27,7 +27,7 @@ public record AwsRamUntagResourceOptions : AwsOptions
     [CliOption("--resource-share-arn")]
     public string? ResourceShareArn { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>

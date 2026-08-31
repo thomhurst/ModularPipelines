@@ -37,13 +37,13 @@ public record AwsRedshiftDescribeSnapshotSchedulesOptions : AwsOptions
     /// <summary>
     /// The key value for a snapshot schedule tag. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>
     /// The value corresponding to the key of the snapshot schedule tag. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-values")]
+    [CliOption("--tag-values", GroupValues = true)]
     public IEnumerable<string>? TagValues { get; set; }
 
     [CliOption("--cli-input-json")]

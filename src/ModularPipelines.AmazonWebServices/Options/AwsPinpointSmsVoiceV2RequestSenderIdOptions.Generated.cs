@@ -31,7 +31,7 @@ public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions
     /// <summary>
     /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Constraints: o min: 0 o max: 2 (string) Possible values: o TRANSACTIONAL o PROMOTIONAL Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--message-types")]
+    [CliOption("--message-types", GroupValues = true)]
     public IEnumerable<string>? MessageTypes { get; set; }
 
     [CliFlag("--deletion-protection-enabled")]
@@ -40,7 +40,7 @@ public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions
     /// <summary>
     /// An array of tags (key and value pairs) to associate with the sender ID. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

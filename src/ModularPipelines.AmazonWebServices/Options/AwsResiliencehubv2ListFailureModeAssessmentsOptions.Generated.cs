@@ -29,7 +29,7 @@ public record AwsResiliencehubv2ListFailureModeAssessmentsOptions : AwsOptions
     /// <summary>
     /// Specifies the assessment statuses to include in the results. Constraints: o min: 0 o max: 5 (string) Possible values: o NOT_STARTED o PENDING o IN_PROGRESS o FAILED o SUCCESS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--assessment-statuses")]
+    [CliOption("--assessment-statuses", GroupValues = true)]
     public IEnumerable<string>? AssessmentStatuses { get; set; }
 
     /// <summary>

@@ -36,7 +36,7 @@ public record AwsEc2AcceptTransitGatewayMulticastDomainAssociationsOptions : Aws
     /// <summary>
     /// The IDs of the subnets to associate with the transit gateway multi- cast domain. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     [CliFlag("--dry-run")]

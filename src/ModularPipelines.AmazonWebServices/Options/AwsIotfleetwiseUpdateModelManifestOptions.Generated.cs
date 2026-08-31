@@ -34,13 +34,13 @@ public record AwsIotfleetwiseUpdateModelManifestOptions : AwsOptions
     /// <summary>
     /// A list of fullyQualifiedName of nodes, which are a general abstrac- tion of signals, to add to the vehicle model. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--nodes-to-add")]
+    [CliOption("--nodes-to-add", GroupValues = true)]
     public IEnumerable<string>? NodesToAdd { get; set; }
 
     /// <summary>
     /// A list of fullyQualifiedName of nodes, which are a general abstrac- tion of signals, to remove from the vehicle model. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--nodes-to-remove")]
+    [CliOption("--nodes-to-remove", GroupValues = true)]
     public IEnumerable<string>? NodesToRemove { get; set; }
 
     /// <summary>

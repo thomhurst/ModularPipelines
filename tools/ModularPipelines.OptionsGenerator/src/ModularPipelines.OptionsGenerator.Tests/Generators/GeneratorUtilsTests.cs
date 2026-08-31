@@ -333,6 +333,24 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    public async Task GenerateCliAttributeString_Returns_CliFlag_With_Negated_Name()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--feature",
+            NegatedSwitchName = "--no-feature",
+            PropertyName = "Feature",
+            CSharpType = "bool?",
+            IsFlag = true,
+        };
+
+        var result = GeneratorUtils.GenerateCliAttributeString(option);
+
+        await Assert.That(result)
+            .IsEqualTo("CliFlag(\"--feature\", NegatedName = \"--no-feature\")");
+    }
+
+    [Test]
     public async Task GenerateCliAttributeString_Returns_CliOption_For_Value_Option()
     {
         var option = new CliOptionDefinition
@@ -436,6 +454,23 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    public async Task GenerateCliAttributeString_Includes_Collection_Separator()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--environment",
+            PropertyName = "Environment",
+            CSharpType = "IReadOnlyList<KeyValue>?",
+            CollectionSeparator = ",",
+        };
+
+        var attribute = GeneratorUtils.GenerateCliAttributeString(option);
+
+        await Assert.That(attribute)
+            .IsEqualTo("CliOption(\"--environment\", CollectionSeparator = \",\")");
+    }
+
+    [Test]
     public async Task GenerateCliAttributeString_Rejects_Grouping_With_NonSpace_Separator()
     {
         var option = new CliOptionDefinition
@@ -450,6 +485,23 @@ public class GeneratorUtilsTests
         await Assert.That(() => GeneratorUtils.GenerateCliAttributeString(option))
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining("must use a space separator");
+    }
+
+    [Test]
+    public async Task GenerateCliAttributeString_Rejects_Grouping_With_Collection_Separator()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "string[]?",
+            GroupValues = true,
+            CollectionSeparator = ",",
+        };
+
+        await Assert.That(() => GeneratorUtils.GenerateCliAttributeString(option))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("cannot set both GroupValues and CollectionSeparator");
     }
 
     [Test]

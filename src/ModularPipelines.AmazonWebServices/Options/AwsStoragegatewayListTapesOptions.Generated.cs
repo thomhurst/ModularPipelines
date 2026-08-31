@@ -25,7 +25,7 @@ public record AwsStoragegatewayListTapesOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Name (ARN) of each of the tapes you want to list. If you don't specify a tape ARN, the response lists all tapes in both your VTL and VTS. (string) Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegate- way:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tape-arns")]
+    [CliOption("--tape-arns", GroupValues = true)]
     public IEnumerable<string>? TapeArns { get; set; }
 
     [CliOption("--cli-input-json")]

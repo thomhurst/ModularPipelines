@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "get-capacity-manager-metric-dimensions")]
 public record AwsEc2GetCapacityManagerMetricDimensionsOptions : AwsOptions
 {
-    [CliOption("--group-by")]
+    [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>
     /// Conditions to filter which dimension values are returned. Each fil- ter specifies a dimension, comparison operator, and values to match against. Constraints: o min: 0 o max: 20 (structure) Represents a filter condition for Capacity Manager queries. Con- tains dimension-based filtering criteria used to narrow down metric data and dimension results. DimensionCondition -&gt; (structure) The dimension-based condition that specifies how to filter the data based on dimension values. Dimension -&gt; (string) The name of the dimension to filter by. Possible values: o resource-region o availability-zone-id o account-id o account-name o instance-family o instance-type o instance-platform o reservation-arn o reservation-id o reservation-type o reservation-create-timestamp o reservation-start-timestamp o reservation-end-timestamp o reservation-end-date-type o tenancy o reservation-state o reservation-instance-match-criteria o reservation-unused-financial-owner Constraints: o min: 0 o max: 300 Comparison -&gt; (string) The comparison operator to use for the filter. Possible values: o equals o in Values -&gt; (list) The list of values to match against the specified dimen- sion. For 'equals' comparison, only the first value is used. For 'in' comparison, any matching value will sat- isfy the condition. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 0 o max: 300 Shorthand Syntax: DimensionCondition={Dimension=string,Comparison=string,Values=[string,string]} ... JSON Syntax: [ { "DimensionCondition": { "Dimension": "resource-region"|"availability-zone-id"|"account-id"|"account-name"|"instance-family"|"instance-type"|"instance-platform"|"reservation-arn"|"reservation-id"|"reservation-type"|"reservation-create-timestamp"|"reservation-start-timestamp"|"reservation-end-timestamp"|"reservation-end-date-type"|"tenancy"|"reservation-state"|"reservation-instance-match-criteria"|"reservation-unused-financial-owner", "Comparison": "equals"|"in", "Values": ["string", ...] } } ... ]
     /// </summary>
-    [CliOption("--filter-by")]
+    [CliOption("--filter-by", GroupValues = true)]
     public IEnumerable<string>? FilterBy { get; set; }
 
     [CliOption("--start-time")]
@@ -37,7 +37,7 @@ public record AwsEc2GetCapacityManagerMetricDimensionsOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliOption("--metric-names")]
+    [CliOption("--metric-names", GroupValues = true)]
     public IEnumerable<string>? MetricNames { get; set; }
 
     [CliFlag("--dry-run")]

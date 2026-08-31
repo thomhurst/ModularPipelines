@@ -30,7 +30,7 @@ public record AwsLakeformationCreateLfTagOptions : AwsOptions
     [CliOption("--tag-key")]
     public string? TagKey { get; set; }
 
-    [CliOption("--tag-values")]
+    [CliOption("--tag-values", GroupValues = true)]
     public IEnumerable<string>? TagValues { get; set; }
 
     [CliOption("--cli-input-json")]

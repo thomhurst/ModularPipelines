@@ -24,7 +24,7 @@ public record AwsCustomerProfilesBatchGetProfileOptions : AwsOptions
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliOption("--profile-ids")]
+    [CliOption("--profile-ids", GroupValues = true)]
     public IEnumerable<string>? ProfileIds { get; set; }
 
     [CliOption("--cli-input-json")]

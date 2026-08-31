@@ -25,13 +25,13 @@ public record AwsFsxDescribeSnapshotsOptions : AwsOptions
     /// <summary>
     /// The IDs of the snapshots that you want to retrieve. This parameter value overrides any filters. If any IDs aren't found, a SnapshotNot- Found error occurs. Constraints: o max: 50 (string) Constraints: o min: 11 o max: 28 o pattern: ^((fs)?volsnap-[0-9a-f]{8,})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--snapshot-ids")]
+    [CliOption("--snapshot-ids", GroupValues = true)]
     public IEnumerable<string>? SnapshotIds { get; set; }
 
     /// <summary>
     /// The filters structure. The supported names are file-system-id or volume-id . Constraints: o max: 2 (structure) A filter used to restrict the results of DescribeSnapshots calls. You can use multiple filters to return results that meet all applied filter requirements. Name -&gt; (string) The name of the filter to use. You can filter by the file-system-id or by volume-id . Possible values: o file-system-id o volume-id Values -&gt; (list) The file-system-id or volume-id that you are filtering for. Constraints: o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id"|"volume-id", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--include-shared")]

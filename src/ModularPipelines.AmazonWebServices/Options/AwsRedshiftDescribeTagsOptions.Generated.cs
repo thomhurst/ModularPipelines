@@ -37,13 +37,13 @@ public record AwsRedshiftDescribeTagsOptions : AwsOptions
     /// <summary>
     /// A tag key or keys for which you want to return all matching re- sources that are associated with the specified key or keys. For ex- ample, suppose that you have resources tagged with keys called owner and environment . If you specify both of these tag keys in the re- quest, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>
     /// A tag value or values for which you want to return all matching re- sources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test . If you specify both of these tag values in the re- quest, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-values")]
+    [CliOption("--tag-values", GroupValues = true)]
     public IEnumerable<string>? TagValues { get; set; }
 
     [CliOption("--cli-input-json")]

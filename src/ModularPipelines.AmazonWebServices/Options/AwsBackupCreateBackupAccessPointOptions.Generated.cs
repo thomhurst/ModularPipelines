@@ -25,7 +25,7 @@ public record AwsBackupCreateBackupAccessPointOptions : AwsOptions
     /// <summary>
     /// Metadata for the backup access point. For continuous (point-in-time) recovery points, you must include an AccessPointInTime timestamp (in format 2021-11-27T03:30:27Z ). The access point provides access to the content present in the backup at that specific time. You can specify any time within the continuous backup's retention period, up to the latest restorable time. For snapshot recovery points, do not include AccessPointInTime . key -&gt; (string) Constraints: o min: 1 value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--access-point-metadata")]
+    [CliOption("--access-point-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AccessPointMetadata { get; set; }
 
     /// <summary>
@@ -43,7 +43,7 @@ public record AwsBackupCreateBackupAccessPointOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the backup access point. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

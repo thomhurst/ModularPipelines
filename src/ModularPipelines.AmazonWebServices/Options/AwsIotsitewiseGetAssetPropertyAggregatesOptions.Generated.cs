@@ -41,7 +41,7 @@ public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions
     [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
 
-    [CliOption("--aggregate-types")]
+    [CliOption("--aggregate-types", GroupValues = true)]
     public IEnumerable<string>? AggregateTypes { get; set; }
 
     [CliOption("--resolution")]
@@ -50,7 +50,7 @@ public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions
     /// <summary>
     /// The quality by which to filter asset data. Constraints: o min: 1 o max: 1 (string) Possible values: o GOOD o BAD o UNCERTAIN Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--qualities")]
+    [CliOption("--qualities", GroupValues = true)]
     public IEnumerable<string>? Qualities { get; set; }
 
     [CliOption("--start-date")]

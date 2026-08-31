@@ -27,7 +27,7 @@ public record AwsRoute53domainsUpdateTagsForDomainOptions : AwsOptions
     /// <summary>
     /// A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced. (structure) Each tag includes the following elements. Key -&gt; (string) The key (name) of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+-@" Constraints: Each key can be 1-128 characters long. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+-@" Constraints: Each value can be 0-256 characters long. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags-to-update")]
+    [CliOption("--tags-to-update", GroupValues = true)]
     public IEnumerable<string>? TagsToUpdate { get; set; }
 
     [CliOption("--cli-input-json")]

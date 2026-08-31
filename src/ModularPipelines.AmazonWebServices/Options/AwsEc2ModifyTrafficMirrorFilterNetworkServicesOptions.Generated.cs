@@ -27,13 +27,13 @@ public record AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions : AwsOptions
     /// <summary>
     /// The network service, for example Amazon DNS, that you want to mir- ror. (string) Possible values: o amazon-dns Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-network-services")]
+    [CliOption("--add-network-services", GroupValues = true)]
     public IEnumerable<string>? AddNetworkServices { get; set; }
 
     /// <summary>
     /// The network service, for example Amazon DNS, that you no longer want to mirror. (string) Possible values: o amazon-dns Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-network-services")]
+    [CliOption("--remove-network-services", GroupValues = true)]
     public IEnumerable<string>? RemoveNetworkServices { get; set; }
 
     [CliFlag("--dry-run")]

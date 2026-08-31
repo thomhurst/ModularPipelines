@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("opensearch", "describe-domains")]
 public record AwsOpensearchDescribeDomainsOptions : AwsOptions
 {
-    [CliOption("--domain-names")]
+    [CliOption("--domain-names", GroupValues = true)]
     public IEnumerable<string>? DomainNames { get; set; }
 
     [CliOption("--cli-input-json")]

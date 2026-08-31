@@ -33,7 +33,7 @@ public record AwsGlueBatchCreatePartitionOptions : AwsOptions
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CliOption("--partition-input-list")]
+    [CliOption("--partition-input-list", GroupValues = true)]
     public IEnumerable<string>? PartitionInputList { get; set; }
 
     [CliOption("--cli-input-json")]

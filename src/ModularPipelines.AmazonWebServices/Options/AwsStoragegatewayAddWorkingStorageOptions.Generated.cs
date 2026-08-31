@@ -24,7 +24,7 @@ public record AwsStoragegatewayAddWorkingStorageOptions : AwsOptions
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; set; }
 
-    [CliOption("--disk-ids")]
+    [CliOption("--disk-ids", GroupValues = true)]
     public IEnumerable<string>? DiskIds { get; set; }
 
     [CliOption("--cli-input-json")]

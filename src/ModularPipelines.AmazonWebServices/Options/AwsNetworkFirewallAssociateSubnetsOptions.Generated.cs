@@ -41,7 +41,7 @@ public record AwsNetworkFirewallAssociateSubnetsOptions : AwsOptions
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CliOption("--subnet-mappings")]
+    [CliOption("--subnet-mappings", GroupValues = true)]
     public IEnumerable<string>? SubnetMappings { get; set; }
 
     [CliOption("--cli-input-json")]

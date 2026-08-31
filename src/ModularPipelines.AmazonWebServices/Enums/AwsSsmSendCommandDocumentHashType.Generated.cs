@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmSendCommandDocumentHashType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("Sha256")]
     Sha256 = 1,
 

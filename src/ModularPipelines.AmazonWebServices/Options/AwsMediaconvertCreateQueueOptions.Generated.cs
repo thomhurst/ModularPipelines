@@ -43,7 +43,7 @@ public record AwsMediaconvertCreateQueueOptions : AwsOptions
     [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

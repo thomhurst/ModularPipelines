@@ -27,7 +27,7 @@ public record AwsMpaStartApprovalTeamBaselineOptions : AwsOptions
     /// <summary>
     /// Array of approver IDs. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--approver-ids")]
+    [CliOption("--approver-ids", GroupValues = true)]
     public IEnumerable<string>? ApproverIds { get; set; }
 
     [CliOption("--cli-input-json")]

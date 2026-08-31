@@ -30,7 +30,7 @@ public record AwsDaxIncreaseReplicationFactorOptions : AwsOptions
     /// <summary>
     /// The Availability Zones (AZs) in which the cluster nodes will be cre- ated. All nodes belonging to the cluster are placed in these Avail- ability Zones. Use this parameter if you want to distribute the nodes across multiple AZs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zones")]
+    [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     [CliOption("--cli-input-json")]

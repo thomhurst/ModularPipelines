@@ -24,7 +24,7 @@ public record AwsEc2UnassignIpv6AddressesOptions : AwsOptions
     /// <summary>
     /// The IPv6 prefixes to unassign from the network interface. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ipv6-prefixes")]
+    [CliOption("--ipv6-prefixes", GroupValues = true)]
     public IEnumerable<string>? Ipv6Prefixes { get; set; }
 
     [CliOption("--network-interface-id")]
@@ -33,7 +33,7 @@ public record AwsEc2UnassignIpv6AddressesOptions : AwsOptions
     /// <summary>
     /// The IPv6 addresses to unassign from the network interface. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ipv6-addresses")]
+    [CliOption("--ipv6-addresses", GroupValues = true)]
     public IEnumerable<string>? Ipv6Addresses { get; set; }
 
     [CliOption("--cli-input-json")]

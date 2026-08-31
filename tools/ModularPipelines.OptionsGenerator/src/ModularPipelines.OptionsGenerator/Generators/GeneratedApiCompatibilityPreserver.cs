@@ -622,6 +622,7 @@ internal static class GeneratedApiCompatibilityPreserver
             {
                 SwitchName = property.SwitchName!,
                 ShortForm = property.ShortForm,
+                NegatedSwitchName = property.NegatedSwitchName,
                 PreferShortForm = property.PreferShortForm,
                 PropertyName = property.PropertyName,
                 CSharpType = property.CSharpType,
@@ -630,6 +631,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 ValueArity = property.ValueArity,
                 Phase = property.Phase ?? CommandLinePhase.Normal,
                 GroupValues = property.GroupValues,
+                CollectionSeparator = property.CollectionSeparator,
                 ValueSeparator = property.ValueSeparator,
                 IsSecret = property.IsSecret,
                 SecretValueKeys = property.SecretValueKeys ?? [],
@@ -1220,6 +1222,14 @@ internal static class GeneratedApiCompatibilityPreserver
             compatibilityProperties,
             renamedProperties,
             violations);
+        preservedTypeChanges.UnionWith(PreserveNumericToTextChanges(
+            command,
+            baselineProperties,
+            positionalArguments,
+            options,
+            compatibilityProperties,
+            renamedProperties,
+            violations));
         preservedTypeChanges.UnionWith(PreserveFlagToValueChanges(
             command,
             baselineProperties,
@@ -1609,6 +1619,63 @@ internal static class GeneratedApiCompatibilityPreserver
                     CSharpType = baseline.CSharpType,
                     ForwardToPropertyName = replacementName,
                     ForwardingKind = CliCompatibilityForwardingKind.ScalarToCollection,
+                    ObsoleteMessage = $"Use {replacementName} instead.",
+                },
+                compatibilityProperties,
+                violations);
+            renamedProperties[baseline.PropertyName] = replacementName;
+            preserved.Add(baseline.PropertyName);
+        }
+
+        return preserved;
+    }
+
+    private static HashSet<string> PreserveNumericToTextChanges(
+        CliCommandDefinition command,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        CliOptionDefinition[] options,
+        ICollection<CliCompatibilityProperty> compatibilityProperties,
+        IDictionary<string, string> renamedProperties,
+        ICollection<string> violations)
+    {
+        var preserved = new HashSet<string>(StringComparer.Ordinal);
+        var propertyNames = options.Select(static option => option.PropertyName)
+            .Concat(positionalArguments.Select(static argument => argument.PropertyName))
+            .Concat(compatibilityProperties.Select(static property => property.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+
+        foreach (var baseline in baselineProperties.Where(static property =>
+                     !property.IsRequired
+                     && property.CSharpType.Equals("int?", StringComparison.Ordinal)))
+        {
+            var optionIndex = Array.FindIndex(options, option =>
+                option.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
+                && option.CSharpType is "string?" or "IEnumerable<string>?"
+                && HasSameCliIdentity(ToGeneratedProperty(option), baseline));
+            if (optionIndex < 0)
+            {
+                continue;
+            }
+
+            var isCollection = options[optionIndex].CSharpType.Equals(
+                "IEnumerable<string>?",
+                StringComparison.Ordinal);
+            var replacementName = GetUniqueReplacementName(
+                $"{baseline.PropertyName}{(isCollection ? "Values" : "Value")}",
+                propertyNames);
+            propertyNames.Add(replacementName);
+            options[optionIndex] = options[optionIndex] with { PropertyName = replacementName };
+            PreserveCompatibilityProperty(
+                command,
+                new CliCompatibilityProperty
+                {
+                    PropertyName = baseline.PropertyName,
+                    CSharpType = baseline.CSharpType,
+                    ForwardToPropertyName = replacementName,
+                    ForwardingKind = isCollection
+                        ? CliCompatibilityForwardingKind.NullableInt32ToStringCollection
+                        : CliCompatibilityForwardingKind.NullableInt32ToString,
                     ObsoleteMessage = $"Use {replacementName} instead.",
                 },
                 compatibilityProperties,
@@ -2535,6 +2602,18 @@ internal static class GeneratedApiCompatibilityPreserver
             return false;
         }
 
+        if (baseline.NegatedSwitchName is not null
+            && !string.Equals(
+                baseline.NegatedSwitchName,
+                current.NegatedSwitchName,
+                StringComparison.Ordinal))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed negated CLI switch from "
+                + $"{baseline.NegatedSwitchName} to {current.NegatedSwitchName ?? "<none>"}");
+            return false;
+        }
+
         return true;
     }
 
@@ -3022,7 +3101,8 @@ internal static class GeneratedApiCompatibilityPreserver
             false,
             null,
             null,
-            option.IsRequired);
+            option.IsRequired,
+            NegatedSwitchName: option.NegatedSwitchName);
 
     private static bool HasSameCliIdentity(
         GeneratedApiProperty left,
@@ -3528,6 +3608,7 @@ internal static class GeneratedApiCompatibilityPreserver
             GetOptionValueSeparator(cliOption),
             GetEnumNamedArgument(cliOption, "ValueArity", CliOptionValueArity.Required),
             GetBooleanNamedArgument(cliOption, "GroupValues"),
+            GetStringNamedArgument(cliOption, "CollectionSeparator"),
             GetNullableEnumNamedArgument<CommandLinePhase>(cliSwitch, "Phase")
             ?? GetNullableEnumNamedArgument<CommandLinePhase>(cliArgument, "Phase"),
             GetBooleanNamedArgument(cliArgument, "PrependOptionTerminator"),
@@ -3535,7 +3616,8 @@ internal static class GeneratedApiCompatibilityPreserver
             GetBooleanNamedArgument(cliArgument, "PrependOptionTerminatorIfValueStartsWithDash"),
             secretValue is not null,
             GetStringArguments(secretValue),
-            GetValidationConstraints(range, regularExpression));
+            GetValidationConstraints(range, regularExpression),
+            GetStringNamedArgument(cliFlag, "NegatedName"));
     }
 
     private static CliValidationConstraints? GetValidationConstraints(
@@ -3908,13 +3990,15 @@ internal sealed record GeneratedApiProperty(
     string ValueSeparator = " ",
     CliOptionValueArity ValueArity = CliOptionValueArity.Required,
     bool GroupValues = false,
+    string? CollectionSeparator = null,
     CommandLinePhase? Phase = null,
     bool PrependOptionTerminator = false,
     bool RepeatOptionTerminator = false,
     bool PrependOptionTerminatorIfValueStartsWithDash = false,
     bool IsSecret = false,
     string[]? SecretValueKeys = null,
-    CliValidationConstraints? ValidationConstraints = null);
+    CliValidationConstraints? ValidationConstraints = null,
+    string? NegatedSwitchName = null);
 
 internal sealed record GeneratedApiBaseline(
     string ClassName,

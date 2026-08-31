@@ -481,19 +481,30 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
-    /// Activates distributed execution mode if configured with TotalInstances > 1.
-    /// Replaces the default <see cref="IModuleExecutor"/> with a role-specific implementation.
+    /// Activates configured distributed services. When TotalInstances is greater than 1,
+    /// replaces the default <see cref="IModuleExecutor"/> with a role-specific implementation.
     /// </summary>
     private static void ActivateDistributedModeIfConfigured(IServiceCollection services)
     {
+        // Artifact stores are also available to local pipelines, so factory activation
+        // must not depend on distributed executor configuration.
+        var artifactFactoryIndex = FindLastServiceIndex<IDistributedArtifactStoreFactory>(services);
+        var artifactStoreIndex = FindLastServiceIndex<IDistributedArtifactStore>(services);
+        if (artifactFactoryIndex > artifactStoreIndex)
+        {
+            RemoveService<IDistributedArtifactStore>(services);
+            services.AddSingleton<IDistributedArtifactStore>(sp =>
+            {
+                var factory = sp.GetRequiredService<IDistributedArtifactStoreFactory>();
+                return new DeferredArtifactStore(factory);
+            });
+        }
+
         var options = ResolveDistributedOptions(services);
-        if (options is null || !options.Enabled || options.TotalInstances <= 1)
+        if (options is null || !options.Enabled)
         {
             return;
         }
-
-        var roleDetector = new RoleDetector(Microsoft.Extensions.Options.Options.Create(options));
-        var role = roleDetector.DetectRole();
 
         // Replace coordinator if factory registered — deferred so workers don't block
         // during DI build waiting for the master to advertise its URL
@@ -508,17 +519,13 @@ public sealed class PipelineBuilder
             });
         }
 
-        // Replace artifact store if factory registered — deferred for same reason
-        var hasArtifactFactory = services.Any(d => d.ServiceType == typeof(IDistributedArtifactStoreFactory));
-        if (hasArtifactFactory)
+        if (options.TotalInstances <= 1)
         {
-            RemoveService<IDistributedArtifactStore>(services);
-            services.AddSingleton<IDistributedArtifactStore>(sp =>
-            {
-                var factory = sp.GetRequiredService<IDistributedArtifactStoreFactory>();
-                return new DeferredArtifactStore(factory);
-            });
+            return;
         }
+
+        var roleDetector = new RoleDetector(Microsoft.Extensions.Options.Options.Create(options));
+        var role = roleDetector.DetectRole();
 
         if (role == DistributedRole.Master)
         {
@@ -532,6 +539,19 @@ public sealed class PipelineBuilder
             RemoveService<IModuleExecutor>(services);
             services.AddSingleton<IModuleExecutor, WorkerModuleExecutor>();
         }
+    }
+
+    private static int FindLastServiceIndex<TService>(IServiceCollection services)
+    {
+        for (var index = services.Count - 1; index >= 0; index--)
+        {
+            if (services[index].ServiceType == typeof(TService))
+            {
+                return index;
+            }
+        }
+
+        return -1;
     }
 
     /// <summary>
@@ -651,10 +671,14 @@ public sealed class PipelineBuilder
     /// <summary>
     /// Defers <see cref="IDistributedArtifactStoreFactory.CreateAsync"/> to first use.
     /// </summary>
-    private sealed class DeferredArtifactStore(IDistributedArtifactStoreFactory factory) : IDistributedArtifactStore
+    private sealed class DeferredArtifactStore(IDistributedArtifactStoreFactory factory) :
+        IDistributedArtifactStore,
+        IDisposable,
+        IAsyncDisposable
     {
         private readonly SemaphoreSlim _lock = new(1, 1);
         private volatile IDistributedArtifactStore? _inner;
+        private int _disposeState;
 
         public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct)).UploadAsync(d, s, ct);
 
@@ -664,8 +688,45 @@ public sealed class PipelineBuilder
 
         public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DeleteAsync(r, ct);
 
+        public void Dispose()
+        {
+            if (Interlocked.Exchange(ref _disposeState, 1) != 0)
+            {
+                return;
+            }
+
+            _lock.Wait();
+            try
+            {
+                DisposeStore(_inner);
+            }
+            finally
+            {
+                _lock.Release();
+            }
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (Interlocked.Exchange(ref _disposeState, 1) != 0)
+            {
+                return;
+            }
+
+            await _lock.WaitAsync().ConfigureAwait(false);
+            try
+            {
+                await DisposeStoreAsync(_inner).ConfigureAwait(false);
+            }
+            finally
+            {
+                _lock.Release();
+            }
+        }
+
         private async ValueTask<IDistributedArtifactStore> GetAsync(CancellationToken ct)
         {
+            ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);
             if (_inner is not null)
             {
                 return _inner;
@@ -674,11 +735,48 @@ public sealed class PipelineBuilder
             await _lock.WaitAsync(ct);
             try
             {
-                return _inner ??= await factory.CreateAsync(ct);
+                ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);
+                if (_inner is not null)
+                {
+                    return _inner;
+                }
+
+                var createdStore = await factory.CreateAsync(ct).ConfigureAwait(false);
+                if (Volatile.Read(ref _disposeState) != 0)
+                {
+                    await DisposeStoreAsync(createdStore).ConfigureAwait(false);
+                    throw new ObjectDisposedException(nameof(DeferredArtifactStore));
+                }
+
+                return _inner = createdStore;
             }
             finally
             {
                 _lock.Release();
+            }
+        }
+
+        private static async ValueTask DisposeStoreAsync(IDistributedArtifactStore? store)
+        {
+            if (store is IAsyncDisposable asyncDisposable)
+            {
+                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                (store as IDisposable)?.Dispose();
+            }
+        }
+
+        private static void DisposeStore(IDistributedArtifactStore? store)
+        {
+            if (store is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+            else if (store is IAsyncDisposable asyncDisposable)
+            {
+                asyncDisposable.DisposeAsync().AsTask().GetAwaiter().GetResult();
             }
         }
     }

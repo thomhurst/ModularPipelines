@@ -30,13 +30,13 @@ public record AwsDsCreateConditionalForwarderOptions : AwsOptions
     /// <summary>
     /// The IP addresses of the remote DNS server associated with RemoteDo- mainName. (string) Constraints: o pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--dns-ip-addrs")]
+    [CliOption("--dns-ip-addrs", GroupValues = true)]
     public IEnumerable<string>? DnsIpAddrs { get; set; }
 
     /// <summary>
     /// The IPv6 addresses of the remote DNS server associated with Remote- DomainName. (string) Constraints: o pattern: ^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--dns-ipv6-addrs")]
+    [CliOption("--dns-ipv6-addrs", GroupValues = true)]
     public IEnumerable<string>? DnsIpv6Addrs { get; set; }
 
     [CliOption("--cli-input-json")]

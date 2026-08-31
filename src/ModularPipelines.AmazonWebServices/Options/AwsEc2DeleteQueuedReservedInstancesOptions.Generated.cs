@@ -24,7 +24,7 @@ public record AwsEc2DeleteQueuedReservedInstancesOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--reserved-instances-ids")]
+    [CliOption("--reserved-instances-ids", GroupValues = true)]
     public IEnumerable<string>? ReservedInstancesIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -40,19 +40,19 @@ public record AwsDatazoneUpdateSubscriptionTargetOptions : AwsOptions
     /// <summary>
     /// The authorized principals to be updated as part of the UpdateSub- scriptionTarget action. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9:/._-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--authorized-principals")]
+    [CliOption("--authorized-principals", GroupValues = true)]
     public IEnumerable<string>? AuthorizedPrincipals { get; set; }
 
     /// <summary>
     /// The applicable asset types to be updated as part of the UpdateSub- scriptionTarget action. (string) Constraints: o min: 1 o max: 256 o pattern: [^\.]*.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--applicable-asset-types")]
+    [CliOption("--applicable-asset-types", GroupValues = true)]
     public IEnumerable<string>? ApplicableAssetTypes { get; set; }
 
     /// <summary>
     /// The configuration to be updated as part of the UpdateSubscription- Target action. (structure) The details of the subscription target configuration. formName -&gt; (string) [required] The form name included in the subscription target configura- tion. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* content -&gt; (string) [required] The content of the subscription target configuration. Shorthand Syntax: formName=string,content=string ... JSON Syntax: [ { "formName": "string", "content": "string" } ... ]
     /// </summary>
-    [CliOption("--subscription-target-config")]
+    [CliOption("--subscription-target-config", GroupValues = true)]
     public IEnumerable<string>? SubscriptionTargetConfig { get; set; }
 
     /// <summary>

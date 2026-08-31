@@ -24,7 +24,7 @@ public record AwsServicediscoveryDeleteServiceAttributesOptions : AwsOptions
     [CliOption("--service-id")]
     public string? ServiceId { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

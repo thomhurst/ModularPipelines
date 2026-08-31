@@ -36,7 +36,7 @@ public record AwsApplicationInsightsUpdateComponentOptions : AwsOptions
     /// <summary>
     /// The list of resource ARNs that belong to the component. (string) Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-list")]
+    [CliOption("--resource-list", GroupValues = true)]
     public IEnumerable<string>? ResourceList { get; set; }
 
     [CliOption("--cli-input-json")]

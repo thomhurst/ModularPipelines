@@ -41,7 +41,7 @@ public record AwsLogsPutQueryDefinitionOptions : AwsOptions
     /// <summary>
     /// Use this parameter to include specific log groups as part of your query definition. If your query uses the OpenSearch Service query language, you specify the log group names inside the querystring in- stead of here. If you are updating an existing query definition for the Logs In- sights QL or OpenSearch Service PPL and you omit this parameter, then the updated definition will contain no log groups. (string) Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-group-names")]
+    [CliOption("--log-group-names", GroupValues = true)]
     public IEnumerable<string>? LogGroupNames { get; set; }
 
     [CliOption("--query-string")]
@@ -57,7 +57,7 @@ public record AwsLogsPutQueryDefinitionOptions : AwsOptions
     /// <summary>
     /// Use this parameter to include specific query parameters as part of your query definition. Query parameters are supported only for Logs Insights QL queries. Query parameters allow you to use placeholder variables in your query string that are substituted with values at execution time. Use the {{parameterName}} syntax in your query string to reference a parameter. Constraints: o max: 20 (structure) This structure defines a query parameter for a saved CloudWatch Logs Insights query definition. Query parameters are supported only for Logs Insights QL queries. They are placeholder vari- ables that you can reference in a query string using the {{para- meterName}} syntax. Each parameter can include a default value and a description. name -&gt; (string) [required] The name of the query parameter. A query parameter name must start with a letter or underscore, and contain only letters, digits, and underscores. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z_][a-zA-Z0-9_]* defaultValue -&gt; (string) The default value to use for this query parameter if no value is supplied at execution time. Constraints: o max: 1024 description -&gt; (string) A description of the query parameter that explains its pur- pose or expected values. Constraints: o max: 512 Shorthand Syntax: name=string,defaultValue=string,description=string ... JSON Syntax: [ { "name": "string", "defaultValue": "string", "description": "string" } ... ]
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

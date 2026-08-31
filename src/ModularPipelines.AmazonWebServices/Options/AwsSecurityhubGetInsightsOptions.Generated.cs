@@ -25,7 +25,7 @@ public record AwsSecurityhubGetInsightsOptions : AwsOptions
     /// <summary>
     /// The ARNs of the insights to describe. If you don't provide any in- sight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--insight-arns")]
+    [CliOption("--insight-arns", GroupValues = true)]
     public IEnumerable<string>? InsightArns { get; set; }
 
     [CliOption("--cli-input-json")]

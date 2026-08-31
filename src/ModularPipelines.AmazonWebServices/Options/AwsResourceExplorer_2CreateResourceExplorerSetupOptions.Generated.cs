@@ -21,13 +21,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("resource-explorer-2", "create-resource-explorer-setup")]
 public record AwsResourceExplorer_2CreateResourceExplorerSetupOptions : AwsOptions
 {
-    [CliOption("--region-list")]
+    [CliOption("--region-list", GroupValues = true)]
     public IEnumerable<string>? RegionList { get; set; }
 
     /// <summary>
     /// A list of Amazon Web Services Regions that should be configured as aggregator Regions. Aggregator Regions receive replicated index in- formation from all other Regions where there is a user-owned index. Constraints: o min: 0 o max: 1 (string) Constraints: o pattern: [a-z-]+-[a-z]+-[0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--aggregator-regions")]
+    [CliOption("--aggregator-regions", GroupValues = true)]
     public IEnumerable<string>? AggregatorRegions { get; set; }
 
     [CliOption("--view-name")]

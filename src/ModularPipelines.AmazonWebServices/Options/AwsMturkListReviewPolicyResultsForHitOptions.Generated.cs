@@ -28,7 +28,7 @@ public record AwsMturkListReviewPolicyResultsForHitOptions : AwsOptions
     /// <summary>
     /// The Policy Level(s) to retrieve review results for - HIT or Assign- ment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. (string) Possible values: o Assignment o HIT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-levels")]
+    [CliOption("--policy-levels", GroupValues = true)]
     public IEnumerable<string>? PolicyLevels { get; set; }
 
     [CliFlag("--retrieve-actions")]

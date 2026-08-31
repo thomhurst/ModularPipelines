@@ -28,7 +28,7 @@ public record AwsNetworkmanagerGetSitesOptions : AwsOptions
     /// <summary>
     /// One or more site IDs. The maximum is 10. (string) Constraints: o min: 0 o max: 50 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--site-ids")]
+    [CliOption("--site-ids", GroupValues = true)]
     public IEnumerable<string>? SiteIds { get; set; }
 
     [CliOption("--cli-input-json")]

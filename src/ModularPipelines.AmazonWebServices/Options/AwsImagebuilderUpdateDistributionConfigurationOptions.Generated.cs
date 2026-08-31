@@ -31,7 +31,7 @@ public record AwsImagebuilderUpdateDistributionConfigurationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--distributions")]
+    [CliOption("--distributions", GroupValues = true)]
     public IEnumerable<string>? Distributions { get; set; }
 
     /// <summary>

@@ -381,8 +381,11 @@ internal static class DependencyInjectionSetup
         // Always-on defaults (TryAdd so user/extension can override)
         services.Configure<DistributedOptions>(_ => { });
         services.Configure<ArtifactOptions>(_ => { });
+        services.TryAddSingleton(serviceProvider =>
+            serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value);
         services.TryAddSingleton<IDistributedCoordinator, InMemoryDistributedCoordinator>();
         services.TryAddSingleton<IDistributedArtifactStore, FileSystemDistributedArtifactStore>();
+        services.TryAddSingleton<IArtifactContext, ArtifactContextImpl>();
 
         // Serialization (always available)
         services.TryAddSingleton<ModuleTypeRegistry>();

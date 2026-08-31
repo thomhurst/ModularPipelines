@@ -28,13 +28,13 @@ public record AwsRamAssociateResourceShareOptions : AwsOptions
     /// <summary>
     /// Specifies a list of Amazon Resource Names (ARNs) of the resources that you want to share. This can be null if you want to add only principals. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>
     /// Specifies a list of principals to whom you want to the resource share. This can be null if you want to add only resources. What the principals can do with the resources in the share is deter- mined by the RAM permissions that you associate with the resource share. See AssociateResourceSharePermission . You can include the following values: o An Amazon Web Services account ID, for example: 123456789012 o An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-example- orgid o An ARN of an organizational unit (OU) in Organizations, for exam- ple: organizations::123456789012:ou/o-exampleorgid/ou-example- rootid-exampleouid123 o An ARN of an IAM role, for example: iam::123456789012:role/role- name o An ARN of an IAM user, for example: iam::123456789012user/username o A service principal name, for example: service-id.amazonaws.com NOTE: Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--principals")]
+    [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AwsRamAssociateResourceShareOptions : AwsOptions
     /// <summary>
     /// Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) that limit when service principals can access resources in this resource share. When a service principal attempts to access a shared resource, validation is performed to ensure the request originates from one of the specified sources. This helps prevent confused deputy attacks by applying constraints on where service principals can access resources from. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     [CliOption("--cli-input-json")]

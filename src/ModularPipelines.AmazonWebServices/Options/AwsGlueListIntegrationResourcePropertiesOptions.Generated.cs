@@ -30,7 +30,7 @@ public record AwsGlueListIntegrationResourcePropertiesOptions : AwsOptions
     /// <summary>
     /// A list of filters, supported filter Key is SourceArn and TargetArn . (structure) A filter for integration resource properties. Name -&gt; (string) The name of the filter. Supported filter keys are SourceArn and TargetArn . Constraints: o min: 1 o max: 128 Values -&gt; (list) A list of filter values. (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

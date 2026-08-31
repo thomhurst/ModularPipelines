@@ -25,7 +25,7 @@ public record AwsWorkspacesDescribeConnectionAliasesOptions : AwsOptions
     /// <summary>
     /// The identifiers of the connection aliases to describe. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--alias-ids")]
+    [CliOption("--alias-ids", GroupValues = true)]
     public IEnumerable<string>? AliasIds { get; set; }
 
     /// <summary>

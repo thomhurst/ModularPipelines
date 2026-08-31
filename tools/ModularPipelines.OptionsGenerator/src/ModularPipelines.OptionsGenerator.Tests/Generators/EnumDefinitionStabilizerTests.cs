@@ -230,6 +230,36 @@ public class EnumDefinitionStabilizerTests
     }
 
     [Test]
+    public async Task Stabilize_Discards_Known_Generated_Artifacts()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-enum-tests", Guid.NewGuid().ToString("N"));
+        var enumDirectory = Path.Combine(outputRoot, "src", "Fake", "Enums");
+        Directory.CreateDirectory(enumDirectory);
+        File.WriteAllText(
+            Path.Combine(enumDirectory, "FakeVisibility.Generated.cs"),
+            "public enum FakeVisibility { "
+            + "[EnumValue(\"o\")] O = 0, "
+            + "[EnumValue(\"public\")] Public = 1 }");
+
+        try
+        {
+            var stabilized = EnumDefinitionStabilizer.Stabilize(
+                Tool(Value("public")) with
+                {
+                    DiscardedGeneratedEnumValues = new HashSet<string>(StringComparer.Ordinal) { "o" },
+                },
+                outputRoot);
+
+            await Assert.That(stabilized.AllEnums.Single().Values.Select(value => value.CliValue))
+                .IsEquivalentTo(["public"]);
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Stabilize_Rejects_Preserved_Member_Name_Colliding_With_New_Value()
     {
         var outputRoot = Path.Combine(Path.GetTempPath(), "mp-enum-tests", Guid.NewGuid().ToString("N"));

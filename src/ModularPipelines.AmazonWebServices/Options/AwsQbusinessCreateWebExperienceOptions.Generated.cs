@@ -53,7 +53,7 @@ public record AwsQbusinessCreateWebExperienceOptions : AwsOptions
     /// <summary>
     /// Sets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https ), the domain name, and the port number (if specified). NOTE: You must only submit a base URL and not a full path. For exam- ple, https://docs.aws.amazon.com . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: (http://|https://)[a-zA-Z0-9-_.]+(?::[0-9]{1,5})? Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--origins")]
+    [CliOption("--origins", GroupValues = true)]
     public IEnumerable<string>? Origins { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AwsQbusinessCreateWebExperienceOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs that identify or categorize your Amazon Q Business web experience. You can also use tags to help control ac- cess to the web experience. Tag keys and values can consist of Uni- code letters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: o min: 0 o max: 200 (structure) A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, dig- its, white space, and any of the following symbols: _ . : / = + - @. key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

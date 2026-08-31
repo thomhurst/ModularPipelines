@@ -41,7 +41,7 @@ public record AwsEc2DescribeDeclarativePoliciesReportsOptions : AwsOptions
     /// <summary>
     /// One or more report IDs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--report-ids")]
+    [CliOption("--report-ids", GroupValues = true)]
     public IEnumerable<string>? ReportIds { get; set; }
 
     [CliOption("--cli-input-json")]

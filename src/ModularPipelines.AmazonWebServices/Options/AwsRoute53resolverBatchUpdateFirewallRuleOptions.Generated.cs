@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("route53resolver", "batch-update-firewall-rule")]
 public record AwsRoute53resolverBatchUpdateFirewallRuleOptions : AwsOptions
 {
-    [CliOption("--update-firewall-rule-entries")]
+    [CliOption("--update-firewall-rule-entries", GroupValues = true)]
     public IEnumerable<string>? UpdateFirewallRuleEntries { get; set; }
 
     [CliOption("--cli-input-json")]

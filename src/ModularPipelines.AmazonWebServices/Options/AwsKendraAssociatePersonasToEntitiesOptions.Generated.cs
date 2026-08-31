@@ -27,7 +27,7 @@ public record AwsKendraAssociatePersonasToEntitiesOptions : AwsOptions
     [CliOption("--index-id")]
     public string? IndexId { get; set; }
 
-    [CliOption("--personas")]
+    [CliOption("--personas", GroupValues = true)]
     public IEnumerable<string>? Personas { get; set; }
 
     [CliOption("--cli-input-json")]

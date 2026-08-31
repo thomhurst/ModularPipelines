@@ -31,16 +31,16 @@ public record AwsKafkaCreateVpcConnectionOptions : AwsOptions
     [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CliOption("--client-subnets")]
+    [CliOption("--client-subnets", GroupValues = true)]
     public IEnumerable<string>? ClientSubnets { get; set; }
 
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     /// <summary>
     /// A map of tags for the VPC connection. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

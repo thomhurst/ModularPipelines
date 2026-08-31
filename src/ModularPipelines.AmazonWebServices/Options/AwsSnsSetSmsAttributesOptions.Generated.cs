@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sns", "set-sms-attributes")]
 public record AwsSnsSetSmsAttributesOptions : AwsOptions
 {
-    [CliOption("--attributes")]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

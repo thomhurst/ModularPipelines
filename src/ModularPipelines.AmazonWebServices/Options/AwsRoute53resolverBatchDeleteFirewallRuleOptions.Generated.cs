@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("route53resolver", "batch-delete-firewall-rule")]
 public record AwsRoute53resolverBatchDeleteFirewallRuleOptions : AwsOptions
 {
-    [CliOption("--delete-firewall-rule-entries")]
+    [CliOption("--delete-firewall-rule-entries", GroupValues = true)]
     public IEnumerable<string>? DeleteFirewallRuleEntries { get; set; }
 
     [CliOption("--cli-input-json")]

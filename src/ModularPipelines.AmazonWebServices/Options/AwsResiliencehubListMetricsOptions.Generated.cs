@@ -25,7 +25,7 @@ public record AwsResiliencehubListMetricsOptions : AwsOptions
     /// <summary>
     /// Indicates the list of all the conditions that were applied on the metrics. Constraints: o min: 0 o max: 50 (structure) Indicates the condition based on which you want to filter the metrics. field -&gt; (string) [required] Indicates the field in the metric. Constraints: o min: 1 o max: 255 operator -&gt; (string) [required] Indicates the type of operator or comparison to be used when evaluating a condition against the specified field. Possible values: o Equals o NotEquals o GreaterThen o GreaterOrEquals o LessThen o LessOrEquals value -&gt; (string) Indicates the value or data against which a condition is evaluated. Constraints: o min: 1 o max: 255 Shorthand Syntax: field=string,operator=string,value=string ... JSON Syntax: [ { "field": "string", "operator": "Equals"|"NotEquals"|"GreaterThen"|"GreaterOrEquals"|"LessThen"|"LessOrEquals", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--conditions")]
+    [CliOption("--conditions", GroupValues = true)]
     public IEnumerable<string>? Conditions { get; set; }
 
     /// <summary>
@@ -37,13 +37,13 @@ public record AwsResiliencehubListMetricsOptions : AwsOptions
     /// <summary>
     /// Indicates the list of fields in the data source. Constraints: o min: 0 o max: 50 (structure) Indicates the field or attribute of a resource or data structure on which a condition is being applied or evaluated. aggregation -&gt; (string) (Optional) Indicates the type of aggregation or summary oper- ation (such as Sum, Average, and so on) to be performed on a particular field or set of data. Possible values: o Min o Max o Sum o Avg o Count name -&gt; (string) [required] Name of the field. Constraints: o min: 1 o max: 255 Shorthand Syntax: aggregation=string,name=string ... JSON Syntax: [ { "aggregation": "Min"|"Max"|"Sum"|"Avg"|"Count", "name": "string" } ... ]
     /// </summary>
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>
     /// (Optional) Indicates the order in which you want to sort the fields in the metrics. By default, the fields are sorted in the ascending order. Constraints: o min: 0 o max: 50 (structure) Indicates the sorting order of the fields in the metrics. ascending -&gt; (boolean) Indicates the name or identifier of the field or attribute that should be used as the basis for sorting the metrics. field -&gt; (string) [required] Indicates the order in which you want to sort the metrics. By default, the list is sorted in ascending order. To sort the list in descending order, set this field to False. Constraints: o min: 1 o max: 255 Shorthand Syntax: ascending=boolean,field=string ... JSON Syntax: [ { "ascending": true|false, "field": "string" } ... ]
     /// </summary>
-    [CliOption("--sorts")]
+    [CliOption("--sorts", GroupValues = true)]
     public IEnumerable<string>? Sorts { get; set; }
 
     [CliOption("--cli-input-json")]

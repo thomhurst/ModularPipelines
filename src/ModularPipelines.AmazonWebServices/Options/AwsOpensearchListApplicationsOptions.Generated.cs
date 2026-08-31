@@ -25,7 +25,7 @@ public record AwsOpensearchListApplicationsOptions : AwsOptions
     /// <summary>
     /// Filters the list of OpenSearch applications by status. Possible val- ues: CREATING , UPDATING , DELETING , FAILED , ACTIVE , and DELETED . (string) Possible values: o CREATING o UPDATING o DELETING o ACTIVE o FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--statuses")]
+    [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     [CliOption("--cli-input-json")]

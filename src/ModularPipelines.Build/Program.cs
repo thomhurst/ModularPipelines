@@ -175,11 +175,10 @@ file static class BuildPipelineConfiguration
             o.InstanceIndex = instanceIndex;
             o.TotalInstances = totalInstances;
 
-            // Bound how long the master waits for a distributed module result. The library
-            // default is 0 (wait forever); if a worker dies or drops its connection after
-            // being assigned a module, the master would otherwise hang indefinitely (see #3174).
-            // A generous bound converts that hang into a diagnosable failure instead.
-            o.ModuleResultTimeoutSeconds = 2700;
+            // Explicitly keep distributed CI's result wait at 45 minutes. If a worker dies or
+            // drops its connection after receiving a module, this bound converts the otherwise
+            // indefinite wait into a diagnosable failure (see #3174).
+            o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
         });
         builder.AddSignalRDistributedCoordinator(o =>
         {

@@ -74,7 +74,7 @@ public record AwsMturkCreateHitWithHitTypeOptions : AwsOptions
     /// <summary>
     /// If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. (structure) The HITLayoutParameter data structure defines parameter values used with a HITLayout. A HITLayout is a reusable Amazon Mechani- cal Turk project template used to provide Human Intelligence Task (HIT) question data for CreateHIT. Name -&gt; (string) [required] The name of the parameter in the HITLayout. Value -&gt; (string) [required] The value substituted for the parameter referenced in the HITLayout. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--hit-layout-parameters")]
+    [CliOption("--hit-layout-parameters", GroupValues = true)]
     public IEnumerable<string>? HitLayoutParameters { get; set; }
 
     [CliOption("--cli-input-json")]

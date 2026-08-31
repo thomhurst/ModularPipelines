@@ -37,7 +37,7 @@ public record AwsWafv2UpdateIpSetOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--addresses")]
+    [CliOption("--addresses", GroupValues = true)]
     public IEnumerable<string>? Addresses { get; set; }
 
     [SecretValue]

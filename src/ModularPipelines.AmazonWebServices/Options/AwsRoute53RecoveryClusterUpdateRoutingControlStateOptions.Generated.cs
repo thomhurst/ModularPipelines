@@ -30,7 +30,7 @@ public record AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions : AwsOpt
     /// <summary>
     /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating the state of a routing control. You can override one safety rule or multiple safety rules by including one or more ARNs, separated by commas. For more information, see Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide. (string) Constraints: o min: 1 o max: 255 o pattern: ^[A-Za-z0-9:.\/_-]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--safety-rules-to-override")]
+    [CliOption("--safety-rules-to-override", GroupValues = true)]
     public IEnumerable<string>? SafetyRulesToOverride { get; set; }
 
     [CliOption("--cli-input-json")]

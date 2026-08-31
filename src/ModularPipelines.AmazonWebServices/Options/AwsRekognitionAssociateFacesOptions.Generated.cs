@@ -28,7 +28,7 @@ public record AwsRekognitionAssociateFacesOptions : AwsOptions
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CliOption("--face-ids")]
+    [CliOption("--face-ids", GroupValues = true)]
     public IEnumerable<string>? FaceIds { get; set; }
 
     /// <summary>

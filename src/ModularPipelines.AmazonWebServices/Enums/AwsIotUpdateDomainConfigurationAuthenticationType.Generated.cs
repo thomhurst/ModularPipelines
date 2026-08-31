@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotUpdateDomainConfigurationAuthenticationType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("CUSTOM_AUTH_X509")]
     CustomAuthX509 = 1,
 

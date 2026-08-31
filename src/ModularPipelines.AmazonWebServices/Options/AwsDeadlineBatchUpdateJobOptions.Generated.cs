@@ -29,7 +29,7 @@ public record AwsDeadlineBatchUpdateJobOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--jobs")]
+    [CliOption("--jobs", GroupValues = true)]
     public IEnumerable<string>? Jobs { get; set; }
 
     [CliOption("--cli-input-json")]

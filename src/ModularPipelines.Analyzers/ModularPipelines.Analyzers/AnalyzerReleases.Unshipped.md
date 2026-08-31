@@ -23,6 +23,7 @@ MPCLI001 | Usage | Error | CliFlag property must be bool? or int?
 MPCLI002 | Usage | Error | Value-less bool? CliOption should use CliFlag
 MPCLI003 | Usage | Error | Multiple CLI attributes applied to one property
 MPCLI004 | Usage | Error | Duplicate CLI switch in an options hierarchy
+MPCLI005 | Usage | Error | Negated CLI flag applied to a non-nullable-Boolean or counted property
 MPCLI006 | Usage | Error | CLI attributes used outside CommandLineToolOptions
 
 ### Removed Rules

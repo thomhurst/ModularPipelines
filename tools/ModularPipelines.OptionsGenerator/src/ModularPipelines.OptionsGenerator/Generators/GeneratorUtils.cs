@@ -560,6 +560,11 @@ public static partial class GeneratorUtils
             parts.Add($"ShortForm = {FormatStringLiteral(option.ShortForm)}");
         }
 
+        if (!string.IsNullOrEmpty(option.NegatedSwitchName))
+        {
+            parts.Add($"NegatedName = {FormatStringLiteral(option.NegatedSwitchName)}");
+        }
+
         if (option.PreferShortForm)
         {
             parts.Add("PreferShortForm = true");
@@ -576,12 +581,7 @@ public static partial class GeneratorUtils
     private static string GenerateCliOptionAttributeString(CliOptionDefinition option)
     {
         var optionParts = new List<string> { FormatStringLiteral(option.SwitchName) };
-
-        if (option.GroupValues && option.ValueSeparator != " ")
-        {
-            throw new InvalidOperationException(
-                $"Grouped option '{option.SwitchName}' must use a space separator.");
-        }
+        ValidateCollectionRendering(option);
 
         if (!string.IsNullOrEmpty(option.ShortForm))
         {
@@ -616,10 +616,7 @@ public static partial class GeneratorUtils
             optionParts.Add($"ValueArity = CliOptionValueArity.{option.ValueArity}");
         }
 
-        if (option.GroupValues)
-        {
-            optionParts.Add("GroupValues = true");
-        }
+        AppendCollectionRendering(optionParts, option);
 
         if (option.Phase != CommandLinePhase.Normal)
         {
@@ -627,6 +624,36 @@ public static partial class GeneratorUtils
         }
 
         return $"CliOption({string.Join(", ", optionParts)})";
+    }
+
+    private static void ValidateCollectionRendering(CliOptionDefinition option)
+    {
+        if (option.GroupValues && option.CollectionSeparator is not null)
+        {
+            throw new InvalidOperationException(
+                $"Option '{option.SwitchName}' cannot set both GroupValues and CollectionSeparator.");
+        }
+
+        if (option.GroupValues && option.ValueSeparator != " ")
+        {
+            throw new InvalidOperationException(
+                $"Grouped option '{option.SwitchName}' must use a space separator.");
+        }
+    }
+
+    private static void AppendCollectionRendering(
+        ICollection<string> optionParts,
+        CliOptionDefinition option)
+    {
+        if (option.GroupValues)
+        {
+            optionParts.Add("GroupValues = true");
+        }
+
+        if (option.CollectionSeparator is not null)
+        {
+            optionParts.Add($"CollectionSeparator = {FormatStringLiteral(option.CollectionSeparator)}");
+        }
     }
 
     /// <summary>

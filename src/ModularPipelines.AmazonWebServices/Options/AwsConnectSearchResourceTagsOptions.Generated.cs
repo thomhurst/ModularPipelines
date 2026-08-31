@@ -28,7 +28,7 @@ public record AwsConnectSearchResourceTagsOptions : AwsOptions
     /// <summary>
     /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are re- quired. Supported resource types o agent o agent-state o routing-profile o standard-queue o security-profile o operating-hours o prompt o contact-flow o flow- module o transfer-destination (also known as quick connect) o metric (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>

@@ -42,7 +42,7 @@ public record AwsCloudtrailStartQueryOptions : AwsOptions
     /// <summary>
     /// The query parameters for the specified QueryAlias . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: .* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--query-parameters")]
+    [CliOption("--query-parameters", GroupValues = true)]
     public IEnumerable<string>? QueryParameters { get; set; }
 
     /// <summary>

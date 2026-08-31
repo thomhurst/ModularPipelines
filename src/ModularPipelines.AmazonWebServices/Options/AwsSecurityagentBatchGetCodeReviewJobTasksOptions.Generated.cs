@@ -24,7 +24,7 @@ public record AwsSecurityagentBatchGetCodeReviewJobTasksOptions : AwsOptions
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; set; }
 
-    [CliOption("--code-review-job-task-ids")]
+    [CliOption("--code-review-job-task-ids", GroupValues = true)]
     public IEnumerable<string>? CodeReviewJobTaskIds { get; set; }
 
     [CliOption("--cli-input-json")]

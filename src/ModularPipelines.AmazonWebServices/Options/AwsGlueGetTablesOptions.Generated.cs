@@ -61,7 +61,7 @@ public record AwsGlueGetTablesOptions : AwsOptions
     /// <summary>
     /// Specifies the table fields returned by the GetTables call. This pa- rameter doesnt accept an empty list. The request must include NAME . The following are the valid combinations of values: o NAME - Names of all tables in the database. o NAME , TABLE_TYPE - Names of all tables and the table types. (string) Possible values: o NAME o TABLE_TYPE o DEFAULT o LATEST_ICEBERG_METADATA Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attributes-to-get")]
+    [CliOption("--attributes-to-get", GroupValues = true)]
     public IEnumerable<string>? AttributesToGet { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -45,7 +45,7 @@ public record AwsBraketCreateSpendingLimitOptions : AwsOptions
     /// <summary>
     /// The tags to apply to the spending limit. Each tag consists of a key and an optional value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

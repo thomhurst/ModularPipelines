@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("bedrock-agent-runtime", "rerank")]
 public record AwsBedrockAgentRuntimeRerankOptions : AwsOptions
 {
-    [CliOption("--queries")]
+    [CliOption("--queries", GroupValues = true)]
     public IEnumerable<string>? Queries { get; set; }
 
     [CliOption("--reranking-configuration")]
     public string? RerankingConfiguration { get; set; }
 
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     [CliOption("--cli-input-json")]

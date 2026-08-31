@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("elb", "describe-tags")]
 public record AwsElbDescribeTagsOptions : AwsOptions
 {
-    [CliOption("--load-balancer-names")]
+    [CliOption("--load-balancer-names", GroupValues = true)]
     public IEnumerable<string>? LoadBalancerNames { get; set; }
 
     [CliOption("--cli-input-json")]

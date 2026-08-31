@@ -32,13 +32,13 @@ public record AwsEksCreateAccessEntryOptions : AwsOptions
     /// <summary>
     /// The value for name that you've specified for kind: Group as a sub- ject in a Kubernetes RoleBinding or ClusterRoleBinding object. Ama- zon EKS doesn't confirm that the value for name exists in any bind- ings on your cluster. You can specify one or more names. Kubernetes authorizes the principalArn of the access entry to access any cluster objects that you've specified in a Kubernetes Role or ClusterRole object that is also specified in a binding's roleRef . For more information about creating Kubernetes RoleBinding , Clus- terRoleBinding , Role , or ClusterRole objects, see Using RBAC Au- thorization in the Kubernetes documentation . If you want Amazon EKS to authorize the principalArn (instead of, or in addition to Kubernetes authorizing the principalArn ), you can associate one or more access policies to the access entry using As- sociateAccessPolicy . If you associate any access policies, the principalARN has all permissions assigned in the associated access policies and all permissions in any Kubernetes Role or ClusterRole objects that the group names are bound to. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--kubernetes-groups")]
+    [CliOption("--kubernetes-groups", GroupValues = true)]
     public IEnumerable<string>? KubernetesGroups { get; set; }
 
     /// <summary>
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("globalaccelerator", "add-custom-routing-endpoints")]
 public record AwsGlobalacceleratorAddCustomRoutingEndpointsOptions : AwsOptions
 {
-    [CliOption("--endpoint-configurations")]
+    [CliOption("--endpoint-configurations", GroupValues = true)]
     public IEnumerable<string>? EndpointConfigurations { get; set; }
 
     [CliOption("--endpoint-group-arn")]

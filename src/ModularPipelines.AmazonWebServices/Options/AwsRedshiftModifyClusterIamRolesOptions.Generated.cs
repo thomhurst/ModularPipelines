@@ -27,13 +27,13 @@ public record AwsRedshiftModifyClusterIamRolesOptions : AwsOptions
     /// <summary>
     /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-iam-roles")]
+    [CliOption("--add-iam-roles", GroupValues = true)]
     public IEnumerable<string>? AddIamRoles { get; set; }
 
     /// <summary>
     /// Zero or more IAM roles in ARN format to disassociate from the clus- ter. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-iam-roles")]
+    [CliOption("--remove-iam-roles", GroupValues = true)]
     public IEnumerable<string>? RemoveIamRoles { get; set; }
 
     /// <summary>

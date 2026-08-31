@@ -34,7 +34,7 @@ public record AwsDatazoneSearchListingsOptions : AwsOptions
     /// <summary>
     /// The details of the search. Constraints: o min: 1 o max: 10 (structure) The details of the search. attribute -&gt; (string) [required] The search attribute. Constraints: o min: 1 o max: 128 Shorthand Syntax: attribute=string ... JSON Syntax: [ { "attribute": "string" } ... ]
     /// </summary>
-    [CliOption("--search-in")]
+    [CliOption("--search-in", GroupValues = true)]
     public IEnumerable<string>? SearchIn { get; set; }
 
     /// <summary>
@@ -46,7 +46,7 @@ public record AwsDatazoneSearchListingsOptions : AwsOptions
     /// <summary>
     /// Enables you to specify one or more attributes to compute and return counts grouped by field values. Constraints: o min: 1 o max: 10 (structure) An aggregation list item. attribute -&gt; (string) [required] An attribute on which to compute aggregations. Constraints: o min: 1 o max: 128 displayValue -&gt; (string) The display value of the aggregation list item. Supported values include value and glossaryTerm.name . Constraints: o min: 1 o max: 100 Shorthand Syntax: attribute=string,displayValue=string ... JSON Syntax: [ { "attribute": "string", "displayValue": "string" } ... ]
     /// </summary>
-    [CliOption("--aggregations")]
+    [CliOption("--aggregations", GroupValues = true)]
     public IEnumerable<string>? Aggregations { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsDatazoneSearchListingsOptions : AwsOptions
     /// <summary>
     /// Specifies additional attributes for the search. (string) Possible values: o FORMS o TIME_SERIES_DATA_POINT_FORMS o TEXT_MATCH_RATIONALE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-attributes")]
+    [CliOption("--additional-attributes", GroupValues = true)]
     public IEnumerable<string>? AdditionalAttributes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions
     /// <summary>
     /// Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zones")]
+    [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     [CliOption("--db-cluster-identifier")]
@@ -57,13 +57,13 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions
     /// <summary>
     /// A list of virtual private cloud (VPC) security groups that the new cluster will belong to. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
     /// The tags to be assigned to the restored cluster. (structure) Metadata assigned to an Amazon DocumentDB resource consisting of a key-value pair. Key -&gt; (string) The required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -75,7 +75,7 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions
     /// <summary>
     /// A list of log types that must be enabled for exporting to Amazon CloudWatch Logs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enable-cloudwatch-logs-exports")]
+    [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
     [CliFlag("--deletion-protection")]

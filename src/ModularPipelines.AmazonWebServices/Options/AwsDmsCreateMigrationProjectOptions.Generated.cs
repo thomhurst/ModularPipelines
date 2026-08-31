@@ -27,10 +27,10 @@ public record AwsDmsCreateMigrationProjectOptions : AwsOptions
     [CliOption("--migration-project-name")]
     public string? MigrationProjectName { get; set; }
 
-    [CliOption("--source-data-provider-descriptors")]
+    [CliOption("--source-data-provider-descriptors", GroupValues = true)]
     public IEnumerable<string>? SourceDataProviderDescriptors { get; set; }
 
-    [CliOption("--target-data-provider-descriptors")]
+    [CliOption("--target-data-provider-descriptors", GroupValues = true)]
     public IEnumerable<string>? TargetDataProviderDescriptors { get; set; }
 
     [CliOption("--instance-profile-identifier")]
@@ -51,7 +51,7 @@ public record AwsDmsCreateMigrationProjectOptions : AwsOptions
     /// <summary>
     /// One or more tags to be assigned to the migration project. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the fol- lowing: o AddTagsToResource o ListTagsForResource o RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be pre- fixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identi- fies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

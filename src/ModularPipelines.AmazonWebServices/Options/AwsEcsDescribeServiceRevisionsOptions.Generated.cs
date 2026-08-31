@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ecs", "describe-service-revisions")]
 public record AwsEcsDescribeServiceRevisionsOptions : AwsOptions
 {
-    [CliOption("--service-revision-arns")]
+    [CliOption("--service-revision-arns", GroupValues = true)]
     public IEnumerable<string>? ServiceRevisionArns { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2CreateServiceDependencyDiscovery
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("ENABLED")]
     Enabled = 1,
 

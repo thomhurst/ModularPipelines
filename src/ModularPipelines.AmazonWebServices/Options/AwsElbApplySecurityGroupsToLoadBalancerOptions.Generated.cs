@@ -24,7 +24,7 @@ public record AwsElbApplySecurityGroupsToLoadBalancerOptions : AwsOptions
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; set; }
 
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     [CliOption("--cli-input-json")]

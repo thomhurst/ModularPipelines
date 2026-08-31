@@ -44,10 +44,10 @@ public record AwsBedrockAgentcoreControlCreateGatewayRateLimitOptions : AwsOptio
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--dimension-keys")]
+    [CliOption("--dimension-keys", GroupValues = true)]
     public IEnumerable<string>? DimensionKeys { get; set; }
 
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--cli-input-json")]

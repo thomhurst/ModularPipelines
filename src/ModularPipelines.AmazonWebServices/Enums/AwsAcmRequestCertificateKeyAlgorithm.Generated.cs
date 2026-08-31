@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmRequestCertificateKeyAlgorithm
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("RSA_1024")]
     Rsa_1024 = 1,
 

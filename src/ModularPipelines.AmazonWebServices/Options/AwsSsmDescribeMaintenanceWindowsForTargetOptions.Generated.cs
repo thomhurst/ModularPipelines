@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ssm", "describe-maintenance-windows-for-target")]
 public record AwsSsmDescribeMaintenanceWindowsForTargetOptions : AwsOptions
 {
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--resource-type")]

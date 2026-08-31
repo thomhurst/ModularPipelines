@@ -34,7 +34,7 @@ public record AwsApigatewayCreateUsagePlanOptions : AwsOptions
     /// <summary>
     /// The associated API stages of the usage plan. (structure) API stage name of the associated API stage in a usage plan. apiId -&gt; (string) API Id of the associated API stage in a usage plan. stage -&gt; (string) API stage name of the associated API stage in a usage plan. throttle -&gt; (map) Map containing method level throttling information for API stage in a usage plan. key -&gt; (string) value -&gt; (structure) The API request rate limits. burstLimit -&gt; (integer) The API target request burst rate limit. This allows more requests through for a period of time than the target rate limit. rateLimit -&gt; (double) The API target request rate limit. Shorthand Syntax: apiId=string,stage=string,throttle={KeyName1={burstLimit=integer,rateLimit=double},KeyName2={burstLimit=integer,rateLimit=double}} ... JSON Syntax: [ { "apiId": "string", "stage": "string", "throttle": {"string": { "burstLimit": integer, "rateLimit": double } ...} } ... ]
     /// </summary>
-    [CliOption("--api-stages")]
+    [CliOption("--api-stages", GroupValues = true)]
     public IEnumerable<string>? ApiStages { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsApigatewayCreateUsagePlanOptions : AwsOptions
     /// <summary>
     /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws: . The tag value can be up to 256 characters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

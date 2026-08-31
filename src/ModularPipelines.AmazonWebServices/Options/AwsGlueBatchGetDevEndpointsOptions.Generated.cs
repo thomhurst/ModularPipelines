@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("glue", "batch-get-dev-endpoints")]
 public record AwsGlueBatchGetDevEndpointsOptions : AwsOptions
 {
-    [CliOption("--dev-endpoint-names")]
+    [CliOption("--dev-endpoint-names", GroupValues = true)]
     public IEnumerable<string>? DevEndpointNames { get; set; }
 
     [CliOption("--cli-input-json")]

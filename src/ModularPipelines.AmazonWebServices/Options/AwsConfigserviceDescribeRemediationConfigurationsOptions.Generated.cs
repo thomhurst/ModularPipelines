@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("configservice", "describe-remediation-configurations")]
 public record AwsConfigserviceDescribeRemediationConfigurationsOptions : AwsOptions
 {
-    [CliOption("--config-rule-names")]
+    [CliOption("--config-rule-names", GroupValues = true)]
     public IEnumerable<string>? ConfigRuleNames { get; set; }
 
     [CliOption("--cli-input-json")]

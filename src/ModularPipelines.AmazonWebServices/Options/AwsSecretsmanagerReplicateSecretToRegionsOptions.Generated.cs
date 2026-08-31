@@ -26,7 +26,7 @@ public record AwsSecretsmanagerReplicateSecretToRegionsOptions : AwsOptions
     [CliOption("--secret-id")]
     public string? SecretId { get; set; }
 
-    [CliOption("--add-replica-regions")]
+    [CliOption("--add-replica-regions", GroupValues = true)]
     public IEnumerable<string>? AddReplicaRegions { get; set; }
 
     [CliFlag("--force-overwrite-replica-secret")]

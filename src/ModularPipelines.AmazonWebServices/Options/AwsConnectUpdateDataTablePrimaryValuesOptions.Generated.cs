@@ -27,10 +27,10 @@ public record AwsConnectUpdateDataTablePrimaryValuesOptions : AwsOptions
     [CliOption("--data-table-id")]
     public string? DataTableId { get; set; }
 
-    [CliOption("--primary-values")]
+    [CliOption("--primary-values", GroupValues = true)]
     public IEnumerable<string>? PrimaryValues { get; set; }
 
-    [CliOption("--new-primary-values")]
+    [CliOption("--new-primary-values", GroupValues = true)]
     public IEnumerable<string>? NewPrimaryValues { get; set; }
 
     [CliOption("--lock-version")]

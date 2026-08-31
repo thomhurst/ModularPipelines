@@ -27,7 +27,7 @@ public record AwsConnectGetContactMetricsOptions : AwsOptions
     [CliOption("--contact-id")]
     public string? ContactId { get; set; }
 
-    [CliOption("--metrics")]
+    [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     [CliOption("--cli-input-json")]

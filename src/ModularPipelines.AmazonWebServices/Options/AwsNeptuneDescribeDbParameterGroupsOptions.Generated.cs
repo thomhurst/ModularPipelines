@@ -31,7 +31,7 @@ public record AwsNeptuneDescribeDbParameterGroupsOptions : AwsOptions
     /// <summary>
     /// This parameter is not currently supported. (structure) This type is not currently supported. Name -&gt; (string) [required] This parameter is not currently supported. Values -&gt; (list) [required] This parameter is not currently supported. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
