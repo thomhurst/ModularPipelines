@@ -2165,6 +2165,13 @@ internal static class GeneratedApiCompatibilityPreserver
             HasSameCliIdentity(property, baseline));
         if (IsUnsafeBooleanStringChange(baseline, replacement, options))
         {
+            if (baseline.IsRequired)
+            {
+                violations.Add(
+                    $"{command.ClassName}.{baseline.PropertyName} was removed from the required constructor "
+                    + $"because replacement {replacement!.PropertyName} does not explicitly accept Boolean text");
+            }
+
             return;
         }
 

@@ -1688,7 +1688,7 @@ public partial class GeneratorHardeningTests
             await Assert.That(generated)
                 .Contains("get => bool.TryParse(JsonValue, out var value) ? value : null;");
             await Assert.That(generated)
-                .Contains("set => JsonValue = value == true ? \"true\" : null;");
+                .Contains("set => JsonValue = value == true ? \"true\" : value == false ? \"false\" : null;");
         }
     }
 
@@ -1740,8 +1740,34 @@ public partial class GeneratorHardeningTests
             await Assert.That(generated)
                 .Contains("get => bool.TryParse(DenySettingsExcludedActionsValues?.FirstOrDefault(), out var value) ? value : null;");
             await Assert.That(generated)
-                .Contains("set => DenySettingsExcludedActionsValues = value == true ? [\"true\"] : null;");
+                .Contains("set => DenySettingsExcludedActionsValues = value == true ? [\"true\"] : value == false ? [\"false\"] : null;");
         }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Unsafe_Renamed_Required_Boolean()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--mode",
+                    PropertyName = "ModeValue",
+                    CSharpType = "string?",
+                    Description = "Execution mode.",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("Mode", "bool?", switchName: "--mode", isRequired: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolRunOptions.Mode was removed from the required constructor");
     }
 
     [Test]

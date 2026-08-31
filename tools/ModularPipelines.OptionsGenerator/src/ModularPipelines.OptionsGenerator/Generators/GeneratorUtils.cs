@@ -124,14 +124,12 @@ public static partial class GeneratorUtils
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
                 break;
             case CliCompatibilityForwardingKind.NullableBooleanToString:
-                // A former presence-only flag has no false representation; omission reads back as null.
                 sb.AppendLine($"        get => bool.TryParse({property.ForwardToPropertyName}, out var value) ? value : null;");
-                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value == true ? \"true\" : null;");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value == true ? \"true\" : value == false ? \"false\" : null;");
                 break;
             case CliCompatibilityForwardingKind.NullableBooleanToStringCollection:
-                // A former presence-only flag has no false representation; omission reads back as null.
                 sb.AppendLine($"        get => bool.TryParse({property.ForwardToPropertyName}?.FirstOrDefault(), out var value) ? value : null;");
-                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value == true ? [\"true\"] : null;");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value == true ? [\"true\"] : value == false ? [\"false\"] : null;");
                 break;
             case CliCompatibilityForwardingKind.NullableBooleanToLocalBackendString:
                 sb.AppendLine($"        get => {property.ForwardToPropertyName} is null ? null : global::System.String.Equals({property.ForwardToPropertyName}, \"file://~\", global::System.StringComparison.Ordinal);");

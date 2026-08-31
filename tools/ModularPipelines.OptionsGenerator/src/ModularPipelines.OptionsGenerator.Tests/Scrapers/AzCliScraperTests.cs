@@ -633,6 +633,30 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Preview_Options_Are_Parsed()
+    {
+        const string helpText = """
+            Command
+                az appservice plan create : Create an app service plan.
+
+            Optional Arguments
+                --default-identity [Preview] : Accept system or user assigned identity separated.
+                --subnet NAME       [Preview] : Name or ID of the subnet.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "appservice", "plan", "create"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.PropertyName))
+                .IsEquivalentTo(["DefaultIdentity", "Subnet"]);
+            await Assert.That(command.Options.All(option => !option.IsFlag)).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Unrelated_IsLinux_Remains_A_Presence_Only_Flag()
     {
         const string helpText = """
