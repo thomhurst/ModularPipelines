@@ -20,6 +20,43 @@ namespace ModularPipelines.UnitTests.Console;
 [TUnit.Core.NotInParallel]
 public class ConsoleWriterTests
 {
+    private sealed class TrackingSecretProvider : ISecretProvider, ISecretEmissionGuard
+    {
+        private int _executionDepth;
+
+        public int ExecutionCount { get; private set; }
+
+        public bool IsExecuting => _executionDepth > 0;
+
+        public long Version => 0;
+
+        public IEnumerable<string> Secrets => [];
+
+        public SecretSnapshot GetSnapshot() => new(0, []);
+
+        public bool TryExecuteIfVersionCurrent(long expectedVersion, Action action)
+        {
+            action();
+            return true;
+        }
+
+        public IEnumerable<string> GetSecretsInObject(object? value) => [];
+
+        public void ExecuteWithStableSecrets<TState>(TState state, Action<TState> processOutput)
+        {
+            ExecutionCount++;
+            _executionDepth++;
+            try
+            {
+                processOutput(state);
+            }
+            finally
+            {
+                _executionDepth--;
+            }
+        }
+    }
+
     private sealed class ControlRenderable(params string[] values) : IRenderable
     {
         public Measurement Measure(RenderOptions options, int maxWidth) => new(0, 0);
@@ -223,6 +260,38 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Direct_Writes_Obfuscate_And_Emit_With_Stable_Secrets()
+    {
+        var secretProvider = new TrackingSecretProvider();
+        var guardedObfuscations = new List<bool>();
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) =>
+            {
+                guardedObfuscations.Add(secretProvider.IsExecuting);
+                return input ?? string.Empty;
+            });
+
+        CaptureFallbackOutput(
+            writer =>
+            {
+                writer.WriteLine("plain text");
+                writer.WriteMarkupLine("[green]markup text[/]");
+                writer.Write(new Text("renderable text"));
+            },
+            secretObfuscator.Object,
+            secretProvider: secretProvider);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(secretProvider.ExecutionCount).IsEqualTo(3);
+            await Assert.That(guardedObfuscations).IsNotEmpty();
+            await Assert.That(guardedObfuscations.All(static isGuarded => isGuarded)).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task WriteLine_UsesInjectedConsoleWithoutAmbientModule()
     {
         var originalConsole = AnsiConsole.Console;
@@ -233,7 +302,10 @@ public class ConsoleWriterTests
             AnsiConsole.Console = CreateConsole(globalOutput);
             var injectedConsole = CreateConsole(injectedOutput);
 
-            new ConsoleWriter(CreateMockSecretObfuscator(), injectedConsole)
+            new ConsoleWriter(
+                    CreateMockSecretObfuscator(),
+                    new Mock<ISecretProvider>().Object,
+                    injectedConsole)
                 .WriteLine("injected output");
 
             using (Assert.Multiple())
@@ -1166,7 +1238,8 @@ public class ConsoleWriterTests
     private static string CaptureFallbackOutput(
         Action<ConsoleWriter> write,
         ISecretObfuscator? secretObfuscator = null,
-        AnsiSupport ansiSupport = AnsiSupport.No)
+        AnsiSupport ansiSupport = AnsiSupport.No,
+        ISecretProvider? secretProvider = null)
     {
         var originalConsole = AnsiConsole.Console;
         using var output = new StringWriter();
@@ -1183,8 +1256,9 @@ public class ConsoleWriterTests
             });
 
             secretObfuscator ??= CreateMockSecretObfuscator();
+            secretProvider ??= new Mock<ISecretProvider>().Object;
 
-            write(new ConsoleWriter(secretObfuscator, AnsiConsole.Console));
+            write(new ConsoleWriter(secretObfuscator, secretProvider, AnsiConsole.Console));
             return output.ToString();
         }
         finally

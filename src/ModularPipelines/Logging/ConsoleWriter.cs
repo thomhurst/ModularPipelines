@@ -10,11 +10,16 @@ namespace ModularPipelines.Logging;
 internal class ConsoleWriter : IConsoleWriter
 {
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly ISecretProvider _secretProvider;
     private readonly IAnsiConsole _ansiConsole;
 
-    public ConsoleWriter(ISecretObfuscator secretObfuscator, IAnsiConsole ansiConsole)
+    public ConsoleWriter(
+        ISecretObfuscator secretObfuscator,
+        ISecretProvider secretProvider,
+        IAnsiConsole ansiConsole)
     {
         _secretObfuscator = secretObfuscator;
+        _secretProvider = secretProvider;
         _ansiConsole = ansiConsole;
     }
 
@@ -26,7 +31,7 @@ internal class ConsoleWriter : IConsoleWriter
             return;
         }
 
-        _ansiConsole.WriteLine(_secretObfuscator.Obfuscate(value, null));
+        ExecuteWithStableSecrets(value, WriteLineCore);
     }
 
     public void WriteMarkupLine(string value)
@@ -37,17 +42,7 @@ internal class ConsoleWriter : IConsoleWriter
             return;
         }
 
-        try
-        {
-            _ansiConsole.Write(ObfuscatedMarkup.Create(value, _secretObfuscator));
-            _ansiConsole.WriteLine();
-        }
-        catch (InvalidOperationException)
-        {
-            // Fall back to plain console output if markup parsing fails
-            // (e.g., unbalanced or invalid markup characters)
-            _ansiConsole.WriteLine(_secretObfuscator.Obfuscate(value, null));
-        }
+        ExecuteWithStableSecrets(value, WriteMarkupLineCore);
     }
 
     public void Write(IRenderable renderable)
@@ -58,7 +53,39 @@ internal class ConsoleWriter : IConsoleWriter
             return;
         }
 
+        ExecuteWithStableSecrets(renderable, WriteCore);
+    }
+
+    private void WriteLineCore(string value) =>
+        _ansiConsole.WriteLine(_secretObfuscator.Obfuscate(value, null));
+
+    private void WriteMarkupLineCore(string value)
+    {
+        try
+        {
+            _ansiConsole.Write(ObfuscatedMarkup.Create(value, _secretObfuscator));
+            _ansiConsole.WriteLine();
+        }
+        catch (InvalidOperationException)
+        {
+            // Fall back to plain console output if markup parsing fails
+            // (e.g., unbalanced or invalid markup characters)
+            WriteLineCore(value);
+        }
+    }
+
+    private void WriteCore(IRenderable renderable) =>
         _ansiConsole.Write(new SecretObfuscatedRenderable(renderable, _secretObfuscator));
+
+    private void ExecuteWithStableSecrets<TState>(TState state, Action<TState> write)
+    {
+        if (_secretProvider is ISecretEmissionGuard emissionGuard)
+        {
+            emissionGuard.ExecuteWithStableSecrets(state, write);
+            return;
+        }
+
+        write(state);
     }
 
     private static bool TryGetModuleConsoleWriter(
