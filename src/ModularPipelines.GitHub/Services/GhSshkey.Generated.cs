@@ -18,14 +18,14 @@ namespace ModularPipelines.GitHub.Services;
 /// gh sshkey commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhSshkey : IGhSshkey
+public class GhSshKey : IGhSshKey
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GhSshkey"/> class.
+    /// Initializes a new instance of the <see cref="GhSshKey"/> class.
     /// </summary>
-    public GhSshkey(ICommandContext command)
+    public GhSshKey(ICommandContext command)
     {
         _command = command;
     }
@@ -70,11 +70,11 @@ public class GhSshkey : IGhSshkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        GhSshKeyDeleteOptions? options = null,
+        GhSshKeyDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhSshKeyDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

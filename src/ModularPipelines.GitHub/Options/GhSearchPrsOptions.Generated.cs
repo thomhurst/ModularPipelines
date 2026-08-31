@@ -222,7 +222,7 @@ public record GhSearchPrsOptions : GhOptions
     /// Filter on repository, in OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Repo { get; set; }
+    public string? Repo { get; set; }
 
     /// <summary>
     /// Filter based on review status: {none|required|approved|changes_requested}

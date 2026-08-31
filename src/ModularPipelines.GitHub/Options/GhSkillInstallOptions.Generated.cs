@@ -22,11 +22,6 @@ public record GhSkillInstallOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Repository
 ) : GhOptions
 {
-    public GhSkillInstallOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Target agent (see supported values above)
     /// </summary>

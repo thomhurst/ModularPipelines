@@ -22,11 +22,6 @@ public record GhGistEditOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IdOrUrl
 ) : GhOptions
 {
-    public GhGistEditOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Add a new file to the gist
     /// </summary>

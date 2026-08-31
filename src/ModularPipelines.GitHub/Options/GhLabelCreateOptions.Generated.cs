@@ -22,11 +22,6 @@ public record GhLabelCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GhOptions
 {
-    public GhLabelCreateOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Color of the label
     /// </summary>

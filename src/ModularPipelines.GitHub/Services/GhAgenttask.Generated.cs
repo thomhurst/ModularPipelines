@@ -18,14 +18,14 @@ namespace ModularPipelines.GitHub.Services;
 /// gh agenttask commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhAgenttask : IGhAgenttask
+public class GhAgentTask : IGhAgentTask
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GhAgenttask"/> class.
+    /// Initializes a new instance of the <see cref="GhAgentTask"/> class.
     /// </summary>
-    public GhAgenttask(ICommandContext command)
+    public GhAgentTask(ICommandContext command)
     {
         _command = command;
     }

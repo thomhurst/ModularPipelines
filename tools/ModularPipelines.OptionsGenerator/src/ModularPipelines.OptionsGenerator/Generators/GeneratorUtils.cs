@@ -892,11 +892,16 @@ public static partial class GeneratorUtils
 
     private static readonly string[] FilePathPropertySuffixes = ["File", "Path", "Keyring", "Dir"];
 
+    private static readonly string[] IdentifierPropertySuffixes = ["Name", "Id", "Identifier"];
+
+    private const string SecretDescriptionKeywordPattern =
+        @"secret|password|passphrase|token|credential|api[\s-]*key|private[\s-]*key|access[\s-]*key|secret[\s-]*key|one[\s-]*time[\s-]*password|otp";
+
+    private const string SecretMaterialTermPattern = @"value|content|body|material|payload";
+
     /// <summary>
     /// Determines if an option should be marked as a secret based on its property name and description.
-    /// Options containing secret-related keywords such as "Secret", "Password", "Passphrase",
-    /// "Token", "Credential", "Otp", or known compound key names are considered secrets and
-    /// should be obfuscated in logs.
+    /// Secret-bearing values are obfuscated, while identifiers and file paths remain visible.
     /// </summary>
     /// <param name="propertyName">The C# property name of the option.</param>
     /// <param name="isFlag">Whether this is a boolean flag (flags are not considered secrets).</param>
@@ -909,9 +914,10 @@ public static partial class GeneratorUtils
             return false;
         }
 
-        // A secrets provider identifies the encryption backend (for example "default"
-        // or "passphrase"); it is not itself secret material.
-        if (propertyName.EndsWith("SecretsProvider", StringComparison.OrdinalIgnoreCase))
+        if (isFlag
+            || propertyName.EndsWith("SecretsProvider", StringComparison.OrdinalIgnoreCase)
+            || IsSecretIdentifier(propertyName)
+            || IsFilePathOption(propertyName, description))
         {
             return false;
         }
@@ -920,15 +926,23 @@ public static partial class GeneratorUtils
                                    propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                                || ContainsIdentifierSegment(propertyName, "Otp")
                                || propertyName.EndsWith("Creds", StringComparison.OrdinalIgnoreCase);
-        if (!hasSecretKeyword || IsFilePathOption(propertyName, description))
-        {
-            return false;
-        }
-
-        // A keyword-bearing flag is suspicious, but has no value to mask. The
-        // enhancer reports it so a bad scraped type cannot pass unnoticed.
-        return !isFlag;
+        return hasSecretKeyword || DescriptionIdentifiesSecretValue(description);
     }
+
+    private static bool IsSecretIdentifier(string propertyName) =>
+        IdentifierPropertySuffixes.Any(suffix =>
+            propertyName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase));
+
+    private static bool DescriptionIdentifiesSecretValue(string? description) =>
+        !string.IsNullOrWhiteSpace(description)
+        && SecretMaterialDescriptionPattern().IsMatch(description);
+
+    [GeneratedRegex(
+        @"\b(?:" + SecretDescriptionKeywordPattern + @")\s+(?:" + SecretMaterialTermPattern + @")\b"
+        + @"|\b(?:" + SecretMaterialTermPattern + @")\s+(?:for|of)\s+(?:the\s+)?(?:"
+        + SecretDescriptionKeywordPattern + @")\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SecretMaterialDescriptionPattern();
 
     internal static bool IsFilePathOption(string propertyName, string? description)
     {

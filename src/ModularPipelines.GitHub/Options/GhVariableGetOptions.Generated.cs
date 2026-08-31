@@ -22,11 +22,6 @@ public record GhVariableGetOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string VariableName
 ) : GhOptions
 {
-    public GhVariableGetOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Get a variable for an environment
     /// </summary>

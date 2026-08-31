@@ -19,7 +19,7 @@ namespace ModularPipelines.GitHub.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGhAgenttask
+public interface IGhAgentTask
 {
     /// <summary>
     /// Working with agent tasks in the GitHub CLI is in preview and

@@ -24,11 +24,6 @@ public record GhGistRenameOptions(
     [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewFilename
 ) : GhOptions
 {
-    public GhGistRenameOptions()
-        : this(default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Show help for command
     /// </summary>

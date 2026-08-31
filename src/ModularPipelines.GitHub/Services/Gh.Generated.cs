@@ -26,7 +26,7 @@ internal partial class Gh : IGh
     /// Initializes a new instance of the <see cref="Gh"/> class.
     /// </summary>
     public Gh(
-        IGhAgenttask agenttask,
+        IGhAgentTask agentTask,
         IGhAttestation attestation,
         IGhAuth auth,
         IGhCache cache,
@@ -35,7 +35,7 @@ internal partial class Gh : IGh
         IGhDiscussion discussion,
         IGhExtension extension,
         IGhGist gist,
-        IGhGpgkey gpgkey,
+        IGhGpgKey gpgKey,
         IGhIssue issue,
         IGhLabel label,
         IGhOrg org,
@@ -49,13 +49,13 @@ internal partial class Gh : IGh
         IGhSearch search,
         IGhSecret secret,
         IGhSkill skill,
-        IGhSshkey sshkey,
+        IGhSshKey sshKey,
         IGhVariable variable,
         IGhWorkflow workflow,
         ICommandContext command
     )
     {
-        Agenttask = agenttask;
+        AgentTask = agentTask;
         Attestation = attestation;
         Auth = auth;
         Cache = cache;
@@ -64,7 +64,7 @@ internal partial class Gh : IGh
         Discussion = discussion;
         Extension = extension;
         Gist = gist;
-        Gpgkey = gpgkey;
+        GpgKey = gpgKey;
         Issue = issue;
         Label = label;
         Org = org;
@@ -78,7 +78,7 @@ internal partial class Gh : IGh
         Search = search;
         Secret = secret;
         Skill = skill;
-        Sshkey = sshkey;
+        SshKey = sshKey;
         Variable = variable;
         Workflow = workflow;
         _command = command;
@@ -87,7 +87,7 @@ internal partial class Gh : IGh
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public IGhAgenttask Agenttask { get; }
+    public IGhAgentTask AgentTask { get; }
 
     /// <inheritdoc />
     public IGhAttestation Attestation { get; }
@@ -114,7 +114,7 @@ internal partial class Gh : IGh
     public IGhGist Gist { get; }
 
     /// <inheritdoc />
-    public IGhGpgkey Gpgkey { get; }
+    public IGhGpgKey GpgKey { get; }
 
     /// <inheritdoc />
     public IGhIssue Issue { get; }
@@ -156,7 +156,7 @@ internal partial class Gh : IGh
     public IGhSkill Skill { get; }
 
     /// <inheritdoc />
-    public IGhSshkey Sshkey { get; }
+    public IGhSshKey SshKey { get; }
 
     /// <inheritdoc />
     public IGhVariable Variable { get; }
@@ -170,11 +170,11 @@ internal partial class Gh : IGh
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ApiAsync(
-        GhApiOptions? options = null,
+        GhApiOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhApiOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -196,24 +196,6 @@ internal partial class Gh : IGh
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> DiscussionAsync(
-        GhDiscussionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhDiscussionOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> IssueAsync(
-        GhIssueOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhIssueOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> LicensesAsync(
         GhLicensesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -223,39 +205,12 @@ internal partial class Gh : IGh
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> OrgAsync(
-        GhOrgOptions? options = null,
+    public virtual async Task<CommandResult> StackAsync(
+        GhStackOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhOrgOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> PrAsync(
-        GhPrOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhPrOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> ReleaseAsync(
-        GhReleaseOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhReleaseOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> RepoAsync(
-        GhRepoOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhRepoOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GhStackOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

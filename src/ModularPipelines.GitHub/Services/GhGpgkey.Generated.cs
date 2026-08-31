@@ -18,14 +18,14 @@ namespace ModularPipelines.GitHub.Services;
 /// gh gpgkey commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhGpgkey : IGhGpgkey
+public class GhGpgKey : IGhGpgKey
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GhGpgkey"/> class.
+    /// Initializes a new instance of the <see cref="GhGpgKey"/> class.
     /// </summary>
-    public GhGpgkey(ICommandContext command)
+    public GhGpgKey(ICommandContext command)
     {
         _command = command;
     }
@@ -70,11 +70,11 @@ public class GhGpgkey : IGhGpgkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        GhGpgKeyDeleteOptions? options = null,
+        GhGpgKeyDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhGpgKeyDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

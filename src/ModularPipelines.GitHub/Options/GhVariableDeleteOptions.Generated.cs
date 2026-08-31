@@ -22,11 +22,6 @@ public record GhVariableDeleteOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string VariableName
 ) : GhOptions
 {
-    public GhVariableDeleteOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Delete a variable for an environment
     /// </summary>

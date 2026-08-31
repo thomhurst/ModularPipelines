@@ -22,11 +22,6 @@ public record GhGistCloneOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Gist
 ) : GhOptions
 {
-    public GhGistCloneOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Show help for command
     /// </summary>

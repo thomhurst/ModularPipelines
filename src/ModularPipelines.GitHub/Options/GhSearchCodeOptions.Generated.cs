@@ -22,11 +22,6 @@ public record GhSearchCodeOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Query
 ) : GhOptions
 {
-    public GhSearchCodeOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Filter on file extension
     /// </summary>
@@ -79,7 +74,7 @@ public record GhSearchCodeOptions(
     /// Filter on repository, in OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Repo { get; set; }
+    public string? Repo { get; set; }
 
     /// <summary>
     /// Filter on size range, in kilobytes

@@ -22,11 +22,6 @@ public record GhGpgKeyDeleteOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyId
 ) : GhOptions
 {
-    public GhGpgKeyDeleteOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Skip the confirmation prompt
     /// </summary>

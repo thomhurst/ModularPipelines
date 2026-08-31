@@ -23,11 +23,6 @@ public record GhCodespaceCpOptions(
     [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Dest
 ) : GhOptions
 {
-    public GhCodespaceCpOptions()
-        : this(default(IEnumerable<string>)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Name of the codespace
     /// </summary>
