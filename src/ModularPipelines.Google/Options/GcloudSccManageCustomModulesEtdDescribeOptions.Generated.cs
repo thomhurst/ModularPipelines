@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// get the details of a Event     Threat Detection custom module
+/// get the details of a Event      Threat Detection custom module
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -45,6 +45,6 @@ public record GcloudSccManageCustomModulesEtdDescribeOptions(
     /// At most one of these can be specified: At most one of these can be specified: Project associated with the custom module.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public int? Project { get; set; }
+    public string? Project { get; set; }
 
 }

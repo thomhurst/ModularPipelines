@@ -457,7 +457,8 @@ public partial class GcloudCliScraper : CliScraperBase
         => NumericHintPattern().IsMatch(hint);
 
     private static bool IsTextualIdentifierOption(string switchName)
-        => switchName.Equals("--billing-account", StringComparison.OrdinalIgnoreCase)
+        => switchName.Equals("--project", StringComparison.OrdinalIgnoreCase)
+            || switchName.Equals("--billing-account", StringComparison.OrdinalIgnoreCase)
             || (switchName.Contains("service-account", StringComparison.OrdinalIgnoreCase)
                 && !switchName.EndsWith("-project-number", StringComparison.OrdinalIgnoreCase));
 
