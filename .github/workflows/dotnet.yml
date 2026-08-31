@@ -29,6 +29,8 @@ jobs:
     timeout-minutes: 25
     outputs:
       is_generated_integration: ${{ steps.generated_integration.outputs.is_generated_integration }}
+      integration_tool: ${{ steps.generated_integration.outputs.tool }}
+      integration_namespace_prefix: ${{ steps.generated_integration.outputs.namespace_prefix }}
       integration_package: ${{ steps.generated_integration.outputs.package }}
       integration_solution: ${{ steps.generated_integration.outputs.solution }}
       integration_test_project: ${{ steps.generated_integration.outputs.test_project }}
@@ -76,12 +78,30 @@ jobs:
             -ChangedPath $changedPaths `
             -RepositoryRoot $env:GITHUB_WORKSPACE `
             -GitHubOutput $env:GITHUB_OUTPUT
+      - name: Reject stale generated snapshots
+        if: steps.generated_integration.outputs.is_generated_integration == 'true'
+        shell: pwsh
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          INTEGRATION_TOOL: ${{ steps.generated_integration.outputs.tool }}
+          INTEGRATION_NAMESPACE_PREFIX: ${{ steps.generated_integration.outputs.namespace_prefix }}
+          INTEGRATION_PACKAGE: ${{ steps.generated_integration.outputs.package }}
+        run: |
+          ./scripts/Assert-GeneratedOptionsFreshness.ps1 `
+            -RepositoryRoot $env:GITHUB_WORKSPACE `
+            -Tool $env:INTEGRATION_TOOL `
+            -Package $env:INTEGRATION_PACKAGE `
+            -NamespacePrefix $env:INTEGRATION_NAMESPACE_PREFIX `
+            -CurrentBase "origin/$($env:BASE_REF)"
       - name: Test generated integration validation routing
         shell: pwsh
         run: ./scripts/Test-ResolveGeneratedIntegrationValidation.ps1
       - name: Test required pipeline context routing
         shell: pwsh
         run: ./scripts/Test-RequiredPipelineContext.ps1
+      - name: Test generated options provenance
+        shell: pwsh
+        run: ./scripts/Test-GeneratedOptionsProvenance.ps1
       - name: Verify public API baseline coverage
         shell: pwsh
         run: ./scripts/Assert-PublicApiBaselines.ps1

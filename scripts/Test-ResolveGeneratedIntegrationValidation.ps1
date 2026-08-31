@@ -2,6 +2,7 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'Resolve-GeneratedIntegrationValidation.ps1') `
     -HeadRef ignored `
     -ChangedPath @()
+. (Join-Path $PSScriptRoot 'GeneratedOptionsProvenance.ps1')
 
 function Assert-Equal {
     param(
@@ -27,12 +28,15 @@ $aws = Resolve-GeneratedIntegrationValidation `
         'docs/docs/mp-packages/cli/aws.md',
         'src/ModularPipelines.AmazonWebServices/AssemblyInfo.Generated.cs',
         'src/ModularPipelines.AmazonWebServices/Enums/AwsMode.Generated.cs',
+        'src/ModularPipelines.AmazonWebServices/Generated/Aws.Generation.json',
         'src/ModularPipelines.AmazonWebServices/Options/AwsRunOptions.Generated.cs',
         'src/ModularPipelines.AmazonWebServices/PublicAPI.Unshipped.txt'
     ) `
     -RepositoryRoot $repositoryRoot
 
 Assert-Equal $aws.IsGeneratedIntegration $true 'AWS generated changes should use sharded validation.'
+Assert-Equal $aws.Tool 'aws' 'AWS validation selected the wrong tool.'
+Assert-Equal $aws.NamespacePrefix 'Aws' 'AWS validation selected the wrong namespace prefix.'
 Assert-Equal `
     $aws.Solution `
     'src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.slnx' `
@@ -70,6 +74,8 @@ try {
     $outputs = @(Get-Content -LiteralPath $outputFile)
     foreach ($expectedOutput in @(
                  'is_generated_integration=true',
+                 'tool=aws',
+                 'namespace_prefix=Aws',
                  'package=ModularPipelines.AmazonWebServices',
                  'solution=src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.slnx',
                  'test_project=test/ModularPipelines.AmazonWebServices.UnitTests/ModularPipelines.AmazonWebServices.UnitTests.csproj'
@@ -174,6 +180,19 @@ Assert-Equal `
     'Changes outside the generated package and its documentation must retain full validation.'
 
 $workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
+$fastFailJob = [regex]::Match(
+    $workflow,
+    '(?ms)^  fast-fail:.*?(?=^  analyzers:)').Value
+foreach ($freshnessGuard in @(
+             'Reject stale generated snapshots',
+             'Assert-GeneratedOptionsFreshness.ps1',
+             'integration_namespace_prefix'
+         )) {
+    if (-not $fastFailJob.Contains($freshnessGuard, [StringComparison]::Ordinal)) {
+        throw "Fast-fail validation omitted generated freshness guard '$freshnessGuard'."
+    }
+}
+
 $generatedJob = [regex]::Match(
     $workflow,
     '(?ms)^  generated-integration:.*?(?=^  trim-aot:)').Value
@@ -194,6 +213,25 @@ foreach ($gcloudSafeguard in @(
          )) {
     if (-not $generatedJob.Contains($gcloudSafeguard, [StringComparison]::Ordinal)) {
         throw "Generated gcloud validation omitted safeguard '$gcloudSafeguard'."
+    }
+}
+
+$generationWorkflow = Get-Content `
+    -LiteralPath (Join-Path $repositoryRoot '.github/workflows/generate-cli-options.yml') `
+    -Raw
+foreach ($refreshBehavior in @(
+             'push:',
+             'tools/ModularPipelines.OptionsGenerator/**',
+             'Write-GeneratedOptionsProvenance.ps1',
+             "github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch'"
+         )) {
+    if (-not $generationWorkflow.Contains($refreshBehavior, [StringComparison]::Ordinal)) {
+        throw "Generated-options refresh workflow omitted '$refreshBehavior'."
+    }
+}
+foreach ($sourcePath in Get-GeneratedOptionsSourcePath) {
+    if (-not $generationWorkflow.Contains($sourcePath, [StringComparison]::Ordinal)) {
+        throw "Generated-options refresh trigger omitted source input '$sourcePath'."
     }
 }
 
