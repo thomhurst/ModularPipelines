@@ -193,9 +193,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         var destinationPrefix = Path.EndsInDirectorySeparator(destinationDirectory)
             ? destinationDirectory
             : destinationDirectory + Path.DirectorySeparatorChar;
-        var pathComparison = OperatingSystem.IsWindows()
-            ? StringComparison.OrdinalIgnoreCase
-            : StringComparison.Ordinal;
+        var pathComparison = GetArchivePathComparison();
         Directory.CreateDirectory(destinationDirectory);
 
         foreach (var entry in archive.Entries)

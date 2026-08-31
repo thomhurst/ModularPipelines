@@ -1,8 +1,13 @@
+using System.IO.Compression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Configuration;
 using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Extensions;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests.Extensions;
 
@@ -17,6 +22,26 @@ public class RedisDistributedExtensionsTests
         "BUILD_BUILDID",
         "CI_PIPELINE_ID",
     ];
+
+    [Test]
+    public async Task ArtifactOptionsUseSharedOptionsPipeline()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisDistributedArtifactStore(options =>
+            options.CompressionLevel = CompressionLevel.NoCompression);
+        await using var pipeline = await builder.BuildAsync();
+
+        var configuredOptions = pipeline.Services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
+        var directOptions = pipeline.Services.GetRequiredService<ArtifactOptions>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(directOptions).IsSameReferenceAs(configuredOptions);
+            await Assert.That(configuredOptions.CompressionLevel)
+                .IsEqualTo(CompressionLevel.NoCompression);
+        }
+    }
 
     [Test]
     public async Task CoordinatorRunIdentifierScopesWorkerRegistrations()
@@ -72,5 +97,13 @@ public class RedisDistributedExtensionsTests
                 Environment.SetEnvironmentVariable(name, value);
             }
         }
+    }
+
+    private sealed class NoOpModule : Module<int>
+    {
+        protected override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(0);
     }
 }

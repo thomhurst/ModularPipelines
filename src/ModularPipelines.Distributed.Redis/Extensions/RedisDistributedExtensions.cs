@@ -89,10 +89,11 @@ public static class RedisDistributedExtensions
         this PipelineBuilder builder,
         Action<ArtifactOptions>? configure = null)
     {
-        var options = new ArtifactOptions();
-        configure?.Invoke(options);
+        if (configure is not null)
+        {
+            builder.Services.Configure(configure);
+        }
 
-        builder.Services.AddSingleton(options);
         return builder.AddDistributedArtifactStoreFactory<RedisDistributedArtifactStoreFactory>();
     }
 

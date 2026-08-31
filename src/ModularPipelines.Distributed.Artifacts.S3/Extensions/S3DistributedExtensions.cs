@@ -47,13 +47,6 @@ public static class S3DistributedExtensions
         configure(s3Options);
 
         builder.Services.AddSingleton(s3Options);
-
-        // Register artifact options if not already registered
-        if (!builder.Services.Any(d => d.ServiceType == typeof(ArtifactOptions)))
-        {
-            builder.Services.AddSingleton(new ArtifactOptions());
-        }
-
         return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
     }
 
@@ -68,11 +61,8 @@ public static class S3DistributedExtensions
         var s3Options = new S3ArtifactOptions();
         configureS3(s3Options);
 
-        var artifactOptions = new ArtifactOptions();
-        configureArtifacts(artifactOptions);
-
         builder.Services.AddSingleton(s3Options);
-        builder.Services.AddSingleton(artifactOptions);
+        builder.Services.Configure(configureArtifacts);
         return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
     }
 }
