@@ -758,6 +758,69 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Wait_Arguments_Without_Value_Hints_Preserve_Value_Arity()
+    {
+        const string helpText = """
+            Command
+                az vm wait : Place the CLI in a waiting state.
+
+            Optional Arguments
+                --created  : Wait until created with 'provisioningState' at 'Succeeded'.
+                --custom   : Wait until the condition satisfies a custom JMESPath query.
+                --deleted  : Wait until deleted.
+                --exists   : Wait until the resource exists.
+                --interval : Polling interval in seconds. Default: 30.
+                --timeout  : Maximum wait in seconds. Default: 3600.
+                --updated  : Wait until updated with provisioningState at 'Succeeded'.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "vm", "wait"], helpText);
+        var options = command!.Options.ToDictionary(option => option.SwitchName);
+
+        using (Assert.Multiple())
+        {
+            foreach (var switchName in new[] { "--created", "--deleted", "--exists", "--updated" })
+            {
+                await Assert.That(options[switchName].IsFlag).IsTrue();
+                await Assert.That(options[switchName].CSharpType).IsEqualTo("bool?");
+            }
+
+            await Assert.That(options["--custom"].IsFlag).IsFalse();
+            await Assert.That(options["--custom"].CSharpType).IsEqualTo("string?");
+            await Assert.That(options["--interval"].IsFlag).IsFalse();
+            await Assert.That(options["--interval"].CSharpType).IsEqualTo("int?");
+            await Assert.That(options["--timeout"].IsFlag).IsFalse();
+            await Assert.That(options["--timeout"].CSharpType).IsEqualTo("int?");
+        }
+    }
+
+    [Test]
+    public async Task Acr_Build_Arguments_Without_Value_Hints_Remain_Value_Options()
+    {
+        const string helpText = """
+            Command
+                az acr build : Queues a quick build.
+
+            Optional Arguments
+                --file -f      : The relative path of the docker file to the source code root folder.
+                --log-template : The repository and tag template for run log artifact using the format: 'log/repo:tag'.
+                --platform     : The platform where build/task is run, for example 'windows' or 'linux'.
+                --timeout      : The timeout in seconds.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "acr", "build"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.All(option => !option.IsFlag)).IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--timeout").CSharpType)
+                .IsEqualTo("int?");
+            await Assert.That(command.Options.Where(option => option.SwitchName != "--timeout")
+                .All(option => option.CSharpType == "string?")).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Stack_Child_Scope_Is_A_Presence_Only_Flag()
     {
         const string helpText = """

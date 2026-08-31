@@ -63,8 +63,13 @@ public partial class AzCliScraper : CliScraperBase
         "account-key",
         "account-name",
         "connection-string",
+        "file",
+        "interval",
+        "log-template",
+        "platform",
         "sas-token",
         "service-endpoint",
+        "timeout",
     ];
 
     public AzCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AzCliScraper> logger)
@@ -362,6 +367,7 @@ public partial class AzCliScraper : CliScraperBase
                          || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
         var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
         var isFlag = !isRequired && IsPresenceOnlyFlag(
+            commandParts,
             longFlag,
             valueHint,
             description,
@@ -399,12 +405,16 @@ public partial class AzCliScraper : CliScraperBase
     /// Determines whether an option is rendered without a value.
     /// </summary>
     private static bool IsPresenceOnlyFlag(
+        IReadOnlyList<string> commandParts,
         string switchName,
         string valueHint,
         string description,
         bool explicitBooleanValue)
     {
-        if (ExplicitValueOptionOverrides.Contains(switchName, StringComparer.OrdinalIgnoreCase))
+        if (ExplicitValueOptionOverrides.Contains(switchName, StringComparer.OrdinalIgnoreCase)
+            || (switchName.Equals("custom", StringComparison.OrdinalIgnoreCase)
+                && commandParts.Count > 0
+                && commandParts[^1].Equals("wait", StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
@@ -490,7 +500,9 @@ public partial class AzCliScraper : CliScraperBase
         }
 
         // Check for numeric types
-        if (lowerHint.Contains("number") || lowerHint.Contains("count") ||
+        if (switchName.Equals("interval", StringComparison.OrdinalIgnoreCase)
+            || switchName.Equals("timeout", StringComparison.OrdinalIgnoreCase)
+            || lowerHint.Contains("number") || lowerHint.Contains("count") ||
             lowerHint.Contains("port") || lowerHint.Contains("size") ||
             lowerHint.Contains("timeout") || int.TryParse(valueHint, out _))
         {
