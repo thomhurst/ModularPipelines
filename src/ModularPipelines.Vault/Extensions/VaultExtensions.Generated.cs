@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Vault.Services;
 
 namespace ModularPipelines.Vault.Extensions;
@@ -31,4 +30,5 @@ public static class VaultExtensions
         services.TryAddScoped<IVault, Services.Vault>();
         return services;
     }
+
 }

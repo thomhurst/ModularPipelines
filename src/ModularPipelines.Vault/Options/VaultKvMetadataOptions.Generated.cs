@@ -19,9 +19,7 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "metadata")]
-public record VaultKvMetadataOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
-) : VaultOptions
+public record VaultKvMetadataOptions : VaultOptions
 {
     /// <summary>
     /// The args operand.

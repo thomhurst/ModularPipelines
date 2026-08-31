@@ -21,7 +21,7 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("transit", "import-version")]
 public record VaultTransitImportVersionOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Key
 ) : VaultOptions
 {
 }

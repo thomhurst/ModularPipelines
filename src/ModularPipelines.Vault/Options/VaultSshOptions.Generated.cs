@@ -27,6 +27,6 @@ public record VaultSshOptions(
     /// The ssh options operand.
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
-    public string? SshOptions { get; set; }
+    public IEnumerable<string>? SshOptions { get; set; }
 
 }
