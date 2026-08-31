@@ -399,6 +399,31 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task LoggingInsertAtBoundaryPrecedesApplicationRegistration()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        var loggingBoundary = builder.Logging.Services.Count;
+        builder.Services.Configure<RegistrationOrderOptions>(options =>
+            options.Calls.Add("application-second"));
+        builder.Logging.Services.Insert(
+            loggingBoundary,
+            ServiceDescriptor.Singleton<IConfigureOptions<RegistrationOrderOptions>>(
+                new ConfigureNamedOptions<RegistrationOrderOptions>(
+                    Microsoft.Extensions.Options.Options.DefaultName,
+                    options => options.Calls.Add("logging-first"))));
+
+        await using var pipeline = await builder.BuildAsync();
+        var options = pipeline.Services
+            .GetRequiredService<IOptions<RegistrationOrderOptions>>()
+            .Value;
+
+        await Assert.That(options.Calls)
+            .IsEquivalentTo(["logging-first", "application-second"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
     public async Task PipelineBuilderLoggingCanClearFrameworkProviders()
     {
         var loggerProvider = new TestLoggerProvider();

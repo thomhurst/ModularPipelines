@@ -763,6 +763,16 @@ public sealed class PipelineBuilder
             _entries.Insert(index, entry);
         }
 
+        public void AppendBefore(
+            OrderedServiceCollection followingCollection,
+            ServiceDescriptor item)
+        {
+            var entry = followingCollection._entries.Count > 0
+                ? registrationOrder.InsertBefore(followingCollection._entries[0], item)
+                : registrationOrder.Add(item);
+            _entries.Add(entry);
+        }
+
         public bool Remove(ServiceDescriptor item)
         {
             var index = IndexOf(item);
@@ -791,8 +801,8 @@ public sealed class PipelineBuilder
     }
 
     private sealed class PipelineLoggingServiceCollection(
-        IServiceCollection loggingServices,
-        IServiceCollection applicationServices) : IServiceCollection
+        OrderedServiceCollection loggingServices,
+        OrderedServiceCollection applicationServices) : IServiceCollection
     {
         public ServiceDescriptor this[int index]
         {
@@ -848,9 +858,13 @@ public sealed class PipelineBuilder
 
         public void Insert(int index, ServiceDescriptor item)
         {
-            if (index <= loggingServices.Count)
+            if (index < loggingServices.Count)
             {
                 loggingServices.Insert(index, item);
+            }
+            else if (index == loggingServices.Count)
+            {
+                loggingServices.AppendBefore(applicationServices, item);
             }
             else
             {
