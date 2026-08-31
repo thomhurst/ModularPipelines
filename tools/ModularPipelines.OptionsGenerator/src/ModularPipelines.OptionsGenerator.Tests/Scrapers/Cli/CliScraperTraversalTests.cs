@@ -977,6 +977,65 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task PnpmTraversal_Classifies_Placeholder_Free_Switches_As_Flags()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: pnpm [command] [flags]
+
+                Security:
+                      audit    Checks for known security issues
+                """,
+            ["audit --help"] = """
+                Usage: pnpm audit [options]
+
+                Commands:
+                  signatures    Verify package signatures
+                """,
+            ["audit signatures --help"] = """
+                Usage: pnpm audit signatures [options]
+
+                Options:
+                  --dev                       Only inspect development dependencies
+                  --prod                      Only inspect production dependencies
+                  --interactive               Prompt before applying changes
+                  --ignore-registry-errors    Continue when a registry is unavailable
+                  --ignore-unfixable          Ignore vulnerabilities without a fix
+                  --registry <url>            Use the specified registry
+                  --filter <pattern>          Restrict packages by selector
+                """,
+        });
+        var scraper = new TestPnpmCliScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+        var options = commands.Single(command => command.FullCommand == "pnpm audit signatures")
+            .Options.ToDictionary(option => option.SwitchName, StringComparer.Ordinal);
+
+        using (Assert.Multiple())
+        {
+            foreach (var switchName in new[]
+                     {
+                         "--dev",
+                         "--prod",
+                         "--interactive",
+                         "--ignore-registry-errors",
+                         "--ignore-unfixable",
+                     })
+            {
+                await Assert.That(options[switchName].IsFlag).IsTrue();
+                await Assert.That(options[switchName].CSharpType).IsEqualTo("bool?");
+            }
+
+            foreach (var switchName in new[] { "--registry", "--filter" })
+            {
+                await Assert.That(options[switchName].IsFlag).IsFalse();
+                await Assert.That(options[switchName].CSharpType).IsEqualTo("string?");
+            }
+        }
+    }
+
+    [Test]
     public async Task Shared_Skip_Filter_Preserves_Uppercase_Subcommands()
     {
         var scraper = new OptionShapeScraper(new StubExecutor(
