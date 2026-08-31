@@ -1783,7 +1783,9 @@ internal static class GeneratedApiCompatibilityPreserver
                 command,
                 baseline,
                 options[optionIndex]);
-            if (!isPulumiLocalLogout && !ExplicitlyAcceptsBooleanText(options[optionIndex]))
+            if (!isPulumiLocalLogout
+                && baseline.IsFlag != false
+                && !ExplicitlyAcceptsBooleanText(options[optionIndex]))
             {
                 continue;
             }
@@ -2555,6 +2557,7 @@ internal static class GeneratedApiCompatibilityPreserver
     {
         if (replacement is null
             || !IsBooleanType(baseline.CSharpType)
+            || baseline.IsFlag == false
             || replacement.CSharpType is not ("string?" or "IEnumerable<string>?"))
         {
             return false;

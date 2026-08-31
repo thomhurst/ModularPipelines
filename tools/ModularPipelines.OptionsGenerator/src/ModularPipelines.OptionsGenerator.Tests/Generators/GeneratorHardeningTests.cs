@@ -183,6 +183,7 @@ public partial class GeneratorHardeningTests
         bool omitPhase = false,
         CliCompatibilityForwardingKind forwardingKind = CliCompatibilityForwardingKind.Direct,
         CliOptionValueArity valueArity = CliOptionValueArity.Required,
+        bool? isFlag = null,
         string? negatedSwitchName = null) =>
         new(
             propertyName,
@@ -195,6 +196,7 @@ public partial class GeneratorHardeningTests
             null,
             useInitAccessor,
             ForwardingKind: forwardingKind,
+            IsFlag: isFlag,
             ValueArity: valueArity,
             Phase: phase ?? (argumentPosition is not null && !omitPhase
                 ? CommandLinePhase.EarlyOperand
@@ -1643,6 +1645,38 @@ public partial class GeneratorHardeningTests
             ]);
 
         await Assert.That(preserved.CompatibilityProperties).IsEmpty();
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Value_Taking_Boolean_As_String()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--enabled",
+                    PropertyName = "Enabled",
+                    CSharpType = "string?",
+                    Description = "Controls the enabled state.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Enabled", "bool?", switchName: "--enabled", isFlag: false)]);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var alias = preserved.CompatibilityProperties.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(alias.PropertyName).IsEqualTo("Enabled");
+            await Assert.That(alias.ForwardToPropertyName).IsEqualTo("EnabledValue");
+            await Assert.That(alias.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableBooleanToString);
+        }
     }
 
     [Test]
