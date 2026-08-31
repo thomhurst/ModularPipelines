@@ -58,6 +58,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class AwsCliScraper : CliScraperBase
 {
+    private static readonly string[] AwsUsageSynopsisHeadings = ["usage", "synopsis"];
+
     private static readonly HashSet<string> ValueOptionsWithoutTypeHints = new(StringComparer.OrdinalIgnoreCase)
     {
         "--cli-input-json",
@@ -73,6 +75,8 @@ public partial class AwsCliScraper : CliScraperBase
         "numbers",
         "punctuation",
     };
+
+    protected override IReadOnlyList<string> UsageSynopsisHeadings => AwsUsageSynopsisHeadings;
 
     public AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AwsCliScraper> logger)
         : base(executor, helpCache, logger)

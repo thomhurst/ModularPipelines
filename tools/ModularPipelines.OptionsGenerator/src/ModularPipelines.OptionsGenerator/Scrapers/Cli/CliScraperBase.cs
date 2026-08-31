@@ -15,6 +15,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public abstract partial class CliScraperBase : ICliScraper
 {
+    private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
+
     private readonly ConcurrentDictionary<string, CliCommandGroupAlias> _commandGroupAliases =
         new(StringComparer.OrdinalIgnoreCase);
 
@@ -77,6 +79,11 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Defaults to Environment.ProcessorCount.
     /// </summary>
     protected virtual int MaxParallelism => Environment.ProcessorCount;
+
+    /// <summary>
+    /// Section headings that can introduce positional-operand syntax.
+    /// </summary>
+    protected virtual IReadOnlyList<string> UsageSynopsisHeadings => DefaultUsageSynopsisHeadings;
 
     /// <summary>
     /// The base options class name (e.g., "HelmOptions", "GcloudOptions").
@@ -788,7 +795,8 @@ public abstract partial class CliScraperBase : ICliScraper
         UsageSynopsisParser.Parse(
             helpText,
             commandPath,
-            GetAdditionalUsageSynopses(commandPath, helpText));
+            GetAdditionalUsageSynopses(commandPath, helpText),
+            UsageSynopsisHeadings);
 
     /// <summary>
     /// Lets a tool associate ambiguous usage operands with named options using its help metadata.
