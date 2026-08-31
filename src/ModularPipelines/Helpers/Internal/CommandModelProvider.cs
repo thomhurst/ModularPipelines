@@ -319,7 +319,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                     throw new InvalidOperationException(
                         $"{optionsType.Name} defines CLI switch '{switchName}' more than once " +
                         $"on properties '{existingProperty}' and '{part.PropertyName}'. " +
-                        "Model aliases with ShortForm on a single property.");
+                        "Name, ShortForm, and NegatedName values must be unique.");
                 }
 
                 switches.Add(switchName, part.PropertyName);
@@ -331,10 +331,23 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     {
         return part switch
         {
-            FlagPart flag => GetNames(flag.Attribute.Name, flag.Attribute.ShortForm),
+            FlagPart flag => GetFlagNames(flag.Attribute),
             OptionPart option => GetNames(option.Attribute.Name, option.Attribute.ShortForm),
             _ => [],
         };
+    }
+
+    private static IEnumerable<string> GetFlagNames(CliFlagAttribute attribute)
+    {
+        foreach (var name in GetNames(attribute.Name, attribute.ShortForm))
+        {
+            yield return name;
+        }
+
+        if (!string.IsNullOrWhiteSpace(attribute.NegatedName))
+        {
+            yield return attribute.NegatedName;
+        }
     }
 
     private static IEnumerable<string> GetNames(string name, string? shortForm)

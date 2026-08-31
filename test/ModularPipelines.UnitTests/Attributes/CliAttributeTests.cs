@@ -876,6 +876,30 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task CommandModel_Rejects_Duplicate_Negated_Switches()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateNegatedSwitch()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("--no-feature");
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_SelfColliding_Negated_Switches()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithSelfCollidingNegatedSwitch()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("--feature");
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Negated_Switch_Matching_ShortForm()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithNegatedSwitchMatchingShortForm()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("-f");
+    }
+
+    [Test]
     public async Task CommandModel_Rejects_Unsupported_Flag_Type_When_Unset()
     {
         await Assert.That(() => BuildArguments(new TestCliOptionsWithInvalidFlagType()))
@@ -1288,6 +1312,27 @@ public class CliAttributeTests
 
         [CliOption("--duplicate")]
         public string? Second { get; set; }
+    }
+
+    internal record TestCliOptionsWithDuplicateNegatedSwitch : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public bool? Feature { get; set; }
+
+        [CliOption("--no-feature")]
+        public string? Other { get; set; }
+    }
+
+    internal record TestCliOptionsWithSelfCollidingNegatedSwitch : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--feature")]
+        public bool? Feature { get; set; }
+    }
+
+    internal record TestCliOptionsWithNegatedSwitchMatchingShortForm : CommandLineToolOptions
+    {
+        [CliFlag("--feature", ShortForm = "-f", NegatedName = "-f")]
+        public bool? Feature { get; set; }
     }
 
     internal record TestCliOptionsWithInvalidFlagType : CommandLineToolOptions
