@@ -30,7 +30,6 @@ public class ReadOnlySetJsonConverterTests
             "BuildModule",
             "System.String",
             new HashSet<string> { "Docker" },
-            null,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentConfiguration(null, 0, false))
         {
@@ -41,6 +40,7 @@ public class ReadOnlySetJsonConverterTests
         var actual = JsonSerializer.Deserialize<ModuleAssignment>(json);
 
         await Assert.That(actual).IsNotNull();
+        await Assert.That(json).DoesNotContain("MatrixTarget");
         await Assert.That(actual!.RequiredCapabilities.Contains("docker")).IsTrue();
         await Assert.That(actual.SatisfiedConditionGroups).Contains("Conditions.CrossPlatform");
     }

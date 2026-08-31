@@ -88,24 +88,6 @@ public class LinuxDockerModule : Module<string>
 
 Modules without `[RequiresCapability]` can run on any worker. They have no routing restrictions.
 
-## MatrixTarget Attribute
-
-The `[MatrixTarget]` attribute is designed for modules that need to run once per target value — for example, building for multiple operating systems or configurations.
-
-```csharp
-[MatrixTarget("windows", "linux", "macos")]
-public class PlatformBuildModule : Module<string>
-{
-    protected override async Task<string?> ExecuteAsync(
-        IModuleContext context, CancellationToken cancellationToken)
-    {
-        return "built";
-    }
-}
-```
-
-When the master encounters a matrix module, it expands it into one assignment per target. Each expanded instance gets a capability requirement matching its target value, so `"windows"` is sent to a worker with the `"windows"` capability, `"linux"` to a Linux worker, and so on.
-
 ## Capability Matching Rules
 
 The matching logic is straightforward:

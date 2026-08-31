@@ -66,7 +66,6 @@ internal class DistributedWorkPublisher(
             ModuleTypeName: moduleType.FullName!,
             ResultTypeName: resultTypeName,
             RequiredCapabilities: requiredCapabilities,
-            MatrixTarget: null, // TODO(matrix): Set by MatrixModuleExpander when wired up
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(
                 TimeoutSeconds: config.Timeout is not null ? (int?) config.Timeout.Value.TotalSeconds : null,

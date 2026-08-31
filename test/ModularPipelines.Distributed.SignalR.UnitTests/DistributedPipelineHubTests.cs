@@ -55,7 +55,6 @@ public class DistributedPipelineHubTests
             moduleTypeName,
             "System.String",
             FrozenSet<string>.Empty,
-            null,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentConfiguration(null, 0, false));
     }
