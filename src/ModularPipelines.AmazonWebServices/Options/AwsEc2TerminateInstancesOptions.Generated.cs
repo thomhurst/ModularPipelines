@@ -19,11 +19,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "terminate-instances")]
-public record AwsEc2TerminateInstancesOptions : AwsOptions
+public record AwsEc2TerminateInstancesOptions(
+    [property: CliOption("--instance-ids")] IEnumerable<string> InstanceIds
+) : AwsOptions
 {
-    [CliOption("--instance-ids", GroupValues = true)]
-    public IEnumerable<string>? InstanceIds { get; set; }
-
     [CliFlag("--force")]
     public bool? Force { get; set; }
 
