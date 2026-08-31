@@ -240,20 +240,17 @@ public partial class TerraformCliScraper : CliScraperBase
                 continue;
             }
 
-            if (foundUsage && !string.IsNullOrEmpty(trimmed) && !trimmed.StartsWith('-'))
+            if (!foundUsage || string.IsNullOrEmpty(trimmed))
             {
-                // Skip section headers
-                if (trimmed.EndsWith(':') && trimmed.Length < 50)
-                {
-                    continue;
-                }
-
-                // Found a description line
-                if (trimmed.Length > 10)
-                {
-                    return trimmed;
-                }
+                continue;
             }
+
+            if (trimmed.StartsWith('-') || (trimmed.EndsWith(':') && trimmed.Length < 50))
+            {
+                return null;
+            }
+
+            return trimmed.Length > 10 ? trimmed : null;
         }
 
         return null;
