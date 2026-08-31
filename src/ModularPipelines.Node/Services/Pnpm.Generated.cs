@@ -74,7 +74,7 @@ internal partial class Pnpm : IPnpm
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmDlxOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -101,7 +101,7 @@ internal partial class Pnpm : IPnpm
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -182,7 +182,7 @@ internal partial class Pnpm : IPnpm
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmWhyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

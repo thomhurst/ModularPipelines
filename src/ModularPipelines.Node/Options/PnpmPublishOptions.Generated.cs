@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -66,7 +65,6 @@ public record PnpmPublishOptions : PnpmOptions
     /// <summary>
     /// When publishing packages that require two-factor authentication, this option can specify a one-time password
     /// </summary>
-    [SecretValue]
     [CliOption("--otp")]
     public string? Otp { get; set; }
 

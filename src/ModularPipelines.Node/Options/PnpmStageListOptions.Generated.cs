@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Node.Options;
-using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Node.Options;
 
@@ -30,21 +29,20 @@ public record PnpmStageListOptions : PnpmOptions
     /// <summary>
     /// Does everything stage publish would do except uploading to the registry.
     /// </summary>
-    [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// Show information in JSON format for list, view, publish, and download.
     /// </summary>
-    [CliOption("--json")]
-    public string? Json { get; set; }
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// One-time password for approve and reject.
     /// </summary>
-    [SecretValue]
-    [CliOption("--otp")]
-    public string? Otp { get; set; }
+    [CliFlag("--otp")]
+    public bool? Otp { get; set; }
 
     /// <summary>
     /// Stage all publishable packages from the workspace.
@@ -73,8 +71,8 @@ public record PnpmStageListOptions : PnpmOptions
     /// <summary>
     /// If no projects are matched by the command, exit with exit code 1 (fail)
     /// </summary>
-    [CliOption("--fail-if-no-match")]
-    public string? FailIfNoMatch { get; set; }
+    [CliFlag("--fail-if-no-match")]
+    public bool? FailIfNoMatch { get; set; }
 
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"
