@@ -14,7 +14,10 @@ This page describes the internal architecture of distributed mode for contributo
 1. `AddDistributedMode` enables distributed services and configures `DistributedOptions`.
 2. While the pipeline is built, `PipelineBuilder` activates distributed mode when
    `Enabled` is `true` and `TotalInstances` is greater than one.
-3. `RoleDetector` treats `InstanceIndex == 0` as the master and replaces the default
+3. `RoleDetector` checks `MODULAR_PIPELINES_INSTANCE` first. A valid environment value
+   of `0` selects the master even when `DistributedOptions.InstanceIndex` is non-zero;
+   any other valid integer selects a worker. When the variable is absent or invalid,
+   `InstanceIndex == 0` selects the master. The master replaces the default
    `IModuleExecutor` with `DistributedModuleExecutor`.
 4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator,
    so its `CreateAsync` method runs when the coordinator is first used. A directly
@@ -24,12 +27,17 @@ This page describes the internal architecture of distributed mode for contributo
 
 ### Worker Startup
 
-1. `RoleDetector` treats every non-zero `InstanceIndex` as a worker and replaces the
+1. `RoleDetector` checks `MODULAR_PIPELINES_INSTANCE` before
+   `DistributedOptions.InstanceIndex`. A valid non-zero environment value selects a
+   worker, while `0` selects the master even when `InstanceIndex` is non-zero. Without
+   a valid override, every non-zero `InstanceIndex` is a worker. Workers replace the
    default `IModuleExecutor` with `WorkerModuleExecutor`.
 2. The worker registers all available module types for serialization.
 3. The worker builds its capability set from configured capabilities and, by default,
    the auto-detected operating-system capability.
-4. The worker registers once with the coordinator via `RegisterWorkerAsync`.
+4. The worker registers its capabilities with the coordinator via
+   `RegisterWorkerAsync`. During run-report finalization it calls the method again to
+   upsert its final command metrics.
 5. The worker enters its dequeue/execute/publish loop.
 
 ### Module Execution (Master Side)
@@ -110,8 +118,8 @@ The shipped `IDistributedCoordinator` interface defines seven methods across fou
 
 | Method | Direction | Description |
 |--------|-----------|-------------|
-| `RegisterWorkerAsync` | Worker → Coordinator | Registers a worker with its index, capabilities, registration time, and run identifier. |
-| `GetRegisteredWorkersAsync` | Master ← Coordinator | Returns registered workers so the master can wait for the expected worker count. |
+| `RegisterWorkerAsync` | Worker → Coordinator | Upserts a worker's index, capabilities, registration time, and run identifier; workers call it again after execution with final command metrics. |
+| `GetRegisteredWorkersAsync` | Master ← Coordinator | Returns registered workers during the startup wait and again after execution while the master aggregates final worker metrics. |
 
 ### Completion
 
@@ -219,10 +227,15 @@ builder.AddDistributedCoordinatorFactory<MyCoordinatorFactory>();
 
 ## Current Liveness Limitations
 
-Worker registration is a one-time record. The shipped coordinator contract has no heartbeat,
-unregister, or worker-health member. The master uses `GetRegisteredWorkersAsync` only while
-waiting for the expected worker count; after `CapabilityTimeout` it proceeds with the workers
-that registered.
+Worker registration is not a heartbeat. Workers upsert an initial capability record and later
+upsert final command metrics during run-report finalization. The master reads registrations
+while waiting for the expected worker count and polls them again after execution to aggregate
+those final metrics. A custom coordinator must therefore retain registration state for the
+whole run and support repeated upserts and post-execution reads.
+
+The shipped coordinator contract still has no heartbeat, unregister, or worker-health member.
+After `CapabilityTimeout`, the master proceeds with the workers that registered; the later
+metrics polling reports completion data but does not provide continuous liveness detection.
 
 If a worker disappears after claiming an assignment, the master can wait until
 `ModuleResultTimeout` (45 minutes by default) for that assignment's result. SignalR can react
