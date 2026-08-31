@@ -53,16 +53,32 @@ public class OptionsClassGenerator : ICodeGenerator
         // optional can't produce two members (CS0102).
         var positionalArguments = CliPositionalArgument.MergeDuplicates(command.PositionalArguments);
         var supportsAlternateInputModes = SupportsAlternateInputModes(command, positionalArguments);
+        var requiresCollectionValidation = GeneratorUtils
+            .GetRequiredConstructorParameters(command, positionalArguments)
+            .Any(IsCollectionParameter);
+        var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresCollectionValidation;
         var existingPropertyNames = GenerateClassDeclaration(
             sb,
             command,
             positionalArguments,
-            usePrimaryConstructor: !supportsAlternateInputModes);
+            usePrimaryConstructor: !usesExplicitRequiredConstructor);
 
         sb.AppendLine("{");
+        if (usesExplicitRequiredConstructor)
+        {
+            GenerateRequiredConstructor(
+                sb,
+                command,
+                positionalArguments,
+                includePrivateParameterlessConstructor: supportsAlternateInputModes);
+            if (requiresCollectionValidation && !supportsAlternateInputModes)
+            {
+                GenerateRequiredDeconstruct(sb, command, positionalArguments);
+            }
+        }
+
         if (supportsAlternateInputModes)
         {
-            GenerateRequiredConstructor(sb, command, positionalArguments);
             GenerateAlternateInputFactories(sb, command);
         }
 
@@ -71,7 +87,7 @@ public class OptionsClassGenerator : ICodeGenerator
             command,
             positionalArguments,
             existingPropertyNames,
-            supportsAlternateInputModes);
+            usesExplicitRequiredConstructor);
         GenerateRequiredAlternativeValidation(sb, command, positionalArguments);
         sb.AppendLine("}");
 
@@ -234,7 +250,8 @@ public class OptionsClassGenerator : ICodeGenerator
     private static void GenerateRequiredConstructor(
         StringBuilder sb,
         CliCommandDefinition command,
-        IReadOnlyList<CliPositionalArgument> positionalArguments)
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        bool includePrivateParameterlessConstructor)
     {
         var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(
             command,
@@ -246,6 +263,17 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine(string.Join($",{Environment.NewLine}", parameterDeclarations));
         sb.AppendLine("    )");
         sb.AppendLine("    {");
+        foreach (var parameter in constructorParameters.Where(IsCollectionParameter))
+        {
+            sb.AppendLine($"        global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
+            sb.AppendLine($"        if (!global::System.Linq.Enumerable.Any({parameter.PropertyName}))");
+            sb.AppendLine("        {");
+            sb.AppendLine("            throw new global::System.ArgumentException(");
+            sb.AppendLine("                \"Required collection must contain at least one value.\",");
+            sb.AppendLine($"                nameof({parameter.PropertyName}));");
+            sb.AppendLine("        }");
+        }
+
         foreach (var parameter in constructorParameters)
         {
             sb.AppendLine($"        this.{parameter.PropertyName} = {parameter.PropertyName};");
@@ -253,11 +281,44 @@ public class OptionsClassGenerator : ICodeGenerator
 
         sb.AppendLine("    }");
         sb.AppendLine();
+        if (!includePrivateParameterlessConstructor)
+        {
+            return;
+        }
+
         sb.AppendLine($"    private {command.ClassName}()");
         sb.AppendLine("    {");
         sb.AppendLine("    }");
         sb.AppendLine();
     }
+
+    private static void GenerateRequiredDeconstruct(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(
+            command,
+            positionalArguments);
+        var parameters = constructorParameters.Select(parameter =>
+            $"out {parameter.CSharpType.TrimEnd('?')} {parameter.PropertyName}");
+        sb.AppendLine($"    public void Deconstruct({string.Join(", ", parameters)})");
+        sb.AppendLine("    {");
+        foreach (var parameter in constructorParameters)
+        {
+            sb.AppendLine($"        {parameter.PropertyName} = this.{parameter.PropertyName};");
+        }
+
+        sb.AppendLine("    }");
+        sb.AppendLine();
+    }
+
+    private static bool IsCollectionParameter(
+        GeneratorUtils.RequiredConstructorParameter parameter) =>
+        CliOptionDefinition.TryGetCollectionShape(
+            parameter.CSharpType.TrimEnd('?'),
+            out var isCollection)
+        && isCollection;
 
     private static void GenerateAlternateInputFactories(
         StringBuilder sb,
@@ -385,7 +446,8 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.PropertyType} {option.PropertyName} {{ get; set; }}");
+        var accessor = option.IsRequired ? "init" : "set";
+        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.PropertyType} {option.PropertyName} {{ get; {accessor}; }}");
     }
 
     private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)
@@ -399,7 +461,8 @@ public class OptionsClassGenerator : ICodeGenerator
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
-        sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; set; }}");
+        var accessor = positional.IsRequired ? "init" : "set";
+        sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; {accessor}; }}");
     }
 
     private static string GetNewModifier(string propertyName) =>

@@ -876,6 +876,36 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task OptionsClassGenerator_Rejects_Empty_Required_Option_Collections()
+    {
+        var command = Command("ToolDeleteOptions", "ToolOptions", ["delete"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--ids",
+                    PropertyName = "Ids",
+                    CSharpType = "IEnumerable<string>",
+                    IsRequired = true,
+                    AcceptsMultipleValues = true,
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public ToolDeleteOptions(");
+            await Assert.That(generated).Contains("IEnumerable<string> Ids");
+            await Assert.That(generated).Contains("global::System.Linq.Enumerable.Any(Ids)");
+            await Assert.That(generated).Contains("nameof(Ids)");
+            await Assert.That(generated).Contains("public void Deconstruct(out IEnumerable<string> Ids)");
+        }
+    }
+
+    [Test]
     public async Task CommandTreeNode_Rejects_Conflicting_Explicit_Identifiers()
     {
         var commands = new[]
