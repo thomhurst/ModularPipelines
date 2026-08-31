@@ -5,11 +5,11 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Node.Options;
-using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Node.Options;
 
@@ -73,8 +73,8 @@ public record PnpmStagePublishOptions : PnpmOptions
     /// <summary>
     /// If no projects are matched by the command, exit with exit code 1 (fail)
     /// </summary>
-    [CliOption("--fail-if-no-match")]
-    public string? FailIfNoMatch { get; set; }
+    [CliFlag("--fail-if-no-match")]
+    public bool? FailIfNoMatch { get; set; }
 
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"

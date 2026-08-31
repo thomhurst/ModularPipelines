@@ -22,16 +22,11 @@ public record PnpmRunOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
 ) : PnpmOptions
 {
-    public PnpmRunOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Aggregate output from child processes that are run in parallel, and only print output when child process is finished. It makes reading large logs after running `pnpm recursive` with `--parallel` or with `--workspace-concurrency` much easier (especially on CI). Only `--reporter=append-only` is supported.
     /// </summary>
-    [CliOption("--aggregate-output")]
-    public string? AggregateOutput { get; set; }
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
 
     /// <summary>
     /// Change to directory &lt;dir&gt; (default: ~/work/_temp/generator-work)
@@ -42,14 +37,14 @@ public record PnpmRunOptions(
     /// <summary>
     /// Output usage information
     /// </summary>
-    [CliOption("--help", ShortForm = "-h")]
-    public string? Help { get; set; }
+    [CliFlag("--help", ShortForm = "-h")]
+    public bool? Help { get; set; }
 
     /// <summary>
     /// Avoid exiting with a non-zero exit code when the script is undefined
     /// </summary>
-    [CliOption("--if-present")]
-    public string? IfPresent { get; set; }
+    [CliFlag("--if-present")]
+    public bool? IfPresent { get; set; }
 
     /// <summary>
     /// What level of logs to report. Any logs at or higher than the given level will be shown. Levels (lowest to highest): debug, info, warn, error. Or use "--silent" to turn off all logging.
@@ -66,8 +61,8 @@ public record PnpmRunOptions(
     /// <summary>
     /// Completely disregard concurrency and topological sorting, running a given script immediately in all matching packages with prefixed streaming output. This is the preferred flag for long-running processes such as watch run over many packages.
     /// </summary>
-    [CliOption("--parallel")]
-    public string? Parallel { get; set; }
+    [CliFlag("--parallel")]
+    public bool? Parallel { get; set; }
 
     /// <summary>
     /// Run the defined package script in every package found in subdirectories or every workspace package, when executed inside a workspace. For options that may be used with `-r`, see "pnpm help recursive"
@@ -78,14 +73,14 @@ public record PnpmRunOptions(
     /// <summary>
     /// Save the execution results of every package to "pnpm-exec-summary.json". Useful to inspect the execution time and status of each package.
     /// </summary>
-    [CliOption("--report-summary")]
-    public string? ReportSummary { get; set; }
+    [CliFlag("--report-summary")]
+    public bool? ReportSummary { get; set; }
 
     /// <summary>
     /// Hide project name prefix from output of running scripts. Useful when running in CI like GitHub Actions and the output from a script may create an annotation.
     /// </summary>
-    [CliOption("--reporter-hide-prefix")]
-    public string? ReporterHidePrefix { get; set; }
+    [CliFlag("--reporter-hide-prefix")]
+    public bool? ReporterHidePrefix { get; set; }
 
     /// <summary>
     /// Command executed from given package
@@ -96,32 +91,32 @@ public record PnpmRunOptions(
     /// <summary>
     /// Run the specified scripts one by one
     /// </summary>
-    [CliOption("--sequential", ShortForm = "-s")]
-    public string? Sequential { get; set; }
+    [CliFlag("--sequential", ShortForm = "-s")]
+    public bool? Sequential { get; set; }
 
     /// <summary>
     /// Stream output from child processes immediately, prefixed with the originating package directory. This allows output from different packages to be interleaved.
     /// </summary>
-    [CliOption("--stream")]
-    public string? Stream { get; set; }
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
 
     /// <summary>
     /// Divert all output to stderr
     /// </summary>
-    [CliOption("--use-stderr")]
-    public string? UseStderr { get; set; }
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
 
     /// <summary>
     /// Run the command on the root workspace project
     /// </summary>
-    [CliOption("--workspace-root", ShortForm = "-w")]
-    public string? WorkspaceRoot { get; set; }
+    [CliFlag("--workspace-root", ShortForm = "-w")]
+    public bool? WorkspaceRoot { get; set; }
 
     /// <summary>
     /// Automatically answer yes to prompts and run non-interactively. Will abort if an undesirable situation occurs and user input is strictly necessary.
     /// </summary>
-    [CliOption("--yes", ShortForm = "-y")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Defines files to ignore when filtering for changed projects since the specified
@@ -132,8 +127,8 @@ public record PnpmRunOptions(
     /// <summary>
     /// If no projects are matched by the command, exit with exit code 1 (fail)
     /// </summary>
-    [CliOption("--fail-if-no-match")]
-    public string? FailIfNoMatch { get; set; }
+    [CliFlag("--fail-if-no-match")]
+    public bool? FailIfNoMatch { get; set; }
 
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"

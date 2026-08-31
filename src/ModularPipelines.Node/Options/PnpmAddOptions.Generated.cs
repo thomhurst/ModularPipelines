@@ -23,8 +23,8 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// Aggregate output from child processes that are run in parallel, and only print output when child process is finished. It makes reading large logs after running `pnpm recursive` with `--parallel` or with `--workspace-concurrency` much easier (especially on CI). Only `--reporter=append-only` is supported.
     /// </summary>
-    [CliOption("--aggregate-output")]
-    public string? AggregateOutput { get; set; }
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
 
     /// <summary>
     /// A list of package names that are allowed to run postinstall scripts during installation
@@ -35,8 +35,8 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// Save the dependency to configurational dependencies
     /// </summary>
-    [CliOption("--config")]
-    public string? Config { get; set; }
+    [CliFlag("--config")]
+    public bool? Config { get; set; }
 
     /// <summary>
     /// Change to directory &lt;dir&gt; (default: ~/work/_temp/generator-work)
@@ -59,8 +59,8 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// Output usage information
     /// </summary>
-    [CliOption("--help", ShortForm = "-h")]
-    public string? Help { get; set; }
+    [CliFlag("--help", ShortForm = "-h")]
+    public bool? Help { get; set; }
 
     /// <summary>
     /// Don't run lifecycle scripts
@@ -101,8 +101,8 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// Save package to the default catalog
     /// </summary>
-    [CliOption("--save-catalog")]
-    public string? SaveCatalog { get; set; }
+    [CliFlag("--save-catalog")]
+    public bool? SaveCatalog { get; set; }
 
     /// <summary>
     /// Save package to your `devDependencies`
@@ -125,8 +125,8 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// Save package to your `dependencies`. The default behavior
     /// </summary>
-    [CliOption("--save-prod", ShortForm = "-p")]
-    public string? SaveProd { get; set; }
+    [CliFlag("--save-prod", ShortForm = "-p")]
+    public bool? SaveProd { get; set; }
 
     /// <summary>
     /// The directory in which all packages are saved on disk. Use a shared store only with trusted users and jobs
@@ -137,14 +137,14 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// Stream output from child processes immediately, prefixed with the originating package directory. This allows output from different packages to be interleaved.
     /// </summary>
-    [CliOption("--stream")]
-    public string? Stream { get; set; }
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
 
     /// <summary>
     /// Divert all output to stderr
     /// </summary>
-    [CliOption("--use-stderr")]
-    public string? UseStderr { get; set; }
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
 
     /// <summary>
     /// The directory with links to the store (default is node_modules/.pnpm). All direct and indirect dependencies of the project are linked into this directory
@@ -155,20 +155,20 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// Only adds the new dependency if it is found in the workspace
     /// </summary>
-    [CliOption("--workspace")]
-    public string? Workspace { get; set; }
+    [CliFlag("--workspace")]
+    public bool? Workspace { get; set; }
 
     /// <summary>
     /// Run the command on the root workspace project
     /// </summary>
-    [CliOption("--workspace-root", ShortForm = "-w")]
-    public string? WorkspaceRoot { get; set; }
+    [CliFlag("--workspace-root", ShortForm = "-w")]
+    public bool? WorkspaceRoot { get; set; }
 
     /// <summary>
     /// Automatically answer yes to prompts and run non-interactively. Will abort if an undesirable situation occurs and user input is strictly necessary.
     /// </summary>
-    [CliOption("--yes", ShortForm = "-y")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Defines files to ignore when filtering for changed projects since the specified
@@ -179,8 +179,8 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// If no projects are matched by the command, exit with exit code 1 (fail)
     /// </summary>
-    [CliOption("--fail-if-no-match")]
-    public string? FailIfNoMatch { get; set; }
+    [CliFlag("--fail-if-no-match")]
+    public bool? FailIfNoMatch { get; set; }
 
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"

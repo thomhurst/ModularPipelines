@@ -70,11 +70,11 @@ internal partial class Pnpm : IPnpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DlxAsync(
-        PnpmDlxOptions? options = null,
+        PnpmDlxOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmDlxOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -97,11 +97,11 @@ internal partial class Pnpm : IPnpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> RunAsync(
-        PnpmRunOptions? options = null,
+        PnpmRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -178,11 +178,11 @@ internal partial class Pnpm : IPnpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> WhyAsync(
-        PnpmWhyOptions? options = null,
+        PnpmWhyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmWhyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -22,16 +22,11 @@ public record PnpmWhyOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Pkg
 ) : PnpmOptions
 {
-    public PnpmWhyOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Aggregate output from child processes that are run in parallel, and only print output when child process is finished. It makes reading large logs after running `pnpm recursive` with `--parallel` or with `--workspace-concurrency` much easier (especially on CI). Only `--reporter=append-only` is supported.
     /// </summary>
-    [CliOption("--aggregate-output")]
-    public string? AggregateOutput { get; set; }
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
 
     /// <summary>
     /// Max display depth of the reverse dependency tree
@@ -42,8 +37,8 @@ public record PnpmWhyOptions(
     /// <summary>
     /// Display only the dependency graph for packages in `devDependencies`
     /// </summary>
-    [CliOption("--dev", ShortForm = "-D")]
-    public string? Dev { get; set; }
+    [CliFlag("--dev", ShortForm = "-D")]
+    public bool? Dev { get; set; }
 
     /// <summary>
     /// Change to directory &lt;dir&gt; (default: ~/work/_temp/generator-work)
@@ -54,8 +49,8 @@ public record PnpmWhyOptions(
     /// <summary>
     /// Exclude peer dependencies
     /// </summary>
-    [CliOption("--exclude-peers")]
-    public string? ExcludePeers { get; set; }
+    [CliFlag("--exclude-peers")]
+    public bool? ExcludePeers { get; set; }
 
     /// <summary>
     /// List packages in the global install prefix instead of in the current project
@@ -72,14 +67,14 @@ public record PnpmWhyOptions(
     /// <summary>
     /// Output usage information
     /// </summary>
-    [CliOption("--help", ShortForm = "-h")]
-    public string? Help { get; set; }
+    [CliFlag("--help", ShortForm = "-h")]
+    public bool? Help { get; set; }
 
     /// <summary>
     /// Show information in JSON format
     /// </summary>
-    [CliOption("--json")]
-    public string? Json { get; set; }
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// What level of logs to report. Any logs at or higher than the given level will be shown. Levels (lowest to highest): debug, info, warn, error. Or use "--silent" to turn off all logging.
@@ -90,8 +85,8 @@ public record PnpmWhyOptions(
     /// <summary>
     /// Show extended information
     /// </summary>
-    [CliOption("--long")]
-    public string? Long { get; set; }
+    [CliFlag("--long")]
+    public bool? Long { get; set; }
 
     /// <summary>
     /// Don't display packages from `optionalDependencies`
@@ -102,14 +97,14 @@ public record PnpmWhyOptions(
     /// <summary>
     /// Show parseable output instead of tree view
     /// </summary>
-    [CliOption("--parseable")]
-    public string? Parseable { get; set; }
+    [CliFlag("--parseable")]
+    public bool? Parseable { get; set; }
 
     /// <summary>
     /// Display only the dependency graph for packages in `dependencies` and `optionalDependencies`
     /// </summary>
-    [CliOption("--prod", ShortForm = "-P")]
-    public string? Prod { get; set; }
+    [CliFlag("--prod", ShortForm = "-P")]
+    public bool? Prod { get; set; }
 
     /// <summary>
     /// Perform command on every package in subdirectories or on every workspace package, when executed inside a workspace. For options that may be used with `-r`, see "pnpm help recursive"
@@ -120,26 +115,26 @@ public record PnpmWhyOptions(
     /// <summary>
     /// Stream output from child processes immediately, prefixed with the originating package directory. This allows output from different packages to be interleaved.
     /// </summary>
-    [CliOption("--stream")]
-    public string? Stream { get; set; }
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
 
     /// <summary>
     /// Divert all output to stderr
     /// </summary>
-    [CliOption("--use-stderr")]
-    public string? UseStderr { get; set; }
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
 
     /// <summary>
     /// Run the command on the root workspace project
     /// </summary>
-    [CliOption("--workspace-root", ShortForm = "-w")]
-    public string? WorkspaceRoot { get; set; }
+    [CliFlag("--workspace-root", ShortForm = "-w")]
+    public bool? WorkspaceRoot { get; set; }
 
     /// <summary>
     /// Automatically answer yes to prompts and run non-interactively. Will abort if an undesirable situation occurs and user input is strictly necessary.
     /// </summary>
-    [CliOption("--yes", ShortForm = "-y")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Defines files to ignore when filtering for changed projects since the specified
@@ -150,8 +145,8 @@ public record PnpmWhyOptions(
     /// <summary>
     /// If no projects are matched by the command, exit with exit code 1 (fail)
     /// </summary>
-    [CliOption("--fail-if-no-match")]
-    public string? FailIfNoMatch { get; set; }
+    [CliFlag("--fail-if-no-match")]
+    public bool? FailIfNoMatch { get; set; }
 
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"

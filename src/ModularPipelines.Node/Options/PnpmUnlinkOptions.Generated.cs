@@ -23,8 +23,8 @@ public record PnpmUnlinkOptions : PnpmOptions
     /// <summary>
     /// Aggregate output from child processes that are run in parallel, and only print output when child process is finished. It makes reading large logs after running `pnpm recursive` with `--parallel` or with `--workspace-concurrency` much easier (especially on CI). Only `--reporter=append-only` is supported.
     /// </summary>
-    [CliOption("--aggregate-output")]
-    public string? AggregateOutput { get; set; }
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
 
     /// <summary>
     /// Change to directory &lt;dir&gt; (default: ~/work/_temp/generator-work)
@@ -35,8 +35,8 @@ public record PnpmUnlinkOptions : PnpmOptions
     /// <summary>
     /// Output usage information
     /// </summary>
-    [CliOption("--help", ShortForm = "-h")]
-    public string? Help { get; set; }
+    [CliFlag("--help", ShortForm = "-h")]
+    public bool? Help { get; set; }
 
     /// <summary>
     /// What level of logs to report. Any logs at or higher than the given level will be shown. Levels (lowest to highest): debug, info, warn, error. Or use "--silent" to turn off all logging.
@@ -53,26 +53,26 @@ public record PnpmUnlinkOptions : PnpmOptions
     /// <summary>
     /// Stream output from child processes immediately, prefixed with the originating package directory. This allows output from different packages to be interleaved.
     /// </summary>
-    [CliOption("--stream")]
-    public string? Stream { get; set; }
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
 
     /// <summary>
     /// Divert all output to stderr
     /// </summary>
-    [CliOption("--use-stderr")]
-    public string? UseStderr { get; set; }
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
 
     /// <summary>
     /// Run the command on the root workspace project
     /// </summary>
-    [CliOption("--workspace-root", ShortForm = "-w")]
-    public string? WorkspaceRoot { get; set; }
+    [CliFlag("--workspace-root", ShortForm = "-w")]
+    public bool? WorkspaceRoot { get; set; }
 
     /// <summary>
     /// Automatically answer yes to prompts and run non-interactively. Will abort if an undesirable situation occurs and user input is strictly necessary.
     /// </summary>
-    [CliOption("--yes", ShortForm = "-y")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// The &lt;pkg&gt; operand.

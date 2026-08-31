@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Node.Services;
 
 namespace ModularPipelines.Node.Extensions;
@@ -31,4 +30,5 @@ public static class PnpmExtensions
         services.TryAddScoped<IPnpm, Services.Pnpm>();
         return services;
     }
+
 }

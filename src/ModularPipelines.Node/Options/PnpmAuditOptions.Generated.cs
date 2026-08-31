@@ -29,8 +29,8 @@ public record PnpmAuditOptions : PnpmOptions
     /// <summary>
     /// Only audit "devDependencies"
     /// </summary>
-    [CliOption("--dev", ShortForm = "-D")]
-    public string? Dev { get; set; }
+    [CliFlag("--dev", ShortForm = "-D")]
+    public bool? Dev { get; set; }
 
     /// <summary>
     /// Fix the audited vulnerabilities using the specified method: "override" or "update". "override" adds overrides to the package.json file in order to force non-vulnerable versions of the dependencies. "update" attempts to update the vulnerable packages in the lockfile to non-vulnerable versions. If no method is specified, "override" is used by default.
@@ -47,26 +47,26 @@ public record PnpmAuditOptions : PnpmOptions
     /// <summary>
     /// Use exit code 0 if the registry responds with an error. Useful when audit checks are used in CI. A build should not fail because the registry has issues.
     /// </summary>
-    [CliOption("--ignore-registry-errors")]
-    public string? IgnoreRegistryErrors { get; set; }
+    [CliFlag("--ignore-registry-errors")]
+    public bool? IgnoreRegistryErrors { get; set; }
 
     /// <summary>
     /// Ignore all vulnerabilities for which no fix exists
     /// </summary>
-    [CliOption("--ignore-unfixable")]
-    public string? IgnoreUnfixable { get; set; }
+    [CliFlag("--ignore-unfixable")]
+    public bool? IgnoreUnfixable { get; set; }
 
     /// <summary>
     /// Show vulnerabilities and select which ones to fix interactively
     /// </summary>
-    [CliOption("--interactive", ShortForm = "-i")]
-    public string? Interactive { get; set; }
+    [CliFlag("--interactive", ShortForm = "-i")]
+    public bool? Interactive { get; set; }
 
     /// <summary>
     /// Output audit report in JSON format
     /// </summary>
-    [CliOption("--json")]
-    public string? Json { get; set; }
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Don't audit "optionalDependencies"
@@ -77,7 +77,7 @@ public record PnpmAuditOptions : PnpmOptions
     /// <summary>
     /// Only audit "dependencies" and "optionalDependencies"
     /// </summary>
-    [CliOption("--prod", ShortForm = "-P")]
-    public string? Prod { get; set; }
+    [CliFlag("--prod", ShortForm = "-P")]
+    public bool? Prod { get; set; }
 
 }
