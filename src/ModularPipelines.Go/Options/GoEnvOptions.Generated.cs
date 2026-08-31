@@ -21,28 +21,28 @@ namespace ModularPipelines.Go.Options;
 public record GoEnvOptions : GoOptions
 {
     /// <summary>
-    /// The -json option.
+    /// The -json flag prints the environment in JSON format instead of as a shell script.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
 
     /// <summary>
-    /// The -changed option.
-    /// </summary>
-    [CliFlag("-changed")]
-    public bool? Changed { get; set; }
-
-    /// <summary>
-    /// The -u option.
+    /// The -u flag requires one or more arguments and unsets the default setting for the named environment variables, if one has been set with 'go env -w'.
     /// </summary>
     [CliFlag("-u")]
     public bool? U { get; set; }
 
     /// <summary>
-    /// The -w option.
+    /// The -w flag requires one or more arguments of the form NAME=VALUE and changes the default settings of the named environment variables to the given values.
     /// </summary>
     [CliFlag("-w")]
     public bool? W { get; set; }
+
+    /// <summary>
+    /// The -changed flag prints only those settings whose effective value differs from the default value that would be obtained in an empty environment with no prior uses of the -w flag.
+    /// </summary>
+    [CliFlag("-changed")]
+    public bool? Changed { get; set; }
 
     /// <summary>
     /// The var operand.
