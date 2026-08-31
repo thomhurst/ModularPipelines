@@ -366,6 +366,32 @@ public class SecretMaskingTests
     }
 
     [Test]
+    public async Task PreservedMaskAndSourceText_DoNotReconstructARegisteredSecret()
+    {
+        string[] secrets = ["AAAA", "***B"];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(0);
+        secretProvider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, secrets));
+        var obfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                MaskValue = "***",
+            }));
+
+        var mappedOutput = obfuscator.ObfuscateWithSourceMap(
+            "AAAAB",
+            preserveExistingMasks: true).Value;
+        var plainOutput = obfuscator.ObfuscatePreservingMasks("AAAAB");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(mappedOutput).DoesNotContain("***B");
+            await Assert.That(plainOutput).DoesNotContain("***B");
+        }
+    }
+
+    [Test]
     public async Task MultipleSecrets_AllAreMasked()
     {
         var stringBuilder = new StringBuilder();

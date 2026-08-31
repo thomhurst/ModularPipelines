@@ -137,13 +137,32 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             return input;
         }
 
-        return ObfuscateMatches(
+        var comparison = caseInsensitive
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        var output = ObfuscateMatches(
             input,
             secretCache.Secrets,
             secretCache.SearchValues,
             maskValue,
-            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal,
-            preserveExistingMasks: true).Output;
+            comparison,
+            preserveExistingMasks: true);
+        if (!output.Output.AsSpan().ContainsAny(secretCache.SearchValues))
+        {
+            return output.Output;
+        }
+
+        return ObfuscateWithSafeFallbackMask(
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            comparison,
+            candidate => ObfuscateMatches(
+                input,
+                secretCache.Secrets,
+                secretCache.SearchValues,
+                candidate,
+                comparison),
+            static result => result.Output).Output;
     }
 
     internal MappedObfuscatedOutput ObfuscatePreservingMasksWithSourceMap(string input)
@@ -178,7 +197,7 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             maskValue,
             comparison,
             preserveExistingMasks);
-        if (preserveExistingMasks || !output.Value.AsSpan().ContainsAny(secretCache.SearchValues))
+        if (!output.Value.AsSpan().ContainsAny(secretCache.SearchValues))
         {
             return output;
         }
