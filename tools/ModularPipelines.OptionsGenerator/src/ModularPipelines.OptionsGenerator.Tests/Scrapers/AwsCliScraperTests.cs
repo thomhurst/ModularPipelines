@@ -325,6 +325,9 @@ public class AwsCliScraperTests
                 option.SwitchName == "--key-type").IsRequired).IsFalse();
             await Assert.That(setInstanceProtection.Options.Single(option =>
                 option.SwitchName == "--protected-from-scale-in").IsRequired).IsTrue();
+            await Assert.That(setInstanceProtection.Options.Single(option =>
+                option.SwitchName == "--protected-from-scale-in").NegatedSwitchName)
+                .IsEqualTo("--no-protected-from-scale-in");
             await Assert.That(terminateContent)
                 .Contains("public AwsEc2TerminateInstancesOptions(\n        IEnumerable<string> InstanceIds\n    )");
             await Assert.That(terminateContent)
@@ -348,7 +351,7 @@ public class AwsCliScraperTests
             await Assert.That(autoscalingContent)
                 .Contains("bool ProtectedFromScaleIn\n    )");
             await Assert.That(autoscalingContent)
-                .Contains("[CliFlag(\"--protected-from-scale-in\")]\n    public bool? ProtectedFromScaleIn");
+                .Contains("[CliFlag(\"--protected-from-scale-in\", NegatedName = \"--no-protected-from-scale-in\")]\n    public bool? ProtectedFromScaleIn");
             await Assert.That(autoscalingInterface.Content)
                 .Contains("SetInstanceProtectionAsync(AwsAutoscalingSetInstanceProtectionOptions options,");
         }
@@ -920,7 +923,7 @@ public class AwsCliScraperTests
                            --auto-scaling-group-name (string) [required]
                             The Auto Scaling group name.
 
-                           --protected-from-scale-in (boolean)
+                           "--protected-from-scale-in" | "--no-protected-from-scale-in" (boolean)
                             Whether instances are protected from scale in.
 
                            --cli-input-json (string)
