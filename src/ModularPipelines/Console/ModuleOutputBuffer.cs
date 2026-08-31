@@ -724,65 +724,99 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         foreach (var output in outputs)
         {
             cancellationToken.ThrowIfCancellationRequested();
-
-            if (output.IsRawBuildSystemCommand)
-            {
-                console.WriteLine(output.StringValue);
-            }
-            else if (output.IsString)
-            {
-                WriteDirect(
-                    directConsole,
-                    console,
-                    output.StringValue,
-                    output.AppendNewLine);
-            }
-            else if (output.Renderable is { } renderable)
-            {
-                WriteRenderableWithCurrentSecrets(directConsole, renderable);
-                if (output.AppendNewLine)
-                {
-                    directConsole.WriteLine();
-                }
-            }
-            else if (output.LogEvent is { } logEvent)
-            {
-                if (writeStructuredLogsDirectly)
-                {
-                    var failedLoggers = WriteToFallbackLoggers(
-                        logEvent,
-                        fallbackLoggers,
-                        console);
-                    if (failedLoggers.Count > 0)
-                    {
-                        failedStructuredDeliveries.Add(
-                            new StructuredDeliveryRetry(logEvent, failedLoggers));
-                    }
-
-                    var wroteToDirectStructuredLogSink = fallbackLoggers.Any(logger =>
-                        logger is IDirectStructuredLogSink && !failedLoggers.Contains(logger));
-                    if (_isSpectreEnabled(logEvent.Level)
-                        && !wroteToDirectStructuredLogSink)
-                    {
-                        WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
-                        if (logEvent.FormatException() is { } formattedException)
-                        {
-                            console.WriteLine(formattedException);
-                        }
-                    }
-                }
-                else
-                {
-                    // Synchronous MEL.Spectre rendering preserves this buffer's position
-                    // while other providers (for example file logging) still receive the event.
-                    logEvent.WriteTo(logger);
-                }
-            }
+            RenderBufferedOutput(
+                console,
+                directConsole,
+                logger,
+                output,
+                fallbackLoggers,
+                failedStructuredDeliveries,
+                writeStructuredLogsDirectly);
 
             // Advance only after the sink returns successfully. A sink that accepts
             // output and then throws may cause a duplicate on retry, but retaining
             // the item avoids guaranteed data loss when delivery never happened.
             renderedCount++;
+        }
+    }
+
+    private void RenderBufferedOutput(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        ILogger logger,
+        BufferedOutput output,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
+        bool writeStructuredLogsDirectly)
+    {
+        if (output.IsRawBuildSystemCommand)
+        {
+            console.WriteLine(output.StringValue);
+            return;
+        }
+
+        if (output.IsString)
+        {
+            WriteDirect(directConsole, console, output.StringValue, output.AppendNewLine);
+            return;
+        }
+
+        if (output.Renderable is { } renderable)
+        {
+            WriteRenderableWithCurrentSecrets(directConsole, renderable);
+            if (output.AppendNewLine)
+            {
+                directConsole.WriteLine();
+            }
+
+            return;
+        }
+
+        if (output.LogEvent is not { } logEvent)
+        {
+            return;
+        }
+
+        if (writeStructuredLogsDirectly)
+        {
+            WriteStructuredLogDirectly(
+                console,
+                directConsole,
+                logEvent,
+                fallbackLoggers,
+                failedStructuredDeliveries);
+            return;
+        }
+
+        // Synchronous MEL.Spectre rendering preserves this buffer's position
+        // while other providers (for example file logging) still receive the event.
+        logEvent.WriteTo(logger);
+    }
+
+    private void WriteStructuredLogDirectly(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        IBufferedLogEvent logEvent,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries)
+    {
+        var failedLoggers = WriteToFallbackLoggers(logEvent, fallbackLoggers, console);
+        if (failedLoggers.Count > 0)
+        {
+            failedStructuredDeliveries.Add(new StructuredDeliveryRetry(logEvent, failedLoggers));
+        }
+
+        var wroteToDirectStructuredLogSink = fallbackLoggers.Any(logger =>
+            logger is IDirectStructuredLogSink && !failedLoggers.Contains(logger));
+        if (!_isSpectreEnabled(logEvent.Level) || wroteToDirectStructuredLogSink)
+        {
+            return;
+        }
+
+        WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
+        if (logEvent.FormatException() is { } formattedException)
+        {
+            console.WriteLine(formattedException);
         }
     }
 
