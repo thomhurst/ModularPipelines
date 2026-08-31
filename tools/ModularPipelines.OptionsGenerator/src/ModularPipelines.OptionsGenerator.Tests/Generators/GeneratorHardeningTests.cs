@@ -180,7 +180,8 @@ public class GeneratorHardeningTests
         CommandLinePhase? phase = null,
         bool omitPhase = false,
         CliCompatibilityForwardingKind forwardingKind = CliCompatibilityForwardingKind.Direct,
-        CliOptionValueArity valueArity = CliOptionValueArity.Required) =>
+        CliOptionValueArity valueArity = CliOptionValueArity.Required,
+        string? negatedSwitchName = null) =>
         new(
             propertyName,
             cSharpType,
@@ -195,7 +196,8 @@ public class GeneratorHardeningTests
             ValueArity: valueArity,
             Phase: phase ?? (argumentPosition is not null && !omitPhase
                 ? CommandLinePhase.EarlyOperand
-                : null));
+                : null),
+            NegatedSwitchName: negatedSwitchName);
 
     private static CliOptionDefinition RequiredOption(string switchName, string propertyName) =>
         new()
@@ -2147,6 +2149,40 @@ public class GeneratorHardeningTests
 
         await Assert.That(exception.Message)
             .Contains("ToolCopyOptions.RemovedFlag changed type from bool? to string?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Changed_Negated_Switch()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--feature",
+                    NegatedSwitchName = "--without-feature",
+                    PropertyName = "Feature",
+                    CSharpType = "bool?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [
+                    BaselineProperty(
+                        "Feature",
+                        "bool?",
+                        switchName: "--feature",
+                        negatedSwitchName: "--no-feature"),
+                ]));
+
+        await Assert.That(exception.Message)
+            .Contains(
+                "ToolCopyOptions.Feature changed negated CLI switch from "
+                + "--no-feature to --without-feature");
     }
 
     [Test]

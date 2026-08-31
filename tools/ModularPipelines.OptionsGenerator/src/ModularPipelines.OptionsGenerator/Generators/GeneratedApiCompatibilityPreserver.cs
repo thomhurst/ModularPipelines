@@ -2602,6 +2602,18 @@ internal static class GeneratedApiCompatibilityPreserver
             return false;
         }
 
+        if (baseline.NegatedSwitchName is not null
+            && !string.Equals(
+                baseline.NegatedSwitchName,
+                current.NegatedSwitchName,
+                StringComparison.Ordinal))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed negated CLI switch from "
+                + $"{baseline.NegatedSwitchName} to {current.NegatedSwitchName ?? "<none>"}");
+            return false;
+        }
+
         return true;
     }
 
