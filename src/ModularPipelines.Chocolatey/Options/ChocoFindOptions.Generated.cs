@@ -203,4 +203,10 @@ public record ChocoFindOptions : ChocoOptions
     [CliFlag("--include-configured-sources")]
     public bool? IncludeConfiguredSources { get; set; }
 
+    /// <summary>
+    /// The filter operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Filter { get; set; }
+
 }

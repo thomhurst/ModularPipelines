@@ -124,4 +124,10 @@ public record ChocoPinOptions : ChocoOptions
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
+    /// <summary>
+    /// The [list] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? List { get; set; }
+
 }

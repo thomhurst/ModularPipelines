@@ -118,4 +118,10 @@ public record ChocoFeatureOptions : ChocoOptions
     [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Name { get; set; }
 
+    /// <summary>
+    /// The [list] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? List { get; set; }
+
 }
