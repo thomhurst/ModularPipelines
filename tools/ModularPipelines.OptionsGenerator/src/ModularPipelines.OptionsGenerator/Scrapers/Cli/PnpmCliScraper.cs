@@ -36,9 +36,14 @@ public partial class PnpmCliScraper : CliScraperBase
     private static readonly HashSet<string> PlaceholderFreeValueOptions = new(StringComparer.OrdinalIgnoreCase)
     {
         "--allow-build",
+        "--edit-dir",
         "--global-dir",
         "--otp",
+        "--package",
+        "--patches-dir",
         "--publish-branch",
+        "--resume-from",
+        "--sort-by",
     };
 
     public PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger)

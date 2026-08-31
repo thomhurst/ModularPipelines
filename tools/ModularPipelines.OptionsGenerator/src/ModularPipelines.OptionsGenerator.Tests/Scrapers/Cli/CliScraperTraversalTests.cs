@@ -1003,9 +1003,14 @@ public class CliScraperTraversalTests
                   --ignore-registry-errors    Continue when a registry is unavailable
                   --ignore-unfixable          Ignore vulnerabilities without a fix
                   --allow-build               A list of package names allowed to run postinstall scripts
+                  --edit-dir                  The directory in which to edit the package
                   --global-dir                Specify a custom directory to store global packages
                   --otp                       One-time password for two-factor authentication
+                  --package                   The package to install before running the command
+                  --patches-dir               The directory in which to store patches
                   --publish-branch            Sets branch name to publish
+                  --resume-from               Command executed from given package
+                  --sort-by                   Sort the output by the specified field
                   --registry <url>            Use the specified registry
                   --filter <pattern>          Restrict packages by selector
                 """,
@@ -1033,7 +1038,8 @@ public class CliScraperTraversalTests
 
             foreach (var switchName in new[]
                      {
-                         "--allow-build", "--filter", "--global-dir", "--publish-branch", "--registry",
+                         "--allow-build", "--edit-dir", "--filter", "--global-dir", "--package",
+                         "--patches-dir", "--publish-branch", "--registry", "--resume-from", "--sort-by",
                      })
             {
                 await Assert.That(options[switchName].IsFlag).IsFalse();
