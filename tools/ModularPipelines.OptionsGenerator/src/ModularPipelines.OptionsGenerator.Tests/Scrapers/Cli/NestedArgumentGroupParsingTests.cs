@@ -529,7 +529,7 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
-    public async Task Gcloud_Bms_Update_Preserves_Shipped_UpdateLabels()
+    public async Task Gcloud_Bms_Update_Defers_Shipped_Api_Compatibility()
     {
         const string helpText = """
             NAME
@@ -549,17 +549,13 @@ public partial class NestedArgumentGroupParsingTests
         var command = await CreateGcloudScraper().Parse(
             ["gcloud", "bms", "nfs-shares", "update"],
             helpText);
-        var compatibilityProperty = command!.CompatibilityProperties.Single();
+        var option = command!.Options.Single();
 
         using (Assert.Multiple())
         {
-            await Assert.That(command.Options.Single().PropertyName)
-                .IsEqualTo("UpdateLabelsValues");
-            await Assert.That(compatibilityProperty.PropertyName)
-                .IsEqualTo("UpdateLabels");
-            await Assert.That(compatibilityProperty.CSharpType)
-                .IsEqualTo("global::ModularPipelines.Google.Enums.GcloudUpdateLabels?");
-            await Assert.That(compatibilityProperty.ForwardToPropertyName).IsNull();
+            await Assert.That(option.PropertyName).IsEqualTo("UpdateLabels");
+            await Assert.That(option.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
+            await Assert.That(command.CompatibilityProperties).IsEmpty();
         }
     }
 

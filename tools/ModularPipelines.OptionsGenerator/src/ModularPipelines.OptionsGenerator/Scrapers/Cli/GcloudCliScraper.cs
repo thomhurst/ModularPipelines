@@ -13,6 +13,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class GcloudCliScraper : CliScraperBase
 {
+    private static readonly string[] StructuredExampleEndMarkers =
+        ["JSON Example:", "YAML Example:", "File Example:"];
+
     #region Required Abstract Properties
 
     public override string ToolName => "gcloud";
@@ -127,7 +130,7 @@ public partial class GcloudCliScraper : CliScraperBase
             Enums = enums
         };
 
-        return Task.FromResult<CliCommandDefinition?>(PreserveKnownCompatibility(command));
+        return Task.FromResult<CliCommandDefinition?>(command);
     }
 
     #endregion
@@ -504,55 +507,17 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         shorthandStart += shorthandMarker.Length;
-        var exampleEnd = new[] { "JSON Example:", "YAML Example:", "File Example:" }
+        var exampleEnd = StructuredExampleEndMarkers
             .Select(marker => description.IndexOf(marker, shorthandStart, StringComparison.OrdinalIgnoreCase))
             .Where(index => index >= 0)
             .DefaultIfEmpty(description.Length)
             .Min();
         var shorthandExample = description[shorthandStart..exampleEnd];
 
-        return Regex.Matches(
+        return Regex.Count(
             shorthandExample,
             $@"(?<![\w-]){Regex.Escape(switchName)}=",
-            RegexOptions.IgnoreCase).Count > 1;
-    }
-
-    private static CliCommandDefinition PreserveKnownCompatibility(CliCommandDefinition command)
-    {
-        if (!command.CommandParts.SequenceEqual(
-                ["bms", "nfs-shares", "update"],
-                StringComparer.OrdinalIgnoreCase))
-        {
-            return command;
-        }
-
-        var options = command.Options.ToArray();
-        var updateLabelsIndex = Array.FindIndex(options, option =>
-            option.PropertyName.Equals("UpdateLabels", StringComparison.Ordinal)
-            && option.CSharpType.Equals("IEnumerable<string>?", StringComparison.Ordinal));
-        if (updateLabelsIndex < 0)
-        {
-            return command;
-        }
-
-        options[updateLabelsIndex] = options[updateLabelsIndex] with
-        {
-            PropertyName = "UpdateLabelsValues",
-        };
-        return command with
-        {
-            Options = options,
-            CompatibilityProperties =
-            [
-                .. command.CompatibilityProperties,
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "UpdateLabels",
-                    CSharpType = "global::ModularPipelines.Google.Enums.GcloudUpdateLabels?",
-                    ObsoleteMessage = "Use UpdateLabelsValues instead.",
-                },
-            ],
-        };
+            RegexOptions.IgnoreCase) > 1;
     }
 
     private static bool DescriptionDeclaresValueList(string? description)

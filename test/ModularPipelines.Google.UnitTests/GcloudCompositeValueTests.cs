@@ -1,3 +1,4 @@
+using ModularPipelines.Google.Enums;
 using ModularPipelines.Google.Options;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
@@ -22,6 +23,17 @@ public class GcloudCompositeValueTests
             "--add-allowed-client=network=network-a,cidr=10.0.0.0/24,mount-permissions=READ_ONLY",
             "--add-allowed-client=network=network-b,cidr=10.0.1.0/24,mount-permissions=READ_WRITE",
         ]);
+    }
+
+    [Test]
+    public async Task ShippedUpdateLabelsEnumStillRenders()
+    {
+        var arguments = BuildArguments(new GcloudBmsNfsSharesUpdateOptions
+        {
+            UpdateLabels = GcloudUpdateLabels.ReadOnly,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["--update-labels=READ_ONLY"]);
     }
 
     [Test]
