@@ -335,6 +335,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         if (!TryTakeOutputs(
                 flushKind,
                 isStructuredLogEnabled,
+                effectiveFallbackLoggers,
                 out var outputs,
                 out var structuredDeliveryRetries,
                 out var shouldRenderOutputGroup,
@@ -469,6 +470,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private bool TryTakeOutputs(
         OutputFlushKind flushKind,
         Func<LogLevel, bool> isStructuredLogEnabled,
+        IReadOnlyList<ILogger> fallbackLoggers,
         out List<BufferedOutput> outputs,
         out List<StructuredDeliveryRetry> structuredDeliveryRetries,
         out bool shouldRenderOutputGroup,
@@ -513,7 +515,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             shouldRenderOutputGroup = needsExceptionHeader
                                       || _outputs.Any(output => ProducesConsoleOutput(
                                           output,
-                                          isStructuredLogEnabled));
+                                          isStructuredLogEnabled,
+                                          fallbackLoggers));
             isContinuation = _hasRenderedIncrementalOutput;
             _outputs.Clear();
             _structuredDeliveryRetries.Clear();
@@ -869,7 +872,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
     private static bool ProducesConsoleOutput(
         BufferedOutput output,
-        Func<LogLevel, bool> isStructuredLogEnabled)
+        Func<LogLevel, bool> isStructuredLogEnabled,
+        IReadOnlyList<ILogger> fallbackLoggers)
     {
         if (output.IsRawBuildSystemCommand)
         {
@@ -881,7 +885,27 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return !string.IsNullOrEmpty(output.StringValue);
         }
 
-        return output.LogEvent is { } logEvent && isStructuredLogEnabled(logEvent.Level);
+        if (output.LogEvent is not { } logEvent)
+        {
+            return false;
+        }
+
+        var foundBufferedConsoleLogger = false;
+        foreach (var fallbackLogger in fallbackLoggers)
+        {
+            if (fallbackLogger is not IBufferedConsoleLogger bufferedConsoleLogger)
+            {
+                continue;
+            }
+
+            foundBufferedConsoleLogger = true;
+            if (bufferedConsoleLogger.WouldWrite(logEvent))
+            {
+                return true;
+            }
+        }
+
+        return !foundBufferedConsoleLogger && isStructuredLogEnabled(logEvent.Level);
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)
@@ -1016,6 +1040,8 @@ internal interface IBufferedLogEvent
 
     void WriteTo(ILogger logger);
 
+    SynchronousConsoleLogEntry FormatFor(IBufferedConsoleLogger logger);
+
     string FormatMessageWithLevel();
 
     string? FormatException();
@@ -1045,6 +1071,12 @@ internal sealed class BufferedLogEvent<TState>(
 
     public void WriteTo(ILogger logger)
     {
+        if (logger is IBufferedConsoleLogger bufferedConsoleLogger)
+        {
+            bufferedConsoleLogger.Write(this);
+            return;
+        }
+
         if (obfuscatedState is null && originalState is null)
         {
             logger.Log<TState>(
@@ -1068,6 +1100,36 @@ internal sealed class BufferedLogEvent<TState>(
         }
 
         logger.Log(
+            level,
+            eventId,
+            obfuscatedState,
+            _obfuscatedException,
+            Format);
+    }
+
+    public SynchronousConsoleLogEntry FormatFor(IBufferedConsoleLogger logger)
+    {
+        if (obfuscatedState is null && originalState is null)
+        {
+            return logger.Format<TState>(
+                level,
+                eventId,
+                originalState,
+                _obfuscatedException,
+                FormatTyped);
+        }
+
+        if (obfuscatedState is TState typedState)
+        {
+            return logger.Format(
+                level,
+                eventId,
+                typedState,
+                _obfuscatedException,
+                FormatTyped);
+        }
+
+        return logger.Format(
             level,
             eventId,
             obfuscatedState,

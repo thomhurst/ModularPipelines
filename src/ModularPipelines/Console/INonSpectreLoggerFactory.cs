@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -21,6 +22,34 @@ internal interface IDirectStructuredLogSink;
 internal interface IExclusiveStructuredLogSink : ILogger, IDirectStructuredLogSink;
 
 internal interface ISynchronousConsoleLogger : IDirectStructuredLogSink;
+
+internal interface IBufferedConsoleLogger
+{
+    bool WouldWrite(IBufferedLogEvent logEvent);
+
+    void Write(IBufferedLogEvent logEvent);
+
+    SynchronousConsoleLogEntry Format<TState>(
+        LogLevel logLevel,
+        EventId eventId,
+        TState state,
+        Exception? exception,
+        Func<TState, Exception?, string> formatter);
+}
+
+internal readonly record struct SynchronousConsoleLogEntry(
+    TextWriter? Destination,
+    string? Output,
+    ExceptionDispatchInfo? Failure)
+{
+    public bool HasOutput => !string.IsNullOrEmpty(Output);
+
+    public void Write()
+    {
+        Failure?.Throw();
+        Destination?.Write(Output);
+    }
+}
 
 internal sealed class NonSpectreLoggerFactory(
     ILoggerFactory loggerFactory,
@@ -120,10 +149,13 @@ internal sealed class NonSpectreLoggerFactory(
     private sealed class SynchronousConsoleLogger(
         string categoryName,
         ConsoleLoggerProvider provider,
-        IOptionsMonitor<LoggerFilterOptions> filterOptions) : ILogger, ISynchronousConsoleLogger
+        IOptionsMonitor<LoggerFilterOptions> filterOptions)
+        : ILogger, ISynchronousConsoleLogger, IBufferedConsoleLogger
     {
         [ThreadStatic]
         private static StringWriter? _writer;
+
+        private readonly ConditionalWeakTable<IBufferedLogEvent, FormattedEntryHolder> _formattedEntries = new();
 
         public IDisposable BeginScope<TState>(TState state)
             where TState : notnull => GetScopeProvider(provider).Push(state);
@@ -141,11 +173,34 @@ internal sealed class NonSpectreLoggerFactory(
             EventId eventId,
             TState state,
             Exception? exception,
+            Func<TState, Exception?, string> formatter) =>
+            Format(logLevel, eventId, state, exception, formatter).Write();
+
+        public bool WouldWrite(IBufferedLogEvent logEvent) =>
+            GetOrFormat(logEvent).HasOutput;
+
+        public void Write(IBufferedLogEvent logEvent)
+        {
+            if (_formattedEntries.TryGetValue(logEvent, out var formattedEntry))
+            {
+                _formattedEntries.Remove(logEvent);
+                formattedEntry.Entry.Write();
+                return;
+            }
+
+            logEvent.FormatFor(this).Write();
+        }
+
+        public SynchronousConsoleLogEntry Format<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
             if (!IsEnabled(logLevel))
             {
-                return;
+                return default;
             }
 
             var currentOptions = GetOptions(provider).CurrentValue;
@@ -160,16 +215,16 @@ internal sealed class NonSpectreLoggerFactory(
                 state,
                 exception,
                 formatter);
-            string output;
+            string? output = null;
+            ExceptionDispatchInfo? failure = null;
             try
             {
                 consoleFormatter.Write(in logEntry, GetScopeProvider(provider), writer);
-                if (builder.Length == 0)
-                {
-                    return;
-                }
-
-                output = builder.ToString();
+                output = builder.Length == 0 ? null : builder.ToString();
+            }
+            catch (Exception exceptionToCapture)
+            {
+                failure = ExceptionDispatchInfo.Capture(exceptionToCapture);
             }
             finally
             {
@@ -183,8 +238,15 @@ internal sealed class NonSpectreLoggerFactory(
             var destination = logLevel >= currentOptions.LogToStandardErrorThreshold
                 ? System.Console.Error
                 : System.Console.Out;
-            destination.Write(output);
+            return new SynchronousConsoleLogEntry(destination, output, failure);
         }
+
+        private SynchronousConsoleLogEntry GetOrFormat(IBufferedLogEvent logEvent)
+            => _formattedEntries
+                .GetValue(logEvent, entry => new FormattedEntryHolder(entry.FormatFor(this)))
+                .Entry;
+
+        private sealed record FormattedEntryHolder(SynchronousConsoleLogEntry Entry);
 
         private static ConsoleFormatter GetFormatter(
             ConsoleLoggerProvider provider,

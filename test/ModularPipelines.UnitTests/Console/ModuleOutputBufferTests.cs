@@ -1,7 +1,9 @@
 using ModularPipelines.Secrets;
 using MEL.Spectre;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
@@ -1173,6 +1175,34 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_EmptyConsoleFormatter_DoesNotCreateOutputGroup()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging(builder => builder
+            .ClearProviders()
+            .AddConsole(options => options.FormatterName = EmptyConsoleFormatter.FormatterName)
+            .AddConsoleFormatter<EmptyConsoleFormatter, ConsoleFormatterOptions>());
+        await using var serviceProvider = services.BuildServiceProvider();
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        var filterOptions = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
+        var loggerControl = new NoopSpectreConsoleLoggerControl(loggerFactory, filterOptions);
+        var fallbackLoggers = new NonSpectreLoggerFactory(loggerFactory, loggerControl, filterOptions)
+            .CreateLoggers(OutputLoggerCategories.ForModule(typeof(ModuleOutputBufferTests)));
+        var writer = new StringWriter();
+        var buffer = CreateBufferWithStructuredLog(isSpectreEnabled: static _ => true);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            NullLogger.Instance,
+            loggerControl,
+            OutputFlushKind.Complete,
+            fallbackLoggers);
+
+        await Assert.That(writer.ToString()).IsEmpty();
+    }
+
+    [Test]
     public async Task Flush_NonConsoleIncrementalLogDoesNotCreateCompletionGroup()
     {
         var writer = new StringWriter();
@@ -1468,6 +1498,19 @@ public class ModuleOutputBufferTests
             Exception? exception,
             Func<TState, Exception?, string> formatter) =>
             writer.WriteLine($"formatted: {formatter(state, exception)}");
+    }
+
+    private sealed class EmptyConsoleFormatter()
+        : ConsoleFormatter(FormatterName)
+    {
+        public const string FormatterName = "empty";
+
+        public override void Write<TState>(
+            in LogEntry<TState> logEntry,
+            IExternalScopeProvider? scopeProvider,
+            TextWriter textWriter)
+        {
+        }
     }
 
     private sealed class ExclusiveRecordingLogger(TextWriter writer, bool isEnabled)
