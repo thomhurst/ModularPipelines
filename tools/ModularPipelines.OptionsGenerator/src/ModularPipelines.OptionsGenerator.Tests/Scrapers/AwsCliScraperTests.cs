@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -269,6 +270,55 @@ public class AwsCliScraperTests
             "Valid values: alphanumeric characters and punctuation.");
 
         await Assert.That(definition).IsNull();
+    }
+
+    [Test]
+    public async Task Required_Options_Are_Preserved_In_Generated_Apis()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsRequiredOptionsHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var terminateInstances = commands.Single(command =>
+            command.FullCommand == "aws ec2 terminate-instances");
+        var createKeyPair = commands.Single(command =>
+            command.FullCommand == "aws ec2 create-key-pair");
+        var tool = scraper.CreateToolDefinition() with { Commands = commands };
+        var options = await new OptionsClassGenerator().GenerateAsync(tool);
+        var services = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var terminateOptions = options.Single(file =>
+            file.RelativePath.EndsWith("AwsEc2TerminateInstancesOptions.Generated.cs", StringComparison.Ordinal));
+        var createOptions = options.Single(file =>
+            file.RelativePath.EndsWith("AwsEc2CreateKeyPairOptions.Generated.cs", StringComparison.Ordinal));
+        var ec2Interface = services.Single(file =>
+            file.RelativePath.EndsWith("IAwsEc2.Generated.cs", StringComparison.Ordinal));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(terminateInstances.Options.Single(option =>
+                option.SwitchName == "--instance-ids").IsRequired).IsTrue();
+            await Assert.That(terminateInstances.Options.Single(option =>
+                option.SwitchName == "--dry-run").IsRequired).IsFalse();
+            await Assert.That(createKeyPair.Options.Single(option =>
+                option.SwitchName == "--key-name").IsRequired).IsTrue();
+            await Assert.That(createKeyPair.Options.Single(option =>
+                option.SwitchName == "--key-type").IsRequired).IsFalse();
+            await Assert.That(terminateOptions.Content)
+                .Contains("IEnumerable<string> InstanceIds");
+            await Assert.That(createOptions.Content)
+                .Contains("string KeyName");
+            await Assert.That(ec2Interface.Content)
+                .Contains("TerminateInstancesAsync(AwsEc2TerminateInstancesOptions options,");
+            await Assert.That(ec2Interface.Content)
+                .Contains("CreateKeyPairAsync(AwsEc2CreateKeyPairOptions options,");
+        }
     }
 
     [Test]
@@ -804,6 +854,56 @@ public class AwsCliScraperTests
             var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
         }
+    }
+
+    private sealed class AwsRequiredOptionsHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o ec2",
+                "ec2 help" => "AVAILABLE COMMANDS\n       o create-key-pair\n       o terminate-instances",
+                "ec2 terminate-instances help" => """
+                    SYNOPSIS
+                           aws ec2 terminate-instances
+                           --instance-ids <value>
+                           [--dry-run | --no-dry-run]
+
+                    OPTIONS
+                           --instance-ids (list)
+                            Instance identifiers.
+
+                           --dry-run (boolean)
+                            Checks whether you have the required permissions.
+                    """,
+                "ec2 create-key-pair help" => """
+                    SYNOPSIS
+                           aws ec2 create-key-pair
+                           [--key-name <value>]
+                           [--key-type <value>]
+
+                    OPTIONS
+                           --key-name (string) [required]
+                            A unique name for the key pair.
+
+                           --key-type (string)
+                            The type of key pair.
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private static CliCommandResult Result(string output) => new()

@@ -344,6 +344,7 @@ public partial class AwsCliScraper : CliScraperBase
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var requiredSynopsisOptions = GetRequiredSynopsisOptions(helpText);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find OPTIONS section
@@ -429,7 +430,8 @@ public partial class AwsCliScraper : CliScraperBase
                 CSharpType = csharpType,
                 Description = description,
                 IsFlag = isFlag,
-                IsRequired = false,
+                IsRequired = match.Groups["required"].Success
+                             || requiredSynopsisOptions.Contains(longForm),
                 AcceptsMultipleValues = isArray,
                 GroupValues = isArray && !isKeyValue,
                 CollectionSeparator = isKeyValue ? "," : null,
@@ -466,6 +468,46 @@ public partial class AwsCliScraper : CliScraperBase
     private static bool IsNegatedFormOf(string candidate, string positiveSwitch) =>
         candidate.StartsWith("--no-", StringComparison.OrdinalIgnoreCase)
         && candidate[5..].Equals(positiveSwitch[2..], StringComparison.OrdinalIgnoreCase);
+
+    private static HashSet<string> GetRequiredSynopsisOptions(string helpText)
+    {
+        var requiredOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var synopsisMatch = Regex.Match(
+            helpText,
+            @"^SYNOPSIS\s*$",
+            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        if (!synopsisMatch.Success)
+        {
+            return requiredOptions;
+        }
+
+        var sectionStart = synopsisMatch.Index + synopsisMatch.Length;
+        var nextSectionMatch = Regex.Match(
+            helpText[sectionStart..],
+            @"^[A-Z][A-Z\s]+$",
+            RegexOptions.Multiline);
+        var sectionEnd = nextSectionMatch.Success
+            ? sectionStart + nextSectionMatch.Index
+            : helpText.Length;
+
+        foreach (var line in helpText[sectionStart..sectionEnd].Split('\n'))
+        {
+            var candidate = line.Trim();
+            if (candidate.StartsWith("[", StringComparison.Ordinal)
+                || candidate.Contains(" | ", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var optionMatch = AwsSynopsisOptionPattern().Match(candidate);
+            if (optionMatch.Success)
+            {
+                requiredOptions.Add(optionMatch.Groups["long"].Value);
+            }
+        }
+
+        return requiredOptions;
+    }
 
     private static bool IsGlobalOption(string optionName)
     {
@@ -688,13 +730,19 @@ public partial class AwsCliScraper : CliScraperBase
     /// --option (type)
     /// --flag
     /// </summary>
-    [GeneratedRegex("""^\s{7}"?(?<long>--[\w-]+)"?(?:\s+\|\s+"?(?<alternate>--[\w-]+)"?)?(?:\s+\((?<type>[^)]+)\))?""", RegexOptions.Multiline)]
+    [GeneratedRegex("""^\s{7}"?(?<long>--[\w-]+)"?(?:\s+\|\s+"?(?<alternate>--[\w-]+)"?)?(?:\s+\((?<type>[^)]+)\))?(?:\s+\[(?<required>required)\])?""", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex AwsOptionPattern();
 
     [GeneratedRegex(
         @"\b(?:integer|long|float|double)\s+(?:greater|less)\s+than\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex NumericConstraintValuesPattern();
+
+    /// <summary>
+    /// Matches an unbracketed AWS option at the start of a synopsis line.
+    /// </summary>
+    [GeneratedRegex(@"^(?<long>--[\w-]+)(?:\s|$)")]
+    private static partial Regex AwsSynopsisOptionPattern();
 
     #endregion
 }

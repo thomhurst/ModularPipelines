@@ -20,11 +20,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-key-pair")]
-public record AwsEc2CreateKeyPairOptions : AwsOptions
+public record AwsEc2CreateKeyPairOptions(
+    [property: CliOption("--key-name")] string KeyName
+) : AwsOptions
 {
-    [CliOption("--key-name")]
-    public string? KeyName { get; set; }
-
     /// <summary>
     /// The type of key pair. Note that ED25519 keys are not supported for Windows instances. Default: rsa Possible values: o rsa o ed25519
     /// </summary>
