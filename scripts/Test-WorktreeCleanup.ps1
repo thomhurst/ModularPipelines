@@ -50,6 +50,12 @@ try {
     if (-not (Test-BranchIdentifiesPrNumber -Branch 'codex/pr-3045-r3' -PrNumber 3045)) {
         throw 'PR-numbered review branch was not recognized.'
     }
+    if (-not (Test-BranchIdentifiesPrNumber -Branch 'codex-pr-3045-r3' -PrNumber 3045)) {
+        throw 'Hyphen-delimited PR-numbered review branch was not recognized.'
+    }
+    if (Test-BranchIdentifiesPrNumber -Branch 'codex-pr-30450-r3' -PrNumber 3045) {
+        throw 'PR number was matched as a prefix of another PR number.'
+    }
     if (Test-BranchIdentifiesPrNumber -Branch 'fix/signalr-reconnect-handoff' -PrNumber 3178) {
         throw 'Unrelated branch was matched from a misleading worktree name.'
     }

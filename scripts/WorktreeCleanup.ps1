@@ -56,7 +56,10 @@ function Test-BranchIdentifiesPrNumber {
         [Parameter(Mandatory)][int]$PrNumber
     )
 
-    return $Branch -match "(?:^|/)pr-$PrNumber(?:$|[-/])"
+    # Review branches use both codex/pr-123-* and codex-pr-123-* forms. Treat
+    # slash and hyphen as token boundaries so canonical path + branch identity
+    # still supplies two independent signals for the same merged PR.
+    return $Branch -match "(?:^|[-/])pr-$PrNumber(?:$|[-/])"
 }
 
 function Test-IsCanonicalPrWorktree {
