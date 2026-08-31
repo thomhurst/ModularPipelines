@@ -16,8 +16,13 @@ function Assert-Equal {
 }
 
 $repositoryRoot = Split-Path $PSScriptRoot -Parent
+$repository = 'thomhurst/ModularPipelines'
+$automationAuthor = 'thomhurst'
 $aws = Resolve-GeneratedIntegrationValidation `
     -HeadRef 'automated/update-cli-options-aws' `
+    -HeadRepository $repository `
+    -PullRequestAuthor $automationAuthor `
+    -Repository $repository `
     -ChangedPath @(
         'docs/docs/mp-packages/cli/aws.md',
         'src/ModularPipelines.AmazonWebServices/AssemblyInfo.Generated.cs',
@@ -40,10 +45,25 @@ if ($aws.Solution -match 'Azure|Google') {
     throw "AWS validation selected an unrelated integration: $($aws.Solution)."
 }
 
+$nonPullRequest = Resolve-GeneratedIntegrationValidation `
+    -HeadRef 'not-a-generated-pull-request' `
+    -HeadRepository '' `
+    -PullRequestAuthor '' `
+    -Repository $repository `
+    -ChangedPath @() `
+    -RepositoryRoot $repositoryRoot
+Assert-Equal `
+    $nonPullRequest.IsGeneratedIntegration `
+    $false `
+    'Push and workflow-dispatch runs must retain full validation.'
+
 $outputFile = New-TemporaryFile
 try {
     & (Join-Path $PSScriptRoot 'Resolve-GeneratedIntegrationValidation.ps1') `
         -HeadRef 'automated/update-cli-options-aws' `
+        -HeadRepository $repository `
+        -PullRequestAuthor $automationAuthor `
+        -Repository $repository `
         -ChangedPath @('src/ModularPipelines.AmazonWebServices/Options/AwsRunOptions.Generated.cs') `
         -RepositoryRoot $repositoryRoot `
         -GitHubOutput $outputFile | Out-Null
@@ -65,6 +85,9 @@ finally {
 
 $multipleIntegrations = Resolve-GeneratedIntegrationValidation `
     -HeadRef 'automated/update-cli-options-aws' `
+    -HeadRepository $repository `
+    -PullRequestAuthor $automationAuthor `
+    -Repository $repository `
     -ChangedPath @(
         'src/ModularPipelines.AmazonWebServices/Options/AwsRunOptions.Generated.cs',
         'src/ModularPipelines.Google/Options/GcloudRunOptions.Generated.cs'
@@ -77,6 +100,9 @@ Assert-Equal `
 
 $handwrittenChange = Resolve-GeneratedIntegrationValidation `
     -HeadRef 'feature/aws-fix' `
+    -HeadRepository $repository `
+    -PullRequestAuthor $automationAuthor `
+    -Repository $repository `
     -ChangedPath @('src/ModularPipelines.AmazonWebServices/AmazonWebServicesContext.cs') `
     -RepositoryRoot $repositoryRoot
 Assert-Equal `
@@ -84,8 +110,59 @@ Assert-Equal `
     $false `
     'Non-automated branches must retain full validation.'
 
+$automatedHandwrittenChange = Resolve-GeneratedIntegrationValidation `
+    -HeadRef 'automated/update-cli-options-aws' `
+    -HeadRepository $repository `
+    -PullRequestAuthor $automationAuthor `
+    -Repository $repository `
+    -ChangedPath @('src/ModularPipelines.AmazonWebServices/AmazonWebServicesContext.cs') `
+    -RepositoryRoot $repositoryRoot
+Assert-Equal `
+    $automatedHandwrittenChange.IsGeneratedIntegration `
+    $false `
+    'Handwritten package files must retain full validation on automated branches.'
+
+$forkedChange = Resolve-GeneratedIntegrationValidation `
+    -HeadRef 'automated/update-cli-options-aws' `
+    -HeadRepository 'contributor/ModularPipelines' `
+    -PullRequestAuthor 'contributor' `
+    -Repository $repository `
+    -ChangedPath @('src/ModularPipelines.AmazonWebServices/Options/AwsRunOptions.Generated.cs') `
+    -RepositoryRoot $repositoryRoot
+Assert-Equal `
+    $forkedChange.IsGeneratedIntegration `
+    $false `
+    'Fork pull requests must retain full validation.'
+
+$unownedChange = Resolve-GeneratedIntegrationValidation `
+    -HeadRef 'automated/update-cli-options-aws' `
+    -HeadRepository $repository `
+    -PullRequestAuthor 'contributor' `
+    -Repository $repository `
+    -ChangedPath @('src/ModularPipelines.AmazonWebServices/Options/AwsRunOptions.Generated.cs') `
+    -RepositoryRoot $repositoryRoot
+Assert-Equal `
+    $unownedChange.IsGeneratedIntegration `
+    $false `
+    'Non-automation authors must retain full validation.'
+
+$wrongPackage = Resolve-GeneratedIntegrationValidation `
+    -HeadRef 'automated/update-cli-options-aws' `
+    -HeadRepository $repository `
+    -PullRequestAuthor $automationAuthor `
+    -Repository $repository `
+    -ChangedPath @('src/ModularPipelines.Google/Options/GcloudRunOptions.Generated.cs') `
+    -RepositoryRoot $repositoryRoot
+Assert-Equal `
+    $wrongPackage.IsGeneratedIntegration `
+    $false `
+    'Generated paths must match the branch tool package.'
+
 $escapedChange = Resolve-GeneratedIntegrationValidation `
     -HeadRef 'automated/update-cli-options-aws' `
+    -HeadRepository $repository `
+    -PullRequestAuthor $automationAuthor `
+    -Repository $repository `
     -ChangedPath @(
         'src/ModularPipelines.AmazonWebServices/Options/AwsRunOptions.Generated.cs',
         'scripts/unrelated.ps1'
@@ -95,5 +172,29 @@ Assert-Equal `
     $escapedChange.IsGeneratedIntegration `
     $false `
     'Changes outside the generated package and its documentation must retain full validation.'
+
+$workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
+$generatedJob = [regex]::Match(
+    $workflow,
+    '(?ms)^  generated-integration:.*?(?=^  trim-aot:)').Value
+if ([string]::IsNullOrWhiteSpace($generatedJob)) {
+    throw 'Generated integration validation job was not found.'
+}
+
+if ($generatedJob.Contains(
+        'tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.slnx',
+        [StringComparison]::Ordinal)) {
+    throw 'Generated integration validation must not build the unrelated OptionsGenerator solution.'
+}
+
+foreach ($gcloudSafeguard in @(
+             'Increase swap space for generated gcloud validation',
+             'sudo fallocate -l 10G /mnt/swapfile',
+             '/m:1 -p:UseSharedCompilation=false'
+         )) {
+    if (-not $generatedJob.Contains($gcloudSafeguard, [StringComparison]::Ordinal)) {
+        throw "Generated gcloud validation omitted safeguard '$gcloudSafeguard'."
+    }
+}
 
 Write-Host 'Generated integration validation resolver tests passed.'

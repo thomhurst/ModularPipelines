@@ -47,6 +47,9 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           HEAD_REF: ${{ github.head_ref }}
+          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           $changedPaths = @()
           $headRef = 'not-a-generated-pull-request'
@@ -67,6 +70,9 @@ jobs:
 
           ./scripts/Resolve-GeneratedIntegrationValidation.ps1 `
             -HeadRef $headRef `
+            -HeadRepository $env:HEAD_REPOSITORY `
+            -PullRequestAuthor $env:PR_AUTHOR `
+            -Repository $env:REPOSITORY `
             -ChangedPath $changedPaths `
             -RepositoryRoot $env:GITHUB_WORKSPACE `
             -GitHubOutput $env:GITHUB_OUTPUT
@@ -636,27 +642,33 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-generated-
             ${{ runner.os }}-nuget-
-      - name: Build shared core and generator dependencies
+      - name: Build shared core
         shell: bash
         run: |
-          for solution in \
-            ModularPipelines.slnx \
-            tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.slnx
-          do
-            echo "::group::Restore $solution"
-            dotnet restore "$solution"
-            echo "::endgroup::"
-            echo "::group::Build $solution"
-            dotnet build "$solution" -c Release --no-restore
-            echo "::endgroup::"
-          done
+          dotnet restore ModularPipelines.slnx
+          dotnet build ModularPipelines.slnx -c Release --no-restore
+      - name: Increase swap space for generated gcloud validation
+        if: needs.fast-fail.outputs.integration_package == 'ModularPipelines.Google'
+        shell: bash
+        run: |
+          sudo swapoff -a || true
+          sudo rm -f /mnt/swapfile || true
+          sudo fallocate -l 10G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
       - name: Build changed integration
         shell: bash
         env:
+          INTEGRATION_PACKAGE: ${{ needs.fast-fail.outputs.integration_package }}
           INTEGRATION_SOLUTION: ${{ needs.fast-fail.outputs.integration_solution }}
         run: |
+          BUILD_ARGS=()
+          if [[ "$INTEGRATION_PACKAGE" == "ModularPipelines.Google" ]]; then
+            BUILD_ARGS+=(/m:1 -p:UseSharedCompilation=false)
+          fi
           dotnet restore "$INTEGRATION_SOLUTION"
-          dotnet build "$INTEGRATION_SOLUTION" -c Release --no-restore
+          dotnet build "$INTEGRATION_SOLUTION" -c Release --no-restore "${BUILD_ARGS[@]}"
       - name: Test changed integration
         if: needs.fast-fail.outputs.integration_test_project != ''
         shell: bash
