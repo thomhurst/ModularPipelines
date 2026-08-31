@@ -17,8 +17,8 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateSourceChartReconcileStrategy
 {
     [EnumValue("Revision")]
-    Revision = 0,
+    Revision,
 
     [EnumValue("ChartRevision")]
-    ChartRevision = 1
+    ChartRevision
 }

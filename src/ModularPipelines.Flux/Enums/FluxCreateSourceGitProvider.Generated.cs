@@ -17,14 +17,14 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateSourceGitProvider
 {
     [EnumValue("generic")]
-    Generic = 0,
+    Generic,
 
     [EnumValue("github")]
-    Github = 1,
+    Github,
 
     [EnumValue("aws")]
-    Aws = 2,
+    Aws,
 
     [EnumValue("azure")]
-    Azure = 3
+    Azure
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateHelmreleaseChartRef
 {
     [EnumValue("OCIRepository")]
-    OciRepository = 0,
+    OciRepository,
 
     [EnumValue("HelmChart")]
-    HelmChart = 1
+    HelmChart
 }

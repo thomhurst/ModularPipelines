@@ -17,11 +17,11 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxBootstrapBitbucketServerSshKeyAlgorithm
 {
     [EnumValue("rsa")]
-    Rsa = 0,
+    Rsa,
 
     [EnumValue("ecdsa")]
-    Ecdsa = 1,
+    Ecdsa,
 
     [EnumValue("ed25519")]
-    Ed25519 = 2
+    Ed25519
 }

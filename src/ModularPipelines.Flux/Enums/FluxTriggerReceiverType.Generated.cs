@@ -17,11 +17,11 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxTriggerReceiverType
 {
     [EnumValue("generic")]
-    Generic = 0,
+    Generic,
 
     [EnumValue("generic-hmac")]
-    GenericHmac = 1,
+    GenericHmac,
 
     [EnumValue("generic-oidc")]
-    GenericOidc = 2
+    GenericOidc
 }

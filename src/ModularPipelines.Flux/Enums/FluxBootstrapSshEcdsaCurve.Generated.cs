@@ -17,11 +17,11 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxBootstrapSshEcdsaCurve
 {
     [EnumValue("p256")]
-    P256 = 0,
+    P256,
 
     [EnumValue("p384")]
-    P384 = 1,
+    P384,
 
     [EnumValue("p521")]
-    P521 = 2
+    P521
 }

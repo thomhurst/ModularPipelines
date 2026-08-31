@@ -196,7 +196,4 @@ public record FluxGetOptions : FluxOptions
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
 
-    [Obsolete("Command is no longer supported by the installed CLI and has no effect.")]
-    public string? Command { get; set; }
-
 }

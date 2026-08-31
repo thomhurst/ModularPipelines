@@ -17,11 +17,11 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateSourceChartSource
 {
     [EnumValue("HelmRepository")]
-    HelmRepository = 0,
+    HelmRepository,
 
     [EnumValue("GitRepository")]
-    GitRepository = 1,
+    GitRepository,
 
     [EnumValue("Bucket")]
-    Bucket = 2
+    Bucket
 }

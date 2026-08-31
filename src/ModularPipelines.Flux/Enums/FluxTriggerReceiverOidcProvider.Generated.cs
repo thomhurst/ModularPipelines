@@ -17,8 +17,8 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxTriggerReceiverOidcProvider
 {
     [EnumValue("github")]
-    Github = 0,
+    Github,
 
     [EnumValue("forgejo")]
-    Forgejo = 1
+    Forgejo
 }

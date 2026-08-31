@@ -178,7 +178,4 @@ public record FluxResumeSourceOptions : FluxOptions
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
 
-    [Obsolete("Command is no longer supported by the installed CLI and has no effect.")]
-    public string? Command { get; set; }
-
 }
