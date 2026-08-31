@@ -148,7 +148,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
     }
 
     internal static StringComparison GetArchivePathComparison() =>
-        OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
+        OperatingSystem.IsWindows()
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
 

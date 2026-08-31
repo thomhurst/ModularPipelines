@@ -121,6 +121,21 @@ public class ArtifactContextApiTests
     }
 
     [Test]
+    public async Task Direct_Service_Registration_Overrides_Earlier_Artifact_Store_Factory()
+    {
+        var store = new TestArtifactStore();
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ArtifactTestModule>()
+            .AddDistributedArtifactStoreFactory<TestArtifactStoreFactory>();
+        builder.Services.AddSingleton<IDistributedArtifactStore>(store);
+
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline.Services.GetRequiredService<IDistributedArtifactStore>())
+            .IsSameReferenceAs(store);
+    }
+
+    [Test]
     public async Task Artifact_Store_Factory_Disposes_Created_Store()
     {
         var builder = TestPipelineBuilder.Create()
@@ -377,10 +392,10 @@ public class ArtifactContextApiTests
     }
 
     [Test]
-    public async Task Directory_Archive_Path_Comparison_Matches_Platform_Defaults()
+    public async Task Directory_Archive_Path_Comparison_Is_Case_Insensitive_Only_On_Windows()
     {
         var comparison = ArtifactContextImpl.GetArchivePathComparison();
-        var expected = OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
+        var expected = OperatingSystem.IsWindows()
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
 

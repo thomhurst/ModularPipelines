@@ -455,8 +455,9 @@ public sealed class PipelineBuilder
     {
         // Artifact stores are also available to local pipelines, so factory activation
         // must not depend on distributed executor configuration.
-        var hasArtifactFactory = services.Any(d => d.ServiceType == typeof(IDistributedArtifactStoreFactory));
-        if (hasArtifactFactory)
+        var artifactFactoryIndex = FindLastServiceIndex<IDistributedArtifactStoreFactory>(services);
+        var artifactStoreIndex = FindLastServiceIndex<IDistributedArtifactStore>(services);
+        if (artifactFactoryIndex > artifactStoreIndex)
         {
             RemoveService<IDistributedArtifactStore>(services);
             services.AddSingleton<IDistributedArtifactStore>(sp =>
@@ -505,6 +506,19 @@ public sealed class PipelineBuilder
             RemoveService<IModuleExecutor>(services);
             services.AddSingleton<IModuleExecutor, WorkerModuleExecutor>();
         }
+    }
+
+    private static int FindLastServiceIndex<TService>(IServiceCollection services)
+    {
+        for (var index = services.Count - 1; index >= 0; index--)
+        {
+            if (services[index].ServiceType == typeof(TService))
+            {
+                return index;
+            }
+        }
+
+        return -1;
     }
 
     /// <summary>
