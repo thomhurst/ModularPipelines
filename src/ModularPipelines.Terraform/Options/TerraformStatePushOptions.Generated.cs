@@ -22,11 +22,6 @@ public record TerraformStatePushOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
 ) : TerraformOptions
 {
-    public TerraformStatePushOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Write the state even if lineages don't match or the remote serial is higher.
     /// </summary>

@@ -22,11 +22,6 @@ public record TerraformUntaintOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
 ) : TerraformOptions
 {
-    public TerraformUntaintOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// If specified, the command will succeed (exit code 0) even if the resource is missing.
     /// </summary>

@@ -23,11 +23,6 @@ public record TerraformImportOptions(
     [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Id
 ) : TerraformOptions
 {
-    public TerraformImportOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Path to a directory of Terraform configuration files to use to configure the provider. Defaults to pwd. If no config files are present, they must be provided via the input prompts or env vars.
     /// </summary>

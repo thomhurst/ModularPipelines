@@ -23,11 +23,6 @@ public record TerraformStateReplaceProviderOptions(
     [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string ToProviderFqn
 ) : TerraformOptions
 {
-    public TerraformStateReplaceProviderOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Skip interactive approval.
     /// </summary>

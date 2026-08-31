@@ -18,13 +18,6 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-group")]
-public record TerraformStacksDeploymentGroupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Subcommand
-) : TerraformOptions
+public record TerraformStacksDeploymentGroupOptions : TerraformOptions
 {
-    public TerraformStacksDeploymentGroupOptions()
-        : this(default(string)!)
-    {
-    }
-
 }

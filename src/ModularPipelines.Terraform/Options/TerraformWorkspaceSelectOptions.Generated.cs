@@ -22,11 +22,6 @@ public record TerraformWorkspaceSelectOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
 ) : TerraformOptions
 {
-    public TerraformWorkspaceSelectOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Create the Terraform workspace if it doesn't exist.
     /// </summary>

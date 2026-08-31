@@ -24,13 +24,6 @@ public record TerraformStacksDeploymentRunWatchOptions : TerraformOptions
     /// The ID of the deployment run to watch (required).
     /// </summary>
     [CliOption("-deployment-run-id", Format = OptionFormat.EqualsSeparated)]
-    public string? DeploymentRunIdValue { get; set; }
-
-    [Obsolete("Use DeploymentRunIdValue instead.")]
-    public bool? DeploymentRunId
-    {
-        get => bool.TryParse(DeploymentRunIdValue, out var value) ? value : null;
-        set => DeploymentRunIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? DeploymentRunId { get; set; }
 
 }
