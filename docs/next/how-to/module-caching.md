@@ -164,7 +164,7 @@ builder.AddRedisModuleCache(
 
     redis => redis.ConnectionString = "localhost:6379",
 
-    cacheEntries => cacheEntries.TimeToLiveSeconds = 86_400);
+    cacheEntries => cacheEntries.TimeToLive = TimeSpan.FromDays(1));
 ```
 
 ## Correctness rules[​](#correctness-rules "Direct link to Correctness rules")

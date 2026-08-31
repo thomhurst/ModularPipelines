@@ -26,7 +26,7 @@ builder
 
 
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 

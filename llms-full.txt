@@ -31,6 +31,7 @@
 - [MPCLI002](/docs/next/analyzers/MPCLI002.md): Value-less bool? CliOption should use CliFlag.
 - [MPCLI003](/docs/next/analyzers/MPCLI003.md): Multiple CLI attributes applied to one property.
 - [MPCLI004](/docs/next/analyzers/MPCLI004.md): Duplicate CLI switch in an options hierarchy.
+- [MPCLI005](/docs/next/analyzers/MPCLI005.md): Negated CLI flag applied to a non-nullable-Boolean or counted property.
 - [MPCLI006](/docs/next/analyzers/MPCLI006.md): CLI attributes used outside CommandLineToolOptions.
 - [Module execution lifecycle](/docs/next/architecture/module-execution-lifecycle.md): A module combines execution policy, module-owned virtual hooks, opt-in attribute handlers,
 - [Additional Packages](/docs/next/category/additional-packages.md): Packages to help interact with common tools used within pipelines.
@@ -456,6 +457,7 @@ Modular Pipelines is a framework for writing your pipeline in C#. Giving you str
 | [`MPCLI002`](/ModularPipelines/docs/next/analyzers/MPCLI002.md) | Usage    | Error            | Public analyzer package     | Value-less bool? CliOption should use CliFlag.                                  |
 | [`MPCLI003`](/ModularPipelines/docs/next/analyzers/MPCLI003.md) | Usage    | Error            | Public analyzer package     | Multiple CLI attributes applied to one property.                                |
 | [`MPCLI004`](/ModularPipelines/docs/next/analyzers/MPCLI004.md) | Usage    | Error            | Public analyzer package     | Duplicate CLI switch in an options hierarchy.                                   |
+| [`MPCLI005`](/ModularPipelines/docs/next/analyzers/MPCLI005.md) | Usage    | Error            | Public analyzer package     | Negated CLI flag applied to a non-nullable-Boolean or counted property.         |
 | [`MPCLI006`](/ModularPipelines/docs/next/analyzers/MPCLI006.md) | Usage    | Error            | Public analyzer package     | CLI attributes used outside CommandLineToolOptions.                             |
 
 
@@ -1220,6 +1222,39 @@ Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error`
 
 ---
 
+# MPCLI005
+
+Negated CLI flag applied to a non-nullable-Boolean or counted property.
+
+| Property         | Value                   |
+| ---------------- | ----------------------- |
+| Category         | Usage                   |
+| Default severity | Error                   |
+| Availability     | Public analyzer package |
+
+## Configure severity[​](#configure-severity "Direct link to Configure severity")
+
+.editorconfig
+
+```
+dotnet_diagnostic.MPCLI005.severity = error
+```
+
+Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error` to change its severity.
+
+## Suppress a specific occurrence[​](#suppress-a-specific-occurrence "Direct link to Suppress a specific occurrence")
+
+```
+#pragma warning disable MPCLI005
+
+// Code that intentionally violates MPCLI005.
+
+#pragma warning restore MPCLI005
+```
+
+
+---
+
 # MPCLI006
 
 CLI attributes used outside CommandLineToolOptions.
@@ -1740,7 +1775,7 @@ The matching logic is straightforward:
 1. If a module has **no** required capabilities, it can run on **any** worker.
 2. If a module has required capabilities, **all** of them must be present in the worker's capability set.
 3. Capability matching is **case-insensitive**.
-4. If no worker with the required capabilities is available, the module waits in the queue until one becomes available (up to `CapabilityTimeoutSeconds`).
+4. If no worker with the required capabilities is available, the module waits in the queue until one becomes available (up to `CapabilityTimeout`).
 
 ## Example: Mixed Pipeline[​](#example-mixed-pipeline "Direct link to Example: Mixed Pipeline")
 
@@ -1808,24 +1843,26 @@ builder.AddDistributedMode(o =>
 
     o.Capabilities = ["docker", "gpu"];
 
-    o.HeartbeatIntervalSeconds = 10;
+    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
 
-    o.HeartbeatTimeoutSeconds = 30;
+    o.CapabilityTimeout = TimeSpan.FromMinutes(5);
+
+    o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
 
     o.AutoDetectOsCapability = true;
 
 });
 ```
 
-| Property                   | Type                    | Default | Description                                                                                                                                |
-| -------------------------- | ----------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `InstanceIndex`            | `int`                   | `0`     | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable.           |
-| `TotalInstances`           | `int`                   | `1`     | Total number of instances (master + workers).                                                                                              |
-| `Capabilities`             | `IReadOnlyList<string>` | `[]`    | Capabilities this worker advertises. Modules with `[RequiresCapability]` will only be assigned to workers that have matching capabilities. |
-| `HeartbeatIntervalSeconds` | `int`                   | `10`    | How often workers send heartbeat signals (seconds).                                                                                        |
-| `HeartbeatTimeoutSeconds`  | `int`                   | `30`    | How long before the master considers a worker unresponsive (seconds).                                                                      |
-| `CapabilityTimeoutSeconds` | `int`                   | `300`   | Maximum time to wait for a capable worker to become available before failing a module (seconds).                                           |
-| `AutoDetectOsCapability`   | `bool`                  | `true`  | Automatically add the current OS as a capability (`"windows"`, `"linux"`, or `"macos"`).                                                   |
+| Property                 | Type                    | Default                    | Description                                                                                                                                |
+| ------------------------ | ----------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `InstanceIndex`          | `int`                   | `0`                        | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable.           |
+| `TotalInstances`         | `int`                   | `1`                        | Total number of instances (master + workers).                                                                                              |
+| `Capabilities`           | `IReadOnlyList<string>` | `[]`                       | Capabilities this worker advertises. Modules with `[RequiresCapability]` will only be assigned to workers that have matching capabilities. |
+| `RunIdentifier`          | `string?`               | `null`                     | Identifier shared by every process in this pipeline run.                                                                                   |
+| `CapabilityTimeout`      | `TimeSpan`              | `TimeSpan.FromMinutes(5)`  | Maximum time to wait for worker registration before distributing work among the available workers.                                         |
+| `ModuleResultTimeout`    | `TimeSpan`              | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                                    |
+| `AutoDetectOsCapability` | `bool`                  | `true`                     | Automatically add the current OS as a capability (`"windows"`, `"linux"`, or `"macos"`).                                                   |
 
 ### Configuration from appsettings.json[​](#configuration-from-appsettingsjson "Direct link to Configuration from appsettings.json")
 
@@ -1842,7 +1879,7 @@ You can also bind from configuration:
 
     "Capabilities": ["docker"],
 
-    "HeartbeatIntervalSeconds": 15
+    "CapabilityTimeout": "00:05:00"
 
   }
 
@@ -4207,7 +4244,7 @@ Categories are applied to Modules by using the `[ModuleCategory]` attribute.
 
 ## PipelineBuilder[​](#pipelinebuilder "Direct link to PipelineBuilder")
 
-Categories to run or ignore are configured through the `PipelineBuilder` fluent methods or immutable `Options`.
+Categories to run or ignore are configured by replacing the immutable `PipelineOptions` snapshot with `PipelineBuilder.ConfigureOptions(...)`.
 
 ## Run-Only Categories[​](#run-only-categories "Direct link to Run-Only Categories")
 
@@ -4219,7 +4256,7 @@ If "Ignore Categories" have been set with some values, if a Module has one of th
 
 Category names are matched case-insensitively. Pipeline validation fails when a configured run or ignore category does not match any registered module, including when a `RunOnlyCategories` filter would select zero modules.
 
-The fluent `RunOnlyCategories(...)` and `IgnoreCategories(...)` methods replace any category filter configured by an earlier call or by command-line options. Pass the complete filter to each call.
+Assigning `PipelineOptions.RunOnlyCategories` or `PipelineOptions.IgnoreCategories` replaces the previous value, including values supplied through command-line options. Pass the complete filter when configuring either property.
 
 ## Example of Running Specific Categories[​](#example-of-running-specific-categories "Direct link to Example of Running Specific Categories")
 
@@ -4240,7 +4277,7 @@ builder
 
 
 
-builder.RunOnlyCategories("UnitTest", "IntegrationTest");
+builder.ConfigureOptions(options => options with { RunOnlyCategories = ["UnitTest", "IntegrationTest"] });
 
 
 
@@ -4266,7 +4303,7 @@ builder
 
 
 
-builder.IgnoreCategories("Publish", "Deploy");
+builder.ConfigureOptions(options => options with { IgnoreCategories = ["Publish", "Deploy"] });
 
 
 
@@ -4345,7 +4382,7 @@ dotnet run -- -- --dryrun=true
 Use `PipelineOptions` when the selection does not come from command-line arguments:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -4361,7 +4398,7 @@ builder.ConfigurePipelineOptions(options => options with
 Set `DryRun = true` to make `RunAsync()` print the same plan and execute no modules:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -4434,7 +4471,7 @@ Buffered output from modules that are still running is flushed once per minute b
 Configure the interval globally. Setting it to zero disables time-based flushing, but the entry threshold still protects against unbounded buffering:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -4452,7 +4489,7 @@ builder.ConfigurePipelineOptions(options => options with
 To keep all output buffered until each module completes, disable both triggers:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -5961,7 +5998,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 // All commands will use Silent logging unless overridden
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -5979,7 +6016,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 // Or use Diagnostic for debugging
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -5996,6 +6033,18 @@ builder.ConfigurePipelineOptions(options => options with
 
 
 await builder.RunAsync();
+```
+
+Configure Microsoft.Extensions.Logging providers and filters through the builder's logging surface:
+
+```
+builder.Logging
+
+    .ClearProviders()
+
+    .AddConsole()
+
+    .SetMinimumLevel(LogLevel.Information);
 ```
 
 ### Using Presets[​](#using-presets "Direct link to Using Presets")
@@ -6091,7 +6140,7 @@ await context.Network.Http.SendAsync(new HttpOptions(request)
 
 
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -6277,7 +6326,7 @@ builder.AddRedisModuleCache(
 
     redis => redis.ConnectionString = "localhost:6379",
 
-    cacheEntries => cacheEntries.TimeToLiveSeconds = 86_400);
+    cacheEntries => cacheEntries.TimeToLive = TimeSpan.FromDays(1));
 ```
 
 ## Correctness rules[​](#correctness-rules "Direct link to Correctness rules")
@@ -6754,7 +6803,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -6808,7 +6857,7 @@ The pipeline follows a two-step build-then-run pattern:
 ```
 var builder = Pipeline.CreateBuilder(args);
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -6950,7 +6999,7 @@ builder.Configuration
 
 // Options
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -7058,7 +7107,7 @@ await builder
 
     .AddModule<Module2>()
 
-    .ConfigurePipelineOptions(options => options with
+    .ConfigureOptions(options => options with
 
     {
 
@@ -7100,7 +7149,7 @@ builder
 
 
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -7340,7 +7389,7 @@ builder
 
 
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -7471,7 +7520,7 @@ builder.WriteRunReport("artifacts/run-report.json");
 Known CI systems automatically write `artifacts/run-report.json` when no explicit path is set. To disable that behavior while keeping an explicitly configured path available, set `AutoWriteInCi`:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -7497,7 +7546,7 @@ Each report has a unique `RunId`, `RunCorrelation` metadata for the machine and 
 Schema v4 adds the optional per-module `Output` excerpt. Module output is excluded by default. Opt in when reports need enough output to diagnose recent failures without opening the full CI log:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -7559,7 +7608,7 @@ Add the default history directory to `.gitignore` if you do not want to commit l
 Configure or disable retention with `RunReportOptions`:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -7698,11 +7747,17 @@ Nested values such as `Secrets:Database:Password` are included. Missing sections
 You can also configure multiple sections through options:
 
 ```
-builder.Services.Configure<SecretMaskingOptions>(options =>
+builder.ConfigureOptions(options => options with
 
 {
 
-    options.MaskedConfigurationSections = ["Secrets", "ConnectionStrings"];
+    Secrets = options.Secrets with
+
+    {
+
+        MaskedConfigurationSections = ["Secrets", "ConnectionStrings"],
+
+    },
 
 });
 ```
@@ -8789,7 +8844,7 @@ Modules have a 30-minute timeout by default. Configure the pipeline default when
 ```
 var builder = Pipeline.CreateBuilder();
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -8801,7 +8856,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 // Disable the default. Per-module timeouts still apply.
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -8815,7 +8870,7 @@ You can override the pipeline default for one module using `Configure(ModuleConf
 `AlwaysRun` teardown has a separate 30-second scheduler-progress watchdog. This prevents a constraint-deferred `AlwaysRun` module from waiting indefinitely for a hung active module, even when ordinary module timeouts are disabled. Configure it independently when needed:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -46216,6 +46271,18 @@ builder.AddS3DistributedArtifactStore(options =>
 });
 ```
 
+Modules publish and download artifacts through the context property. Cancellation tokens are optional, and the typed download overload identifies the producer without a string module name:
+
+```
+await context.Artifacts.PublishFileAsync("package", packagePath);
+
+await context.Artifacts.DownloadAsync<BuildModule>(
+
+    "package",
+
+    Path.Combine(context.Environment.WorkingDirectory.Path, "package.zip"));
+```
+
 Credentials use the AWS SDK credential chain. Configure the optional service URL when targeting an S3-compatible provider.
 
 ## Module caching[​](#module-caching "Direct link to Module caching")
@@ -46325,7 +46392,7 @@ builder.AddRedisDistributed(
 
     },
 
-    artifacts => artifacts.TimeToLiveSeconds = 7200);
+    artifacts => artifacts.TimeToLive = TimeSpan.FromHours(2));
 ```
 
 Set `RUN_IDENTIFIER` to the same unique value on every worker participating in one pipeline run.
@@ -46341,7 +46408,7 @@ builder.AddRedisModuleCache(
 
     redis => redis.ConnectionString = "localhost:6379",
 
-    cacheEntries => cacheEntries.TimeToLiveSeconds = 86_400);
+    cacheEntries => cacheEntries.TimeToLive = TimeSpan.FromDays(1));
 ```
 
 See [Cache Module Results](/ModularPipelines/docs/next/how-to/module-caching.md) for input declarations, artifact restoration, and fingerprint configuration.

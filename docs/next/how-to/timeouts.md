@@ -5,7 +5,7 @@ Modules have a 30-minute timeout by default. Configure the pipeline default when
 ```
 var builder = Pipeline.CreateBuilder();
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -17,7 +17,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 // Disable the default. Per-module timeouts still apply.
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -31,7 +31,7 @@ You can override the pipeline default for one module using `Configure(ModuleConf
 `AlwaysRun` teardown has a separate 30-second scheduler-progress watchdog. This prevents a constraint-deferred `AlwaysRun` module from waiting indefinitely for a hung active module, even when ordinary module timeouts are disabled. Configure it independently when needed:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 

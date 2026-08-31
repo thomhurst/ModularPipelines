@@ -25,4 +25,5 @@
 | [`MPCLI002`](/ModularPipelines/docs/next/analyzers/MPCLI002.md) | Usage    | Error            | Public analyzer package     | Value-less bool? CliOption should use CliFlag.                                  |
 | [`MPCLI003`](/ModularPipelines/docs/next/analyzers/MPCLI003.md) | Usage    | Error            | Public analyzer package     | Multiple CLI attributes applied to one property.                                |
 | [`MPCLI004`](/ModularPipelines/docs/next/analyzers/MPCLI004.md) | Usage    | Error            | Public analyzer package     | Duplicate CLI switch in an options hierarchy.                                   |
+| [`MPCLI005`](/ModularPipelines/docs/next/analyzers/MPCLI005.md) | Usage    | Error            | Public analyzer package     | Negated CLI flag applied to a non-nullable-Boolean or counted property.         |
 | [`MPCLI006`](/ModularPipelines/docs/next/analyzers/MPCLI006.md) | Usage    | Error            | Public analyzer package     | CLI attributes used outside CommandLineToolOptions.                             |

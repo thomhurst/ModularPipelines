@@ -81,7 +81,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 // All commands will use Silent logging unless overridden
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -99,7 +99,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 // Or use Diagnostic for debugging
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -116,6 +116,18 @@ builder.ConfigurePipelineOptions(options => options with
 
 
 await builder.RunAsync();
+```
+
+Configure Microsoft.Extensions.Logging providers and filters through the builder's logging surface:
+
+```
+builder.Logging
+
+    .ClearProviders()
+
+    .AddConsole()
+
+    .SetMinimumLevel(LogLevel.Information);
 ```
 
 ### Using Presets[​](#using-presets "Direct link to Using Presets")
@@ -211,7 +223,7 @@ await context.Network.Http.SendAsync(new HttpOptions(request)
 
 
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 

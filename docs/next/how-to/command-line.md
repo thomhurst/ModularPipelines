@@ -67,7 +67,7 @@ dotnet run -- -- --dryrun=true
 Use `PipelineOptions` when the selection does not come from command-line arguments:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -83,7 +83,7 @@ builder.ConfigurePipelineOptions(options => options with
 Set `DryRun = true` to make `RunAsync()` print the same plan and execute no modules:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 

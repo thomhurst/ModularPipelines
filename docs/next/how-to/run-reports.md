@@ -19,7 +19,7 @@ builder.WriteRunReport("artifacts/run-report.json");
 Known CI systems automatically write `artifacts/run-report.json` when no explicit path is set. To disable that behavior while keeping an explicitly configured path available, set `AutoWriteInCi`:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -45,7 +45,7 @@ Each report has a unique `RunId`, `RunCorrelation` metadata for the machine and 
 Schema v4 adds the optional per-module `Output` excerpt. Module output is excluded by default. Opt in when reports need enough output to diagnose recent failures without opening the full CI log:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -107,7 +107,7 @@ Add the default history directory to `.gitignore` if you do not want to commit l
 Configure or disable retention with `RunReportOptions`:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 

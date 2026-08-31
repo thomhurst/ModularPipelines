@@ -36,6 +36,18 @@ builder.AddS3DistributedArtifactStore(options =>
 });
 ```
 
+Modules publish and download artifacts through the context property. Cancellation tokens are optional, and the typed download overload identifies the producer without a string module name:
+
+```
+await context.Artifacts.PublishFileAsync("package", packagePath);
+
+await context.Artifacts.DownloadAsync<BuildModule>(
+
+    "package",
+
+    Path.Combine(context.Environment.WorkingDirectory.Path, "package.zip"));
+```
+
 Credentials use the AWS SDK credential chain. Configure the optional service URL when targeting an S3-compatible provider.
 
 ## Module caching[​](#module-caching "Direct link to Module caching")

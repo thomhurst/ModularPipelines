@@ -134,7 +134,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -188,7 +188,7 @@ The pipeline follows a two-step build-then-run pattern:
 ```
 var builder = Pipeline.CreateBuilder(args);
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -330,7 +330,7 @@ builder.Configuration
 
 // Options
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -438,7 +438,7 @@ await builder
 
     .AddModule<Module2>()
 
-    .ConfigurePipelineOptions(options => options with
+    .ConfigureOptions(options => options with
 
     {
 

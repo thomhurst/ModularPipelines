@@ -39,7 +39,7 @@ builder.AddRedisDistributed(
 
     },
 
-    artifacts => artifacts.TimeToLiveSeconds = 7200);
+    artifacts => artifacts.TimeToLive = TimeSpan.FromHours(2));
 ```
 
 Set `RUN_IDENTIFIER` to the same unique value on every worker participating in one pipeline run.
@@ -55,7 +55,7 @@ builder.AddRedisModuleCache(
 
     redis => redis.ConnectionString = "localhost:6379",
 
-    cacheEntries => cacheEntries.TimeToLiveSeconds = 86_400);
+    cacheEntries => cacheEntries.TimeToLive = TimeSpan.FromDays(1));
 ```
 
 See [Cache Module Results](/ModularPipelines/docs/next/how-to/module-caching.md) for input declarations, artifact restoration, and fingerprint configuration.

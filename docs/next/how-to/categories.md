@@ -8,7 +8,7 @@ Categories are applied to Modules by using the `[ModuleCategory]` attribute.
 
 ## PipelineBuilder[​](#pipelinebuilder "Direct link to PipelineBuilder")
 
-Categories to run or ignore are configured through the `PipelineBuilder` fluent methods or immutable `Options`.
+Categories to run or ignore are configured by replacing the immutable `PipelineOptions` snapshot with `PipelineBuilder.ConfigureOptions(...)`.
 
 ## Run-Only Categories[​](#run-only-categories "Direct link to Run-Only Categories")
 
@@ -20,7 +20,7 @@ If "Ignore Categories" have been set with some values, if a Module has one of th
 
 Category names are matched case-insensitively. Pipeline validation fails when a configured run or ignore category does not match any registered module, including when a `RunOnlyCategories` filter would select zero modules.
 
-The fluent `RunOnlyCategories(...)` and `IgnoreCategories(...)` methods replace any category filter configured by an earlier call or by command-line options. Pass the complete filter to each call.
+Assigning `PipelineOptions.RunOnlyCategories` or `PipelineOptions.IgnoreCategories` replaces the previous value, including values supplied through command-line options. Pass the complete filter when configuring either property.
 
 ## Example of Running Specific Categories[​](#example-of-running-specific-categories "Direct link to Example of Running Specific Categories")
 
@@ -41,7 +41,7 @@ builder
 
 
 
-builder.RunOnlyCategories("UnitTest", "IntegrationTest");
+builder.ConfigureOptions(options => options with { RunOnlyCategories = ["UnitTest", "IntegrationTest"] });
 
 
 
@@ -67,7 +67,7 @@ builder
 
 
 
-builder.IgnoreCategories("Publish", "Deploy");
+builder.ConfigureOptions(options => options with { IgnoreCategories = ["Publish", "Deploy"] });
 
 
 

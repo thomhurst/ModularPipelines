@@ -31,6 +31,7 @@
 - [MPCLI002](/docs/next/analyzers/MPCLI002.md): Value-less bool? CliOption should use CliFlag.
 - [MPCLI003](/docs/next/analyzers/MPCLI003.md): Multiple CLI attributes applied to one property.
 - [MPCLI004](/docs/next/analyzers/MPCLI004.md): Duplicate CLI switch in an options hierarchy.
+- [MPCLI005](/docs/next/analyzers/MPCLI005.md): Negated CLI flag applied to a non-nullable-Boolean or counted property.
 - [MPCLI006](/docs/next/analyzers/MPCLI006.md): CLI attributes used outside CommandLineToolOptions.
 - [Module execution lifecycle](/docs/next/architecture/module-execution-lifecycle.md): A module combines execution policy, module-owned virtual hooks, opt-in attribute handlers,
 - [Additional Packages](/docs/next/category/additional-packages.md): Packages to help interact with common tools used within pipelines.

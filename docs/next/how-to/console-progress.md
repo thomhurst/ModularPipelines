@@ -11,7 +11,7 @@ Buffered output from modules that are still running is flushed once per minute b
 Configure the interval globally. Setting it to zero disables time-based flushing, but the entry threshold still protects against unbounded buffering:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
@@ -29,7 +29,7 @@ builder.ConfigurePipelineOptions(options => options with
 To keep all output buffered until each module completes, disable both triggers:
 
 ```
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 
 {
 
