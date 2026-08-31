@@ -16,7 +16,7 @@ public class DockerCliScraper : CobraCliScraper
         ShortForm = "-T",
         PropertyName = "NoTty",
         CSharpType = "bool?",
-        Description = "Disable pseudo-TTY allocation (default: auto-detected) (default true)",
+        Description = "Disable pseudo-TTY allocation (default: auto-detected)",
         IsFlag = false,
         ValueSeparator = "=",
     };

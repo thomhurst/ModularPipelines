@@ -69,6 +69,8 @@ public class DockerCliCompatibilityTests
             await Assert.That(option.ShortForm).IsEqualTo("-T");
             await Assert.That(option.PropertyName).IsEqualTo("NoTty");
             await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(option.Description)
+                .IsEqualTo("Disable pseudo-TTY allocation (default: auto-detected)");
             await Assert.That(option.IsFlag).IsFalse();
             await Assert.That(option.ValueSeparator).IsEqualTo("=");
         }
