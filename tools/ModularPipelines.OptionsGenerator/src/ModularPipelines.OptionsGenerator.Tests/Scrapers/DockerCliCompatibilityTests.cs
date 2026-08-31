@@ -46,8 +46,19 @@ public class DockerCliCompatibilityTests
             helpText);
 
         var option = command!.Options.Single();
-        await Assert.That(option.SwitchName).IsEqualTo("--no-TTY");
-        await Assert.That(option.ShortForm).IsEqualTo("-T");
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("--no-TTY");
+            await Assert.That(option.ShortForm).IsEqualTo("-T");
+            if (subcommand == "exec")
+            {
+                await Assert.That(option.IsFlag).IsFalse();
+                await Assert.That(option.CSharpType).IsEqualTo("bool?");
+                await Assert.That(option.ValueSeparator).IsEqualTo("=");
+                await Assert.That(option.Description)
+                    .IsEqualTo("Disable pseudo-TTY allocation (default: auto-detected)");
+            }
+        }
     }
 
     [Test]

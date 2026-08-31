@@ -57,12 +57,20 @@ public class DockerCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliOptionDefinition> options)
     {
-        if (commandParts is not ["compose", "exec"]
-            || options.Any(option => option.PropertyName == ComposeExecNoTtyOption.PropertyName))
+        if (commandParts is not ["compose", "exec"])
         {
             return options;
         }
 
-        return [.. options, ComposeExecNoTtyOption];
+        if (options.All(option => option.PropertyName != ComposeExecNoTtyOption.PropertyName))
+        {
+            return [.. options, ComposeExecNoTtyOption];
+        }
+
+        return options
+            .Select(option => option.PropertyName == ComposeExecNoTtyOption.PropertyName
+                ? ComposeExecNoTtyOption
+                : option)
+            .ToArray();
     }
 }
