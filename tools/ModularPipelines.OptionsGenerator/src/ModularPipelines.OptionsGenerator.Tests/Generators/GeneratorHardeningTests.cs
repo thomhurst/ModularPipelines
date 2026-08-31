@@ -6611,7 +6611,7 @@ public partial class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task UnsafeBooleanStringSetterScan_Ignores_NonBoolean_Properties()
+    public async Task UnsafeBooleanStringSetterScan_Covers_Scalar_And_Collection_Forms()
     {
         const string source = """
             public class Options
@@ -6622,19 +6622,32 @@ public partial class GeneratorHardeningTests
                     set => Values = value is null ? null : [value.Value.ToString(null)];
                 }
 
+                public int? Limit
+                {
+                    get => null;
+                    set => Text = value?.ToString(null);
+                }
+
                 public bool? Enabled
                 {
                     get => null;
                     set => Values = value is null ? null : [value.Value.ToString(null)];
                 }
 
+                public bool? Visible
+                {
+                    get => null;
+                    set => Text = value?.ToString(null);
+                }
+
                 public string[]? Values { get; set; }
+                public string? Text { get; set; }
             }
             """;
 
         var matches = FindUnsafeBooleanStringSetters(source, UnsafeBooleanStringSetterPattern());
 
-        await Assert.That(matches).HasSingleItem();
+        await Assert.That(matches).Count().IsEqualTo(2);
     }
 
     private static int[] FindUnsafeBooleanStringSetters(string source, Regex unsafeSetter)
@@ -6667,7 +6680,7 @@ public partial class GeneratorHardeningTests
     }
 
     [GeneratedRegex(
-        @"set\s*=>\s*\w+\s*=\s*value\s+is\s+null\s*\?\s*null\s*:\s*\[?\s*value\.Value\.ToString\(",
+        @"set\s*=>\s*\w+\s*=\s*(?:value\?\.ToString\(|value\s+is\s+null\s*\?\s*null\s*:\s*\[?\s*value\.Value\.ToString\()",
         RegexOptions.CultureInvariant)]
     private static partial Regex UnsafeBooleanStringSetterPattern();
 
