@@ -142,11 +142,11 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ExecAsync(
-        YarnExecOptions? options = null,
+        YarnExecOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnExecOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -295,20 +295,20 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PatchCommitAsync(
-        YarnPatchCommitOptions? options = null,
+        YarnPatchCommitOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnPatchCommitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PatchAsync(
-        YarnPatchOptions? options = null,
+        YarnPatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnPatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -457,11 +457,11 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> WhyAsync(
-        YarnWhyOptions? options = null,
+        YarnWhyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnWhyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

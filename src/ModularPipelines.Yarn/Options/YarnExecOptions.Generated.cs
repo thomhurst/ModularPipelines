@@ -22,9 +22,4 @@ public record YarnExecOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> CommandName
 ) : YarnOptions
 {
-    public YarnExecOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
 }

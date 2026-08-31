@@ -22,11 +22,6 @@ public record YarnPatchCommitOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PatchFolder
 ) : YarnOptions
 {
-    public YarnPatchCommitOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Add the patch to your resolution entries
     /// </summary>

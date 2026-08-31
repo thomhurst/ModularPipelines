@@ -22,11 +22,6 @@ public record YarnPatchOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
 ) : YarnOptions
 {
-    public YarnPatchOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Reapply local patches that already apply to this packages
     /// </summary>
