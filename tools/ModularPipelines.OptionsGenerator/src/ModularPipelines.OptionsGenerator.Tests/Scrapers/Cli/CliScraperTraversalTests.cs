@@ -909,7 +909,7 @@ public class CliScraperTraversalTests
     }
 
     [Test]
-    public async Task SharedTraversal_Propagates_Invalid_Operand_Coverage()
+    public async Task SharedTraversal_Skips_Invalid_Operand_Coverage()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -920,13 +920,15 @@ public class CliScraperTraversalTests
                   fake <TARGET>
                 """,
         });
-        var scraper = new OperandCoverageMismatchScraper(executor);
+        var logger = new RecordingLogger();
+        var scraper = new OperandCoverageMismatchScraper(executor, logger);
 
-        async Task Scrape() => await ScrapeAsync(scraper);
+        var commands = await ScrapeAsync(scraper);
 
-        await Assert.That(Scrape)
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("no CliPositionalArgument");
+        await Assert.That(commands).IsEmpty();
+        await Assert.That(logger.Warnings).Contains(warning =>
+            warning.Exception is InvalidOperationException
+            && warning.Message.Contains("Failed to parse command: fake"));
     }
 
     [Test]
@@ -1217,11 +1219,11 @@ public class CliScraperTraversalTests
 
     private sealed class OperandCoverageMismatchScraper : CliScraperBase
     {
-        public OperandCoverageMismatchScraper(ICliCommandExecutor executor)
+        public OperandCoverageMismatchScraper(ICliCommandExecutor executor, ILogger logger)
             : base(
                 executor,
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<OperandCoverageMismatchScraper>.Instance)
+                logger)
         {
         }
 

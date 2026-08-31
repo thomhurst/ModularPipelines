@@ -470,7 +470,8 @@ public class AwsCliScraperTests
                     "--function-name"),
                 "s3api get-object help" => CommandHelp(
                     "get-object",
-                    "--bucket"),
+                    "--bucket",
+                    "--key"),
                 _ => string.Empty,
             };
 
@@ -482,20 +483,32 @@ public class AwsCliScraperTests
             CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
 
-        private static string CommandHelp(string command, string requiredOption) => $$"""
+        private static string CommandHelp(
+            string command,
+            params string[] requiredOptions)
+        {
+            var synopsisOptions = string.Join(
+                '\n',
+                requiredOptions.Select(option => $"       {option} <value>"));
+            var documentedOptions = string.Join(
+                "\n\n",
+                requiredOptions.Select(option =>
+                    $"       {option} (string) [required]\n        Required command input."));
+
+            return $$"""
             SYNOPSIS
                    {{command}}
-                   {{requiredOption}} <value>
+            {{synopsisOptions}}
                    <outfile>
                    [--debug]
 
             OPTIONS
-                   {{requiredOption}} (string) [required]
-                    Required command input.
+            {{documentedOptions}}
 
                    --debug (boolean)
                     Enable debug output.
             """;
+        }
     }
 
     private sealed class AwsHelpExecutor : ICliCommandExecutor
