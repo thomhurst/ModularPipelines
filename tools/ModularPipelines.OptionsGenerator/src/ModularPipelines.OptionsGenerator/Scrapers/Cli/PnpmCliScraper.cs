@@ -365,8 +365,8 @@ public partial class PnpmCliScraper : CliScraperBase
                 continue;
             }
 
-            // Determine if this is a flag (boolean) or takes a value
-            var isFlag = string.IsNullOrEmpty(valueHint) && IsBooleanOption(longForm, description);
+            // pnpm help represents every value-taking option with an explicit placeholder.
+            var isFlag = string.IsNullOrEmpty(valueHint);
             var csharpType = isFlag ? "bool?" : "string?";
 
             options.Add(new CliOptionDefinition
@@ -388,51 +388,6 @@ public partial class PnpmCliScraper : CliScraperBase
         }
 
         return options;
-    }
-
-    /// <summary>
-    /// Determines if an option is a boolean flag.
-    /// </summary>
-    private static bool IsBooleanOption(string optionName, string description)
-    {
-        var cleanName = optionName.TrimStart('-').ToLowerInvariant();
-
-        // Options that typically take values
-        var valueOptions = new[] { "filter", "dir", "registry", "store", "config", "reporter", "loglevel" };
-        if (valueOptions.Any(v => cleanName.Contains(v)))
-        {
-            return false;
-        }
-
-        // Check description for value hints
-        var lowerDesc = description.ToLowerInvariant();
-        if (lowerDesc.Contains("path") || lowerDesc.Contains("name") ||
-            lowerDesc.Contains("url") || lowerDesc.Contains("file"))
-        {
-            return false;
-        }
-
-        // Common boolean option patterns
-        if (cleanName.StartsWith("no-") ||
-            cleanName == "save-dev" ||
-            cleanName == "save-optional" ||
-            cleanName == "save-peer" ||
-            cleanName == "save-exact" ||
-            cleanName == "dry-run" ||
-            cleanName == "json" ||
-            cleanName == "global" ||
-            cleanName == "recursive" ||
-            cleanName == "offline" ||
-            cleanName == "prefer-offline" ||
-            cleanName == "frozen-lockfile" ||
-            cleanName == "ignore-scripts" ||
-            cleanName == "shamefully-hoist" ||
-            cleanName == "strict-peer-dependencies")
-        {
-            return true;
-        }
-
-        return false;
     }
 
     /// <summary>
