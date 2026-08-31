@@ -365,7 +365,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         var exclusiveSink = effectiveFallbackLoggers
             .OfType<IExclusiveStructuredLogSink>()
             .SingleOrDefault();
-        Func<LogLevel, bool> isStructuredLogEnabled = exclusiveSink is null
+        var isStructuredLogEnabled = exclusiveSink is null
             ? _isSpectreEnabled
             : exclusiveSink.IsEnabled;
         if (!TryTakeOutputs(
