@@ -22,11 +22,6 @@ public record YarnWhyOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
 ) : YarnOptions
 {
-    public YarnWhyOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// List, for each workspace, what are all the paths that lead to the dependency
     /// </summary>
