@@ -17,8 +17,8 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyFilesystemTableMode
 {
     [EnumValue("summary")]
-    Summary = 0,
+    Summary,
 
     [EnumValue("detailed")]
-    Detailed = 1
+    Detailed
 }

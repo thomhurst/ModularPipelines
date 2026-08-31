@@ -17,8 +17,8 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyFilesystemPkgTypes
 {
     [EnumValue("os")]
-    Os = 0,
+    Os,
 
     [EnumValue("library")]
-    Library = 1
+    Library
 }

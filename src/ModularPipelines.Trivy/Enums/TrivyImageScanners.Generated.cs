@@ -17,14 +17,14 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyImageScanners
 {
     [EnumValue("vuln")]
-    Vuln = 0,
+    Vuln,
 
     [EnumValue("misconfig")]
-    Misconfig = 1,
+    Misconfig,
 
     [EnumValue("secret")]
-    Secret = 2,
+    Secret,
 
     [EnumValue("license")]
-    License = 3
+    License
 }
