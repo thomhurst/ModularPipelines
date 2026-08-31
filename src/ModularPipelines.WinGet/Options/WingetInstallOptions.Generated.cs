@@ -77,8 +77,8 @@ public record WingetInstallOptions : WingetOptions
     /// <summary>
     /// Find package using exact match
     /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
+    [CliFlag("--exact", ShortForm = "-e")]
+    public bool? Exact { get; set; }
 
     /// <summary>
     /// Request interactive installation; user input may be needed
@@ -131,8 +131,8 @@ public record WingetInstallOptions : WingetOptions
     /// <summary>
     /// Allows a reboot if applicable
     /// </summary>
-    [CliOption("--allow-reboot")]
-    public string? AllowReboot { get; set; }
+    [CliFlag("--allow-reboot")]
+    public bool? AllowReboot { get; set; }
 
     /// <summary>
     /// Skips processing package dependencies and Windows features
@@ -180,7 +180,7 @@ public record WingetInstallOptions : WingetOptions
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
     [CliOption("--authentication-mode")]
-    public string? AuthenticationModeValue { get; set; }
+    public string? AuthenticationMode { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication
@@ -203,20 +203,20 @@ public record WingetInstallOptions : WingetOptions
     /// <summary>
     /// Uninstall the previous version of the package during upgrade
     /// </summary>
-    [CliOption("--uninstall-previous")]
-    public string? UninstallPrevious { get; set; }
+    [CliFlag("--uninstall-previous")]
+    public bool? UninstallPrevious { get; set; }
 
     /// <summary>
     /// Direct run the command and continue with non security related issues
     /// </summary>
-    [CliOption("--force")]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -241,12 +241,5 @@ public record WingetInstallOptions : WingetOptions
     /// </summary>
     [CliOption("--query", ShortForm = "-q")]
     public string? Query { get; set; }
-
-    [Obsolete("Use AuthenticationModeValue instead.")]
-    public bool? AuthenticationMode
-    {
-        get => bool.TryParse(AuthenticationModeValue, out var value) ? value : null;
-        set => AuthenticationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

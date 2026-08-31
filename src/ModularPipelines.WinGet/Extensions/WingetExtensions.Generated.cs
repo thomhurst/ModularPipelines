@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.WinGet.Services;
 
 namespace ModularPipelines.WinGet.Extensions;
@@ -31,4 +30,5 @@ public static class WingetExtensions
         services.TryAddScoped<IWinget, Services.Winget>();
         return services;
     }
+
 }

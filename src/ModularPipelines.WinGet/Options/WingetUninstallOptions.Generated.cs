@@ -65,8 +65,8 @@ public record WingetUninstallOptions : WingetOptions
     /// <summary>
     /// Find package using exact match
     /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
+    [CliFlag("--exact", ShortForm = "-e")]
+    public bool? Exact { get; set; }
 
     /// <summary>
     /// Select installed package scope filter (user or machine)
@@ -89,8 +89,8 @@ public record WingetUninstallOptions : WingetOptions
     /// <summary>
     /// Direct run the command and continue with non security related issues
     /// </summary>
-    [CliOption("--force")]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// Deletes all files and directories in the package directory (portable)
@@ -101,8 +101,8 @@ public record WingetUninstallOptions : WingetOptions
     /// <summary>
     /// Retains all files and directories created by the package (portable)
     /// </summary>
-    [CliOption("--preserve")]
-    public string? Preserve { get; set; }
+    [CliFlag("--preserve")]
+    public bool? Preserve { get; set; }
 
     /// <summary>
     /// Log location (if supported)
@@ -120,7 +120,7 @@ public record WingetUninstallOptions : WingetOptions
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
     [CliOption("--authentication-mode")]
-    public string? AuthenticationModeValue { get; set; }
+    public string? AuthenticationMode { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication
@@ -137,8 +137,8 @@ public record WingetUninstallOptions : WingetOptions
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -163,12 +163,5 @@ public record WingetUninstallOptions : WingetOptions
     /// </summary>
     [CliOption("--query", ShortForm = "-q")]
     public string? Query { get; set; }
-
-    [Obsolete("Use AuthenticationModeValue instead.")]
-    public bool? AuthenticationMode
-    {
-        get => bool.TryParse(AuthenticationModeValue, out var value) ? value : null;
-        set => AuthenticationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

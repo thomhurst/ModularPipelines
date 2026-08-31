@@ -59,8 +59,8 @@ public record WingetListOptions : WingetOptions
     /// <summary>
     /// Find package using exact match
     /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
+    [CliFlag("--exact", ShortForm = "-e")]
+    public bool? Exact { get; set; }
 
     /// <summary>
     /// Select installed package scope filter (user or machine)
@@ -78,7 +78,7 @@ public record WingetListOptions : WingetOptions
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
     [CliOption("--authentication-mode")]
-    public string? AuthenticationModeValue { get; set; }
+    public string? AuthenticationMode { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication
@@ -95,8 +95,8 @@ public record WingetListOptions : WingetOptions
     /// <summary>
     /// Lists only packages which have an upgrade available
     /// </summary>
-    [CliOption("--upgrade-available")]
-    public string? UpgradeAvailable { get; set; }
+    [CliFlag("--upgrade-available")]
+    public bool? UpgradeAvailable { get; set; }
 
     /// <summary>
     /// Show detailed information about packages
@@ -113,8 +113,8 @@ public record WingetListOptions : WingetOptions
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -139,12 +139,5 @@ public record WingetListOptions : WingetOptions
     /// </summary>
     [CliOption("--query", ShortForm = "-q")]
     public string? Query { get; set; }
-
-    [Obsolete("Use AuthenticationModeValue instead.")]
-    public bool? AuthenticationMode
-    {
-        get => bool.TryParse(AuthenticationModeValue, out var value) ? value : null;
-        set => AuthenticationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

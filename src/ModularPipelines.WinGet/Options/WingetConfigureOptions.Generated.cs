@@ -29,8 +29,8 @@ public record WingetConfigureOptions : WingetOptions
     /// <summary>
     /// Select items from history
     /// </summary>
-    [CliOption("--history", ShortForm = "-h")]
-    public string? History { get; set; }
+    [CliFlag("--history", ShortForm = "-h")]
+    public bool? History { get; set; }
 
     /// <summary>
     /// Accepts the configuration warning, preventing an interactive prompt
@@ -41,8 +41,8 @@ public record WingetConfigureOptions : WingetOptions
     /// <summary>
     /// Suppress showing initial configuration details when possible
     /// </summary>
-    [CliOption("--suppress-initial-details")]
-    public string? SuppressInitialDetails { get; set; }
+    [CliFlag("--suppress-initial-details")]
+    public bool? SuppressInitialDetails { get; set; }
 
     /// <summary>
     /// Enable extended features. Requires store access.
@@ -59,8 +59,8 @@ public record WingetConfigureOptions : WingetOptions
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
