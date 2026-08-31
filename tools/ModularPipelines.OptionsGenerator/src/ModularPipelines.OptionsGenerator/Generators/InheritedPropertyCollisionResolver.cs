@@ -211,14 +211,14 @@ internal static class InheritedPropertyCollisionResolver
         for (var index = commandParts.Count - 2; index >= 0; index--)
         {
             var candidate = GeneratorUtils.ToPascalCase(commandParts[index]) + propertyName;
-            if (occupiedNames.Add(candidate))
+            if (TryOccupyResolvedName(candidate, occupiedNames))
             {
                 return RecordRename(propertyName, candidate, renamedProperties);
             }
         }
 
         var cliCandidate = $"Cli{propertyName}";
-        if (occupiedNames.Add(cliCandidate))
+        if (TryOccupyResolvedName(cliCandidate, occupiedNames))
         {
             return RecordRename(propertyName, cliCandidate, renamedProperties);
         }
@@ -226,12 +226,17 @@ internal static class InheritedPropertyCollisionResolver
         for (var suffix = 2; ; suffix++)
         {
             var candidate = $"{cliCandidate}{suffix}";
-            if (occupiedNames.Add(candidate))
+            if (TryOccupyResolvedName(candidate, occupiedNames))
             {
                 return RecordRename(propertyName, candidate, renamedProperties);
             }
         }
     }
+
+    private static bool TryOccupyResolvedName(string candidate, HashSet<string> occupiedNames) =>
+        !IsInheritedPropertyName(candidate)
+        && !RecordReservedPropertyNames.Contains(candidate)
+        && occupiedNames.Add(candidate);
 
     private static string RecordRename(
         string propertyName,

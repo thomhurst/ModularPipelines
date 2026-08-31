@@ -811,6 +811,34 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Inherited_Property_Collision_Resolution_Is_Idempotent()
+    {
+        var command = Command("ToolAdditionalRunOptions", "ToolOptions", ["additional", "run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--arguments",
+                    PropertyName = "Arguments",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var first = InheritedPropertyCollisionResolver.Resolve(Tool(command));
+        var second = InheritedPropertyCollisionResolver.Resolve(first);
+        var firstName = first.Commands.Single().Options.Single().PropertyName;
+        var secondName = second.Commands.Single().Options.Single().PropertyName;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(firstName).IsEqualTo("CliArguments");
+            await Assert.That(secondName).IsEqualTo(firstName);
+        }
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Marks_Secret_Positional_Arguments()
     {
         var command = Command("ToolAuthOptions", "ToolOptions", ["auth"]) with
