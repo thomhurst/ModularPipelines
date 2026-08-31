@@ -30,5 +30,4 @@ public static class ChocoExtensions
         services.TryAddScoped<IChoco, Services.Choco>();
         return services;
     }
-
 }

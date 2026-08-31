@@ -30,5 +30,4 @@ public static class JqExtensions
         services.TryAddScoped<IJq, Services.Jq>();
         return services;
     }
-
 }

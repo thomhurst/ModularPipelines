@@ -30,5 +30,4 @@ public static class SkopeoExtensions
         services.TryAddScoped<ISkopeo, Services.Skopeo>();
         return services;
     }
-
 }

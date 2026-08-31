@@ -46,5 +46,4 @@ public static class PodmanExtensions
         services.TryAddScoped<IPodmanVolume, PodmanVolume>();
         return services;
     }
-
 }

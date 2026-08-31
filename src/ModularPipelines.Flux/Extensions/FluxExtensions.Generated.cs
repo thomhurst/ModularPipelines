@@ -48,5 +48,4 @@ public static class FluxExtensions
         services.TryAddScoped<IFluxTrigger, FluxTrigger>();
         return services;
     }
-
 }

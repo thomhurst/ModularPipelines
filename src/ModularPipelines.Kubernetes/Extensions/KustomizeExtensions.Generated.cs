@@ -33,5 +33,4 @@ public static class KustomizeExtensions
         services.TryAddScoped<IKustomizeFn, KustomizeFn>();
         return services;
     }
-
 }

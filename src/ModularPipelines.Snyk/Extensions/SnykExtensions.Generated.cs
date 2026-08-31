@@ -30,5 +30,4 @@ public static class SnykExtensions
         services.TryAddScoped<ISnyk, Services.Snyk>();
         return services;
     }
-
 }

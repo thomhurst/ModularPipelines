@@ -30,5 +30,4 @@ public static class CargoExtensions
         services.TryAddScoped<ICargo, Services.Cargo>();
         return services;
     }
-
 }

@@ -30,5 +30,4 @@ public static class PackerExtensions
         services.TryAddScoped<IPacker, Services.Packer>();
         return services;
     }
-
 }

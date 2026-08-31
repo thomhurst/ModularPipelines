@@ -34,5 +34,4 @@ public static class TrivyExtensions
         services.TryAddScoped<ITrivyVex, TrivyVex>();
         return services;
     }
-
 }

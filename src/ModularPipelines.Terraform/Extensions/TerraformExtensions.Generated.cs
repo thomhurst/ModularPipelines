@@ -34,5 +34,4 @@ public static class TerraformExtensions
         services.TryAddScoped<ITerraformWorkspace, TerraformWorkspace>();
         return services;
     }
-
 }
