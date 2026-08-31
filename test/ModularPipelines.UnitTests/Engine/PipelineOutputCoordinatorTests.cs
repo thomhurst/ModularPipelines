@@ -75,7 +75,7 @@ public class PipelineOutputCoordinatorTests
         consoleCoordinator.Setup(x => x.FlushPendingWritesAsync())
             .Callback(() => events.Add("retained"))
             .ReturnsAsync([retainedBuffer.Object]);
-        consoleCoordinator.Setup(x => x.FlushModuleOutputAsync())
+        consoleCoordinator.Setup(x => x.FlushUnattributedOutputAsync())
             .Callback(() => events.Add("unattributed"))
             .Returns(Task.CompletedTask);
 
@@ -126,7 +126,7 @@ public class PipelineOutputCoordinatorTests
             .Callback(() => events.Add("retained"))
             .ThrowsAsync(new InvalidOperationException("retained flush failed"));
         consoleCoordinator
-            .Setup(x => x.FlushModuleOutputAsync())
+            .Setup(x => x.FlushUnattributedOutputAsync())
             .Callback(() => events.Add("unattributed"))
             .Returns(Task.CompletedTask);
         var outputCoordinator = new Mock<IOutputCoordinator>();
@@ -169,7 +169,7 @@ public class PipelineOutputCoordinatorTests
             .Callback(() => events.Add("retained"))
             .ThrowsAsync(new InvalidOperationException("retained flush failed"));
         consoleCoordinator
-            .Setup(x => x.FlushModuleOutputAsync())
+            .Setup(x => x.FlushUnattributedOutputAsync())
             .Callback(() => events.Add("unattributed"))
             .ThrowsAsync(new IOException("unattributed flush failed"));
         var outputCoordinator = new Mock<IOutputCoordinator>();
@@ -227,7 +227,7 @@ public class PipelineOutputCoordinatorTests
                 .Setup(x => x.FlushPendingWritesAsync())
                 .ReturnsAsync([]);
             consoleCoordinator
-                .Setup(x => x.FlushModuleOutputAsync())
+                .Setup(x => x.FlushUnattributedOutputAsync())
                 .Returns(Task.CompletedTask);
             var outputCoordinator = new Mock<IOutputCoordinator>();
             outputCoordinator

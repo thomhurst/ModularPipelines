@@ -241,7 +241,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
 
             // 5. Flush any unattributed output from coordinator.
             await CaptureExceptionAsync(
-                () => _consoleCoordinator.FlushModuleOutputAsync(),
+                () => _consoleCoordinator.FlushUnattributedOutputAsync(),
                 exceptions).ConfigureAwait(false);
 
             try

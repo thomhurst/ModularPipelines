@@ -136,9 +136,7 @@ internal class ResilienceHttpHandler : DelegatingHandler
         var clone = new HttpRequestMessage(original.Method, original.RequestUri)
         {
             Version = original.Version,
-#if NET5_0_OR_GREATER
             VersionPolicy = original.VersionPolicy,
-#endif
         };
 
         // Create fresh content from buffered bytes for each retry attempt
@@ -157,19 +155,11 @@ internal class ResilienceHttpHandler : DelegatingHandler
             clone.Headers.TryAddWithoutValidation(header.Key, header.Value);
         }
 
-#if NET5_0_OR_GREATER
         // Clone options
         foreach (var option in original.Options)
         {
             clone.Options.TryAdd(option.Key, option.Value);
         }
-#else
-        // Clone properties for older frameworks
-        foreach (var property in original.Properties)
-        {
-            clone.Properties[property.Key] = property.Value;
-        }
-#endif
 
         return clone;
     }
