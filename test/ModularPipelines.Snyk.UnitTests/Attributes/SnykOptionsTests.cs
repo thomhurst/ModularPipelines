@@ -204,8 +204,8 @@ public class SnykOptionsTests
         await AssertArguments(testArguments, ["--file=bom.json", "--json"]);
         await AssertArguments(containerArguments,
         [
-            "--format=spdx2.3+json",
             "registry.example.com/app:latest",
+            "--format=spdx2.3+json",
             "--org=security",
             "--exclude-app-vulns",
             "--exclude-node-modules",
