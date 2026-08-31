@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Helm.Services;
 
 namespace ModularPipelines.Helm.Extensions;
@@ -38,4 +37,5 @@ public static class HelmExtensions
         services.TryAddScoped<IHelmShow, HelmShow>();
         return services;
     }
+
 }
