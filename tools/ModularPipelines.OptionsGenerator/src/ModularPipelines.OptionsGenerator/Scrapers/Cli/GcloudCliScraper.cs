@@ -127,7 +127,7 @@ public partial class GcloudCliScraper : CliScraperBase
             Enums = enums
         };
 
-        return Task.FromResult<CliCommandDefinition?>(command);
+        return Task.FromResult<CliCommandDefinition?>(PreserveKnownCompatibility(command));
     }
 
     #endregion
@@ -486,6 +486,7 @@ public partial class GcloudCliScraper : CliScraperBase
     private static bool DescriptionDeclaresStructuredValue(string? description)
         => description?.Contains("Shorthand Example:", StringComparison.OrdinalIgnoreCase) is true
            || description?.Contains("JSON Example:", StringComparison.OrdinalIgnoreCase) is true
+           || description?.Contains("YAML Example:", StringComparison.OrdinalIgnoreCase) is true
            || description?.Contains("File Example:", StringComparison.OrdinalIgnoreCase) is true;
 
     private static bool DescriptionRepeatsStructuredOption(string? description, string switchName)
@@ -503,7 +504,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         shorthandStart += shorthandMarker.Length;
-        var exampleEnd = new[] { "JSON Example:", "File Example:" }
+        var exampleEnd = new[] { "JSON Example:", "YAML Example:", "File Example:" }
             .Select(marker => description.IndexOf(marker, shorthandStart, StringComparison.OrdinalIgnoreCase))
             .Where(index => index >= 0)
             .DefaultIfEmpty(description.Length)
@@ -514,6 +515,44 @@ public partial class GcloudCliScraper : CliScraperBase
             shorthandExample,
             $@"(?<![\w-]){Regex.Escape(switchName)}=",
             RegexOptions.IgnoreCase).Count > 1;
+    }
+
+    private static CliCommandDefinition PreserveKnownCompatibility(CliCommandDefinition command)
+    {
+        if (!command.CommandParts.SequenceEqual(
+                ["bms", "nfs-shares", "update"],
+                StringComparer.OrdinalIgnoreCase))
+        {
+            return command;
+        }
+
+        var options = command.Options.ToArray();
+        var updateLabelsIndex = Array.FindIndex(options, option =>
+            option.PropertyName.Equals("UpdateLabels", StringComparison.Ordinal)
+            && option.CSharpType.Equals("IEnumerable<string>?", StringComparison.Ordinal));
+        if (updateLabelsIndex < 0)
+        {
+            return command;
+        }
+
+        options[updateLabelsIndex] = options[updateLabelsIndex] with
+        {
+            PropertyName = "UpdateLabelsValues",
+        };
+        return command with
+        {
+            Options = options,
+            CompatibilityProperties =
+            [
+                .. command.CompatibilityProperties,
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "UpdateLabels",
+                    CSharpType = "global::ModularPipelines.Google.Enums.GcloudUpdateLabels?",
+                    ObsoleteMessage = "Use UpdateLabelsValues instead.",
+                },
+            ],
+        };
     }
 
     private static bool DescriptionDeclaresValueList(string? description)

@@ -498,6 +498,72 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Yaml_Examples_Remain_Structured()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --configuration=COUNT
+                    YAML Example: count: 1
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "update"],
+            helpText);
+        var configuration = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(configuration.CSharpType).IsEqualTo("string?");
+            await Assert.That(configuration.IsNumeric).IsFalse();
+            await Assert.That(configuration.EnumDefinition).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Bms_Update_Preserves_Shipped_UpdateLabels()
+    {
+        const string helpText = """
+            NAME
+                gcloud bms nfs-shares update - update an NFS share
+
+            SYNOPSIS
+                gcloud bms nfs-shares update
+
+            FLAGS
+                 --update-labels=[KEY=VALUE,...]
+                    List of label KEY=VALUE pairs to update.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "bms", "nfs-shares", "update"],
+            helpText);
+        var compatibilityProperty = command!.CompatibilityProperties.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.Options.Single().PropertyName)
+                .IsEqualTo("UpdateLabelsValues");
+            await Assert.That(compatibilityProperty.PropertyName)
+                .IsEqualTo("UpdateLabels");
+            await Assert.That(compatibilityProperty.CSharpType)
+                .IsEqualTo("global::ModularPipelines.Google.Enums.GcloudUpdateLabels?");
+            await Assert.That(compatibilityProperty.ForwardToPropertyName).IsNull();
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Structured_Values_Preserve_Repeatability_Without_Nested_Enums()
     {
         const string helpText = """
