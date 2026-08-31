@@ -331,7 +331,8 @@ internal sealed class SecretObfuscatedRenderable(
             ValueFormatter = PrepareValueFormatter(
                 barChart.ValueFormatter,
                 secretObfuscator,
-                snapshot),
+                snapshot,
+                barChart.Data.Select(static item => item.Value)),
             Width = barChart.Width,
         };
         preparedChart.Data.AddRange(barChart.Data.Select(item => new BarChartItem(
@@ -357,7 +358,8 @@ internal sealed class SecretObfuscatedRenderable(
             ValueFormatter = PrepareValueFormatter(
                 breakdownChart.ValueFormatter,
                 secretObfuscator,
-                snapshot),
+                snapshot,
+                breakdownChart.Data.Select(static item => item.Value)),
             Width = breakdownChart.Width,
         };
         preparedChart.Data.AddRange(breakdownChart.Data.Select(item => new BreakdownChartItem(
@@ -370,35 +372,66 @@ internal sealed class SecretObfuscatedRenderable(
     private static Func<double, CultureInfo, string>? PrepareValueFormatter(
         Func<double, CultureInfo, string>? formatter,
         ISecretObfuscator secretObfuscator,
-        bool snapshot) => formatter is null
+        bool snapshot,
+        IEnumerable<double> values) => formatter is null
         ? null
         : snapshot
-            ? SnapshotValueFormatter(formatter)
+            ? SnapshotValueFormatter(formatter, values)
             : (value, culture) => PrepareMarkup(
                 formatter(value, culture),
                 secretObfuscator,
                 snapshot: false);
 
     internal static Func<double, CultureInfo, string> SnapshotValueFormatter(
-        Func<double, CultureInfo, string> formatter)
+        Func<double, CultureInfo, string> formatter) =>
+        SnapshotValueFormatter(formatter, []);
+
+    internal static Func<double, CultureInfo, string> SnapshotValueFormatter(
+        Func<double, CultureInfo, string> formatter,
+        IEnumerable<double> values)
     {
-        var values = new Dictionary<ValueFormatterSnapshotKey, string>();
+        var occurrenceCounts = values
+            .GroupBy(static value => BitConverter.DoubleToInt64Bits(value))
+            .ToDictionary(static group => group.Key, static group => group.Count());
+        var snapshots = new Dictionary<ValueFormatterSnapshotKey, ValueFormatterSnapshot>();
         var snapshotLock = new object();
         return (value, culture) =>
         {
-            var key = new ValueFormatterSnapshotKey(BitConverter.DoubleToInt64Bits(value), culture);
+            var valueBits = BitConverter.DoubleToInt64Bits(value);
+            var key = new ValueFormatterSnapshotKey(valueBits, culture);
             lock (snapshotLock)
             {
-                if (values.TryGetValue(key, out var formattedValue))
+                if (!snapshots.TryGetValue(key, out var snapshot))
                 {
-                    return formattedValue;
+                    snapshot = new ValueFormatterSnapshot(
+                        occurrenceCounts.GetValueOrDefault(valueBits, 1));
+                    snapshots.Add(key, snapshot);
                 }
 
-                formattedValue = formatter(value, culture);
-                values.Add(key, formattedValue);
-                return formattedValue;
+                return snapshot.GetNext(() => formatter(value, culture));
             }
         };
+    }
+
+    private sealed class ValueFormatterSnapshot(int occurrenceCount)
+    {
+        private readonly List<string> _values = new(occurrenceCount);
+        private int _nextIndex;
+
+        public string GetNext(Func<string> format)
+        {
+            if (_values.Count < occurrenceCount)
+            {
+                var formattedValue = format();
+                _values.Add(formattedValue);
+                _nextIndex = _values.Count % occurrenceCount;
+                return formattedValue;
+            }
+
+            var value = _values[_nextIndex];
+            _nextIndex = (_nextIndex + 1) % occurrenceCount;
+            return value;
+        }
     }
 
     private readonly struct ValueFormatterSnapshotKey(long valueBits, CultureInfo culture)

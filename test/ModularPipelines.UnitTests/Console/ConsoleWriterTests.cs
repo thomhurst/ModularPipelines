@@ -992,6 +992,29 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task ChartValueFormatterSnapshotPreservesDuplicateValueInvocations()
+    {
+        var formatterCalls = 0;
+        var formatter = SecretObfuscatedRenderable.SnapshotValueFormatter(
+            (_, _) => $"call-{++formatterCalls}",
+            [42, 42]);
+
+        var first = formatter(42, CultureInfo.InvariantCulture);
+        var second = formatter(42, CultureInfo.InvariantCulture);
+        var replayedFirst = formatter(42, CultureInfo.InvariantCulture);
+        var replayedSecond = formatter(42, CultureInfo.InvariantCulture);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(first).IsEqualTo("call-1");
+            await Assert.That(second).IsEqualTo("call-2");
+            await Assert.That(replayedFirst).IsEqualTo(first);
+            await Assert.That(replayedSecond).IsEqualTo(second);
+            await Assert.That(formatterCalls).IsEqualTo(2);
+        }
+    }
+
+    [Test]
     public async Task Write_EscapesConfiguredMaskInTableTitle()
     {
         var obfuscator = CreateSecretObfuscator("secret", "[REDACTED]");
