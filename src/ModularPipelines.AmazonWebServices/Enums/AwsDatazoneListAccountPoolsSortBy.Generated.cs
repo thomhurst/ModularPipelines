@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListAccountPoolsSortBy
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("NAME")]
     Name = 1
 }

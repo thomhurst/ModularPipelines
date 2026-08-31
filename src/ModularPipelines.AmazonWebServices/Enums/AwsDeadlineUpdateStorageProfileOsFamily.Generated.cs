@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeadlineUpdateStorageProfileOsFamily
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("WINDOWS")]
     Windows = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayv2UpdateAuthorizerAuthorizerType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("REQUEST")]
     Request = 1,
 

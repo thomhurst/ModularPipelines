@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkdocsGetResourcesCollectionType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("SHARED_WITH_ME")]
     SharedWithMe = 1
 }

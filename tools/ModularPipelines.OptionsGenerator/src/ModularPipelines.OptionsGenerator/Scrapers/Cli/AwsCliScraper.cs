@@ -97,6 +97,11 @@ public partial class AwsCliScraper : CliScraperBase
     /// </summary>
     protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
 
+    public override CliToolDefinition CreateToolDefinition() => base.CreateToolDefinition() with
+    {
+        DiscardedGeneratedEnumValues = new HashSet<string>(StringComparer.Ordinal) { "o" },
+    };
+
     /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
     /// </summary>
@@ -380,7 +385,7 @@ public partial class AwsCliScraper : CliScraperBase
             var isKeyValue = !isStructure
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
 
-            var enumDef = isStructure || isKeyValue || isArray
+            var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
                 : TryDetectEnum(propertyName, className, description);
             var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
@@ -446,12 +451,16 @@ public partial class AwsCliScraper : CliScraperBase
             var values = match.Groups[1].Value
                 .Split([',', ' '], StringSplitOptions.RemoveEmptyEntries)
                 .Select(v => v.Trim().TrimEnd('.'))
-                .Where(v => v.Length > 0 && v.Length < 30 && IsValidEnumValue(v))
+                .Where(v => !v.Equals("o", StringComparison.OrdinalIgnoreCase)
+                            && v.Length > 0
+                            && v.Length < 30
+                            && IsValidEnumValue(v))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
 
             if (values.Length >= 2
                 && values.Length <= 15
+                && !NumericConstraintValuesPattern().IsMatch(match.Groups[1].Value)
                 && !values.Any(FreeFormValueDescriptionTokens.Contains))
             {
                 return CreateEnumDefinition(propertyName, className, values);
@@ -598,6 +607,11 @@ public partial class AwsCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s{7}(?<long>--[\w-]+)(?:\s+\((?<type>[^)]+)\))?", RegexOptions.Multiline)]
     private static partial Regex AwsOptionPattern();
+
+    [GeneratedRegex(
+        @"\b(?:integer|long|float|double)\s+(?:greater|less)\s+than\b",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex NumericConstraintValuesPattern();
 
     #endregion
 }

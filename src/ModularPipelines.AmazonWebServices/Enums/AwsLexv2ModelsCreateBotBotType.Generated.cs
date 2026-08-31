@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLexv2ModelsCreateBotBotType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("Bot")]
     Bot = 1,
 

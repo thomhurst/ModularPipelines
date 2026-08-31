@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPaymentCryptographyCreateKeyDeriveKeyUsage
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("TR31_B0_BASE_DERIVATION_KEY")]
     Tr31B0BaseDerivationKey = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsImportKeyMaterialImportType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("NEW_KEY_MATERIAL")]
     NewKeyMaterial = 1,
 

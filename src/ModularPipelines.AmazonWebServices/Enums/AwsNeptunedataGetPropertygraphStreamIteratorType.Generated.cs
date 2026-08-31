@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNeptunedataGetPropertygraphStreamIteratorType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("AT_SEQUENCE_NUMBER")]
     AtSequenceNumber = 1,
 

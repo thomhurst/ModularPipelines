@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComputeOptimizerPutRecommendationPreferencesLookBackPeriod
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("DAYS_14")]
     Days_14 = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFinspaceListKxVolumesVolumeType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("NAS_1")]
     Nas_1 = 1
 }

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudtrailUpdateEventDataStoreBillingMode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("EXTENDABLE_RETENTION_PRICING")]
     ExtendableRetentionPricing = 1
 }

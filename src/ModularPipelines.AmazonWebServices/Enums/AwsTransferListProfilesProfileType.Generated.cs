@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTransferListProfilesProfileType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("LOCAL")]
     Local = 1,
 

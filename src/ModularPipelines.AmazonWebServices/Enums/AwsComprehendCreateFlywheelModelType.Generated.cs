@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComprehendCreateFlywheelModelType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("DOCUMENT_CLASSIFIER")]
     DocumentClassifier = 1,
 

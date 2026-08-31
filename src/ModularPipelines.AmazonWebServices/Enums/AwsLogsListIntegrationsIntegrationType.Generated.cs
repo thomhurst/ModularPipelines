@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsListIntegrationsIntegrationType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("OPENSEARCH")]
     Opensearch = 1
 }

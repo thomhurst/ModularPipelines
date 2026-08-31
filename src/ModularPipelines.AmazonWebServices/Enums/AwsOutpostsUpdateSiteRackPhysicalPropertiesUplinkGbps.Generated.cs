@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesUplinkGbps
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("UPLINK_1G")]
     Uplink_1G = 1,
 

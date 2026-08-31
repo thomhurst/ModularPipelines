@@ -78,6 +78,65 @@ public class AwsCliScraperTests
     }
 
     [Test]
+    public async Task Lambda_Invocation_Type_Strips_Aws_Bullet_Markers()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "InvocationType",
+            "AwsLambdaInvokeOptions",
+            "Possible values: o Event o RequestResponse o DryRun");
+
+        await Assert.That(definition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["Event", "RequestResponse", "DryRun"]);
+    }
+
+    [Test]
+    public async Task Enum_Detection_Rejects_Numeric_Constraint_Prose()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "NumberOfNodes",
+            "AwsRedshiftModifyClusterOptions",
+            "Valid Values: Integer greater than 0");
+
+        await Assert.That(definition).IsNull();
+    }
+
+    [Test]
+    public async Task Enum_Detection_Preserves_Integer_Enum_Value()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "Unit",
+            "AwsConnectUpdateMetricContentOptions",
+            "Possible values: o INTEGER o DOUBLE o PERCENT o SECONDS");
+
+        await Assert.That(definition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["INTEGER", "DOUBLE", "PERCENT", "SECONDS"]);
+    }
+
+    [Test]
+    public async Task Redshift_Number_Of_Nodes_Uses_Numeric_Hint_Before_Constraint_Prose()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsNumericConstraintHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single().Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("--number-of-nodes");
+            await Assert.That(option.CSharpType).IsEqualTo("int?");
+            await Assert.That(option.IsNumeric).IsTrue();
+            await Assert.That(option.EnumDefinition).IsNull();
+        }
+    }
+
+    [Test]
     public async Task Structure_Options_Are_Rendered_As_A_Single_Value()
     {
         var scraper = new AwsCliScraper(
@@ -316,6 +375,35 @@ public class AwsCliScraperTests
                 StandardError = string.Empty,
                 ExitCode = string.IsNullOrEmpty(output) ? 1 : 0,
             });
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class AwsNumericConstraintHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o redshift",
+                "redshift help" => "AVAILABLE COMMANDS\n       o modify-cluster",
+                "redshift modify-cluster help" => """
+                    OPTIONS
+                           --number-of-nodes (integer)
+                            Valid Values: Integer greater than 0
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
         }
 
         public Task<bool> IsAvailableAsync(

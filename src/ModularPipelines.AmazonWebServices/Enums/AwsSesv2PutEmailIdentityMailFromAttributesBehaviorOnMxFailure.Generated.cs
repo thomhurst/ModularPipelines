@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSesv2PutEmailIdentityMailFromAttributesBehaviorOnMxFailure
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("USE_DEFAULT_VALUE")]
     UseDefaultValue = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2ListFailureModeAssessmentsSortBy
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("STARTED_AT")]
     StartedAt = 1
 }

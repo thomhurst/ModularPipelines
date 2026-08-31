@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlUpdatePolicyValidationMode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("FAIL_ON_ANY_FINDINGS")]
     FailOnAnyFindings = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationListHookResultsTargetType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("CHANGE_SET")]
     ChangeSet = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloud9CreateEnvironmentEc2ConnectionType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("CONNECT_SSH")]
     ConnectSsh = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeLanguageCode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("DE_DE")]
     DeDe = 1,
 

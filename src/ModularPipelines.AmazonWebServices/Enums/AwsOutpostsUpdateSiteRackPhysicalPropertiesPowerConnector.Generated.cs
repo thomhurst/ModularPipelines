@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerConnector
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("L6_30P")]
     L6_30P = 1,
 

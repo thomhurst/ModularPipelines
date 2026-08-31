@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbUpdateAutonomousDatabaseEncryptionKeyProvider
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("ORACLE_MANAGED")]
     OracleManaged = 1,
 

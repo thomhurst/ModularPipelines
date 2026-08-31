@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListJobsStatusEquals
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("InProgress")]
     InProgress = 1,
 

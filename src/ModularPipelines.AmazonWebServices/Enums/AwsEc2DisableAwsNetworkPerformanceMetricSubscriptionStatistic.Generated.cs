@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2DisableAwsNetworkPerformanceMetricSubscriptionStatistic
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("p50")]
     P50 = 1
 }

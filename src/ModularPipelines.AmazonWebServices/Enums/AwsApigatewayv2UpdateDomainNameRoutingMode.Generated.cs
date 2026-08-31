@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayv2UpdateDomainNameRoutingMode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("API_MAPPING_ONLY")]
     ApiMappingOnly = 1,
 

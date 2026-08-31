@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightCreateIngestionIngestionType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("INCREMENTAL_REFRESH")]
     IncrementalRefresh = 1,
 

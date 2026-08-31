@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsmlPutConfiguredAudienceModelPolicyPolicyExistenceCondition
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("POLICY_MUST_EXIST")]
     PolicyMustExist = 1,
 

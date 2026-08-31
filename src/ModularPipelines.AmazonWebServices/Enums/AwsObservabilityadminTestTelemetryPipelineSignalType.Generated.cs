@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsObservabilityadminTestTelemetryPipelineSignalType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("LOG")]
     Log = 1,
 

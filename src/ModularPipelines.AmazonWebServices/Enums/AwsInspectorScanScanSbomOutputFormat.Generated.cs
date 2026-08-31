@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspectorScanScanSbomOutputFormat
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("CYCLONE_DX_1_5")]
     CycloneDx_1_5 = 1,
 

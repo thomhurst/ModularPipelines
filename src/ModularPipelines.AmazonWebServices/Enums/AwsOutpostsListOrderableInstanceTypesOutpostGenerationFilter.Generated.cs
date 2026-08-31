@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsListOrderableInstanceTypesOutpostGenerationFilter
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("GENERATION_2")]
     Generation_2 = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayPutRestApiMode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("merge")]
     Merge = 1,
 

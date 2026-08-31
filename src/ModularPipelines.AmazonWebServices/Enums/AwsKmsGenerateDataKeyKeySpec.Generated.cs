@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsGenerateDataKeyKeySpec
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("AES_256")]
     Aes_256 = 1,
 

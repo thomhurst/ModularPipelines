@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectStartContactMediaProcessingFailureMode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("DELIVER_UNPROCESSED_MESSAGE")]
     DeliverUnprocessedMessage = 1
 }

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStoragegatewayCreateNfsFileShareEncryptionType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("SseS3")]
     SseS3 = 1,
 

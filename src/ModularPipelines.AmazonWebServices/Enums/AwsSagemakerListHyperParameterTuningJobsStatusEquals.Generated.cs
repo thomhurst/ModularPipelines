@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListHyperParameterTuningJobsStatusEquals
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("Completed")]
     Completed = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCustomerProfilesListWorkflowsWorkflowType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("APPFLOW_INTEGRATION")]
     AppflowIntegration = 1
 }

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListMitigationActionsActionType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("UPDATE_DEVICE_CERTIFICATE")]
     UpdateDeviceCertificate = 1,
 

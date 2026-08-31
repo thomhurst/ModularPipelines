@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53resolverUpdateResolverEndpointResolverEndpointType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("IPV6")]
     Ipv6 = 1,
 
