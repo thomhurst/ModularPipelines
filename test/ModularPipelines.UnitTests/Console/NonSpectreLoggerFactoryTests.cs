@@ -14,6 +14,25 @@ namespace ModularPipelines.UnitTests.Console;
 public class NonSpectreLoggerFactoryTests
 {
     [Test]
+    public async Task FilterRulesAllowOverlappingWildcardPrefixAndSuffix()
+    {
+        var options = new LoggerFilterOptions { MinLevel = LogLevel.Error };
+        options.Rules.Add(new LoggerFilterRule(
+            null,
+            "AB*BA",
+            LogLevel.Information,
+            null));
+
+        var isEnabled = LoggerFilterRuleEvaluator.IsEnabled(
+            options,
+            typeof(RecordingLoggerProvider),
+            "ABA",
+            LogLevel.Information);
+
+        await Assert.That(isEnabled).IsTrue();
+    }
+
+    [Test]
     public async Task CreateLoggers_Applies_Provider_And_Category_Rules()
     {
         var provider = new RecordingLoggerProvider();

@@ -399,6 +399,31 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task LoggingServiceViewRemoveUsesEarliestSharedRegistration()
+    {
+        var builder = Pipeline.CreateBuilder();
+        var duplicate = ServiceDescriptor.Singleton(new object());
+        var middle = ServiceDescriptor.Singleton(new Uri("https://example.com"));
+        builder.Services.Add(duplicate);
+        builder.Logging.Services.Add(middle);
+        builder.Logging.Services.Add(duplicate);
+
+        var removed = builder.Logging.Services.Remove(duplicate);
+        var remaining = builder.Logging.Services
+            .Where(descriptor => ReferenceEquals(descriptor, duplicate)
+                                 || ReferenceEquals(descriptor, middle))
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(removed).IsTrue();
+            await Assert.That(remaining).Count().IsEqualTo(2);
+            await Assert.That(remaining[0]).IsSameReferenceAs(middle);
+            await Assert.That(remaining[1]).IsSameReferenceAs(duplicate);
+        }
+    }
+
+    [Test]
     public async Task LoggingServiceViewReplaceUsesSharedRegistrationOrder()
     {
         var builder = TestPipelineBuilder.Create()
@@ -635,7 +660,7 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task PipelineBuilderConsoleLoggingRejectsOverlappingWildcardFilter()
+    public async Task PipelineBuilderConsoleLoggingHonorsOverlappingWildcardFilter()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
@@ -650,7 +675,7 @@ public class PipelineOptionsTests
         var control = pipeline.Services
             .GetRequiredService<MEL.Spectre.ISpectreConsoleLoggerControl>();
 
-        await Assert.That(control.WouldRender("Abc", LogLevel.Information)).IsTrue();
+        await Assert.That(control.WouldRender("Abc", LogLevel.Information)).IsFalse();
     }
 
     [Test]

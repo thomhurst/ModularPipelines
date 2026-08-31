@@ -879,8 +879,17 @@ public sealed class PipelineBuilder
             loggingServices.InsertBefore(followingEntry, item);
         }
 
-        public bool Remove(ServiceDescriptor item) =>
-            loggingServices.Remove(item) || applicationServices.Remove(item);
+        public bool Remove(ServiceDescriptor item)
+        {
+            var index = IndexOf(item);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            RemoveAt(index);
+            return true;
+        }
 
         public void RemoveAt(int index)
         {
