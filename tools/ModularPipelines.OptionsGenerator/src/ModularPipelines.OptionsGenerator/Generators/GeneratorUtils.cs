@@ -576,18 +576,7 @@ public static partial class GeneratorUtils
     private static string GenerateCliOptionAttributeString(CliOptionDefinition option)
     {
         var optionParts = new List<string> { FormatStringLiteral(option.SwitchName) };
-
-        if (option.GroupValues && option.CollectionSeparator is not null)
-        {
-            throw new InvalidOperationException(
-                $"Option '{option.SwitchName}' cannot set both GroupValues and CollectionSeparator.");
-        }
-
-        if (option.GroupValues && option.ValueSeparator != " ")
-        {
-            throw new InvalidOperationException(
-                $"Grouped option '{option.SwitchName}' must use a space separator.");
-        }
+        ValidateCollectionRendering(option);
 
         if (!string.IsNullOrEmpty(option.ShortForm))
         {
@@ -622,6 +611,35 @@ public static partial class GeneratorUtils
             optionParts.Add($"ValueArity = CliOptionValueArity.{option.ValueArity}");
         }
 
+        AppendCollectionRendering(optionParts, option);
+
+        if (option.Phase != CommandLinePhase.Normal)
+        {
+            optionParts.Add($"Phase = CommandLinePhase.{option.Phase}");
+        }
+
+        return $"CliOption({string.Join(", ", optionParts)})";
+    }
+
+    private static void ValidateCollectionRendering(CliOptionDefinition option)
+    {
+        if (option.GroupValues && option.CollectionSeparator is not null)
+        {
+            throw new InvalidOperationException(
+                $"Option '{option.SwitchName}' cannot set both GroupValues and CollectionSeparator.");
+        }
+
+        if (option.GroupValues && option.ValueSeparator != " ")
+        {
+            throw new InvalidOperationException(
+                $"Grouped option '{option.SwitchName}' must use a space separator.");
+        }
+    }
+
+    private static void AppendCollectionRendering(
+        ICollection<string> optionParts,
+        CliOptionDefinition option)
+    {
         if (option.GroupValues)
         {
             optionParts.Add("GroupValues = true");
@@ -631,13 +649,6 @@ public static partial class GeneratorUtils
         {
             optionParts.Add($"CollectionSeparator = {FormatStringLiteral(option.CollectionSeparator)}");
         }
-
-        if (option.Phase != CommandLinePhase.Normal)
-        {
-            optionParts.Add($"Phase = CommandLinePhase.{option.Phase}");
-        }
-
-        return $"CliOption({string.Join(", ", optionParts)})";
     }
 
     /// <summary>
