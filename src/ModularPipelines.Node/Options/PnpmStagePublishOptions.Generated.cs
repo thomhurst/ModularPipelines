@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Node.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Node.Options;
 
@@ -41,8 +42,9 @@ public record PnpmStagePublishOptions : PnpmOptions
     /// <summary>
     /// One-time password for approve and reject.
     /// </summary>
-    [CliFlag("--otp")]
-    public bool? Otp { get; set; }
+    [SecretValue]
+    [CliOption("--otp")]
+    public string? Otp { get; set; }
 
     /// <summary>
     /// Stage all publishable packages from the workspace.
@@ -71,8 +73,8 @@ public record PnpmStagePublishOptions : PnpmOptions
     /// <summary>
     /// If no projects are matched by the command, exit with exit code 1 (fail)
     /// </summary>
-    [CliFlag("--fail-if-no-match")]
-    public bool? FailIfNoMatch { get; set; }
+    [CliOption("--fail-if-no-match")]
+    public string? FailIfNoMatch { get; set; }
 
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"
