@@ -63,7 +63,7 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions
     /// Google Cloud service account to be used for Federated Identity authentication with MSK. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--aws-msk-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? AwsMskIngestionServiceAccount { get; set; }
+    public string? AwsMskIngestionServiceAccount { get; set; }
 
     /// <summary>
     /// Name of the MSK topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -99,7 +99,7 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions
     /// Google Cloud service account to be used for Federated Identity authentication with Azure Event Hubs. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? AzureEventHubsIngestionServiceAccount { get; set; }
+    public string? AzureEventHubsIngestionServiceAccount { get; set; }
 
     /// <summary>
     /// Azure Event Hubs subscription ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -165,7 +165,7 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions
     /// Google Cloud service account to be used for Federated Identity authentication with Confluent Cloud. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ConfluentCloudIngestionServiceAccount { get; set; }
+    public string? ConfluentCloudIngestionServiceAccount { get; set; }
 
     /// <summary>
     /// Name of the Confluent Cloud topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -189,7 +189,7 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions
     /// Google Cloud service account to be used for Federated Identity authentication with Kinesis. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kinesis-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? KinesisIngestionServiceAccount { get; set; }
+    public string? KinesisIngestionServiceAccount { get; set; }
 
     /// <summary>
     /// Kinesis data stream ARN from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
