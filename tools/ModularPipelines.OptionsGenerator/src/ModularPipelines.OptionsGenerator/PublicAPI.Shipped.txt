@@ -14,7 +14,7 @@ abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBas
 abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.Name.get -> string!
 abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.ParseOptionFromHelpText(string! helpText, ModularPipelines.OptionsGenerator.TypeDetection.OptionDetectionContext! context) -> ModularPipelines.OptionsGenerator.TypeDetection.OptionTypeDetectionResult!
 abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.Priority.get -> int
-const ModularPipelines.OptionsGenerator.External.ExternalToolDefinitionDocument.CurrentSchemaVersion = 1 -> int
+const ModularPipelines.OptionsGenerator.External.ExternalToolDefinitionDocument.CurrentSchemaVersion = 2 -> int
 const ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.ExecutionOptionsParameter = "CommandExecutionOptions? executionOptions = null" -> string!
 const ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.GeneratorName = "ModularPipelines.OptionsGenerator" -> string!
 const ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.DefaultMaxEntries = 10000 -> int

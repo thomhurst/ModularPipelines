@@ -12,7 +12,7 @@ namespace ModularPipelines.OptionsGenerator.External;
 /// </summary>
 public sealed record ExternalToolDefinitionDocument
 {
-    public const int CurrentSchemaVersion = 1;
+    public const int CurrentSchemaVersion = 2;
 
     public required int SchemaVersion { get; init; }
 

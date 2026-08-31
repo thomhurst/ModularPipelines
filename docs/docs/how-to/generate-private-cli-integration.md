@@ -31,7 +31,7 @@ Create `tools/private-widget.json`:
 
 ```json
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "tool": {
     "ownershipId": "private-widget-integration",
     "toolName": "private-widget",
