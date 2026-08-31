@@ -17,8 +17,8 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyFilesystemDetectionPriority
 {
     [EnumValue("precise")]
-    Precise = 0,
+    Precise,
 
     [EnumValue("comprehensive")]
-    Comprehensive = 1
+    Comprehensive
 }

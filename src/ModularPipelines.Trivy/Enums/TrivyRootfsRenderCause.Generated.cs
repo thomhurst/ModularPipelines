@@ -17,8 +17,8 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyRootfsRenderCause
 {
     [EnumValue("terraform")]
-    Terraform = 0,
+    Terraform,
 
     [EnumValue("ansible")]
-    Ansible = 1
+    Ansible
 }

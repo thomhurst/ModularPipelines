@@ -17,29 +17,29 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyVmFormat
 {
     [EnumValue("table")]
-    Table = 0,
+    Table,
 
     [EnumValue("json")]
-    Json = 1,
+    Json,
 
     [EnumValue("template")]
-    Template = 2,
+    Template,
 
     [EnumValue("sarif")]
-    Sarif = 3,
+    Sarif,
 
     [EnumValue("cyclonedx")]
-    Cyclonedx = 4,
+    Cyclonedx,
 
     [EnumValue("spdx")]
-    Spdx = 5,
+    Spdx,
 
     [EnumValue("spdx-json")]
-    SpdxJson = 6,
+    SpdxJson,
 
     [EnumValue("github")]
-    Github = 7,
+    Github,
 
     [EnumValue("cosign-vuln")]
-    CosignVuln = 8
+    CosignVuln
 }

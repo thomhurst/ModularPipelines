@@ -17,11 +17,11 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyKubernetesFormat
 {
     [EnumValue("table")]
-    Table = 0,
+    Table,
 
     [EnumValue("json")]
-    Json = 1,
+    Json,
 
     [EnumValue("cyclonedx")]
-    Cyclonedx = 2
+    Cyclonedx
 }

@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Trivy.Services;
 
 namespace ModularPipelines.Trivy.Extensions;
@@ -35,4 +34,5 @@ public static class TrivyExtensions
         services.TryAddScoped<ITrivyVex, TrivyVex>();
         return services;
     }
+
 }

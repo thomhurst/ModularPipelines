@@ -17,17 +17,17 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyConfigSeverity
 {
     [EnumValue("UNKNOWN")]
-    Unknown = 0,
+    Unknown,
 
     [EnumValue("LOW")]
-    Low = 1,
+    Low,
 
     [EnumValue("MEDIUM")]
-    Medium = 2,
+    Medium,
 
     [EnumValue("HIGH")]
-    High = 3,
+    High,
 
     [EnumValue("CRITICAL")]
-    Critical = 4
+    Critical
 }
