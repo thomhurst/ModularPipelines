@@ -1,4 +1,5 @@
 #nullable enable
+*REMOVED*ModularPipelines.Attributes.CommandLinePhase.EndOfOptions = 2 -> ModularPipelines.Attributes.CommandLinePhase
 *REMOVED*ModularPipelines.Attributes.DependsOnAllModulesInheritingFromAttribute
 *REMOVED*ModularPipelines.Attributes.DependsOnAllModulesInheritingFromAttribute.DependsOnAllModulesInheritingFromAttribute(System.Type! type) -> void
 *REMOVED*ModularPipelines.Attributes.DependsOnAllModulesInheritingFromAttribute.Type.get -> System.Type!
@@ -2669,7 +2670,7 @@ static ModularPipelines.Requirements.Require.WindowsAdmin(string? failureReason 
 static ModularPipelines.Secrets.SecretMaskingOptions.Default.get -> ModularPipelines.Secrets.SecretMaskingOptions!
 static ModularPipelines.Secrets.SecretMaskingOptions.operator !=(ModularPipelines.Secrets.SecretMaskingOptions? left, ModularPipelines.Secrets.SecretMaskingOptions? right) -> bool
 static ModularPipelines.Secrets.SecretMaskingOptions.operator ==(ModularPipelines.Secrets.SecretMaskingOptions? left, ModularPipelines.Secrets.SecretMaskingOptions? right) -> bool
-static ModularPipelines.SkipDecision.Of(bool shouldSkip, string? reason) -> ModularPipelines.SkipDecision!
+*REMOVED*static ModularPipelines.SkipDecision.Of(bool shouldSkip, string? reason) -> ModularPipelines.SkipDecision!
 static ModularPipelines.SkipDecision.Skip(string? reason) -> ModularPipelines.SkipDecision!
 static ModularPipelines.SkipDecision.When(bool shouldSkip, string? reason) -> ModularPipelines.SkipDecision!
 static ModularPipelines.SkipDecision.operator !=(ModularPipelines.SkipDecision? left, ModularPipelines.SkipDecision? right) -> bool
