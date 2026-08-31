@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Shellcheck.Services;
 
 namespace ModularPipelines.Shellcheck.Extensions;
@@ -31,4 +30,5 @@ public static class ShellcheckExtensions
         services.TryAddScoped<IShellcheck, Services.Shellcheck>();
         return services;
     }
+
 }
