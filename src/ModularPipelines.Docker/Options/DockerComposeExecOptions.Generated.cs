@@ -66,12 +66,15 @@ public record DockerComposeExecOptions(
     public string? Workdir { get; set; }
 
     /// <summary>
+    /// Disable pseudo-TTY allocation (default: auto-detected) (default true)
+    /// </summary>
+    [CliOption("--no-TTY", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
+    public bool? NoTty { get; set; }
+
+    /// <summary>
     /// The ARGS operand.
     /// </summary>
     [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Args { get; set; }
-
-    [Obsolete("NoTty is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoTty { get; set; }
 
 }
