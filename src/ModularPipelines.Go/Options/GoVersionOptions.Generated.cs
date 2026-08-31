@@ -27,21 +27,15 @@ public record GoVersionOptions : GoOptions
     public bool? M { get; set; }
 
     /// <summary>
-    /// The -json flag is similar to -m but outputs the runtime/debug.BuildInfo in JSON format. If flag -json is specified without -m, go version reports an error.
-    /// </summary>
-    [CliFlag("-json")]
-    public bool? Json { get; set; }
-
-    /// <summary>
-    /// The -v option.
+    /// The -v flag causes it to report unrecognized files.
     /// </summary>
     [CliFlag("-v")]
     public bool? V { get; set; }
 
     /// <summary>
-    /// The file operand.
+    /// The -json flag is similar to -m but outputs the runtime/debug.BuildInfo in JSON format. If flag -json is specified without -m, go version reports an error.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? File { get; set; }
+    [CliOption("-json")]
+    public string? Json { get; set; }
 
 }

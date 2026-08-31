@@ -27,6 +27,12 @@ public record GoEnvOptions : GoOptions
     public bool? Json { get; set; }
 
     /// <summary>
+    /// The -changed flag prints only those settings whose effective value differs from the default value that would be obtained in an empty environment with no prior uses of the -w flag.
+    /// </summary>
+    [CliFlag("-changed")]
+    public bool? Changed { get; set; }
+
+    /// <summary>
     /// The -u flag requires one or more arguments and unsets the default setting for the named environment variables, if one has been set with 'go env -w'.
     /// </summary>
     [CliFlag("-u")]
@@ -37,12 +43,6 @@ public record GoEnvOptions : GoOptions
     /// </summary>
     [CliFlag("-w")]
     public bool? W { get; set; }
-
-    /// <summary>
-    /// The -changed flag prints only those settings whose effective value differs from the default value that would be obtained in an empty environment with no prior uses of the -w flag.
-    /// </summary>
-    [CliFlag("-changed")]
-    public bool? Changed { get; set; }
 
     /// <summary>
     /// The var operand.

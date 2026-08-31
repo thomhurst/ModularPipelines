@@ -18,9 +18,7 @@ namespace ModularPipelines.Go.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("doc")]
-public record GoDocOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Package
-) : GoOptions
+public record GoDocOptions : GoOptions
 {
     /// <summary>
     /// Show all the documentation for the package.
@@ -31,8 +29,8 @@ public record GoDocOptions(
     /// <summary>
     /// Respect case when matching symbols.
     /// </summary>
-    [CliOption("-c")]
-    public string? C { get; set; }
+    [CliFlag("-c")]
+    public bool? C { get; set; }
 
     /// <summary>
     /// Treat a command (package main) like a regular package. Otherwise package main's exported symbols are hidden when showing the package's top-level documentation.
@@ -69,5 +67,11 @@ public record GoDocOptions(
     /// </summary>
     [CliFlag("-u")]
     public bool? U { get; set; }
+
+    /// <summary>
+    /// The package operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Package { get; set; }
 
 }
