@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<
     ModularPipelines.Analyzers.CliPropertyAttributeAnalyzer>;
@@ -7,6 +8,24 @@ namespace ModularPipelines.Analyzers.Test;
 [TestClass]
 public class CliPropertyAttributeAnalyzerTests
 {
+    [TestMethod]
+    public void Diagnostic_Ids_Are_Unique()
+    {
+        var duplicates = typeof(CliPropertyAttributeAnalyzer).Assembly
+            .GetTypes()
+            .SelectMany(static type => type.GetFields(BindingFlags.Public | BindingFlags.Static))
+            .Where(static field => field.IsLiteral
+                                   && field.FieldType == typeof(string)
+                                   && field.Name.EndsWith("DiagnosticId", StringComparison.Ordinal))
+            .Select(static field => (string)field.GetRawConstantValue()!)
+            .GroupBy(static id => id, StringComparer.Ordinal)
+            .Where(static group => group.Count() > 1)
+            .Select(static group => group.Key)
+            .ToArray();
+
+        Assert.AreEqual(0, duplicates.Length, $"Duplicate diagnostic IDs: {string.Join(", ", duplicates)}");
+    }
+
     [TestMethod]
     public async Task Reports_Invalid_Flag_Type()
     {

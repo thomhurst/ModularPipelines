@@ -13,7 +13,7 @@ public sealed class CliPropertyAttributeAnalyzer : DiagnosticAnalyzer
     public const string InvalidFlagTypeDiagnosticId = "MPCLI001";
     public const string BooleanOptionDiagnosticId = "MPCLI002";
     public const string MultipleAttributesDiagnosticId = "MPCLI003";
-    public const string NegatedFlagTypeDiagnosticId = "MPCLI004";
+    public const string NegatedFlagTypeDiagnosticId = "MPCLI005";
 
     public static DiagnosticDescriptor InvalidFlagTypeRule { get; } = DiagnosticDescriptorFactory.Create(
         InvalidFlagTypeDiagnosticId, "CliFlagInvalidTypeTitle", "CliFlagInvalidTypeMessageFormat", "CliFlagInvalidTypeDescription");
