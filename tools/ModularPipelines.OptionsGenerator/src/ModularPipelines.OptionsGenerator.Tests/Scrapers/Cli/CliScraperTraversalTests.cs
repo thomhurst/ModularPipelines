@@ -979,6 +979,88 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task PnpmTraversal_Classifies_Placeholder_Free_Options()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: pnpm [command] [flags]
+
+                Security:
+                      audit    Checks for known security issues
+                """,
+            ["audit --help"] = """
+                Usage: pnpm audit [options]
+
+                Commands:
+                  signatures    Verify package signatures
+                """,
+            ["audit signatures --help"] = """
+                Usage: pnpm audit signatures [options]
+
+                Options:
+                  --dev                       Only inspect development dependencies
+                  --prod                      Only inspect production dependencies
+                  --config                    Save dependency to configDependencies
+                  --interactive               Prompt before applying changes
+                  --ignore-registry-errors    Continue when a registry is unavailable
+                  --ignore-unfixable          Ignore vulnerabilities without a fix
+                  --reporter-hide-prefix      Hide workspace package prefixes
+                  --allow-build               A list of package names allowed to run postinstall scripts
+                  --cache-location            Path to the package cache directory
+                  --edit-dir                  The directory in which to edit the package
+                  --global-dir                Specify a custom directory to store global packages
+                  --otp                       One-time password for two-factor authentication
+                  --package                   The package to install before running the command
+                  --patches-dir               The directory in which to store patches
+                  --publish-branch            Sets branch name to publish
+                  --resume-from               Command executed from given package
+                  --sort-by                   Sort the output by the specified field
+                  --registry <url>            Use the specified registry
+                  --filter <pattern>          Restrict packages by selector
+                """,
+        });
+        var scraper = new TestPnpmCliScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+        var options = commands.Single(command => command.FullCommand == "pnpm audit signatures")
+            .Options.ToDictionary(option => option.SwitchName, StringComparer.Ordinal);
+
+        using (Assert.Multiple())
+        {
+            foreach (var switchName in new[]
+                     {
+                         "--dev",
+                         "--prod",
+                         "--config",
+                         "--interactive",
+                         "--ignore-registry-errors",
+                         "--ignore-unfixable",
+                         "--reporter-hide-prefix",
+                     })
+            {
+                await Assert.That(options[switchName].IsFlag).IsTrue();
+                await Assert.That(options[switchName].CSharpType).IsEqualTo("bool?");
+            }
+
+            foreach (var switchName in new[]
+                     {
+                         "--allow-build", "--cache-location", "--edit-dir", "--filter", "--global-dir",
+                         "--package", "--patches-dir", "--publish-branch", "--registry", "--resume-from",
+                         "--sort-by",
+                     })
+            {
+                await Assert.That(options[switchName].IsFlag).IsFalse();
+                await Assert.That(options[switchName].CSharpType).IsEqualTo("string?");
+            }
+
+            await Assert.That(options["--otp"].IsFlag).IsFalse();
+            await Assert.That(options["--otp"].CSharpType).IsEqualTo("string?");
+            await Assert.That(options["--otp"].IsSecret).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Shared_Skip_Filter_Preserves_Uppercase_Subcommands()
     {
         var scraper = new OptionShapeScraper(new StubExecutor(

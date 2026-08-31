@@ -33,6 +33,32 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PnpmCliScraper : CliScraperBase
 {
+    private static readonly HashSet<string> PlaceholderFreeValueOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--allow-build",
+        "--edit-dir",
+        "--global-dir",
+        "--otp",
+        "--package",
+        "--patches-dir",
+        "--publish-branch",
+        "--resume-from",
+        "--sort-by",
+    };
+
+    private static readonly HashSet<string> PlaceholderFreeFlagOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--config",
+        "--reporter-hide-prefix",
+    };
+
+    private static readonly string[] ValueOptionNameIndicators =
+    [
+        "filter", "dir", "registry", "store", "config", "reporter", "loglevel",
+    ];
+
+    private static readonly string[] ValueDescriptionIndicators = ["path", "name", "url", "file"];
+
     public PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -365,8 +391,10 @@ public partial class PnpmCliScraper : CliScraperBase
                 continue;
             }
 
-            // Determine if this is a flag (boolean) or takes a value
-            var isFlag = string.IsNullOrEmpty(valueHint) && IsBooleanOption(longForm, description);
+            // pnpm normally represents value-taking options with an explicit placeholder,
+            // but some options omit it from their rendered help text.
+            var isFlag = string.IsNullOrEmpty(valueHint)
+                         && !IsPlaceholderFreeValueOption(longForm, description);
             var csharpType = isFlag ? "bool?" : "string?";
 
             options.Add(new CliOptionDefinition
@@ -390,49 +418,29 @@ public partial class PnpmCliScraper : CliScraperBase
         return options;
     }
 
-    /// <summary>
-    /// Determines if an option is a boolean flag.
-    /// </summary>
-    private static bool IsBooleanOption(string optionName, string description)
+    private static bool IsPlaceholderFreeValueOption(string optionName, string description)
     {
-        var cleanName = optionName.TrimStart('-').ToLowerInvariant();
-
-        // Options that typically take values
-        var valueOptions = new[] { "filter", "dir", "registry", "store", "config", "reporter", "loglevel" };
-        if (valueOptions.Any(v => cleanName.Contains(v)))
+        if (PlaceholderFreeFlagOptions.Contains(optionName))
         {
             return false;
         }
 
-        // Check description for value hints
-        var lowerDesc = description.ToLowerInvariant();
-        if (lowerDesc.Contains("path") || lowerDesc.Contains("name") ||
-            lowerDesc.Contains("url") || lowerDesc.Contains("file"))
-        {
-            return false;
-        }
-
-        // Common boolean option patterns
-        if (cleanName.StartsWith("no-") ||
-            cleanName == "save-dev" ||
-            cleanName == "save-optional" ||
-            cleanName == "save-peer" ||
-            cleanName == "save-exact" ||
-            cleanName == "dry-run" ||
-            cleanName == "json" ||
-            cleanName == "global" ||
-            cleanName == "recursive" ||
-            cleanName == "offline" ||
-            cleanName == "prefer-offline" ||
-            cleanName == "frozen-lockfile" ||
-            cleanName == "ignore-scripts" ||
-            cleanName == "shamefully-hoist" ||
-            cleanName == "strict-peer-dependencies")
+        if (PlaceholderFreeValueOptions.Contains(optionName))
         {
             return true;
         }
 
-        return false;
+        var normalizedName = optionName.TrimStart('-');
+        if (normalizedName.StartsWith("no-", StringComparison.OrdinalIgnoreCase)
+            || normalizedName.StartsWith("ignore-", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        return ValueOptionNameIndicators.Any(part =>
+                   normalizedName.Contains(part, StringComparison.OrdinalIgnoreCase))
+               || ValueDescriptionIndicators.Any(part =>
+                   description.Contains(part, StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>
