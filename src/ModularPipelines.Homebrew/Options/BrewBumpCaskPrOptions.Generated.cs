@@ -22,11 +22,6 @@ public record BrewBumpCaskPrOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Cask
 ) : BrewOptions
 {
-    public BrewBumpCaskPrOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Print what would be done rather than doing it.
     /// </summary>
@@ -73,43 +68,43 @@ public record BrewBumpCaskPrOptions(
     /// Specify the new version for the cask.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? VersionValue { get; set; }
+    public string? Version { get; set; }
 
     /// <summary>
     /// Specify the new cask version for the ARM architecture.
     /// </summary>
     [CliOption("--version-arm", Format = OptionFormat.EqualsSeparated)]
-    public string? VersionArmValue { get; set; }
+    public string? VersionArm { get; set; }
 
     /// <summary>
     /// Specify the new cask version for the Intel architecture.
     /// </summary>
     [CliOption("--version-intel", Format = OptionFormat.EqualsSeparated)]
-    public string? VersionIntelValue { get; set; }
+    public string? VersionIntel { get; set; }
 
     /// <summary>
     /// Prepend message to the default pull request message.
     /// </summary>
     [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
-    public string? MessageValue { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// Specify the URL for the new download.
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
-    public string? UrlValue { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>
     /// Specify the SHA-256 checksum of the new download.
     /// </summary>
     [CliOption("--sha256", Format = OptionFormat.EqualsSeparated)]
-    public string? Sha256Value { get; set; }
+    public string? Sha256 { get; set; }
 
     /// <summary>
     /// Use the specified GitHub organization for forking.
     /// </summary>
     [CliOption("--fork-org", Format = OptionFormat.EqualsSeparated)]
-    public string? ForkOrgValue { get; set; }
+    public string? ForkOrg { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -134,54 +129,5 @@ public record BrewBumpCaskPrOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use VersionValue instead.")]
-    public bool? Version
-    {
-        get => bool.TryParse(VersionValue, out var value) ? value : null;
-        set => VersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionArmValue instead.")]
-    public bool? VersionArm
-    {
-        get => bool.TryParse(VersionArmValue, out var value) ? value : null;
-        set => VersionArmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionIntelValue instead.")]
-    public bool? VersionIntel
-    {
-        get => bool.TryParse(VersionIntelValue, out var value) ? value : null;
-        set => VersionIntelValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use MessageValue instead.")]
-    public bool? Message
-    {
-        get => bool.TryParse(MessageValue, out var value) ? value : null;
-        set => MessageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use UrlValue instead.")]
-    public bool? Url
-    {
-        get => bool.TryParse(UrlValue, out var value) ? value : null;
-        set => UrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use Sha256Value instead.")]
-    public bool? Sha256
-    {
-        get => bool.TryParse(Sha256Value, out var value) ? value : null;
-        set => Sha256Value = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ForkOrgValue instead.")]
-    public bool? ForkOrg
-    {
-        get => bool.TryParse(ForkOrgValue, out var value) ? value : null;
-        set => ForkOrgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

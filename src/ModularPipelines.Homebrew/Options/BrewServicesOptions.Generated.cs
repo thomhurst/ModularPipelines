@@ -23,11 +23,6 @@ public record BrewServicesOptions(
     [property: CliArgument(4, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Upgrades
 ) : BrewOptions
 {
-    public BrewServicesOptions()
-        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -56,31 +51,6 @@ public record BrewServicesOptions(
     /// When run as root on macOS, run the service(s) as this user.
     /// </summary>
     [CliOption("--sudo-service-user", Format = OptionFormat.EqualsSeparated)]
-    public string? SudoServiceUserValue { get; set; }
-
-    [Obsolete("Use SudoServiceUserValue instead.")]
-    public bool? SudoServiceUser
-    {
-        get => bool.TryParse(SudoServiceUserValue, out var value) ? value : null;
-        set => SudoServiceUserValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Json is no longer supported by the installed CLI and has no effect.")]
-    public bool? Json { get; set; }
-
-    [Obsolete("All is no longer supported by the installed CLI and has no effect.")]
-    public bool? All { get; set; }
-
-    [Obsolete("File is no longer supported by the installed CLI and has no effect.")]
-    public string? File { get; set; }
-
-    [Obsolete("Keep is no longer supported by the installed CLI and has no effect.")]
-    public bool? Keep { get; set; }
-
-    [Obsolete("NoWait is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoWait { get; set; }
-
-    [Obsolete("MaxWait is no longer supported by the installed CLI and has no effect.")]
-    public string? MaxWait { get; set; }
+    public string? SudoServiceUser { get; set; }
 
 }

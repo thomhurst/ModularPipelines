@@ -22,11 +22,6 @@ public record BrewUntapOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Tap
 ) : BrewOptions
 {
-    public BrewUntapOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Uninstall all formulae and casks from this tap with --force before untapping.
     /// </summary>

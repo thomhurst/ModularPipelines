@@ -22,11 +22,6 @@ public record BrewCatOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
 ) : BrewOptions
 {
-    public BrewCatOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Treat all named arguments as formulae.
     /// </summary>

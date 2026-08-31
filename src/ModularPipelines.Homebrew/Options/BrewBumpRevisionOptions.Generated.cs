@@ -22,11 +22,6 @@ public record BrewBumpRevisionOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Formula
 ) : BrewOptions
 {
-    public BrewBumpRevisionOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Print what would be done rather than doing it.
     /// </summary>
@@ -49,7 +44,7 @@ public record BrewBumpRevisionOptions(
     /// Append message to the default commit message.
     /// </summary>
     [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
-    public string? MessageValue { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -74,12 +69,5 @@ public record BrewBumpRevisionOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use MessageValue instead.")]
-    public bool? Message
-    {
-        get => bool.TryParse(MessageValue, out var value) ? value : null;
-        set => MessageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

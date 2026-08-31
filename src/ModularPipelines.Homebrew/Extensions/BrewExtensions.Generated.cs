@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Homebrew.Services;
 
 namespace ModularPipelines.Homebrew.Extensions;
@@ -31,4 +30,5 @@ public static class BrewExtensions
         services.TryAddScoped<IBrew, Services.Brew>();
         return services;
     }
+
 }

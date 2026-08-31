@@ -22,11 +22,6 @@ public record BrewBumpUnversionedCasksOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Cask
 ) : BrewOptions
 {
-    public BrewBumpUnversionedCasksOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Do everything except caching state and opening pull requests.
     /// </summary>
@@ -37,13 +32,13 @@ public record BrewBumpUnversionedCasksOptions(
     /// Maximum runtime in minutes.
     /// </summary>
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
-    public string? LimitValue { get; set; }
+    public string? Limit { get; set; }
 
     /// <summary>
     /// File for caching state.
     /// </summary>
     [CliOption("--state-file", Format = OptionFormat.EqualsSeparated)]
-    public string? StateFileValue { get; set; }
+    public string? StateFile { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -68,19 +63,5 @@ public record BrewBumpUnversionedCasksOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use LimitValue instead.")]
-    public bool? Limit
-    {
-        get => bool.TryParse(LimitValue, out var value) ? value : null;
-        set => LimitValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use StateFileValue instead.")]
-    public bool? StateFile
-    {
-        get => bool.TryParse(StateFileValue, out var value) ? value : null;
-        set => StateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

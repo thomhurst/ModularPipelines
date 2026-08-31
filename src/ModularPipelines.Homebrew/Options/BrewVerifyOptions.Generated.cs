@@ -22,28 +22,23 @@ public record BrewVerifyOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Formula
 ) : BrewOptions
 {
-    public BrewVerifyOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Download for the given operating system. (Pass all to download for all operating systems.)
     /// </summary>
     [CliOption("--os", Format = OptionFormat.EqualsSeparated)]
-    public string? OsValue { get; set; }
+    public string? Os { get; set; }
 
     /// <summary>
     /// Download for the given CPU architecture. (Pass all to download for all architectures.)
     /// </summary>
     [CliOption("--arch", Format = OptionFormat.EqualsSeparated)]
-    public string? ArchValue { get; set; }
+    public string? Arch { get; set; }
 
     /// <summary>
     /// Download a bottle for given tag.
     /// </summary>
     [CliOption("--bottle-tag", Format = OptionFormat.EqualsSeparated)]
-    public string? BottleTagValue { get; set; }
+    public string? BottleTag { get; set; }
 
     /// <summary>
     /// Also download dependencies for any listed formula.
@@ -86,26 +81,5 @@ public record BrewVerifyOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use OsValue instead.")]
-    public bool? Os
-    {
-        get => bool.TryParse(OsValue, out var value) ? value : null;
-        set => OsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ArchValue instead.")]
-    public bool? Arch
-    {
-        get => bool.TryParse(ArchValue, out var value) ? value : null;
-        set => ArchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use BottleTagValue instead.")]
-    public bool? BottleTag
-    {
-        get => bool.TryParse(BottleTagValue, out var value) ? value : null;
-        set => BottleTagValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

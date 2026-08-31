@@ -22,11 +22,6 @@ public record BrewMigrateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
 ) : BrewOptions
 {
-    public BrewMigrateOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Treat installed formula and provided formula as if they are from the same taps and migrate them anyway.
     /// </summary>

@@ -22,11 +22,6 @@ public record BrewUpdatePerlResourcesOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Formula
 ) : BrewOptions
 {
-    public BrewUpdatePerlResourcesOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Print the updated resource blocks instead of changing formula.
     /// </summary>
@@ -62,8 +57,5 @@ public record BrewUpdatePerlResourcesOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Silent is no longer supported by the installed CLI and has no effect.")]
-    public bool? Silent { get; set; }
 
 }

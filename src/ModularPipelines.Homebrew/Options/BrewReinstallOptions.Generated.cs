@@ -22,11 +22,6 @@ public record BrewReinstallOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
 ) : BrewOptions
 {
-    public BrewReinstallOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// If brewing fails, open an interactive debugging session with access to IRB or a shell inside the temporary build directory.
     /// </summary>
@@ -248,8 +243,5 @@ public record BrewReinstallOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Ask is no longer supported by the installed CLI and has no effect.")]
-    public bool? Ask { get; set; }
 
 }

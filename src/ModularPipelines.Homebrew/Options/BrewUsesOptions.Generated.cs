@@ -22,11 +22,6 @@ public record BrewUsesOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
 ) : BrewOptions
 {
-    public BrewUsesOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Resolve more than one level of dependencies.
     /// </summary>
@@ -110,8 +105,5 @@ public record BrewUsesOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("EvalAll is no longer supported by the installed CLI and has no effect.")]
-    public bool? EvalAll { get; set; }
 
 }

@@ -36,13 +36,13 @@ public record BrewUpdateTestOptions : BrewOptions
     /// Use the specified commit as the start commit.
     /// </summary>
     [CliOption("--commit", Format = OptionFormat.EqualsSeparated)]
-    public string? CommitValue { get; set; }
+    public string? Commit { get; set; }
 
     /// <summary>
     /// Use the commit at the specified date as the start commit.
     /// </summary>
     [CliOption("--before", Format = OptionFormat.EqualsSeparated)]
-    public string? BeforeValue { get; set; }
+    public string? Before { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -67,19 +67,5 @@ public record BrewUpdateTestOptions : BrewOptions
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use CommitValue instead.")]
-    public bool? Commit
-    {
-        get => bool.TryParse(CommitValue, out var value) ? value : null;
-        set => CommitValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use BeforeValue instead.")]
-    public bool? Before
-    {
-        get => bool.TryParse(BeforeValue, out var value) ? value : null;
-        set => BeforeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -23,22 +23,17 @@ public record BrewExtractOptions(
     [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Tap
 ) : BrewOptions
 {
-    public BrewExtractOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Search for the specified version of formula starting at revision instead of HEAD.
     /// </summary>
     [CliOption("--git-revision", Format = OptionFormat.EqualsSeparated)]
-    public string? GitRevisionValue { get; set; }
+    public string? GitRevision { get; set; }
 
     /// <summary>
     /// Extract the specified version of formula instead of the most recent.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? VersionValue { get; set; }
+    public string? Version { get; set; }
 
     /// <summary>
     /// Overwrite the destination formula if it already exists.
@@ -69,19 +64,5 @@ public record BrewExtractOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use GitRevisionValue instead.")]
-    public bool? GitRevision
-    {
-        get => bool.TryParse(GitRevisionValue, out var value) ? value : null;
-        set => GitRevisionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionValue instead.")]
-    public bool? Version
-    {
-        get => bool.TryParse(VersionValue, out var value) ? value : null;
-        set => VersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

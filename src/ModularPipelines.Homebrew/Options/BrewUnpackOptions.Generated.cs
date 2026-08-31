@@ -22,16 +22,11 @@ public record BrewUnpackOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
 ) : BrewOptions
 {
-    public BrewUnpackOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Create subdirectories in the directory named by path instead.
     /// </summary>
     [CliOption("--destdir", Format = OptionFormat.EqualsSeparated)]
-    public string? DestdirValue { get; set; }
+    public string? Destdir { get; set; }
 
     /// <summary>
     /// Patches for formula will be applied to the unpacked source.
@@ -86,12 +81,5 @@ public record BrewUnpackOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use DestdirValue instead.")]
-    public bool? Destdir
-    {
-        get => bool.TryParse(DestdirValue, out var value) ? value : null;
-        set => DestdirValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

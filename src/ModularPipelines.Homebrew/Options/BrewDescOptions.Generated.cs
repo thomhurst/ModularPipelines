@@ -22,11 +22,6 @@ public record BrewDescOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
 ) : BrewOptions
 {
-    public BrewDescOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Search both names and descriptions for text. If text is flanked by slashes, it is interpreted as a regular expression.
     /// </summary>
@@ -80,8 +75,5 @@ public record BrewDescOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("EvalAll is no longer supported by the installed CLI and has no effect.")]
-    public bool? EvalAll { get; set; }
 
 }

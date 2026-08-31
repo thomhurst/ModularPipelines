@@ -53,10 +53,4 @@ public record BrewOptionsOptions : BrewOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("EvalAll is no longer supported by the installed CLI and has no effect.")]
-    public bool? EvalAll { get; set; }
-
-    [Obsolete("Command is no longer supported by the installed CLI and has no effect.")]
-    public bool? Command { get; set; }
-
 }

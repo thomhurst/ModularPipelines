@@ -22,11 +22,6 @@ public record BrewSearchOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Text
 ) : BrewOptions
 {
-    public BrewSearchOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Search for formulae.
     /// </summary>

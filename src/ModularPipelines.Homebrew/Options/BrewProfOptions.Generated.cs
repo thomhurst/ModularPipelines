@@ -22,11 +22,6 @@ public record BrewProfOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Command
 ) : BrewOptions
 {
-    public BrewProfOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Use stackprof instead of ruby-prof (the default).
     /// </summary>

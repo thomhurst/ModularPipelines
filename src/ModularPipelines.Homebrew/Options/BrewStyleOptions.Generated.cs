@@ -60,13 +60,13 @@ public record BrewStyleOptions : BrewOptions
     /// Specify a comma-separated cops list to check for violations of only the listed RuboCop cops.
     /// </summary>
     [CliOption("--only-cops", Format = OptionFormat.EqualsSeparated)]
-    public string? OnlyCopsValue { get; set; }
+    public string? OnlyCops { get; set; }
 
     /// <summary>
     /// Specify a comma-separated cops list to skip checking for violations of the listed RuboCop cops.
     /// </summary>
     [CliOption("--except-cops", Format = OptionFormat.EqualsSeparated)]
-    public string? ExceptCopsValue { get; set; }
+    public string? ExceptCops { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -97,19 +97,5 @@ public record BrewStyleOptions : BrewOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? File { get; set; }
-
-    [Obsolete("Use OnlyCopsValue instead.")]
-    public bool? OnlyCops
-    {
-        get => bool.TryParse(OnlyCopsValue, out var value) ? value : null;
-        set => OnlyCopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ExceptCopsValue instead.")]
-    public bool? ExceptCops
-    {
-        get => bool.TryParse(ExceptCopsValue, out var value) ? value : null;
-        set => ExceptCopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }
