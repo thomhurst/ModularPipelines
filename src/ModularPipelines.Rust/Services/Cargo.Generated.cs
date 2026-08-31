@@ -34,11 +34,11 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AddAsync(
-        CargoAddOptions options,
+        CargoAddOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new CargoAddOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
