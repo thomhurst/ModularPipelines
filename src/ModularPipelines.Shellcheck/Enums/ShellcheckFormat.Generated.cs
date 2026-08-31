@@ -17,23 +17,23 @@ namespace ModularPipelines.Shellcheck.Enums;
 public enum ShellcheckFormat
 {
     [EnumValue("checkstyle")]
-    Checkstyle = 0,
+    Checkstyle,
 
     [EnumValue("diff")]
-    Diff = 1,
+    Diff,
 
     [EnumValue("gcc")]
-    Gcc = 2,
+    Gcc,
 
     [EnumValue("json")]
-    Json = 3,
+    Json,
 
     [EnumValue("json1")]
-    Json1 = 4,
+    Json1,
 
     [EnumValue("quiet")]
-    Quiet = 5,
+    Quiet,
 
     [EnumValue("tty")]
-    Tty = 6
+    Tty
 }

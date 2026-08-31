@@ -17,14 +17,14 @@ namespace ModularPipelines.Shellcheck.Enums;
 public enum ShellcheckSeverity
 {
     [EnumValue("error")]
-    Error = 0,
+    Error,
 
     [EnumValue("warning")]
-    Warning = 1,
+    Warning,
 
     [EnumValue("info")]
-    Info = 2,
+    Info,
 
     [EnumValue("style")]
-    Style = 3
+    Style
 }
