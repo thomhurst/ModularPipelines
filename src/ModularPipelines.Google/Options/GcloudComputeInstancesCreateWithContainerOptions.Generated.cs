@@ -26,843 +26,562 @@ public record GcloudComputeInstancesCreateWithContainerOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Attaches accelerators (e.g. GPUs) to the instances. type The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator to attach to the instances. Use 'gcloud compute accelerator-types list' to learn about all available accelerator types. count Number of accelerators to attach to each instance. The default value is 1.
+    /// Attaches accelerators (e.g. GPUs) to the instances. type The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator to attach to the instances. Use 'gcloud compute accelerator-types list' to learn about all available accelerator types. count Number of accelerators to attach to each instance. The default value is 1.
     /// </summary>
     [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AcceleratorValues { get; set; }
+    public string? AcceleratorValue { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Automatically delete boot disks when their instances are deleted. Enabled by default, use --no-boot-disk-auto-delete to disable.
+    /// Automatically delete boot disks when their instances are deleted. Enabled by default, use --no-boot-disk-auto-delete to disable.
     /// </summary>
     [CliFlag("--boot-disk-auto-delete")]
     public bool? BootDiskAutoDelete { get; set; }
 
     /// <summary>
-    /// Negates --boot-disk-auto-delete. --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Automatically delete boot disks when their instances are deleted. Enabled by default, use --no-boot-disk-auto-delete to disable.
+    /// Negates --boot-disk-auto-delete. Automatically delete boot disks when their instances are deleted. Enabled by default, use --no-boot-disk-auto-delete to disable.
     /// </summary>
     [CliFlag("--no-boot-disk-auto-delete")]
     public bool? NoBootDiskAutoDelete { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The name the guest operating system will see for the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk).
+    /// The name the guest operating system will see for the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk).
     /// </summary>
     [CliOption("--boot-disk-device-name", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? BootDiskDeviceNameValues { get; set; }
+    public string? BootDiskDeviceName { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Indicates the interface to use for the boot disk. The value must be one of the following: * SCSI * NVME
+    /// Indicates the interface to use for the boot disk. The value must be one of the following: * SCSI * NVME
     /// </summary>
     [CliOption("--boot-disk-interface", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? BootDiskInterfaceValues { get; set; }
+    public string? BootDiskInterface { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+    /// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
     /// </summary>
     [CliOption("--boot-disk-provisioned-iops", Format = OptionFormat.EqualsSeparated)]
     public int? BootDiskProvisionedIops { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+    /// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
     /// </summary>
     [CliOption("--boot-disk-provisioned-throughput", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? BootDiskProvisionedThroughputValues { get; set; }
+    public string? BootDiskProvisionedThroughput { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The size of the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk). The value must be a whole number followed by a size unit of KB for kilobyte, MB for megabyte, GB for gigabyte, or TB for terabyte. For example, 10GB will produce a 10 gigabyte disk. Disk size must be a multiple of 1 GB. Default size unit is GB.
+    /// The size of the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk). The value must be a whole number followed by a size unit of KB for kilobyte, MB for megabyte, GB for gigabyte, or TB for terabyte. For example, 10GB will produce a 10 gigabyte disk. Disk size must be a multiple of 1 GB. Default size unit is GB.
     /// </summary>
     [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? BootDiskSize { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The type of the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk). To get a list of available disk types, run $ gcloud compute disk-types list.
+    /// The type of the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk). To get a list of available disk types, run $ gcloud compute disk-types list.
     /// </summary>
     [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? BootDiskTypeValues { get; set; }
+    public string? BootDiskType { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. If provided, allows the instances to send and receive packets with non-matching destination or source IP addresses.
+    /// If provided, allows the instances to send and receive packets with non-matching destination or source IP addresses.
     /// </summary>
     [CliFlag("--can-ip-forward")]
     public bool? CanIpForward { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Argument to append to container entrypoint or to override container CMD. Each argument must have a separate flag. Arguments are appended in the order of flags. Example: Assuming the default entry point of the container (or an entry point overridden with --container-command flag) is a Bourne shell-compatible executable, in order to execute 'ls -l' command in the container, the user could use: --container-arg="-c" --container-arg="ls -l" Caveat: due to the nature of the argument parsing, it's impossible to provide the flag value that starts with a dash (-) without the = sign (that is, --container-arg "-c" will not work correctly). Default: None. (no arguments appended)
+    /// Argument to append to container entrypoint or to override container CMD. Each argument must have a separate flag. Arguments are appended in the order of flags. Example: Assuming the default entry point of the container (or an entry point overridden with --container-command flag) is a Bourne shell-compatible executable, in order to execute 'ls -l' command in the container, the user could use: --container-arg="-c" --container-arg="ls -l" Caveat: due to the nature of the argument parsing, it's impossible to provide the flag value that starts with a dash (-) without the = sign (that is, --container-arg "-c" will not work correctly). Default: None. (no arguments appended)
     /// </summary>
     [CliOption("--container-arg", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ContainerArgValues { get; set; }
+    public string? ContainerArg { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies what executable to run when the container starts (overrides default entrypoint), eg. nc. Default: None (default container entrypoint is used)
+    /// Specifies what executable to run when the container starts (overrides default entrypoint), eg. nc. Default: None (default container entrypoint is used)
     /// </summary>
     [CliOption("--container-command", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ContainerCommandValues { get; set; }
+    public string? ContainerCommand { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Declare environment variables in a file. Values, declared with --container-env flag override those with the same KEY from file. File with environment variables in format used by docker (almost). This means: * Lines are in format KEY=VALUE. * Values must contain equality signs. * Variables without values are not supported (this is different from docker format). * If # is first non-whitespace character in a line the line is ignored as a comment. * Lines with nothing but whitespace are ignored.
+    /// Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file.
+    /// </summary>
+    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ContainerEnv { get; set; }
+
+    /// <summary>
+    /// Declare environment variables in a file. Values, declared with --container-env flag override those with the same KEY from file. File with environment variables in format used by docker (almost). This means: * Lines are in format KEY=VALUE. * Values must contain equality signs. * Variables without values are not supported (this is different from docker format). * If # is first non-whitespace character in a line the line is ignored as a comment. * Lines with nothing but whitespace are ignored.
     /// </summary>
     [CliOption("--container-env-file", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ContainerEnvFileValues { get; set; }
+    public string? ContainerEnvFile { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Full container image name, which should be pulled onto VM instance, eg. docker.io/tomcat.
+    /// Full container image name, which should be pulled onto VM instance, eg. docker.io/tomcat.
     /// </summary>
     [CliOption("--container-image", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ContainerImageValues { get; set; }
+    public string? ContainerImage { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Mounts a disk to the specified mount path in the container. Multiple ' flags are allowed. Must be used with --disk or --create-disk. name Name of the disk. If exactly one additional disk is attached to the instance using --disk or --create-disk, specifying disk name here is optional. The name of the single additional disk will be used by default. mount-path Path on container to mount to. Mount paths with spaces and commas (and other special characters) are not supported by this command. partition Optional. The partition of the disk to mount. Multiple partitions of a disk can be mounted. Can't be used with --create-disk. mode Volume mount mode: rw (read/write) or ro (read-only). Defaults to rw. Fails if the disk mode is ro and volume mount mode is rw.
+    /// Mounts a disk to the specified mount path in the container. Multiple ' flags are allowed. Must be used with --disk or --create-disk. name Name of the disk. If exactly one additional disk is attached to the instance using --disk or --create-disk, specifying disk name here is optional. The name of the single additional disk will be used by default. mount-path Path on container to mount to. Mount paths with spaces and commas (and other special characters) are not supported by this command. partition Optional. The partition of the disk to mount. Multiple partitions of a disk can be mounted. Can't be used with --create-disk. mode Volume mount mode: rw (read/write) or ro (read-only). Defaults to rw. Fails if the disk mode is ro and volume mount mode is rw.
     /// </summary>
     [CliOption("--container-mount-disk", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ContainerMountDiskValues { get; set; }
+    public string? ContainerMountDisk { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Mounts a volume by using host-path. host-path Path on host to mount from. mount-path Path on container to mount to. Mount paths with spaces and commas (and other special characters) are not supported by this command. mode Volume mount mode: rw (read/write) or ro (read-only). Default: rw.
+    /// Mounts a volume by using host-path. host-path Path on host to mount from. mount-path Path on container to mount to. Mount paths with spaces and commas (and other special characters) are not supported by this command. mode Volume mount mode: rw (read/write) or ro (read-only). Default: rw.
     /// </summary>
     [CliOption("--container-mount-host-path", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerMountHostPath { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Mounts empty tmpfs into container at MOUNTPATH. mount-path Path on container to mount to. Mount paths with spaces and commas (and other special characters) are not supported by this command.
+    /// Mounts empty tmpfs into container at MOUNTPATH. mount-path Path on container to mount to. Mount paths with spaces and commas (and other special characters) are not supported by this command.
     /// </summary>
     [CliOption("--container-mount-tmpfs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerMountTmpfs { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specify whether to run container in privileged mode. Default: --no-container-privileged.
+    /// Specify whether to run container in privileged mode. Default: --no-container-privileged.
     /// </summary>
     [CliFlag("--container-privileged")]
     public bool? ContainerPrivileged { get; set; }
 
     /// <summary>
-    /// Negates --container-privileged. --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specify whether to run container in privileged mode. Default: --no-container-privileged.
+    /// Negates --container-privileged. Specify whether to run container in privileged mode. Default: --no-container-privileged.
     /// </summary>
     [CliFlag("--no-container-privileged")]
     public bool? NoContainerPrivileged { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specify whether to restart a container on exit. POLICY must be one of: never, on-failure, always.
+    /// Specify whether to restart a container on exit. POLICY must be one of: never, on-failure, always.
     /// </summary>
     [CliOption("--container-restart-policy", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerRestartPolicy { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Keep container STDIN open even if not attached. Default: --no-container-stdin.
+    /// Keep container STDIN open even if not attached. Default: --no-container-stdin.
     /// </summary>
     [CliFlag("--container-stdin")]
     public bool? ContainerStdin { get; set; }
 
     /// <summary>
-    /// Negates --container-stdin. --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Keep container STDIN open even if not attached. Default: --no-container-stdin.
+    /// Negates --container-stdin. Keep container STDIN open even if not attached. Default: --no-container-stdin.
     /// </summary>
     [CliFlag("--no-container-stdin")]
     public bool? NoContainerStdin { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Allocate a pseudo-TTY for the container. Default: --no-container-tty.
+    /// Allocate a pseudo-TTY for the container. Default: --no-container-tty.
     /// </summary>
     [CliFlag("--container-tty")]
     public bool? ContainerTty { get; set; }
 
     /// <summary>
-    /// Negates --container-tty. --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Allocate a pseudo-TTY for the container. Default: --no-container-tty.
+    /// Negates --container-tty. Allocate a pseudo-TTY for the container. Default: --no-container-tty.
     /// </summary>
     [CliFlag("--no-container-tty")]
     public bool? NoContainerTty { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Creates and attaches persistent disks to the instances. name Specifies the name of the disk. This option cannot be specified if more than one instance is being created. Must specify this option if attaching the disk to a container with --container-mount-disk. description Optional textual description for the disk being created. mode Specifies the mode of the disk. Supported options are ro for read-only and rw for read-write. If omitted, rw is used as a default. It is an error to create a disk in ro mode if attaching it to a container with --container-mount-disk. image Specifies the name of the image that the disk will be initialized with. A new disk will be created based on the given image. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use image when a specific version of an image is needed. If both image and image-family flags are omitted a blank disk will be created. image-family The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. image-project The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available image projects can be generated by running gcloud compute images list. + If specifying one of our public images, image-project must be provided. + If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. + If not specified and either image or image-family is provided, the current default project is used. size The size of the disk. The value must be a whole number followed by a size unit of KB for kilobyte, MB for megabyte, GB for gigabyte, or TB for terabyte. For example, 10GB will produce a 10 gigabyte disk. Disk size must be a multiple of 1 GB. If not specified, the default image size will be used for the new disk. type The type of the disk. To get a list of available disk types, run $ gcloud compute disk-types list. The default disk type is pd-standard. device-name An optional name to display the disk name in the guest operating system. Must be the same as name if used with --container-mount-disk. If omitted, a device name of the form persistent-disk-N is used. If omitted and used with --container-mount-disk (where the name of the container mount disk is the same as in this flag), a device name equal to disk name is used. provisioned-iops Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Value must be between 10,000 and 120,000. provisioned-throughput Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. disk-resource-policy Resource policy to apply to the disk. Specify a full or partial URL. For example: + https://www.googleapis.com/compute/v1/projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy + projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy For more information, see the following docs: + https://cloud.google.com/sdk/gcloud/reference/beta/compute/resource-policies/ + https://cloud.google.com/compute/docs/disks/scheduled-snapshots auto-delete If yes, this persistent disk will be automatically deleted when the instance is deleted. However, if the disk is later detached from the instance, this option won't apply. The default value for this is yes. architecture Specifies the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. storage-pool The name of the storage pool in which the new disk is created. The new disk and the storage pool must be in the same location. interface The interface to use with the disk. The value must be one of the following: + SCSI + NVME replica-zones Required for each regional disk associated with the instance. Specify the URLs of the zones where the disk should be replicated to. You must provide exactly two replica zones, and one zone must be the same as the instance zone.
+    /// Creates and attaches persistent disks to the instances. name Specifies the name of the disk. This option cannot be specified if more than one instance is being created. Must specify this option if attaching the disk to a container with --container-mount-disk. description Optional textual description for the disk being created. mode Specifies the mode of the disk. Supported options are ro for read-only and rw for read-write. If omitted, rw is used as a default. It is an error to create a disk in ro mode if attaching it to a container with --container-mount-disk. image Specifies the name of the image that the disk will be initialized with. A new disk will be created based on the given image. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use image when a specific version of an image is needed. If both image and image-family flags are omitted a blank disk will be created. image-family The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. image-project The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available image projects can be generated by running gcloud compute images list. + If specifying one of our public images, image-project must be provided. + If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. + If not specified and either image or image-family is provided, the current default project is used. size The size of the disk. The value must be a whole number followed by a size unit of KB for kilobyte, MB for megabyte, GB for gigabyte, or TB for terabyte. For example, 10GB will produce a 10 gigabyte disk. Disk size must be a multiple of 1 GB. If not specified, the default image size will be used for the new disk. type The type of the disk. To get a list of available disk types, run $ gcloud compute disk-types list. The default disk type is pd-standard. device-name An optional name to display the disk name in the guest operating system. Must be the same as name if used with --container-mount-disk. If omitted, a device name of the form persistent-disk-N is used. If omitted and used with --container-mount-disk (where the name of the container mount disk is the same as in this flag), a device name equal to disk name is used. provisioned-iops Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Value must be between 10,000 and 120,000. provisioned-throughput Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. disk-resource-policy Resource policy to apply to the disk. Specify a full or partial URL. For example: + https://www.googleapis.com/compute/v1/projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy + projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy For more information, see the following docs: + https://cloud.google.com/sdk/gcloud/reference/beta/compute/resource-policies/ + https://cloud.google.com/compute/docs/disks/scheduled-snapshots auto-delete If yes, this persistent disk will be automatically deleted when the instance is deleted. However, if the disk is later detached from the instance, this option won't apply. The default value for this is yes. architecture Specifies the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. storage-pool The name of the storage pool in which the new disk is created. The new disk and the storage pool must be in the same location. interface The interface to use with the disk. The value must be one of the following: + SCSI + NVME replica-zones Required for each regional disk associated with the instance. Specify the URLs of the zones where the disk should be replicated to. You must provide exactly two replica zones, and one zone must be the same as the instance zone.
     /// </summary>
     [CliOption("--create-disk", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? CreateDisk { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies a textual description of the instances.
+    /// Specifies a textual description of the instances.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DescriptionValues { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Required to be set to true and only allowed for VMs that have one or more local SSDs, use --instance-termination-action=STOP, and use either --max-run-duration or --termination-time. This flag indicates the value that you want Compute Engine to use for the --discard-local-ssd flag in the automatic gcloud compute instances stop command. This flag only supports the true value, which discards local SSD data when automatically stopping this VM during its terminationTimestamp. For more information about the --discard-local-ssd flag, see https://cloud.google.com/compute/docs/disks/local-ssd#stop_instance.
+    /// Required to be set to true and only allowed for VMs that have one or more local SSDs, use --instance-termination-action=STOP, and use either --max-run-duration or --termination-time. This flag indicates the value that you want Compute Engine to use for the --discard-local-ssd flag in the automatic gcloud compute instances stop command. This flag only supports the true value, which discards local SSD data when automatically stopping this VM during its terminationTimestamp. For more information about the --discard-local-ssd flag, see https://cloud.google.com/compute/docs/disks/local-ssd#stop_instance.
     /// </summary>
     [CliOption("--discard-local-ssds-at-termination-timestamp", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DiscardLocalSsdsAtTerminationTimestampValues { get; set; }
+    public string? DiscardLocalSsdsAtTerminationTimestamp { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Attaches an existing disk to the instances. name The disk to attach to the instances. If you create more than one instance, you can only attach a disk in read-only mode. By default, you attach a zonal disk located in the same zone of the instance. If you want to attach a regional disk, you must specify the disk using its URI; for example, projects/myproject/regions/us-central1/disks/my-regional-disk. mode The mode of the disk. Supported options are ro for read-only mode and rw for read-write mode. If omitted, rw is used as a default value. If you use rw when creating more than one instance, you encounter errors. boot If set to yes, you attach a boot disk. The virtual machine then uses the first partition of the disk for the root file systems. The default value for this is no. device-name An optional name to display the disk name in the guest operating system. Must be the same as name if used with --container-mount-disk. If omitted, a device name of the form persistent-disk-N is used. If omitted and used with --container-mount-disk (where the name of the container mount disk is the same as in this flag), a device name equal to disk name is used. auto-delete If set to yes, the persistent disk is automatically deleted when the instance is deleted. However, if you detach the disk from the instance, deleting the instance doesn't delete the disk. The default value is yes. interface The interface to use for the disk. The value must be one of the following: + SCSI + NVME scope Can be zonal or regional. If zonal, the disk is interpreted as a zonal disk in the same zone as the instance (default). If regional, the disk is interpreted as a regional disk in the same region as the instance. The default value for this is zonal. force-attach If yes, this persistent disk will force-attached to the instance even it is already attached to another instance. The default value is 'no'.
+    /// Attaches an existing disk to the instances. name The disk to attach to the instances. If you create more than one instance, you can only attach a disk in read-only mode. By default, you attach a zonal disk located in the same zone of the instance. If you want to attach a regional disk, you must specify the disk using its URI; for example, projects/myproject/regions/us-central1/disks/my-regional-disk. mode The mode of the disk. Supported options are ro for read-only mode and rw for read-write mode. If omitted, rw is used as a default value. If you use rw when creating more than one instance, you encounter errors. boot If set to yes, you attach a boot disk. The virtual machine then uses the first partition of the disk for the root file systems. The default value for this is no. device-name An optional name to display the disk name in the guest operating system. Must be the same as name if used with --container-mount-disk. If omitted, a device name of the form persistent-disk-N is used. If omitted and used with --container-mount-disk (where the name of the container mount disk is the same as in this flag), a device name equal to disk name is used. auto-delete If set to yes, the persistent disk is automatically deleted when the instance is deleted. However, if you detach the disk from the instance, deleting the instance doesn't delete the disk. The default value is yes. interface The interface to use for the disk. The value must be one of the following: + SCSI + NVME scope Can be zonal or regional. If zonal, the disk is interpreted as a zonal disk in the same zone as the instance (default). If regional, the disk is interpreted as a regional disk in the same region as the instance. The default value for this is zonal. force-attach If yes, this persistent disk will force-attached to the instance even it is already attached to another instance. The default value is 'no'.
     /// </summary>
     [CliOption("--disk", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DiskValues { get; set; }
+    public string? Disk { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. If set to true, enables nested virtualization for the instance. Use --enable-nested-virtualization to enable and --no-enable-nested-virtualization to disable.
+    /// If set to true, enables nested virtualization for the instance. Use --enable-nested-virtualization to enable and --no-enable-nested-virtualization to disable.
     /// </summary>
     [CliFlag("--enable-nested-virtualization")]
     public bool? EnableNestedVirtualization { get; set; }
 
     /// <summary>
-    /// Negates --enable-nested-virtualization. --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. If set to true, enables nested virtualization for the instance. Use --enable-nested-virtualization to enable and --no-enable-nested-virtualization to disable.
+    /// Negates --enable-nested-virtualization. If set to true, enables nested virtualization for the instance. Use --enable-nested-virtualization to enable and --no-enable-nested-virtualization to disable.
     /// </summary>
     [CliFlag("--no-enable-nested-virtualization")]
     public bool? NoEnableNestedVirtualization { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Assigns the given external IPv6 address to the instance that is created. The address must be the first IP address in the range. This option can be used only when creating a single instance.
+    /// Assigns the given external IPv6 address to the instance that is created. The address must be the first IP address in the range. This option can be used only when creating a single instance.
     /// </summary>
     [CliOption("--external-ipv6-address", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExternalIpv6AddressValues { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The prefix length of the external IPv6 address range. This field should be used together with --external-ipv6-address. Only the /96 IP address range is supported, and the default value is 96.
+    /// The prefix length of the external IPv6 address range. This field should be used together with --external-ipv6-address. Only the /96 IP address range is supported, and the default value is 96.
     /// </summary>
     [CliOption("--external-ipv6-prefix-length", Format = OptionFormat.EqualsSeparated)]
     public string? ExternalIpv6PrefixLength { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The timeout in seconds for host error detection. The value must be set with 30 second increments, with a range of 90 to 330 seconds. If unset, the default behavior of the host error recovery is used.
+    /// The timeout in seconds for host error detection. The value must be set with 30 second increments, with a range of 90 to 330 seconds. If unset, the default behavior of the host error recovery is used.
     /// </summary>
     [CliOption("--host-error-timeout-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? HostErrorTimeoutSeconds { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the termination action that will be taken upon VM preemption (--provisioning-model=SPOT) or automatic instance termination (--max-run-duration or --termination-time). INSTANCE_TERMINATION_ACTION must be one of: DELETE Permanently delete the VM. STOP Default only for Spot VMs. Stop the VM without preserving memory. The VM can be restarted later.
+    /// Specifies the termination action that will be taken upon VM preemption (--provisioning-model=SPOT) or automatic instance termination (--max-run-duration or --termination-time). INSTANCE_TERMINATION_ACTION must be one of: DELETE Permanently delete the VM. STOP Default only for Spot VMs. Stop the VM without preserving memory. The VM can be restarted later.
     /// </summary>
     [CliOption("--instance-termination-action", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? InstanceTerminationActionValues { get; set; }
+    public string? InstanceTerminationAction { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Assigns the given internal IPv6 address or range to the instance that is created. The address must be the first IP address in the range or from a /96 IP address range. This option can be used only when creating a single instance.
+    /// Assigns the given internal IPv6 address or range to the instance that is created. The address must be the first IP address in the range or from a /96 IP address range. This option can be used only when creating a single instance.
     /// </summary>
     [CliOption("--internal-ipv6-address", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? InternalIpv6AddressValues { get; set; }
+    public string? InternalIpv6Address { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Optional field that indicates the prefix length of the internal IPv6 address range. It should be used together with --internal-ipv6-address. Only /96 IP address range is supported and the default value is 96. If not set, either the prefix length from --internal-ipv6-address will be used or the default value of 96 will be assigned.
+    /// Optional field that indicates the prefix length of the internal IPv6 address range. It should be used together with --internal-ipv6-address. Only /96 IP address range is supported and the default value is 96. If not set, either the prefix length from --internal-ipv6-address will be used or the default value of 96 will be assigned.
     /// </summary>
     [CliOption("--internal-ipv6-prefix-length", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? InternalIpv6PrefixLengthValues { get; set; }
+    public string? InternalIpv6PrefixLength { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the IPv6 network tier that will be used to configure the instance network interface IPv6 access config. IPV6_NETWORK_TIER must be (only one value is supported): PREMIUM High quality, Google-grade network tier.
+    /// Specifies the IPv6 network tier that will be used to configure the instance network interface IPv6 access config. IPV6_NETWORK_TIER must be (only one value is supported): PREMIUM High quality, Google-grade network tier.
     /// </summary>
     [CliOption("--ipv6-network-tier", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Ipv6NetworkTierValues { get; set; }
+    public string? Ipv6NetworkTier { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour.
+    /// Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour.
     /// </summary>
     [CliOption("--local-ssd-recovery-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? LocalSsdRecoveryTimeout { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the machine type used for the instances. To get a list of available machine types, run 'gcloud compute machine-types list'. If unspecified, the default type is n1-standard-1.
+    /// Specifies the machine type used for the instances. To get a list of available machine types, run 'gcloud compute machine-types list'. If unspecified, the default type is n1-standard-1.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MachineTypeValues { get; set; }
+    public string? MachineType { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the behavior of the VMs when their host machines undergo maintenance. The default is MIGRATE. For more information, see https://cloud.google.com/compute/docs/instances/host-maintenance-options. MAINTENANCE_POLICY must be one of: MIGRATE The instances should be migrated to a new host. This will temporarily impact the performance of instances during a migration event. TERMINATE The instances should be terminated.
+    /// Specifies the behavior of the VMs when their host machines undergo maintenance. The default is MIGRATE. For more information, see https://cloud.google.com/compute/docs/instances/host-maintenance-options. MAINTENANCE_POLICY must be one of: MIGRATE The instances should be migrated to a new host. This will temporarily impact the performance of instances during a migration event. TERMINATE The instances should be terminated.
     /// </summary>
     [CliOption("--maintenance-policy", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaintenancePolicyValues { get; set; }
+    public string? MaintenancePolicy { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Limits how long this VM instance can run, specified as a duration relative to the last time when the VM began running. Format the duration, MAX_RUN_DURATION, as the number of days, hours, minutes, and seconds followed by d, h, m, and s respectively. For example, specify 30m for a duration of 30 minutes or specify 1d2h3m4s for a duration of 1 day, 2 hours, 3 minutes, and 4 seconds. Alternatively, to specify a timestamp, use --termination-time instead. If neither --max-run-duration nor --termination-time is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --max-run-duration specifically, the terminationTimestamp is the sum of MAX_RUN_DURATION and the time when the VM last entered the RUNNING state, which changes whenever the VM is rerun.
+    /// Limits how long this VM instance can run, specified as a duration relative to the last time when the VM began running. Format the duration, MAX_RUN_DURATION, as the number of days, hours, minutes, and seconds followed by d, h, m, and s respectively. For example, specify 30m for a duration of 30 minutes or specify 1d2h3m4s for a duration of 1 day, 2 hours, 3 minutes, and 4 seconds. Alternatively, to specify a timestamp, use --termination-time instead. If neither --max-run-duration nor --termination-time is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --max-run-duration specifically, the terminationTimestamp is the sum of MAX_RUN_DURATION and the time when the VM last entered the RUNNING state, which changes whenever the VM is rerun.
     /// </summary>
     [CliOption("--max-run-duration", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaxRunDurationValues { get; set; }
+    public string? MaxRunDuration { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Metadata to be made available to the guest operating system running on the instances. Each metadata entry is a key/value pair separated by an equals sign. Each metadata key must be unique and have a max of 128 bytes in length. Each value must have a max of 256 KB in length. Multiple arguments can be passed to this flag, e.g., --metadata key-1=value-1,key-2=value-2,key-3=value-3. The combined total size for all metadata entries is 512 KB. In images that have Compute Engine tools installed on them, such as the official images (https://cloud.google.com/compute/docs/images), the following metadata keys have special meanings: startup-script Specifies a script that will be executed by the instances once they start running. For convenience, --metadata-from-file can be used to pull the value from a file. startup-script-url Same as startup-script except that the script contents are pulled from a publicly-accessible location on the web. For startup scripts on Windows instances, the following metadata keys have special meanings: windows-startup-script-url, windows-startup-script-cmd, windows-startup-script-bat, windows-startup-script-ps1, sysprep-specialize-script-url, sysprep-specialize-script-cmd, sysprep-specialize-script-bat, and sysprep-specialize-script-ps1. For more information, see Running startup scripts (https://cloud.google.com/compute/docs/startupscript).
+    /// Metadata to be made available to the guest operating system running on the instances. Each metadata entry is a key/value pair separated by an equals sign. Each metadata key must be unique and have a max of 128 bytes in length. Each value must have a max of 256 KB in length. Multiple arguments can be passed to this flag, e.g., --metadata key-1=value-1,key-2=value-2,key-3=value-3. The combined total size for all metadata entries is 512 KB. In images that have Compute Engine tools installed on them, such as the official images (https://cloud.google.com/compute/docs/images), the following metadata keys have special meanings: startup-script Specifies a script that will be executed by the instances once they start running. For convenience, --metadata-from-file can be used to pull the value from a file. startup-script-url Same as startup-script except that the script contents are pulled from a publicly-accessible location on the web. For startup scripts on Windows instances, the following metadata keys have special meanings: windows-startup-script-url, windows-startup-script-cmd, windows-startup-script-bat, windows-startup-script-ps1, sysprep-specialize-script-url, sysprep-specialize-script-cmd, sysprep-specialize-script-bat, and sysprep-specialize-script-ps1. For more information, see Running startup scripts (https://cloud.google.com/compute/docs/startupscript).
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents.
+    /// Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents.
     /// </summary>
     [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MetadataFromFile { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. When specified, the VM will be scheduled on host with specified CPU architecture or a newer one. To list available CPU platforms in given zone, run: $ gcloud compute zones describe ZONE \ --format="value(availableCpuPlatforms)" Default setting is "AUTOMATIC". CPU platform selection is available only in selected zones. You can find more information on-line: https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform
+    /// When specified, the VM will be scheduled on host with specified CPU architecture or a newer one. To list available CPU platforms in given zone, run: $ gcloud compute zones describe ZONE \ --format="value(availableCpuPlatforms)" Default setting is "AUTOMATIC". CPU platform selection is available only in selected zones. You can find more information on-line: https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform
     /// </summary>
     [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MinCpuPlatformValues { get; set; }
+    public string? MinCpuPlatform { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the network that the VM instances are a part of. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. If neither is specified, the default network is used.
+    /// Specifies the network that the VM instances are a part of. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. If neither is specified, the default network is used.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? NetworkValues { get; set; }
+    public string? Network { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Adds a network interface to the instance. Mutually exclusive with any of these flags: --address, --network, --network-tier, --subnet, --private-network-ip, --stack-type, --ipv6-network-tier, --internal-ipv6-address, --internal-ipv6-prefix-length, --ipv6-address, --ipv6-prefix-length, --external-ipv6-address, --external-ipv6-prefix-length. This flag can be repeated to specify multiple network interfaces. The following keys are allowed: address Assigns the given external address to the instance that is created. Specifying an empty string will assign an ephemeral IP. Mutually exclusive with no-address. If neither key is present the instance will get an ephemeral IP. network Specifies the network that the interface will be part of. If subnet is also specified it must be subnetwork of this network. If neither is specified, this defaults to the "default" network. no-address If specified the interface will have no external IP. Mutually exclusive with address. If neither key is present the instance will get an ephemeral IP. network-tier Specifies the network tier of the interface. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM. private-network-ip Assigns the given RFC1918 IP address to the interface. subnet Specifies the subnet that the interface will be part of. If network key is also specified this must be a subnetwork of the specified network. nic-type Specifies the Network Interface Controller (NIC) type for the interface. NIC_TYPE must be one of: GVNIC, VIRTIO_NET. stack-type Specifies whether IPv6 is enabled on the interface. STACK_TYPE must be one of: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY. The default value is IPV4_ONLY. ipv6-network-tier Specifies the IPv6 network tier that will be used to configure the instance network interface IPv6 access config. IPV6_NETWORK_TIER must be PREMIUM (currently only one value is supported). internal-ipv6-address Assigns the given internal IPv6 address or range to the instance that is created. The address must be the first IP address in the range or from a /96 IP address range. This option can be used only when creating a single instance. internal-ipv6-prefix-length Optional field that indicates the prefix length of the internal IPv6 address range. It should be used together with internal-ipv6-address. Only /96 IP address range is supported and the default value is 96. If not set, either the prefix length from --internal-ipv6-address will be used or the default value of 96 will be assigned. external-ipv6-address Assigns the given external IPv6 address to the instance that is created. The address must be the first IP address in the range. This option can be used only when creating a single instance. external-ipv6-prefix-length The prefix length of the external IPv6 address range. This field should be used together with external-ipv6-address. Only the /96 IP address range is supported, and the default value is 96. aliases Specifies the IP alias ranges to allocate for this interface. If there are multiple IP alias ranges, they are separated by semicolons. For example: --aliases="10.128.1.0/24;range1:/32" Each IP alias range consists of a range name and an IP range separated by a colon, or just the IP range. The range name is the name of the range within the network interface's subnet from which to allocate an IP alias range. If unspecified, it defaults to the primary IP range of the subnet. The IP range can be a CIDR range (e.g. 192.168.100.0/24), a single IP address (e.g. 192.168.100.1), or a netmask in CIDR format (e.g. /24). If the IP range is specified by CIDR range or single IP address, it must belong to the CIDR range specified by the range name on the subnet. If the IP range is specified by netmask, the IP allocator will pick an available range with the specified netmask and allocate it to this network interface. network-attachment Specifies the network attachment that this interface should connect to. Mutually exclusive with --network and --subnet flags. vlan VLAN ID of a Dynamic Network Interface, must be an integer in the range from 2 to 255 inclusively.
+    /// Adds a network interface to the instance. Mutually exclusive with any of these flags: --address, --network, --network-tier, --subnet, --private-network-ip, --stack-type, --ipv6-network-tier, --internal-ipv6-address, --internal-ipv6-prefix-length, --ipv6-address, --ipv6-prefix-length, --external-ipv6-address, --external-ipv6-prefix-length. This flag can be repeated to specify multiple network interfaces. The following keys are allowed: address Assigns the given external address to the instance that is created. Specifying an empty string will assign an ephemeral IP. Mutually exclusive with no-address. If neither key is present the instance will get an ephemeral IP. network Specifies the network that the interface will be part of. If subnet is also specified it must be subnetwork of this network. If neither is specified, this defaults to the "default" network. no-address If specified the interface will have no external IP. Mutually exclusive with address. If neither key is present the instance will get an ephemeral IP. network-tier Specifies the network tier of the interface. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM. private-network-ip Assigns the given RFC1918 IP address to the interface. subnet Specifies the subnet that the interface will be part of. If network key is also specified this must be a subnetwork of the specified network. nic-type Specifies the Network Interface Controller (NIC) type for the interface. NIC_TYPE must be one of: GVNIC, VIRTIO_NET. stack-type Specifies whether IPv6 is enabled on the interface. STACK_TYPE must be one of: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY. The default value is IPV4_ONLY. ipv6-network-tier Specifies the IPv6 network tier that will be used to configure the instance network interface IPv6 access config. IPV6_NETWORK_TIER must be PREMIUM (currently only one value is supported). internal-ipv6-address Assigns the given internal IPv6 address or range to the instance that is created. The address must be the first IP address in the range or from a /96 IP address range. This option can be used only when creating a single instance. internal-ipv6-prefix-length Optional field that indicates the prefix length of the internal IPv6 address range. It should be used together with internal-ipv6-address. Only /96 IP address range is supported and the default value is 96. If not set, either the prefix length from --internal-ipv6-address will be used or the default value of 96 will be assigned. external-ipv6-address Assigns the given external IPv6 address to the instance that is created. The address must be the first IP address in the range. This option can be used only when creating a single instance. external-ipv6-prefix-length The prefix length of the external IPv6 address range. This field should be used together with external-ipv6-address. Only the /96 IP address range is supported, and the default value is 96. aliases Specifies the IP alias ranges to allocate for this interface. If there are multiple IP alias ranges, they are separated by semicolons. For example: --aliases="10.128.1.0/24;range1:/32" Each IP alias range consists of a range name and an IP range separated by a colon, or just the IP range. The range name is the name of the range within the network interface's subnet from which to allocate an IP alias range. If unspecified, it defaults to the primary IP range of the subnet. The IP range can be a CIDR range (e.g. 192.168.100.0/24), a single IP address (e.g. 192.168.100.1), or a netmask in CIDR format (e.g. /24). If the IP range is specified by CIDR range or single IP address, it must belong to the CIDR range specified by the range name on the subnet. If the IP range is specified by netmask, the IP allocator will pick an available range with the specified netmask and allocate it to this network interface. network-attachment Specifies the network attachment that this interface should connect to. Mutually exclusive with --network and --subnet flags. vlan VLAN ID of a Dynamic Network Interface, must be an integer in the range from 2 to 255 inclusively.
     /// </summary>
     [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
     public GcloudNetworkInterface? NetworkInterface { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Configures network performance settings for the instance. If this flag is not specified, the instance will be created with its default network performance configuration. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [DEFAULT,TIER_1]
+    /// Configures network performance settings for the instance. If this flag is not specified, the instance will be created with its default network performance configuration. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [DEFAULT,TIER_1]
     /// </summary>
     [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? NetworkPerformanceConfigs { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the network tier that will be used to configure the instance. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM.
+    /// Specifies the network tier that will be used to configure the instance. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM.
     /// </summary>
     [CliOption("--network-tier", Format = OptionFormat.EqualsSeparated)]
     public GcloudNetworkTier? NetworkTier { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate.
+    /// If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate.
     /// </summary>
     [CliFlag("--preemptible")]
     public bool? Preemptible { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The private IPv6 Google access type for the VM. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: enable-bidirectional-access, enable-outbound-vm-access, inherit-subnetwork.
+    /// The private IPv6 Google access type for the VM. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: enable-bidirectional-access, enable-outbound-vm-access, inherit-subnetwork.
     /// </summary>
     [CliOption("--private-ipv6-google-access-type", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? PrivateIpv6GoogleAccessTypeValues { get; set; }
+    public string? PrivateIpv6GoogleAccessType { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the RFC1918 IP to assign to the instance. The IP should be in the subnet or legacy network IP range.
+    /// Specifies the RFC1918 IP to assign to the instance. The IP should be in the subnet or legacy network IP range.
     /// </summary>
     [CliOption("--private-network-ip", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? PrivateNetworkIpValues { get; set; }
+    public string? PrivateNetworkIp { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the provisioning model for your VM instances. This choice affects the price, availability, and how long your VM instances can run. PROVISIONING_MODEL must be one of: FLEX_START The VM instance is provisioned using the Flex Start provisioning model and has a limited runtime. RESERVATION_BOUND The VM instances run for the entire duration of their associated reservation. You can only specify this provisioning model if you want your VM instances to consume a specific reservation with either a calendar reservation mode or a dense deployment type. SPOT Compute Engine may stop a Spot VM instance whenever it needs capacity. Because Spot VM instances don't have a guaranteed runtime, they come at a discounted price. STANDARD The default option. The STANDARD provisioning model gives you full control over your VM instances' runtime.
+    /// Specifies the provisioning model for your VM instances. This choice affects the price, availability, and how long your VM instances can run. PROVISIONING_MODEL must be one of: FLEX_START The VM instance is provisioned using the Flex Start provisioning model and has a limited runtime. RESERVATION_BOUND The VM instances run for the entire duration of their associated reservation. You can only specify this provisioning model if you want your VM instances to consume a specific reservation with either a calendar reservation mode or a dense deployment type. SPOT Compute Engine may stop a Spot VM instance whenever it needs capacity. Because Spot VM instances don't have a guaranteed runtime, they come at a discounted price. STANDARD The default option. The STANDARD provisioning model gives you full control over your VM instances' runtime.
     /// </summary>
     [CliOption("--provisioning-model", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ProvisioningModelValues { get; set; }
+    public string? ProvisioningModel { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. When you create an instance by using the FLEX_START provisioning model, you can specify the duration to wait for available resources. If the instance creation request is still pending after this duration, then the request fails. You specify a duration by using numbers followed by h, m, and s for hours, minutes, and seconds, respectively. For example, specify 30m for a duration of 30 minutes, or 1h2m3s for 1 hour, 2 minutes, and 3 seconds. Longer durations give you higher chances that your instance creation request succeeds when resources are in high demand.
+    /// When you create an instance by using the FLEX_START provisioning model, you can specify the duration to wait for available resources. If the instance creation request is still pending after this duration, then the request fails. You specify a duration by using numbers followed by h, m, and s for hours, minutes, and seconds, respectively. For example, specify 30m for a duration of 30 minutes, or 1h2m3s for 1 hour, 2 minutes, and 3 seconds. Longer durations give you higher chances that your instance creation request succeeds when resources are in high demand.
     /// </summary>
     [CliOption("--request-valid-for-duration", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RequestValidForDurationValues { get; set; }
+    public string? RequestValidForDuration { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. A list of resource policy names to be added to the instance. The policies must exist in the same region as the instance.
+    /// A list of resource policy names to be added to the instance. The policies must exist in the same region as the instance.
     /// </summary>
     [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ResourcePolicies { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
+    /// The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
     /// </summary>
     [CliFlag("--restart-on-failure")]
     public bool? RestartOnFailure { get; set; }
 
     /// <summary>
-    /// Negates --restart-on-failure. --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
+    /// Negates --restart-on-failure. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
     /// </summary>
     [CliFlag("--no-restart-on-failure")]
     public bool? NoRestartOnFailure { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update-container --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring."
+    /// Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update-container --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring."
     /// </summary>
     [CliFlag("--shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm.
+    /// The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm.
     /// </summary>
     [CliFlag("--shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm.
+    /// The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm.
     /// </summary>
     [CliFlag("--shielded-vtpm")]
     public bool? ShieldedVtpm { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
+    /// If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
     /// </summary>
     [CliFlag("--skip-guest-os-shutdown")]
     public bool? SkipGuestOsShutdown { get; set; }
 
     /// <summary>
-    /// Negates --skip-guest-os-shutdown. --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
+    /// Negates --skip-guest-os-shutdown. If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
     /// </summary>
     [CliFlag("--no-skip-guest-os-shutdown")]
     public bool? NoSkipGuestOsShutdown { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The name of the instance template that the instance will be created from. An instance template can be a global/regional resource. Users can override instance properties using other flags.
+    /// The name of the instance template that the instance will be created from. An instance template can be a global/regional resource. Users can override instance properties using other flags.
     /// </summary>
     [CliOption("--source-instance-template", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SourceInstanceTemplateValues { get; set; }
+    public string? SourceInstanceTemplate { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies whether IPv6 is enabled on the default network interface. If not specified, IPV4_ONLY will be used. STACK_TYPE must be one of: IPV4_IPV6 The network interface can have both IPv4 and IPv6 addresses IPV4_ONLY The network interface will be assigned IPv4 addresses IPV6_ONLY The network interface will be assigned IPv6 addresses
+    /// Specifies whether IPv6 is enabled on the default network interface. If not specified, IPV4_ONLY will be used. STACK_TYPE must be one of: IPV4_IPV6 The network interface can have both IPv4 and IPv6 addresses IPV4_ONLY The network interface will be assigned IPv4 addresses IPV6_ONLY The network interface will be assigned IPv6 addresses
     /// </summary>
     [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? StackTypeValues { get; set; }
+    public string? StackType { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the subnet that the VM instances are a part of. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag.
+    /// Specifies the subnet that the VM instances are a part of. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SubnetValues { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1'
+    /// Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1'
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Limits how long this VM instance can run, specified as a time. Format the time, TERMINATION_TIME, as a RFC 3339 timestamp. For more information, see https://tools.ietf.org/html/rfc3339. Alternatively, to specify a duration, use --max-run-duration instead. If neither --termination-time nor --max-run-duration is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --termination-time specifically, the terminationTimestamp remains the same whenever the VM is rerun, but any requests to rerun the VM fail if the specified timestamp is in the past.
+    /// Limits how long this VM instance can run, specified as a time. Format the time, TERMINATION_TIME, as a RFC 3339 timestamp. For more information, see https://tools.ietf.org/html/rfc3339. Alternatively, to specify a duration, use --max-run-duration instead. If neither --termination-time nor --max-run-duration is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --termination-time specifically, the terminationTimestamp remains the same whenever the VM is rerun, but any requests to rerun the VM fail if the specified timestamp is in the past.
     /// </summary>
     [CliOption("--termination-time", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? TerminationTimeValues { get; set; }
+    public string? TerminationTime { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The number of visible threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. Valid values are: 1 or 2. For more information about configuring SMT, see: https://cloud.google.com/compute/docs/instances/configuring-simultaneous-multithreading.
+    /// The number of visible threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. Valid values are: 1 or 2. For more information about configuring SMT, see: https://cloud.google.com/compute/docs/instances/configuring-simultaneous-multithreading.
     /// </summary>
     [CliOption("--threads-per-core", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ThreadsPerCoreValues { get; set; }
+    public string? ThreadsPerCore { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The number of physical cores to expose to the instance's guest operating system. The number of virtual CPUs visible to the instance's guest operating system is this number of cores multiplied by the instance's count of visible threads per physical core.
+    /// The number of physical cores to expose to the instance's guest operating system. The number of virtual CPUs visible to the instance's guest operating system is this number of cores multiplied by the instance's count of visible threads per physical core.
     /// </summary>
     [CliOption("--visible-core-count", Format = OptionFormat.EqualsSeparated)]
     public int? VisibleCoreCount { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Zone of the instances to create. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// Zone of the instances to create. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ZoneValues { get; set; }
+    public string? Zone { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Assigns the given external address to the instance that is created. The address might be an IP address or the name or URI of an address resource. This option can only be used when creating a single instance.
+    /// At most one of these can be specified: Assigns the given external address to the instance that is created. The address might be an IP address or the name or URI of an address resource. This option can only be used when creating a single instance.
     /// </summary>
     [CliOption("--address", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddressValues { get; set; }
+    public string? Address { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: If provided, the instances are not assigned external IP addresses. To pull container images, you must configure private Google access if using Container Registry or configure Cloud NAT for instances to access container images directly. For more information, see: + https://cloud.google.com/vpc/docs/configure-private-google-access + https://cloud.google.com/nat/docs/using-nat
+    /// At most one of these can be specified: If provided, the instances are not assigned external IP addresses. To pull container images, you must configure private Google access if using Container Registry or configure Cloud NAT for instances to access container images directly. For more information, see: + https://cloud.google.com/vpc/docs/configure-private-google-access + https://cloud.google.com/nat/docs/using-nat
     /// </summary>
     [CliFlag("--no-address")]
     public bool? NoAddress { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: (DEPRECATED) The instance boots with Confidential Computing enabled. Confidential Computing is based on Secure Encrypted Virtualization (SEV), an AMD virtualization feature for running confidential instances. The --confidential-compute flag will soon be deprecated. Please use --confidential-compute-type=SEV instead
+    /// At most one of these can be specified: (DEPRECATED) The instance boots with Confidential Computing enabled. Confidential Computing is based on Secure Encrypted Virtualization (SEV), an AMD virtualization feature for running confidential instances. The --confidential-compute flag will soon be deprecated. Please use --confidential-compute-type=SEV instead
     /// </summary>
     [CliFlag("--confidential-compute")]
     public bool? ConfidentialCompute { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: The instance boots with Confidential Computing enabled. Confidential Computing can be based on Secure Encrypted Virtualization (SEV) or Secure Encrypted Virtualization - Secure Nested Paging (SEV-SNP), both of which are AMD virtualization features for running confidential instances. Trust Domain eXtension based on Intel virtualization features for running confidential instances is also supported. CONFIDENTIAL_COMPUTE_TYPE must be one of: SEV Secure Encrypted Virtualization SEV_SNP Secure Encrypted Virtualization - Secure Nested Paging TDX Trust Domain eXtension
+    /// At most one of these can be specified: The instance boots with Confidential Computing enabled. Confidential Computing can be based on Secure Encrypted Virtualization (SEV) or Secure Encrypted Virtualization - Secure Nested Paging (SEV-SNP), both of which are AMD virtualization features for running confidential instances. Trust Domain eXtension based on Intel virtualization features for running confidential instances is also supported. CONFIDENTIAL_COMPUTE_TYPE must be one of: SEV Secure Encrypted Virtualization SEV_SNP Secure Encrypted Virtualization - Secure Nested Paging TDX Trust Domain eXtension
     /// </summary>
     [CliOption("--confidential-compute-type", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ConfidentialComputeTypeValues { get; set; }
+    public string? ConfidentialComputeType { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Custom machine type extensions. A whole number value specifying the number of cores that are needed in the custom machine type. For some machine types, shared-core values can also be used. For example, for E2 machine types, you can specify micro, small, or medium. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Custom machine type extensions. A whole number value specifying the number of cores that are needed in the custom machine type. For some machine types, shared-core values can also be used. For example, for E2 machine types, you can specify micro, small, or medium. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-cpu", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CustomCpuValues { get; set; }
+    public string? CustomCpu { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Custom machine type extensions. A whole number value indicating how much memory is desired in the custom machine type. A size unit should be provided (eg. 3072MB or 9GB) - if no units are specified, GB is assumed. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Custom machine type extensions. A whole number value indicating how much memory is desired in the custom machine type. A size unit should be provided (eg. 3072MB or 9GB) - if no units are specified, GB is assumed. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-memory", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CustomMemoryValues { get; set; }
+    public string? CustomMemory { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Custom machine type extensions. Use the extended custom machine type.
+    /// Custom machine type extensions. Use the extended custom machine type.
     /// </summary>
     [CliFlag("--custom-extensions")]
     public bool? CustomExtensions { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Custom machine type extensions. Specifies a custom machine type. The default is n1. For more information about custom machine types, see: https://cloud.google.com/compute/docs/general-purpose-machines#custom_machine_types
+    /// Custom machine type extensions. Specifies a custom machine type. The default is n1. For more information about custom machine types, see: https://cloud.google.com/compute/docs/general-purpose-machines#custom_machine_types
     /// </summary>
     [CliOption("--custom-vm-type", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CustomVmTypeValues { get; set; }
+    public string? CustomVmType { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available projects can be generated by running gcloud projects list. * If specifying one of our public images, image-project must be provided. * If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. * If not specified and either image or image-family is provided, the current default project is used.
+    /// The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available projects can be generated by running gcloud projects list. * If specifying one of our public images, image-project must be provided. * If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. * If not specified and either image or image-family is provided, the current default project is used.
     /// </summary>
     [CliOption("--image-project", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ImageProjectValues { get; set; }
+    public string? ImageProject { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Specifies the boot image for the instances. For each instance, a new boot disk will be created from the given image. Each boot disk will have the same name as the instance. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use --image when a specific version of an image is needed. When using this option, --boot-disk-device-name and --boot-disk-size can be used to override the boot disk's device name and size, respectively.
+    /// At most one of these can be specified: Specifies the boot image for the instances. For each instance, a new boot disk will be created from the given image. Each boot disk will have the same name as the instance. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use --image when a specific version of an image is needed. When using this option, --boot-disk-device-name and --boot-disk-size can be used to override the boot disk's device name and size, respectively.
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ImageValues { get; set; }
+    public string? Image { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. By default, debian-12 is assumed for this flag.
+    /// At most one of these can be specified: The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. By default, debian-12 is assumed for this flag.
     /// </summary>
     [CliOption("--image-family", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ImageFamilyValues { get; set; }
+    public string? ImageFamily { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Creates a DNS PTR record for the external IP of the instance.
+    /// At most one of these can be specified: Creates a DNS PTR record for the external IP of the instance.
     /// </summary>
     [CliFlag("--public-ptr")]
     public bool? PublicPtr { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: If provided, no DNS PTR record is created for the external IP of the instance. Mutually exclusive with public-ptr-domain.
+    /// At most one of these can be specified: If provided, no DNS PTR record is created for the external IP of the instance. Mutually exclusive with public-ptr-domain.
     /// </summary>
     [CliFlag("--no-public-ptr")]
     public bool? NoPublicPtr { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Assigns a custom PTR domain for the external IP of the instance. Mutually exclusive with no-public-ptr.
+    /// At most one of these can be specified: Assigns a custom PTR domain for the external IP of the instance. Mutually exclusive with no-public-ptr.
     /// </summary>
     [CliOption("--public-ptr-domain", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? PublicPtrDomainValues { get; set; }
+    public string? PublicPtrDomain { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: If both this flag and --public-ptr are specified, creates a DNS PTR record for the external IP of the instance with the PTR domain name being the DNS name of the instance.
+    /// At most one of these can be specified: If both this flag and --public-ptr are specified, creates a DNS PTR record for the external IP of the instance with the PTR domain name being the DNS name of the instance.
     /// </summary>
     [CliFlag("--no-public-ptr-domain")]
     public bool? NoPublicPtrDomain { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=specific.
+    /// Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=specific.
     /// </summary>
     [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ReservationValues { get; set; }
+    public string? Reservation { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: any Consume any available, matching reservation. none Do not consume from any reserved capacity. specific Must consume from a specific reservation.
+    /// Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: any Consume any available, matching reservation. none Do not consume from any reserved capacity. specific Must consume from a specific reservation.
     /// </summary>
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ReservationAffinityValues { get; set; }
+    public string? ReservationAffinity { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: If not provided, the instance will be assigned the default scopes, described below. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// At most one of these can be specified: If not provided, the instance will be assigned the default scopes, described below. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
     /// </summary>
     [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ScopesValues { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Create instance without scopes
+    /// At most one of these can be specified: Create instance without scopes
     /// </summary>
     [CliFlag("--no-scopes")]
     public bool? NoScopes { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: A service account is an identity attached to the instance. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. If not provided, the instance will use the project's default service account.
+    /// At most one of these can be specified: A service account is an identity attached to the instance. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. If not provided, the instance will use the project's default service account.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccountValue { get; set; }
 
     /// <summary>
-    /// --container-env=[KEY=VALUE, ...,...] Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. At most one of these can be specified: Create instance without service account
+    /// At most one of these can be specified: Create instance without service account
     /// </summary>
     [CliFlag("--no-service-account")]
     public bool? NoServiceAccount { get; set; }
-
-    [Obsolete("Use BootDiskDeviceNameValues instead.")]
-    public string? BootDiskDeviceName
-    {
-        get => BootDiskDeviceNameValues?.FirstOrDefault();
-        set => BootDiskDeviceNameValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use BootDiskInterfaceValues instead.")]
-    public string? BootDiskInterface
-    {
-        get => BootDiskInterfaceValues?.FirstOrDefault();
-        set => BootDiskInterfaceValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use BootDiskProvisionedThroughputValues instead.")]
-    public string? BootDiskProvisionedThroughput
-    {
-        get => BootDiskProvisionedThroughputValues?.FirstOrDefault();
-        set => BootDiskProvisionedThroughputValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use BootDiskTypeValues instead.")]
-    public string? BootDiskType
-    {
-        get => BootDiskTypeValues?.FirstOrDefault();
-        set => BootDiskTypeValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ContainerArgValues instead.")]
-    public string? ContainerArg
-    {
-        get => ContainerArgValues?.FirstOrDefault();
-        set => ContainerArgValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ContainerCommandValues instead.")]
-    public string? ContainerCommand
-    {
-        get => ContainerCommandValues?.FirstOrDefault();
-        set => ContainerCommandValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ContainerEnvFileValues instead.")]
-    public string? ContainerEnvFile
-    {
-        get => ContainerEnvFileValues?.FirstOrDefault();
-        set => ContainerEnvFileValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ContainerImageValues instead.")]
-    public string? ContainerImage
-    {
-        get => ContainerImageValues?.FirstOrDefault();
-        set => ContainerImageValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ContainerMountDiskValues instead.")]
-    public string? ContainerMountDisk
-    {
-        get => ContainerMountDiskValues?.FirstOrDefault();
-        set => ContainerMountDiskValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use DescriptionValues instead.")]
-    public string? Description
-    {
-        get => DescriptionValues?.FirstOrDefault();
-        set => DescriptionValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use DiscardLocalSsdsAtTerminationTimestampValues instead.")]
-    public string? DiscardLocalSsdsAtTerminationTimestamp
-    {
-        get => DiscardLocalSsdsAtTerminationTimestampValues?.FirstOrDefault();
-        set => DiscardLocalSsdsAtTerminationTimestampValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use DiskValues instead.")]
-    public string? Disk
-    {
-        get => DiskValues?.FirstOrDefault();
-        set => DiskValues = value is null ? null : [value];
-    }
 
     [Obsolete("Use ExternalIpv6AddressValues instead.")]
     public string? ExternalIpv6Address
     {
         get => ExternalIpv6AddressValues?.FirstOrDefault();
         set => ExternalIpv6AddressValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use InstanceTerminationActionValues instead.")]
-    public string? InstanceTerminationAction
-    {
-        get => InstanceTerminationActionValues?.FirstOrDefault();
-        set => InstanceTerminationActionValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use InternalIpv6AddressValues instead.")]
-    public string? InternalIpv6Address
-    {
-        get => InternalIpv6AddressValues?.FirstOrDefault();
-        set => InternalIpv6AddressValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use InternalIpv6PrefixLengthValues instead.")]
-    public string? InternalIpv6PrefixLength
-    {
-        get => InternalIpv6PrefixLengthValues?.FirstOrDefault();
-        set => InternalIpv6PrefixLengthValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use Ipv6NetworkTierValues instead.")]
-    public string? Ipv6NetworkTier
-    {
-        get => Ipv6NetworkTierValues?.FirstOrDefault();
-        set => Ipv6NetworkTierValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MachineTypeValues instead.")]
-    public string? MachineType
-    {
-        get => MachineTypeValues?.FirstOrDefault();
-        set => MachineTypeValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MaintenancePolicyValues instead.")]
-    public string? MaintenancePolicy
-    {
-        get => MaintenancePolicyValues?.FirstOrDefault();
-        set => MaintenancePolicyValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MaxRunDurationValues instead.")]
-    public string? MaxRunDuration
-    {
-        get => MaxRunDurationValues?.FirstOrDefault();
-        set => MaxRunDurationValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MinCpuPlatformValues instead.")]
-    public string? MinCpuPlatform
-    {
-        get => MinCpuPlatformValues?.FirstOrDefault();
-        set => MinCpuPlatformValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use NetworkValues instead.")]
-    public string? Network
-    {
-        get => NetworkValues?.FirstOrDefault();
-        set => NetworkValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use PrivateIpv6GoogleAccessTypeValues instead.")]
-    public string? PrivateIpv6GoogleAccessType
-    {
-        get => PrivateIpv6GoogleAccessTypeValues?.FirstOrDefault();
-        set => PrivateIpv6GoogleAccessTypeValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use PrivateNetworkIpValues instead.")]
-    public string? PrivateNetworkIp
-    {
-        get => PrivateNetworkIpValues?.FirstOrDefault();
-        set => PrivateNetworkIpValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ProvisioningModelValues instead.")]
-    public string? ProvisioningModel
-    {
-        get => ProvisioningModelValues?.FirstOrDefault();
-        set => ProvisioningModelValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use RequestValidForDurationValues instead.")]
-    public string? RequestValidForDuration
-    {
-        get => RequestValidForDurationValues?.FirstOrDefault();
-        set => RequestValidForDurationValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use SourceInstanceTemplateValues instead.")]
-    public string? SourceInstanceTemplate
-    {
-        get => SourceInstanceTemplateValues?.FirstOrDefault();
-        set => SourceInstanceTemplateValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use StackTypeValues instead.")]
-    public string? StackType
-    {
-        get => StackTypeValues?.FirstOrDefault();
-        set => StackTypeValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use SubnetValues instead.")]
-    public string? Subnet
-    {
-        get => SubnetValues?.FirstOrDefault();
-        set => SubnetValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use TerminationTimeValues instead.")]
-    public string? TerminationTime
-    {
-        get => TerminationTimeValues?.FirstOrDefault();
-        set => TerminationTimeValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ThreadsPerCoreValues instead.")]
-    public string? ThreadsPerCore
-    {
-        get => ThreadsPerCoreValues?.FirstOrDefault();
-        set => ThreadsPerCoreValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ZoneValues instead.")]
-    public string? Zone
-    {
-        get => ZoneValues?.FirstOrDefault();
-        set => ZoneValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use AddressValues instead.")]
-    public string? Address
-    {
-        get => AddressValues?.FirstOrDefault();
-        set => AddressValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ConfidentialComputeTypeValues instead.")]
-    public string? ConfidentialComputeType
-    {
-        get => ConfidentialComputeTypeValues?.FirstOrDefault();
-        set => ConfidentialComputeTypeValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use CustomCpuValues instead.")]
-    public string? CustomCpu
-    {
-        get => CustomCpuValues?.FirstOrDefault();
-        set => CustomCpuValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use CustomMemoryValues instead.")]
-    public string? CustomMemory
-    {
-        get => CustomMemoryValues?.FirstOrDefault();
-        set => CustomMemoryValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use CustomVmTypeValues instead.")]
-    public string? CustomVmType
-    {
-        get => CustomVmTypeValues?.FirstOrDefault();
-        set => CustomVmTypeValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ImageProjectValues instead.")]
-    public string? ImageProject
-    {
-        get => ImageProjectValues?.FirstOrDefault();
-        set => ImageProjectValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ImageValues instead.")]
-    public string? Image
-    {
-        get => ImageValues?.FirstOrDefault();
-        set => ImageValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ImageFamilyValues instead.")]
-    public string? ImageFamily
-    {
-        get => ImageFamilyValues?.FirstOrDefault();
-        set => ImageFamilyValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use PublicPtrDomainValues instead.")]
-    public string? PublicPtrDomain
-    {
-        get => PublicPtrDomainValues?.FirstOrDefault();
-        set => PublicPtrDomainValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ReservationValues instead.")]
-    public string? Reservation
-    {
-        get => ReservationValues?.FirstOrDefault();
-        set => ReservationValues = value is null ? null : [value];
     }
 
     [Obsolete("Use ScopesValues instead.")]
@@ -872,18 +591,11 @@ public record GcloudComputeInstancesCreateWithContainerOptions(
         set => ScopesValues = value is null ? null : [value];
     }
 
-    [Obsolete("Use ReservationAffinityValues instead.")]
-    public string? ReservationAffinity
-    {
-        get => ReservationAffinityValues?.FirstOrDefault();
-        set => ReservationAffinityValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use AcceleratorValues instead.")]
+    [Obsolete("Use AcceleratorValue instead.")]
     public int? Accelerator
     {
-        get => int.TryParse(AcceleratorValues?.FirstOrDefault(), global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => AcceleratorValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
+        get => int.TryParse(AcceleratorValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => AcceleratorValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
     }
 
     [Obsolete("Use ServiceAccountValue instead.")]
@@ -907,8 +619,5 @@ public record GcloudComputeInstancesCreateWithContainerOptions(
 
     [Obsolete("NoIdentityCertificate is no longer supported by the installed CLI and has no effect.")]
     public bool? NoIdentityCertificate { get; set; }
-
-    [Obsolete("ContainerEnv is no longer supported by the installed CLI and has no effect.")]
-    public IReadOnlyList<KeyValue>? ContainerEnv { get; set; }
 
 }

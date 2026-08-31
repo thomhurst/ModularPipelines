@@ -360,8 +360,8 @@ public partial class GcloudCliScraper : CliScraperBase
         && IsNumericHint(valueHint);
 
     private static bool IsKeyValue(string valueHint, bool isCompositeValue) =>
-        !isCompositeValue
-        && (valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,"));
+        valueHint.Contains("KEY=VALUE")
+        || (!isCompositeValue && valueHint.Contains("=VALUE,"));
 
     private static CliOptionDefinition CreateNegatedOption(
         CliOptionDefinition option,
@@ -584,7 +584,7 @@ public partial class GcloudCliScraper : CliScraperBase
     /// --option=VALUE
     /// </summary>
     [GeneratedRegex(
-        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s;]+))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
     private static partial Regex GcloudFlagPattern();
 
     [GeneratedRegex(
