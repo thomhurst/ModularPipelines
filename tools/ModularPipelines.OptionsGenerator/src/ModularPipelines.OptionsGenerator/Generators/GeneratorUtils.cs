@@ -560,6 +560,11 @@ public static partial class GeneratorUtils
             parts.Add($"ShortForm = {FormatStringLiteral(option.ShortForm)}");
         }
 
+        if (!string.IsNullOrEmpty(option.NegatedSwitchName))
+        {
+            parts.Add($"NegatedName = {FormatStringLiteral(option.NegatedSwitchName)}");
+        }
+
         if (option.PreferShortForm)
         {
             parts.Add("PreferShortForm = true");

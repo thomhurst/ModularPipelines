@@ -348,10 +348,16 @@ public partial class AwsCliScraper : CliScraperBase
 
         foreach (Match match in optionMatches)
         {
-            var longForm = match.Groups["long"].Value;
+            var firstLongForm = match.Groups["long"].Value;
+            var alternateLongForm = match.Groups["alternate"].Value;
             var typeHint = match.Groups["type"].Value.Trim().Trim('(', ')');
+            var (longForm, negatedLongForm) = GetBooleanSwitchPair(
+                firstLongForm,
+                alternateLongForm);
 
-            if (string.IsNullOrEmpty(longForm) || seenOptions.Contains(longForm))
+            if (string.IsNullOrEmpty(longForm)
+                || seenOptions.Contains(longForm)
+                || (!string.IsNullOrEmpty(negatedLongForm) && seenOptions.Contains(negatedLongForm)))
             {
                 continue;
             }
@@ -363,6 +369,10 @@ public partial class AwsCliScraper : CliScraperBase
             }
 
             seenOptions.Add(longForm);
+            if (!string.IsNullOrEmpty(negatedLongForm))
+            {
+                seenOptions.Add(negatedLongForm);
+            }
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
@@ -372,12 +382,15 @@ public partial class AwsCliScraper : CliScraperBase
 
             // Get description (lines following the option with more indentation)
             var optionEnd = match.Index + match.Length;
-            var descMatch = Regex.Match(optionsSection[optionEnd..], @"^\s{8,}(.+?)(?=\n\s{7}--|\n\n\s{7}--|\z)", RegexOptions.Singleline);
+            var descMatch = Regex.Match(
+                optionsSection[optionEnd..],
+                """^\s{8,}(.+?)(?=\n\s{7}"?--|\n\n\s{7}"?--|\z)""",
+                RegexOptions.Singleline);
             var description = descMatch.Success
                 ? Regex.Replace(descMatch.Groups[1].Value.Trim(), @"\s+", " ")
                 : null;
 
-            var isFlag = IsAwsBooleanType(typeHint)
+            var isFlag = (!string.IsNullOrEmpty(negatedLongForm) || IsAwsBooleanType(typeHint))
                          && !ValueOptionsWithoutTypeHints.Contains(longForm);
             var isArray = typeHint.Contains("list") || typeHint.Contains("...") || (description?.Contains("multiple values") ?? false);
             var isNumeric = IsNumericType(typeHint);
@@ -393,6 +406,7 @@ public partial class AwsCliScraper : CliScraperBase
             options.Add(new CliOptionDefinition
             {
                 SwitchName = longForm,
+                NegatedSwitchName = negatedLongForm,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
                 Description = description,
@@ -411,6 +425,29 @@ public partial class AwsCliScraper : CliScraperBase
 
         return options;
     }
+
+    private static (string SwitchName, string? NegatedSwitchName) GetBooleanSwitchPair(
+        string switchName,
+        string alternateSwitchName)
+    {
+        if (string.IsNullOrEmpty(alternateSwitchName))
+        {
+            return (switchName, null);
+        }
+
+        if (IsNegatedFormOf(alternateSwitchName, switchName))
+        {
+            return (switchName, alternateSwitchName);
+        }
+
+        return IsNegatedFormOf(switchName, alternateSwitchName)
+            ? (alternateSwitchName, switchName)
+            : (switchName, null);
+    }
+
+    private static bool IsNegatedFormOf(string candidate, string positiveSwitch) =>
+        candidate.StartsWith("--no-", StringComparison.OrdinalIgnoreCase)
+        && candidate[5..].Equals(positiveSwitch[2..], StringComparison.OrdinalIgnoreCase);
 
     private static bool IsGlobalOption(string optionName)
     {
@@ -605,7 +642,7 @@ public partial class AwsCliScraper : CliScraperBase
     /// --option (type)
     /// --flag
     /// </summary>
-    [GeneratedRegex(@"^\s{7}(?<long>--[\w-]+)(?:\s+\((?<type>[^)]+)\))?", RegexOptions.Multiline)]
+    [GeneratedRegex("""^\s{7}"?(?<long>--[\w-]+)"?(?:\s+\|\s+"?(?<alternate>--[\w-]+)"?)?(?:\s+\((?<type>[^)]+)\))?""", RegexOptions.Multiline)]
     private static partial Regex AwsOptionPattern();
 
     [GeneratedRegex(

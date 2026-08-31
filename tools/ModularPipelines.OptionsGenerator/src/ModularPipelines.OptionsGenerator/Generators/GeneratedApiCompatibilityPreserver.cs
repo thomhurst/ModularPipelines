@@ -622,6 +622,7 @@ internal static class GeneratedApiCompatibilityPreserver
             {
                 SwitchName = property.SwitchName!,
                 ShortForm = property.ShortForm,
+                NegatedSwitchName = property.NegatedSwitchName,
                 PreferShortForm = property.PreferShortForm,
                 PropertyName = property.PropertyName,
                 CSharpType = property.CSharpType,
@@ -2601,6 +2602,18 @@ internal static class GeneratedApiCompatibilityPreserver
             return false;
         }
 
+        if (baseline.NegatedSwitchName is not null
+            && !string.Equals(
+                baseline.NegatedSwitchName,
+                current.NegatedSwitchName,
+                StringComparison.Ordinal))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed negated CLI switch from "
+                + $"{baseline.NegatedSwitchName} to {current.NegatedSwitchName ?? "<none>"}");
+            return false;
+        }
+
         return true;
     }
 
@@ -3088,7 +3101,8 @@ internal static class GeneratedApiCompatibilityPreserver
             false,
             null,
             null,
-            option.IsRequired);
+            option.IsRequired,
+            NegatedSwitchName: option.NegatedSwitchName);
 
     private static bool HasSameCliIdentity(
         GeneratedApiProperty left,
@@ -3602,7 +3616,8 @@ internal static class GeneratedApiCompatibilityPreserver
             GetBooleanNamedArgument(cliArgument, "PrependOptionTerminatorIfValueStartsWithDash"),
             secretValue is not null,
             GetStringArguments(secretValue),
-            GetValidationConstraints(range, regularExpression));
+            GetValidationConstraints(range, regularExpression),
+            GetStringNamedArgument(cliFlag, "NegatedName"));
     }
 
     private static CliValidationConstraints? GetValidationConstraints(
@@ -3982,7 +3997,8 @@ internal sealed record GeneratedApiProperty(
     bool PrependOptionTerminatorIfValueStartsWithDash = false,
     bool IsSecret = false,
     string[]? SecretValueKeys = null,
-    CliValidationConstraints? ValidationConstraints = null);
+    CliValidationConstraints? ValidationConstraints = null,
+    string? NegatedSwitchName = null);
 
 internal sealed record GeneratedApiBaseline(
     string ClassName,

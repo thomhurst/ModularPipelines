@@ -36,10 +36,15 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 model = BuildModel(type);
                 schemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
             }
-            else if (schemaVersion < GeneratedCommandMetadata.CurrentSchemaVersion
-                     && !RuntimeFeature.IsDynamicCodeSupported)
+            else if (schemaVersion < GeneratedCommandMetadata.CurrentSchemaVersion)
             {
-                throw new MissingCommandMetadataException(type);
+                if (!RuntimeFeature.IsDynamicCodeSupported)
+                {
+                    throw new MissingCommandMetadataException(type);
+                }
+
+                model = BuildModel(type);
+                schemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
             }
 
             ValidateModel(type, model, schemaVersion);
@@ -67,7 +72,9 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 parts.Add(new FlagPart(property.Name, property.GetValue, flag)
                 {
                     IsGlobalOption = IsGlobalOption(property),
-                    IsSupportedPropertyType = IsSupportedFlagType(property.PropertyType),
+                    IsSupportedPropertyType = IsSupportedFlagType(property.PropertyType)
+                                              && (flag.NegatedName is null
+                                                  || IsNullableBooleanType(property.PropertyType)),
                 });
             }
             else if (commandAttribute is CliOptionAttribute option)
@@ -223,6 +230,9 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         return propertyType == typeof(bool) || propertyType == typeof(int);
     }
 
+    private static bool IsNullableBooleanType(Type propertyType) =>
+        Nullable.GetUnderlyingType(propertyType) == typeof(bool);
+
     private static bool IsSupportedOptionalValueType(Type propertyType)
     {
         propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
@@ -276,12 +286,39 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         var propertyName = $"{optionsType.FullName ?? optionsType.Name}.{part.PropertyName}";
         switch (part)
         {
-            case FlagPart flag
-                when flag.IsSupportedPropertyType is false
-                     || (schemaVersion >= GeneratedCommandMetadata.CurrentSchemaVersion
-                         && flag.IsSupportedPropertyType is null):
-                throw new InvalidOperationException(
-                    $"CLI flag property '{propertyName}' must use bool, bool?, int, or int?.");
+            case FlagPart flag:
+                ValidateFlagProperty(propertyName, flag, schemaVersion);
+                break;
+            case OptionPart option:
+                ValidateOptionProperty(propertyName, option);
+                break;
+        }
+    }
+
+    private static void ValidateFlagProperty(
+        string propertyName,
+        FlagPart flag,
+        int schemaVersion)
+    {
+        if (flag.Attribute.NegatedName is not null && flag.IsSupportedPropertyType is false)
+        {
+            throw new InvalidOperationException(
+                $"CLI flag property '{propertyName}' must use bool? when NegatedName is set.");
+        }
+
+        if (flag.IsSupportedPropertyType is false
+            || (schemaVersion >= GeneratedCommandMetadata.CurrentSchemaVersion
+                && flag.IsSupportedPropertyType is null))
+        {
+            throw new InvalidOperationException(
+                $"CLI flag property '{propertyName}' must use bool, bool?, int, or int?.");
+        }
+    }
+
+    private static void ValidateOptionProperty(string propertyName, OptionPart option)
+    {
+        switch (option)
+        {
             case OptionPart { Attribute.GroupValues: true } groupedOption
                 when groupedOption.Attribute.Format != OptionFormat.SpaceSeparated:
                 throw new InvalidOperationException(
@@ -296,8 +333,8 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 when valuePairOption.Attribute.Format != OptionFormat.SpaceSeparated:
                 throw new InvalidOperationException(
                     $"CliValuePair CLI option property '{propertyName}' must use OptionFormat.SpaceSeparated.");
-            case OptionPart { Attribute.ValueArity: CliOptionValueArity.Optional } option
-                when option.IsSupportedPropertyType is not true:
+            case OptionPart { Attribute.ValueArity: CliOptionValueArity.Optional } optionalValueOption
+                when optionalValueOption.IsSupportedPropertyType is not true:
                 throw new InvalidOperationException(
                     $"Optional-value CLI option property '{propertyName}' must use "
                     + "CliOptionValue or IEnumerable<CliOptionValue>.");
@@ -319,7 +356,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                     throw new InvalidOperationException(
                         $"{optionsType.Name} defines CLI switch '{switchName}' more than once " +
                         $"on properties '{existingProperty}' and '{part.PropertyName}'. " +
-                        "Model aliases with ShortForm on a single property.");
+                        "Name, ShortForm, and NegatedName values must be unique.");
                 }
 
                 switches.Add(switchName, part.PropertyName);
@@ -331,10 +368,23 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     {
         return part switch
         {
-            FlagPart flag => GetNames(flag.Attribute.Name, flag.Attribute.ShortForm),
+            FlagPart flag => GetFlagNames(flag.Attribute),
             OptionPart option => GetNames(option.Attribute.Name, option.Attribute.ShortForm),
             _ => [],
         };
+    }
+
+    private static IEnumerable<string> GetFlagNames(CliFlagAttribute attribute)
+    {
+        foreach (var name in GetNames(attribute.Name, attribute.ShortForm))
+        {
+            yield return name;
+        }
+
+        if (!string.IsNullOrWhiteSpace(attribute.NegatedName))
+        {
+            yield return attribute.NegatedName;
+        }
     }
 
     private static IEnumerable<string> GetNames(string name, string? shortForm)

@@ -106,7 +106,6 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
             if (switches.TryGetValue(switchName, out var existingProperty))
             {
                 if (SymbolEqualityComparer.Default.Equals(property.ContainingType, analyzedType)
-                    && !SymbolEqualityComparer.Default.Equals(property, existingProperty)
                     && !Overrides(property, existingProperty))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
@@ -136,6 +135,14 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         if (!string.IsNullOrWhiteSpace(shortForm) && !string.Equals(name, shortForm, StringComparison.Ordinal))
         {
             yield return shortForm!;
+        }
+
+        var negatedName = attribute.NamedArguments
+            .FirstOrDefault(pair => pair.Key == "NegatedName")
+            .Value.Value as string;
+        if (!string.IsNullOrWhiteSpace(negatedName))
+        {
+            yield return negatedName!;
         }
     }
 

@@ -123,6 +123,33 @@ public class CliGlobalOptionMergerTests
             .And.HasMessageContaining("-o");
     }
 
+    [Test]
+    public async Task Merge_Rejects_Conflicting_Negated_Switches_For_The_Same_Option()
+    {
+        var scraped = Option("--feature", "Feature") with
+        {
+            CSharpType = "bool?",
+            IsFlag = true,
+            NegatedSwitchName = "--no-feature",
+        };
+
+        await Assert.That(() => CliGlobalOptionMerger.Merge(
+                [scraped],
+                [scraped with { NegatedSwitchName = "--disable-feature" }]))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("--feature");
+    }
+
+    [Test]
+    public async Task Merge_Rejects_A_Negated_Alias_Shared_By_Different_Options()
+    {
+        await Assert.That(() => CliGlobalOptionMerger.Merge(
+                [Option("--feature", "Feature") with { NegatedSwitchName = "--no-feature" }],
+                [Option("--no-feature", "Other")]))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("--no-feature");
+    }
+
     private static CliOptionDefinition Option(string switchName, string propertyName) => new()
     {
         SwitchName = switchName,

@@ -29,6 +29,12 @@ public sealed class CliFlagAttribute(string name) : Attribute
     public string Name { get; } = name;
 
     /// <summary>
+    /// Gets or sets the flag name emitted when a nullable boolean property is explicitly false.
+    /// When unset, false continues to omit the flag.
+    /// </summary>
+    public string? NegatedName { get; set; }
+
+    /// <summary>
     /// Gets or sets the short form of the flag (e.g., "-d" for "--debug").
     /// When set and <see cref="PreferShortForm"/> is true, the short form will be used.
     /// </summary>

@@ -26,6 +26,54 @@ public class CliOptionCollisionAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Duplicate_Negated_Switch()
+    {
+        var source = CreateOptionsSource("""
+            [CliFlag("--feature", NegatedName = "--no-feature")]
+            public bool? Feature { get; init; }
+
+            [{|#0:CliOption("--no-feature")|}]
+            public string? Other { get; init; }
+            """);
+
+        var expected = VerifyCS.Diagnostic(CliOptionCollisionAnalyzer.DuplicateSwitchDiagnosticId)
+            .WithLocation(0)
+            .WithArguments("--no-feature", "Options.Feature", "Options.Other");
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_SelfColliding_Negated_Switch()
+    {
+        var source = CreateOptionsSource("""
+            [{|#0:CliFlag("--feature", NegatedName = "--feature")|}]
+            public bool? Feature { get; init; }
+            """);
+
+        var expected = VerifyCS.Diagnostic(CliOptionCollisionAnalyzer.DuplicateSwitchDiagnosticId)
+            .WithLocation(0)
+            .WithArguments("--feature", "Options.Feature", "Options.Feature");
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Negated_Switch_Matching_ShortForm()
+    {
+        var source = CreateOptionsSource("""
+            [{|#0:CliFlag("--feature", ShortForm = "-f", NegatedName = "-f")|}]
+            public bool? Feature { get; init; }
+            """);
+
+        var expected = VerifyCS.Diagnostic(CliOptionCollisionAnalyzer.DuplicateSwitchDiagnosticId)
+            .WithLocation(0)
+            .WithArguments("-f", "Options.Feature", "Options.Feature");
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Accepts_New_Property_That_Hides_Base_Property()
     {
         var source = $$"""
