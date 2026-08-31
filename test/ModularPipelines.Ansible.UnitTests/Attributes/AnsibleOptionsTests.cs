@@ -24,19 +24,19 @@ public class AnsibleOptionsTests : TestBase
             Verbose = 3,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "webservers",
+            "--flush-cache",
             "--background", "30",
             "--check",
             "--extra-vars", "environment=staging",
             "--extra-vars", "@vars.yml",
-            "--flush-cache",
             "--inventory", "hosts.ini",
             "--inventory", "dynamic.yml",
             "--module-name", "ping",
             "--verbose", "--verbose", "--verbose",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]

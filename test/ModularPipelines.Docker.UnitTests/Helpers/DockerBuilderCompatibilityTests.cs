@@ -10,6 +10,7 @@ using ModularPipelines.Docker.Options;
 using ModularPipelines.Docker.Services;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Options;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Docker.UnitTests.Helpers;
 
@@ -103,7 +104,7 @@ public class DockerBuilderCompatibilityTests
             .GetCommandModel(typeof(DockerBuilderHistoryLogsOptions));
         var arguments = new CommandArgumentBuilder().BuildArguments(model, options);
 
-        await Assert.That(arguments).IsEquivalentTo(["--progress=plain"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments, ["--progress=plain"]);
     }
 
     [Test]

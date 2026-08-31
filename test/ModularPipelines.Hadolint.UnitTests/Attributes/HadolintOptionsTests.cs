@@ -19,7 +19,7 @@ public class HadolintOptionsTests
             FailureThreshold = HadolintFailureThreshold.Warning,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "Dockerfile",
             "build/Dockerfile",
@@ -29,7 +29,7 @@ public class HadolintOptionsTests
             "--error", "DL3020",
             "--ignore", "DL3008",
             "--failure-threshold", "warning",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -40,8 +40,8 @@ public class HadolintOptionsTests
             Format = HadolintFormat.GitlabCodeclimate,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
-            ["--format", "gitlab_codeclimate"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments,
+            ["--format", "gitlab_codeclimate"]);
     }
 
     [Test]
@@ -52,6 +52,6 @@ public class HadolintOptionsTests
             Format = HadolintFormat.Junit,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["--format", "junit"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments, ["--format", "junit"]);
     }
 }

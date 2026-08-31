@@ -19,13 +19,13 @@ public class SnykOptionsTests
             ClientId = "client-id",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "token-value",
             "--auth-type=token",
             "--client-secret=client-secret",
             "--client-id=client-id",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -41,7 +41,7 @@ public class SnykOptionsTests
             Password = "registry-password",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "alpine:3.20",
             "--print-deps",
@@ -50,7 +50,7 @@ public class SnykOptionsTests
             "--nested-jars-depth=2",
             "--username=registry-user",
             "--password=registry-password",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -74,7 +74,7 @@ public class SnykOptionsTests
             Debug = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo([".snyk", "-d"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments, [".snyk", "-d"]);
     }
 
     [Test]
@@ -96,18 +96,18 @@ public class SnykOptionsTests
             Path = "src",
         });
 
-        await Assert.That(describeArguments).IsEquivalentTo(
+        await AssertArguments(describeArguments,
         [
             "--tfc-token=terraform-token",
             "--tfc-endpoint=https://terraform.example.com",
             "--config-dir=.snyk-config",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
-        await Assert.That(aibomArguments).IsEquivalentTo(
+        ]);
+        await AssertArguments(aibomArguments,
         [
             "--upload",
             "--repo=https://github.com/example/repository",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
-        await Assert.That(codeArguments).IsEquivalentTo(["src"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
+        await AssertArguments(codeArguments, ["src"]);
 
         var tfcToken = typeof(SnykIacDescribeOptions).GetProperty(nameof(SnykIacDescribeOptions.TfcToken));
         await Assert.That(tfcToken!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
@@ -122,11 +122,11 @@ public class SnykOptionsTests
             FailOn = SnykFailOn.Patchable,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "github.com/example/repository",
             "--fail-on=patchable",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -137,7 +137,7 @@ public class SnykOptionsTests
             Target = "src/MyApp",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["src/MyApp"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments, ["src/MyApp"]);
     }
 
     [Test]
@@ -148,10 +148,10 @@ public class SnykOptionsTests
             Filter = "resource.type == 'aws_s3_bucket'",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--filter=resource.type == 'aws_s3_bucket'",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -190,7 +190,7 @@ public class SnykOptionsTests
             Password = "registry-password",
         });
 
-        await Assert.That(sbomArguments).IsEquivalentTo(
+        await AssertArguments(sbomArguments,
         [
             "--format=cyclonedx1.6+json",
             "--org=security",
@@ -200,9 +200,9 @@ public class SnykOptionsTests
             "--prune-repeated-subdependencies",
             "--allow-incomplete-sbom",
             "--json-file-output=bom.json",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
-        await Assert.That(testArguments).IsEquivalentTo(["--file=bom.json", "--json"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
-        await Assert.That(containerArguments).IsEquivalentTo(
+        ]);
+        await AssertArguments(testArguments, ["--file=bom.json", "--json"]);
+        await AssertArguments(containerArguments,
         [
             "--format=spdx2.3+json",
             "registry.example.com/app:latest",
@@ -212,7 +212,7 @@ public class SnykOptionsTests
             "--nested-jars-depth=2",
             "--username=registry-user",
             "--password=registry-password",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]

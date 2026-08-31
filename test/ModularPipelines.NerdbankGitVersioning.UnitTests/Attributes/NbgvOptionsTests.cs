@@ -16,13 +16,13 @@ public class NbgvOptionsTests
             PublicRelease = false,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "HEAD~1",
             "--project", "src/App",
             "--metadata", "ci",
             "--public-release=false",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -35,13 +35,13 @@ public class NbgvOptionsTests
             Define = ["Name=Value", "Channel=stable"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--all-vars",
             "--skip-cloud-build-number",
             "--define", "Name=Value",
             "--define", "Channel=stable",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -55,12 +55,12 @@ public class NbgvOptionsTests
             WhatIf = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "v2.0",
             "--nextVersion", "2.1",
             "--versionIncrement", "minor",
             "--what-if",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 }

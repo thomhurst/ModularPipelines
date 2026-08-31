@@ -18,11 +18,11 @@ public class GcloudCompositeValueTests
             ],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--add-allowed-client=network=network-a,cidr=10.0.0.0/24,mount-permissions=READ_ONLY",
             "--add-allowed-client=network=network-b,cidr=10.0.1.0/24,mount-permissions=READ_WRITE",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -33,7 +33,7 @@ public class GcloudCompositeValueTests
             UpdateLabels = GcloudUpdateLabels.ReadOnly,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["--update-labels=READ_ONLY"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments, ["--update-labels=READ_ONLY"]);
     }
 
     [Test]
@@ -46,11 +46,11 @@ public class GcloudCompositeValueTests
             RemoveEnabledTool = ["handle=legacy,tool=projects/p/locations/l/tools/legacy"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--enabled-tool=handle=search,tool=projects/p/locations/l/tools/search",
             "--add-enabled-tool=handle=build,config=[{key=mode,value=fast}]",
             "--remove-enabled-tool=handle=legacy,tool=projects/p/locations/l/tools/legacy",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 }

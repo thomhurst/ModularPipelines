@@ -20,7 +20,7 @@ public class EksctlOptionsTests
             Managed = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--name=production",
             "--region=eu-west-2",
@@ -28,7 +28,7 @@ public class EksctlOptionsTests
             "--zones=eu-west-2b",
             "--nodes=3",
             "--managed=true",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -39,7 +39,7 @@ public class EksctlOptionsTests
             Managed = false,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["--managed=false"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments, ["--managed=false"]);
     }
 
     [Test]
@@ -52,12 +52,12 @@ public class EksctlOptionsTests
             Cluster = "production",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--name=gitops",
             "--type=ARGOCD",
             "--cluster=production",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -68,8 +68,8 @@ public class EksctlOptionsTests
             WellKnownPolicies = "autoScaler,externalDNS",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
-            ["--well-known-policies=autoScaler,externalDNS"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments,
+            ["--well-known-policies=autoScaler,externalDNS"]);
     }
 
     [Test]
@@ -86,13 +86,13 @@ public class EksctlOptionsTests
             ],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--cluster=production",
             "--approve",
             "--enable-types=api",
             "--enable-types=controllerManager",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -105,7 +105,7 @@ public class EksctlOptionsTests
         var property = typeof(EksctlUtilsEnableSecretsEncryptionOptions)
             .GetProperty(nameof(EksctlUtilsEnableSecretsEncryptionOptions.EncryptExistingSecrets));
 
-        await Assert.That(arguments).IsEquivalentTo(["--encrypt-existing-secrets=false"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments, ["--encrypt-existing-secrets=false"]);
         await Assert.That(property!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsFalse();
     }
 }

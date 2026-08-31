@@ -18,7 +18,7 @@ public class GcloudPubsubServiceAccountTests
                 "kinesis-ingestion@project.iam.gserviceaccount.com",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--aws-msk-ingestion-service-account=msk-importer",
             "--azure-event-hubs-ingestion-service-account="
@@ -26,6 +26,6 @@ public class GcloudPubsubServiceAccountTests
             "--confluent-cloud-ingestion-service-account=confluent-importer",
             "--kinesis-ingestion-service-account="
             + "kinesis-ingestion@project.iam.gserviceaccount.com",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 }

@@ -28,7 +28,7 @@ public class SonarScannerOptionsTests
             Token = "token-value",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--define",
             "sonar.branch.name=main",
@@ -38,7 +38,7 @@ public class SonarScannerOptionsTests
             "-Dsonar.projectKey=example-project",
             "-Dsonar.sources=src",
             "-Dsonar.token=token-value",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]

@@ -18,14 +18,14 @@ public class JavaOptionsTests
             GoalsAndPhases = ["clean", "verify"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--batch-mode",
             "--color", "never",
             "--define", "skipTests=true",
             "clean",
             "verify",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -40,7 +40,7 @@ public class JavaOptionsTests
             Tasks = ["clean", "build"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--console", "plain",
             "--project-prop", "environment=ci",
@@ -48,6 +48,6 @@ public class JavaOptionsTests
             "--no-daemon",
             "clean",
             "build",
-        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 }
