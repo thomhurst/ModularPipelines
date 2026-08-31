@@ -2212,7 +2212,7 @@ abstract ModularPipelines.RunConditionAttribute.EvaluateAsync(ModularPipelines.I
 abstract ModularPipelines.RunConditionAttribute.Logic.get -> ModularPipelines.ConditionLogic
 abstract ModularPipelines.SyncModule.Execute(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
 abstract ModularPipelines.SyncModule<T>.Execute(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> T
-const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion = 3 -> int
+const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion = 4 -> int
 const ModularPipelines.Reporting.PipelineRunReport.CurrentSchemaVersion = 4 -> int
 const ModularPipelines.Tracing.PipelineTelemetry.CommandDurationTag = "modular_pipelines.command.duration_ms" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandExitCodeTag = "process.exit.code" -> string!
