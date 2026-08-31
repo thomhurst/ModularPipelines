@@ -315,6 +315,128 @@ public class AwsCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Aws_Command_Families_Preserve_Required_Output_Operands()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsCrossDomainPositionalHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var expectedCommands = new[]
+        {
+            "aws lambda invoke",
+            "aws s3api get-object",
+            "aws bedrock-runtime invoke-model",
+        };
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(commands.Select(command => command.FullCommand))
+                .IsEquivalentTo(expectedCommands);
+
+            foreach (var fullCommand in expectedCommands)
+            {
+                var outfile = commands.Single(command => command.FullCommand == fullCommand)
+                    .PositionalArguments
+                    .Single();
+                await Assert.That(outfile.PropertyName).IsEqualTo("Outfile");
+                await Assert.That(outfile.CSharpType).IsEqualTo("string");
+                await Assert.That(outfile.PositionIndex).IsEqualTo(0);
+                await Assert.That(outfile.IsRequired).IsTrue();
+                await Assert.That(outfile.IsVariadic).IsFalse();
+                await Assert.That(outfile.PrependOptionTerminator).IsFalse();
+            }
+        }
+    }
+
+    [Test]
+    public async Task Aws_Synopsis_Operands_Preserve_Repeatability_And_Option_Terminators()
+    {
+        const string helpText = """
+            SYNOPSIS
+                   export-objects
+                   --filter <value>
+                   --
+                   <outfile>...
+
+            OPTIONS
+                   --filter (string)
+                    Object filter.
+            """;
+
+        var command = await new TestAwsCliScraper().Parse(
+            ["aws", "fixture", "export-objects"],
+            helpText);
+        var outfile = command!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(outfile.PropertyName).IsEqualTo("Outfile");
+            await Assert.That(outfile.CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(outfile.PositionIndex).IsEqualTo(0);
+            await Assert.That(outfile.IsRequired).IsTrue();
+            await Assert.That(outfile.IsVariadic).IsTrue();
+            await Assert.That(outfile.PrependOptionTerminator).IsTrue();
+        }
+    }
+
+    private sealed class AwsCrossDomainPositionalHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o bedrock-runtime\n       o lambda\n       o s3api",
+                "bedrock-runtime help" => "AVAILABLE COMMANDS\n       o invoke-model",
+                "lambda help" => "AVAILABLE COMMANDS\n       o invoke",
+                "s3api help" => "AVAILABLE COMMANDS\n       o get-object",
+                "bedrock-runtime invoke-model help" => CommandHelp(
+                    "invoke-model",
+                    "--model-id"),
+                "lambda invoke help" => CommandHelp(
+                    "invoke",
+                    "--function-name"),
+                "s3api get-object help" => CommandHelp(
+                    "get-object",
+                    "--bucket"),
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        private static string CommandHelp(string command, string requiredOption) => $$"""
+            SYNOPSIS
+                   {{command}}
+                   {{requiredOption}} <value>
+                   <outfile>
+                   [--debug]
+
+            OPTIONS
+                   {{requiredOption}} (string) [required]
+                    Required command input.
+
+                   --debug (boolean)
+                    Enable debug output.
+            """;
+    }
+
     private sealed class AwsHelpExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
@@ -595,6 +717,16 @@ public class AwsCliScraperTests
             string command,
             CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
+    }
+
+    private sealed class TestAwsCliScraper()
+        : AwsCliScraper(
+            new AwsFixtureExecutor(string.Empty),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
     }
 
     private static CliCommandResult Result(string output) => new()

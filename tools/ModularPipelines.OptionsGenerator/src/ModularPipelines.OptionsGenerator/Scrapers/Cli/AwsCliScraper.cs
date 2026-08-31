@@ -78,6 +78,17 @@ public partial class AwsCliScraper : CliScraperBase
 
     protected override IReadOnlyList<string> UsageSynopsisHeadings => AwsUsageSynopsisHeadings;
 
+    protected override IEnumerable<string> GetAdditionalUsageSynopses(
+        string[] commandPath,
+        string helpText)
+    {
+        var synopsisLines = GetSynopsisLines(helpText);
+        if (synopsisLines.Count > 0)
+        {
+            yield return string.Join(' ', synopsisLines);
+        }
+    }
+
     public AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AwsCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -217,7 +228,7 @@ public partial class AwsCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = $"https://awscli.amazonaws.com/v2/documentation/api/latest/reference/{string.Join("/", commandParts)}/index.html",
             Options = options,
-            PositionalArguments = GetS3PositionalArguments(commandPath, commandParts, helpText, options),
+            PositionalArguments = GetAwsPositionalArguments(commandPath, commandParts, helpText, options),
             SubDomainGroup = subDomain,
             Enums = enums
         };
@@ -507,7 +518,7 @@ public partial class AwsCliScraper : CliScraperBase
         return null;
     }
 
-    private IReadOnlyList<CliPositionalArgument> GetS3PositionalArguments(
+    private IReadOnlyList<CliPositionalArgument> GetAwsPositionalArguments(
         string[] commandPath,
         string[] commandParts,
         string helpText,
@@ -534,9 +545,39 @@ public partial class AwsCliScraper : CliScraperBase
             [
                 RequiredPathArgument("S3Uri", 0, "S3 URI to operate on."),
             ],
-            ["s3", ..] => GetPositionalArguments(ParseUsageSynopsis(commandPath, helpText), options),
-            _ => [],
+            _ => GetSynopsisPositionalArguments(commandPath, helpText, options),
         };
+
+    private IReadOnlyList<CliPositionalArgument> GetSynopsisPositionalArguments(
+        string[] commandPath,
+        string helpText,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        CliPositionalArgument.MergeDuplicates(
+            GetPositionalArguments(ParseUsageSynopsis(commandPath, helpText), options));
+
+    private static IReadOnlyList<string> GetSynopsisLines(string helpText)
+    {
+        var synopsisMatch = Regex.Match(
+            helpText,
+            @"^SYNOPSIS\s*$",
+            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        if (!synopsisMatch.Success)
+        {
+            return [];
+        }
+
+        var sectionStart = synopsisMatch.Index + synopsisMatch.Length;
+        var nextSectionMatch = Regex.Match(
+            helpText[sectionStart..],
+            @"^[A-Z][A-Z\s]+$",
+            RegexOptions.Multiline);
+        var sectionEnd = nextSectionMatch.Success
+            ? sectionStart + nextSectionMatch.Index
+            : helpText.Length;
+
+        return helpText[sectionStart..sectionEnd]
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    }
 
     private static CliPositionalArgument RequiredPathArgument(
         string propertyName,
