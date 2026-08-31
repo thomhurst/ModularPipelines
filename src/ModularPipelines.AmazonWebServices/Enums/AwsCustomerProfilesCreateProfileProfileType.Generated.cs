@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCustomerProfilesCreateProfileProfileType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("ACCOUNT_PROFILE")]
     AccountProfile = 1,
 

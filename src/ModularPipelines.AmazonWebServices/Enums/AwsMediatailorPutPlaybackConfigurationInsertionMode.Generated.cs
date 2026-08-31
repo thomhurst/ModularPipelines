@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediatailorPutPlaybackConfigurationInsertionMode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("STITCHED_ONLY")]
     StitchedOnly = 1,
 

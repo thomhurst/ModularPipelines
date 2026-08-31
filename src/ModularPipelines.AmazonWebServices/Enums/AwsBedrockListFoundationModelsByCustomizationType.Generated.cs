@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockListFoundationModelsByCustomizationType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("FINE_TUNING")]
     FineTuning = 1,
 

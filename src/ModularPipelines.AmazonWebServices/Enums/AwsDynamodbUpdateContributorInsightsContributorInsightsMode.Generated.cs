@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbUpdateContributorInsightsContributorInsightsMode
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("ACCESSED_AND_THROTTLED_KEYS")]
     AccessedAndThrottledKeys = 1,
 

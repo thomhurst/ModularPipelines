@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsImportKeyMaterialExpirationModel
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("KEY_MATERIAL_EXPIRES")]
     KeyMaterialExpires = 1,
 

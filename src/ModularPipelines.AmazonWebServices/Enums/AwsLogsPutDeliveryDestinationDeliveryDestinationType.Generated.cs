@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsPutDeliveryDestinationDeliveryDestinationType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("S3")]
     S3 = 1,
 

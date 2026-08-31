@@ -74,6 +74,9 @@ public partial class AwsCliScraper : CliScraperBase
         "letters",
         "numbers",
         "punctuation",
+        "integer",
+        "greater",
+        "than",
     };
 
     protected override IReadOnlyList<string> UsageSynopsisHeadings => AwsUsageSynopsisHeadings;
@@ -96,6 +99,11 @@ public partial class AwsCliScraper : CliScraperBase
     /// AWS CLI has 350+ services - use higher parallelism for faster discovery.
     /// </summary>
     protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
+
+    public override CliToolDefinition CreateToolDefinition() => base.CreateToolDefinition() with
+    {
+        DiscardedGeneratedEnumValues = new HashSet<string>(StringComparer.Ordinal) { "o" },
+    };
 
     /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
@@ -380,7 +388,7 @@ public partial class AwsCliScraper : CliScraperBase
             var isKeyValue = !isStructure
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
 
-            var enumDef = isStructure || isKeyValue || isArray
+            var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
                 : TryDetectEnum(propertyName, className, description);
             var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
@@ -444,7 +452,10 @@ public partial class AwsCliScraper : CliScraperBase
             var values = match.Groups[1].Value
                 .Split([',', ' '], StringSplitOptions.RemoveEmptyEntries)
                 .Select(v => v.Trim().TrimEnd('.'))
-                .Where(v => v.Length > 0 && v.Length < 30 && IsValidEnumValue(v))
+                .Where(v => !v.Equals("o", StringComparison.OrdinalIgnoreCase)
+                            && v.Length > 0
+                            && v.Length < 30
+                            && IsValidEnumValue(v))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
 
@@ -543,11 +554,31 @@ public partial class AwsCliScraper : CliScraperBase
 
     private static string DetermineCSharpType(bool isFlag, bool isArray, bool isKeyValue, bool isNumeric, CliEnumDefinition? enumDef)
     {
-        if (isFlag) return "bool?";
-        if (enumDef is not null) return $"{enumDef.EnumName}?";
-        if (isKeyValue) return "IReadOnlyList<KeyValue>?";
-        if (isArray) return "IEnumerable<string>?";
-        if (isNumeric) return "int?";
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (enumDef is not null)
+        {
+            return $"{enumDef.EnumName}?";
+        }
+
+        if (isKeyValue)
+        {
+            return "IReadOnlyList<KeyValue>?";
+        }
+
+        if (isArray)
+        {
+            return "IEnumerable<string>?";
+        }
+
+        if (isNumeric)
+        {
+            return "int?";
+        }
+
         return "string?";
     }
 

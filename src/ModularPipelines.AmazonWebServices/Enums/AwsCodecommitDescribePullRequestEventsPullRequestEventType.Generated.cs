@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodecommitDescribePullRequestEventsPullRequestEventType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("PULL_REQUEST_CREATED")]
     PullRequestCreated = 1,
 

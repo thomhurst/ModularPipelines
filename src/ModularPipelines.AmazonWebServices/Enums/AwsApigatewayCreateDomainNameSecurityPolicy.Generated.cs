@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayCreateDomainNameSecurityPolicy
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("TLS_1_0")]
     Tls_1_0 = 1,
 

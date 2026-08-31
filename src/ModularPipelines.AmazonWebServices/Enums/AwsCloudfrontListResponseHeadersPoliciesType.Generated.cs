@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudfrontListResponseHeadersPoliciesType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("managed")]
     Managed = 1,
 

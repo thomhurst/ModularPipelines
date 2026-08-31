@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftDescribeEc2InstanceLimitsEc2InstanceType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("t2")]
     T2 = 1
 }

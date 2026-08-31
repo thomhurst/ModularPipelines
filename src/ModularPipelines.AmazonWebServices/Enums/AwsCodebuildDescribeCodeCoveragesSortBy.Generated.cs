@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodebuildDescribeCodeCoveragesSortBy
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("LINE_COVERAGE_PERCENTAGE")]
     LineCoveragePercentage = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesRegisterWorkspaceDirectoryUserIdentityType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("CUSTOMER_MANAGED")]
     CustomerManaged = 1,
 

@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CancelCapacityReservationApplyCancellationCharges
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("commitment-wind-down")]
     CommitmentWindDown = 1
 }

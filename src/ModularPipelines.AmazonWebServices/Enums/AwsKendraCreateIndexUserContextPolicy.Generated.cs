@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKendraCreateIndexUserContextPolicy
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("ATTRIBUTE_FILTER")]
     AttributeFilter = 1,
 

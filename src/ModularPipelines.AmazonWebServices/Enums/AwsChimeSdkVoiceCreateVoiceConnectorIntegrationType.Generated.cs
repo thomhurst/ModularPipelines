@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceCreateVoiceConnectorIntegrationType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("CONNECT_ANALYTICS_CONNECTOR")]
     ConnectAnalyticsConnector = 1
 }

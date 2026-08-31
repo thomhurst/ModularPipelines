@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotfleetwiseListModelManifestsListResponseScope
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("METADATA_ONLY")]
     MetadataOnly = 1
 }

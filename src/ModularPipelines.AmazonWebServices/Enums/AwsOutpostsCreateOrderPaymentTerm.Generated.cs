@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsCreateOrderPaymentTerm
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("THREE_YEARS")]
     ThreeYears = 1,
 

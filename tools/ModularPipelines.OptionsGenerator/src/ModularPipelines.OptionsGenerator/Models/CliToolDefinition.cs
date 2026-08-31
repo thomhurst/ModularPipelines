@@ -153,6 +153,11 @@ public record CliToolDefinition
     public IReadOnlyList<CliEnumDefinition> CompatibilityEnums { get; init; } = [];
 
     /// <summary>
+    /// Known scraper artifacts to remove from existing generated enums during stabilization.
+    /// </summary>
+    public IReadOnlySet<string> DiscardedGeneratedEnumValues { get; init; } = new HashSet<string>(StringComparer.Ordinal);
+
+    /// <summary>
     /// Any scraping errors encountered.
     /// </summary>
     public IReadOnlyList<ScrapingError> Errors { get; init; } = [];

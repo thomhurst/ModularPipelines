@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListModelCardVersionsSortBy
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("Version")]
     Version = 1
 }

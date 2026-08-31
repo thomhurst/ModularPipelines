@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftUpdateContainerGroupDefinitionOperatingSystem
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("AMAZON_LINUX_2023")]
     AmazonLinux_2023 = 1
 }

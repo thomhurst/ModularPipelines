@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoMapsGetStyleDescriptorBuildings
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("Buildings3D")]
     Buildings3D = 1
 }

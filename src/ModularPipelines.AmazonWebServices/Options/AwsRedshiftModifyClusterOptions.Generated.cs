@@ -42,7 +42,7 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions
     /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. For more information about resizing clusters, go to Resizing Clus- ters in Amazon Redshift in the Amazon Redshift Cluster Management Guide . Valid Values: Integer greater than 0 .
     /// </summary>
     [CliOption("--number-of-nodes")]
-    public AwsRedshiftModifyClusterNumberOfNodes? NumberOfNodes { get; set; }
+    public int? NumberOfNodes { get; set; }
 
     /// <summary>
     /// A list of cluster security groups to be authorized on this cluster. This change is asynchronously applied as soon as possible. Security groups currently associated with the cluster, and not in the list of groups to apply, will be revoked from the cluster. Constraints: o Must be 1 to 255 alphanumeric characters or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...

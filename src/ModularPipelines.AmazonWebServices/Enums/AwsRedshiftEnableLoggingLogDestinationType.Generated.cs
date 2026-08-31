@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftEnableLoggingLogDestinationType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("s3")]
     S3 = 1,
 

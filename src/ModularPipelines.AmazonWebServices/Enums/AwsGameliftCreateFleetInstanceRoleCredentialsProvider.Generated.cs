@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftCreateFleetInstanceRoleCredentialsProvider
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("SHARED_CREDENTIAL_FILE")]
     SharedCredentialFile = 1
 }

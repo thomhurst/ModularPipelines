@@ -28,7 +28,8 @@ internal static partial class EnumDefinitionStabilizer
                     tool.OutputDirectory,
                     "Enums",
                     $"{definition.EnumName}.Generated.cs"),
-                fallbackExistingFiles?.GetValueOrDefault(definition.EnumName)),
+                fallbackExistingFiles?.GetValueOrDefault(definition.EnumName),
+                tool.DiscardedGeneratedEnumValues),
             StringComparer.Ordinal);
 
         var commands = tool.Commands
@@ -60,11 +61,14 @@ internal static partial class EnumDefinitionStabilizer
     private static CliEnumDefinition Stabilize(
         CliEnumDefinition definition,
         string existingFile,
-        string? fallbackExistingFile)
+        string? fallbackExistingFile,
+        IReadOnlySet<string> discardedGeneratedValues)
     {
         ValidateValues(definition);
 
-        var existingValues = ReadExistingValues(existingFile, fallbackExistingFile);
+        var existingValues = ReadExistingValues(existingFile, fallbackExistingFile)
+            .Where(value => !discardedGeneratedValues.Contains(value.CliValue))
+            .ToList();
         var stabilizedValues = PreserveExistingValues(definition, existingValues);
         AppendNewValues(definition, existingValues, stabilizedValues);
 

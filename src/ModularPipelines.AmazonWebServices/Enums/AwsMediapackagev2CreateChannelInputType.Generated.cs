@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediapackagev2CreateChannelInputType
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("HLS")]
     Hls = 1,
 

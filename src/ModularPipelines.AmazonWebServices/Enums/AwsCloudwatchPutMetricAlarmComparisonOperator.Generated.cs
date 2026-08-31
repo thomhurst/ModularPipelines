@@ -16,9 +16,6 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudwatchPutMetricAlarmComparisonOperator
 {
-    [EnumValue("o")]
-    O = 0,
-
     [EnumValue("GreaterThanOrEqualToThreshold")]
     GreaterThanOrEqualToThreshold = 1,
 
