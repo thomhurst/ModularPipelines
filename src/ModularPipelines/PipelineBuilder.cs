@@ -839,11 +839,7 @@ public sealed class PipelineBuilder
 
         public void Add(ServiceDescriptor item) => loggingServices.Add(item);
 
-        public void Clear()
-        {
-            loggingServices.Clear();
-            applicationServices.Clear();
-        }
+        public void Clear() => loggingServices.Clear();
 
         public bool Contains(ServiceDescriptor item) =>
             loggingServices.Contains(item) || applicationServices.Contains(item);
