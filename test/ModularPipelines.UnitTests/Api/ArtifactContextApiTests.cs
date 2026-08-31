@@ -393,6 +393,42 @@ public class ArtifactContextApiTests
     }
 
     [Test]
+    public async Task Directory_Archive_Extraction_Rejects_Linked_Parent()
+    {
+        await using var archiveStream = new MemoryStream();
+        using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: true))
+        await using (var entryStream = archive.CreateEntry("link/payload.txt").Open())
+        await using (var writer = new StreamWriter(entryStream))
+        {
+            await writer.WriteAsync("payload");
+        }
+
+        archiveStream.Position = 0;
+        using var archiveToExtract = new ZipArchive(archiveStream, ZipArchiveMode.Read);
+        var destinationDirectory = Directory.CreateTempSubdirectory("artifact-extraction-");
+        var outsideDirectory = Directory.CreateTempSubdirectory("artifact-outside-");
+        var linkedDirectory = Path.Combine(destinationDirectory.FullName, "link");
+        Directory.CreateSymbolicLink(linkedDirectory, outsideDirectory.FullName);
+
+        try
+        {
+            await Assert.ThrowsAsync<IOException>(() =>
+                ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+                    archiveToExtract,
+                    destinationDirectory.FullName,
+                    CancellationToken.None));
+            await Assert.That(File.Exists(Path.Combine(outsideDirectory.FullName, "payload.txt")))
+                .IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(linkedDirectory);
+            destinationDirectory.Delete();
+            outsideDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Directory_Archive_Path_Comparison_Is_Case_Insensitive_Only_On_Windows()
     {
         var comparison = ArtifactContextImpl.GetArchivePathComparison();

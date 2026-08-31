@@ -179,7 +179,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
             ? destinationDirectory
             : destinationDirectory + Path.DirectorySeparatorChar;
         var pathComparison = GetArchivePathComparison();
-        Directory.CreateDirectory(destinationDirectory);
+        CreateDirectoryWithoutLinks(destinationDirectory, destinationDirectory);
 
         foreach (var entry in archive.Entries)
         {
@@ -193,15 +193,17 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
 
             if (string.IsNullOrEmpty(entry.Name))
             {
-                Directory.CreateDirectory(entryPath);
+                CreateDirectoryWithoutLinks(destinationDirectory, entryPath);
                 continue;
             }
 
             var entryDirectory = Path.GetDirectoryName(entryPath);
             if (!string.IsNullOrEmpty(entryDirectory))
             {
-                Directory.CreateDirectory(entryDirectory);
+                CreateDirectoryWithoutLinks(destinationDirectory, entryDirectory);
             }
+
+            EnsurePathContainsNoLinks(destinationDirectory, entryPath);
 
             await using (var entryStream = entry.Open())
             await using (var destinationStream = new FileStream(
@@ -217,6 +219,55 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
             }
 
             File.SetLastWriteTime(entryPath, entry.LastWriteTime.DateTime);
+        }
+    }
+
+    private static void CreateDirectoryWithoutLinks(string destinationDirectory, string path)
+    {
+        EnsurePathContainsNoLinks(destinationDirectory, path);
+        Directory.CreateDirectory(path);
+        EnsurePathContainsNoLinks(destinationDirectory, path);
+    }
+
+    private static void EnsurePathContainsNoLinks(string destinationDirectory, string path)
+    {
+        var currentPath = destinationDirectory;
+        try
+        {
+            EnsurePathIsNotLink(currentPath);
+        }
+        catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
+        {
+            return;
+        }
+
+        var relativePath = Path.GetRelativePath(destinationDirectory, path);
+        if (relativePath == ".")
+        {
+            return;
+        }
+
+        foreach (var segment in relativePath.Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            currentPath = Path.Combine(currentPath, segment);
+            try
+            {
+                EnsurePathIsNotLink(currentPath);
+            }
+            catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
+            {
+                return;
+            }
+        }
+    }
+
+    private static void EnsurePathIsNotLink(string path)
+    {
+        if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
+        {
+            throw new IOException($"Extracting through linked path '{path}' is not allowed.");
         }
     }
 
