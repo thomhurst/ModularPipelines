@@ -19,9 +19,7 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("namespace")]
-public record VaultNamespaceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
-) : VaultOptions
+public record VaultNamespaceOptions : VaultOptions
 {
     /// <summary>
     /// The args operand.
