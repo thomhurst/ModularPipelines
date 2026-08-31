@@ -17,11 +17,11 @@ namespace ModularPipelines.Helm.Enums;
 public enum HelmUninstallCascade
 {
     [EnumValue("background")]
-    Background = 0,
+    Background,
 
     [EnumValue("orphan")]
-    Orphan = 1,
+    Orphan,
 
     [EnumValue("foreground")]
-    Foreground = 2
+    Foreground
 }

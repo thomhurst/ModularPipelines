@@ -17,11 +17,11 @@ namespace ModularPipelines.Helm.Enums;
 public enum HelmGetMetadataOutput
 {
     [EnumValue("table")]
-    Table = 0,
+    Table,
 
     [EnumValue("json")]
-    Json = 1,
+    Json,
 
     [EnumValue("yaml")]
-    Yaml = 2
+    Yaml
 }
