@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Syft.Services;
 
 namespace ModularPipelines.Syft.Extensions;
@@ -33,4 +32,5 @@ public static class SyftExtensions
         services.TryAddScoped<ISyftConfig, SyftConfig>();
         return services;
     }
+
 }

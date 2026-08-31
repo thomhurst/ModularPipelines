@@ -136,7 +136,4 @@ public record SyftAttestOptions(
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
-    [Obsolete("Format is no longer supported by the installed CLI and has no effect.")]
-    public string? Format { get; set; }
-
 }
