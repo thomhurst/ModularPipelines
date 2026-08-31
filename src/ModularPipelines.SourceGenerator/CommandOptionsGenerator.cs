@@ -1221,6 +1221,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
         sb.AppendLine($"    public const int CommandSchemaVersion = {CommandMetadataSchemaVersion};");
         sb.AppendLine();
+        AppendSchemaVersionDependencies(sb);
         AppendCommandMetadataDependencies(sb, uniqueItems);
 
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
@@ -1262,6 +1263,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
         sb.AppendLine($"    public const int CommandSchemaVersion = {CommandMetadataSchemaVersion};");
         sb.AppendLine();
+        AppendSchemaVersionDependencies(sb);
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
         sb.AppendLine("    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]");
         sb.AppendLine("    internal static void Register()");
@@ -1350,6 +1352,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     $"typeof({item.TypeName}))]");
             }
         }
+    }
+
+    private static void AppendSchemaVersionDependencies(StringBuilder sb)
+    {
+        sb.AppendLine(
+            "    [global::System.Diagnostics.CodeAnalysis.DynamicDependency(" +
+            "global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicFields | " +
+            "global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicFields, " +
+            "typeof(RuntimeMetadataRegistration))]");
     }
 
     private static void AppendRuntimeTypeRegistrations(

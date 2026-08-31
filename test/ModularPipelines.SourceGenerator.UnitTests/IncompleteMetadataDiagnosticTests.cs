@@ -215,6 +215,8 @@ public class IncompleteMetadataDiagnosticTests
                 .Contains("RuntimeMetadataRegistrationChunk0000.Register(assembly);");
             await Assert.That(registrationSource)
                 .Contains("RuntimeMetadataRegistrationChunk0001.Register(assembly);");
+            await Assert.That(registrationSource).Contains(
+                "DynamicallyAccessedMemberTypes.NonPublicFields, typeof(RuntimeMetadataRegistration)");
             await Assert.That(chunkSources[0])
                 .Contains("internal static class RuntimeMetadataRegistrationChunk0000");
             await Assert.That(chunkSources[1])
@@ -576,6 +578,8 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(generatedSource).Contains("typeof(global::External.CrossLanguageOptions)");
             await Assert.That(generatedSource).Contains("public const int SchemaVersion = 2;");
             await Assert.That(generatedSource).Contains("public const int CommandSchemaVersion = 4;");
+            await Assert.That(generatedSource).Contains(
+                "DynamicallyAccessedMemberTypes.NonPublicFields, typeof(RuntimeMetadataRegistration)");
             await Assert.That(generatedSource).Contains("            4);");
             await Assert.That(generatedSource).Contains(
                 "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::External.CrossLanguageOptions)");
