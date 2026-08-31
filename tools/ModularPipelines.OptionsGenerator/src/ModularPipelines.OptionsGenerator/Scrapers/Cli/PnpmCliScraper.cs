@@ -33,6 +33,14 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PnpmCliScraper : CliScraperBase
 {
+    private static readonly HashSet<string> PlaceholderFreeValueOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--allow-build",
+        "--global-dir",
+        "--otp",
+        "--publish-branch",
+    };
+
     public PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -365,11 +373,10 @@ public partial class PnpmCliScraper : CliScraperBase
                 continue;
             }
 
-            // pnpm normally represents value-taking options with an explicit placeholder.
-            // Some stage subcommands omit the placeholder for --otp even though it still
-            // requires a one-time-password value.
+            // pnpm normally represents value-taking options with an explicit placeholder,
+            // but some options omit it from their rendered help text.
             var isFlag = string.IsNullOrEmpty(valueHint)
-                         && !longForm.Equals("--otp", StringComparison.OrdinalIgnoreCase);
+                         && !PlaceholderFreeValueOptions.Contains(longForm);
             var csharpType = isFlag ? "bool?" : "string?";
 
             options.Add(new CliOptionDefinition

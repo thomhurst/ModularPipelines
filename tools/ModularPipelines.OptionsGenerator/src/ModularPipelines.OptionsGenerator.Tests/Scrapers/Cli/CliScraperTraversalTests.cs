@@ -977,7 +977,7 @@ public class CliScraperTraversalTests
     }
 
     [Test]
-    public async Task PnpmTraversal_Classifies_Placeholder_Free_Switches_As_Flags()
+    public async Task PnpmTraversal_Classifies_Placeholder_Free_Options()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -1002,7 +1002,10 @@ public class CliScraperTraversalTests
                   --interactive               Prompt before applying changes
                   --ignore-registry-errors    Continue when a registry is unavailable
                   --ignore-unfixable          Ignore vulnerabilities without a fix
+                  --allow-build               A list of package names allowed to run postinstall scripts
+                  --global-dir                Specify a custom directory to store global packages
                   --otp                       One-time password for two-factor authentication
+                  --publish-branch            Sets branch name to publish
                   --registry <url>            Use the specified registry
                   --filter <pattern>          Restrict packages by selector
                 """,
@@ -1028,7 +1031,10 @@ public class CliScraperTraversalTests
                 await Assert.That(options[switchName].CSharpType).IsEqualTo("bool?");
             }
 
-            foreach (var switchName in new[] { "--registry", "--filter" })
+            foreach (var switchName in new[]
+                     {
+                         "--allow-build", "--filter", "--global-dir", "--publish-branch", "--registry",
+                     })
             {
                 await Assert.That(options[switchName].IsFlag).IsFalse();
                 await Assert.That(options[switchName].CSharpType).IsEqualTo("string?");
