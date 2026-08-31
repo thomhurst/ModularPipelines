@@ -85,7 +85,6 @@ public class ServiceImplementationGenerator : ICodeGenerator
                 var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
                 constructorParams.Add($"        I{subDomainClassName} {paramName}");
-
             }
             constructorParams.Add("        ICommandContext command");
 

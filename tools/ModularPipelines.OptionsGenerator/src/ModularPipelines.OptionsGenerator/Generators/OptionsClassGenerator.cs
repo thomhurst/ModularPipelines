@@ -25,7 +25,6 @@ public class OptionsClassGenerator : ICodeGenerator
                 RelativePath = relativePath,
                 Content = content
             });
-
         }
 
         return Task.FromResult<IReadOnlyList<GeneratedFile>>(files);
@@ -144,7 +143,6 @@ public class OptionsClassGenerator : ICodeGenerator
             existingPropertyNames.Add(positional.PropertyName);
             sb.AppendLine();
         }
-
     }
 
     private static void GenerateFileHeader(StringBuilder sb, string? documentationUrl)

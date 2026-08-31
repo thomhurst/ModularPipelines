@@ -160,5 +160,4 @@ public class GlobalOptionsBaseGeneratorTests
 
         await Assert.That(generated).Contains("[SecretValue(\"token\", \"password\")]");
     }
-
 }

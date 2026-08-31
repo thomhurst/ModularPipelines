@@ -146,7 +146,6 @@ public class GeneratorHardeningTests
             .DoesNotContain("public static ITool Tool(this IPipelineContext context)");
     }
 
-
     [Test]
     public async Task Options_Class_Imports_Models_For_Cli_Option_Value_Pairs()
     {
@@ -520,8 +519,6 @@ public class GeneratorHardeningTests
         }
     }
 
-
-
     [Test]
     public async Task OptionsClassGenerator_Renames_Inherited_Name_Collisions()
     {
@@ -699,8 +696,6 @@ public class GeneratorHardeningTests
             await Assert.That(contentWithoutLineEndings).DoesNotContain('\n');
         }
     }
-
-
 
     [Test]
     public async Task OptionsClassGenerator_Allows_Required_Constructor_Operand_To_Skip_Validation()
@@ -950,8 +945,6 @@ public class GeneratorHardeningTests
         }
     }
 
-
-
     [Test]
     public async Task EnsureNoDuplicateFilePaths_Throws_On_Case_Variant_Duplicate()
     {
@@ -1002,8 +995,6 @@ public class GeneratorHardeningTests
             .Throws<InvalidOperationException>();
     }
 
-
-
     [Test]
     public async Task GenerateServiceMethod_Emits_Nullable_Optional_Parameters()
     {
@@ -1044,8 +1035,6 @@ public class GeneratorHardeningTests
             .Contains("IToolArtifact Artifact => throw new System.NotSupportedException();");
     }
 
-
-
     [Test]
     public async Task GenerateMethodNameFromCommandParts_Handles_Snake_Case()
     {
@@ -1061,8 +1050,6 @@ public class GeneratorHardeningTests
 
         await Assert.That(result).IsEqualTo("AppSetCreate");
     }
-
-
 
     [Test]
     public async Task EscapeXmlComment_Normalizes_Linux_Runner_Home_Paths()
@@ -1116,8 +1103,6 @@ public class GeneratorHardeningTests
         await Assert.That(result).Contains(path);
     }
 
-
-
     [Test]
     public async Task IsSecretOption_Detects_Passphrase()
     {
@@ -1125,8 +1110,6 @@ public class GeneratorHardeningTests
 
         await Assert.That(result).IsTrue();
     }
-
-
 
     [Test]
     public async Task EnumGenerator_Emits_Runtime_EnumValue_Attribute()
@@ -1204,8 +1187,6 @@ public class GeneratorHardeningTests
         await Assert.That(() => GeneratorUtils.EnsureNoDuplicateFilePaths(enumFiles))
             .Throws<InvalidOperationException>();
     }
-
-
 
     [Test]
     public async Task GetNonCollidingRootCommands_Throws_When_Commands_Normalize_To_The_Same_Method_Name()
@@ -1364,8 +1345,6 @@ public class GeneratorHardeningTests
         await Assert.That(service).Contains("FooAsyncCommand2Async(");
     }
 
-
-
     [Test]
     public async Task GetNonCollidingRootCommands_Filters_Commands_Colliding_With_SubDomains()
     {
@@ -1380,13 +1359,10 @@ public class GeneratorHardeningTests
         await Assert.That(rootCommands[0].ClassName).IsEqualTo("ToolVersionOptions");
     }
 
-
-
     [Test]
     public async Task GeneratedCodeAttribute_Contains_A_Version()
     {
         await Assert.That(GeneratorUtils.GeneratedCodeAttribute)
             .Contains($"\"{GeneratorUtils.GeneratorVersion}\"");
     }
-
 }

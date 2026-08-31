@@ -17,7 +17,6 @@ public abstract partial class CliScraperBase : ICliScraper
 {
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
 
-
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
     protected readonly ILogger Logger;
@@ -264,7 +263,6 @@ public abstract partial class CliScraperBase : ICliScraper
     public virtual async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-
         Logger.LogInformation("Discovering {Tool} commands via CLI (executable: {Path}, parallelism: {Parallelism})...",
             ToolName, ExecutablePath, MaxParallelism);
 

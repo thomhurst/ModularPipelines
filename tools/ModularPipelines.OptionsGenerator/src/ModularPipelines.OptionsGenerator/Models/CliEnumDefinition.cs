@@ -40,5 +40,4 @@ public record CliEnumValue
     /// Description for XML documentation.
     /// </summary>
     public string? Description { get; init; }
-
 }
