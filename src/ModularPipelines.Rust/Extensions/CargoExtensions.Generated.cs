@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Rust.Services;
 
 namespace ModularPipelines.Rust.Extensions;
@@ -31,4 +30,5 @@ public static class CargoExtensions
         services.TryAddScoped<ICargo, Services.Cargo>();
         return services;
     }
+
 }

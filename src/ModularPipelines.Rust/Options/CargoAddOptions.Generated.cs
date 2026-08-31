@@ -19,8 +19,12 @@ namespace ModularPipelines.Rust.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
-public record CargoAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Dep
-) : CargoOptions
+public record CargoAddOptions : CargoOptions
 {
+    /// <summary>
+    /// The DEP operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Dep { get; set; }
+
 }
