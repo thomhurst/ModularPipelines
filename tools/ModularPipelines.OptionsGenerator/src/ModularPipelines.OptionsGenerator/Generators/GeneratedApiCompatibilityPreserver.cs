@@ -1249,10 +1249,12 @@ internal static class GeneratedApiCompatibilityPreserver
             renamedProperties,
             violations));
         RestoreBaselinePropertyShapes(
+            command,
             baselineProperties,
             preservedTypeChanges,
             positionalArguments,
-            options);
+            options,
+            violations);
 
         positionalArguments = RestoreRemovedRequiredPositionalArguments(
             baselineProperties,
@@ -1851,16 +1853,23 @@ internal static class GeneratedApiCompatibilityPreserver
     }
 
     private static void RestoreBaselinePropertyShapes(
+        CliCommandDefinition command,
         IReadOnlyList<GeneratedApiProperty> baselineProperties,
-        IReadOnlySet<string> preservedTypeChanges,
+        ISet<string> preservedTypeChanges,
         CliPositionalArgument[] positionalArguments,
-        CliOptionDefinition[] options)
+        CliOptionDefinition[] options,
+        ICollection<string> violations)
     {
         foreach (var baseline in baselineProperties.Where(property =>
                      !property.IsCompatibility
                      && !preservedTypeChanges.Contains(property.PropertyName)))
         {
-            if (TryRestoreBaselineOptionShape(baseline, options))
+            if (TryRestoreBaselineOptionShape(
+                    command,
+                    baseline,
+                    preservedTypeChanges,
+                    options,
+                    violations))
             {
                 continue;
             }
@@ -1870,8 +1879,11 @@ internal static class GeneratedApiCompatibilityPreserver
     }
 
     private static bool TryRestoreBaselineOptionShape(
+        CliCommandDefinition command,
         GeneratedApiProperty baseline,
-        CliOptionDefinition[] options)
+        ISet<string> preservedTypeChanges,
+        CliOptionDefinition[] options,
+        ICollection<string> violations)
     {
         var index = Array.FindIndex(options, option =>
             option.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
@@ -1879,6 +1891,20 @@ internal static class GeneratedApiCompatibilityPreserver
         if (index < 0 || !HasBaselineShapeDrift(ToGeneratedProperty(options[index]), baseline))
         {
             return false;
+        }
+
+        var current = ToGeneratedProperty(options[index]);
+        if (IsUnsafeBooleanStringChange(baseline, current, options))
+        {
+            preservedTypeChanges.Add(baseline.PropertyName);
+            if (baseline.IsRequired)
+            {
+                violations.Add(
+                    $"{command.ClassName}.{baseline.PropertyName} was removed from the required constructor "
+                    + $"because replacement {current.PropertyName} does not explicitly accept Boolean text");
+            }
+
+            return true;
         }
 
         var isCollection = CliOptionDefinition.TryGetCollectionShape(
@@ -2147,6 +2173,11 @@ internal static class GeneratedApiCompatibilityPreserver
         if (baseline.IsCompatibility)
         {
             var caseVariantTarget = FindCaseVariantForwardingTarget(baseline, currentProperties);
+            if (IsUnsafeBooleanStringChange(baseline, caseVariantTarget, options))
+            {
+                return;
+            }
+
             PreserveCompatibilityProperty(
                 command,
                 caseVariantTarget is null
@@ -2154,6 +2185,9 @@ internal static class GeneratedApiCompatibilityPreserver
                     : baseline with
                     {
                         ForwardToPropertyName = caseVariantTarget.PropertyName,
+                        ForwardingKind = GetRenamedPropertyForwardingKind(
+                            baseline,
+                            caseVariantTarget) ?? baseline.ForwardingKind,
                         ObsoleteMessage = $"Use {caseVariantTarget.PropertyName} instead.",
                     },
                 compatibilityProperties,
@@ -2223,10 +2257,7 @@ internal static class GeneratedApiCompatibilityPreserver
                                    StringComparison.Ordinal)
                                && property.PropertyName.Equals(
                                    baseline.PropertyName,
-                                   StringComparison.OrdinalIgnoreCase)
-                               && property.CSharpType.Equals(
-                                   baseline.CSharpType,
-                                   StringComparison.Ordinal))
+                                   StringComparison.OrdinalIgnoreCase))
             .ToArray();
         return candidates.Length == 1 ? candidates[0] : null;
     }
@@ -2498,17 +2529,19 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<CliOptionDefinition> options)
     {
         if (!property.IsCompatibility
-            || property.ForwardingKind is not (
-                CliCompatibilityForwardingKind.NullableBooleanToString
+            || property.ForwardingKind is not (CliCompatibilityForwardingKind.Direct
+                or CliCompatibilityForwardingKind.NullableBooleanToString
                 or CliCompatibilityForwardingKind.NullableBooleanToStringCollection))
         {
             return false;
         }
 
         var target = FindForwardingTargetBaseline(baselineProperties, property);
-        return target is not null
-               && options.Any(option => HasSameCliIdentity(ToGeneratedProperty(option), target)
-                                        && !ExplicitlyAcceptsBooleanText(option));
+        var replacement = target is null
+            ? null
+            : options.Select(ToGeneratedProperty)
+                .FirstOrDefault(option => HasSameCliIdentity(option, target));
+        return IsUnsafeBooleanStringChange(property, replacement, options);
     }
 
     private static bool IsUnsafeBooleanStringChange(

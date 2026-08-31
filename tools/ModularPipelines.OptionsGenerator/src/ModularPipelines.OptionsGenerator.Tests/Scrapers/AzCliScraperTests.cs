@@ -640,8 +640,9 @@ public class AzCliScraperTests
                 az appservice plan create : Create an app service plan.
 
             Optional Arguments
-                --default-identity [Preview] : Accept system or user assigned identity separated.
+                --default-identity [preview] : Accept system or user assigned identity separated.
                 --subnet NAME       [Preview] : Name or ID of the subnet.
+                --lowercase lowercase : This must not be inferred as an uppercase value placeholder.
             """;
 
         var command = await new TestAzCliScraper().Parse(
