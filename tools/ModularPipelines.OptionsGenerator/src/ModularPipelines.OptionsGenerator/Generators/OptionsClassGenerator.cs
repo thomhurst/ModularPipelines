@@ -454,7 +454,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        var accessor = GetPropertyAccessor(option.IsRequired, option.PropertyType);
+        var accessor = GetPropertyAccessor(option.IsRequired);
         sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.PropertyType} {option.PropertyName} {{ get; {accessor}; }}");
     }
 
@@ -469,19 +469,12 @@ public class OptionsClassGenerator : ICodeGenerator
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
-        var accessor = GetPropertyAccessor(positional.IsRequired, positional.CSharpType);
+        var accessor = GetPropertyAccessor(positional.IsRequired);
         sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; {accessor}; }}");
     }
 
-    private static string GetPropertyAccessor(bool isRequired, string cSharpType)
-    {
-        if (!isRequired)
-        {
-            return "set";
-        }
-
-        return IsCollectionType(cSharpType) ? "private init" : "init";
-    }
+    private static string GetPropertyAccessor(bool isRequired) =>
+        isRequired ? "private init" : "set";
 
     private static string GetNewModifier(string propertyName) =>
         InheritedPropertyCollisionResolver.IsInheritedPropertyName(propertyName) ? "new " : "";
