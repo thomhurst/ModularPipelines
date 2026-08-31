@@ -1583,6 +1583,67 @@ public partial class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Does_Not_Forward_Case_Variant_Alias_Across_Unsupported_Type_Change()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--count",
+                    PropertyName = "COUNT",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Count", "int?", switchName: "--count", isCompatibility: true)]);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var alias = preserved.CompatibilityProperties.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(alias.ForwardToPropertyName).IsNull();
+            await Assert.That(alias.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.Direct);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Does_Not_Preserve_NonNullable_Boolean_Alias_As_String()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--enabled",
+                    PropertyName = "EnabledValue",
+                    CSharpType = "string?",
+                    Description = "Allowed values: automatic, disabled, enabled.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [
+                BaselineProperty("Enabled", "bool", switchName: "--enabled"),
+                BaselineProperty(
+                    "LegacyEnabled",
+                    "bool",
+                    isCompatibility: true,
+                    forwardToPropertyName: "Enabled"),
+            ]);
+
+        await Assert.That(preserved.CompatibilityProperties).IsEmpty();
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Does_Not_Forward_Boolean_To_Enum_Like_String()
     {
         var command = Command("AzAksCreateOptions", "AzOptions", ["aks", "create"]) with

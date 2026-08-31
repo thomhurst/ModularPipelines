@@ -354,7 +354,11 @@ public partial class AzCliScraper : CliScraperBase
             return null;
         }
 
-        var isRequired = match.Groups["required"].Success
+        var isRequired = match.Groups["tag"].Captures
+                             .Cast<Capture>()
+                             .Any(capture => capture.Value.Equals(
+                                 "Required",
+                                 StringComparison.OrdinalIgnoreCase))
                          || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
         var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
         var isFlag = !isRequired && IsPresenceOnlyFlag(
@@ -640,7 +644,7 @@ public partial class AzCliScraper : CliScraperBase
     /// --option --alias     : Description
     /// --flag               : Description
     /// </summary>
-    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<required>Required)\])?(?:\s+\[(?!Required\])[^\]\r\n]+\])?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<tag>[^\]\r\n]+)\])*\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|denysettings|accepts?)\b", RegexOptions.IgnoreCase)]

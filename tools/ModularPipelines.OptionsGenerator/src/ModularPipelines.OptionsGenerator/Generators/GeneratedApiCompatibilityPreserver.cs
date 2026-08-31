@@ -2190,7 +2190,8 @@ internal static class GeneratedApiCompatibilityPreserver
                                    StringComparison.Ordinal)
                                && property.PropertyName.Equals(
                                    baseline.PropertyName,
-                                   StringComparison.OrdinalIgnoreCase))
+                                   StringComparison.OrdinalIgnoreCase)
+                               && GetRenamedPropertyForwardingKind(baseline, property) is not null)
             .ToArray();
         return candidates.Length == 1 ? candidates[0] : null;
     }
@@ -2424,16 +2425,19 @@ internal static class GeneratedApiCompatibilityPreserver
             return CliCompatibilityForwardingKind.Direct;
         }
 
-        if (baseline.CSharpType.Equals("bool?", StringComparison.Ordinal)
-            && replacement.CSharpType.Equals("string?", StringComparison.Ordinal))
+        if (IsBooleanType(baseline.CSharpType))
         {
-            return CliCompatibilityForwardingKind.NullableBooleanToString;
-        }
+            if (!baseline.CSharpType.Equals("bool?", StringComparison.Ordinal))
+            {
+                return null;
+            }
 
-        if (baseline.CSharpType.Equals("bool?", StringComparison.Ordinal)
-            && replacement.CSharpType.Equals("IEnumerable<string>?", StringComparison.Ordinal))
-        {
-            return CliCompatibilityForwardingKind.NullableBooleanToStringCollection;
+            return replacement.CSharpType switch
+            {
+                "string?" => CliCompatibilityForwardingKind.NullableBooleanToString,
+                "IEnumerable<string>?" => CliCompatibilityForwardingKind.NullableBooleanToStringCollection,
+                _ => null,
+            };
         }
 
         if (!baseline.CSharpType.Equals("string?", StringComparison.Ordinal))
@@ -2483,7 +2487,7 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<CliOptionDefinition> options)
     {
         if (replacement is null
-            || !baseline.CSharpType.Equals("bool?", StringComparison.Ordinal)
+            || !IsBooleanType(baseline.CSharpType)
             || replacement.CSharpType is not ("string?" or "IEnumerable<string>?"))
         {
             return false;
@@ -2498,6 +2502,8 @@ internal static class GeneratedApiCompatibilityPreserver
 
     private static bool ExplicitlyAcceptsBooleanText(CliOptionDefinition option) =>
         CliScraperBase.HelpDeclaresExplicitBooleanValue(option.Description ?? string.Empty);
+
+    private static bool IsBooleanType(string cSharpType) => cSharpType is "bool" or "bool?";
 
     private static void PreserveCompatibilityProperty(
         CliCommandDefinition command,
