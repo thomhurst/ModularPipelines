@@ -50,8 +50,8 @@ public class GcloudProjectSelectorTests
             await AssertArguments(BuildArguments(option),
             [
                 module,
-                $"--project={project}",
                 $"--parent={parent}",
+                $"--project={project}",
             ]);
         }
     }
