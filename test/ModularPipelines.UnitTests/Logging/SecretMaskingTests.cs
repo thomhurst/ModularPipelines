@@ -10,6 +10,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Logging;
 
@@ -294,6 +295,27 @@ public class SecretMaskingTests
         var result = SecretObfuscator.FindSafeFallbackMaskCharacter(character => character >= '\u00AD');
 
         await Assert.That(result).IsEqualTo('\u00AE');
+    }
+
+    [Test]
+    public async Task AdjacentFallbackMasks_DoNotReconstructARegisteredSecret()
+    {
+        string[] secrets = ["MASK", "D][R", "AA"];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(0);
+        secretProvider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, secrets));
+        var obfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                MaskValue = "[MASK]",
+            }));
+
+        var output = obfuscator.ObfuscateWithSourceMap(
+            "AAAA",
+            preserveExistingMasks: false).Value;
+
+        await Assert.That(output).DoesNotContain("D][R");
     }
 
     [Test]

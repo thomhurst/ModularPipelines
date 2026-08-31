@@ -178,8 +178,7 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         var comparison = CaseInsensitive
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
-        return secrets.All(secret =>
-            string.IsNullOrEmpty(secret) || !maskValue.Contains(secret, comparison));
+        return IsSafeMask(maskValue, secrets, comparison);
     }
 
     internal bool CanSafelyPreserveRegisteredMasks()
@@ -334,9 +333,19 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
     private static bool IsSafeMask(
         string candidate,
         IReadOnlyList<string> secrets,
-        StringComparison comparison) =>
-        secrets.All(secret =>
-            string.IsNullOrEmpty(secret) || !candidate.Contains(secret, comparison));
+        StringComparison comparison)
+    {
+        var maximumSecretLength = secrets
+            .Where(secret => !string.IsNullOrEmpty(secret))
+            .Select(secret => secret.Length)
+            .DefaultIfEmpty()
+            .Max();
+        var repetitionCount = (maximumSecretLength / candidate.Length) + 2;
+        var repeatedCandidate = string.Concat(Enumerable.Repeat(candidate, repetitionCount));
+
+        return secrets.All(secret =>
+            string.IsNullOrEmpty(secret) || !repeatedCandidate.Contains(secret, comparison));
+    }
 
     private static SecretCache CreateSecretCache(
         IEnumerable<string> secrets,
