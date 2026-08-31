@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Hadolint.Services;
 
 namespace ModularPipelines.Hadolint.Extensions;
@@ -31,4 +30,5 @@ public static class HadolintExtensions
         services.TryAddScoped<IHadolint, Services.Hadolint>();
         return services;
     }
+
 }

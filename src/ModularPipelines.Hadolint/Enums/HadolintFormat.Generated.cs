@@ -17,32 +17,32 @@ namespace ModularPipelines.Hadolint.Enums;
 public enum HadolintFormat
 {
     [EnumValue("tty")]
-    Tty = 0,
+    Tty,
 
     [EnumValue("json")]
-    Json = 1,
+    Json,
 
     [EnumValue("checkstyle")]
-    Checkstyle = 2,
+    Checkstyle,
 
     [EnumValue("codeclimate")]
-    Codeclimate = 3,
+    Codeclimate,
 
     [EnumValue("gitlab_codeclimate")]
-    GitlabCodeclimate = 4,
+    GitlabCodeclimate,
 
     [EnumValue("gnu")]
-    Gnu = 5,
+    Gnu,
 
     [EnumValue("codacy")]
-    Codacy = 6,
+    Codacy,
 
     [EnumValue("sonarqube")]
-    Sonarqube = 7,
+    Sonarqube,
 
     [EnumValue("sarif")]
-    Sarif = 8,
+    Sarif,
 
     [EnumValue("junit")]
-    Junit = 9
+    Junit
 }
