@@ -52,7 +52,4 @@ public record PodmanGenerateKubeOptions(
     [CliOption("--type", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }
 
-    [Obsolete("Podman no longer supports --no-trunc and this property has no effect.")]
-    public bool? NoTrunc { get; set; }
-
 }

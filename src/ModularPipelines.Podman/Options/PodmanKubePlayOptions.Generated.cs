@@ -180,7 +180,4 @@ public record PodmanKubePlayOptions(
     [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? AdditionalKubefiles { get; set; }
 
-    [Obsolete("Podman no longer supports --no-trunc and this property has no effect.")]
-    public bool? NoTrunc { get; set; }
-
 }
