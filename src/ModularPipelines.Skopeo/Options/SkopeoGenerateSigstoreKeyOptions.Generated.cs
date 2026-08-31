@@ -18,9 +18,7 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate-sigstore-key")]
-public record SkopeoGenerateSigstoreKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Prefix
-) : SkopeoOptions
+public record SkopeoGenerateSigstoreKeyOptions : SkopeoOptions
 {
     /// <summary>
     /// help for generate-sigstore-key

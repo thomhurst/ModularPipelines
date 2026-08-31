@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Skopeo.Services;
 
 namespace ModularPipelines.Skopeo.Extensions;
@@ -31,4 +30,5 @@ public static class SkopeoExtensions
         services.TryAddScoped<ISkopeo, Services.Skopeo>();
         return services;
     }
+
 }

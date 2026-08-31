@@ -17,11 +17,11 @@ namespace ModularPipelines.Skopeo.Enums;
 public enum SkopeoSyncFormat
 {
     [EnumValue("oci")]
-    Oci = 0,
+    Oci,
 
     [EnumValue("v2s1")]
-    V2S1 = 1,
+    V2S1,
 
     [EnumValue("v2s2")]
-    V2S2 = 2
+    V2S2
 }

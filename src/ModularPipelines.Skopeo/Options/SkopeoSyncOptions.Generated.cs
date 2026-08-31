@@ -21,9 +21,8 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sync")]
 public record SkopeoSyncOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Transport,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Source,
-    [property: CliArgument(2, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Source,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
 ) : SkopeoOptions
 {
     /// <summary>
