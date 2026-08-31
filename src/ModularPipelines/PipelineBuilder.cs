@@ -1002,11 +1002,11 @@ public sealed class PipelineBuilder
     private bool HasDefaultLoggingProvider(IServiceCollection services)
         => services.Any(IsDefaultLoggingProvider);
 
-    private static bool UsesDefaultLoggerFactory(IServiceCollection services)
+    internal static bool UsesDefaultLoggerFactory(IServiceCollection services)
     {
         var descriptor = services.LastOrDefault(static service =>
             service.ServiceType == typeof(ILoggerFactory));
-        return GetImplementationType(descriptor) == typeof(LoggerFactory);
+        return descriptor?.ImplementationType == typeof(LoggerFactory);
     }
 
     private static bool IsMatchingLoggingProvider(

@@ -681,7 +681,7 @@ public class PipelineOptionsTests
     [Test]
     public async Task PipelineBuilderConsoleLoggingHonorsCustomLoggerFactoryWithDefaultProviders()
     {
-        var builder = TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create(new TestHostSettings { ClearLogProviders = false })
             .AddModule<OptionsTestModule>();
         builder.Services.TryAddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
 
@@ -689,7 +689,18 @@ public class PipelineOptionsTests
         var control = pipeline.Services
             .GetRequiredService<MEL.Spectre.ISpectreConsoleLoggerControl>();
 
-        await Assert.That(control.WouldRender("Category", LogLevel.Error)).IsFalse();
+        await Assert.That(control)
+            .IsTypeOf<ModularPipelines.Console.NoopSpectreConsoleLoggerControl>();
+    }
+
+    [Test]
+    public async Task PipelineBuilderTreatsPrebuiltDefaultLoggerFactoryInstanceAsCustom()
+    {
+        using var loggerFactory = new LoggerFactory();
+        IServiceCollection services = new ServiceCollection();
+        services.AddSingleton<ILoggerFactory>(loggerFactory);
+
+        await Assert.That(PipelineBuilder.UsesDefaultLoggerFactory(services)).IsFalse();
     }
 
     [Test]
