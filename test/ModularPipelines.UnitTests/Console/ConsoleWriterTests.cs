@@ -53,7 +53,7 @@ public class ConsoleWriterTests
         where TModule : class, IModule
     {
         var builder = TestPipelineBuilder.Create();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunReport = options.RunReport with
             {

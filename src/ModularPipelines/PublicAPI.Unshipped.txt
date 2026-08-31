@@ -883,6 +883,11 @@
 *REMOVED*ModularPipelines.Options.RunReportOptions.ReportPath.get -> string?
 *REMOVED*ModularPipelines.Options.RunReportOptions.ReportPath.init -> void
 *REMOVED*ModularPipelines.Options.RunReportOptions.RunReportOptions() -> void
+*REMOVED*ModularPipelines.Options.SchedulerOptions
+*REMOVED*ModularPipelines.Options.SchedulerOptions.NotificationTimeout.get -> System.TimeSpan
+*REMOVED*ModularPipelines.Options.SchedulerOptions.NotificationTimeout.set -> void
+*REMOVED*ModularPipelines.Options.SchedulerOptions.SchedulerOptions() -> void
+*REMOVED*ModularPipelines.Options.SchedulerOptions.SchedulerOptions(ModularPipelines.Options.SchedulerOptions! original) -> void
 *REMOVED*ModularPipelines.Options.SecretMaskingOptions
 *REMOVED*ModularPipelines.Options.SecretMaskingOptions.CaseInsensitive.get -> bool
 *REMOVED*ModularPipelines.Options.SecretMaskingOptions.CaseInsensitive.set -> void
@@ -894,6 +899,9 @@
 *REMOVED*ModularPipelines.Options.SecretMaskingOptions.MinimumSecretLength.set -> void
 *REMOVED*ModularPipelines.Options.SecretMaskingOptions.SecretMaskingOptions() -> void
 *REMOVED*ModularPipelines.Options.SecretMaskingOptions.SecretMaskingOptions(ModularPipelines.Options.SecretMaskingOptions! original) -> void
+*REMOVED*ModularPipelines.PipelineBuilder.IgnoreCategories(params string![]! categories) -> ModularPipelines.PipelineBuilder!
+*REMOVED*ModularPipelines.PipelineBuilder.RunOnlyCategories(params string![]! categories) -> ModularPipelines.PipelineBuilder!
+*REMOVED*ModularPipelines.PipelineBuilder.SetLogLevel(Microsoft.Extensions.Logging.LogLevel logLevel) -> ModularPipelines.PipelineBuilder!
 *REMOVED*ModularPipelines.Requirements.DelegateRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
 *REMOVED*ModularPipelines.Requirements.IPipelineRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
 *REMOVED*ModularPipelines.Requirements.LinuxRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
@@ -1063,6 +1071,9 @@
 *REMOVED*override ModularPipelines.Options.RunReportOptions.Equals(object? obj) -> bool
 *REMOVED*override ModularPipelines.Options.RunReportOptions.GetHashCode() -> int
 *REMOVED*override ModularPipelines.Options.RunReportOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Options.SchedulerOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Options.SchedulerOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Options.SchedulerOptions.ToString() -> string!
 *REMOVED*override ModularPipelines.Options.SecretMaskingOptions.Equals(object? obj) -> bool
 *REMOVED*override ModularPipelines.Options.SecretMaskingOptions.GetHashCode() -> int
 *REMOVED*override ModularPipelines.Options.SecretMaskingOptions.ToString() -> string!
@@ -1172,9 +1183,13 @@
 *REMOVED*static ModularPipelines.Options.PowershellScriptOptions.operator ==(ModularPipelines.Options.PowershellScriptOptions? left, ModularPipelines.Options.PowershellScriptOptions? right) -> bool
 *REMOVED*static ModularPipelines.Options.RunReportOptions.operator !=(ModularPipelines.Options.RunReportOptions? left, ModularPipelines.Options.RunReportOptions? right) -> bool
 *REMOVED*static ModularPipelines.Options.RunReportOptions.operator ==(ModularPipelines.Options.RunReportOptions? left, ModularPipelines.Options.RunReportOptions? right) -> bool
+*REMOVED*static ModularPipelines.Options.SchedulerOptions.operator !=(ModularPipelines.Options.SchedulerOptions? left, ModularPipelines.Options.SchedulerOptions? right) -> bool
+*REMOVED*static ModularPipelines.Options.SchedulerOptions.operator ==(ModularPipelines.Options.SchedulerOptions? left, ModularPipelines.Options.SchedulerOptions? right) -> bool
 *REMOVED*static ModularPipelines.Options.SecretMaskingOptions.Default.get -> ModularPipelines.Options.SecretMaskingOptions!
 *REMOVED*static ModularPipelines.Options.SecretMaskingOptions.operator !=(ModularPipelines.Options.SecretMaskingOptions? left, ModularPipelines.Options.SecretMaskingOptions? right) -> bool
 *REMOVED*static ModularPipelines.Options.SecretMaskingOptions.operator ==(ModularPipelines.Options.SecretMaskingOptions? left, ModularPipelines.Options.SecretMaskingOptions? right) -> bool
+*REMOVED*static ModularPipelines.PipelineBuilderExtensions.ConfigurePipelineOptions(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Options.PipelineOptions!, ModularPipelines.Options.PipelineOptions!>! configureOptions) -> ModularPipelines.PipelineBuilder!
+*REMOVED*static ModularPipelines.PipelineBuilderExtensions.ConfigurePipelineOptions(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.PipelineBuilder!, ModularPipelines.Options.PipelineOptions!, ModularPipelines.Options.PipelineOptions!>! configureOptions) -> ModularPipelines.PipelineBuilder!
 *REMOVED*static ModularPipelines.Requirements.Require.That(System.Func<ModularPipelines.Context.IPipelineContext!, bool>! condition, string! failureReason, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 *REMOVED*static ModularPipelines.Requirements.Require.ThatAsync(System.Func<ModularPipelines.Context.IPipelineContext!, System.Threading.Tasks.Task<bool>!>! condition, string! failureReason, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 *REMOVED*static readonly ModularPipelines.Models.SkipDecision.DoNotSkip -> ModularPipelines.Models.SkipDecision!
@@ -1211,6 +1226,10 @@
 *REMOVED*virtual ModularPipelines.Options.PowershellFileOptions.Equals(ModularPipelines.Options.PowershellFileOptions? other) -> bool
 *REMOVED*virtual ModularPipelines.Options.PowershellOptions.Equals(ModularPipelines.Options.PowershellOptions? other) -> bool
 *REMOVED*virtual ModularPipelines.Options.PowershellScriptOptions.Equals(ModularPipelines.Options.PowershellScriptOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Options.SchedulerOptions.<Clone>$() -> ModularPipelines.Options.SchedulerOptions!
+*REMOVED*virtual ModularPipelines.Options.SchedulerOptions.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.Options.SchedulerOptions.Equals(ModularPipelines.Options.SchedulerOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Options.SchedulerOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 *REMOVED*virtual ModularPipelines.Options.SecretMaskingOptions.<Clone>$() -> ModularPipelines.Options.SecretMaskingOptions!
 *REMOVED*virtual ModularPipelines.Options.SecretMaskingOptions.EqualityContract.get -> System.Type!
 *REMOVED*virtual ModularPipelines.Options.SecretMaskingOptions.Equals(ModularPipelines.Options.SecretMaskingOptions? other) -> bool
@@ -1882,6 +1901,8 @@ ModularPipelines.Options.CommandExecutionOptions.Logging.get -> ModularPipelines
 ModularPipelines.Options.CommandExecutionOptions.Logging.init -> void
 ModularPipelines.Options.CommandLoggingOptions.ShowTimestamps.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.ShowTimestamps.init -> void
+ModularPipelines.Options.ConcurrencyOptions.NotificationTimeout.get -> System.TimeSpan
+ModularPipelines.Options.ConcurrencyOptions.NotificationTimeout.init -> void
 ModularPipelines.Options.DownloadOptions.Logging.get -> ModularPipelines.Options.HttpLoggingOptions?
 ModularPipelines.Options.DownloadOptions.Logging.init -> void
 ModularPipelines.Options.FailureMode
@@ -1892,6 +1913,8 @@ ModularPipelines.Options.HttpOptions.Logging.init -> void
 ModularPipelines.Options.PipelineOptions.FailureMode.get -> ModularPipelines.Options.FailureMode
 ModularPipelines.Options.PipelineOptions.FailureMode.init -> void
 ModularPipelines.Options.PipelineOptions.RunReport.get -> ModularPipelines.Reporting.RunReportOptions!
+ModularPipelines.Options.PipelineOptions.Secrets.get -> ModularPipelines.Secrets.SecretMaskingOptions!
+ModularPipelines.Options.PipelineOptions.Secrets.init -> void
 ModularPipelines.Options.PowerShellFileOptions
 ModularPipelines.Options.PowerShellFileOptions.Deconstruct(out string! FilePath) -> void
 ModularPipelines.Options.PowerShellFileOptions.FilePath.get -> string!
@@ -1907,6 +1930,8 @@ ModularPipelines.Options.PowerShellScriptOptions.PowerShellScriptOptions(Modular
 ModularPipelines.Options.PowerShellScriptOptions.PowerShellScriptOptions(string! Script) -> void
 ModularPipelines.Options.PowerShellScriptOptions.Script.get -> string!
 ModularPipelines.Options.PowerShellScriptOptions.Script.init -> void
+ModularPipelines.PipelineBuilder.ConfigureOptions(System.Func<ModularPipelines.Options.PipelineOptions!, ModularPipelines.Options.PipelineOptions!>! configureOptions) -> ModularPipelines.PipelineBuilder!
+ModularPipelines.PipelineBuilder.Logging.get -> Microsoft.Extensions.Logging.ILoggingBuilder!
 ModularPipelines.PipelineBuilderSettings
 ModularPipelines.PipelineBuilderSettings.<Clone>$() -> ModularPipelines.PipelineBuilderSettings!
 ModularPipelines.PipelineBuilderSettings.ApplicationName.get -> string?
@@ -2222,13 +2247,13 @@ ModularPipelines.Secrets.ISecretRegistry.AddSecrets(System.Collections.Generic.I
 ModularPipelines.Secrets.ISecretRegistry.AddSecrets(params string?[]! secrets) -> void
 ModularPipelines.Secrets.SecretMaskingOptions
 ModularPipelines.Secrets.SecretMaskingOptions.CaseInsensitive.get -> bool
-ModularPipelines.Secrets.SecretMaskingOptions.CaseInsensitive.set -> void
+ModularPipelines.Secrets.SecretMaskingOptions.CaseInsensitive.init -> void
 ModularPipelines.Secrets.SecretMaskingOptions.MaskValue.get -> string!
-ModularPipelines.Secrets.SecretMaskingOptions.MaskValue.set -> void
+ModularPipelines.Secrets.SecretMaskingOptions.MaskValue.init -> void
 ModularPipelines.Secrets.SecretMaskingOptions.MaskedConfigurationSections.get -> System.Collections.Generic.IReadOnlyList<string!>!
-ModularPipelines.Secrets.SecretMaskingOptions.MaskedConfigurationSections.set -> void
+ModularPipelines.Secrets.SecretMaskingOptions.MaskedConfigurationSections.init -> void
 ModularPipelines.Secrets.SecretMaskingOptions.MinimumSecretLength.get -> int
-ModularPipelines.Secrets.SecretMaskingOptions.MinimumSecretLength.set -> void
+ModularPipelines.Secrets.SecretMaskingOptions.MinimumSecretLength.init -> void
 ModularPipelines.Secrets.SecretMaskingOptions.SecretMaskingOptions() -> void
 ModularPipelines.Secrets.SecretMaskingOptions.SecretMaskingOptions(ModularPipelines.Secrets.SecretMaskingOptions! original) -> void
 ModularPipelines.Secrets.SecretValueAttribute

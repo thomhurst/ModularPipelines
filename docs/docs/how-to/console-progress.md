@@ -18,7 +18,7 @@ Configure the interval globally. Setting it to zero disables time-based flushing
 entry threshold still protects against unbounded buffering:
 
 ```csharp
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     Console = options.Console with
     {
@@ -30,7 +30,7 @@ builder.ConfigurePipelineOptions(options => options with
 To keep all output buffered until each module completes, disable both triggers:
 
 ```csharp
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     Console = options.Console with
     {

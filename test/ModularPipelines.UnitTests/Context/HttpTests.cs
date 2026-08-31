@@ -73,7 +73,7 @@ public class HttpTests : TestBase
         var contentStream = new BlockingReadStream();
         using var httpClient = new HttpClient(new ImmediateResponseHandler(new StreamContent(contentStream)));
         var result = await GetServiceWithPipelineConfiguration<IHttpContext>(builder =>
-            builder.ConfigurePipelineOptions(options => options with
+            builder.ConfigureOptions(options => options with
             {
                 Http = options.Http with
                 {

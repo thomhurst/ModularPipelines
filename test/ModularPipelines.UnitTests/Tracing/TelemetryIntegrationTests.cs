@@ -250,7 +250,7 @@ public class TelemetryIntegrationTests
         using var listener = CreateActivityListener(stoppedActivities);
 
         var builder = TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions(options => options with
+            .ConfigureOptions(options => options with
             {
                 Commands = options.Commands with
                 {

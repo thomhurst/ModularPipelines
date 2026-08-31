@@ -30,7 +30,6 @@ using ModularPipelines.Http;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
-using ModularPipelines.Options.Validators;
 using ModularPipelines.PipelineCli;
 using ModularPipelines.Reporting;
 using ModularPipelines.Secrets;
@@ -86,6 +85,24 @@ internal static class DependencyInjectionSetup
     /// Registers external integrations and bundled services:
     /// options configuration, logging provider, HTTP clients, initializers, and mediator.
     /// </summary>
+    private static void RegisterBundledServices(IServiceCollection services)
+    {
+        services.TryAddSingleton(PipelineCommandLineOptions.Empty);
+
+        services
+            .AddSingleton<PipelineCommandHandler>()
+            .AddSingleton<PipelinePlanPrinter>();
+
+        RegisterDefaultLogging(services);
+
+        services
+            .AddHttpClient()
+            .AddLoggingHttpClients()
+            .AddInitializers()
+            .AddServiceCollection()
+            .AddMediator();
+    }
+
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
@@ -94,33 +111,17 @@ internal static class DependencyInjectionSetup
         "AOT",
         "IL3050",
         Justification = "MEL.Spectre options are configured programmatically without configuration binding.")]
-    private static void RegisterBundledServices(IServiceCollection services)
+    internal static void RegisterDefaultLogging(IServiceCollection services)
     {
-        services.TryAddSingleton(PipelineCommandLineOptions.Empty);
+        services.AddLogging(builder =>
+        {
+            builder.ClearProviders();
 
-        services
-            .AddSingleton<PipelineCommandHandler>()
-            .AddSingleton<PipelinePlanPrinter>()
-            .Configure<PipelineOptions>(_ => { })
-            .Configure<SchedulerOptions>(_ => { })
-            .Configure<ConcurrencyOptions>(_ => { })
-            .Configure<HttpResilienceOptions>(_ => { })
-            .AddSingleton<IValidateOptions<ConcurrencyOptions>, ConcurrencyOptionsValidator>()
-            .AddSingleton<IValidateOptions<HttpResilienceOptions>, HttpResilienceOptionsValidator>()
-            .AddLogging(builder =>
-            {
-                builder.ClearProviders();
+            builder.AddFilter("Microsoft", LogLevel.Warning)
+                .AddFilter("System", LogLevel.Warning);
 
-                builder.AddFilter("Microsoft", LogLevel.Warning)
-                    .AddFilter("System", LogLevel.Warning);
-
-                builder.AddSpectreConsole(ConfigureSpectreConsoleLogger);
-            })
-            .AddHttpClient()
-            .AddLoggingHttpClients()
-            .AddInitializers()
-            .AddServiceCollection()
-            .AddMediator();
+            builder.AddSpectreConsole(ConfigureSpectreConsoleLogger);
+        });
     }
 
     /// <summary>
@@ -309,7 +310,6 @@ internal static class DependencyInjectionSetup
         var commandWriter = new BuildSystemCommandWriter(System.Console.Out);
 
         services
-            .Configure<SecretMaskingOptions>(_ => { })
             .AddSingleton<SecretProvider>()
             .AddSingleton<ISecretProvider>(sp => sp.GetRequiredService<SecretProvider>())
             .AddSingleton<ISecretRegistry>(sp => sp.GetRequiredService<SecretProvider>())

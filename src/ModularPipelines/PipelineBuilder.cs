@@ -1,7 +1,11 @@
+using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using MEL.Spectre;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -21,6 +25,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.PipelineCli;
 using ModularPipelines.Plugins;
+using ModularPipelines.Secrets;
 using ModularPipelines.Validation;
 
 namespace ModularPipelines;
@@ -34,12 +39,17 @@ namespace ModularPipelines;
 public sealed class PipelineBuilder
 {
     private readonly IHostBuilder _hostBuilder;
-    private readonly ServiceCollection _services;
+    private readonly ServiceRegistrationOrder _serviceRegistrationOrder;
+    private readonly OrderedServiceCollection _services;
+    private readonly OrderedServiceCollection _loggingServices;
     private readonly ConfigurationManager _configuration;
     private readonly PipelineHostEnvironment _environment;
     private readonly PipelineBuilderResources _resources;
     private readonly PipelineCommandLineOptions _commandLineOptions;
     private readonly PipelineBuilderSettings _settings;
+    private readonly ServiceDescriptor[] _defaultLoggingServiceDescriptors;
+    private readonly ServiceDescriptor[] _defaultLoggingProviderDescriptors;
+    private readonly HashSet<Type> _defaultLoggingProviderTypes;
     private PipelineOptions _options;
 
     internal PipelineBuilder(
@@ -55,7 +65,22 @@ public sealed class PipelineBuilder
                 HostArguments = settings.Args?.ToArray() ?? [],
             };
         var args = _commandLineOptions.HostArguments.ToArray();
-        _services = new ServiceCollection();
+        _serviceRegistrationOrder = new ServiceRegistrationOrder();
+        _services = new OrderedServiceCollection(_serviceRegistrationOrder);
+        _loggingServices = new OrderedServiceCollection(_serviceRegistrationOrder);
+        DependencyInjectionSetup.RegisterDefaultLogging(_loggingServices);
+        _defaultLoggingServiceDescriptors = _loggingServices.ToArray();
+        _defaultLoggingProviderDescriptors = _defaultLoggingServiceDescriptors
+            .Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))
+            .ToArray();
+        _defaultLoggingProviderTypes = _defaultLoggingProviderDescriptors
+            .Select(static descriptor => descriptor.ImplementationType)
+            .OfType<Type>()
+            .ToHashSet();
+        Logging = new PipelineLoggingBuilder(new PipelineLoggingServiceCollection(
+            _serviceRegistrationOrder,
+            _loggingServices,
+            _services));
         _configuration = new ConfigurationManager();
         _options = new PipelineOptions
         {
@@ -98,6 +123,11 @@ public sealed class PipelineBuilder
     public IServiceCollection Services => _services;
 
     /// <summary>
+    /// Gets the logging builder for configuring pipeline logging.
+    /// </summary>
+    public ILoggingBuilder Logging { get; }
+
+    /// <summary>
     /// Gets the configuration manager for adding and reading configuration.
     /// </summary>
     public ConfigurationManager Configuration => _configuration;
@@ -105,16 +135,19 @@ public sealed class PipelineBuilder
     /// <summary>
     /// Gets the current immutable pipeline options snapshot.
     /// </summary>
-    /// <remarks>
-    /// Use <see cref="PipelineBuilderExtensions.ConfigurePipelineOptions(PipelineBuilder, Func{PipelineOptions, PipelineOptions})"/>
-    /// to replace this snapshot.
-    /// </remarks>
     public PipelineOptions Options => _options;
 
-    internal void SetOptions(PipelineOptions options)
+    /// <summary>
+    /// Replaces the current pipeline options snapshot.
+    /// </summary>
+    /// <param name="configureOptions">A function that returns the configured options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public PipelineBuilder ConfigureOptions(Func<PipelineOptions, PipelineOptions> configureOptions)
     {
-        ArgumentNullException.ThrowIfNull(options);
-        _options = options;
+        ArgumentNullException.ThrowIfNull(configureOptions);
+        _options = configureOptions(_options)
+            ?? throw new InvalidOperationException("The pipeline options configuration returned null.");
+        return this;
     }
 
     /// <summary>
@@ -126,51 +159,6 @@ public sealed class PipelineBuilder
     /// Gets the default working directory for commands and relative file paths.
     /// </summary>
     public string WorkingDirectory => _environment.WorkingDirectory;
-
-    /// <summary>
-    /// Sets the minimum log level for the pipeline.
-    /// </summary>
-    /// <param name="logLevel">The minimum log level.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public PipelineBuilder SetLogLevel(LogLevel logLevel)
-    {
-        _services.Configure<LoggerFilterOptions>(options => options.MinLevel = logLevel);
-        return this;
-    }
-
-    /// <summary>
-    /// Replaces the categories whose modules should be run exclusively.
-    /// </summary>
-    /// <param name="categories">The complete set of categories to run.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    /// <remarks>Calling this method again replaces the previous category filter.</remarks>
-    public PipelineBuilder RunOnlyCategories(params string[] categories)
-    {
-        ArgumentNullException.ThrowIfNull(categories);
-        _options = _options with
-        {
-            RunOnlyCategories = NullIfEmpty(categories),
-        };
-
-        return this;
-    }
-
-    /// <summary>
-    /// Replaces the categories whose modules should be ignored.
-    /// </summary>
-    /// <param name="categories">The complete set of categories to ignore.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    /// <remarks>Calling this method again replaces the previous category filter.</remarks>
-    public PipelineBuilder IgnoreCategories(params string[] categories)
-    {
-        ArgumentNullException.ThrowIfNull(categories);
-        _options = _options with
-        {
-            IgnoreCategories = NullIfEmpty(categories),
-        };
-
-        return this;
-    }
 
     /// <summary>
     /// Builds the pipeline and validates configuration.
@@ -358,8 +346,23 @@ public sealed class PipelineBuilder
             services.Configure<ModuleCacheOptions>(options =>
                 options.WorkingDirectory = _environment.WorkingDirectory);
 
-            // Add user-registered services before plugins so plugins can inspect user configuration
-            foreach (var descriptor in _services)
+            foreach (var defaultProvider in _defaultLoggingProviderDescriptors
+                         .Where(provider => !_loggingServices.Contains(provider)))
+            {
+                foreach (var descriptor in services
+                             .Where(descriptor => IsMatchingLoggingProvider(
+                                 descriptor,
+                                 defaultProvider))
+                             .ToArray())
+                {
+                    services.Remove(descriptor);
+                }
+            }
+
+            // Add user registrations in their original cross-view order before plugins.
+            foreach (var descriptor in _serviceRegistrationOrder.Entries
+                         .Where(entry => !_defaultLoggingServiceDescriptors.Contains(entry.Descriptor))
+                         .Select(static entry => entry.Descriptor))
             {
                 services.Add(descriptor);
             }
@@ -367,13 +370,43 @@ public sealed class PipelineBuilder
             // Apply plugin services after user services
             PluginIntegration.ApplyPluginServices(services);
 
+            if (!HasDefaultLoggingProvider(services) || !UsesDefaultLoggerFactory(services))
+            {
+                services.Replace(ServiceDescriptor.Singleton<
+                    ISpectreConsoleLoggerControl,
+                    Console.NoopSpectreConsoleLoggerControl>());
+            }
+
             // Activate distributed mode if configured (replaces executor based on role)
             ActivateDistributedModeIfConfigured(services);
 
             services
                 .AddSingleton(_commandLineOptions)
                 .AddSingleton(_options)
-                .AddTransient<IOptionsFactory<PipelineOptions>, PipelineOptionsFactory>();
+                .AddSingleton(provider => new FixedOptions<PipelineOptions>(
+                    _options,
+                    ClonePipelineOptions,
+                    provider.GetServices<IConfigureOptions<PipelineOptions>>(),
+                    provider.GetServices<IPostConfigureOptions<PipelineOptions>>(),
+                    provider.GetServices<IValidateOptions<PipelineOptions>>()))
+                .AddSingleton<IOptions<PipelineOptions>>(provider =>
+                    provider.GetRequiredService<FixedOptions<PipelineOptions>>())
+                .AddSingleton<IOptionsSnapshot<PipelineOptions>>(provider =>
+                    provider.GetRequiredService<FixedOptions<PipelineOptions>>())
+                .AddSingleton<IOptionsMonitor<PipelineOptions>>(provider =>
+                    provider.GetRequiredService<FixedOptions<PipelineOptions>>())
+                .AddSingleton<IOptionsFactory<PipelineOptions>>(provider =>
+                    provider.GetRequiredService<FixedOptions<PipelineOptions>>())
+                .AddSingleton(provider => new FixedNestedOptions<SecretMaskingOptions>(
+                    provider.GetRequiredService<IOptions<PipelineOptions>>().Value.Secrets))
+                .AddSingleton<IOptions<SecretMaskingOptions>>(provider =>
+                    provider.GetRequiredService<FixedNestedOptions<SecretMaskingOptions>>())
+                .AddSingleton<IOptionsSnapshot<SecretMaskingOptions>>(provider =>
+                    provider.GetRequiredService<FixedNestedOptions<SecretMaskingOptions>>())
+                .AddSingleton<IOptionsMonitor<SecretMaskingOptions>>(provider =>
+                    provider.GetRequiredService<FixedNestedOptions<SecretMaskingOptions>>())
+                .AddSingleton<IOptionsFactory<SecretMaskingOptions>>(provider =>
+                    provider.GetRequiredService<FixedNestedOptions<SecretMaskingOptions>>());
 
             // Auto-register any missing required dependencies
             ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);
@@ -745,6 +778,405 @@ public sealed class PipelineBuilder
             {
                 asyncDisposable.DisposeAsync().AsTask().GetAwaiter().GetResult();
             }
+        }
+    }
+
+    private sealed class ServiceRegistrationOrder
+    {
+        private readonly List<OrderedServiceDescriptor> _entries = [];
+
+        public IReadOnlyList<OrderedServiceDescriptor> Entries => _entries;
+
+        public OrderedServiceDescriptor Add(ServiceDescriptor descriptor)
+        {
+            var entry = new OrderedServiceDescriptor(descriptor);
+            _entries.Add(entry);
+            return entry;
+        }
+
+        public OrderedServiceDescriptor InsertBefore(
+            OrderedServiceDescriptor target,
+            ServiceDescriptor descriptor)
+        {
+            var entry = new OrderedServiceDescriptor(descriptor);
+            _entries.Insert(_entries.IndexOf(target), entry);
+            return entry;
+        }
+
+        public void Remove(OrderedServiceDescriptor entry) => _entries.Remove(entry);
+
+        public int IndexOf(OrderedServiceDescriptor entry) => _entries.IndexOf(entry);
+    }
+
+    private sealed class OrderedServiceDescriptor(ServiceDescriptor descriptor)
+    {
+        public ServiceDescriptor Descriptor { get; set; } = descriptor;
+    }
+
+    private sealed class OrderedServiceCollection(ServiceRegistrationOrder registrationOrder)
+        : IServiceCollection
+    {
+        private readonly List<OrderedServiceDescriptor> _entries = [];
+
+        public ServiceDescriptor this[int index]
+        {
+            get => _entries[index].Descriptor;
+            set => _entries[index].Descriptor = value;
+        }
+
+        public int Count => _entries.Count;
+
+        public bool IsReadOnly => false;
+
+        public void Add(ServiceDescriptor item) => _entries.Add(registrationOrder.Add(item));
+
+        public void Clear()
+        {
+            foreach (var entry in _entries)
+            {
+                registrationOrder.Remove(entry);
+            }
+
+            _entries.Clear();
+        }
+
+        public bool Contains(ServiceDescriptor item) => IndexOf(item) >= 0;
+
+        public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
+        {
+            foreach (var entry in _entries)
+            {
+                array[arrayIndex++] = entry.Descriptor;
+            }
+        }
+
+        public IEnumerator<ServiceDescriptor> GetEnumerator() =>
+            _entries.Select(static entry => entry.Descriptor).GetEnumerator();
+
+        public int IndexOf(ServiceDescriptor item) =>
+            _entries.FindIndex(entry => Equals(entry.Descriptor, item));
+
+        public void Insert(int index, ServiceDescriptor item)
+        {
+            var entry = index < _entries.Count
+                ? registrationOrder.InsertBefore(_entries[index], item)
+                : registrationOrder.Add(item);
+            _entries.Insert(index, entry);
+        }
+
+        public void InsertBefore(
+            OrderedServiceDescriptor? followingEntry,
+            ServiceDescriptor item)
+        {
+            var entry = followingEntry is not null
+                ? registrationOrder.InsertBefore(followingEntry, item)
+                : registrationOrder.Add(item);
+            var followingIndex = followingEntry is null
+                ? -1
+                : registrationOrder.IndexOf(followingEntry);
+            var localIndex = followingIndex < 0
+                ? -1
+                : _entries.FindIndex(candidate =>
+                    registrationOrder.IndexOf(candidate) >= followingIndex);
+            _entries.Insert(localIndex < 0 ? _entries.Count : localIndex, entry);
+        }
+
+        public bool Remove(OrderedServiceDescriptor entry)
+        {
+            var index = _entries.IndexOf(entry);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            RemoveAt(index);
+            return true;
+        }
+
+        public bool Remove(ServiceDescriptor item)
+        {
+            var index = IndexOf(item);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            RemoveAt(index);
+            return true;
+        }
+
+        public void RemoveAt(int index)
+        {
+            registrationOrder.Remove(_entries[index]);
+            _entries.RemoveAt(index);
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
+            GetEnumerator();
+    }
+
+    private sealed class PipelineLoggingBuilder(IServiceCollection services) : ILoggingBuilder
+    {
+        public IServiceCollection Services { get; } = services;
+    }
+
+    private sealed class PipelineLoggingServiceCollection(
+        ServiceRegistrationOrder registrationOrder,
+        OrderedServiceCollection loggingServices,
+        OrderedServiceCollection applicationServices) : IServiceCollection
+    {
+        public ServiceDescriptor this[int index]
+        {
+            get => registrationOrder.Entries[index].Descriptor;
+            set => registrationOrder.Entries[index].Descriptor = value;
+        }
+
+        public int Count => loggingServices.Count + applicationServices.Count;
+
+        public bool IsReadOnly => false;
+
+        public void Add(ServiceDescriptor item) => loggingServices.Add(item);
+
+        public void Clear() => loggingServices.Clear();
+
+        public bool Contains(ServiceDescriptor item) =>
+            loggingServices.Contains(item) || applicationServices.Contains(item);
+
+        public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
+        {
+            foreach (var descriptor in this)
+            {
+                array[arrayIndex++] = descriptor;
+            }
+        }
+
+        public IEnumerator<ServiceDescriptor> GetEnumerator() =>
+            registrationOrder.Entries
+                .Select(static entry => entry.Descriptor)
+                .GetEnumerator();
+
+        public int IndexOf(ServiceDescriptor item)
+        {
+            for (var index = 0; index < registrationOrder.Entries.Count; index++)
+            {
+                if (Equals(registrationOrder.Entries[index].Descriptor, item))
+                {
+                    return index;
+                }
+            }
+
+            return -1;
+        }
+
+        public void Insert(int index, ServiceDescriptor item)
+        {
+            ArgumentOutOfRangeException.ThrowIfGreaterThan((uint) index, (uint) Count);
+            var followingEntry = index < Count
+                ? registrationOrder.Entries[index]
+                : null;
+            loggingServices.InsertBefore(followingEntry, item);
+        }
+
+        public bool Remove(ServiceDescriptor item)
+        {
+            var index = IndexOf(item);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            RemoveAt(index);
+            return true;
+        }
+
+        public void RemoveAt(int index)
+        {
+            var entry = registrationOrder.Entries[index];
+            _ = loggingServices.Remove(entry) || applicationServices.Remove(entry);
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
+            GetEnumerator();
+    }
+
+    private bool HasDefaultLoggingProvider(IServiceCollection services)
+        => services.Any(IsDefaultLoggingProvider);
+
+    internal static bool UsesDefaultLoggerFactory(IServiceCollection services)
+    {
+        var descriptor = services.LastOrDefault(static service =>
+            service.ServiceType == typeof(ILoggerFactory));
+        return descriptor?.ImplementationType == typeof(LoggerFactory);
+    }
+
+    private static bool IsMatchingLoggingProvider(
+        ServiceDescriptor candidate,
+        ServiceDescriptor expected) =>
+        candidate.ServiceType == typeof(ILoggerProvider)
+        && GetImplementationType(candidate) == GetImplementationType(expected);
+
+    private bool IsDefaultLoggingProvider(ServiceDescriptor descriptor)
+    {
+        if (descriptor.ServiceType != typeof(ILoggerProvider))
+        {
+            return false;
+        }
+
+        var implementationType = GetImplementationType(descriptor);
+        return implementationType is not null
+               && _defaultLoggingProviderTypes.Contains(implementationType);
+    }
+
+    private static Type? GetImplementationType(ServiceDescriptor? descriptor) =>
+        descriptor?.ImplementationType ?? descriptor?.ImplementationInstance?.GetType();
+
+    private static PipelineOptions ClonePipelineOptions(PipelineOptions options) => options with
+    {
+        RunReport = options.RunReport with { },
+        Console = options.Console with { },
+        Http = options.Http with
+        {
+            Logging = options.Http.Logging is null
+                ? null
+                : options.Http.Logging with { },
+            Resilience = options.Http.Resilience is null
+                ? null
+                : options.Http.Resilience with { },
+        },
+        Commands = options.Commands with
+        {
+            Logging = options.Commands.Logging is null
+                ? null
+                : options.Commands.Logging with { },
+        },
+        Secrets = options.Secrets with { },
+        Concurrency = options.Concurrency with { },
+    };
+
+    private sealed class FixedOptions<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>
+        : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>, IOptionsFactory<T>
+        where T : class
+    {
+        private readonly T _initialValue;
+        private readonly Func<T, T> _clone;
+        private readonly IConfigureOptions<T>[] _configurations;
+        private readonly IPostConfigureOptions<T>[] _postConfigurations;
+        private readonly IValidateOptions<T>[] _validators;
+        private readonly ConcurrentDictionary<string, Lazy<T>> _namedValues = new(StringComparer.Ordinal);
+        private readonly Lazy<T> _value;
+
+        public FixedOptions(
+            T value,
+            Func<T, T> clone,
+            IEnumerable<IConfigureOptions<T>> configurations,
+            IEnumerable<IPostConfigureOptions<T>> postConfigurations,
+            IEnumerable<IValidateOptions<T>> validators)
+        {
+            _initialValue = value;
+            _clone = clone;
+            _configurations = configurations.ToArray();
+            _postConfigurations = postConfigurations.ToArray();
+            _validators = validators.ToArray();
+            _value = new Lazy<T>(() => ConfigureAndValidate(
+                Microsoft.Extensions.Options.Options.DefaultName,
+                _clone(value),
+                _configurations,
+                _postConfigurations,
+                _validators));
+        }
+
+        public T Value => _value.Value;
+
+        public T CurrentValue => Value;
+
+        public T Get(string? name)
+        {
+            name ??= Microsoft.Extensions.Options.Options.DefaultName;
+            if (name == Microsoft.Extensions.Options.Options.DefaultName)
+            {
+                return Value;
+            }
+
+            return _namedValues.GetOrAdd(
+                name,
+                optionName => new Lazy<T>(() => ConfigureAndValidate(
+                    optionName,
+                    _clone(_initialValue),
+                    _configurations,
+                    _postConfigurations,
+                    _validators))).Value;
+        }
+
+        public IDisposable? OnChange(Action<T, string?> listener) => NoopDisposable.Instance;
+
+        public T Create(string name) => ConfigureAndValidate(
+            name,
+            _clone(_initialValue),
+            _configurations,
+            _postConfigurations,
+            _validators);
+
+        private static T ConfigureAndValidate(
+            string name,
+            T value,
+            IEnumerable<IConfigureOptions<T>> configurations,
+            IEnumerable<IPostConfigureOptions<T>> postConfigurations,
+            IEnumerable<IValidateOptions<T>> validators)
+        {
+            foreach (var configuration in configurations)
+            {
+                if (configuration is IConfigureNamedOptions<T> namedConfiguration)
+                {
+                    namedConfiguration.Configure(name, value);
+                }
+                else if (name == Microsoft.Extensions.Options.Options.DefaultName)
+                {
+                    configuration.Configure(value);
+                }
+            }
+
+            foreach (var postConfiguration in postConfigurations)
+            {
+                postConfiguration.PostConfigure(name, value);
+            }
+
+            var failures = validators
+                .Select(validator => validator.Validate(name, value))
+                .Where(static result => result.Failed)
+                .SelectMany(static result => result.Failures ?? [])
+                .ToArray();
+
+            return failures.Length == 0
+                ? value
+                : throw new OptionsValidationException(
+                    name,
+                    typeof(T),
+                    failures);
+        }
+    }
+
+    private sealed class FixedNestedOptions<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(T value)
+        : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>, IOptionsFactory<T>
+        where T : class
+    {
+        public T Value { get; } = value;
+
+        public T CurrentValue => Value;
+
+        public T Get(string? name) => Value;
+
+        public IDisposable? OnChange(Action<T, string?> listener) => NoopDisposable.Instance;
+
+        public T Create(string name) => Value;
+    }
+
+    private sealed class NoopDisposable : IDisposable
+    {
+        public static NoopDisposable Instance { get; } = new();
+
+        public void Dispose()
+        {
         }
     }
 }

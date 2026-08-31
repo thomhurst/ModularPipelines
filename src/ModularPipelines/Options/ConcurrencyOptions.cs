@@ -45,4 +45,9 @@ public record ConcurrencyOptions
     /// Default: <c>null</c> (unlimited, bounded only by <see cref="MaxParallelism"/>).
     /// </summary>
     public int? MaxIoIntensiveModules { get; init; }
+
+    /// <summary>
+    /// Gets the confirmation delay before treating a blocked scheduler as deadlocked.
+    /// </summary>
+    public TimeSpan NotificationTimeout { get; init; } = TimeSpan.FromMilliseconds(100);
 }

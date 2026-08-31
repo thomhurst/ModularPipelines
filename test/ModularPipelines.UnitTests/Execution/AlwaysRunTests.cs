@@ -111,7 +111,7 @@ public class AlwaysRunTests : TestBase
     public async Task ContinueOnFailure_Returns_Summary_When_AlwaysRun_Dependency_Fails()
     {
         var host = await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions(options => options with
+            .ConfigureOptions(options => options with
             {
                 FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = false,
@@ -137,7 +137,7 @@ public class AlwaysRunTests : TestBase
     public async Task FailFast_Preserves_Primary_Failure_With_AlwaysRun_Dependency()
     {
         var host = await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions(options => options with
+            .ConfigureOptions(options => options with
             {
                 FailureMode = FailureMode.FailFast,
                 ThrowOnPipelineFailure = true,

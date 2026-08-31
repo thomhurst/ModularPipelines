@@ -85,6 +85,7 @@ public static class GeneratedCommandMetadata
     /// Preserves the registration signature emitted by earlier source-generator versions.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
+#pragma warning disable RS0027 // Compatibility signature emitted by earlier source-generator versions.
     public static void Register(
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model,
@@ -92,6 +93,7 @@ public static class GeneratedCommandMetadata
     {
         RegisterCore(optionsType, model, isComplete, schemaVersion: 0);
     }
+#pragma warning restore RS0027
 
     private static void RegisterCore(
         Type optionsType,

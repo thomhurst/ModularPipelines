@@ -87,13 +87,16 @@ public class SecretMaskingTests
         const string secret = "MySecretPassword";
 
         await TestPipelineBuilder.Create()
+            .ConfigureOptions(options => options with
+            {
+                Secrets = options.Secrets with { CaseInsensitive = false },
+            })
             .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
                     .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = secret)
-                    .Configure<SecretMaskingOptions>(o => o.CaseInsensitive = false);
+                    .Configure<SecretSettings>(s => s.ApiKey = secret);
             })
             .RunAsync();
 
@@ -111,13 +114,16 @@ public class SecretMaskingTests
         const string secret = "MySecretPassword";
 
         await TestPipelineBuilder.Create()
+            .ConfigureOptions(options => options with
+            {
+                Secrets = options.Secrets with { CaseInsensitive = true },
+            })
             .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
                     .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = secret)
-                    .Configure<SecretMaskingOptions>(o => o.CaseInsensitive = true);
+                    .Configure<SecretSettings>(s => s.ApiKey = secret);
             })
             .RunAsync();
 
@@ -139,13 +145,16 @@ public class SecretMaskingTests
         const string shortSecret = "ab"; // 2 chars, below configured minimum of 3
 
         await TestPipelineBuilder.Create()
+            .ConfigureOptions(options => options with
+            {
+                Secrets = options.Secrets with { MinimumSecretLength = 3 },
+            })
             .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
                     .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = shortSecret)
-                    .Configure<SecretMaskingOptions>(o => o.MinimumSecretLength = 3);
+                    .Configure<SecretSettings>(s => s.ApiKey = shortSecret);
             })
             .RunAsync();
 
@@ -162,13 +171,16 @@ public class SecretMaskingTests
         const string exactLengthSecret = "abc"; // 3 chars, exactly at configured minimum
 
         await TestPipelineBuilder.Create()
+            .ConfigureOptions(options => options with
+            {
+                Secrets = options.Secrets with { MinimumSecretLength = 3 },
+            })
             .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
                     .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = exactLengthSecret)
-                    .Configure<SecretMaskingOptions>(o => o.MinimumSecretLength = 3);
+                    .Configure<SecretSettings>(s => s.ApiKey = exactLengthSecret);
             })
             .RunAsync();
 
@@ -213,13 +225,16 @@ public class SecretMaskingTests
         const string customMask = "[REDACTED]";
 
         await TestPipelineBuilder.Create()
+            .ConfigureOptions(options => options with
+            {
+                Secrets = options.Secrets with { MaskValue = customMask },
+            })
             .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
                     .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = secret)
-                    .Configure<SecretMaskingOptions>(o => o.MaskValue = customMask);
+                    .Configure<SecretSettings>(s => s.ApiKey = secret);
             })
             .RunAsync();
 

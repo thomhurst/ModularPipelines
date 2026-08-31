@@ -3326,7 +3326,7 @@ public class ModuleCacheTests
                 options.CacheDirectory = cacheDirectory;
             })
             .AddModule<CachedModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             DisableModuleCache = disableModuleCache,
         });

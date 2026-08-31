@@ -325,8 +325,17 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IReadOnlyList<ILogger>? fallbackLoggers = null,
         CancellationToken cancellationToken = default)
     {
+        var effectiveFallbackLoggers = fallbackLoggers ?? [];
+        var exclusiveSink = effectiveFallbackLoggers
+            .OfType<IExclusiveStructuredLogSink>()
+            .SingleOrDefault();
+        Func<LogLevel, bool> isStructuredLogEnabled = exclusiveSink is null
+            ? _isSpectreEnabled
+            : exclusiveSink.IsEnabled;
         if (!TryTakeOutputs(
                 flushKind,
+                isStructuredLogEnabled,
+                effectiveFallbackLoggers,
                 out var outputs,
                 out var structuredDeliveryRetries,
                 out var shouldRenderOutputGroup,
@@ -337,7 +346,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         var directConsole = GetDirectConsole(console);
-        var effectiveFallbackLoggers = fallbackLoggers ?? [];
         var failedStructuredDeliveries = new List<StructuredDeliveryRetry>();
         var renderedCount = 0;
         var renderedConsoleOutput = false;
@@ -461,6 +469,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
     private bool TryTakeOutputs(
         OutputFlushKind flushKind,
+        Func<LogLevel, bool> isStructuredLogEnabled,
+        IReadOnlyList<ILogger> fallbackLoggers,
         out List<BufferedOutput> outputs,
         out List<StructuredDeliveryRetry> structuredDeliveryRetries,
         out bool shouldRenderOutputGroup,
@@ -502,7 +512,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             outputs = [.. _outputs];
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
-            shouldRenderOutputGroup = needsExceptionHeader || _outputs.Any(ProducesConsoleOutput);
+            shouldRenderOutputGroup = needsExceptionHeader
+                                      || _outputs.Any(output => ProducesConsoleOutput(
+                                          output,
+                                          isStructuredLogEnabled,
+                                          fallbackLoggers));
             isContinuation = _hasRenderedIncrementalOutput;
             _outputs.Clear();
             _structuredDeliveryRetries.Clear();
@@ -533,9 +547,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     {
         if (renderGate is null)
         {
-            renderedConsoleOutput = true;
-            console.WriteLine(
-                $"Timed out waiting for the console logger render gate for {_moduleName}; writing buffered output directly.");
+            if (loggerControl is not NoopSpectreConsoleLoggerControl)
+            {
+                renderedConsoleOutput = true;
+                console.WriteLine(
+                    $"Timed out waiting for the console logger render gate for {_moduleName}; writing buffered output directly.");
+            }
+
             RenderOutputGroup(
                 console,
                 directConsole,
@@ -686,7 +704,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                             new StructuredDeliveryRetry(logEvent, failedLoggers));
                     }
 
-                    if (_isSpectreEnabled(logEvent.Level))
+                    var wroteToDirectStructuredLogSink = fallbackLoggers.Any(logger =>
+                        logger is IDirectStructuredLogSink && !failedLoggers.Contains(logger));
+                    if (_isSpectreEnabled(logEvent.Level)
+                        && !wroteToDirectStructuredLogSink)
                     {
                         WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
                         if (logEvent.FormatException() is { } formattedException)
@@ -849,7 +870,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return $"{_moduleName} {completionMarker}{continuationText} ({durationText})";
     }
 
-    private bool ProducesConsoleOutput(BufferedOutput output)
+    private static bool ProducesConsoleOutput(
+        BufferedOutput output,
+        Func<LogLevel, bool> isStructuredLogEnabled,
+        IReadOnlyList<ILogger> fallbackLoggers)
     {
         if (output.IsRawBuildSystemCommand)
         {
@@ -861,7 +885,27 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return !string.IsNullOrEmpty(output.StringValue);
         }
 
-        return output.LogEvent is { } logEvent && _isSpectreEnabled(logEvent.Level);
+        if (output.LogEvent is not { } logEvent)
+        {
+            return false;
+        }
+
+        var foundBufferedConsoleLogger = false;
+        foreach (var fallbackLogger in fallbackLoggers)
+        {
+            if (fallbackLogger is not IBufferedConsoleLogger bufferedConsoleLogger)
+            {
+                continue;
+            }
+
+            foundBufferedConsoleLogger = true;
+            if (bufferedConsoleLogger.WouldWrite(logEvent))
+            {
+                return true;
+            }
+        }
+
+        return !foundBufferedConsoleLogger && isStructuredLogEnabled(logEvent.Level);
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)
@@ -996,6 +1040,8 @@ internal interface IBufferedLogEvent
 
     void WriteTo(ILogger logger);
 
+    SynchronousConsoleLogEntry FormatFor(IBufferedConsoleLogger logger);
+
     string FormatMessageWithLevel();
 
     string? FormatException();
@@ -1025,6 +1071,12 @@ internal sealed class BufferedLogEvent<TState>(
 
     public void WriteTo(ILogger logger)
     {
+        if (logger is IBufferedConsoleLogger bufferedConsoleLogger)
+        {
+            bufferedConsoleLogger.Write(this);
+            return;
+        }
+
         if (obfuscatedState is null && originalState is null)
         {
             logger.Log<TState>(
@@ -1048,6 +1100,36 @@ internal sealed class BufferedLogEvent<TState>(
         }
 
         logger.Log(
+            level,
+            eventId,
+            obfuscatedState,
+            _obfuscatedException,
+            Format);
+    }
+
+    public SynchronousConsoleLogEntry FormatFor(IBufferedConsoleLogger logger)
+    {
+        if (obfuscatedState is null && originalState is null)
+        {
+            return logger.Format<TState>(
+                level,
+                eventId,
+                originalState,
+                _obfuscatedException,
+                FormatTyped);
+        }
+
+        if (obfuscatedState is TState typedState)
+        {
+            return logger.Format(
+                level,
+                eventId,
+                typedState,
+                _obfuscatedException,
+                FormatTyped);
+        }
+
+        return logger.Format(
             level,
             eventId,
             obfuscatedState,

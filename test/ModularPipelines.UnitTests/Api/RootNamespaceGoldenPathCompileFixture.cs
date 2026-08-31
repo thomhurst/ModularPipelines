@@ -7,7 +7,7 @@ internal static class RootNamespaceGoldenPathCompileFixture
     public static async Task ConfigureAndRunAsync(PipelineBuilder builder)
     {
         builder.AddModule<GoldenPathModule>();
-        builder.ConfigurePipelineOptions(options => options);
+        builder.ConfigureOptions(options => options);
         await builder.RunAsync();
     }
 

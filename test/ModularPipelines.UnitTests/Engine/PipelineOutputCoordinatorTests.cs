@@ -29,7 +29,7 @@ public class PipelineOutputCoordinatorTests
             .AddModule<OptionsTestModule>();
         var expectedInterval = TimeSpan.FromSeconds(17);
         const int expectedThreshold = 23;
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Console = options.Console with
             {

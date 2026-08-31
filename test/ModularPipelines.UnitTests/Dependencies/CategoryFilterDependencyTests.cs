@@ -123,7 +123,7 @@ public class CategoryFilterDependencyTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithOptionalDep>()
-            .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
@@ -142,7 +142,7 @@ public class CategoryFilterDependencyTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithOptionalDepForCategoryFilter>()
-            .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
@@ -160,7 +160,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithRequiredDep>()
             .AddModule<TransitiveRequiredDepModule>()
-            .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
@@ -190,7 +190,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule(firstCompileModule)
             .AddModule(secondCompileModule)
             .AddModule<TestModuleWithRequiredDep>()
-            .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync());
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)
@@ -206,7 +206,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule(compileModule)
             .AddModule(compileModule)
             .AddModule<CompileResultConsumerModule>()
-            .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["compile"] })
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["compile"] })
             .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
@@ -229,7 +229,7 @@ public class CategoryFilterDependencyTests : TestBase
             .AddModule<CompileModule>(_ => compileModule)
             .AddModule<CompileModule>(_ => compileModule)
             .AddModule<CompileResultConsumerModule>()
-            .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["compile"] })
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["compile"] })
             .RunAsync());
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)
@@ -273,7 +273,7 @@ public class CategoryFilterDependencyTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithOptionalDep>()
-            .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["compile", "test"] })
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["compile", "test"] })
             .RunAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);

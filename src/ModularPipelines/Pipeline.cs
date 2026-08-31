@@ -18,7 +18,7 @@ public static class Pipeline
     /// var builder = Pipeline.CreateBuilder(args);
     ///
     /// builder.AddModule&lt;BuildModule&gt;();
-    /// builder.ConfigurePipelineOptions(options => options with
+    /// builder.ConfigureOptions(options => options with
     /// {
     ///     FailureMode = FailureMode.FailFast,
     /// });
@@ -27,6 +27,7 @@ public static class Pipeline
     /// var summary = await pipeline.RunAsync();
     /// </code>
     /// </example>
+#pragma warning disable RS0026 // Existing overloads intentionally retain caller-file defaults.
     public static PipelineBuilder CreateBuilder(
         string[]? args = null,
         [CallerFilePath] string sourceFilePath = "")
@@ -71,6 +72,7 @@ public static class Pipeline
             settings,
             sourceFilePath);
     }
+#pragma warning restore RS0026
 
     internal static PipelineBuilder CreateBuilderWithoutProjectInference(PipelineBuilderSettings settings)
     {

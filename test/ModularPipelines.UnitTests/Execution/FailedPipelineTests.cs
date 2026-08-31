@@ -43,7 +43,7 @@ public class FailedPipelineTests : TestBase
     public async Task Given_Failing_Module_With_Dependent_Module_Then_Failures_Propagate(FailureMode failureMode)
     {
         await Assert.That(async () => await TestPipelineBuilder.Create()
-                .ConfigurePipelineOptions((_, options) => options with
+                .ConfigureOptions(options => options with
                 {
                     FailureMode = failureMode,
                     ThrowOnPipelineFailure = true,
@@ -61,7 +61,7 @@ public class FailedPipelineTests : TestBase
     public async Task Given_Failing_Module_Then_Failures_Propagate(FailureMode failureMode)
     {
         await Assert.That(async () => await TestPipelineBuilder.Create()
-                .ConfigurePipelineOptions((_, options) => options with
+                .ConfigureOptions(options => options with
                 {
                     FailureMode = failureMode,
                     ThrowOnPipelineFailure = true,
@@ -78,7 +78,7 @@ public class FailedPipelineTests : TestBase
     public async Task Given_No_Failing_Module_Then_No_Exceptions(FailureMode failureMode)
     {
         var pipelineSummary = await TestPipelineBuilder.Create()
-                .ConfigurePipelineOptions((_, options) => options with
+                .ConfigureOptions(options => options with
                 {
                     FailureMode = failureMode,
                 })

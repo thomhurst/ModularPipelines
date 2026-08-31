@@ -63,7 +63,7 @@ public class RunnableCategoryTests : TestBase
             .AddModule<NonRunnableModule2>()
             .AddModule<RunnableModule3>()
             .AddModule<OtherModule3>()
-            .RunOnlyCategories("Run1", "Run2")
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["Run1", "Run2"] })
             .BuildAsync();
 
         await host.RunAsync();
@@ -86,7 +86,7 @@ public class RunnableCategoryTests : TestBase
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<RunnableModule1>()
-            .RunOnlyCategories("run1")
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["run1"] })
             .BuildAsync();
 
         await host.RunAsync();
@@ -106,7 +106,7 @@ public class RunnableCategoryTests : TestBase
             .AddModule<NonRunnableModule2>()
             .AddModule<RunnableModule3>()
             .AddModule<OtherModule3>()
-            .IgnoreCategories("NoRun1", "NoRun2")
+            .ConfigureOptions(options => options with { IgnoreCategories = ["NoRun1", "NoRun2"] })
             .BuildAsync();
 
         await host.RunAsync();
@@ -129,7 +129,7 @@ public class RunnableCategoryTests : TestBase
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<NonRunnableModule1>()
-            .IgnoreCategories("norun1")
+            .ConfigureOptions(options => options with { IgnoreCategories = ["norun1"] })
             .BuildAsync();
 
         await host.RunAsync();
@@ -144,7 +144,7 @@ public class RunnableCategoryTests : TestBase
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<ConfiguredCategoryModule>()
-            .RunOnlyCategories("Run1")
+            .ConfigureOptions(options => options with { RunOnlyCategories = ["Run1"] })
             .BuildAsync();
 
         await host.RunAsync();

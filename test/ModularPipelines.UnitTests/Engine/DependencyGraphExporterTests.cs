@@ -2407,7 +2407,7 @@ public class DependencyGraphExporterTests
         var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(
             new ModuleTypeHistoryRepository(typeof(HistoricalArtifactProducerModule)));
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             SkippedModules = [nameof(HistoricalArtifactProducerModule)],
         });
@@ -2440,7 +2440,7 @@ public class DependencyGraphExporterTests
         var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(
             new ModuleTypeHistoryRepository(typeof(HistoricalArtifactProducerModule)));
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             SkippedModules = [nameof(HistoricalArtifactProducerModule)],
         });
@@ -2472,7 +2472,7 @@ public class DependencyGraphExporterTests
         var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(
             new ModuleTypeHistoryRepository(typeof(HistoricalArtifactProducerModule)));
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             SkippedModules = [nameof(HistoricalArtifactProducerModule)],
         });
@@ -2503,7 +2503,7 @@ public class DependencyGraphExporterTests
         var repository = new ChangingHistoryRepository();
         var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(repository);
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             SkippedModules = [nameof(HistoricalDependencyModule)],
         });
@@ -2531,7 +2531,7 @@ public class DependencyGraphExporterTests
         var repository = new InstanceBoundHistoryRepository(dependency);
         var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(repository);
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             SkippedModules = [nameof(HistoricalDependencyModule)],
         });
@@ -2666,7 +2666,7 @@ public class DependencyGraphExporterTests
             cancellationTokenSource);
         var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(repository);
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             SkippedModules =
             [
@@ -3171,7 +3171,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Cascades_Skipped_Dynamic_Dependency()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             SkippedModules = [nameof(DependencyModule)],
         });
@@ -4922,7 +4922,7 @@ public class DependencyGraphExporterTests
         builder.AddModule<DependencyModule>();
         builder.AddModule<TargetModule>();
         builder.AddModule<SkippedModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             SkippedModules = [nameof(DependencyModule)],
         });

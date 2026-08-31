@@ -25,7 +25,7 @@ builder
     .AddModule<Module2>()
     .AddModule<Module3>();
 
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     FailureMode = FailureMode.ContinueOnFailure,
 });

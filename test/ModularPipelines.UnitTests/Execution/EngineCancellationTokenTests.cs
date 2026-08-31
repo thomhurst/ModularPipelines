@@ -444,7 +444,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<Module1>();
 
         // This test expects the pipeline to throw when BadModule fails
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
             Concurrency = options.Concurrency with { MaxParallelism = 1 },
@@ -472,7 +472,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<ReadyHookFailingModule>()
             .AddModule<ReadyHookDependentModule>()
             .AddModuleEventHandler<ThrowingReadyHookHandler>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
             Concurrency = options.Concurrency with { MaxParallelism = 1 },
@@ -504,7 +504,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<ReadyHookDependentModule>()
             .AddModule<ReadyHookSiblingDependentModule>()
             .AddModuleEventHandler<ThrowingReadyHookHandler>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
@@ -595,7 +595,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<ReadyHookDependentModule>()
             .AddModule<ReadyHookSiblingDependentModule>()
             .AddModuleEventHandler<IndependentlyCancellingReadyHookHandler>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
@@ -628,7 +628,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<BadModule>()
             .AddModule<AlwaysRunBarrierModule>()
             .AddModule<ModuleBehindAlwaysRunBarrier>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
             Concurrency = options.Concurrency with { MaxParallelism = 1 },
@@ -654,7 +654,7 @@ public class EngineCancellationTokenTests : TestBase
     public async Task ContinueOnFailure_Reports_DependencyFailed_For_Dependent_Module()
     {
         var builder = TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions(options => options with
+            .ConfigureOptions(options => options with
             {
                 FailureMode = FailureMode.ContinueOnFailure,
             })
@@ -688,7 +688,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<LongRunningModule>();
 
         // This test expects the pipeline to throw when BadModule fails
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
         });
@@ -722,7 +722,7 @@ public class EngineCancellationTokenTests : TestBase
             var builder = TestPipelineBuilder.Create()
                 .AddModule<RunningCommandModule>()
                 .AddModule<FailAfterCommandStartsModule>();
-            builder.ConfigurePipelineOptions(options => options with
+            builder.ConfigureOptions(options => options with
             {
                 ThrowOnPipelineFailure = true,
             });
@@ -750,7 +750,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<LongRunningModuleWithoutCancellation>();
 
         // This test expects the pipeline to throw when BadModule fails
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
         });
@@ -777,7 +777,7 @@ public class EngineCancellationTokenTests : TestBase
             new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var builder = TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions(options => options with
+            .ConfigureOptions(options => options with
             {
                 DefaultModuleTimeout = TimeSpan.Zero,
                 ThrowOnPipelineFailure = true,
@@ -805,7 +805,7 @@ public class EngineCancellationTokenTests : TestBase
             new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var builder = TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions(options => options with
+            .ConfigureOptions(options => options with
             {
                 DefaultModuleTimeout = TimeSpan.Zero,
                 ThrowOnPipelineFailure = true,
@@ -838,7 +838,7 @@ public class EngineCancellationTokenTests : TestBase
     public async Task FailFast_PendingModuleAwaiterReturnsTerminatedResult()
     {
         var builder = TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions(options => options with
+            .ConfigureOptions(options => options with
             {
                 DefaultModuleTimeout = TimeSpan.Zero,
                 ThrowOnPipelineFailure = true,
@@ -878,7 +878,7 @@ public class EngineCancellationTokenTests : TestBase
         PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var builder = TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options with
+            .ConfigureOptions(options => options with
             {
                 FailureMode = FailureMode.ContinueOnFailure,
             })
@@ -906,7 +906,7 @@ public class EngineCancellationTokenTests : TestBase
         PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var builder = TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options with
+            .ConfigureOptions(options => options with
             {
                 FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = true,

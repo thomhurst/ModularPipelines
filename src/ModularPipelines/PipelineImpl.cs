@@ -62,6 +62,8 @@ internal sealed class PipelineImpl : IPipeline
                 return pipeline;
             }
 
+            services.GetService<IStartupValidator>()?.Validate();
+
             try
             {
                 ValidateModuleDependencies(services, services.GetServices<IModule>());

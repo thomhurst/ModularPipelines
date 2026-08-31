@@ -1,6 +1,10 @@
 using ModularPipelines.Secrets;
 using MEL.Spectre;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
@@ -1139,6 +1143,154 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_NonSpectreConsole_WritesStructuredOutputSynchronously()
+    {
+        var writer = new StringWriter();
+        var filterOptions = new LoggerFilterOptions();
+        var optionsMonitor = Mock.Of<IOptionsMonitor<LoggerFilterOptions>>(options =>
+            options.CurrentValue == filterOptions);
+        var loggerControl = new NoopSpectreConsoleLoggerControl(
+            NullLoggerFactory.Instance,
+            optionsMonitor);
+        var fallbackLogger = new SynchronousConsoleRecordingLogger(writer);
+        var buffer = CreateBufferWithStructuredLog();
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            NullLogger.Instance,
+            loggerControl,
+            OutputFlushKind.Complete,
+            [fallbackLogger]);
+
+        var output = writer.ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("formatted: structured log");
+            await Assert.That(output).DoesNotContain("[INFO] structured log");
+            await Assert.That(output).DoesNotContain("Timed out waiting");
+            await Assert.That(output.IndexOf("formatted: structured log", StringComparison.Ordinal))
+                .IsLessThan(output.IndexOf("::endgroup::", StringComparison.Ordinal));
+        }
+    }
+
+    [Test]
+    public async Task Flush_EmptyConsoleFormatter_DoesNotCreateOutputGroup()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging(builder => builder
+            .ClearProviders()
+            .AddConsole(options => options.FormatterName = EmptyConsoleFormatter.FormatterName)
+            .AddConsoleFormatter<EmptyConsoleFormatter, ConsoleFormatterOptions>());
+        await using var serviceProvider = services.BuildServiceProvider();
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        var filterOptions = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
+        var loggerControl = new NoopSpectreConsoleLoggerControl(loggerFactory, filterOptions);
+        var fallbackLoggers = new NonSpectreLoggerFactory(loggerFactory, loggerControl, filterOptions)
+            .CreateLoggers(OutputLoggerCategories.ForModule(typeof(ModuleOutputBufferTests)));
+        var writer = new StringWriter();
+        var buffer = CreateBufferWithStructuredLog(isSpectreEnabled: static _ => true);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            NullLogger.Instance,
+            loggerControl,
+            OutputFlushKind.Complete,
+            fallbackLoggers);
+
+        await Assert.That(writer.ToString()).IsEmpty();
+    }
+
+    [Test]
+    public async Task Flush_NonConsoleIncrementalLogDoesNotCreateCompletionGroup()
+    {
+        var writer = new StringWriter();
+        var filterOptions = new LoggerFilterOptions();
+        var optionsMonitor = Mock.Of<IOptionsMonitor<LoggerFilterOptions>>(options =>
+            options.CurrentValue == filterOptions);
+        var loggerControl = new NoopSpectreConsoleLoggerControl(
+            NullLoggerFactory.Instance,
+            optionsMonitor);
+        var telemetryLogger = new RecordingLogger();
+        var buffer = CreateBufferWithStructuredLog(isSpectreEnabled: static _ => false);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            telemetryLogger,
+            loggerControl,
+            OutputFlushKind.Incremental,
+            [telemetryLogger]);
+        buffer.SetException(new InvalidOperationException("module failed"));
+        buffer.MarkComplete();
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            telemetryLogger,
+            loggerControl,
+            OutputFlushKind.Complete,
+            [telemetryLogger]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(telemetryLogger.Entries).HasSingleItem();
+            await Assert.That(writer.ToString()).DoesNotContain("::group::");
+            await Assert.That(writer.ToString()).DoesNotContain("module failed");
+        }
+    }
+
+    [Test]
+    public async Task Flush_ExclusiveLoggerDisablesOutputGroup()
+    {
+        var writer = new StringWriter();
+        var logger = new ExclusiveRecordingLogger(writer, isEnabled: false);
+        var buffer = CreateBufferWithStructuredLog(isSpectreEnabled: static _ => true);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            logger,
+            new SynchronousLoggerControl(writer),
+            OutputFlushKind.Complete,
+            [logger]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).DoesNotContain("::group::");
+            await Assert.That(writer.ToString()).DoesNotContain("structured log");
+            await Assert.That(logger.Entries).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Flush_ExclusiveLoggerEnablesOutputGroup()
+    {
+        var writer = new StringWriter();
+        var logger = new ExclusiveRecordingLogger(writer, isEnabled: true);
+        var buffer = CreateBufferWithStructuredLog(isSpectreEnabled: static _ => false);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            logger,
+            new SynchronousLoggerControl(writer),
+            OutputFlushKind.Complete,
+            [logger]);
+
+        var output = writer.ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("::group::");
+            await Assert.That(output).Contains("structured log");
+            await Assert.That(output.IndexOf("::group::", StringComparison.Ordinal))
+                .IsLessThan(output.IndexOf("structured log", StringComparison.Ordinal));
+            await Assert.That(output.IndexOf("structured log", StringComparison.Ordinal))
+                .IsLessThan(output.IndexOf("::endgroup::", StringComparison.Ordinal));
+        }
+    }
+
+    [Test]
     public async Task Flush_RenderGateTimeout_Respects_Spectre_Filter()
     {
         var writer = new StringWriter();
@@ -1328,6 +1480,64 @@ public class ModuleOutputBufferTests
 
             StateTypes.Add(typeof(TState));
             Entries.Add((formatter(state, exception), exception));
+        }
+    }
+
+    private sealed class SynchronousConsoleRecordingLogger(TextWriter writer)
+        : ILogger, ISynchronousConsoleLogger
+    {
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) =>
+            writer.WriteLine($"formatted: {formatter(state, exception)}");
+    }
+
+    private sealed class EmptyConsoleFormatter()
+        : ConsoleFormatter(FormatterName)
+    {
+        public const string FormatterName = "empty";
+
+        public override void Write<TState>(
+            in LogEntry<TState> logEntry,
+            IExternalScopeProvider? scopeProvider,
+            TextWriter textWriter)
+        {
+        }
+    }
+
+    private sealed class ExclusiveRecordingLogger(TextWriter writer, bool isEnabled)
+        : IExclusiveStructuredLogSink
+    {
+        public List<string> Entries { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => isEnabled;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            if (!IsEnabled(logLevel))
+            {
+                return;
+            }
+
+            var message = formatter(state, exception);
+            Entries.Add(message);
+            writer.WriteLine(message);
         }
     }
 

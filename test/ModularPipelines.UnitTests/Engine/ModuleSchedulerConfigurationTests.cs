@@ -49,7 +49,7 @@ public class ModuleSchedulerConfigurationTests
         return new ModuleScheduler(
             NullLogger.Instance,
             TimeProvider.System,
-            Microsoft.Extensions.Options.Options.Create(new SchedulerOptions()),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             new ModuleDependencyRegistry(),
             new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             metricsCollector,

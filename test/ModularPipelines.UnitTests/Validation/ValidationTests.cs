@@ -512,7 +512,7 @@ public class ValidationTests
         // Arrange
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             DefaultRetryCount = -1,
         });
@@ -528,11 +528,68 @@ public class ValidationTests
     }
 
     [Test]
+    public async Task ValidateAsync_WithInvalidNestedConcurrency_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SimpleModule>();
+        builder.ConfigureOptions(options => options with
+        {
+            Concurrency = options.Concurrency with { MaxCpuIntensiveModules = 0 },
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(error =>
+            error.Category == ValidationErrorCategory.Options
+            && error.Message.Contains("Concurrency.MaxCpuIntensiveModules"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithOversizedNotificationTimeout_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SimpleModule>();
+        builder.ConfigureOptions(options => options with
+        {
+            Concurrency = options.Concurrency with
+            {
+                NotificationTimeout = TimeSpan.FromMilliseconds((double) int.MaxValue + 1),
+            },
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(error =>
+            error.Category == ValidationErrorCategory.Options
+            && error.Message.Contains("Concurrency.NotificationTimeout"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithInvalidNestedHttpResilience_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SimpleModule>();
+        builder.ConfigureOptions(options => options with
+        {
+            Http = options.Http with
+            {
+                Resilience = new HttpResilienceOptions { JitterFactor = 2 },
+            },
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(error =>
+            error.Category == ValidationErrorCategory.Options
+            && error.Message.Contains("Http.Resilience.JitterFactor"))).IsTrue();
+    }
+
+    [Test]
     public async Task ValidateAsync_WithNegativeDefaultModuleTimeout_ReturnsError()
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             DefaultModuleTimeout = TimeSpan.FromSeconds(-1),
         });
@@ -550,7 +607,7 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             AlwaysRunProgressTimeout = TimeSpan.FromSeconds(-1),
         });
@@ -568,7 +625,7 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Console = options.Console with
             {
@@ -589,7 +646,7 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Console = options.Console with
             {
@@ -610,7 +667,7 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.Services.AddModule<SimpleModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Console = options.Console with { ModuleOutputFlushThreshold = -1 },
         });
@@ -629,7 +686,7 @@ public class ValidationTests
         // Arrange
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunOnlyCategories = ["Category1"],
             IgnoreCategories = ["Category1"],
@@ -650,7 +707,7 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<CategorizedModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunOnlyCategories = ["Build"],
             IgnoreCategories = ["build"],
@@ -668,7 +725,7 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<CategorizedModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunOnlyCategories = ["Typo"],
         });
@@ -687,7 +744,7 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<CategorizedModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunOnlyCategories = ["build", "Typo"],
         });
@@ -705,7 +762,7 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<CategorizedModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             IgnoreCategories = ["Typo"],
         });
@@ -723,7 +780,7 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<CategorizedModule>();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunOnlyCategories = ["build"],
         });

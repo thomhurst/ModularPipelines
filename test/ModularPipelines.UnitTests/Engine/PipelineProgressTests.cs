@@ -110,7 +110,7 @@ public class PipelineProgressTests
         await Assert.That(async () =>
                 await TestPipelineBuilder.Create()
                     .ConfigureServices(services => services.AddSingleton<IAnsiConsole>(console))
-                    .ConfigurePipelineOptions((_, options) => options with
+                    .ConfigureOptions(options => options with
                     {
                         Console = options.Console with
                         {

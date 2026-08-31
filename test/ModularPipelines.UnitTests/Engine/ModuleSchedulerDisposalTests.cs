@@ -84,7 +84,7 @@ public class ModuleSchedulerDisposalTests
         return new ModuleScheduler(
             NullLogger.Instance,
             TimeProvider.System,
-            Microsoft.Extensions.Options.Options.Create(new SchedulerOptions()),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             new ModuleDependencyRegistry(),
             new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             Mock.Of<IMetricsCollector>(),

@@ -21,7 +21,7 @@ Known CI systems automatically write `artifacts/run-report.json` when no explici
 disable that behavior while keeping an explicitly configured path available, set `AutoWriteInCi`:
 
 ```csharp
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     RunReport = options.RunReport with
     {
@@ -50,7 +50,7 @@ Module output is excluded by default. Opt in when reports need enough output to 
 failures without opening the full CI log:
 
 ```csharp
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     RunReport = options.RunReport with
     {
@@ -107,7 +107,7 @@ Add the default history directory to `.gitignore` if you do not want to commit l
 Configure or disable retention with `RunReportOptions`:
 
 ```csharp
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     RunReport = options.RunReport with
     {

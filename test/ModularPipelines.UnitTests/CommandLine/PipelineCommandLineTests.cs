@@ -682,7 +682,7 @@ public class PipelineCommandLineTests
     public async Task ProgrammaticTargetModulesRunsDependencyClosure()
     {
         var builder = CreateExecutionBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             TargetModules = [nameof(TargetModule)],
         });
@@ -1088,7 +1088,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncSimulatesMaxParallelismSlotsInEstimate()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
         });
@@ -1108,7 +1108,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncSchedulesReadyModulesByPriorityInEstimate()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
         });
@@ -1127,7 +1127,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncAppliesExecutionHintLimitsInEstimate()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Concurrency = options.Concurrency with
             {
@@ -1166,7 +1166,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncCountsParallelLimiterWaitersAgainstWorkerSlots()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
         });
@@ -1186,7 +1186,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncModelsLimiterAcquisitionBeforeExecutionHintWait()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Concurrency = options.Concurrency with
             {
@@ -1209,7 +1209,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncReprioritizesModulesWhenConstraintReleases()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
         });
@@ -1229,7 +1229,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncPreservesReadyChannelQueueOrder()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
         });
@@ -1376,7 +1376,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncKeepsExcludedDependencyCyclesVisible()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunOnlyCategories = ["selected"],
         });
@@ -1403,7 +1403,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncUsesRunnableSubsetWhenExcludedModuleHasInvalidDependency()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunOnlyCategories = ["selected"],
         });
@@ -1444,7 +1444,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncRevalidatesHistoryAwareRunnableGraph()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunOnlyCategories = ["selected"],
         });
@@ -1581,7 +1581,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncEvaluatesAllSkipSourcesAndCascadesDependencies()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             RunOnlyCategories = ["selected"],
         });
@@ -1615,7 +1615,7 @@ public class PipelineCommandLineTests
     public async Task PlanAsyncDoesNotValidateLimiterForExcludedModule()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             SkippedModules = [nameof(ExcludedInvalidLimitModule)],
         });
@@ -1699,7 +1699,7 @@ public class PipelineCommandLineTests
     public async Task ProgrammaticDryRunOptionDoesNotExecuteModules()
     {
         var builder = CreateExecutionBuilder();
-        builder.ConfigurePipelineOptions(options => options with { DryRun = true });
+        builder.ConfigureOptions(options => options with { DryRun = true });
 
         var summary = await builder.RunAsync();
 

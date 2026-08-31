@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Options;
 
@@ -72,6 +73,11 @@ public record PipelineOptions
     /// Gets global command execution and logging defaults.
     /// </summary>
     public PipelineCommandOptions Commands { get; init; } = new();
+
+    /// <summary>
+    /// Gets secret masking settings.
+    /// </summary>
+    public SecretMaskingOptions Secrets { get; init; } = new();
 
     /// <summary>
     /// Gets a value indicating whether running the pipeline should print a plan without executing modules.

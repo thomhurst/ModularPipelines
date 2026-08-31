@@ -105,7 +105,7 @@ builder.Services.AddSingleton<IGitHubClient>(sp =>
 BuildPipelineConfiguration.ConfigureEnvironmentSpecificModules(builder);
 
 var pipelineSettings = builder.Configuration.GetSection("Pipeline").Get<PipelineSettings>() ?? new PipelineSettings();
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     DefaultRetryCount = pipelineSettings.DefaultRetryCount,
 });
@@ -114,7 +114,12 @@ builder.ConfigurePipelineOptions(options => options with
 var runOnlyCategories = Environment.GetEnvironmentVariable("Pipeline__RunOnlyCategories");
 if (!string.IsNullOrEmpty(runOnlyCategories))
 {
-    builder.RunOnlyCategories(runOnlyCategories.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+    builder.ConfigureOptions(options => options with
+    {
+        RunOnlyCategories = runOnlyCategories.Split(
+            ',',
+            StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries),
+    });
 }
 
 await using var pipeline = await builder.BuildAsync();

@@ -19,9 +19,9 @@ public static class TestPipelineBuilder
     {
         var builder = Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings());
 
-        builder.SetLogLevel(testHostSettings.LogLevel);
+        builder.Logging.SetMinimumLevel(testHostSettings.LogLevel);
 
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Commands = options.Commands with
             {
@@ -44,7 +44,7 @@ public static class TestPipelineBuilder
 
         if (testHostSettings.ClearLogProviders)
         {
-            builder.Services.AddLogging(b => b.ClearProviders());
+            builder.Logging.ClearProviders();
         }
 
         // Register TimeProvider for tests

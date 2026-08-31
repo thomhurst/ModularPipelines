@@ -69,7 +69,7 @@ Use `PipelineOptions` when the selection does not come from command-line
 arguments:
 
 ```csharp
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     TargetModules = [nameof(TestModule)],
     SkippedModules = [nameof(SlowTestModule)],
@@ -81,7 +81,7 @@ builder.ConfigurePipelineOptions(options => options with
 Set `DryRun = true` to make `RunAsync()` print the same plan and execute no modules:
 
 ```csharp
-builder.ConfigurePipelineOptions(options => options with
+builder.ConfigureOptions(options => options with
 {
     DryRun = true,
 });

@@ -173,7 +173,7 @@ public class ModuleTestBuilder<TModule>
             EnableCommandLineOptions = false,
         });
 
-        builder.ConfigurePipelineOptions(options => options with
+        builder.ConfigureOptions(options => options with
         {
             Console = options.Console with
             {
@@ -184,7 +184,7 @@ public class ModuleTestBuilder<TModule>
             },
             ThrowOnPipelineFailure = false,
         });
-        builder.Services.AddLogging(logging => logging.ClearProviders());
+        builder.Logging.ClearProviders();
         builder.Services.Replace(ServiceDescriptor.Singleton<IFileSystemProvider>(fileSystem));
         builder.Services.AddSingleton(recorder);
         builder.Services.AddSingleton<ICommandInterceptor>(recorder);

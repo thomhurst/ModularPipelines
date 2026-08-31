@@ -410,17 +410,20 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         CancellationToken cancellationToken)
     {
         var moduleLogger = GetModuleLogger(buffer.ModuleType);
+        var directLoggers = moduleLogger.IsFactoryLogger
+            ? _nonSpectreLoggerFactory.CreateLoggers(
+                OutputLoggerCategories.ForModule(buffer.ModuleType))
+            : [new ExclusiveModuleLogger(moduleLogger.Logger)];
 
         using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
         await buffer
             .FlushToAsync(
                 _console,
                 formatter,
-                moduleLogger,
+                moduleLogger.Logger,
                 _loggerControl,
                 flushKind,
-                _nonSpectreLoggerFactory.CreateLoggers(
-                    OutputLoggerCategories.ForModule(buffer.ModuleType)),
+                directLoggers,
                 cancellationToken)
             .ConfigureAwait(false);
     }
@@ -429,21 +432,49 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         "AOT",
         "IL3050",
         Justification = "Generated runtime metadata handles statically known modules; MakeGenericType is the documented fallback for dynamic modules.")]
-    private ILogger GetModuleLogger(Type moduleType)
+    private (ILogger Logger, bool IsFactoryLogger) GetModuleLogger(Type moduleType)
     {
         if (moduleType == typeof(void))
         {
-            return _loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline);
+            return (_loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline), true);
         }
 
         if (GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime))
         {
-            return runtime.GetOutputLogger(_serviceProvider);
+            var logger = runtime.GetOutputLogger(_serviceProvider);
+            return (logger, IsDefaultFactoryLogger(logger));
         }
 
         var loggerType = typeof(ILogger<>).MakeGenericType(moduleType);
-        return _serviceProvider.GetService(loggerType) as ILogger
-               ?? _loggerFactory.CreateLogger(moduleType);
+        if (_serviceProvider.GetService(loggerType) is ILogger serviceLogger)
+        {
+            return (serviceLogger, IsDefaultFactoryLogger(serviceLogger));
+        }
+
+        return (_loggerFactory.CreateLogger(moduleType), true);
+    }
+
+    private static bool IsDefaultFactoryLogger(ILogger logger)
+    {
+        var loggerType = logger.GetType();
+        return loggerType.IsGenericType
+               && loggerType.GetGenericTypeDefinition() == typeof(Logger<>);
+    }
+
+    private sealed class ExclusiveModuleLogger(ILogger inner) : IExclusiveStructuredLogSink
+    {
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => inner.BeginScope(state);
+
+        public bool IsEnabled(LogLevel logLevel) => inner.IsEnabled(logLevel);
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) =>
+            inner.Log(logLevel, eventId, state, exception, formatter);
     }
 
     private sealed class PendingFlush
