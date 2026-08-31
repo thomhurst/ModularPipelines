@@ -17,14 +17,14 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxListArtifactsProvider
 {
     [EnumValue("generic")]
-    Generic = 0,
+    Generic,
 
     [EnumValue("aws")]
-    Aws = 1,
+    Aws,
 
     [EnumValue("azure")]
-    Azure = 2,
+    Azure,
 
     [EnumValue("gcp")]
-    Gcp = 3
+    Gcp
 }

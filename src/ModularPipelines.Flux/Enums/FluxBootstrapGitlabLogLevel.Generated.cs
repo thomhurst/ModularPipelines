@@ -17,11 +17,11 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxBootstrapGitlabLogLevel
 {
     [EnumValue("debug")]
-    Debug = 0,
+    Debug,
 
     [EnumValue("info")]
-    Info = 1,
+    Info,
 
     [EnumValue("error")]
-    Error = 2
+    Error
 }

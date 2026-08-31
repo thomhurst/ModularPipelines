@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Flux.Services;
 
 namespace ModularPipelines.Flux.Extensions;
@@ -49,4 +48,5 @@ public static class FluxExtensions
         services.TryAddScoped<IFluxTrigger, FluxTrigger>();
         return services;
     }
+
 }
