@@ -311,7 +311,7 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task ClearingLoggingServicesPreservesApplicationServices()
+    public async Task ClearingLoggingServicesClearsSharedServiceView()
     {
         var builder = Pipeline.CreateBuilder();
         var applicationService = ServiceDescriptor.Singleton(new object());
@@ -319,7 +319,11 @@ public class PipelineOptionsTests
 
         builder.Logging.Services.Clear();
 
-        await Assert.That(builder.Services).Contains(applicationService);
+        using (Assert.Multiple())
+        {
+            await Assert.That(builder.Services).IsEmpty();
+            await Assert.That(builder.Logging.Services).IsEmpty();
+        }
     }
 
     [Test]
