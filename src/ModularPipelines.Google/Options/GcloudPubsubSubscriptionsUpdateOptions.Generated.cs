@@ -11,13 +11,11 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Models;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// updates an existing Cloud Pub/Sub     subscription
+/// updates an existing Cloud Pub/Sub      subscription
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -37,7 +35,7 @@ public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions
     public bool? EnableExactlyOnceDelivery { get; set; }
 
     /// <summary>
-    /// Whether or not to enable exactly-once delivery on the subscription. If true, Pub/Sub provides the following guarantees for the delivery of a message with a given value of message_id on this subscription: The message sent to a subscriber is guaranteed not to be resent before the message's acknowledgment deadline expires. An acknowledged message will not be resent to a subscriber. Use --no-enable-exactly-once-delivery to disable this flag.
+    /// Negates --enable-exactly-once-delivery. Whether or not to enable exactly-once delivery on the subscription. If true, Pub/Sub provides the following guarantees for the delivery of a message with a given value of message_id on this subscription: The message sent to a subscriber is guaranteed not to be resent before the message's acknowledgment deadline expires. An acknowledged message will not be resent to a subscriber. Use --no-enable-exactly-once-delivery to disable this flag.
     /// </summary>
     [CliFlag("--no-enable-exactly-once-delivery")]
     public bool? NoEnableExactlyOnceDelivery { get; set; }
@@ -61,7 +59,7 @@ public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions
     public bool? RetainAckedMessages { get; set; }
 
     /// <summary>
-    /// Whether or not to retain acknowledged messages. If true, messages are not expunged from the subscription's backlog until they fall out of the --message-retention-duration window. Acknowledged messages are not retained by default. Use --no-retain-acked-messages to disable this flag.
+    /// Negates --retain-acked-messages. Whether or not to retain acknowledged messages. If true, messages are not expunged from the subscription's backlog until they fall out of the --message-retention-duration window. Acknowledged messages are not retained by default. Use --no-retain-acked-messages to disable this flag.
     /// </summary>
     [CliFlag("--no-retain-acked-messages")]
     public bool? NoRetainAckedMessages { get; set; }
@@ -73,304 +71,325 @@ public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions
     public string? UpdateLabels { get; set; }
 
     /// <summary>
-    /// If set, clear the BigQuery config from the subscription. Use --no-clear-bigquery-config to disable this flag.
+    /// At most one of these can be specified: At most one of these can be specified: If set, clear the BigQuery config from the subscription. Use --no-clear-bigquery-config to disable this flag.
     /// </summary>
     [CliFlag("--clear-bigquery-config")]
     public bool? ClearBigqueryConfig { get; set; }
 
     /// <summary>
-    /// If set, clear the BigQuery config from the subscription. Use --no-clear-bigquery-config to disable this flag.
+    /// Negates --clear-bigquery-config. At most one of these can be specified: At most one of these can be specified: If set, clear the BigQuery config from the subscription. Use --no-clear-bigquery-config to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-bigquery-config")]
     public bool? NoClearBigqueryConfig { get; set; }
 
     /// <summary>
-    /// A BigQuery table of the form {project}:{dataset_name}.{table_name} to which to write messages for this subscription. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. A BigQuery table of the form {project}:{dataset_name}.{table_name} to which to write messages for this subscription. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--bigquery-table", Format = OptionFormat.EqualsSeparated)]
     public string? BigqueryTable { get; set; }
 
     /// <summary>
-    /// The service account email to use when writing to BigQuery. If unspecified, uses the Pub/Sub service agent (https://cloud.google.com/iam/docs/service-account-types#service-agents).
+    /// At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. The service account email to use when writing to BigQuery. If unspecified, uses the Pub/Sub service agent (https://cloud.google.com/iam/docs/service-account-types#service-agents).
     /// </summary>
     [CliOption("--bigquery-service-account-email", Format = OptionFormat.EqualsSeparated)]
-    public int? BigqueryServiceAccountEmail { get; set; }
+    public string? BigqueryServiceAccountEmailValue { get; set; }
 
     /// <summary>
-    /// If either --use-topic-schema or --use-table-schema is set, whether or not to ignore fields in the message that do not appear in the BigQuery table schema. Use --no-drop-unknown-fields to disable this flag.
+    /// At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. If either --use-topic-schema or --use-table-schema is set, whether or not to ignore fields in the message that do not appear in the BigQuery table schema. Use --no-drop-unknown-fields to disable this flag.
     /// </summary>
     [CliFlag("--drop-unknown-fields")]
     public bool? DropUnknownFields { get; set; }
 
     /// <summary>
-    /// If either --use-topic-schema or --use-table-schema is set, whether or not to ignore fields in the message that do not appear in the BigQuery table schema. Use --no-drop-unknown-fields to disable this flag.
+    /// Negates --drop-unknown-fields. At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. If either --use-topic-schema or --use-table-schema is set, whether or not to ignore fields in the message that do not appear in the BigQuery table schema. Use --no-drop-unknown-fields to disable this flag.
     /// </summary>
     [CliFlag("--no-drop-unknown-fields")]
     public bool? NoDropUnknownFields { get; set; }
 
     /// <summary>
-    /// Whether or not to write message metadata including message ID, publish timestamp, ordering key, and attributes to BigQuery. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties other than data (for example, an ordering_key, if present) are written to a JSON object in the attributes column. Use --no-write-metadata to disable this flag.
+    /// At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. Whether or not to write message metadata including message ID, publish timestamp, ordering key, and attributes to BigQuery. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties other than data (for example, an ordering_key, if present) are written to a JSON object in the attributes column. Use --no-write-metadata to disable this flag.
     /// </summary>
     [CliFlag("--write-metadata")]
     public bool? WriteMetadata { get; set; }
 
     /// <summary>
-    /// Whether or not to write message metadata including message ID, publish timestamp, ordering key, and attributes to BigQuery. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties other than data (for example, an ordering_key, if present) are written to a JSON object in the attributes column. Use --no-write-metadata to disable this flag.
+    /// Negates --write-metadata. At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. Whether or not to write message metadata including message ID, publish timestamp, ordering key, and attributes to BigQuery. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties other than data (for example, an ordering_key, if present) are written to a JSON object in the attributes column. Use --no-write-metadata to disable this flag.
     /// </summary>
     [CliFlag("--no-write-metadata")]
     public bool? NoWriteMetadata { get; set; }
 
     /// <summary>
-    /// Whether or not to use the BigQuery table schema when writing messages to BigQuery. Use --no-use-table-schema to disable this flag.
+    /// At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. At most one of these can be specified: Whether or not to use the BigQuery table schema when writing messages to BigQuery. Use --no-use-table-schema to disable this flag.
     /// </summary>
     [CliFlag("--use-table-schema")]
     public bool? UseTableSchema { get; set; }
 
     /// <summary>
-    /// Whether or not to use the BigQuery table schema when writing messages to BigQuery. Use --no-use-table-schema to disable this flag.
+    /// Negates --use-table-schema. At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. At most one of these can be specified: Whether or not to use the BigQuery table schema when writing messages to BigQuery. Use --no-use-table-schema to disable this flag.
     /// </summary>
     [CliFlag("--no-use-table-schema")]
     public bool? NoUseTableSchema { get; set; }
 
     /// <summary>
-    /// Whether or not to use the schema for the subscription's topic (if it exists) when writing messages to BigQuery. If --drop-unknown-fields is not set, then the BigQuery schema must contain all fields that are present in the topic schema. Use --no-use-topic-schema to disable this flag.
+    /// At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. At most one of these can be specified: Whether or not to use the schema for the subscription's topic (if it exists) when writing messages to BigQuery. If --drop-unknown-fields is not set, then the BigQuery schema must contain all fields that are present in the topic schema. Use --no-use-topic-schema to disable this flag.
     /// </summary>
     [CliFlag("--use-topic-schema")]
     public bool? UseTopicSchema { get; set; }
 
     /// <summary>
-    /// Whether or not to use the schema for the subscription's topic (if it exists) when writing messages to BigQuery. If --drop-unknown-fields is not set, then the BigQuery schema must contain all fields that are present in the topic schema. Use --no-use-topic-schema to disable this flag.
+    /// Negates --use-topic-schema. At most one of these can be specified: At most one of these can be specified: BigQuery Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this BigQuery table. When updating BigQueryConfig flags, all BigQueryConfig flags must be specified. Otherwise, any omitted BigQueryConfig flags revert to their default value. At most one of these can be specified: Whether or not to use the schema for the subscription's topic (if it exists) when writing messages to BigQuery. If --drop-unknown-fields is not set, then the BigQuery schema must contain all fields that are present in the topic schema. Use --no-use-topic-schema to disable this flag.
     /// </summary>
     [CliFlag("--no-use-topic-schema")]
     public bool? NoUseTopicSchema { get; set; }
 
     /// <summary>
-    /// If set, clear the Cloud Storage config from the subscription. Use --no-clear-cloud-storage-config to disable this flag.
+    /// At most one of these can be specified: If set, clear the Cloud Storage config from the subscription. Use --no-clear-cloud-storage-config to disable this flag.
     /// </summary>
     [CliFlag("--clear-cloud-storage-config")]
     public bool? ClearCloudStorageConfig { get; set; }
 
     /// <summary>
-    /// If set, clear the Cloud Storage config from the subscription. Use --no-clear-cloud-storage-config to disable this flag.
+    /// Negates --clear-cloud-storage-config. At most one of these can be specified: If set, clear the Cloud Storage config from the subscription. Use --no-clear-cloud-storage-config to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-cloud-storage-config")]
     public bool? NoClearCloudStorageConfig { get; set; }
 
     /// <summary>
-    /// A Cloud Storage bucket to which to write messages for this subscription. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. A Cloud Storage bucket to which to write messages for this subscription. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--cloud-storage-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageBucket { get; set; }
 
     /// <summary>
-    /// The custom datetime format string for Cloud Storage filename. See the datetime format guidance (https://cloud.google.com/pubsub/docs/create-cloudstorage-subscription#file_names).
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. The custom datetime format string for Cloud Storage filename. See the datetime format guidance (https://cloud.google.com/pubsub/docs/create-cloudstorage-subscription#file_names).
     /// </summary>
     [CliOption("--cloud-storage-file-datetime-format", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageFileDatetimeFormat { get; set; }
 
     /// <summary>
-    /// The prefix for Cloud Storage filename.
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. The prefix for Cloud Storage filename.
     /// </summary>
     [CliOption("--cloud-storage-file-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageFilePrefix { get; set; }
 
     /// <summary>
-    /// The suffix for Cloud Storage filename.
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. The suffix for Cloud Storage filename.
     /// </summary>
     [CliOption("--cloud-storage-file-suffix", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageFileSuffix { get; set; }
 
     /// <summary>
-    /// The maximum bytes that can be written to a Cloud Storage file before a new file is created. The value must be between 1000B and 10GB. If the unit is omitted, KB is assumed.
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. The maximum bytes that can be written to a Cloud Storage file before a new file is created. The value must be between 1000B and 10GB. If the unit is omitted, KB is assumed.
     /// </summary>
     [CliOption("--cloud-storage-max-bytes", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageMaxBytes { get; set; }
 
     /// <summary>
-    /// The maximum duration that can elapse before a new Cloud Storage file is created. The value must be between 1m and 10m. Valid values are strings of the form INTEGER[UNIT], where UNIT is one of "s", "m", "h", and "d" for seconds, minutes, hours, and days, respectively. If the unit is omitted, seconds is assumed.
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. The maximum duration that can elapse before a new Cloud Storage file is created. The value must be between 1m and 10m. Valid values are strings of the form INTEGER[UNIT], where UNIT is one of "s", "m", "h", and "d" for seconds, minutes, hours, and days, respectively. If the unit is omitted, seconds is assumed.
     /// </summary>
     [CliOption("--cloud-storage-max-duration", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageMaxDuration { get; set; }
 
     /// <summary>
-    /// The maximum number of messages that can be written to a Cloud Storage file before a new file is created. The value must be greater than or equal to 1000.
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. The maximum number of messages that can be written to a Cloud Storage file before a new file is created. The value must be greater than or equal to 1000.
     /// </summary>
     [CliOption("--cloud-storage-max-messages", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageMaxMessages { get; set; }
 
     /// <summary>
-    /// The service account email to use when writing to Cloud Storage. If unspecified, uses the Pub/Sub service agent (https://cloud.google.com/iam/docs/service-account-types#service-agents).
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. The output format for data written to Cloud Storage. Values: text (messages will be written as raw text, separated by a newline) or avro (messages will be written as an Avro binary). OUTPUT_FORMAT must be one of: text, avro.
     /// </summary>
-    [CliOption("--cloud-storage-service-account-email", Format = OptionFormat.EqualsSeparated)]
-    public int? CloudStorageServiceAccountEmail { get; set; }
+    [CliOption("--cloud-storage-output-format", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudStorageOutputFormat { get; set; }
 
     /// <summary>
-    /// Whether or not to use the schema for the subscription's topic (if it exists) when writing messages to Cloud Storage. This has an effect only for subscriptions with --cloud-storage-output-format=avro. Use --no-cloud-storage-use-topic-schema to disable this flag.
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. The service account email to use when writing to Cloud Storage. If unspecified, uses the Pub/Sub service agent (https://cloud.google.com/iam/docs/service-account-types#service-agents).
+    /// </summary>
+    [CliOption("--cloud-storage-service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudStorageServiceAccountEmailValue { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. Whether or not to use the schema for the subscription's topic (if it exists) when writing messages to Cloud Storage. This has an effect only for subscriptions with --cloud-storage-output-format=avro. Use --no-cloud-storage-use-topic-schema to disable this flag.
     /// </summary>
     [CliFlag("--cloud-storage-use-topic-schema")]
     public bool? CloudStorageUseTopicSchema { get; set; }
 
     /// <summary>
-    /// Whether or not to use the schema for the subscription's topic (if it exists) when writing messages to Cloud Storage. This has an effect only for subscriptions with --cloud-storage-output-format=avro. Use --no-cloud-storage-use-topic-schema to disable this flag.
+    /// Negates --cloud-storage-use-topic-schema. At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. Whether or not to use the schema for the subscription's topic (if it exists) when writing messages to Cloud Storage. This has an effect only for subscriptions with --cloud-storage-output-format=avro. Use --no-cloud-storage-use-topic-schema to disable this flag.
     /// </summary>
     [CliFlag("--no-cloud-storage-use-topic-schema")]
     public bool? NoCloudStorageUseTopicSchema { get; set; }
 
     /// <summary>
-    /// Whether or not to write the subscription name, message_id, publish_time, attributes, and ordering_key as additional fields in the output. The subscription name, message_id, and publish_time fields are put in their own fields while all other message properties other than data (for example, an ordering_key, if present) are added as entries in the attributes map. This has an effect only for subscriptions with --cloud-storage-output-format=avro. Use --no-cloud-storage-write-metadata to disable this flag.
+    /// At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. Whether or not to write the subscription name, message_id, publish_time, attributes, and ordering_key as additional fields in the output. The subscription name, message_id, and publish_time fields are put in their own fields while all other message properties other than data (for example, an ordering_key, if present) are added as entries in the attributes map. This has an effect only for subscriptions with --cloud-storage-output-format=avro. Use --no-cloud-storage-write-metadata to disable this flag.
     /// </summary>
     [CliFlag("--cloud-storage-write-metadata")]
     public bool? CloudStorageWriteMetadata { get; set; }
 
     /// <summary>
-    /// Whether or not to write the subscription name, message_id, publish_time, attributes, and ordering_key as additional fields in the output. The subscription name, message_id, and publish_time fields are put in their own fields while all other message properties other than data (for example, an ordering_key, if present) are added as entries in the attributes map. This has an effect only for subscriptions with --cloud-storage-output-format=avro. Use --no-cloud-storage-write-metadata to disable this flag.
+    /// Negates --cloud-storage-write-metadata. At most one of these can be specified: Cloud Storage Config Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to write to this Cloud Storage bucket and to read this bucket's metadata. When updating CloudStorageConfig flags, all CloudStorageConfig flags must be specified. Otherwise, any omitted CloudStorageConfig flags revert to their default value. Note that an update to the Cloud Storage config will replace it with a new config containing only the flags that are passed in the update CLI. Whether or not to write the subscription name, message_id, publish_time, attributes, and ordering_key as additional fields in the output. The subscription name, message_id, and publish_time fields are put in their own fields while all other message properties other than data (for example, an ordering_key, if present) are added as entries in the attributes map. This has an effect only for subscriptions with --cloud-storage-output-format=avro. Use --no-cloud-storage-write-metadata to disable this flag.
     /// </summary>
     [CliFlag("--no-cloud-storage-write-metadata")]
     public bool? NoCloudStorageWriteMetadata { get; set; }
 
     /// <summary>
-    /// If set, clear the dead letter policy from the subscription. Use --no-clear-dead-letter-policy to disable this flag.
+    /// At most one of these can be specified: If set, clear the dead letter policy from the subscription. Use --no-clear-dead-letter-policy to disable this flag.
     /// </summary>
     [CliFlag("--clear-dead-letter-policy")]
     public bool? ClearDeadLetterPolicy { get; set; }
 
     /// <summary>
-    /// If set, clear the dead letter policy from the subscription. Use --no-clear-dead-letter-policy to disable this flag.
+    /// Negates --clear-dead-letter-policy. At most one of these can be specified: If set, clear the dead letter policy from the subscription. Use --no-clear-dead-letter-policy to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-dead-letter-policy")]
     public bool? NoClearDeadLetterPolicy { get; set; }
 
     /// <summary>
-    /// Maximum number of delivery attempts for any message. The value must be between 5 and 100. Defaults to 5. --dead-letter-topic must also be specified.
+    /// At most one of these can be specified: Dead Letter Queue Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Publish() to this topic and Acknowledge() messages on this subscription. When updating DeadLetterPolicy flags, all DeadLetterPolicy flags must be specified. Otherwise, any omitted DeadLetterPolicy flags revert to their default value. Maximum number of delivery attempts for any message. The value must be between 5 and 100. Defaults to 5. --dead-letter-topic must also be specified.
     /// </summary>
     [CliOption("--max-delivery-attempts", Format = OptionFormat.EqualsSeparated)]
     public string? MaxDeliveryAttempts { get; set; }
 
     /// <summary>
-    /// ID of the dead-letter-topic or fully qualified identifier for the dead-letter-topic. To set the topic attribute: - provide the argument --dead-letter-topic on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Dead Letter Queue Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Publish() to this topic and Acknowledge() messages on this subscription. When updating DeadLetterPolicy flags, all DeadLetterPolicy flags must be specified. Otherwise, any omitted DeadLetterPolicy flags revert to their default value. Dead letter topic resource - Name of the topic to publish dead letter messages to. The arguments in this group can be used to specify the attributes of this resource. ID of the dead-letter-topic or fully qualified identifier for the dead-letter-topic. To set the topic attribute: o provide the argument --dead-letter-topic on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--dead-letter-topic", Format = OptionFormat.EqualsSeparated)]
     public string? DeadLetterTopic { get; set; }
 
     /// <summary>
-    /// Project ID of the Google Cloud project for the dead-letter-topic. To set the project attribute: - provide the argument --dead-letter-topic on the command line with a fully specified name; - provide the argument --dead-letter-topic-project on the command line; - provide the argument --project on the command line; - set the property core/project.
+    /// At most one of these can be specified: Dead Letter Queue Options. The Cloud Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Publish() to this topic and Acknowledge() messages on this subscription. When updating DeadLetterPolicy flags, all DeadLetterPolicy flags must be specified. Otherwise, any omitted DeadLetterPolicy flags revert to their default value. Dead letter topic resource - Name of the topic to publish dead letter messages to. The arguments in this group can be used to specify the attributes of this resource. Project ID of the Google Cloud project for the dead-letter-topic. To set the project attribute: o provide the argument --dead-letter-topic on the command line with a fully specified name; o provide the argument --dead-letter-topic-project on the command line; o provide the argument --project on the command line; o set the property core/project.
     /// </summary>
     [CliOption("--dead-letter-topic-project", Format = OptionFormat.EqualsSeparated)]
     public string? DeadLetterTopicProject { get; set; }
 
     /// <summary>
-    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud pubsub subscriptions update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud pubsub subscriptions update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud pubsub subscriptions update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud pubsub subscriptions update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// If set, clears the message transforms field. Use --no-clear-message-transforms to disable this flag.
+    /// At most one of these can be specified: If set, clears the message transforms field. Use --no-clear-message-transforms to disable this flag.
     /// </summary>
     [CliFlag("--clear-message-transforms")]
     public bool? ClearMessageTransforms { get; set; }
 
     /// <summary>
-    /// If set, clears the message transforms field. Use --no-clear-message-transforms to disable this flag.
+    /// Negates --clear-message-transforms. At most one of these can be specified: If set, clears the message transforms field. Use --no-clear-message-transforms to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-message-transforms")]
     public bool? NoClearMessageTransforms { get; set; }
 
     /// <summary>
-    /// Path to YAML or JSON file containing message transforms.
+    /// At most one of these can be specified: Path to YAML or JSON file containing message transforms.
     /// </summary>
     [CliOption("--message-transforms-file", Format = OptionFormat.EqualsSeparated)]
     public string? MessageTransformsFile { get; set; }
 
     /// <summary>
-    /// If set, clear the retry policy from the subscription. Use --no-clear-retry-policy to disable this flag.
+    /// At most one of these can be specified: If set, clear the retry policy from the subscription. Use --no-clear-retry-policy to disable this flag.
     /// </summary>
     [CliFlag("--clear-retry-policy")]
     public bool? ClearRetryPolicy { get; set; }
 
     /// <summary>
-    /// If set, clear the retry policy from the subscription. Use --no-clear-retry-policy to disable this flag.
+    /// Negates --clear-retry-policy. At most one of these can be specified: If set, clear the retry policy from the subscription. Use --no-clear-retry-policy to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-retry-policy")]
     public bool? NoClearRetryPolicy { get; set; }
 
     /// <summary>
-    /// The maximum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 600 seconds. Valid values are strings of the form INTEGER[UNIT], where UNIT is one of "s", "m", "h", and "d" for seconds, minutes, hours, and days, respectively. If the unit is omitted, seconds is assumed.
+    /// At most one of these can be specified: Retry Policy Options. Retry policy specifies how Cloud Pub/Sub retries message delivery for this subscription. When updating RetryPolicy flags, all RetryPolicy flags must be specified. Otherwise, any omitted RetryPolicy flags revert to their default value. The maximum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 600 seconds. Valid values are strings of the form INTEGER[UNIT], where UNIT is one of "s", "m", "h", and "d" for seconds, minutes, hours, and days, respectively. If the unit is omitted, seconds is assumed.
     /// </summary>
     [CliOption("--max-retry-delay", Format = OptionFormat.EqualsSeparated)]
     public string? MaxRetryDelay { get; set; }
 
     /// <summary>
-    /// The minimum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 10 seconds. Valid values are strings of the form INTEGER[UNIT], where UNIT is one of "s", "m", "h", and "d" for seconds, minutes, hours, and days, respectively. If the unit is omitted, seconds is assumed.
+    /// At most one of these can be specified: Retry Policy Options. Retry policy specifies how Cloud Pub/Sub retries message delivery for this subscription. When updating RetryPolicy flags, all RetryPolicy flags must be specified. Otherwise, any omitted RetryPolicy flags revert to their default value. The minimum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 10 seconds. Valid values are strings of the form INTEGER[UNIT], where UNIT is one of "s", "m", "h", and "d" for seconds, minutes, hours, and days, respectively. If the unit is omitted, seconds is assumed.
     /// </summary>
     [CliOption("--min-retry-delay", Format = OptionFormat.EqualsSeparated)]
     public string? MinRetryDelay { get; set; }
 
     /// <summary>
-    /// Service account email used as the identity for the generated Open ID Connect token for authenticated push.
+    /// Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. Service account email used as the identity for the generated Open ID Connect token for authenticated push.
     /// </summary>
     [CliOption("--push-auth-service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? PushAuthServiceAccount { get; set; }
+    public string? PushAuthServiceAccountValue { get; set; }
 
     /// <summary>
-    /// Audience used in the generated Open ID Connect token for authenticated push. If not specified, it will be set to the push-endpoint.
+    /// Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. Audience used in the generated Open ID Connect token for authenticated push. If not specified, it will be set to the push-endpoint.
     /// </summary>
     [SecretValue]
     [CliOption("--push-auth-token-audience", Format = OptionFormat.EqualsSeparated)]
     public string? PushAuthTokenAudience { get; set; }
 
     /// <summary>
-    /// A URL to use as the endpoint for this subscription. This will also automatically set the subscription type to PUSH.
+    /// Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. A URL to use as the endpoint for this subscription. This will also automatically set the subscription type to PUSH.
     /// </summary>
     [CliOption("--push-endpoint", Format = OptionFormat.EqualsSeparated)]
     public string? PushEndpoint { get; set; }
 
     /// <summary>
-    /// If set, clear the NoWrapper config from the subscription. Use --no-clear-push-no-wrapper-config to disable this flag.
+    /// Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. At most one of these can be specified: If set, clear the NoWrapper config from the subscription. Use --no-clear-push-no-wrapper-config to disable this flag.
     /// </summary>
     [CliFlag("--clear-push-no-wrapper-config")]
     public bool? ClearPushNoWrapperConfig { get; set; }
 
     /// <summary>
-    /// If set, clear the NoWrapper config from the subscription. Use --no-clear-push-no-wrapper-config to disable this flag.
+    /// Negates --clear-push-no-wrapper-config. Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. At most one of these can be specified: If set, clear the NoWrapper config from the subscription. Use --no-clear-push-no-wrapper-config to disable this flag.
     /// </summary>
     [CliFlag("--no-clear-push-no-wrapper-config")]
     public bool? NoClearPushNoWrapperConfig { get; set; }
 
     /// <summary>
-    /// When set, the message data is delivered directly as the HTTP body. Use --no-push-no-wrapper to disable this flag. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. At most one of these can be specified: NoWrapper Config Options. When set, the message data is delivered directly as the HTTP body. Use --no-push-no-wrapper to disable this flag. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--push-no-wrapper")]
     public bool? PushNoWrapper { get; set; }
 
     /// <summary>
-    /// When set, the message data is delivered directly as the HTTP body. Use --no-push-no-wrapper to disable this flag. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Negates --push-no-wrapper. Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. At most one of these can be specified: NoWrapper Config Options. When set, the message data is delivered directly as the HTTP body. Use --no-push-no-wrapper to disable this flag. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--no-push-no-wrapper")]
     public bool? NoPushNoWrapper { get; set; }
 
     /// <summary>
-    /// When true, writes the Pub/Sub message metadata to x-goog-pubsub-&lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Writes the Pub/Sub message attributes to &lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Use --no-push-no-wrapper-write-metadata to disable this flag.
+    /// Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. At most one of these can be specified: NoWrapper Config Options. When true, writes the Pub/Sub message metadata to x-goog-pubsub-&lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Writes the Pub/Sub message attributes to &lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Use --no-push-no-wrapper-write-metadata to disable this flag.
     /// </summary>
     [CliFlag("--push-no-wrapper-write-metadata")]
     public bool? PushNoWrapperWriteMetadata { get; set; }
 
     /// <summary>
-    /// When true, writes the Pub/Sub message metadata to x-goog-pubsub-&lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Writes the Pub/Sub message attributes to &lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Use --no-push-no-wrapper-write-metadata to disable this flag.
+    /// Negates --push-no-wrapper-write-metadata. Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. At most one of these can be specified: NoWrapper Config Options. When true, writes the Pub/Sub message metadata to x-goog-pubsub-&lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Writes the Pub/Sub message attributes to &lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Use --no-push-no-wrapper-write-metadata to disable this flag.
     /// </summary>
     [CliFlag("--no-push-no-wrapper-write-metadata")]
     public bool? NoPushNoWrapperWriteMetadata { get; set; }
 
-    /// <summary>
-    /// The output format for data written to Cloud Storage. Values: text (messages will be written as raw text, separated by a newline) or avro (messages will be written as an Avro binary). OUTPUT_FORMAT must be one of: text, avro.
-    /// </summary>
-    [CliOption("--cloud-storage-output-format", Format = OptionFormat.EqualsSeparated)]
-    public string? CloudStorageOutputFormat { get; set; }
+    [Obsolete("Use BigqueryServiceAccountEmailValue instead.")]
+    public int? BigqueryServiceAccountEmail
+    {
+        get => int.TryParse(BigqueryServiceAccountEmailValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => BigqueryServiceAccountEmailValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use CloudStorageServiceAccountEmailValue instead.")]
+    public int? CloudStorageServiceAccountEmail
+    {
+        get => int.TryParse(CloudStorageServiceAccountEmailValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => CloudStorageServiceAccountEmailValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use PushAuthServiceAccountValue instead.")]
+    public int? PushAuthServiceAccount
+    {
+        get => int.TryParse(PushAuthServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => PushAuthServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

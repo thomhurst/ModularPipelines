@@ -867,7 +867,10 @@ public class CodeGeneratorOrchestrator
         var compatibleTool = GeneratedApiCompatibilityPreserver.Preserve(
             collisionResolvedTool,
             outputDirectory);
-        var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(compatibleTool);
+        var reachableTool = EnumReachabilityPruner.PruneDiscardedEnumReferences(
+            collisionResolvedTool,
+            compatibleTool);
+        var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(reachableTool);
         var resolvedGlobalOptions = toolDefinition.GetGlobalOptions();
         foreach (var command in toolDefinition.Commands)
         {

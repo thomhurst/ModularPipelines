@@ -157,7 +157,8 @@ public partial class GcloudCliScraper : CliScraperBase
     protected override bool ShouldTreatOptionAsScalar(
         IReadOnlyList<string> commandParts,
         string switchName) =>
-        switchName.Equals("--external-ipv6-prefix-length", StringComparison.OrdinalIgnoreCase);
+        switchName.Equals("--external-ipv6-prefix-length", StringComparison.OrdinalIgnoreCase)
+        || switchName.Contains("service-account", StringComparison.OrdinalIgnoreCase);
 
     #endregion
 
@@ -233,7 +234,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
         foreach (var argument in argumentGroup.FlattenArguments())
         {
-            foreach (var option in CreateOptions(argument))
+            foreach (var option in CreateOptions(argument, commandParts))
             {
                 if (!seenOptions.Add(option.SwitchName))
                 {
@@ -273,7 +274,9 @@ public partial class GcloudCliScraper : CliScraperBase
         };
     }
 
-    private static IEnumerable<CliOptionDefinition> CreateOptions(CliArgumentDefinition argument)
+    private IEnumerable<CliOptionDefinition> CreateOptions(
+        CliArgumentDefinition argument,
+        IReadOnlyList<string> commandParts)
     {
         var longForm = argument.SwitchName;
         if (string.IsNullOrEmpty(longForm))
@@ -291,11 +294,13 @@ public partial class GcloudCliScraper : CliScraperBase
         var description = argument.Documentation;
         var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
         var isCompositeValue = IsCompositeValueHint(valueHint);
-        var acceptsMultipleValues = AcceptsMultipleValues(
-            valueHint,
-            description,
-            isFlag,
-            isCompositeValue);
+        var acceptsMultipleValues = (!ShouldTreatOptionAsScalar(commandParts, longForm)
+                                     || valueHint.Contains("...", StringComparison.Ordinal))
+                                    && AcceptsMultipleValues(
+                valueHint,
+                description,
+                isFlag,
+                isCompositeValue);
         var isNumeric = IsNumericValue(longForm, valueHint, description, isCompositeValue);
         var isKeyValue = IsKeyValue(valueHint, isCompositeValue);
         var enumDefinition = TryDetectEnum(propertyName, description);
@@ -355,8 +360,8 @@ public partial class GcloudCliScraper : CliScraperBase
         && IsNumericHint(valueHint);
 
     private static bool IsKeyValue(string valueHint, bool isCompositeValue) =>
-        !isCompositeValue
-        && (valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,"));
+        valueHint.Contains("KEY=VALUE")
+        || (!isCompositeValue && valueHint.Contains("=VALUE,"));
 
     private static CliOptionDefinition CreateNegatedOption(
         CliOptionDefinition option,
@@ -580,7 +585,7 @@ public partial class GcloudCliScraper : CliScraperBase
     /// --option=VALUE
     /// </summary>
     [GeneratedRegex(
-        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s;]+))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
     private static partial Regex GcloudFlagPattern();
 
     [GeneratedRegex(

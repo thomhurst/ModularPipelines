@@ -167,6 +167,49 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Parses_Spaced_Value_Hints_Without_Leaking_Documentation()
+    {
+        const string helpText = """
+            NAME
+                gcloud compute instances create-with-container - create an instance
+
+            SYNOPSIS
+                gcloud compute instances create-with-container
+
+            FLAGS
+                 --container-env=[KEY=VALUE, ...,...]
+                    Declare environment variables. KEY can be repeated more than once.
+
+                 --machine-type=MACHINE_TYPE
+                    Specifies the machine type.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "compute", "instances", "create-with-container"],
+            helpText);
+        var containerEnvironment = command!.Options.Single(option =>
+            option.SwitchName == "--container-env");
+        var machineType = command.Options.Single(option =>
+            option.SwitchName == "--machine-type");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(containerEnvironment.Description)
+                .Contains("Declare environment variables");
+            await Assert.That(containerEnvironment.IsKeyValue).IsTrue();
+            await Assert.That(containerEnvironment.CSharpType)
+                .IsEqualTo("IReadOnlyList<KeyValue>?");
+            await Assert.That(machineType.Description)
+                .IsEqualTo("Specifies the machine type.");
+            await Assert.That(machineType.AcceptsMultipleValues).IsFalse();
+            await Assert.That(machineType.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Emits_Both_Forms_Of_Negatable_Flags()
     {
         const string helpText = """
@@ -339,6 +382,38 @@ public partial class NestedArgumentGroupParsingTests
             await Assert.That(serviceAccountOptions).Count().IsEqualTo(4);
             await Assert.That(serviceAccountOptions.Select(option => option.CSharpType))
                 .IsEquivalentTo(["string?", "string?", "string?", "string?"]);
+        }
+    }
+
+    [Test]
+    public async Task Gcloud_Service_Account_Stays_Scalar_When_Group_Description_Mentions_Repetition()
+    {
+        const string helpText = """
+            NAME
+                gcloud compute instances create-with-container - create an instance
+
+            SYNOPSIS
+                gcloud compute instances create-with-container INSTANCE_NAMES
+
+            FLAGS
+                 --service-account=SERVICE_ACCOUNT
+                    Values for a sibling option may be repeated more than once. A service
+                    account can be set using its email address.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "compute", "instances", "create-with-container"],
+            helpText);
+        var serviceAccount = command!.Options.Single(option =>
+            option.SwitchName == "--service-account");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(serviceAccount.CSharpType).IsEqualTo("string?");
+            await Assert.That(serviceAccount.AcceptsMultipleValues).IsFalse();
         }
     }
 

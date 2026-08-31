@@ -17,7 +17,7 @@ using ModularPipelines.Google.Enums;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// create an Autopilot cluster for     running containers
+/// create an Autopilot cluster for      running containers
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -45,25 +45,13 @@ public record GcloudContainerClustersCreateAutoOptions(
     public GcloudAutoMonitoringScope? AutoMonitoringScope { get; set; }
 
     /// <summary>
-    /// Sets the Autopilot general profile for the cluster; possible values are none and no-performance. If none is used, the cluster will use the Autopilot default configuration. AUTOPILOT_GENERAL_PROFILE must be one of: none, no-performance.
-    /// </summary>
-    [CliOption("--autopilot-general-profile", Format = OptionFormat.EqualsSeparated)]
-    public string? AutopilotGeneralProfile { get; set; }
-
-    /// <summary>
-    /// Specifies which privileged workload allowlist paths can be referenced and installed by AllowlistSynchronizers in Autopilot modes. The value is a comma-separated list of paths in the format: * gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot partner allowlists * gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists By default, all GKE-managed allowlists (gke://*) are authorized. See https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners for all supported Autopilot partner allowlists. When setting this flag, be careful to explicitly specify gke://* in addition to other entries if you rely on this default behavior. Wildcards (*) are supported. For example, if gke://* is authorized, then AllowlistSynchronizers can be used to install gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml. Note: Use of user allowlists (gs://) requires special permissions and is only available to a subset of high tier customers. Please contact your account team for more information. Examples: Allow all GKE-managed allowlists (default behavior): $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://* Authorize only allowlists from a GKE Autopilot partner: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://my-partner/* Authorize only a singular user-owned allowlist $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gs://my-bucket/allowlists/\ my-allowlist.yaml Authorize all user-owned allowlists under a given path: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gs://my-bucket/* Authorize all GKE-managed allowlists and a specific user-owned allowlist: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://*,gs://my-bucket/\ allowlists/my-allowlist.yaml Disable allowlist installation entirely: $ gcloud container clusters create-auto \ --autopilot-privileged-admission="" Exercise caution when using this flag on an existing cluster. Upon updates, existing AllowlistSynchronizers will uninstall allowlists that are no longer authorized. For instructions on installing allowlists in the cluster after authorization, please refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads
-    /// </summary>
-    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
-
-    /// <summary>
     /// Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
     /// </summary>
     [CliFlag("--autoprovisioning-enable-insecure-kubelet-readonly-port")]
     public bool? AutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
 
     /// <summary>
-    /// Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
+    /// Negates --autoprovisioning-enable-insecure-kubelet-readonly-port. Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
     /// </summary>
     [CliFlag("--no-autoprovisioning-enable-insecure-kubelet-readonly-port")]
     public bool? NoAutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
@@ -81,7 +69,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     public IReadOnlyList<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
 
     /// <summary>
-    /// Enable Binary Authorization for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: disabled, project-singleton-policy-enforce.
+    /// Flags for Binary Authorization: Enable Binary Authorization for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: disabled, project-singleton-policy-enforce.
     /// </summary>
     [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BinauthzEvaluationMode { get; set; }
@@ -111,22 +99,10 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? ClusterVersion { get; set; }
 
     /// <summary>
-    /// Enable confidential nodes for the cluster. Enabling Confidential Nodes will create nodes using Confidential VM https://docs.cloud.google.com/compute/docs/about-confidential-vm. CONFIDENTIAL_NODE_TYPE must be one of: sev, sev_snp, tdx.
-    /// </summary>
-    [CliOption("--confidential-node-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudConfidentialNodeType? ConfidentialNodeType { get; set; }
-
-    /// <summary>
     /// Path of the YAML file that contains containerd configuration entries like configuring access to private image registries. For detailed information on the configuration usage, please refer to https://cloud.google.com/kubernetes-engine/docs/how-to/customize-containerd-configuration. Note: Updating the containerd configuration of an existing cluster or node pool requires recreation of the existing nodes, which might cause disruptions in running workloads. Use a full or relative path to a local file containing the value of containerd_config.
     /// </summary>
     [CliOption("--containerd-config-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerdConfigFromFile { get; set; }
-
-    /// <summary>
-    /// Configures the egress policy for the GKE control plane to control outbound traffic from the kube-apiserver. CONTROL_PLANE_EGRESS must be one of: NONE (Recommended) Provides maximum security. This mode removes the control plane's public IP address and blocks all outbound traffic from the kube-apiserver by default, preventing unexpected data exfiltration. Webhooks that use clientConfig.url will be disabled. Essential GKE-managed services are still permitted to function via an internal allowlist. VIA_CONTROL_PLANE (Default) Maintains backward compatibility. The control plane retains its public IP address and allows egress traffic from the kube-apiserver.
-    /// </summary>
-    [CliOption("--control-plane-egress", Format = OptionFormat.EqualsSeparated)]
-    public string? ControlPlaneEgress { get; set; }
 
     /// <summary>
     /// Create a new subnetwork for the cluster. The name and range of the subnetwork can be customized via optional 'name' and 'range' key-value pairs. 'name' specifies the name of the subnetwork to be created. 'range' specifies the IP range for the new subnetwork. This can either be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If a netmask size is specified, the IP is automatically taken from the free space in the cluster's network. Examples: Create a new subnetwork with a default name and size. $ gcloud container clusters create-auto --create-subnetwork "" Create a new subnetwork named "my-subnet" with netmask of size 21. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet,range=/21 Create a new subnetwork with a default name with the primary range of 10.100.0.0/16. $ gcloud container clusters create-auto \ --create-subnetwork range=10.100.0.0/16 Create a new subnetwork with the name "my-subnet" with a default range. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet Cannot be used in conjunction with '--subnetwork' option.
@@ -145,24 +121,6 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// </summary>
     [CliFlag("--disable-l4-lb-firewall-reconciliation")]
     public bool? DisableL4LbFirewallReconciliation { get; set; }
-
-    /// <summary>
-    /// Disable the Lustre CSI driver to automatically detect and configure all suitable network interfaces on a node for Lustre IO.
-    /// </summary>
-    [CliFlag("--disable-multi-nic-lustre")]
-    public bool? DisableMultiNicLustre { get; set; }
-
-    /// <summary>
-    /// Enable the Agent Sandbox feature on the cluster. Use --no-enable-agent-sandbox to disable.
-    /// </summary>
-    [CliFlag("--enable-agent-sandbox")]
-    public bool? EnableAgentSandbox { get; set; }
-
-    /// <summary>
-    /// Enable the Agent Sandbox feature on the cluster. Use --no-enable-agent-sandbox to disable.
-    /// </summary>
-    [CliFlag("--no-enable-agent-sandbox")]
-    public bool? NoEnableAgentSandbox { get; set; }
 
     /// <summary>
     /// Enable enforcement of --master-authorized-networks CIDR ranges for traffic reaching cluster's control plane via private IP.
@@ -189,7 +147,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? EnableCiliumClusterwideNetworkPolicy { get; set; }
 
     /// <summary>
-    /// Enable confidential nodes for the cluster. Enabling Confidential Nodes will create nodes using Confidential VM https://docs.cloud.google.com/compute/docs/about-confidential-vm.
+    /// Enable confidential nodes for the cluster. Enabling Confidential Nodes will create nodes using Confidential VM https://cloud.google.com/compute/confidential-vm/docs/about-cvm.
     /// </summary>
     [CliFlag("--enable-confidential-nodes")]
     public bool? EnableConfidentialNodes { get; set; }
@@ -201,7 +159,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? EnableDefaultComputeClass { get; set; }
 
     /// <summary>
-    /// Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
+    /// Negates --enable-default-compute-class. Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
     /// </summary>
     [CliFlag("--no-enable-default-compute-class")]
     public bool? NoEnableDefaultComputeClass { get; set; }
@@ -249,7 +207,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? EnableKernelModuleSignatureEnforcement { get; set; }
 
     /// <summary>
-    /// Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters create-auto example-cluster \ --enable-kernel-module-signature-enforcement
+    /// Negates --enable-kernel-module-signature-enforcement. Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters create-auto example-cluster \ --enable-kernel-module-signature-enforcement
     /// </summary>
     [CliFlag("--no-enable-kernel-module-signature-enforcement")]
     public bool? NoEnableKernelModuleSignatureEnforcement { get; set; }
@@ -315,40 +273,16 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? HpaProfile { get; set; }
 
     /// <summary>
-    /// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
-    /// </summary>
-    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
-    public string? Image { get; set; }
-
-    /// <summary>
-    /// The Google Cloud project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
-    /// </summary>
-    [CliOption("--image-project", Format = OptionFormat.EqualsSeparated)]
-    public string? ImageProject { get; set; }
-
-    /// <summary>
-    /// The image type to use for the cluster. Defaults to server-specified. Image Type specifies the base OS that the nodes in the cluster will run on. If an image type is specified, that will be assigned to the cluster and all future upgrades will use the specified image type. If it is not specified the server will pick the default image type. The default image type and the list of valid image types are available using the following command. $ gcloud container get-server-config
-    /// </summary>
-    [CliOption("--image-type", Format = OptionFormat.EqualsSeparated)]
-    public string? ImageType { get; set; }
-
-    /// <summary>
     /// Labels to apply to the Google Cloud resources in use by the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Examples: $ gcloud container clusters create-auto example-cluster \ --labels=label_a=value1,label_b=,label_c=value3
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled. Valid component values are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, KCP_HPA, KCP_VPA The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must be included. For more information, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs Examples: $ gcloud container clusters create-auto --logging=SYSTEM $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD $ gcloud container clusters create-auto \ --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\ SCHEDULER,KCP_HPA,KCP_VPA
+    /// Set the components that have logging enabled. Valid component values are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must be included. For more information, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs Examples: $ gcloud container clusters create-auto --logging=SYSTEM $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD $ gcloud container clusters create-auto \ --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\ SCHEDULER
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Logging { get; set; }
-
-    /// <summary>
-    /// Specifies the scope of Managed OpenTelemetry within the cluster. COLLECTION_AND_INSTRUMENTATION_COMPONENTS: Enables GKE Managed OpenTelemetry Collector and other Instrumentations components like Instrumentation CRD within the cluster. NONE: Disables the GKE Managed OpenTelemetry. MANAGED_OTEL_SCOPE must be one of: COLLECTION_AND_INSTRUMENTATION_COMPONENTS, NONE.
-    /// </summary>
-    [CliOption("--managed-otel-scope", Format = OptionFormat.EqualsSeparated)]
-    public string? ManagedOtelScope { get; set; }
 
     /// <summary>
     /// Specify a membership type for the cluster's fleet membership. Example: $ gcloud container clusters create-auto \ --membership-type=LIGHTWEIGHT. MEMBERSHIP_TYPE must be (only \ one value is supported): LIGHTWEIGHT Fleet membership representing this cluster will be lightweight.
@@ -357,7 +291,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? MembershipType { get; set; }
 
     /// <summary>
-    /// Set the components that have monitoring enabled. Valid component values are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be enabled. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics Examples: $ gcloud container clusters create-auto \ --monitoring=SYSTEM,API_SERVER,POD,DCGM $ gcloud container clusters create-auto --monitoring=SYSTEM
+    /// Set the components that have monitoring enabled. Valid component values are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics Examples: $ gcloud container clusters create-auto \ --monitoring=SYSTEM,API_SERVER,POD,DCGM $ gcloud container clusters create-auto --monitoring=SYSTEM
     /// </summary>
     [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Monitoring { get; set; }
@@ -367,12 +301,6 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
-
-    /// <summary>
-    /// Configures node creation mode for the cluster, either via kubelet or via control plane. NODE_CREATION_MODE must be one of: CONTROL_PLANE registers nodes via control plane; kubelet registration will be rejected. This selection will not take effect if you turn off Shielded Nodes. KUBELET registers nodes via kubelet.
-    /// </summary>
-    [CliOption("--node-creation-mode", Format = OptionFormat.EqualsSeparated)]
-    public string? NodeCreationMode { get; set; }
 
     /// <summary>
     /// Sets the subnetwork GKE uses to provision the control plane's private endpoint.
@@ -435,94 +363,82 @@ public record GcloudContainerClustersCreateAutoOptions(
     public GcloudWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
 
     /// <summary>
-    /// The domain used in Additive VPC scope. Only works with Cluster Scope.
+    /// At most one of these can be specified: The domain used in Additive VPC scope. Only works with Cluster Scope.
     /// </summary>
     [CliOption("--additive-vpc-scope-dns-domain", Format = OptionFormat.EqualsSeparated)]
     public string? AdditiveVpcScopeDnsDomain { get; set; }
 
     /// <summary>
-    /// Disables Additive VPC Scope.
+    /// At most one of these can be specified: Disables Additive VPC Scope.
     /// </summary>
     [CliFlag("--disable-additive-vpc-scope")]
     public bool? DisableAdditiveVpcScope { get; set; }
 
     /// <summary>
-    /// The Certificate Authority Service caPool that will back the aggregation CA
+    /// Control Plane Keys The Certificate Authority Service caPool that will back the aggregation CA
     /// </summary>
     [CliOption("--aggregation-ca", Format = OptionFormat.EqualsSeparated)]
     public string? AggregationCa { get; set; }
 
     /// <summary>
-    /// The Certificate Authority Service caPool that will back the cluster CA
+    /// Control Plane Keys The Certificate Authority Service caPool that will back the cluster CA
     /// </summary>
     [CliOption("--cluster-ca", Format = OptionFormat.EqualsSeparated)]
     public string? ClusterCa { get; set; }
 
     /// <summary>
-    /// The Cloud KMS symmetric encryption cryptoKey that will be used to encrypt the control plane disks
+    /// Control Plane Keys The Cloud KMS symmetric encryption cryptoKey that will be used to encrypt the control plane disks
     /// </summary>
     [CliOption("--control-plane-disk-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? ControlPlaneDiskEncryptionKey { get; set; }
 
     /// <summary>
-    /// The Certificate Authority Service caPool that will back the etcd API CA
+    /// Control Plane Keys The Certificate Authority Service caPool that will back the etcd API CA
     /// </summary>
     [CliOption("--etcd-api-ca", Format = OptionFormat.EqualsSeparated)]
     public string? EtcdApiCa { get; set; }
 
     /// <summary>
-    /// The Certificate Authority Service caPool that will back the etcd peer CA
+    /// Control Plane Keys The Certificate Authority Service caPool that will back the etcd peer CA
     /// </summary>
     [CliOption("--etcd-peer-ca", Format = OptionFormat.EqualsSeparated)]
     public string? EtcdPeerCa { get; set; }
 
     /// <summary>
-    /// The Cloud KMS symmetric encryption cryptoKey that will be used to encrypt the disaster recovery etcd backups for the cluster
+    /// Control Plane Keys The Cloud KMS symmetric encryption cryptoKey that will be used to encrypt the disaster recovery etcd backups for the cluster
     /// </summary>
     [CliOption("--gkeops-etcd-backup-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? GkeopsEtcdBackupEncryptionKey { get; set; }
 
     /// <summary>
-    /// A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to sign service account tokens
+    /// Control Plane Keys A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to sign service account tokens
     /// </summary>
     [CliOption("--service-account-signing-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountSigningKeys { get; set; }
 
     /// <summary>
-    /// A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to verify service account tokens. Maybe specified multiple times.
+    /// Control Plane Keys A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to verify service account tokens. Maybe specified multiple times.
     /// </summary>
     [CliOption("--service-account-verification-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountVerificationKeys { get; set; }
 
     /// <summary>
-    /// (REMOVED) Select Advanced Datapath Observability mode for the cluster. Defaults to DISABLED. Advanced Datapath Observability allows for a real-time view into pod-to-pod traffic within your cluster. Examples: $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=DISABLED $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=INTERNAL_VPC_LB $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=EXTERNAL_LB Flag --dataplane-v2-observability-mode has been removed. DATAPLANE_V2_OBSERVABILITY_MODE must be one of: DISABLED Disables Advanced Datapath Observability. EXTERNAL_LB Makes Advanced Datapath Observability available to the external network. INTERNAL_VPC_LB Makes Advanced Datapath Observability available from the VPC network.
+    /// At most one of these can be specified: (REMOVED) Select Advanced Datapath Observability mode for the cluster. Defaults to DISABLED. Advanced Datapath Observability allows for a real-time view into pod-to-pod traffic within your cluster. Examples: $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=DISABLED $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=INTERNAL_VPC_LB $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=EXTERNAL_LB Flag --dataplane-v2-observability-mode has been removed. DATAPLANE_V2_OBSERVABILITY_MODE must be one of: DISABLED Disables Advanced Datapath Observability. EXTERNAL_LB Makes Advanced Datapath Observability available to the external network. INTERNAL_VPC_LB Makes Advanced Datapath Observability available from the VPC network.
     /// </summary>
     [CliOption("--dataplane-v2-observability-mode", Format = OptionFormat.EqualsSeparated)]
     public string? DataplaneV2ObservabilityMode { get; set; }
 
     /// <summary>
-    /// Disables Advanced Datapath Observability.
+    /// At most one of these can be specified: Disables Advanced Datapath Observability.
     /// </summary>
     [CliFlag("--disable-dataplane-v2-flow-observability")]
     public bool? DisableDataplaneV2FlowObservability { get; set; }
 
     /// <summary>
-    /// Enables Advanced Datapath Observability which allows for a real-time view into pod-to-pod traffic within your cluster.
+    /// At most one of these can be specified: Enables Advanced Datapath Observability which allows for a real-time view into pod-to-pod traffic within your cluster.
     /// </summary>
     [CliFlag("--enable-dataplane-v2-flow-observability")]
     public bool? EnableDataplaneV2FlowObservability { get; set; }
-
-    /// <summary>
-    /// Disable the Pod Snapshot feature on the cluster.
-    /// </summary>
-    [CliFlag("--disable-pod-snapshots")]
-    public bool? DisablePodSnapshots { get; set; }
-
-    /// <summary>
-    /// Enable the Pod Snapshot feature on the cluster.
-    /// </summary>
-    [CliFlag("--enable-pod-snapshots")]
-    public bool? EnablePodSnapshots { get; set; }
 
     /// <summary>
     /// Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
@@ -531,7 +447,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? EnableInsecureBindingSystemAuthenticated { get; set; }
 
     /// <summary>
-    /// Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
+    /// Negates --enable-insecure-binding-system-authenticated. Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
     /// </summary>
     [CliFlag("--no-enable-insecure-binding-system-authenticated")]
     public bool? NoEnableInsecureBindingSystemAuthenticated { get; set; }
@@ -543,117 +459,86 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? EnableInsecureBindingSystemUnauthenticated { get; set; }
 
     /// <summary>
-    /// Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
+    /// Negates --enable-insecure-binding-system-unauthenticated. Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
     /// </summary>
     [CliFlag("--no-enable-insecure-binding-system-unauthenticated")]
     public bool? NoEnableInsecureBindingSystemUnauthenticated { get; set; }
 
     /// <summary>
-    /// Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
+    /// Master Authorized Networks Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
     /// </summary>
     [CliFlag("--enable-master-authorized-networks")]
     public bool? EnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
+    /// Negates --enable-master-authorized-networks. Master Authorized Networks Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
     /// </summary>
     [CliFlag("--no-enable-master-authorized-networks")]
     public bool? NoEnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified.
+    /// Master Authorized Networks The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified.
     /// </summary>
     [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Cluster is managed using the private IP address of the master API endpoint.
+    /// Private Clusters Cluster is managed using the private IP address of the master API endpoint.
     /// </summary>
     [CliFlag("--enable-private-endpoint")]
     public bool? EnablePrivateEndpoint { get; set; }
 
     /// <summary>
-    /// Cluster is created with no public IP addresses on the cluster nodes.
+    /// Private Clusters Cluster is created with no public IP addresses on the cluster nodes.
     /// </summary>
     [CliFlag("--enable-private-nodes")]
     public bool? EnablePrivateNodes { get; set; }
 
     /// <summary>
-    /// IPv4 CIDR range to use for the master network. This should have a netmask of size /28 and should be used in conjunction with the --enable-private-nodes flag.
+    /// Private Clusters IPv4 CIDR range to use for the master network. This should have a netmask of size /28 and should be used in conjunction with the --enable-private-nodes flag.
     /// </summary>
     [CliOption("--master-ipv4-cidr", Format = OptionFormat.EqualsSeparated)]
     public string? MasterIpv4Cidr { get; set; }
 
     /// <summary>
-    /// Enables the Secret Manager CSI driver provider component. See https://secrets-store-csi-driver.sigs.k8s.io/introduction https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp
+    /// Flags for Secret Manager configuration: Enables the Secret Manager CSI driver provider component. See https://secrets-store-csi-driver.sigs.k8s.io/introduction https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp
     /// </summary>
     [CliFlag("--enable-secret-manager")]
     public bool? EnableSecretManager { get; set; }
 
     /// <summary>
-    /// Enables the rotation of secrets in the Secret Manager CSI driver provider component.
+    /// Flags for Secret Manager configuration: Enables the rotation of secrets in the Secret Manager CSI driver provider component.
     /// </summary>
     [CliFlag("--enable-secret-manager-rotation")]
     public bool? EnableSecretManagerRotation { get; set; }
 
     /// <summary>
-    /// Set the rotation period for secrets in the Secret Manager CSI driver provider component. If you don't specify a time interval for the rotation, it will default to a rotation period of two minutes.
+    /// Flags for Secret Manager configuration: Set the rotation period for secrets in the Secret Manager CSI driver provider component. If you don't specify a time interval for the rotation, it will default to a rotation period of two minutes.
     /// </summary>
     [SecretValue]
     [CliOption("--secret-manager-rotation-interval", Format = OptionFormat.EqualsSeparated)]
     public string? SecretManagerRotationInterval { get; set; }
 
     /// <summary>
-    /// Enables the Secret Sync component. For details, see Synchronize secrets to Kubernetes Secrets (https://docs.cloud.google.com/secret-manager/docs/sync-k8-secrets).
-    /// </summary>
-    [CliFlag("--enable-secret-sync")]
-    public bool? EnableSecretSync { get; set; }
-
-    /// <summary>
-    /// Enables the rotation of secrets in the Secret Sync component.
-    /// </summary>
-    [CliFlag("--enable-secret-sync-rotation")]
-    public bool? EnableSecretSyncRotation { get; set; }
-
-    /// <summary>
-    /// Set the rotation period for secrets in the Secret Sync component.
-    /// </summary>
-    [SecretValue]
-    [CliOption("--secret-sync-rotation-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? SecretSyncRotationInterval { get; set; }
-
-    /// <summary>
-    /// Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+    /// At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+    /// At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
+    /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
-    /// Set the minimum interval of time between minor version cluster upgrades.
-    /// </summary>
-    [CliOption("--maintenance-minor-version-disruption-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? MaintenanceMinorVersionDisruptionInterval { get; set; }
-
-    /// <summary>
-    /// Set the minimum interval of time between patch version cluster upgrades.
-    /// </summary>
-    [CliOption("--maintenance-patch-version-disruption-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? MaintenancePatchVersionDisruptionInterval { get; set; }
-
-    /// <summary>
-    /// Specifies scopes for the node instances. Examples: $ gcloud container clusters create-auto example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container clusters create-auto example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. * monitoring-write: always added to ensure metrics can be written * logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) * monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) * gke-default: added for Autopilot clusters that use the default service account * cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// Options to specify the node identity. Scopes options. Specifies scopes for the node instances. Examples: $ gcloud container clusters create-auto example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container clusters create-auto example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. - monitoring-write: always added to ensure metrics can be written - logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) - monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) - gke-default: added for Autopilot clusters that use the default service account - cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
     /// </summary>
     [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
@@ -662,6 +547,70 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// The Google Cloud Platform Service Account to be used by the node VMs. If a service account is specified, the cloud-platform and userinfo.email scopes are used. If no Service Account is specified, the project default service account is used.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
+
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("AutopilotGeneralProfile is no longer supported by the installed CLI and has no effect.")]
+    public string? AutopilotGeneralProfile { get; set; }
+
+    [Obsolete("AutopilotPrivilegedAdmission is no longer supported by the installed CLI and has no effect.")]
+    public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
+
+    [Obsolete("ConfidentialNodeType is no longer supported by the installed CLI and has no effect.")]
+    public GcloudConfidentialNodeType? ConfidentialNodeType { get; set; }
+
+    [Obsolete("ControlPlaneEgress is no longer supported by the installed CLI and has no effect.")]
+    public string? ControlPlaneEgress { get; set; }
+
+    [Obsolete("DisableMultiNicLustre is no longer supported by the installed CLI and has no effect.")]
+    public bool? DisableMultiNicLustre { get; set; }
+
+    [Obsolete("EnableAgentSandbox is no longer supported by the installed CLI and has no effect.")]
+    public bool? EnableAgentSandbox { get; set; }
+
+    [Obsolete("NoEnableAgentSandbox is no longer supported by the installed CLI and has no effect.")]
+    public bool? NoEnableAgentSandbox { get; set; }
+
+    [Obsolete("Image is no longer supported by the installed CLI and has no effect.")]
+    public string? Image { get; set; }
+
+    [Obsolete("ImageProject is no longer supported by the installed CLI and has no effect.")]
+    public string? ImageProject { get; set; }
+
+    [Obsolete("ImageType is no longer supported by the installed CLI and has no effect.")]
+    public string? ImageType { get; set; }
+
+    [Obsolete("ManagedOtelScope is no longer supported by the installed CLI and has no effect.")]
+    public string? ManagedOtelScope { get; set; }
+
+    [Obsolete("NodeCreationMode is no longer supported by the installed CLI and has no effect.")]
+    public string? NodeCreationMode { get; set; }
+
+    [Obsolete("DisablePodSnapshots is no longer supported by the installed CLI and has no effect.")]
+    public bool? DisablePodSnapshots { get; set; }
+
+    [Obsolete("EnablePodSnapshots is no longer supported by the installed CLI and has no effect.")]
+    public bool? EnablePodSnapshots { get; set; }
+
+    [Obsolete("EnableSecretSync is no longer supported by the installed CLI and has no effect.")]
+    public bool? EnableSecretSync { get; set; }
+
+    [Obsolete("EnableSecretSyncRotation is no longer supported by the installed CLI and has no effect.")]
+    public bool? EnableSecretSyncRotation { get; set; }
+
+    [Obsolete("SecretSyncRotationInterval is no longer supported by the installed CLI and has no effect.")]
+    public string? SecretSyncRotationInterval { get; set; }
+
+    [Obsolete("MaintenanceMinorVersionDisruptionInterval is no longer supported by the installed CLI and has no effect.")]
+    public string? MaintenanceMinorVersionDisruptionInterval { get; set; }
+
+    [Obsolete("MaintenancePatchVersionDisruptionInterval is no longer supported by the installed CLI and has no effect.")]
+    public string? MaintenancePatchVersionDisruptionInterval { get; set; }
 
 }

@@ -25,111 +25,118 @@ public record GcloudInfraManagerPreviewsCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Preview annotations cannot be updated after creation.
+    /// Preview annotations cannot be updated after creation.
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. user-defined location of Cloud Build logs, artifacts, and Terraform state files in Google Cloud Storage. Format: gs://{bucket}/{folder} A default bucket will be bootstrapped if the field is not set or empty
+    /// user-defined location of Cloud Build logs, artifacts, and Terraform state files in Google Cloud Storage. Format: gs://{bucket}/{folder} A default bucket will be bootstrapped if the field is not set or empty
     /// </summary>
     [CliOption("--artifacts-gcs-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? ArtifactsGcsBucket { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Deployment reference for preview.
+    /// Deployment reference for preview.
     /// </summary>
     [CliOption("--deployment", Format = OptionFormat.EqualsSeparated)]
     public string? Deployment { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Preview labels cannot be updated after creation.
+    /// Preview labels cannot be updated after creation.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property infra-manager/location.
+    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: * provide the argument --location on the command line with a fully specified name; * set the property infra-manager/location with a fully specified name; * provide the argument --project on the command line; * set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: + provide the argument --location on the command line; + set the property infra-manager/location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Preview mode to set it to either default or delete.
+    /// Preview mode to set it to either default or delete.
     /// </summary>
     [CliOption("--preview-mode", Format = OptionFormat.EqualsSeparated)]
     public string? PreviewMode { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. User-specified Service Account (SA) to be used as credential to manage resources. Format: projects/{projectID}/serviceAccounts/{serviceAccount}
+    /// User-specified Service Account (SA) to be used as credential to manage resources. Format: projects/{projectID}/serviceAccounts/{serviceAccount}
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public int? ServiceAccount { get; set; }
+    public string? ServiceAccountValue { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. User-specified Terraform version constraint, for example "=1.3.10".
+    /// User-specified Terraform version constraint, for example "=1.3.10".
     /// </summary>
     [CliOption("--tf-version-constraint", Format = OptionFormat.EqualsSeparated)]
     public string? TfVersionConstraint { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. User-specified Worker Pool resource in which the Cloud Build job will execute. Format: projects/{project}/locations/{location}/workerPools/{workerPoolId}
+    /// User-specified Worker Pool resource in which the Cloud Build job will execute. Format: projects/{project}/locations/{location}/workerPools/{workerPoolId}
     /// </summary>
     [CliOption("--worker-pool", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerPool { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: URI of an object in Google Cloud Storage. e.g. gs://{bucket}/{object} Examples: Create a deployment from a storage my-bucket: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket"
+    /// At most one of these can be specified: URI of an object in Google Cloud Storage. e.g. gs://{bucket}/{object} Examples: Create a deployment from a storage my-bucket: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket"
     /// </summary>
     [CliOption("--gcs-source", Format = OptionFormat.EqualsSeparated)]
     public string? GcsSource { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Or at least one of these can be specified: Subdirectory inside the repository. Example: 'staging/my-package' Use in conjunction with --git-source-repo and --git-source-ref Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
+    /// At most one of these can be specified: Subdirectory inside the repository. Example: 'staging/my-package' Use in conjunction with --git-source-repo and --git-source-ref Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
     /// </summary>
     [CliOption("--git-source-directory", Format = OptionFormat.EqualsSeparated)]
     public string? GitSourceDirectory { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Or at least one of these can be specified: Subdirectory inside the repository. Example: 'staging/my-package' Use in conjunction with --git-source-repo and --git-source-directory Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
+    /// At most one of these can be specified: Subdirectory inside the repository. Example: 'staging/my-package' Use in conjunction with --git-source-repo and --git-source-directory Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
     /// </summary>
     [CliOption("--git-source-ref", Format = OptionFormat.EqualsSeparated)]
     public string? GitSourceRef { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Or at least one of these can be specified: Repository URL. Example: 'https://github.com/examples/repository.git' Use in conjunction with --git-source-directory and --git-source_ref Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
+    /// At most one of these can be specified: Repository URL. Example: 'https://github.com/examples/repository.git' Use in conjunction with --git-source-directory and --git-source_ref Examples: Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --git-source-repo="https://github.com/examples/repository.git" --git-source-directory="staging/compute" --git-source-ref="mainline"
     /// </summary>
     [CliOption("--git-source-repo", Format = OptionFormat.EqualsSeparated)]
     public string? GitSourceRepo { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Or at least one of these can be specified: Override the .gcloudignore file and use the specified file instead. See gcloud topic gcloudignore for more information.
+    /// At most one of these can be specified: Override the .gcloudignore file and use the specified file instead. See gcloud topic gcloudignore for more information.
     /// </summary>
     [CliOption("--ignore-file", Format = OptionFormat.EqualsSeparated)]
     public string? IgnoreFile { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Or at least one of these can be specified: Local storage path where config files are stored. When using this option, Terraform config file references outside this storage path is not supported. e.g. ./path/to/blueprint Examples: Create a deployment from a local storage path ./path/to/blueprint: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --local-source="./path/to/blueprint"
+    /// At most one of these can be specified: Local storage path where config files are stored. When using this option, Terraform config file references outside this storage path is not supported. e.g. ./path/to/blueprint Examples: Create a deployment from a local storage path ./path/to/blueprint: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --local-source="./path/to/blueprint"
     /// </summary>
     [CliOption("--local-source", Format = OptionFormat.EqualsSeparated)]
     public string? LocalSource { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Input variable values for the Terraform blueprint. It only accepts (key, value) pairs where value is a scalar value. Examples: Pass input values on command line: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --input-values=projects=p1,region=r
+    /// At most one of these can be specified: Input variable values for the Terraform blueprint. It only accepts (key, value) pairs where value is a scalar value. Examples: Pass input values on command line: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --input-values=projects=p1,region=r
     /// </summary>
     [CliOption("--input-values", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? InputValues { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: A .tfvars file containing terraform variable values. --inputs-file flag is supported for python version 3.6 and above. Examples: Pass input values on the command line: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --inputs-file=path-to-tfvar-file.tfvar
+    /// At most one of these can be specified: A .tfvars file containing terraform variable values. --inputs-file flag is supported for python version 3.6 and above. Examples: Pass input values on the command line: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --inputs-file=path-to-tfvar-file.tfvar
     /// </summary>
     [CliOption("--inputs-file", Format = OptionFormat.EqualsSeparated)]
     public string? InputsFile { get; set; }
+
+    [Obsolete("Use ServiceAccountValue instead.")]
+    public int? ServiceAccount
+    {
+        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }
