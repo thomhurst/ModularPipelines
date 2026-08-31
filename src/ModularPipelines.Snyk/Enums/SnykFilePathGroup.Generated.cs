@@ -17,11 +17,11 @@ namespace ModularPipelines.Snyk.Enums;
 public enum SnykFilePathGroup
 {
     [EnumValue("global")]
-    Global = 0,
+    Global,
 
     [EnumValue("code")]
-    Code = 1,
+    Code,
 
     [EnumValue("iac-drift")]
-    IacDrift = 2
+    IacDrift
 }
