@@ -293,17 +293,20 @@ public partial class GcloudCliScraper : CliScraperBase
         var valueHint = argument.ValueHint ?? string.Empty;
         var description = argument.Documentation;
         var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
-        var isCompositeValue = IsCompositeValueHint(valueHint);
+        var hasCompositeSyntax = IsCompositeValueHint(valueHint);
+        var isStructuredValue = hasCompositeSyntax
+                                || DescriptionDeclaresStructuredValue(description);
         var acceptsMultipleValues = (!ShouldTreatOptionAsScalar(commandParts, longForm)
                                      || valueHint.Contains("...", StringComparison.Ordinal))
                                     && AcceptsMultipleValues(
+                longForm,
                 valueHint,
                 description,
                 isFlag,
-                isCompositeValue);
-        var isNumeric = IsNumericValue(longForm, valueHint, description, isCompositeValue);
-        var isKeyValue = IsKeyValue(valueHint, isCompositeValue);
-        var enumDefinition = TryDetectEnum(propertyName, description);
+                hasCompositeSyntax);
+        var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue);
+        var isKeyValue = IsKeyValue(valueHint, isStructuredValue);
+        var enumDefinition = isStructuredValue ? null : TryDetectEnum(propertyName, description);
 
         var option = new CliOptionDefinition
         {
@@ -337,31 +340,31 @@ public partial class GcloudCliScraper : CliScraperBase
     }
 
     private static bool AcceptsMultipleValues(
+        string switchName,
         string valueHint,
         string? description,
         bool isFlag,
-        bool isCompositeValue) =>
+        bool hasCompositeSyntax) =>
         !isFlag
-        && !isCompositeValue
-        && (valueHint.Contains("...")
-            || DescriptionDeclaresValueList(description)
-            || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
+        && (DescriptionDeclaresValueList(description)
+            || DescriptionDeclaresRepeatableOption(description ?? string.Empty)
+            || (!hasCompositeSyntax && valueHint.Contains("..."))
+            || DescriptionRepeatsStructuredOption(description, switchName));
 
     private static bool IsNumericValue(
         string switchName,
         string valueHint,
         string? description,
-        bool isCompositeValue) =>
+        bool isStructuredValue) =>
         !IsTextualIdentifierOption(switchName)
         && !IsFilePathHint(switchName, valueHint)
-        && !isCompositeValue
-        && !DescriptionDeclaresStructuredValue(description)
+        && !isStructuredValue
         && !DescriptionDeclaresTextualCategories(description)
         && IsNumericHint(valueHint);
 
-    private static bool IsKeyValue(string valueHint, bool isCompositeValue) =>
+    private static bool IsKeyValue(string valueHint, bool isStructuredValue) =>
         valueHint.Contains("KEY=VALUE")
-        || (!isCompositeValue && valueHint.Contains("=VALUE,"));
+        || (!isStructuredValue && valueHint.Contains("=VALUE,"));
 
     private static CliOptionDefinition CreateNegatedOption(
         CliOptionDefinition option,
@@ -481,8 +484,37 @@ public partial class GcloudCliScraper : CliScraperBase
             && TextualCategoriesPattern().IsMatch(description);
 
     private static bool DescriptionDeclaresStructuredValue(string? description)
-        => description?.Contains("JSON Example:", StringComparison.OrdinalIgnoreCase) is true
+        => description?.Contains("Shorthand Example:", StringComparison.OrdinalIgnoreCase) is true
+           || description?.Contains("JSON Example:", StringComparison.OrdinalIgnoreCase) is true
            || description?.Contains("File Example:", StringComparison.OrdinalIgnoreCase) is true;
+
+    private static bool DescriptionRepeatsStructuredOption(string? description, string switchName)
+    {
+        if (string.IsNullOrEmpty(description))
+        {
+            return false;
+        }
+
+        const string shorthandMarker = "Shorthand Example:";
+        var shorthandStart = description.IndexOf(shorthandMarker, StringComparison.OrdinalIgnoreCase);
+        if (shorthandStart < 0)
+        {
+            return false;
+        }
+
+        shorthandStart += shorthandMarker.Length;
+        var exampleEnd = new[] { "JSON Example:", "File Example:" }
+            .Select(marker => description.IndexOf(marker, shorthandStart, StringComparison.OrdinalIgnoreCase))
+            .Where(index => index >= 0)
+            .DefaultIfEmpty(description.Length)
+            .Min();
+        var shorthandExample = description[shorthandStart..exampleEnd];
+
+        return Regex.Matches(
+            shorthandExample,
+            $@"(?<![\w-]){Regex.Escape(switchName)}=",
+            RegexOptions.IgnoreCase).Count > 1;
+    }
 
     private static bool DescriptionDeclaresValueList(string? description)
         => description?.StartsWith("List of ", StringComparison.OrdinalIgnoreCase) is true;
