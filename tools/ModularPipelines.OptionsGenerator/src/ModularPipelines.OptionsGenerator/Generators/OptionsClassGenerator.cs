@@ -265,12 +265,17 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    {");
         foreach (var parameter in constructorParameters.Where(IsCollectionParameter))
         {
-            sb.AppendLine($"        global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
-            sb.AppendLine($"        if (!global::System.Linq.Enumerable.Any({parameter.PropertyName}))");
             sb.AppendLine("        {");
-            sb.AppendLine("            throw new global::System.ArgumentException(");
-            sb.AppendLine("                \"Required collection must contain at least one value.\",");
-            sb.AppendLine($"                nameof({parameter.PropertyName}));");
+            sb.AppendLine($"            global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
+            sb.AppendLine($"            var materialized = global::System.Linq.Enumerable.ToArray({parameter.PropertyName});");
+            sb.AppendLine("            if (materialized.Length == 0)");
+            sb.AppendLine("            {");
+            sb.AppendLine("                throw new global::System.ArgumentException(");
+            sb.AppendLine("                    \"Required collection must contain at least one value.\",");
+            sb.AppendLine($"                    nameof({parameter.PropertyName}));");
+            sb.AppendLine("            }");
+            sb.AppendLine();
+            sb.AppendLine($"            {parameter.PropertyName} = materialized;");
             sb.AppendLine("        }");
         }
 

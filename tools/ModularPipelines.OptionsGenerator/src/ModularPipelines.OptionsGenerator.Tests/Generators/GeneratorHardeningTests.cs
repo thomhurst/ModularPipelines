@@ -899,7 +899,12 @@ public class GeneratorHardeningTests
         {
             await Assert.That(generated).Contains("public ToolDeleteOptions(");
             await Assert.That(generated).Contains("IEnumerable<string> Ids");
-            await Assert.That(generated).Contains("global::System.Linq.Enumerable.Any(Ids)");
+            await Assert.That(generated)
+                .Contains("var materialized = global::System.Linq.Enumerable.ToArray(Ids);");
+            await Assert.That(generated).Contains("if (materialized.Length == 0)");
+            await Assert.That(generated).Contains("Ids = materialized;");
+            await Assert.That(generated)
+                .DoesNotContain("global::System.Linq.Enumerable.Any(Ids)");
             await Assert.That(generated).Contains("nameof(Ids)");
             await Assert.That(generated).Contains("public void Deconstruct(out IEnumerable<string> Ids)");
         }
