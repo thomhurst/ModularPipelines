@@ -19,6 +19,6 @@ public class DotNetFormatOptionsTests
         {
             "--exclude-diagnostics", "CS0246",
             "--exclude-diagnostics", "CS1503",
-        });
+        }, TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

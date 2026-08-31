@@ -28,7 +28,7 @@ public class ArgoCdOptionsTests
             "--output=json",
             "--timeout=30",
             "--auth-token=token-value",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -48,7 +48,7 @@ public class ArgoCdOptionsTests
             "--dry-run",
             "--output=yaml",
             "--upsert",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -66,7 +66,7 @@ public class ArgoCdOptionsTests
             "second",
             "--wait",
             "--yes",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -82,7 +82,7 @@ public class ArgoCdOptionsTests
             "apps.yaml",
             "more-apps.yaml",
             "--output=json",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -103,7 +103,7 @@ public class ArgoCdOptionsTests
             "create",
             "application"));
 
-        await Assert.That(arguments).IsEquivalentTo(["role:admin", "create", "application"]);
+        await Assert.That(arguments).IsEquivalentTo(["role:admin", "create", "application"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -123,7 +123,7 @@ public class ArgoCdOptionsTests
             "add-permission",
             "get",
             "--dry-run=false",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -148,7 +148,7 @@ public class ArgoCdOptionsTests
             ? ["first", "second", "--dry-run"]
             : ["first", "second", "--health"];
 
-        await Assert.That(arguments).IsEquivalentTo(expectedArguments);
+        await Assert.That(arguments).IsEquivalentTo(expectedArguments, TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -160,7 +160,7 @@ public class ArgoCdOptionsTests
             Yes = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["first", "second", "--yes"]);
+        await Assert.That(arguments).IsEquivalentTo(["first", "second", "--yes"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -173,7 +173,7 @@ public class ArgoCdOptionsTests
         [
             "https://first.example/repo.git",
             "https://second.example/repo.git",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -184,7 +184,7 @@ public class ArgoCdOptionsTests
             Name = "renamed-production",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["production", "--name=renamed-production"]);
+        await Assert.That(arguments).IsEquivalentTo(["production", "--name=renamed-production"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -201,7 +201,7 @@ public class ArgoCdOptionsTests
             "my-app",
             "--source-positions=1",
             "--source-positions=2",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -217,7 +217,7 @@ public class ArgoCdOptionsTests
             "my-app",
             "--sync-option=CreateNamespace=true",
             "--sync-option=PruneLast=true",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -228,7 +228,7 @@ public class ArgoCdOptionsTests
             PromptsEnabled = false,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["--prompts-enabled=false"]);
+        await Assert.That(arguments).IsEquivalentTo(["--prompts-enabled=false"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -240,7 +240,7 @@ public class ArgoCdOptionsTests
             ? (object) new ArgoCdClusterGetOptions("production")
             : new ArgoCdClusterRmOptions("production");
 
-        await Assert.That(BuildArguments(options)).IsEquivalentTo(["production"]);
+        await Assert.That(BuildArguments(options)).IsEquivalentTo(["production"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -248,7 +248,7 @@ public class ArgoCdOptionsTests
     {
         var arguments = BuildArguments(new ArgoCdClusterRotateAuthOptions("production"));
 
-        await Assert.That(arguments).IsEquivalentTo(["production"]);
+        await Assert.That(arguments).IsEquivalentTo(["production"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -268,7 +268,7 @@ public class ArgoCdOptionsTests
             "production",
             "cluster.yaml",
             "--insecure-skip-tls-verify",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -288,7 +288,7 @@ public class ArgoCdOptionsTests
             "https://destination.example",
             "apps",
             "--server=https://argocd.example",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -303,7 +303,7 @@ public class ArgoCdOptionsTests
         [
             "repository.example",
             "--server-name=argocd.example",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -323,7 +323,7 @@ public class ArgoCdOptionsTests
             "production",
             "apps",
             "--name",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -334,7 +334,7 @@ public class ArgoCdOptionsTests
             Account = "alice",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["token-id", "--account=alice"]);
+        await Assert.That(arguments).IsEquivalentTo(["token-id", "--account=alice"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -352,7 +352,7 @@ public class ArgoCdOptionsTests
             "--account=alice",
             "--current-password=old-secret",
             "--new-password=new-secret",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
 
         var currentPassword = typeof(ArgoCdAccountUpdatePasswordOptions)
             .GetProperty(nameof(ArgoCdAccountUpdatePasswordOptions.CurrentPassword));
@@ -372,6 +372,6 @@ public class ArgoCdOptionsTests
             Delete = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["cd.argoproj.io", "--delete"]);
+        await Assert.That(arguments).IsEquivalentTo(["cd.argoproj.io", "--delete"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

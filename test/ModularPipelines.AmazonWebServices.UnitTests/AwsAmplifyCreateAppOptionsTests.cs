@@ -22,6 +22,6 @@ public class AwsAmplifyCreateAppOptionsTests
         [
             "--environment-variables",
             "FIRST=one,SECOND=two",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

@@ -30,6 +30,6 @@ public class HelmRequiredArgumentsTests
 
         var arguments = BuildArguments(options);
 
-        await Assert.That(arguments).IsEquivalentTo(["repository/chart", "--generate-name"]);
+        await Assert.That(arguments).IsEquivalentTo(["repository/chart", "--generate-name"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

@@ -15,7 +15,7 @@ public class DotNetBuildOptionsCompatibilityTests
         var arguments = BuildArguments(options);
 
         await Assert.That(options.NoLogo).IsTrue();
-        await Assert.That(arguments).IsEquivalentTo(["--nologo"]);
+        await Assert.That(arguments).IsEquivalentTo(["--nologo"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]

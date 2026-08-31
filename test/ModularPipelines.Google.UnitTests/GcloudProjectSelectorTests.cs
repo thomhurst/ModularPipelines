@@ -52,7 +52,7 @@ public class GcloudProjectSelectorTests
                 module,
                 $"--project={project}",
                 $"--parent={parent}",
-            ]);
+            ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
         }
     }
 }

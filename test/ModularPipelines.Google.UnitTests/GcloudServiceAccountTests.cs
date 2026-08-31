@@ -20,6 +20,6 @@ public class GcloudServiceAccountTests
             "--service-account=runtime@project.iam.gserviceaccount.com",
             "--build-service-account="
             + "projects/project/serviceAccounts/build@project.iam.gserviceaccount.com",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

@@ -22,7 +22,7 @@ public class NbgvOptionsTests
             "--project", "src/App",
             "--metadata", "ci",
             "--public-release=false",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -41,7 +41,7 @@ public class NbgvOptionsTests
             "--skip-cloud-build-number",
             "--define", "Name=Value",
             "--define", "Channel=stable",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -61,6 +61,6 @@ public class NbgvOptionsTests
             "--nextVersion", "2.1",
             "--versionIncrement", "minor",
             "--what-if",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

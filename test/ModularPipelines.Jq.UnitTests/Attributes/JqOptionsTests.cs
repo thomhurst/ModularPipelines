@@ -34,7 +34,7 @@ public class JqOptionsTests : TestBase
             "--arg", "environment", "ci",
             ".user",
             "input.json",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -54,7 +54,7 @@ public class JqOptionsTests : TestBase
             "--slurpfile", "documents", "documents.json",
             "--rawfile", "template", "template.txt",
             "input.json",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -73,7 +73,7 @@ public class JqOptionsTests : TestBase
         [
             "--arg", "empty", "",
             "--arg", "whitespace", "  ",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -294,6 +294,6 @@ public class JqOptionsTests : TestBase
     {
         var arguments = BuildArguments(new JqExecuteOptions { RunTests = CliOptionValue.Bare });
 
-        await Assert.That(arguments).IsEquivalentTo(["--run-tests"]);
+        await Assert.That(arguments).IsEquivalentTo(["--run-tests"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

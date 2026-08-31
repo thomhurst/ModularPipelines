@@ -103,7 +103,7 @@ public class DockerBuilderCompatibilityTests
             .GetCommandModel(typeof(DockerBuilderHistoryLogsOptions));
         var arguments = new CommandArgumentBuilder().BuildArguments(model, options);
 
-        await Assert.That(arguments).IsEquivalentTo(["--progress=plain"]);
+        await Assert.That(arguments).IsEquivalentTo(["--progress=plain"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]

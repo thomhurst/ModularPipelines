@@ -36,7 +36,7 @@ public class AnsibleOptionsTests : TestBase
             "--inventory", "dynamic.yml",
             "--module-name", "ping",
             "--verbose", "--verbose", "--verbose",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]

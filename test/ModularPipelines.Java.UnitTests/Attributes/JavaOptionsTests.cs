@@ -25,7 +25,7 @@ public class JavaOptionsTests
             "--define", "skipTests=true",
             "clean",
             "verify",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -48,6 +48,6 @@ public class JavaOptionsTests
             "--no-daemon",
             "clean",
             "build",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

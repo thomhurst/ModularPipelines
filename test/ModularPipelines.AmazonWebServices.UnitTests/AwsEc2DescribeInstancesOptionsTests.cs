@@ -18,6 +18,6 @@ public class AwsEc2DescribeInstancesOptionsTests
             "--instance-ids",
             "i-0123456789abcdef0",
             "i-0fedcba9876543210",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

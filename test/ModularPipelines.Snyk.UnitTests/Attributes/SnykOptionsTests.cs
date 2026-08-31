@@ -25,7 +25,7 @@ public class SnykOptionsTests
             "--auth-type=token",
             "--client-secret=client-secret",
             "--client-id=client-id",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -50,7 +50,7 @@ public class SnykOptionsTests
             "--nested-jars-depth=2",
             "--username=registry-user",
             "--password=registry-password",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -74,7 +74,7 @@ public class SnykOptionsTests
             Debug = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo([".snyk", "-d"]);
+        await Assert.That(arguments).IsEquivalentTo([".snyk", "-d"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -101,13 +101,13 @@ public class SnykOptionsTests
             "--tfc-token=terraform-token",
             "--tfc-endpoint=https://terraform.example.com",
             "--config-dir=.snyk-config",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
         await Assert.That(aibomArguments).IsEquivalentTo(
         [
             "--upload",
             "--repo=https://github.com/example/repository",
-        ]);
-        await Assert.That(codeArguments).IsEquivalentTo(["src"]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(codeArguments).IsEquivalentTo(["src"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
 
         var tfcToken = typeof(SnykIacDescribeOptions).GetProperty(nameof(SnykIacDescribeOptions.TfcToken));
         await Assert.That(tfcToken!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
@@ -126,7 +126,7 @@ public class SnykOptionsTests
         [
             "github.com/example/repository",
             "--fail-on=patchable",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -137,7 +137,7 @@ public class SnykOptionsTests
             Target = "src/MyApp",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["src/MyApp"]);
+        await Assert.That(arguments).IsEquivalentTo(["src/MyApp"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -151,7 +151,7 @@ public class SnykOptionsTests
         await Assert.That(arguments).IsEquivalentTo(
         [
             "--filter=resource.type == 'aws_s3_bucket'",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -200,8 +200,8 @@ public class SnykOptionsTests
             "--prune-repeated-subdependencies",
             "--allow-incomplete-sbom",
             "--json-file-output=bom.json",
-        ]);
-        await Assert.That(testArguments).IsEquivalentTo(["--file=bom.json", "--json"]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(testArguments).IsEquivalentTo(["--file=bom.json", "--json"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
         await Assert.That(containerArguments).IsEquivalentTo(
         [
             "--format=spdx2.3+json",
@@ -212,7 +212,7 @@ public class SnykOptionsTests
             "--nested-jars-depth=2",
             "--username=registry-user",
             "--password=registry-password",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]

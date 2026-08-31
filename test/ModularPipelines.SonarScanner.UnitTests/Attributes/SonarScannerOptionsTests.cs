@@ -38,7 +38,7 @@ public class SonarScannerOptionsTests
             "-Dsonar.projectKey=example-project",
             "-Dsonar.sources=src",
             "-Dsonar.token=token-value",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]

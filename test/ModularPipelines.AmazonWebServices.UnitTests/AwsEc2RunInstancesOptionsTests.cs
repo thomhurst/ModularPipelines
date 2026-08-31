@@ -20,8 +20,8 @@ public class AwsEc2RunInstancesOptionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(enabled).IsEquivalentTo(["--associate-public-ip-address"]);
-            await Assert.That(disabled).IsEquivalentTo(["--no-associate-public-ip-address"]);
+            await Assert.That(enabled).IsEquivalentTo(["--associate-public-ip-address"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+            await Assert.That(disabled).IsEquivalentTo(["--no-associate-public-ip-address"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
             await Assert.That(unspecified).IsEmpty();
         }
     }

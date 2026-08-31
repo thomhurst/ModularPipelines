@@ -26,6 +26,6 @@ public class GcloudPubsubServiceAccountTests
             "--confluent-cloud-ingestion-service-account=confluent-importer",
             "--kinesis-ingestion-service-account="
             + "kinesis-ingestion@project.iam.gserviceaccount.com",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 }

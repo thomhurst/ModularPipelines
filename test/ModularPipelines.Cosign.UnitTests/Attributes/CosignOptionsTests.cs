@@ -26,7 +26,7 @@ public class CosignOptionsTests
             "--annotations=environment=production",
             "--slot=card-authentication",
             "--upload=true",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -43,7 +43,7 @@ public class CosignOptionsTests
             "registry.example/app:v1",
             "--upload=false",
             "--use-signing-config=false",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -60,7 +60,7 @@ public class CosignOptionsTests
             "registry.example/app:v1",
             "--check-claims=false",
             "--type=https://example.com/predicates/release/v1",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -78,7 +78,7 @@ public class CosignOptionsTests
             "registry.example",
             "--password=password-value",
             "--username=pipeline-user",
-        ]);
+        ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
