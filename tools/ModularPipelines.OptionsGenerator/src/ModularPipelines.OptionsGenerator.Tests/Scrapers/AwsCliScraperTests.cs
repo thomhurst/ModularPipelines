@@ -336,6 +336,8 @@ public class AwsCliScraperTests
                 .Contains("public AwsEc2CreateKeyPairOptions(\n        string KeyName\n    )");
             await Assert.That(createContent)
                 .Contains("[CliOption(\"--key-name\")]\n    public string? KeyName");
+            await Assert.That(createContent)
+                .Contains("public string? KeyName { get; private init; }");
             await Assert.That(terminateContent)
                 .Contains("FromCliInputJson(string cliInputJson)");
             await Assert.That(terminateContent)
@@ -356,6 +358,8 @@ public class AwsCliScraperTests
                 .Contains("bool ProtectedFromScaleIn\n    )");
             await Assert.That(autoscalingContent)
                 .Contains("[CliFlag(\"--protected-from-scale-in\", NegatedName = \"--no-protected-from-scale-in\")]\n    public bool? ProtectedFromScaleIn");
+            await Assert.That(autoscalingContent)
+                .Contains("public bool? ProtectedFromScaleIn { get; private init; }");
             await Assert.That(autoscalingInterface.Content)
                 .Contains("SetInstanceProtectionAsync(AwsAutoscalingSetInstanceProtectionOptions options,");
         }

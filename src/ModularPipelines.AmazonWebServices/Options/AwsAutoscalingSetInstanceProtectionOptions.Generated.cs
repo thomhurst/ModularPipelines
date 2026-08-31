@@ -19,21 +19,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "set-instance-protection")]
-public record AwsAutoscalingSetInstanceProtectionOptions(
-    [property: CliOption("--instance-ids", GroupValues = true)] IEnumerable<string> InstanceIds,
-    [property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName,
-    [property: CliFlag("--protected-from-scale-in")] bool ProtectedFromScaleIn
-) : AwsOptions
+public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions
 {
+    public AwsAutoscalingSetInstanceProtectionOptions(
+        IEnumerable<string> InstanceIds,
+        string AutoScalingGroupName,
+        bool ProtectedFromScaleIn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(InstanceIds);
+            if (materialized.Length == 0)
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceIds));
+            }
+
+            InstanceIds = materialized;
+        }
+        this.InstanceIds = InstanceIds;
+        this.AutoScalingGroupName = AutoScalingGroupName;
+        this.ProtectedFromScaleIn = ProtectedFromScaleIn;
+    }
+
+    private AwsAutoscalingSetInstanceProtectionOptions()
+    {
+    }
+
+    public static AwsAutoscalingSetInstanceProtectionOptions FromCliInputJson(string cliInputJson) =>
+        new() { CliInputJson = cliInputJson };
+
+    public static AwsAutoscalingSetInstanceProtectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     /// <summary>
-    /// JSON input.
+    /// One or more instance IDs. You can specify up to 50 instances. (string) Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
+    [CliOption("--instance-ids", GroupValues = true)]
+    public IEnumerable<string>? InstanceIds { get; private init; }
+
+    /// <summary>
+    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--auto-scaling-group-name")]
+    public string? AutoScalingGroupName { get; private init; }
+
+    [CliFlag("--protected-from-scale-in", NegatedName = "--no-protected-from-scale-in")]
+    public bool? ProtectedFromScaleIn { get; private init; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    /// <summary>
-    /// Prints a skeleton.
-    /// </summary>
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 
