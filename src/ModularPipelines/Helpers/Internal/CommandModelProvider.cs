@@ -23,7 +23,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     {
         return _cache.GetValue(optionsType, static type =>
         {
-            if (!GeneratedCommandMetadata.TryGet(type, out var model, out var schemaVersion))
+            if (!GeneratedCommandMetadata.TryGet(type, out var model))
             {
                 if (GeneratedCommandMetadata.IsGeneratedMetadataRequired(type.Assembly)
                     || !RuntimeFeature.IsDynamicCodeSupported
@@ -34,20 +34,9 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 }
 
                 model = BuildModel(type);
-                schemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
-            }
-            else if (schemaVersion < GeneratedCommandMetadata.CurrentSchemaVersion)
-            {
-                if (!RuntimeFeature.IsDynamicCodeSupported)
-                {
-                    throw new MissingCommandMetadataException(type);
-                }
-
-                model = BuildModel(type);
-                schemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
             }
 
-            ValidateModel(type, model, schemaVersion);
+            ValidateModel(type, model);
             return new CommandModel(model);
         }).Value;
     }
@@ -145,13 +134,6 @@ internal sealed class CommandModelProvider : ICommandModelProvider
             : 1;
     }
 
-    [RequiresUnreferencedCode("Legacy generated metadata requires option property metadata.")]
-    internal static int GetManualOperandCount(Type optionsType, string propertyName) =>
-        GetOptionProperties(optionsType)
-            .FirstOrDefault(property => property.Name == propertyName) is { } property
-            ? GetManualOperandCount(property.PropertyType)
-            : 1;
-
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
     internal static IEnumerable<PropertyInfo> GetOptionProperties(Type optionsType)
     {
@@ -242,15 +224,14 @@ internal sealed class CommandModelProvider : ICommandModelProvider
 
     private static void ValidateModel(
         Type optionsType,
-        IReadOnlyList<PropertyCommandLinePart> parts,
-        int schemaVersion)
+        IReadOnlyList<PropertyCommandLinePart> parts)
     {
         ValidateUniqueSwitches(optionsType, parts);
         ValidateUniqueArgumentPositions(optionsType, parts);
 
         foreach (var part in parts)
         {
-            ValidateProperty(optionsType, part, schemaVersion);
+            ValidateProperty(optionsType, part);
         }
     }
 
@@ -280,14 +261,13 @@ internal sealed class CommandModelProvider : ICommandModelProvider
 
     private static void ValidateProperty(
         Type optionsType,
-        PropertyCommandLinePart part,
-        int schemaVersion)
+        PropertyCommandLinePart part)
     {
         var propertyName = $"{optionsType.FullName ?? optionsType.Name}.{part.PropertyName}";
         switch (part)
         {
             case FlagPart flag:
-                ValidateFlagProperty(propertyName, flag, schemaVersion);
+                ValidateFlagProperty(propertyName, flag);
                 break;
             case OptionPart option:
                 ValidateOptionProperty(propertyName, option);
@@ -297,8 +277,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
 
     private static void ValidateFlagProperty(
         string propertyName,
-        FlagPart flag,
-        int schemaVersion)
+        FlagPart flag)
     {
         if (flag.Attribute.NegatedName is not null && flag.IsSupportedPropertyType is false)
         {
@@ -306,9 +285,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 $"CLI flag property '{propertyName}' must use bool? when NegatedName is set.");
         }
 
-        if (flag.IsSupportedPropertyType is false
-            || (schemaVersion >= GeneratedCommandMetadata.CurrentSchemaVersion
-                && flag.IsSupportedPropertyType is null))
+        if (flag.IsSupportedPropertyType is not true)
         {
             throw new InvalidOperationException(
                 $"CLI flag property '{propertyName}' must use bool, bool?, int, or int?.");

@@ -1158,54 +1158,6 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Derives_Legacy_Generated_Option_Operand_Count()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-        var optionsType = typeof(LegacyGeneratedMetadataOptions<LegacyMetadataMarker>);
-        GeneratedCommandMetadata.Register(
-            optionsType,
-            [
-                new OptionPart(
-                    nameof(LegacyGeneratedMetadataOptions<LegacyMetadataMarker>.Pairs),
-                    static _ => null,
-                    new CliOptionAttribute("--arg")),
-            ]);
-        var options = new LegacyGeneratedMetadataOptions<LegacyMetadataMarker>
-        {
-            Arguments = ["--arg", "name", "value", "--", "tail"],
-            ArgumentsContainOptionTerminator = true,
-            ArgumentsContainToolOptions = true,
-        };
-
-        var result = builder.Build(options);
-
-        await Assert.That(result.ToString()).IsEqualTo("jq --arg name value -- tail");
-    }
-
-    [Test]
-    public async Task CommandModelProvider_Rebuilds_Stale_Negated_Flag_Metadata()
-    {
-        var optionsType = typeof(LegacyNegatedFlagOptions<LegacyNegatedFlagMarker>);
-        GeneratedCommandMetadata.Register(
-            optionsType,
-            [
-                new FlagPart(
-                    nameof(LegacyNegatedFlagOptions<LegacyNegatedFlagMarker>.Feature),
-                    static _ => null,
-                    new CliFlagAttribute("--feature"))
-                {
-                    IsSupportedPropertyType = true,
-                },
-            ],
-            GeneratedCommandMetadata.CurrentSchemaVersion - 1);
-
-        var model = new CommandModelProvider().GetCommandModel(optionsType);
-
-        await Assert.That(model.OfType<FlagPart>().Single().Attribute.NegatedName)
-            .IsEqualTo("--no-feature");
-    }
-
-    [Test]
     public async Task Reflection_Metadata_Counts_Derived_Value_Pairs()
     {
         var model = new CommandModelProvider()

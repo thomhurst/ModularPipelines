@@ -1,5 +1,16 @@
 # ModularPipelines V4 Release Notes
 
+## Generated runtime metadata
+
+Generated runtime metadata now requires the v4 contracts: secret metadata schema 2
+and command metadata schema 4. Legacy registration overloads, optional-value markers,
+and reflection-based operand-count fallback have been removed. Rebuild plugins and
+referenced generated-options assemblies against ModularPipelines v4; incompatible
+metadata now fails with an actionable runtime error or the MPG0018 build diagnostic.
+Assemblies with neither generated metadata nor `ModularPipelinesPluginAttribute` remain
+outside plugin validation because referenced non-plugin assemblies use the same loading
+path; plugin authors should declare the attribute explicitly.
+
 ## PowerShell casing
 
 PowerShell types now use the product's canonical casing:

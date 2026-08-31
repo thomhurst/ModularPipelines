@@ -170,6 +170,15 @@ or a referenced assembly before publishing with trimming or Native AOT.
 
 **Severity:** Error
 
+## MPG0018
+
+A referenced assembly contains generated runtime metadata from an incompatible schema.
+ModularPipelines v4 requires secret metadata schema 2 and command metadata schema 4;
+the host generator no longer rescans older generated metadata. Rebuild the referenced
+assembly against ModularPipelines v4.
+
+**Severity:** Error
+
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
 

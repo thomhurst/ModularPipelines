@@ -646,7 +646,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Trimmed_Host_Rescans_Previous_Metadata_Schema()
+    public async Task Trimmed_Host_Rejects_Previous_Metadata_Schema()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -679,14 +679,14 @@ public class IncompleteMetadataDiagnosticTests
         var diagnostic = result.Diagnostics.Single();
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPG0004");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0018");
             await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
-            await Assert.That(diagnostic.GetMessage()).Contains("global::External.LegacyOptions");
+            await Assert.That(diagnostic.GetMessage()).Contains("schemas 1/missing");
         }
     }
 
     [Test]
-    public async Task Trimmed_Host_Rescans_Legacy_Command_Without_Invalidating_Secret_Metadata()
+    public async Task Trimmed_Host_Rejects_Missing_Command_Metadata_Schema()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -724,15 +724,9 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishAot"] = "true",
             });
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains(
-                "GeneratedCommandMetadata.RegisterExternal(");
-            await Assert.That(generatedSource).DoesNotContain(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.LegacyOptions)");
-        }
+        var diagnostic = result.Diagnostics.Single();
+        await Assert.That(diagnostic.Id).IsEqualTo("MPG0018");
+        await Assert.That(diagnostic.GetMessage()).Contains("schemas 2/missing");
     }
 
     [Test]
@@ -845,7 +839,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Trimmed_Host_Rescans_PreNonPublicValidation_Metadata_Schema()
+    public async Task Trimmed_Host_Rejects_PreNonPublicValidation_Metadata_Schema()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -875,18 +869,12 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishTrimmed"] = "true",
             });
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains("GeneratedCommandMetadata.RegisterExternal(");
-            await Assert.That(generatedSource).Contains(
-                "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::External.LegacyValidationOptions)");
-        }
+        var diagnostic = result.Diagnostics.Single();
+        await Assert.That(diagnostic.Id).IsEqualTo("MPG0018");
     }
 
     [Test]
-    public async Task Trimmed_Host_Rescans_Observed_Peer_Generated_Options()
+    public async Task Trimmed_Host_Rejects_Stale_Observed_Peer_Generated_Options()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -919,21 +907,13 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishAot"] = "true",
             });
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.RegisterExternal(");
-            await Assert.That(generatedSource).Contains(
-                "typeof(global::External.PeerGeneratedOptions)");
-            await Assert.That(generatedSource).Contains(
-                "((global::External.PeerGeneratedOptions)instance).@Token");
-        }
+        var diagnostic = result.Diagnostics.Single();
+        await Assert.That(diagnostic.Id).IsEqualTo("MPG0018");
+        await Assert.That(diagnostic.GetMessage()).Contains("schemas 2/3");
     }
 
     [Test]
-    public async Task Trimmed_Host_Rescans_Directly_Used_Peer_Generated_Types()
+    public async Task Trimmed_Host_Rejects_Stale_Directly_Used_Peer_Generated_Types()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -979,23 +959,9 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishAot"] = "true",
             });
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains(
-                "GeneratedCommandMetadata.RegisterExternal(");
-            await Assert.That(generatedSource).Contains(
-                "typeof(global::External.PeerGeneratedCommand)");
-            await Assert.That(generatedSource).Contains(
-                "((global::External.PeerGeneratedCommand)instance).@Token");
-            await Assert.That(generatedSource).Contains(
-                "typeof(global::External.PeerGeneratedSecret)");
-            await Assert.That(generatedSource).Contains(
-                "((global::External.PeerGeneratedSecret)instance).@Password");
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PeerGeneratedPlain));");
-        }
+        var diagnostic = result.Diagnostics.Single();
+        await Assert.That(diagnostic.Id).IsEqualTo("MPG0018");
+        await Assert.That(diagnostic.GetMessage()).Contains("schemas 2/3");
     }
 
     [Test]
@@ -1167,7 +1133,7 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainStruct));");
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainStruct), global::System.Array.Empty<global::ModularPipelines.Generated.SecretPropertyAccessor>());");
         }
     }
 
@@ -1291,7 +1257,11 @@ public class IncompleteMetadataDiagnosticTests
             """
             namespace ModularPipelines.Generated
             {
-                internal static class RuntimeMetadataRegistration;
+                internal static class RuntimeMetadataRegistration
+                {
+                    public const int SchemaVersion = 2;
+                    public const int CommandSchemaVersion = 4;
+                }
             }
 
             namespace External
@@ -1320,7 +1290,7 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains("ExternalOne");
-            await Assert.That(generatedSource).Contains("ExternalTwo");
+            await Assert.That(generatedSource).DoesNotContain("ExternalTwo");
         }
     }
 
@@ -2242,7 +2212,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Jit_Host_Does_Not_Rescan_Legacy_External_Options_Reader()
+    public async Task Jit_Host_Rejects_Legacy_External_Options_Reader()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -2272,19 +2242,14 @@ public class IncompleteMetadataDiagnosticTests
                 Microsoft.Extensions.Options.IOptions<External.LegacyOptions> options);
             """);
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).DoesNotContain(
-                "External.LegacyOptions");
-        }
+        var diagnostic = result.Diagnostics.Single();
+        await Assert.That(diagnostic.Id).IsEqualTo("MPG0018");
     }
 
     [Test]
     [Arguments("build_property.PublishTrimmed")]
     [Arguments("build_property.PublishAot")]
-    public async Task Publish_Host_Covers_Legacy_External_Options_Reader(
+    public async Task Publish_Host_Rejects_Legacy_External_Options_Reader(
         string publishProperty)
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
@@ -2313,17 +2278,8 @@ public class IncompleteMetadataDiagnosticTests
                 [publishProperty] = "true",
             });
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
-        var hasLegacyOptionsDiagnostic = result.Diagnostics.Any(
-            static diagnostic => diagnostic.GetMessage().Contains(
-                "global::External.LegacyOptions"));
-        using (Assert.Multiple())
-        {
-            await Assert.That(hasLegacyOptionsDiagnostic).IsFalse();
-            await Assert.That(result.GeneratedTrees).HasSingleItem();
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.LegacyOptions));");
-        }
+        var diagnostic = result.Diagnostics.Single();
+        await Assert.That(diagnostic.Id).IsEqualTo("MPG0018");
     }
 
     [Test]
@@ -2358,12 +2314,8 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishTrimmed"] = "true",
             });
 
-        var hasPayloadDiagnostic = result.Diagnostics.Any(
-            static diagnostic => diagnostic.Id == "MPG0006"
-                                 && diagnostic.GetMessage().Contains(
-                                     "global::External.LegacyPayloadOptions"));
-
-        await Assert.That(hasPayloadDiagnostic).IsTrue();
+        var diagnostic = result.Diagnostics.Single();
+        await Assert.That(diagnostic.Id).IsEqualTo("MPG0018");
     }
 
     [Test]
@@ -2707,7 +2659,7 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainOptions));");
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainOptions), global::System.Array.Empty<global::ModularPipelines.Generated.SecretPropertyAccessor>());");
         }
     }
 

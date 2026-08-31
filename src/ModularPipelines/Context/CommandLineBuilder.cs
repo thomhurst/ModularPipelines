@@ -987,7 +987,7 @@ internal sealed class CommandLineBuilder(
         CommandLineToolOptions options,
         int suppliedOperandCount)
     {
-        var operandCount = GetConfiguredManualOperandCount(option, options);
+        var operandCount = GetConfiguredManualOperandCount(option);
         var remainingOperandCount = Math.Max(0, operandCount - suppliedOperandCount);
         if (option.Attribute.GroupValues)
         {
@@ -1035,28 +1035,15 @@ internal sealed class CommandLineBuilder(
             : remainingOperandCount;
     }
 
-    [System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2026",
-        Justification = "Reflection is used only for compatibility with legacy generated command metadata.")]
-    private static int GetConfiguredManualOperandCount(
-        OptionPart option,
-        CommandLineToolOptions options)
+    private static int GetConfiguredManualOperandCount(OptionPart option)
     {
-        if (option.ManualOperandCount >= 0)
+        if (option.ManualOperandCount > 0)
         {
             return option.ManualOperandCount;
         }
 
-        if (option.ManualOperandCount != -1)
-        {
-            throw new InvalidOperationException(
-                $"Manual value count cannot be less than -1 for {option.PropertyName}.");
-        }
-
-        return CommandModelProvider.GetManualOperandCount(
-            options.GetType(),
-            option.PropertyName);
+        throw new InvalidOperationException(
+            $"Manual value count must be positive for {option.PropertyName}.");
     }
 
     private static bool IsRecognizedManualOptionToken(

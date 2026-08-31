@@ -44,6 +44,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static readonly DiagnosticDescriptor SkippedRuntimeMetadata =
         GeneratorDiagnostics.SkippedRuntimeMetadata;
 
+    private static readonly DiagnosticDescriptor IncompatibleRuntimeMetadata =
+        GeneratorDiagnostics.IncompatibleRuntimeMetadata;
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var typeCandidates = context.SyntaxProvider
@@ -80,6 +83,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 input.Left.Left,
                 input.Left.Right,
                 input.Right));
+        context.RegisterSourceOutput(
+            externalTypeCandidates,
+            static (sourceContext, result) => ReportIncompatibleRuntimeMetadata(
+                sourceContext,
+                result.IncompatibleAssemblies));
+        var compatibleExternalTypeCandidates = externalTypeCandidates.Select(
+            static (result, _) => result.Candidates);
         var coveredExternalAssemblyIdentities = context.CompilationProvider
             .Combine(context.AnalyzerConfigOptionsProvider)
             .Select(static (input, _) => GetCoveredExternalAssemblyIdentities(
@@ -99,7 +109,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Combine(secretCandidates.Collect())
             .Select(static (input, _) => input.Left.AddRange(input.Right));
         var candidates = sourceCandidates
-            .Combine(externalTypeCandidates)
+            .Combine(compatibleExternalTypeCandidates)
             .Select(static (input, _) => input.Left.AddRange(input.Right))
             .Combine(hasRuntimeReference);
         var generationInputs = candidates
@@ -183,8 +193,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         ReportIncompleteMetadata(
             sourceContext,
             unambiguousCandidates,
-            optionsTypes,
-            input.Configuration.RequiresGeneratedMetadata);
+            optionsTypes);
         foreach (var (hintName, source) in Generate(
                      items,
                      input.Configuration.CoveredExternalAssemblyIdentities,
@@ -650,7 +659,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 CanRegisterSecretCoverage: canRegisterSecretCoverage,
                 UseTypeForEmptySecretCoverage: false,
                 UseExternalTypeNameForEmptySecretCoverage: isExternal,
-                RequiresSecretReflectionFallback: false,
                 IsExternal: isExternal,
                 IsCommandOptions: false,
                 PropertyCollection.Empty,
@@ -679,7 +687,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 CanRegisterSecretCoverage: !hasPartialDeclaration,
                 UseTypeForEmptySecretCoverage: isExternal,
                 UseExternalTypeNameForEmptySecretCoverage: false,
-                RequiresSecretReflectionFallback: false,
                 IsExternal: isExternal,
                 isCommandOptions,
                 commandMetadata,
@@ -1168,7 +1175,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static string GetRegistrationIdentity(TypeMetadata item) =>
         item.UseExternalTypeNameForEmptySecretCoverage
-        || item.RequiresSecretReflectionFallback
             ? $"{item.AssemblyIdentity}\0{item.MetadataName}"
             : item.MetadataName;
 
@@ -1309,12 +1315,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         AppendExternalTypeNameRegistrations(
             sb,
             "RegisterCoveredExternalTypeNames",
-            uniqueItems.Where(static item => item.UseExternalTypeNameForEmptySecretCoverage
-                                             && !item.RequiresSecretReflectionFallback));
-        AppendExternalTypeNameRegistrations(
-            sb,
-            "RegisterExternalReflectionFallbackTypeNames",
-            uniqueItems.Where(static item => item.RequiresSecretReflectionFallback));
+            uniqueItems.Where(static item => item.UseExternalTypeNameForEmptySecretCoverage));
         AppendTypeNameRegistration(
             sb,
             "RegisterCoveredTypeNames",
@@ -1327,8 +1328,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                                       && item.SecretMetadata.IsComplete
                                       && item.SecretMetadata.Properties.Count == 0
                                       && !item.UseTypeForEmptySecretCoverage
-                                      && !item.UseExternalTypeNameForEmptySecretCoverage
-                                      && !item.RequiresSecretReflectionFallback));
+                                      && !item.UseExternalTypeNameForEmptySecretCoverage));
         AppendTypeNameRegistration(
             sb,
             "RegisterIncompleteTypeNames",
@@ -1363,8 +1363,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 AppendCommandRegistration(sb, item);
             }
 
-            if (item.SecretMetadata.IsComplete
-                && !item.RequiresSecretReflectionFallback)
+            if (item.SecretMetadata.IsComplete)
             {
                 AppendSecretRegistration(sb, item);
             }
@@ -1374,7 +1373,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static bool RequiresRuntimeRegistrationChunk(TypeMetadata item) =>
         CanPreserveCommandOptionProperties(item)
         || CanRegisterCompleteCommandMetadata(item)
-        || (item.SecretMetadata.IsComplete && !item.RequiresSecretReflectionFallback);
+        || item.SecretMetadata.IsComplete;
 
     private static bool RequiresCommandRegistrationChunking(TypeMetadata item) =>
         !item.IsExternal
@@ -1452,8 +1451,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static void ReportIncompleteMetadata(
         SourceProductionContext context,
         IReadOnlyCollection<TypeMetadataCandidate> candidates,
-        IReadOnlyCollection<OptionsTypeIdentity> optionsTypes,
-        bool requiresGeneratedMetadata)
+        IReadOnlyCollection<OptionsTypeIdentity> optionsTypes)
     {
         foreach (var candidate in candidates
                      .Where(static candidate => candidate.Metadata is not null)
@@ -1466,8 +1464,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 candidate.AssemblyIdentity));
             if (item.CommandMetadata.IsComplete
                 && item.SecretMetadata.IsComplete
-                && ((!item.CanRegisterSecretCoverage && isObservedOptionsType)
-                    || (requiresGeneratedMetadata && item.RequiresSecretReflectionFallback)))
+                && !item.CanRegisterSecretCoverage
+                && isObservedOptionsType)
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     SkippedRuntimeMetadata,
@@ -1568,7 +1566,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             if (item.UseTypeForEmptySecretCoverage)
             {
-                sb.AppendLine($"        global::ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(assembly, typeof({item.TypeName}));");
+                sb.AppendLine($"        global::ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(assembly, typeof({item.TypeName}), global::System.Array.Empty<global::ModularPipelines.Generated.SecretPropertyAccessor>());");
             }
 
             return;
@@ -1606,19 +1604,30 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return false;
     }
 
-    private static ImmutableArray<TypeMetadataCandidate> GetExternalTypeCandidates(
+    private static ExternalMetadataCandidates GetExternalTypeCandidates(
         Compilation compilation,
         AnalyzerConfigOptionsProvider optionsProvider,
         ImmutableArray<OptionsTypeIdentity> optionsTypes)
     {
         if (compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName)?.ContainingAssembly is not { } runtimeAssembly)
         {
-            return [];
+            return ExternalMetadataCandidates.Empty;
         }
 
         var includeAllRuntimeMetadata = IsTrimOrAotEnabled(optionsProvider);
         var usedOptionsTypes = new HashSet<OptionsTypeIdentity>(optionsTypes);
-        return GetReferencedAssemblyClosure(compilation.SourceModule.ReferencedAssemblySymbols)
+        var referencedAssemblies = GetReferencedAssemblyClosure(
+                compilation.SourceModule.ReferencedAssemblySymbols)
+            .ToArray();
+        var incompatibleAssemblies = referencedAssemblies
+            .Select(assembly => GetIncompatibleMetadataAssembly(assembly, runtimeAssembly))
+            .OfType<IncompatibleMetadataAssembly>()
+            .ToImmutableArray();
+        var incompatibleAssemblyIdentities = new HashSet<string>(
+            incompatibleAssemblies.Select(static assembly => assembly.AssemblyIdentity),
+            StringComparer.Ordinal);
+        var candidates = referencedAssemblies
+            .Where(assembly => !incompatibleAssemblyIdentities.Contains(assembly.Identity.ToString()))
             .SelectMany(assembly => GetExternalTypeCandidates(
                 assembly,
                 runtimeAssembly,
@@ -1626,6 +1635,53 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 includeAllRuntimeMetadata,
                 usedOptionsTypes))
             .ToImmutableArray();
+        return new ExternalMetadataCandidates(candidates, incompatibleAssemblies);
+    }
+
+    private static IncompatibleMetadataAssembly? GetIncompatibleMetadataAssembly(
+        IAssemblySymbol assembly,
+        IAssemblySymbol runtimeAssembly)
+    {
+        if (SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
+            || !RequiresExternalMetadata(assembly, runtimeAssembly))
+        {
+            return null;
+        }
+
+        var registration = assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName);
+        if (registration is null)
+        {
+            return null;
+        }
+
+        var runtimeSchemaVersion = GetRuntimeMetadataSchemaVersion(registration);
+        var commandSchemaVersion = GetRuntimeMetadataSchemaVersion(
+            registration,
+            "CommandSchemaVersion");
+        return runtimeSchemaVersion == RuntimeMetadataSchemaVersion
+               && commandSchemaVersion == CommandMetadataSchemaVersion
+            ? null
+            : new IncompatibleMetadataAssembly(
+                assembly.Identity.ToString(),
+                runtimeSchemaVersion,
+                commandSchemaVersion);
+    }
+
+    private static void ReportIncompatibleRuntimeMetadata(
+        SourceProductionContext context,
+        ImmutableArray<IncompatibleMetadataAssembly> assemblies)
+    {
+        foreach (var assembly in assemblies)
+        {
+            context.ReportDiagnostic(Diagnostic.Create(
+                IncompatibleRuntimeMetadata,
+                Location.None,
+                assembly.AssemblyIdentity,
+                assembly.RuntimeSchemaVersion?.ToString() ?? "missing",
+                assembly.CommandSchemaVersion?.ToString() ?? "missing",
+                RuntimeMetadataSchemaVersion,
+                CommandMetadataSchemaVersion));
+        }
     }
 
     private static ImmutableArray<string> GetCoveredExternalAssemblyIdentities(
@@ -1692,17 +1748,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var runtimeMetadataSchemaVersion = GetRuntimeMetadataSchemaVersion(
             runtimeMetadataRegistration);
         var commandMetadataSchemaVersion = GetRuntimeMetadataSchemaVersion(
-                                               runtimeMetadataRegistration,
-                                               "CommandSchemaVersion")
-                                           ?? runtimeMetadataSchemaVersion;
-        var hasCurrentSecretMetadata = Equals(
-            runtimeMetadataSchemaVersion,
-            RuntimeMetadataSchemaVersion);
-        var requiresSecretReflectionFallback = runtimeMetadataRegistration is not null
-                                               && !hasCurrentSecretMetadata;
-        var hasCurrentCommandMetadata = Equals(
-            commandMetadataSchemaVersion,
-            CommandMetadataSchemaVersion);
+            runtimeMetadataRegistration,
+            "CommandSchemaVersion");
+        var hasCurrentSecretMetadata = runtimeMetadataSchemaVersion == RuntimeMetadataSchemaVersion;
+        var hasCurrentCommandMetadata = commandMetadataSchemaVersion == CommandMetadataSchemaVersion;
         return GetTypes(assembly.GlobalNamespace)
             .Select(type => GetExternalTypeCandidate(
                 type,
@@ -1710,7 +1759,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 includeAllRuntimeMetadata,
                 usedOptionsTypes,
                 incompleteTypeNames,
-                requiresSecretReflectionFallback,
                 hasCurrentSecretMetadata,
                 hasCurrentCommandMetadata))
             .OfType<TypeMetadataCandidate>();
@@ -1722,17 +1770,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool includeAllRuntimeMetadata,
         ISet<OptionsTypeIdentity> usedOptionsTypes,
         ISet<string> incompleteTypeNames,
-        bool requiresSecretReflectionFallback,
         bool hasCurrentSecretMetadata,
         bool hasCurrentCommandMetadata)
     {
         var metadataName = GetMetadataName(type);
         var isObservedOptionsType = IsObservedOptionsType(type, usedOptionsTypes);
         var hasIncompleteMetadata = incompleteTypeNames.Contains(metadataName);
-        var requiresRescan = !hasCurrentCommandMetadata
-                             || hasIncompleteMetadata
-                             || isObservedOptionsType;
-        if (!requiresRescan && !includeAllRuntimeMetadata)
+        var requiresRescan = !hasCurrentCommandMetadata || hasIncompleteMetadata;
+        if (!requiresRescan)
         {
             return null;
         }
@@ -1749,15 +1794,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             candidate = UseExistingSecretMetadata(candidate);
         }
 
-        if (!requiresRescan && !CanRegenerateExternalRuntimeMetadata(candidate))
-        {
-            return null;
-        }
-
-        return AddSecretReflectionFallback(
-            candidate,
-            requiresSecretReflectionFallback,
-            isObservedOptionsType);
+        return candidate;
     }
 
     private static TypeMetadataCandidate? UseExistingSecretMetadata(
@@ -1792,48 +1829,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 ? GetExternalTypeCandidate(type, compilation)
                 : null;
 
-    private static TypeMetadataCandidate? AddSecretReflectionFallback(
-        TypeMetadataCandidate? candidate,
-        bool requiresSecretReflectionFallback,
-        bool isObservedOptionsType)
-    {
-        if (!requiresSecretReflectionFallback
-            || candidate?.Metadata is not { } metadata
-            || (!metadata.IsCommandOptions
-                && !metadata.SecretMetadata.HasAttributes
-                && !isObservedOptionsType))
-        {
-            return candidate;
-        }
-
-        return candidate with
-        {
-            Metadata = metadata with { RequiresSecretReflectionFallback = true },
-        };
-    }
-
     private static bool IsObservedOptionsType(
         INamedTypeSymbol type,
         ISet<OptionsTypeIdentity> usedOptionsTypes) =>
         usedOptionsTypes.Contains(new OptionsTypeIdentity(
             GetMetadataName(type),
             type.ContainingAssembly.Identity.ToString()));
-
-    private static bool CanRegenerateExternalRuntimeMetadata(
-        TypeMetadataCandidate? candidate)
-    {
-        if (candidate?.Metadata is not { } metadata)
-        {
-            return false;
-        }
-
-        var needsSecretMetadata = metadata.SecretMetadata.HasAttributes;
-        return (!metadata.IsCommandOptions
-                   || CanRegisterCompleteCommandMetadata(metadata))
-               && (!needsSecretMetadata
-                   || (metadata.CanRegisterSecretCoverage
-                       && metadata.SecretMetadata.IsComplete));
-    }
 
     private static bool RequiresDirectTypeReference(TypeMetadataCandidate candidate)
     {
@@ -1844,7 +1845,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         return CanRegisterCompleteCommandMetadata(metadata)
                || (metadata.SecretMetadata.IsComplete
-                   && !metadata.RequiresSecretReflectionFallback
                    && (metadata.SecretMetadata.Properties.Count > 0
                        || metadata.UseTypeForEmptySecretCoverage));
     }
@@ -1858,14 +1858,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static bool HasIncompleteSecretMetadata(TypeMetadata metadata) =>
         !metadata.CanRegisterSecretCoverage || !metadata.SecretMetadata.IsComplete;
 
-    private static object? GetRuntimeMetadataSchemaVersion(
+    private static int? GetRuntimeMetadataSchemaVersion(
         INamedTypeSymbol? registration,
         string fieldName = "SchemaVersion") =>
         registration?
             .GetMembers(fieldName)
             .OfType<IFieldSymbol>()
             .FirstOrDefault(static field => field.HasConstantValue)?
-            .ConstantValue;
+            .ConstantValue as int?;
 
     private static TypeMetadataCandidate? GetExternalOptionsUsageCandidate(
         INamedTypeSymbol type,
@@ -2239,7 +2239,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool CanRegisterSecretCoverage,
         bool UseTypeForEmptySecretCoverage,
         bool UseExternalTypeNameForEmptySecretCoverage,
-        bool RequiresSecretReflectionFallback,
         bool IsExternal,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,
@@ -2261,6 +2260,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private sealed record OptionsTypeIdentity(
         string MetadataName,
         string AssemblyIdentity);
+
+    private sealed record ExternalMetadataCandidates(
+        ImmutableArray<TypeMetadataCandidate> Candidates,
+        ImmutableArray<IncompatibleMetadataAssembly> IncompatibleAssemblies)
+    {
+        public static ExternalMetadataCandidates Empty { get; } = new([], []);
+    }
+
+    private sealed record IncompatibleMetadataAssembly(
+        string AssemblyIdentity,
+        int? RuntimeSchemaVersion,
+        int? CommandSchemaVersion);
 
     private sealed class TypeMetadataCandidateComparer : IEqualityComparer<TypeMetadataCandidate>
     {

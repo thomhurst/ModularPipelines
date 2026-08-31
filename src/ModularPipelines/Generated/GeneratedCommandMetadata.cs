@@ -18,15 +18,6 @@ public static class GeneratedCommandMetadata
     private static readonly ConditionalWeakTable<Assembly, ExternalCommandMetadata> ExternalModels = [];
 
     /// <summary>
-    /// Registers that an assembly ran the C# command metadata generator.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void RegisterAssembly(Assembly assembly)
-    {
-        RegisterAssembly(assembly, requiresGeneratedMetadata: false);
-    }
-
-    /// <summary>
     /// Registers that an assembly ran the C# metadata generator and whether reflection fallback is unsafe.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -59,17 +50,6 @@ public static class GeneratedCommandMetadata
     }
 
     /// <summary>
-    /// Preserves the schema-1 registration signature emitted by earlier generator versions.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Register(
-        Type optionsType,
-        IReadOnlyList<PropertyCommandLinePart> model)
-    {
-        RegisterCore(optionsType, model, isComplete: true, schemaVersion: 1);
-    }
-
-    /// <summary>
     /// Registers the generated command model and its metadata schema version.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -78,32 +58,10 @@ public static class GeneratedCommandMetadata
         IReadOnlyList<PropertyCommandLinePart> model,
         int schemaVersion)
     {
-        RegisterCore(optionsType, model, isComplete: true, schemaVersion);
-    }
-
-    /// <summary>
-    /// Preserves the registration signature emitted by earlier source-generator versions.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-#pragma warning disable RS0027 // Compatibility signature emitted by earlier source-generator versions.
-    public static void Register(
-        Type optionsType,
-        IReadOnlyList<PropertyCommandLinePart> model,
-        bool isComplete)
-    {
-        RegisterCore(optionsType, model, isComplete, schemaVersion: 0);
-    }
-#pragma warning restore RS0027
-
-    private static void RegisterCore(
-        Type optionsType,
-        IReadOnlyList<PropertyCommandLinePart> model,
-        bool isComplete,
-        int schemaVersion)
-    {
+        ValidateSchemaVersion(optionsType.Assembly, schemaVersion);
         try
         {
-            Models.Add(optionsType, new CommandMetadata(model, isComplete, schemaVersion));
+            Models.Add(optionsType, new CommandMetadata(model));
         }
         catch (ArgumentException exception)
         {
@@ -111,18 +69,6 @@ public static class GeneratedCommandMetadata
                 $"Command metadata is already registered for {optionsType}.",
                 exception);
         }
-    }
-
-    /// <summary>
-    /// Preserves the schema-1 external registration signature emitted by earlier generator versions.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void RegisterExternal(
-        Assembly consumerAssembly,
-        Type optionsType,
-        IReadOnlyList<PropertyCommandLinePart> model)
-    {
-        RegisterExternal(consumerAssembly, optionsType, model, schemaVersion: 1);
     }
 
     /// <summary>
@@ -135,53 +81,47 @@ public static class GeneratedCommandMetadata
         IReadOnlyList<PropertyCommandLinePart> model,
         int schemaVersion)
     {
+        ValidateSchemaVersion(consumerAssembly, schemaVersion);
         var registrations = ExternalModels.GetValue(
             consumerAssembly,
             static _ => new ExternalCommandMetadata());
         registrations.Models.TryAdd(
             optionsType,
-            new CommandMetadata(model, IsComplete: true, schemaVersion));
+            new CommandMetadata(model));
     }
 
     internal static bool TryGet(Type optionsType, out IReadOnlyList<PropertyCommandLinePart> model)
     {
-        return TryGet(optionsType, out model, out _);
-    }
-
-    internal static bool TryGet(
-        Type optionsType,
-        out IReadOnlyList<PropertyCommandLinePart> model,
-        out int schemaVersion)
-    {
-        Models.TryGetValue(optionsType, out var directMetadata);
-        if (directMetadata is { IsComplete: true, SchemaVersion: CurrentSchemaVersion })
+        if (Models.TryGetValue(optionsType, out var directMetadata))
         {
             model = directMetadata.Model;
-            schemaVersion = directMetadata.SchemaVersion;
             return true;
         }
 
         foreach (var registrations in ExternalModels)
         {
-            if (registrations.Value.Models.TryGetValue(optionsType, out var metadata)
-                && metadata is { IsComplete: true, SchemaVersion: CurrentSchemaVersion })
+            if (registrations.Value.Models.TryGetValue(optionsType, out var metadata))
             {
                 model = metadata.Model;
-                schemaVersion = metadata.SchemaVersion;
                 return true;
             }
         }
 
-        if (directMetadata is { IsComplete: true })
+        model = Array.Empty<PropertyCommandLinePart>();
+        return false;
+    }
+
+    private static void ValidateSchemaVersion(Assembly assembly, int schemaVersion)
+    {
+        if (schemaVersion == CurrentSchemaVersion)
         {
-            model = directMetadata.Model;
-            schemaVersion = directMetadata.SchemaVersion;
-            return true;
+            return;
         }
 
-        model = Array.Empty<PropertyCommandLinePart>();
-        schemaVersion = 0;
-        return false;
+        throw new InvalidOperationException(
+            $"Assembly '{assembly.GetName().Name}' registered command metadata schema "
+            + $"{schemaVersion}, but this ModularPipelines runtime requires schema "
+            + $"{CurrentSchemaVersion}. Rebuild the assembly against ModularPipelines v4.");
     }
 
     internal static bool IsAssemblyProcessed(Assembly assembly) =>
@@ -199,10 +139,7 @@ public static class GeneratedCommandMetadata
                && processedAssembly.CoveredTypeNames.ContainsKey(metadataName);
     }
 
-    private sealed record CommandMetadata(
-        IReadOnlyList<PropertyCommandLinePart> Model,
-        bool IsComplete,
-        int SchemaVersion);
+    private sealed record CommandMetadata(IReadOnlyList<PropertyCommandLinePart> Model);
 
     private sealed class ExternalCommandMetadata
     {

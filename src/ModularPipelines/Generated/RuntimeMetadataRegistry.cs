@@ -18,18 +18,9 @@ public static class RuntimeMetadataRegistry
     public const int CurrentCommandMetadataSchemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
 
     /// <summary>
-    /// Registers command metadata for a type emitted by another source generator.
+    /// Gets the secret metadata schema required by this runtime.
     /// </summary>
-    /// <param name="optionsType">The exact generated options type.</param>
-    /// <param name="model">The generated command-property model.</param>
-    public static void RegisterCommandOptions(
-        Type optionsType,
-        IReadOnlyList<PropertyCommandLinePart> model)
-    {
-        ArgumentNullException.ThrowIfNull(optionsType);
-        ArgumentNullException.ThrowIfNull(model);
-        GeneratedCommandMetadata.Register(optionsType, model);
-    }
+    public const int CurrentSecretMetadataSchemaVersion = GeneratedSecretMetadata.CurrentSchemaVersion;
 
     /// <summary>
     /// Registers versioned command metadata for a type emitted by another source generator.

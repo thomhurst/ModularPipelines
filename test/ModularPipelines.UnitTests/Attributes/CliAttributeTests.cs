@@ -342,7 +342,7 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Schema1_Metadata_Rejects_Unset_Legacy_Optional_String()
+    public async Task Current_Metadata_Rejects_Unsupported_Optional_String()
     {
         var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema1MetadataMarker>);
         GeneratedCommandMetadata.Register(
@@ -352,46 +352,6 @@ public class CliAttributeTests
                     nameof(RegisteredLegacyOptionalOptions<Schema1MetadataMarker>.Output),
                     static options =>
                         ((RegisteredLegacyOptionalOptions<Schema1MetadataMarker>) options).Output,
-                    new CliOptionAttribute("--output")
-                    {
-                        ValueArity = CliOptionValueArity.Optional,
-                    }),
-            ]);
-
-        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining(nameof(CliOptionValue));
-    }
-
-    [Test]
-    public async Task Schema3_Metadata_Supersedes_Legacy_Schema2_Optional_Marker()
-    {
-        var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>);
-        GeneratedCommandMetadata.Register(
-            optionsType,
-            [
-                new OptionPart(
-                    nameof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>.Output),
-                    static options =>
-                        ((RegisteredLegacyOptionalOptions<Schema2MetadataMarker>) options).Output,
-                    new CliOptionAttribute("--output")
-                    {
-                        ValueArity = CliOptionValueArity.Optional,
-                    })
-                {
-                    AllowsLegacyOptionalValues = true,
-                    IsSupportedPropertyType = true,
-                },
-            ],
-            schemaVersion: 2);
-        GeneratedCommandMetadata.RegisterExternal(
-            typeof(CliAttributeTests).Assembly,
-            optionsType,
-            [
-                new OptionPart(
-                    nameof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>.Output),
-                    static options =>
-                        ((RegisteredLegacyOptionalOptions<Schema2MetadataMarker>) options).Output,
                     new CliOptionAttribute("--output")
                     {
                         ValueArity = CliOptionValueArity.Optional,
@@ -408,34 +368,7 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Schema2_Metadata_Rebuilds_Ambiguous_Legacy_Optional_Validation()
-    {
-        var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>);
-        GeneratedCommandMetadata.Register(
-            optionsType,
-            [
-                new OptionPart(
-                    nameof(RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>.Output),
-                    static options =>
-                        ((RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>) options).Output,
-                    new CliOptionAttribute("--output")
-                    {
-                        ValueArity = CliOptionValueArity.Optional,
-                    })
-                {
-                    AllowsLegacyOptionalValues = true,
-                    IsSupportedPropertyType = true,
-                },
-            ],
-            schemaVersion: 2);
-
-        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining(nameof(CliOptionValue));
-    }
-
-    [Test]
-    public async Task Schema2_Metadata_Accepts_Supported_Optional_Type()
+    public async Task Current_Metadata_Accepts_Supported_Optional_Type()
     {
         var optionsType = typeof(RegisteredCurrentOptionalOptions<Schema2CurrentOptionalMarker>);
         GeneratedCommandMetadata.Register(
@@ -450,11 +383,10 @@ public class CliAttributeTests
                         ValueArity = CliOptionValueArity.Optional,
                     })
                 {
-                    AllowsLegacyOptionalValues = true,
                     IsSupportedPropertyType = true,
                 },
             ],
-            schemaVersion: 2);
+            GeneratedCommandMetadata.CurrentSchemaVersion);
 
         var model = new CommandModelProvider().GetCommandModel(optionsType);
         var arguments = new CommandArgumentBuilder().BuildArguments(
@@ -468,7 +400,7 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Schema1_Metadata_Accepts_Unknown_Supported_Flag_Type()
+    public async Task Current_Metadata_Rejects_Unknown_Supported_Flag_Type()
     {
         var optionsType = typeof(RegisteredFlagOptions<Schema1FlagMarker>);
         GeneratedCommandMetadata.Register(
@@ -478,14 +410,12 @@ public class CliAttributeTests
                     nameof(RegisteredFlagOptions<Schema1FlagMarker>.Force),
                     static options => ((RegisteredFlagOptions<Schema1FlagMarker>) options).Force,
                     new CliFlagAttribute("--force")),
-            ]);
+            ],
+            GeneratedCommandMetadata.CurrentSchemaVersion);
 
-        var model = new CommandModelProvider().GetCommandModel(optionsType);
-        var arguments = new CommandArgumentBuilder().BuildArguments(
-            model,
-            new RegisteredFlagOptions<Schema1FlagMarker> { Force = true });
-
-        await Assert.That(arguments).IsEquivalentTo(["--force"]);
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("bool, bool?, int, or int?");
     }
 
     [Test]
