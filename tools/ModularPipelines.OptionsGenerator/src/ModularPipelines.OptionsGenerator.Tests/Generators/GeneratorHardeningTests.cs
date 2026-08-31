@@ -4338,6 +4338,71 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task EnumReachabilityPruner_Omits_Unreferenced_Command_Enums_But_Keeps_Compatibility_Enums()
+    {
+        static CliEnumDefinition EnumDefinition(string name) => new()
+        {
+            EnumName = name,
+            Values = [new CliEnumValue { MemberName = "Value", CliValue = "value" }],
+        };
+
+        var orphan = EnumDefinition("ToolOrphanMode");
+        var used = EnumDefinition("ToolUsedMode");
+        var explicitMetadata = EnumDefinition("ToolExplicitMetadataMode");
+        var compatibility = EnumDefinition("ToolCompatibilityMode");
+        var beforeCommand = Command(
+            "ToolRunOptions",
+            "ToolOptions",
+            ["run"],
+            enums: [orphan, used, explicitMetadata],
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--orphan-mode",
+                    PropertyName = "OrphanMode",
+                    CSharpType = "ToolOrphanMode?",
+                    EnumDefinition = orphan,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--used-mode",
+                    PropertyName = "UsedMode",
+                    CSharpType = "ToolUsedMode?",
+                    EnumDefinition = used,
+                },
+            ]);
+        var afterCommand = beforeCommand with
+        {
+            Options = [.. beforeCommand.Options.Select(option =>
+                option.PropertyName == "OrphanMode"
+                    ? option with { CSharpType = "string?", EnumDefinition = null }
+                    : option)],
+        };
+        var before = Tool(beforeCommand) with { CompatibilityEnums = [compatibility] };
+        var after = Tool(afterCommand) with { CompatibilityEnums = [compatibility] };
+
+        var pruned = EnumReachabilityPruner.PruneDiscardedEnumReferences(before, after);
+        var generated = await new EnumGenerator().GenerateAsync(pruned);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(pruned.AllEnums.Select(definition => definition.EnumName))
+                .IsEquivalentTo([
+                    "ToolUsedMode",
+                    "ToolExplicitMetadataMode",
+                    "ToolCompatibilityMode",
+                ]);
+            await Assert.That(generated.Select(file => Path.GetFileName(file.RelativePath)))
+                .IsEquivalentTo([
+                    "ToolUsedMode.Generated.cs",
+                    "ToolExplicitMetadataMode.Generated.cs",
+                    "ToolCompatibilityMode.Generated.cs",
+                ]);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Prefers_Historical_Facade_Group_Casing()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
