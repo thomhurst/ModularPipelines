@@ -1002,6 +1002,7 @@ public class CliScraperTraversalTests
                   --interactive               Prompt before applying changes
                   --ignore-registry-errors    Continue when a registry is unavailable
                   --ignore-unfixable          Ignore vulnerabilities without a fix
+                  --otp                       One-time password for two-factor authentication
                   --registry <url>            Use the specified registry
                   --filter <pattern>          Restrict packages by selector
                 """,
@@ -1032,6 +1033,10 @@ public class CliScraperTraversalTests
                 await Assert.That(options[switchName].IsFlag).IsFalse();
                 await Assert.That(options[switchName].CSharpType).IsEqualTo("string?");
             }
+
+            await Assert.That(options["--otp"].IsFlag).IsFalse();
+            await Assert.That(options["--otp"].CSharpType).IsEqualTo("string?");
+            await Assert.That(options["--otp"].IsSecret).IsTrue();
         }
     }
 

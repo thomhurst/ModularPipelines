@@ -365,8 +365,11 @@ public partial class PnpmCliScraper : CliScraperBase
                 continue;
             }
 
-            // pnpm help represents every value-taking option with an explicit placeholder.
-            var isFlag = string.IsNullOrEmpty(valueHint);
+            // pnpm normally represents value-taking options with an explicit placeholder.
+            // Some stage subcommands omit the placeholder for --otp even though it still
+            // requires a one-time-password value.
+            var isFlag = string.IsNullOrEmpty(valueHint)
+                         && !longForm.Equals("--otp", StringComparison.OrdinalIgnoreCase);
             var csharpType = isFlag ? "bool?" : "string?";
 
             options.Add(new CliOptionDefinition
