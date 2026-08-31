@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Go.Services;
 
 namespace ModularPipelines.Go.Extensions;
@@ -31,4 +30,5 @@ public static class GoExtensions
         services.TryAddScoped<IGo, Services.Go>();
         return services;
     }
+
 }
