@@ -312,6 +312,81 @@ public class ArtifactContextApiTests
         }
     }
 
+    [Test]
+    public async Task Directory_Archive_Extraction_Observes_Cancellation()
+    {
+        var archivePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.zip");
+        var destinationDirectory = Directory.CreateTempSubdirectory("artifact-extraction-");
+
+        try
+        {
+            await using (var archiveStream = File.Create(archivePath))
+            using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create))
+            await using (var entryStream = archive.CreateEntry(
+                             "payload.bin",
+                             CompressionLevel.NoCompression).Open())
+            {
+                var buffer = new byte[64 * 1024];
+                for (var index = 0; index < 1024; index++)
+                {
+                    await entryStream.WriteAsync(buffer);
+                }
+            }
+
+            using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(1));
+            using var archiveToExtract = ZipFile.OpenRead(archivePath);
+
+            await Assert.ThrowsAsync<OperationCanceledException>(() =>
+                ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+                    archiveToExtract,
+                    destinationDirectory.FullName,
+                    cancellationTokenSource.Token));
+        }
+        finally
+        {
+            File.Delete(archivePath);
+            destinationDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Directory_Archive_Extraction_Rejects_Traversal()
+    {
+        await using var archiveStream = new MemoryStream();
+        using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            archive.CreateEntry("../outside.txt");
+        }
+
+        archiveStream.Position = 0;
+        using var archiveToExtract = new ZipArchive(archiveStream, ZipArchiveMode.Read);
+        var destinationDirectory = Directory.CreateTempSubdirectory("artifact-extraction-");
+
+        try
+        {
+            await Assert.ThrowsAsync<IOException>(() =>
+                ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+                    archiveToExtract,
+                    destinationDirectory.FullName,
+                    CancellationToken.None));
+        }
+        finally
+        {
+            destinationDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Directory_Archive_Path_Comparison_Matches_Platform_Defaults()
+    {
+        var comparison = ArtifactContextImpl.GetArchivePathComparison();
+        var expected = OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+
+        await Assert.That(comparison).IsEqualTo(expected);
+    }
+
     private sealed class ArtifactTestModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(

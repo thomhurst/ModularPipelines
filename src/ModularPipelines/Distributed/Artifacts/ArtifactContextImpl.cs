@@ -80,9 +80,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         cancellationToken.ThrowIfCancellationRequested();
         var sourceDirectory = Path.GetFullPath(directoryPath);
         var fullArchivePath = Path.GetFullPath(archivePath);
-        var pathComparison = OperatingSystem.IsWindows()
-            ? StringComparison.OrdinalIgnoreCase
-            : StringComparison.Ordinal;
+        var pathComparison = GetArchivePathComparison();
 
         using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Create);
         var resolvedArchivePath = ResolveSymbolicLinks(fullArchivePath);
@@ -149,6 +147,11 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         return Path.GetFullPath(resolvedPath);
     }
 
+    internal static StringComparison GetArchivePathComparison() =>
+        OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+
     public async Task<string> DownloadAsync(string producerModuleTypeName, string artifactName, string destinationPath, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -164,9 +167,8 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
 
         if (artifact.ContentType == "application/zip")
         {
-            Directory.CreateDirectory(destinationPath);
             using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
-            archive.ExtractToDirectory(destinationPath, overwriteFiles: true);
+            await ExtractDirectoryArchiveAsync(archive, destinationPath, cancellationToken);
             return destinationPath;
         }
 
@@ -179,6 +181,60 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         await using var fileStream = File.Create(destinationPath);
         await stream.CopyToAsync(fileStream, cancellationToken);
         return destinationPath;
+    }
+
+    internal static async Task ExtractDirectoryArchiveAsync(
+        ZipArchive archive,
+        string destinationPath,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var destinationDirectory = Path.GetFullPath(destinationPath);
+        var destinationPrefix = Path.EndsInDirectorySeparator(destinationDirectory)
+            ? destinationDirectory
+            : destinationDirectory + Path.DirectorySeparatorChar;
+        var pathComparison = OperatingSystem.IsWindows()
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        Directory.CreateDirectory(destinationDirectory);
+
+        foreach (var entry in archive.Entries)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var entryPath = Path.GetFullPath(Path.Combine(destinationDirectory, entry.FullName));
+            if (!entryPath.StartsWith(destinationPrefix, pathComparison)
+                && !string.Equals(entryPath, destinationDirectory, pathComparison))
+            {
+                throw new IOException($"Extracting '{entry.FullName}' would leave the destination directory.");
+            }
+
+            if (string.IsNullOrEmpty(entry.Name))
+            {
+                Directory.CreateDirectory(entryPath);
+                continue;
+            }
+
+            var entryDirectory = Path.GetDirectoryName(entryPath);
+            if (!string.IsNullOrEmpty(entryDirectory))
+            {
+                Directory.CreateDirectory(entryDirectory);
+            }
+
+            await using (var entryStream = entry.Open())
+            await using (var destinationStream = new FileStream(
+                             entryPath,
+                             new FileStreamOptions
+                             {
+                                 Access = FileAccess.Write,
+                                 Mode = FileMode.Create,
+                                 Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
+                             }))
+            {
+                await entryStream.CopyToAsync(destinationStream, cancellationToken);
+            }
+
+            File.SetLastWriteTime(entryPath, entry.LastWriteTime.DateTime);
+        }
     }
 
     public Task<string> DownloadAsync<TProducerModule>(
