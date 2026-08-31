@@ -20,15 +20,10 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("label")]
 public record KubernetesLabelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Key_1Val_1,
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Key_1Val_1,
     [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string KeyNValN
 ) : KubernetesOptions
 {
-    public KubernetesLabelOptions()
-        : this(default(IEnumerable<string>)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Select all resources, in the namespace of the specified resource types
     /// </summary>
@@ -51,7 +46,7 @@ public record KubernetesLabelOptions(
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesLabelDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Name of the manager used to track field ownership.

@@ -17,35 +17,35 @@ namespace ModularPipelines.Kubernetes.Enums;
 public enum KubernetesAuthWhoamiOutput
 {
     [EnumValue("json")]
-    Json = 0,
+    Json,
 
     [EnumValue("yaml")]
-    Yaml = 1,
+    Yaml,
 
     [EnumValue("kyaml")]
-    Kyaml = 2,
+    Kyaml,
 
     [EnumValue("name")]
-    Name = 3,
+    Name,
 
     [EnumValue("go-template")]
-    GoTemplate = 4,
+    GoTemplate,
 
     [EnumValue("go-template-file")]
-    GoTemplateFile = 5,
+    GoTemplateFile,
 
     [EnumValue("template")]
-    Template = 6,
+    Template,
 
     [EnumValue("templatefile")]
-    Templatefile = 7,
+    Templatefile,
 
     [EnumValue("jsonpath")]
-    Jsonpath = 8,
+    Jsonpath,
 
     [EnumValue("jsonpath-as-json")]
-    JsonpathAsJson = 9,
+    JsonpathAsJson,
 
     [EnumValue("jsonpath-file")]
-    JsonpathFile = 10
+    JsonpathFile
 }

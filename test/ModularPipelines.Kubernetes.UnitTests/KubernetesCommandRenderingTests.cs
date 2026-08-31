@@ -12,7 +12,7 @@ public class KubernetesCommandRenderingTests : TestBase
     [Test]
     public async Task Auth_CanI_List_Does_Not_Require_A_Verb()
     {
-        var result = await GetResult(new KubernetesAuthCanIOptions { List = true });
+        var result = await GetResult(new KubernetesAuthCanIOptions(null!) { List = true });
 
         await Assert.That(result.CommandInput).IsEqualTo("kubectl auth can-i --list");
     }
@@ -20,9 +20,8 @@ public class KubernetesCommandRenderingTests : TestBase
     [Test]
     public async Task Debug_Does_Not_Require_A_Command()
     {
-        var result = await GetResult(new KubernetesDebugOptions
+        var result = await GetResult(new KubernetesDebugOptions("example-pod", null!)
         {
-            Pod = "example-pod",
             Image = "busybox",
         });
 
@@ -43,12 +42,36 @@ public class KubernetesCommandRenderingTests : TestBase
     }
 
     [Test]
+    public async Task Debug_Filename_Does_Not_Require_A_Pod()
+    {
+        var result = await GetResult(new KubernetesDebugOptions(null!, null!)
+        {
+            Filename = ["pod.yaml"],
+            Image = "busybox",
+        });
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo("kubectl debug --filename=pod.yaml --image=busybox");
+    }
+
+    [Test]
+    public async Task Exec_Filename_Does_Not_Require_A_Pod()
+    {
+        var result = await GetResult(new KubernetesExecOptions(null!, "env")
+        {
+            Filename = ["pod.yaml"],
+        });
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo("kubectl exec --filename=pod.yaml -- env");
+    }
+
+    [Test]
     public async Task Label_File_With_One_Label_Does_Not_Require_Another_Label()
     {
-        var result = await GetResult(new KubernetesLabelOptions
+        var result = await GetResult(new KubernetesLabelOptions(["environment=test"], null!)
         {
             Filename = ["deployment.yaml"],
-            Key_1Val_1 = ["environment=test"],
         });
 
         await Assert.That(result.CommandInput)
@@ -56,13 +79,27 @@ public class KubernetesCommandRenderingTests : TestBase
     }
 
     [Test]
+    public async Task Label_List_Does_Not_Require_Labels()
+    {
+        var result = await GetResult(new KubernetesLabelOptions(null!, null!)
+        {
+            Filename = ["deployment.yaml"],
+            List = true,
+        });
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo("kubectl label --filename=deployment.yaml --list");
+    }
+
+    [Test]
     public async Task Taint_All_Nodes_Does_Not_Require_A_Name()
     {
-        var result = await GetResult(new KubernetesTaintOptions
+        var result = await GetResult(new KubernetesTaintOptions(
+            "nodes",
+            null!,
+            ["example=value:NoSchedule"])
         {
-            Node = "nodes",
             All = true,
-            Taints = ["example=value:NoSchedule"],
         });
 
         await Assert.That(result.CommandInput)

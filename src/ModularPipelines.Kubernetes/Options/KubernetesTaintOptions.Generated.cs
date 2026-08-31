@@ -25,11 +25,6 @@ public record KubernetesTaintOptions(
     [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Taints
 ) : KubernetesOptions
 {
-    public KubernetesTaintOptions()
-        : this(default(string)!, default(string)!, default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Select all nodes in the cluster
     /// </summary>
@@ -46,7 +41,7 @@ public record KubernetesTaintOptions(
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesTaintDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Name of the manager used to track field ownership.

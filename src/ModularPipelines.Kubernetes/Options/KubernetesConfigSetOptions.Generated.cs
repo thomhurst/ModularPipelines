@@ -23,11 +23,6 @@ public record KubernetesConfigSetOptions(
     [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyValue
 ) : KubernetesOptions
 {
-    public KubernetesConfigSetOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// When writing a []byte PROPERTY_VALUE, write the given string directly without base64 decoding.
     /// </summary>

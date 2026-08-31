@@ -29,7 +29,7 @@ internal partial class Kubernetes : IKubernetes
         IKubernetesApply apply,
         IKubernetesAuth auth,
         IKubernetesCertificate certificate,
-        IKubernetesClusterinfo clusterinfo,
+        IKubernetesClusterInfo clusterInfo,
         IKubernetesConfig config,
         IKubernetesKuberc kuberc,
         IKubernetesRollout rollout,
@@ -40,7 +40,7 @@ internal partial class Kubernetes : IKubernetes
         Apply = apply;
         Auth = auth;
         Certificate = certificate;
-        Clusterinfo = clusterinfo;
+        ClusterInfo = clusterInfo;
         Config = config;
         Kuberc = kuberc;
         Rollout = rollout;
@@ -60,7 +60,7 @@ internal partial class Kubernetes : IKubernetes
     public IKubernetesCertificate Certificate { get; }
 
     /// <inheritdoc />
-    public IKubernetesClusterinfo Clusterinfo { get; }
+    public IKubernetesClusterInfo ClusterInfo { get; }
 
     /// <inheritdoc />
     public IKubernetesConfig Config { get; }
@@ -80,20 +80,20 @@ internal partial class Kubernetes : IKubernetes
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AnnotateAsync(
-        KubernetesAnnotateOptions? options = null,
+        KubernetesAnnotateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesAnnotateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AttachAsync(
-        KubernetesAttachOptions? options = null,
+        KubernetesAttachOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesAttachOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -107,29 +107,29 @@ internal partial class Kubernetes : IKubernetes
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> CordonAsync(
-        KubernetesCordonOptions? options = null,
+        KubernetesCordonOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesCordonOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> CpAsync(
-        KubernetesCpOptions? options = null,
+        KubernetesCpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesCpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DebugAsync(
-        KubernetesDebugOptions? options = null,
+        KubernetesDebugOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesDebugOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -152,11 +152,11 @@ internal partial class Kubernetes : IKubernetes
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DrainAsync(
-        KubernetesDrainOptions? options = null,
+        KubernetesDrainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesDrainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -170,29 +170,29 @@ internal partial class Kubernetes : IKubernetes
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ExecAsync(
-        KubernetesExecOptions? options = null,
+        KubernetesExecOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesExecOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> LabelAsync(
-        KubernetesLabelOptions? options = null,
+        KubernetesLabelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesLabelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> LogsAsync(
-        KubernetesLogsOptions? options = null,
+        KubernetesLogsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesLogsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -206,11 +206,11 @@ internal partial class Kubernetes : IKubernetes
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PortForwardAsync(
-        KubernetesPortForwardOptions? options = null,
+        KubernetesPortForwardOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesPortForwardOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -242,20 +242,20 @@ internal partial class Kubernetes : IKubernetes
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TaintAsync(
-        KubernetesTaintOptions? options = null,
+        KubernetesTaintOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesTaintOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UncordonAsync(
-        KubernetesUncordonOptions? options = null,
+        KubernetesUncordonOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesUncordonOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

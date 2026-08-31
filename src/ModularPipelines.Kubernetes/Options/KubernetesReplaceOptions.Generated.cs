@@ -31,13 +31,13 @@ public record KubernetesReplaceOptions : KubernetesOptions
     /// Must be "background", "orphan", or "foreground". Selects the deletion cascading strategy for the dependents (e.g. Pods created by a ReplicationController). Defaults to background.
     /// </summary>
     [CliOption("--cascade", Format = OptionFormat.EqualsSeparated)]
-    public string? Cascade { get; set; }
+    public KubernetesReplaceCascade? Cascade { get; set; }
 
     /// <summary>
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesReplaceDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Name of the manager used to track field ownership.

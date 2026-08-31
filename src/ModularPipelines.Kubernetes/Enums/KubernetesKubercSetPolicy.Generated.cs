@@ -17,11 +17,11 @@ namespace ModularPipelines.Kubernetes.Enums;
 public enum KubernetesKubercSetPolicy
 {
     [EnumValue("AllowAll")]
-    Allowall = 0,
+    AllowAll,
 
     [EnumValue("DenyAll")]
-    Denyall = 1,
+    DenyAll,
 
     [EnumValue("Allowlist")]
-    Allowlist = 2
+    Allowlist
 }

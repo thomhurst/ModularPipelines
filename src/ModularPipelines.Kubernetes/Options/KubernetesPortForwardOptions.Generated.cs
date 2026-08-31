@@ -23,11 +23,6 @@ public record KubernetesPortForwardOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> LocalPortRemotePort
 ) : KubernetesOptions
 {
-    public KubernetesPortForwardOptions()
-        : this(default(string)!, default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Addresses to listen on (comma separated). Only accepts IP addresses or localhost as a value. When localhost is supplied, kubectl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these addresses are available to bind.
     /// </summary>

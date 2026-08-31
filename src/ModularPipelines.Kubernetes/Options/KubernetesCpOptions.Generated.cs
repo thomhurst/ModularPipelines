@@ -23,11 +23,6 @@ public record KubernetesCpOptions(
     [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FileSpecDest
 ) : KubernetesOptions
 {
-    public KubernetesCpOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
     /// </summary>

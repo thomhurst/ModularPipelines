@@ -37,7 +37,7 @@ public record KubernetesApplySetLastAppliedOptions : KubernetesOptions
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesApplySetLastAppliedDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Filename, directory, or URL to files that contains the last-applied-configuration annotations
