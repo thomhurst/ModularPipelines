@@ -24,7 +24,7 @@ public record PipFreezeOptions : PipOptions
     /// Use the order in the given requirements file and its comments when generating output. This option can be used multiple times.
     /// </summary>
     [CliOption("--requirement", ShortForm = "-r")]
-    public IEnumerable<string>? RequirementValues { get; set; }
+    public IEnumerable<string>? Requirement { get; set; }
 
     /// <summary>
     /// If in a virtualenv that has global access, do not output globally-installed packages.
@@ -42,7 +42,7 @@ public record PipFreezeOptions : PipOptions
     /// Restrict to the specified installation path for listing packages (can be used multiple times).
     /// </summary>
     [CliOption("--path")]
-    public IEnumerable<string>? PathValues { get; set; }
+    public IEnumerable<string>? Path { get; set; }
 
     /// <summary>
     /// Do not skip these packages in the output: pip
@@ -193,19 +193,5 @@ public record PipFreezeOptions : PipOptions
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
-
-    [Obsolete("Use RequirementValues instead.")]
-    public string? Requirement
-    {
-        get => RequirementValues?.FirstOrDefault();
-        set => RequirementValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use PathValues instead.")]
-    public string? Path
-    {
-        get => PathValues?.FirstOrDefault();
-        set => PathValues = value is null ? null : [value];
-    }
 
 }

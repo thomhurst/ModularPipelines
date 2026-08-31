@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Python.Services;
 
 namespace ModularPipelines.Python.Extensions;
@@ -31,4 +30,5 @@ public static class PipExtensions
         services.TryAddScoped<IPip, Services.Pip>();
         return services;
     }
+
 }

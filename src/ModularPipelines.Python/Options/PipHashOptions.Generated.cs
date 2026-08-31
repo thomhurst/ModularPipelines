@@ -22,11 +22,6 @@ public record PipHashOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> File
 ) : PipOptions
 {
-    public PipHashOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Show help.
     /// </summary>

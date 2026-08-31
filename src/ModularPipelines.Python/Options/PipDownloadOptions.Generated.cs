@@ -24,13 +24,13 @@ public record PipDownloadOptions : PipOptions
     /// Constrain versions using the given constraints file. This option can be used multiple times.
     /// </summary>
     [CliOption("--constraint", ShortForm = "-c")]
-    public IEnumerable<string>? ConstraintValues { get; set; }
+    public IEnumerable<string>? Constraint { get; set; }
 
     /// <summary>
     /// Install from the given requirements file. This option can be used multiple times.
     /// </summary>
     [CliOption("--requirement", ShortForm = "-r")]
-    public IEnumerable<string>? RequirementValues { get; set; }
+    public IEnumerable<string>? Requirement { get; set; }
 
     /// <summary>
     /// Don't install package dependencies.
@@ -65,8 +65,8 @@ public record PipDownloadOptions : PipOptions
     /// <summary>
     /// Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a --hash option.
     /// </summary>
-    [CliOption("--require-hashes")]
-    public string? RequireHashes { get; set; }
+    [CliFlag("--require-hashes")]
+    public bool? RequireHashes { get; set; }
 
     /// <summary>
     /// Disable isolation when building a modern source distribution. Build dependencies specified by PEP 518 must be already installed if this option is used.
@@ -102,13 +102,13 @@ public record PipDownloadOptions : PipOptions
     /// Only use wheels compatible with &lt;platform&gt;. Defaults to the platform of the running system. Use this option multiple times to specify multiple platforms supported by the target interpreter.
     /// </summary>
     [CliOption("--platform")]
-    public IEnumerable<string>? PlatformValues { get; set; }
+    public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
     /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify
     /// </summary>
     [CliOption("--abi")]
-    public IEnumerable<string>? AbiValues { get; set; }
+    public IEnumerable<string>? Abi { get; set; }
 
     /// <summary>
     /// Don't clean up build directories.
@@ -277,33 +277,5 @@ public record PipDownloadOptions : PipOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? RequirementSpecifier { get; set; }
-
-    [Obsolete("Use ConstraintValues instead.")]
-    public string? Constraint
-    {
-        get => ConstraintValues?.FirstOrDefault();
-        set => ConstraintValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use RequirementValues instead.")]
-    public string? Requirement
-    {
-        get => RequirementValues?.FirstOrDefault();
-        set => RequirementValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use PlatformValues instead.")]
-    public string? Platform
-    {
-        get => PlatformValues?.FirstOrDefault();
-        set => PlatformValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use AbiValues instead.")]
-    public string? Abi
-    {
-        get => AbiValues?.FirstOrDefault();
-        set => AbiValues = value is null ? null : [value];
-    }
 
 }
